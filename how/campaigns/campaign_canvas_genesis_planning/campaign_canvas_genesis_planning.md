@@ -12,7 +12,7 @@ priority: high
 created: 2026-06-06
 updated: 2026-06-06
 last_edited_by: agent_stanley
-tags: [campaign, genesis, planning, canvas, standard, framework]
+tags: [campaign, genesis, planning, canvas, standard, platform]
 ---
 
 # Campaign: Operation Cartography
@@ -71,22 +71,23 @@ seam (`spec_visual_contract.md`). Genesis skeleton + this charter authored at P0
 > Missions are chartered per-phase as each gate opens (kept thin until then, SO-3 context budget). Phase
 > deliverables below are binding; mission decomposition is authored at phase entry.
 
-### Phase P0: Charter & Persona Lock  ← **current; HELD at gate**
+### Phase P0: Charter & Persona Lock  ← ✅ **ratified 2026-06-06**
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p0 | Charter + `adr_000_canvas_identity` + governance skeleton | 1 | — | in_progress |
+| p0 | Charter + `adr_000_canvas_identity` + governance skeleton | 1 | — | ✅ completed |
 
 **Deliverables:** this charter · `what/decisions/adr_000_canvas_identity.md` (category Δ1 / persona / mission /
 scope boundary / upstream baseline + compatibility contract / v2.0.0 proposal) · `decision_register_genesis.md`
-(D1–D7) · tuned governance · router row.
-**Phase exit gate (operator):** lock **persona**, **category** (incl. Δ1 runtime split), **scope boundary**.
+(D1–D7) · tuned governance · router row. **All delivered.**
+**Phase exit gate (operator): ✅ CLEARED 2026-06-06** — persona **Mondrian**; category **Platform.aDNA /
+Option P** (Δ1 — ships reference tooling, vault+code split); scope boundary **confirmed**.
 
 ### Phase P1: Source Inventory & Fork Baseline
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p1 | Source inventory + fork baseline | 2-3 | P0 lock | planned |
+| p1 | Source inventory + fork baseline | 2-3 | P0 lock ✅ | ready (awaiting operator go) |
 
 **Deliverables:** `p1_source_inventory.md` (catalog v1.0.0 doc, `CanvasBuilder` constants — `VALID_*`,
 `TYPE_MAPPING`, `EDGE_TYPE_MAPPING`; the `advanced_canvas/` corpus ~22 files; Round-Trip Protocol;
@@ -149,9 +150,9 @@ upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + r
 
 | # | When | Decision | Status |
 |---|------|----------|--------|
-| D1 | P0 gate | Category: Framework vs Platform vs Standard-bearer sub-category — where do reference validators/converters live? (Δ1) | pending |
-| — | P0 gate | Persona lock (Mondrian / Seshat / Mercator) | pending |
-| — | P0 gate | Scope boundary (Standard-owns vs producer-owns) | pending |
+| D1 | P0 gate | Category: where do reference validators/converters live? (Δ1) | ✅ **Platform / Option P** (ships reference tooling; vault+code split) 2026-06-06 |
+| — | P0 gate | Persona lock | ✅ **Mondrian** 2026-06-06 |
+| — | P0 gate | Scope boundary (Standard-owns vs producer-owns) | ✅ **confirmed** + reference impl 2026-06-06 |
 | D2 | P2 | CanvasForge relationship: (A) extract Standard out → CanvasForge pure producer; (B) Canvas.aDNA owns spec+conformance, CanvasForge keeps `CanvasBuilder` as reference impl; (C) reject | pending |
 | D3 | P2 | LiteratureForge seam: document expressible AS a canvas vs federated peers sharing component schemas (reconcile w/ Amendment-02) | pending |
 | D6 | P2 | Versioning & governance: v2.0.0 line + LIP process + conformance levels + version_policy default | pending |
@@ -161,7 +162,7 @@ upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + r
 
 | Risk | Severity | Mitigation |
 |------|----------|------------|
-| Δ1 mis-categorization (Framework that ships runtime → really a Platform) | High | Resolve at P0 with explicit Standard-vs-reference-impl split; cite `spec_framework_ecosystem.md`. |
+| Δ1 mis-categorization (Framework that ships runtime → really a Platform) | ✅ resolved P0 | Locked **Platform / Option P** — Canvas.aDNA owns the reference impl (`what/code/canvas_std/`); recorded in `adr_000` §1. |
 | Standard drift breaks Obsidian round-trip | High | C4 compatibility contract: additive `_reserved` only; degradation test in conformance suite. |
 | CanvasForge/LiteratureForge output regression on migration | High | P4 parity/regression gates vs locked baselines (Wilhelm 8.80 / Issue 01 8.43); execution-only, gated. |
 | Canvas-as-primitive over-reach into aDNA core (Δ2) | Medium | Treat as a LIP (D7); do not touch the core primitive set in this campaign (out of scope). |
@@ -211,6 +212,15 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - Repo verification (2026-06-06) confirmed the brief's anchors and surfaced two deltas (Δ1 category/runtime,
   Δ2 primitive/view) now foregrounded at the P0 gate. Inherited template example ADRs (`adr_001/002/003`) +
   `campaign_adna_workspace_upgrade/` are generic scaffold, reconciled in P1.
+
+## Phase AARs
+
+### P0 — Charter & Persona Lock (2026-06-06)
+- **Worked:** repo verification grounded the charter and pre-empted two deltas; operator locked persona + category + scope in one gate.
+- **Didn't:** the brief's default hypothesis (Framework) was overturned at the gate (→ Platform/Option P) — the spec's "no runtime" clause made it untenable once reference tooling was in scope.
+- **Finding:** Option P tilts D2 toward extracting the standard out of CanvasForge; the `canvas_std` reference impl is the natural extraction target.
+- **Change:** carry the Platform vault+code-split assumption into P1/P2 (declare `what/code/canvas_std/` home; don't build it).
+- **Follow-up:** open P1 (source inventory + fork baseline) on operator go; pin upstream Advanced Canvas version.
 
 ## Completion Summary
 

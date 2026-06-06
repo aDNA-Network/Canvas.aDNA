@@ -17,7 +17,7 @@ collision with inherited template ADRs (`adr_001/002/003`); reconciled in P1.
 
 | ID | Decision | Resolve at | Owner ADR (P2) | Status |
 |----|----------|-----------|----------------|--------|
-| D1 | **Category vs runtime** — Framework-pure vs Platform/hybrid; where reference validators/converters live (Δ1) | P0 | folds into `adr_000` §1 | pending |
+| D1 | **Category vs runtime** — Framework-pure vs Platform/hybrid; where reference validators/converters live (Δ1) | P0 | `adr_000` §1 | ✅ **resolved — Option P** (Platform/standard-bearer; vault+code split) 2026-06-06 |
 | D2 | **CanvasForge relationship** — extract Standard out (A) vs spec-here/impl-in-CanvasForge (B) vs reject (C) | P2 | `adr_NNN_canvasforge_relationship` | pending |
 | D3 | **LiteratureForge seam** — document expressible AS a canvas vs federated peers sharing component schemas | P2 | `adr_NNN_literatureforge_seam` | pending |
 | D4 | **Component model** — additive `_reserved`-namespaced taxonomy across all 2D outputs | P2 | `spec_component_model.md` | pending |
@@ -27,13 +27,17 @@ collision with inherited template ADRs (`adr_001/002/003`); reconciled in P1.
 
 ---
 
-## D1 — Category vs runtime (Δ1) — resolve at P0
+## D1 — Category vs runtime (Δ1) — ✅ RESOLVED at P0 (operator, 2026-06-06)
 
-`spec_framework_ecosystem.md`: Frameworks "produce no primary artifact and deploy no runtime." A standard that
-ships runnable validators/round-trip tooling drifts toward Platform.
-- **Option F (recommended):** spec + conformance-suite spec + federation contract here; reference impl stays in
-  CanvasForge `canvas_core` / a thin `canvas_std` lib, consumed via `federation_ref`.
-- **Option P:** ship runnable tooling here → Platform / Standard-bearer sub-category (vault+code split).
+**Locked: Option P.** Canvas.aDNA is a **Platform.aDNA (standard-bearer)** that governs the Standard **and
+ships its runnable reference tooling** (validators · round-trip converters · conformance harness) as a
+**code-as-WHAT-object** at `what/code/canvas_std/` (built in the execution campaign, not this one). The
+pure-Framework definition ("deploy no runtime") therefore does not apply.
+
+Considered and set aside: **Option F** (Framework-pure; reference impl stays in CanvasForge `canvas_core`).
+
+**Cascade:** Option P **tilts D2 toward extraction** — the standard machinery (schema, validators, round-trip)
+lives in Canvas.aDNA; CanvasForge becomes a producer consuming it. D2 itself is decided at P2.
 
 ## D2 — CanvasForge relationship — resolve at P2
 

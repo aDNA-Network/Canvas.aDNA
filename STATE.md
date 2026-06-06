@@ -14,22 +14,24 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Genesis-planning — Operation Cartography, Phase P0 (Charter & Persona Lock).**
+**Genesis-planning — Operation Cartography. P0 RATIFIED 2026-06-06; P1 ready (awaiting operator go).**
 `how/campaigns/campaign_canvas_genesis_planning/campaign_canvas_genesis_planning.md`
 
-Canvas.aDNA was forked 2026-06-06 (from `.adna` via `skill_project_fork`) and seeded to a P0 skeleton: governance tuned to the thesis, the Operation Cartography charter authored (P0–P5), and `adr_000_canvas_identity.md` + `decision_register_genesis.md` (D1–D7) drafted. This is a **planning** campaign — no runtime, no code migration, no breaking changes to CanvasForge/LiteratureForge.
+Canvas.aDNA was forked 2026-06-06 (from `.adna` via `skill_project_fork`) and seeded to a P0 skeleton. **P0 gate cleared by operator 2026-06-06:** persona **Mondrian**; category **Platform.aDNA (standard-bearer), Option P** — Canvas.aDNA ships the Standard's runnable reference tooling (validators · round-trip converters · conformance harness; code-as-WHAT-object home `what/code/canvas_std/`, **declared not built**); scope boundary **confirmed**. This is a **planning** campaign — no runtime, no code migration, no breaking changes to CanvasForge/LiteratureForge.
 
-## ▶ Resume Here (the P0 gate — `#needs-human`)
+## ▶ Resume Here — open P1 on operator go
 
-The session is **HELD at the P0 gate.** Operator must lock three decisions before P1 opens:
+P0 is **ratified**. The next gate is the operator's **go to open P1 (Source inventory & fork baseline)** —
+a 2–3 session mission that catalogs Canvas Standard v1.0.0, the `CanvasBuilder` constants, the
+`advanced_canvas/` corpus (~22 files), the Round-Trip Protocol, the graft_manifest, and the LF
+visual/format/genre specs, labels each **KEEP / EXTEND / SUPERSEDE / DEFER-TO-PRODUCER**, and **pins the
+upstream Advanced Canvas baseline version** (brief cites v5.6.6 — confirm). Phase gates are human gates;
+do not open P1 without operator approval.
 
-1. **Persona** — provisional **Mondrian** (operator's prior pick); candidates **Seshat** (measurement/records — Thoth's counterpart) and **Mercator** (cartographer — matches "Operation Cartography"). `adr_000` §2.
-2. **Category** — provisional **Framework.aDNA**, but **Δ1**: `spec_framework_ecosystem.md` says Frameworks "produce no primary artifact and deploy no runtime"; shipping runnable validators/round-trip tooling pushes toward Platform. Decide where the reference implementation lives. `adr_000` §1 + D1.
-3. **Scope boundary** — Standard owns spec/component-model/round-trip/conformance-spec/federation/governance; producers own pipelines/render/image-gen. `adr_000` §3.
-
-Plus note **Δ2** (D7): canvas is today a *view of the lattice primitive* (Decision 9), not a 4th primitive — elevating it needs a LIP.
-
-**On operator lock → open P1 (Source inventory & fork baseline).**
+**Carry into P1/P2 (from the P0 lock):** Platform vault+code split — declare the `what/code/canvas_std/`
+reference-impl home (don't build it, C3); Option P **tilts D2 toward extracting** the standard out of
+CanvasForge (CanvasForge → producer). **Δ2** (D7) still open: canvas is today a *view of the lattice
+primitive* (Decision 9), not a 4th primitive — elevating it needs a LIP (P2 + out-of-scope core change).
 
 ## What's Done (this session)
 
@@ -51,12 +53,12 @@ Plus note **Δ2** (D7): canvas is today a *view of the lattice primitive* (Decis
 
 ## Active Blockers
 
-- `#needs-human` — P0 gate lock (persona / category / scope). No P1 work until cleared.
+- None blocking. **Next gate:** operator go to open **P1** (one phase per gate, SO-1).
 
 ## Next Steps
 
-1. Operator locks P0 (persona, category incl. Δ1, scope boundary).
-2. Open **P1** — source inventory + fork baseline (catalog v1.0.0 + `CanvasBuilder` constants + `advanced_canvas/` corpus; label KEEP/EXTEND/SUPERSEDE/DEFER-TO-PRODUCER; pin upstream Advanced Canvas version).
+1. ✅ Operator locked P0 (persona Mondrian · category Platform/Option P · scope confirmed) — 2026-06-06.
+2. **On operator go → open P1** — source inventory + fork baseline (catalog v1.0.0 + `CanvasBuilder` constants + `advanced_canvas/` corpus; label KEEP/EXTEND/SUPERSEDE/DEFER-TO-PRODUCER; pin upstream Advanced Canvas version).
 3. Forward: P2 Standard spec (heaviest gate) → P3 conformance + federation → P4 execution charter → P5 harmonization plan.
 
 ## Notes

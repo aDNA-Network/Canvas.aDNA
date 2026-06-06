@@ -3,16 +3,16 @@ type: manifest
 created: 2026-06-06
 updated: 2026-06-06
 last_edited_by: agent_stanley
-persona: Mondrian (provisional — locks at P0)
-category: Framework.aDNA (provisional — confirmed at P0)
-tags: [manifest, governance, canvas, standard, framework]
+persona: Mondrian (locked — P0 2026-06-06)
+category: Platform.aDNA (standard-bearer — Δ1 Option P, locked P0 2026-06-06)
+tags: [manifest, governance, canvas, standard, platform]
 ---
 
 # Canvas.aDNA — Project Manifest
 
 ## Project Identity
 
-**Canvas.aDNA** (display: **Canvas**) is a **Framework.aDNA** project *(provisional; confirmed at P0)* that **owns the aDNA Canvas Standard** — an agentic-context-native fork of the Obsidian **Advanced Canvas** / **JSON Canvas** standard, maintained by aDNA Labs.
+**Canvas.aDNA** (display: **Canvas**) is a **Platform.aDNA** project (standard-bearer) that **owns the aDNA Canvas Standard** — an agentic-context-native fork of the Obsidian **Advanced Canvas** / **JSON Canvas** standard, maintained by aDNA Labs — **and ships its runnable reference tooling** (validators · round-trip converters · conformance harness; code-as-WHAT-object at `what/code/canvas_std/`, built in the execution campaign). Category locked at P0 (Δ1, Option P).
 
 The thesis: a *canvas* — a possibly-linked set of panels carrying positioned **text · typography · image · video · shape · embed · link** components — is a near-universal **output primitive**. Papers, blog posts, sites, letters, pitch decks, comics, PDFs, and Google Docs are all assemblies of the same component classes with specified position and qualities. By forking and evolving Advanced Canvas into an agentic-context-**native**, agentic-context-**developed** standard, canvas becomes simultaneously:
 
@@ -24,7 +24,7 @@ Canvas.aDNA is the **standard-bearer**. **CanvasForge** (Hermes — spatial subs
 
 ## Status
 
-**Genesis-planning — Phase P0 (charter & persona lock).** Campaign **Operation Cartography** (`how/campaigns/campaign_canvas_genesis_planning/`). This is a *planning* campaign: it produces (1) the forked-and-extended Standard spec, (2) this vault scaffold, and (3) an execution-campaign charter a later session runs to build it. **No runtime is built and no code is migrated in this campaign.** See `STATE.md`.
+**Genesis-planning — P0 ratified 2026-06-06; P1 ready on operator go.** Campaign **Operation Cartography** (`how/campaigns/campaign_canvas_genesis_planning/`). This is a *planning* campaign: it produces (1) the forked-and-extended Standard spec, (2) this vault scaffold, and (3) an execution-campaign charter a later session runs to build it. **No runtime is built and no code is migrated in this campaign.** See `STATE.md`.
 
 ## Architecture (aDNA triad)
 

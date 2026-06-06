@@ -2,11 +2,11 @@
 type: decision
 adr_id: "000"
 title: "Project Identity — Canvas.aDNA, the aDNA Canvas Standard"
-status: proposed
+status: ratified
 created: 2026-06-06
 updated: 2026-06-06
 last_edited_by: agent_stanley
-signed_by: (pending — operator at P0 gate)
+signed_by: Stanley (operator) — P0 gate 2026-06-06
 supersedes:
 superseded_by:
 tags: [adr, identity, canvas, standard, framework, genesis]
@@ -16,8 +16,10 @@ tags: [adr, identity, canvas, standard, framework, genesis]
 
 ## Status
 
-**Proposed** — awaiting operator ratification at the **P0 gate** (Operation Cartography). Persona, category
-(incl. Δ1), and scope boundary are operator-locked decisions; this ADR *proposes* and *holds*.
+**Ratified** — 2026-06-06 (Stanley, operator), at the **P0 gate** (Operation Cartography). Operator locks:
+**persona = Mondrian**; **category = Platform.aDNA (standard-bearer), Option P** (Δ1 resolved — Canvas.aDNA
+ships the runnable reference tooling, vault+code split); **scope boundary confirmed** as §3 (plus the
+reference implementation). P0 closed; P1 may open on operator go.
 
 ## Context
 
@@ -37,33 +39,29 @@ ADR (below).
 
 ## Decision
 
-### 1. Category: Framework.aDNA *(provisional — Δ1 to resolve at P0)*
+### 1. Category: Platform.aDNA (standard-bearer) — **Δ1 resolved, Option P**
 
-Canvas.aDNA is proposed as a **Framework.aDNA** — a vault that defines a standard others federate against
-(cf. III.aDNA). Rationale: it defines *how* canvases are specified and consumed; it produces no end-user
-artifact and deploys no partner runtime.
+**Locked (operator, P0):** Canvas.aDNA is a **Platform.aDNA** that governs the aDNA Canvas Standard **and ships
+its runnable reference tooling** — validators, round-trip converters, and the conformance harness. This is the
+**Option P** resolution of Δ1: because the Standard ships runnable code, the pure-Framework definition
+(`spec_framework_ecosystem.md`: "produce no primary artifact and deploy no runtime") does not apply.
 
-> **Δ1 (load-bearing).** `aDNA.aDNA/what/specs/spec_framework_ecosystem.md` is explicit: Frameworks "produce
-> no primary artifact and **deploy no runtime**." The Standard will likely need **runnable reference tooling**
-> (validators, round-trip converters, conformance harness). That pushes toward Platform. **The operator must
-> lock the split:**
-> - **Option F (Framework-pure):** Canvas.aDNA owns the *spec* + *conformance-suite spec* + *federation
->   contract*; the runnable reference implementation stays in **CanvasForge `canvas_core`** (or a thin
->   `canvas_std` reference lib it owns), consumed by `federation_ref`. *(recommended default)*
-> - **Option P (Platform/hybrid):** Canvas.aDNA ships runnable validators/converters itself → categorize as
->   Platform (or a Standard-bearer sub-category), with a vault+code split.
->
-> Resolution feeds D1/D2 (`decision_register_genesis.md`).
+- **Vault+code split.** The reference implementation has a **code-as-WHAT-object** home at `what/code/canvas_std/`
+  (single-repo, per the VideoForge Amendment-1 precedent). It is **declared now, built later** in the execution
+  campaign (C3 — no runtime built this campaign).
+- **"Standard-bearer" framing.** Canvas.aDNA is a Platform whose deployable system *is* the Standard + its
+  reference tooling (not a partner-institution service). Whether this warrants a distinct `Standard.aDNA`
+  sub-category is a minor open question for P4/LIP; it does not block P0.
+- **Cascade to D2.** Option P **tilts D2 toward extraction** (the standard machinery — schema, validators,
+  round-trip — lives here; CanvasForge becomes a producer consuming it). D2 itself is resolved at P2.
 
-### 2. Persona *(operator locks at P0)*
+### 2. Persona: Mondrian — **locked**
 
-Working persona is **Mondrian** (operator's prior pick) — universal visual language from minimal grid
-elements; canvas-as-disciplined-composition. Alternatives carried for the lock:
-- **Seshat** — goddess of measurement, records, and laying foundations ("stretching the cord"); the
-  measure-and-record counterpart to LiteratureForge's **Thoth**. Strongest standard-bearer/records fit.
-- **Mercator** — cartographer/projection; matches the campaign codename "Operation Cartography."
-
-All three are distinct from existing Lattice personas. **`#needs-human`.**
+**Locked (operator, P0): Mondrian** — Piet Mondrian reduced composition to a disciplined grid of lines and
+primary fields in pursuit of a *universal* visual language from the fewest elements. The vault does the same
+for agentic media: it reduces any 2D output to a rigorous grammar of typed components on a canvas. Distinct
+from all existing Lattice personas (Berthier, Hermes, Iris, Argus, Ariadne, Pygmalion, Thoth, …).
+*(Alternatives Seshat / Mercator considered and set aside.)*
 
 ### 3. Mission scope
 
@@ -72,8 +70,9 @@ a normative spec; a modular component model (per component class); panel/link se
 (flow/pagination/reading-order); a round-trip contract to baseline Obsidian; a conformance-suite spec; a
 consumer federation contract; and LIP-style versioning/governance.
 
-**Owns:** schema · component model · round-trip contract · conformance-suite spec · federation contract ·
-versioning/governance.
+**Owns** (confirmed P0): schema · component model · round-trip contract · conformance-suite spec ·
+federation contract · versioning/governance · **the reference implementation** (validators · round-trip
+converters · conformance harness) at `what/code/canvas_std/` (Option P).
 **Does NOT own** (substrate-neutrality test, C8): producer pipelines · rendering runtimes · image generation
 — these stay in CanvasForge / ComfyForge / LiteratureForge / SiteForge.
 
