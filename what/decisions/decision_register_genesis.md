@@ -1,0 +1,80 @@
+---
+type: decision
+adr_id: "register"
+title: "Genesis Decision Register (D1–D7) — pre-ADR stubs"
+status: open
+created: 2026-06-06
+updated: 2026-06-06
+last_edited_by: agent_stanley
+tags: [adr, decision, register, genesis, canvas]
+---
+
+# Genesis Decision Register — D1–D7
+
+Pre-ADR stubs for the load-bearing decisions Operation Cartography must resolve. **Nothing here is ratified.**
+Each becomes a real ADR (or is folded into `adr_000`) at the gated phase shown. Numbering deferred to avoid
+collision with inherited template ADRs (`adr_001/002/003`); reconciled in P1.
+
+| ID | Decision | Resolve at | Owner ADR (P2) | Status |
+|----|----------|-----------|----------------|--------|
+| D1 | **Category vs runtime** — Framework-pure vs Platform/hybrid; where reference validators/converters live (Δ1) | P0 | folds into `adr_000` §1 | pending |
+| D2 | **CanvasForge relationship** — extract Standard out (A) vs spec-here/impl-in-CanvasForge (B) vs reject (C) | P2 | `adr_NNN_canvasforge_relationship` | pending |
+| D3 | **LiteratureForge seam** — document expressible AS a canvas vs federated peers sharing component schemas | P2 | `adr_NNN_literatureforge_seam` | pending |
+| D4 | **Component model** — additive `_reserved`-namespaced taxonomy across all 2D outputs | P2 | `spec_component_model.md` | pending |
+| D5 | **Panel/link semantics** — reading-order/pagination/flow/region for non-DAG outputs without breaking graph semantics | P2 | `spec_panel_link_semantics.md` | pending |
+| D6 | **Versioning & governance** — v2.0.0 line + LIP process + conformance levels + version_policy default | P2 | `adr_NNN_standard_governance` | pending |
+| D7 | **Context-object / primitive status** — canvas-as-primitive vs canvas-as-view (Δ2); LIP path | P2 | `spec_context_object.md` + LIP | pending |
+
+---
+
+## D1 — Category vs runtime (Δ1) — resolve at P0
+
+`spec_framework_ecosystem.md`: Frameworks "produce no primary artifact and deploy no runtime." A standard that
+ships runnable validators/round-trip tooling drifts toward Platform.
+- **Option F (recommended):** spec + conformance-suite spec + federation contract here; reference impl stays in
+  CanvasForge `canvas_core` / a thin `canvas_std` lib, consumed via `federation_ref`.
+- **Option P:** ship runnable tooling here → Platform / Standard-bearer sub-category (vault+code split).
+
+## D2 — CanvasForge relationship — resolve at P2
+
+- **(A)** Extract the Standard OUT of CanvasForge; CanvasForge consumes via `federation_ref`, becomes a pure
+  producer. *(mirrors the lattice-protocol→canvasforge extraction precedent)*
+- **(B)** Canvas.aDNA owns spec + conformance suite; CanvasForge keeps `CanvasBuilder` as the canonical
+  reference implementation, pinned to the Standard's version.
+- **(C)** Reject — leave embedded (document why it fails the unification thesis).
+Score, pick, record rejected. Coupled to D1.
+
+## D3 — LiteratureForge seam — resolve at P2
+
+LF's `spec_visual_contract.md` (V1–V8 + X1–X14) already routes visuals to CanvasForge/ComfyForge; its 5-part
+genre submodule is the writing analog of a canvas component spec. Decide: does a long-form document become a
+**canvas with flow/reading-order/pagination panel-link semantics**, or do LF and Canvas remain **federated
+peers sharing component schemas**? Reconcile with Amendment-02 "Document-DNA engine" (verified to *complement*,
+not collide — it is a meta-layer above the submodule, orthogonal to canvas rendering). THE unification ADR.
+
+## D4 — Component model — resolve at P2
+
+Additive, `_reserved`-namespaced taxonomy generalizing across outputs: {text, typography-run, image, video,
+shape, embed, group/panel, link/edge, table, code, caption, region}. Each component: schema · position/qualities
+· aDNA semantic-type binding · visual-DNA hook (`brand_style_pack_ref`) · degradation rule to baseline Obsidian.
+Formalize "panel" (= group) and "possibly-linked panels."
+
+## D5 — Panel/link semantics for non-DAG outputs — resolve at P2
+
+Papers/letters/articles need flow + pagination; decks need slide-sequence; comics need page + reading-path;
+sites need responsive regions. Express these as typed edges (reading-order/dependency/adjacency/sequence) +
+region properties (pagination/flow/responsive) **without breaking lattice-graph semantics**.
+
+## D6 — Versioning & governance — resolve at P2
+
+v2.0.0 successor line; LIP-style change process (real mechanism: `lip_0001_lip_process.md`); conformance levels
+**Core / Extended / aDNA-Native**; consumer `version_policy` default **minor**.
+
+## D7 — Context-object / primitive status (Δ2) — resolve at P2 (+ LIP)
+
+How an aDNA canvas is a first-class **context** object: stored, referenced (wikilinks / `federation_ref`),
+versioned; read-AS-context vs render-AS-output. **Δ2:** today canvas is a *view/serialization of the `lattice`
+primitive* (aDNA Decision 9), not a 4th primitive; the deployable-object set (module/dataset/lattice) is
+extensible via `{namespace}_{type}` but elevating canvas to first-class needs a **LIP** + an argument that a
+canvas carries semantics beyond "a lattice rendered visually." Do **not** touch the aDNA core primitive set in
+this campaign (out of scope).
