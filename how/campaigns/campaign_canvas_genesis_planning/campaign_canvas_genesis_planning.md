@@ -10,7 +10,7 @@ estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-07
 last_edited_by: agent_stanley
 tags: [campaign, genesis, planning, canvas, standard, platform]
 ---
@@ -145,6 +145,15 @@ regresses); cutover criteria + rollback + parity references.
 SiteForge, VisualDNA, III, and the SS/CC consumer wrappers; deprecation-shim strategy v1.0.0→v2.0.0;
 upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + retro.
 **Phase exit gate:** operator closes genesis planning; authorizes (or schedules) the execution campaign.
+
+### Execution-Campaign Candidates (backlog — parked, no gate change)
+
+> Captured candidate build-missions for the *future* execution campaign (`campaign_canvas_genesis`, P4
+> output). Parked; they open no phase here and build no code (C3). Listed so proven prior work is not lost.
+
+| Candidate | Origin | Feeds | Status |
+|-----------|--------|-------|--------|
+| [[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot\|mission_deck_generator_canvas_pilot]] — graph→canvas-object **deck generator** (Lattice Protocol pilot; persona-III + accuracy-guardrail method) | aDNALabs deck pilot, migrated 2026-06-07 | P4 charter · informs D2/D4/D7 | planned (parked) |
 
 ## Decision Points
 

@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-07
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260606_p0_genesis_skeleton
+last_session: session_stanley_20260607_203011_deck_generator_planning
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -32,6 +32,10 @@ do not open P1 without operator approval.
 reference-impl home (don't build it, C3); Option P **tilts D2 toward extracting** the standard out of
 CanvasForge (CanvasForge → producer). **Δ2** (D7) still open: canvas is today a *view of the lattice
 primitive* (Decision 9), not a 4th primitive — elevating it needs a LIP (P2 + out-of-scope core change).
+
+## Parked — execution-campaign candidates (no gate change)
+
+- **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
 
 ## What's Done (this session)
 
