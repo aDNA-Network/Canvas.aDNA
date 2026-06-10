@@ -66,4 +66,4 @@ private/
 
 # Note: `*.aDNA/` (workspace-level subproject exclusion) is intentionally OMITTED here per
 # Obj 5 G-2 — the template repo doesn't contain subprojects. The workspace-level
-# ~/lattice/.gitignore continues to carry `*.aDNA/`.
+# ~/aDNA/.gitignore continues to carry `*.aDNA/`.
