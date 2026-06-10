@@ -126,7 +126,7 @@ Full memory landscape for a project:
 │           ├── project_current_sprint.md  # type: project
 │           └── reference_deploy_paths.md  # type: reference
 
-~/lattice/my_project/
+~/aDNA/my_project/
 ├── .claude/CLAUDE.md                      # Project: prescriptive rules
 ├── _meta/
 │   ├── _learnings.md                      # Technical patterns (human-readable)

@@ -202,7 +202,7 @@ find . -maxdepth 1 -name "*.aDNA" -type d
 **Workspace convention:**
 
 ```
-~/lattice/
+~/aDNA/
 ├── Agentic-DNA/           # Base template (source repo, no suffix)
 ├── my_research.aDNA/      # Forked project (aDNA instance)
 ├── zeta.aDNA/             # Another project

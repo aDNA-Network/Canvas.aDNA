@@ -22,11 +22,11 @@ tags: [campaign, adna, workspace, upgrade, migration, skill]
 
 ## Goal
 
-Upgrade our `~/lattice/` workspace to full aDNA v6.0 standard compliance, and in the process, create a reusable upgrade skill that any aDNA user can run to bring their workspace into compliance. The procedure we follow BECOMES the documented skill.
+Upgrade our `~/aDNA/` workspace to full aDNA v6.0 standard compliance, and in the process, create a reusable upgrade skill that any aDNA user can run to bring their workspace into compliance. The procedure we follow BECOMES the documented skill.
 
 ## Context
 
-campaign_adna_polish restructured the aDNA base template (324 files → `.adna/`, root CLAUDE.md + README, visual assets, 20 III cycles). But our own `~/lattice/` workspace doesn't yet comply with the standard it defines:
+campaign_adna_polish restructured the aDNA base template (324 files → `.adna/`, root CLAUDE.md + README, visual assets, 20 III cycles). But our own `~/aDNA/` workspace doesn't yet comply with the standard it defines:
 
 - `lattice-labs/` should be `lattice_labs.aDNA/` (naming convention)
 - No MANIFEST.md or STATE.md at project root (governance files)
@@ -76,7 +76,7 @@ Co-executor validates:
 
 | # | Mission | Title | Sessions | Status |
 |---|---------|-------|----------|--------|
-| M03 | [[missions/mission_adna_ws_upgrade_m03\|M03]] | Execute upgrade on ~/lattice/ | 1.5 | **complete** |
+| M03 | [[missions/mission_adna_ws_upgrade_m03\|M03]] | Execute upgrade on ~/aDNA/ | 1.5 | **complete** |
 | M04 | [[missions/mission_adna_ws_upgrade_m04\|M04]] | Validate + commit skill to aDNA | 0.5 | **complete** |
 
 **M03 actual**: Executed in same session as M01. Symlink `.adna/` at workspace root, archived 12 stale items, applied upgraded CLAUDE.md, validated all 11 projects + 6 working dirs. v6.0 cross-system review identified 3 schema gaps (backlog).

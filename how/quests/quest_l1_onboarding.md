@@ -58,7 +58,7 @@ Choose the path that matches your access:
 
 **Path A — Self-service GitHub clone (if you have repo access)**:
 ```bash
-mkdir -p ~/lattice && cd ~/lattice
+mkdir -p ~/aDNA && cd ~/aDNA
 git clone https://github.com/LatticeProtocol/latlab.git
 ```
 
@@ -97,7 +97,7 @@ The admin pushes the code to your machine remotely. You need to:
 ### Phase 3: Run Setup (~5 min)
 
 ```bash
-cd ~/lattice/latlab
+cd ~/aDNA/latlab
 bash deploy/native/setup_l1.sh
 ```
 
@@ -107,10 +107,10 @@ This is idempotent and handles: Python venv, JupyterHub + proxy, LatLab SDK, Nat
 
 ```bash
 # Run the health check
-bash ~/lattice/latlab/deploy/native/latlab_doctor.sh
+bash ~/aDNA/latlab/deploy/native/latlab_doctor.sh
 
 # Start JupyterHub
-bash ~/lattice/latlab/deploy/native/latlab_start.sh
+bash ~/aDNA/latlab/deploy/native/latlab_start.sh
 ```
 
 Open `http://127.0.0.1:8000` in your browser. You should see the JupyterHub login page.

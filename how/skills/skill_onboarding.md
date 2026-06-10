@@ -105,7 +105,7 @@ Two deployment forms:
 - **Bare triad** (this project) — `what/how/who/` at project root. The full experience.
 - **Embedded triad** — `.agentic/what/how/who/` inside an existing repo. For adding aDNA to existing codebases.
 
-This project lives inside a `~/lattice/` workspace alongside the aDNA base template. Each project in the workspace is self-contained — it can be moved out and still functions independently.
+This project lives inside a `~/aDNA/` workspace alongside the aDNA base template. Each project in the workspace is self-contained — it can be moved out and still functions independently.
 
 For multi-instance composition (nesting vaults, sibling projects), see `what/docs/adna_bridge_patterns.md`.
 

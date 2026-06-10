@@ -17,10 +17,10 @@ A workspace-level pattern for managing multiple aDNA-structured projects. Two ap
 
 ## Simplified Pattern (Recommended)
 
-The repo root **is** `~/lattice/`. Clone it once, and the root CLAUDE.md handles project creation and discovery. The base template lives in a hidden `.adna/` directory.
+The repo root **is** `~/aDNA/`. Clone it once, and the root CLAUDE.md handles project creation and discovery. The base template lives in a hidden `.adna/` directory.
 
 ```
-~/lattice/                        # git clone target = user's lattice
+~/aDNA/                        # git clone target = user's lattice
 ├── CLAUDE.md                     # "The Front Door" — lattice intro, project creation
 ├── README.md                     # "What is a lattice?" — GitHub landing page
 ├── LICENSE
@@ -44,17 +44,17 @@ The repo root **is** `~/lattice/`. Clone it once, and the root CLAUDE.md handles
 
 ### How it works
 
-1. **Clone directly**: `git clone https://github.com/LatticeProtocol/adna.git ~/lattice`
-2. **Run Claude Code** from `~/lattice/` — the root CLAUDE.md detects `.adna/` and offers to create your first project
+1. **Clone directly**: `git clone https://github.com/LatticeProtocol/adna.git ~/aDNA`
+2. **Run Claude Code** from `~/aDNA/` — the root CLAUDE.md detects `.adna/` and offers to create your first project
 3. **Create projects** — the agent copies `.adna/`, strips `.obsidian/plugins/` and `.obsidian/themes/`, removes the `role: template` marker, runs `git init`, then triggers the 5-question onboarding interview inside the new project
 4. **Work inside projects** — each project is self-contained. Open it directly in Claude Code or Obsidian.
 5. **Upgrade to L1** — follow `.adna/how/skills/skill_l1_upgrade.md` to add JupyterHub compute
 
 ### Why this pattern
 
-- **Two-command onboarding** — `git clone <url> ~/lattice && cd ~/lattice && claude`
+- **Two-command onboarding** — `git clone <url> ~/aDNA && cd ~/aDNA && claude`
 - **Every project gets the complete toolkit** — templates, skills, context library, lattice tools
-- **Upstream updates** — `git pull` inside `~/lattice/` updates `.adna/` cleanly
+- **Upstream updates** — `git pull` inside `~/aDNA/` updates `.adna/` cleanly
 - **Zero config** — the root CLAUDE.md ships pre-authored, no auto-generation needed
 
 ### Design principles
@@ -63,7 +63,7 @@ The repo root **is** `~/lattice/`. Clone it once, and the root CLAUDE.md handles
 2. **Each project is self-contained** — own CLAUDE.md, own git, own triad structure. Can be moved out of the workspace and still works.
 3. **Never modify `.adna/`** — it stays as a clean reference (`role: template` in MANIFEST.md). Only fork from it. `git pull` is always safe.
 4. **The root CLAUDE.md is the front door** — it handles all workspace operations (project creation, discovery, L1 upgrade). Inside a project, that project's CLAUDE.md is authoritative.
-5. **Lattice as concept** — `~/lattice/` is the user's personal knowledge lattice. Each `.aDNA` project is a node. The lattice grows as users create more projects.
+5. **Lattice as concept** — `~/aDNA/` is the user's personal knowledge lattice. Each `.aDNA` project is a node. The lattice grows as users create more projects.
 
 ### Related files
 
@@ -77,7 +77,7 @@ The repo root **is** `~/lattice/`. Clone it once, and the root CLAUDE.md handles
 For organizations that want fine-grained control over project scaffolding, the `.base/` template pattern provides per-field customization.
 
 ```
-~/lattice/                        # Workspace root (or any folder)
+~/aDNA/                        # Workspace root (or any folder)
 ├── CLAUDE.md                     # Meta-governance — interview + scaffold instructions
 ├── .base/                        # Base template (fork source, not a project)
 │   ├── CLAUDE.md.template        # Governance template with {{variables}}
@@ -176,7 +176,7 @@ The Projects Folder Pattern is the manual version of what the Start Kit automate
 
 ### Creating a new project
 
-1. Open Claude Code in `~/lattice/` (the repo root)
+1. Open Claude Code in `~/aDNA/` (the repo root)
 2. Say "Create a new project" (or similar)
 3. The root CLAUDE.md guides project creation, delegating to `skill_project_fork.md`
 4. `.adna/` is copied to `project_name.aDNA/`, template markers stripped, `git init` run
@@ -184,7 +184,7 @@ The Projects Folder Pattern is the manual version of what the Start Kit automate
 
 ### Updating the template
 
-Run `git pull` inside `~/lattice/` to update `.adna/` with the latest improvements. User projects are unaffected — they have their own git repos.
+Run `git pull` inside `~/aDNA/` to update `.adna/` with the latest improvements. User projects are unaffected — they have their own git repos.
 
 ---
 

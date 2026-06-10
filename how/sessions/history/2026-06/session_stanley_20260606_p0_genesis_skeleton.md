@@ -23,7 +23,7 @@ Fork `Canvas.aDNA` and seed it to a P0 skeleton: governance, Operation Cartograp
 - `how/campaigns/campaign_canvas_genesis_planning/campaign_canvas_genesis_planning.md` — created
 - `what/decisions/adr_000_canvas_identity.md`, `what/decisions/decision_register_genesis.md` — created
 - `who/coordination/coord_2026_06_06_naming_persona_exceptions.md` — created
-- `~/lattice/CLAUDE.md` (workspace router) — one routing row + layout line + Framework Active note
+- `~/aDNA/CLAUDE.md` (workspace router) — one routing row + layout line + Framework Active note
 - (fork) full `.adna` triad copied → `Canvas.aDNA/`; fresh `git init`
 
 ## SITREP

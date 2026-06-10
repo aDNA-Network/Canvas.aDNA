@@ -79,8 +79,8 @@ The `adna/` repo no longer contains a hidden `.adna/` directory inside itself. I
 
 | Before (v6) | After (v7) |
 |---|---|
-| `~/lattice/adna/.adna/...` (template lives at `adna/.adna/`) | `~/lattice/.adna/...` (template lives directly at `.adna/`) |
-| `~/lattice/.adna -> adna/.adna` (symlink at workspace root) | No symlink — `.adna/` is a real directory |
+| `~/aDNA/adna/.adna/...` (template lives at `adna/.adna/`) | `~/aDNA/.adna/...` (template lives directly at `.adna/`) |
+| `~/aDNA/.adna -> adna/.adna` (symlink at workspace root) | No symlink — `.adna/` is a real directory |
 | `git clone https://github.com/LatticeProtocol/Agentic-DNA.git` (clones two levels) | `git clone https://github.com/LatticeProtocol/adna.git .adna` (single step) |
 
 ### Why
@@ -92,7 +92,7 @@ The two-level structure (`adna/.adna/`) had two roles fused together: an "outer 
 The cleanest path is to re-clone fresh. Vault contents are not affected by the flatten — only the workspace root.
 
 ```bash
-cd ~/lattice
+cd ~/aDNA
 rm -f .adna                    # remove the symlink
 rm -rf adna                    # remove the legacy outer wrapper
 git clone https://github.com/LatticeProtocol/adna.git .adna
@@ -102,7 +102,7 @@ ls -la .adna/                  # verify: how/, what/, who/, .git/, .github/ all 
 ### Migration — in-place (if you have local changes in `adna/`)
 
 ```bash
-cd ~/lattice
+cd ~/aDNA
 rm .adna                       # remove the symlink
 mv adna/.adna .adna_new        # extract the inner directory
 mv adna/.git .adna_new/.git    # if .git lives at the outer level (older clones)
@@ -148,7 +148,7 @@ The rewrite is co-signed in [[../../../../who/coordination/coord_2026_05_08_publ
 For each vault whose remote is **not** configured (7 vaults: Spacemacs, VideoForge, III, VAASLattice, zeta, RareHarness, strategic_interface_protocol — and 1 with a non-standard local-path remote: LPWhitepaper):
 
 ```bash
-cd ~/lattice/<vault>.aDNA
+cd ~/aDNA/<vault>.aDNA
 # Run the new skill — sets up GitHub origin + creates the repo if needed
 ~/.adna/how/skills/skill_git_remote_setup.md   # invoked via your agent
 
@@ -163,7 +163,7 @@ ls .git/hooks/pre-push                         # should exist
 For each vault that **already** has a proper origin (10 vaults: aDNA, science_stanley, SiteForge, wga, CanvasForge, context_commons, ComfyForge, SuperLeague + Wilhelm-Foundation × 2):
 
 ```bash
-cd ~/lattice/<vault>.aDNA
+cd ~/aDNA/<vault>.aDNA
 # Just adopt the rewritten publish skill + install the hook
 ~/.adna/how/skills/skill_deploy.md             # idempotent; safe to re-run
 # That's it. Use git push as you normally would; the new skill_vault_publish.md is your reference.
@@ -174,7 +174,7 @@ cd ~/lattice/<vault>.aDNA
 Spacemacs has a `.publish-clone/` directory left over from the rsync workaround. Once one publish cycle confirms the new flow works, retire it:
 
 ```bash
-cd ~/lattice/Spacemacs.aDNA
+cd ~/aDNA/Spacemacs.aDNA
 rm -rf .publish-clone .publish-clone.bak
 # Mark Spacemacs.aDNA/how/standard/skills/skill_publish_lattice.md as status: deprecated
 # (preserve the file per Standing Order #6; just flip the status field)
@@ -211,11 +211,11 @@ Adoption is purely opt-in. Vaults that don't bootstrap a `node.aDNA/` are unaffe
 To bootstrap (post-M04):
 
 ```bash
-cd ~/lattice
+cd ~/aDNA
 ~/.adna/how/skills/skill_node_adna_bootstrap.md   # invoked via your agent (M04 ships this skill)
 ```
 
-The skill creates `node.aDNA/` at the workspace root with the full Hestia structure (`who/operators/`, `what/inventory/`, `what/identity/`, `how/sessions/`, etc.) and updates the workspace router (`~/lattice/CLAUDE.md`) with a Project Discovery row entry.
+The skill creates `node.aDNA/` at the workspace root with the full Hestia structure (`who/operators/`, `what/inventory/`, `what/identity/`, `how/sessions/`, etc.) and updates the workspace router (`~/aDNA/CLAUDE.md`) with a Project Discovery row entry.
 
 ### `LatticeScope.aDNA/` — open-source observability platform
 
@@ -238,7 +238,7 @@ The v7.0 tag lands when M06 ships. Adoption is pull-based: next time you run `gi
 GitHub preserves URL forwarding from old repo names indefinitely after rename, so existing clones keep working without intervention. New clones use the canonical short URL. To refresh a local clone's origin:
 
 ```bash
-cd ~/lattice/.adna
+cd ~/aDNA/.adna
 git remote set-url origin https://github.com/LatticeProtocol/adna.git
 ```
 
@@ -263,12 +263,12 @@ After running the migration, verify your vault is clean. The recommended sequenc
 
 | Check | Command | Expected |
 |---|---|---|
-| Workspace root has `.adna/` (not `adna/`) | `ls -la ~/lattice/.adna && ! test -d ~/lattice/adna` | `.adna/` exists; `adna/` does not |
-| `.adna/` is a real directory (not a symlink) | `test -d ~/lattice/.adna -a ! -L ~/lattice/.adna` | true |
-| `.adna/` clones from canonical repo | `cd ~/lattice/.adna && git remote -v` | `origin → github.com/LatticeProtocol/adna.git` |
-| Template version is v7.0 | `grep '^version:' ~/lattice/.adna/CLAUDE.md` | `version: "7.0"` |
-| CHANGELOG has v7.0 entry | `grep '## \[v7.0\]' ~/lattice/.adna/CHANGELOG.md` | match |
-| Standard track is v2.2 (unchanged) | `head -3 ~/lattice/.adna/what/docs/adna_standard.md \| tail -1` | title says `v2.2` |
+| Workspace root has `.adna/` (not `adna/`) | `ls -la ~/aDNA/.adna && ! test -d ~/aDNA/adna` | `.adna/` exists; `adna/` does not |
+| `.adna/` is a real directory (not a symlink) | `test -d ~/aDNA/.adna -a ! -L ~/aDNA/.adna` | true |
+| `.adna/` clones from canonical repo | `cd ~/aDNA/.adna && git remote -v` | `origin → github.com/LatticeProtocol/adna.git` |
+| Template version is v7.0 | `grep '^version:' ~/aDNA/.adna/CLAUDE.md` | `version: "7.0"` |
+| CHANGELOG has v7.0 entry | `grep '## \[v7.0\]' ~/aDNA/.adna/CHANGELOG.md` | match |
+| Standard track is v2.2 (unchanged) | `head -3 ~/aDNA/.adna/what/docs/adna_standard.md \| tail -1` | title says `v2.2` |
 | For each vault: remote configured | `cd <vault> && git remote -v` | `origin → github.com/<org>/<vault>.git` |
 | For each vault: pre-push hook installed | `ls <vault>/.git/hooks/pre-push` | exists |
 | Vaults: `--self-test` passes on hook | `<vault>/.git/hooks/pre-push --self-test` | exit 0 |
@@ -299,7 +299,7 @@ The pattern was matured in three vaults (`III.aDNA/how/airlock/AIRLOCK.md` is ca
 ### How to adopt (existing v7.0 vault)
 
 ```bash
-cd ~/lattice/<vault>.aDNA
+cd ~/aDNA/<vault>.aDNA
 mkdir -p how/airlock
 cp ~/.adna/how/airlock/AIRLOCK.md how/airlock/AIRLOCK.md
 # Edit AIRLOCK.md — fill in your vault's persona, entry paths, version contract
@@ -344,7 +344,7 @@ v7.0 codifies the **`<name>.aDNA/` directory ↔ `<name>.aDNA.git` GitHub repo**
 To be explicit about scope:
 
 - **The aDNA Standard track is unchanged.** Standard stays at v2.2. The 14 base-ontology entity types, the triad (WHO/WHAT/HOW), the lattice/module/dataset object model, the FAIR metadata block — all the same. If you only consume the Standard, you are unaffected.
-- **No vault content changes.** v7.0 does not modify any `*.aDNA/` vault's contents. The only directory affected by the flatten is `~/lattice/` (workspace root).
+- **No vault content changes.** v7.0 does not modify any `*.aDNA/` vault's contents. The only directory affected by the flatten is `~/aDNA/` (workspace root).
 - **No forced renames.** ADR-009 codifies the naming convention but explicitly grandfathers existing non-conformant names.
 - **No AGENTS.md migration.** AGENTS.md files in your vault stay exactly as they are.
 - **Operation Rosetta site (`adna-docs.vercel.app`) is not affected** by v7.0 (other than gaining this upgrade guide as a new page). The site remains on Phases 0-7 of `campaign_rosetta`.

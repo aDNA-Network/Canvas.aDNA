@@ -32,18 +32,18 @@ Canonical contract: [ADR-002 Consumer Federation Contract](../../what/decisions/
 ## When to Use
 
 1. **A vault is adopting III for the first time** — operator says "set up III" / "add III review" / "federate this vault against III".
-2. **A pre-federation vault is migrating** — vault has been calling the III skill ad-hoc against `~/lattice/III.aDNA/how/skills/skill_iii_review.md` without a wrapper; needs to formalize per ADR-002.
+2. **A pre-federation vault is migrating** — vault has been calling the III skill ad-hoc against `~/aDNA/III.aDNA/how/skills/skill_iii_review.md` without a wrapper; needs to formalize per ADR-002.
 3. **A vault is forking a new sub-domain** — same vault, but a new modality (e.g., wga adding a sonification trap pack) wants a fresh `local_extension` entry under the root wrapper. (Run this skill once per vault, not per sub-domain — sub-domains compose under one wrapper. See § Variants below.)
 
 Do NOT use this skill to:
 - Copy III modules / skills / packs into a consumer vault (forbidden by ADR-002 §6).
-- Modify the canonical learning store at `~/lattice/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` (use the ADR-003 §3 graduation ceremony instead).
+- Modify the canonical learning store at `~/aDNA/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` (use the ADR-003 §3 graduation ceremony instead).
 - Author a wrapper that points at a non-pinned `version:` (every wrapper pins to a specific III.aDNA version + commit per ADR-002 §3).
 
 ## Prerequisites
 
-- The consumer vault exists at `~/lattice/<consumer>.aDNA/` (or equivalent path) and has a root `CLAUDE.md`.
-- III.aDNA upstream is reachable — either locally at `~/lattice/III.aDNA/` (preferred) or via the GitHub remote `https://github.com/LatticeProtocol/III.aDNA`.
+- The consumer vault exists at `~/aDNA/<consumer>.aDNA/` (or equivalent path) and has a root `CLAUDE.md`.
+- III.aDNA upstream is reachable — either locally at `~/aDNA/III.aDNA/` (preferred) or via the GitHub remote `https://github.com/LatticeProtocol/III.aDNA`.
 - The operator can decide pack selection (or accepts the minimal baseline default — see Step 3).
 - Familiarity with ADR-002 + ADR-003 (or willingness to read them inline during the procedure).
 
@@ -51,9 +51,9 @@ Do NOT use this skill to:
 
 | Parameter | Required | Description |
 |-----------|----------|-------------|
-| `consumer_vault_path` | yes | Absolute path to consumer vault root (e.g., `~/lattice/wga.aDNA/`) |
+| `consumer_vault_path` | yes | Absolute path to consumer vault root (e.g., `~/aDNA/wga.aDNA/`) |
 | `iii_version` | yes | III.aDNA version to pin against (default: latest annotated tag — `v0.2.0` as of 2026-05-10) |
-| `iii_commit` | yes | Exact commit hash for the pinned version. Verify with `git rev-parse <tag>^{commit}` inside `~/lattice/III.aDNA/` |
+| `iii_commit` | yes | Exact commit hash for the pinned version. Verify with `git rev-parse <tag>^{commit}` inside `~/aDNA/III.aDNA/` |
 | `packs_used` | recommended | Pack set the consumer will load. Default minimal baseline: `inspect_procedures`, `introspect_checks`, `learning_store`, `domain_packs_web_design`, `vault_maintenance`. See Step 3 for full enumeration. |
 | `modules_used` | recommended | Default all 8. Reduce only if there's a specific reason. |
 | `local_extensions` | optional | Consumer-specific `kind:` entries (`domain_pack`, `reviewer_registry`, `bridge_pack`, `local_skill`, `learning_store_local`). See Step 5 for the enum walkthrough. |
@@ -65,7 +65,7 @@ Do NOT use this skill to:
 
 1. Confirm the consumer vault path and that its root `CLAUDE.md` exists.
 2. Resolve the III.aDNA version pin:
-   - If `~/lattice/III.aDNA/` exists locally: `cd ~/lattice/III.aDNA && git rev-parse <tag>^{commit}` (e.g., `git rev-parse v0.2.0^{commit}` → returns `246124d...`). Use the **short hash** (7 chars) in the wrapper.
+   - If `~/aDNA/III.aDNA/` exists locally: `cd ~/aDNA/III.aDNA && git rev-parse <tag>^{commit}` (e.g., `git rev-parse v0.2.0^{commit}` → returns `246124d...`). Use the **short hash** (7 chars) in the wrapper.
    - If only the GitHub remote is available: pull `git ls-remote --tags origin <tag>` for the commit hash; record the date the pin was taken (`pinned_at: <YYYY-MM-DD>`).
 3. Record `version`, `pinned_at_commit`, and `pinned_at` for use in Step 2.
 
@@ -98,7 +98,7 @@ Per **ADR-002** (consumer federation contract) and **ADR-003** (learning store o
 ```yaml
 federation_ref:
   source_vault: III.aDNA
-  source_path: ~/lattice/III.aDNA
+  source_path: ~/aDNA/III.aDNA
   source_skill: how/skills/skill_iii_review.md
   version: "<X.Y.Z>"                       # pinned at wrapper creation
   version_policy: minor                     # minor | locked
@@ -117,12 +117,12 @@ federation_ref:
     - module_iii_introspect
     - module_iii_improve
     - module_iii_accumulate
-  lattice: ~/lattice/III.aDNA/what/lattices/lattice_iii_verification_oracle.lattice.yaml
+  lattice: ~/aDNA/III.aDNA/what/lattices/lattice_iii_verification_oracle.lattice.yaml
   lattice_version: "<x.y.z>"                # e.g., 1.2.1 as of 2026-05-12
   local_extensions:
     # See Step 5 — declare any consumer-specific extensions here
     - kind: learning_store_local
-      path: ~/lattice/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
+      path: ~/aDNA/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
       rationale: Per ADR-003 §2 at III.aDNA; ACCUMULATE writes target this file, never the canonical upstream.
 ```
 
@@ -143,18 +143,18 @@ federation_ref:
 
 ## Cross-References
 
-- Upstream identity + protocol: `~/lattice/III.aDNA/CLAUDE.md`
-- Upstream skill: `~/lattice/III.aDNA/how/skills/skill_iii_review.md`
-- ADR-002 (consumer federation contract): `~/lattice/III.aDNA/what/decisions/adr_002_consumer_federation_contract.md`
-- ADR-003 (learning store ownership): `~/lattice/III.aDNA/what/decisions/adr_003_learning_store_ownership.md`
-- <vault_name> root governance: `~/lattice/<vault_name>.aDNA/CLAUDE.md` (Standing Order routing III review through this wrapper)
+- Upstream identity + protocol: `~/aDNA/III.aDNA/CLAUDE.md`
+- Upstream skill: `~/aDNA/III.aDNA/how/skills/skill_iii_review.md`
+- ADR-002 (consumer federation contract): `~/aDNA/III.aDNA/what/decisions/adr_002_consumer_federation_contract.md`
+- ADR-003 (learning store ownership): `~/aDNA/III.aDNA/what/decisions/adr_003_learning_store_ownership.md`
+- <vault_name> root governance: `~/aDNA/<vault_name>.aDNA/CLAUDE.md` (Standing Order routing III review through this wrapper)
 - Worked precedents: see III.aDNA MANIFEST.md § Active Consumers
 - Mission origin: <campaign>.<mission>, session `<session_file_name>`
 ```
 
 ### Step 3 — Choose packs (the `packs_used` list)
 
-III.aDNA ships 7 canonical packs at `~/lattice/III.aDNA/what/context/core_domain_packs/`. Each pack is opt-in per consumer:
+III.aDNA ships 7 canonical packs at `~/aDNA/III.aDNA/what/context/core_domain_packs/`. Each pack is opt-in per consumer:
 
 | Pack | When to include |
 |------|------------------|
@@ -235,7 +235,7 @@ Always:    1 × learning_store_local (seeded empty)
 
 - Every entry MUST have `kind:`, `path:`, and `rationale:` (one-line consumer-specific justification).
 - Optional: `not_graduating_to_canonical: true` for `bridge_pack` / `local_skill` / consumer-specific `domain_pack` entries that intentionally stay consumer-side.
-- **New `kind:` values require an ADR amendment** — coordinate via the v0.2 cross-vault request surface first (see `~/lattice/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` §4), then propose the ADR-002 amendment. Do NOT ship a new `kind:` until the amendment lands.
+- **New `kind:` values require an ADR amendment** — coordinate via the v0.2 cross-vault request surface first (see `~/aDNA/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` §4), then propose the ADR-002 amendment. Do NOT ship a new `kind:` until the amendment lands.
 - **New instances of existing kinds are additive** — no ADR amendment needed; the wrapper declares them inline.
 
 ### Step 6 — Seed the local learning store
@@ -243,14 +243,14 @@ Always:    1 × learning_store_local (seeded empty)
 Create the empty file:
 
 ```bash
-mkdir -p ~/lattice/<vault_name>.aDNA/iii/what/context/
-touch ~/lattice/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
+mkdir -p ~/aDNA/<vault_name>.aDNA/iii/what/context/
+touch ~/aDNA/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
 ```
 
 Per ADR-003 §2:
 - File is 0 bytes at wrapper creation.
 - ACCUMULATE writes append corrections here, never to canonical.
-- The canonical store at `~/lattice/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` (md5 `dde2cbd88c0b45956fb22285a2a0f856` as of 2026-05-12, 26 founding entries) is **read-only** from the consumer side.
+- The canonical store at `~/aDNA/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` (md5 `dde2cbd88c0b45956fb22285a2a0f856` as of 2026-05-12, 26 founding entries) is **read-only** from the consumer side.
 - Graduation ceremony (ADR-003 §3) flips eligible local entries upstream when frequency ≥ 3 across ≥ 2 sessions and acceptance ≥ 80%, subject to operator + Argus approval.
 
 **If migrating from pre-federation**: a pre-existing operational corrections jsonl at the vault (e.g., `<vault>/what/context/iii_domain_packs/iii_corrections.jsonl`) is **retired**, not migrated. Truncate it to 0 bytes (`truncate -s 0 <file>` or `: > <file>`) and author a sibling `MIGRATION_NOTE.md` documenting the disposition. All entries in the pre-federation jsonl that already exist in canonical are accounted for upstream from MA-1; the local store starts fresh post-wrapper. (Worked precedent: lattice-labs MB-1, SiteForge MB-2.)
@@ -260,7 +260,7 @@ Per ADR-003 §2:
 Add a Standing Order (or Standing Rule, whichever the vault uses) routing all III review through the new wrapper. Place it after the last existing Standing Order. Template:
 
 ```markdown
-**Standing Order N** ([YYYY-MM-DD]) — III review routes through the `iii/` wrapper at `<vault_name>/iii/CLAUDE.md`. The wrapper pins III.aDNA at version `<X.Y.Z>` (commit `<short_hash>`) per ADR-002 §3. Local extensions: <enumerate kind: path pairs>. ACCUMULATE writes target the local learning store at `<path>` per ADR-003 §2; the canonical upstream at `~/lattice/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` is read-only from this vault.
+**Standing Order N** ([YYYY-MM-DD]) — III review routes through the `iii/` wrapper at `<vault_name>/iii/CLAUDE.md`. The wrapper pins III.aDNA at version `<X.Y.Z>` (commit `<short_hash>`) per ADR-002 §3. Local extensions: <enumerate kind: path pairs>. ACCUMULATE writes target the local learning store at `<path>` per ADR-003 §2; the canonical upstream at `~/aDNA/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` is read-only from this vault.
 ```
 
 Precedent voice (mirror these for tonal consistency):
@@ -276,7 +276,7 @@ Precedent voice (mirror these for tonal consistency):
 Check whether any other vaults federate against THIS vault as a `source_vault`. If yes, the wrapper edits must be additive only — never move or rename paths that downstream wrappers pin.
 
 ```bash
-grep -r "source_vault:.*<vault_name>" ~/lattice/*/iii/CLAUDE.md ~/lattice/*/*/CLAUDE.md 2>/dev/null
+grep -r "source_vault:.*<vault_name>" ~/aDNA/*/iii/CLAUDE.md ~/aDNA/*/*/CLAUDE.md 2>/dev/null
 ```
 
 Expected outcomes:
@@ -288,7 +288,7 @@ Expected outcomes:
 For vaults that had pre-federation III usage, sweep for stale references:
 
 ```bash
-cd ~/lattice/<vault_name>.aDNA/
+cd ~/aDNA/<vault_name>.aDNA/
 grep -r "iii_corrections\|iii_domain_packs\|context_iii_" \
     --include="*.md" --include="*.yaml" --include="*.yml" \
     | grep -v "^Binary"
@@ -316,7 +316,7 @@ If you do not have write access (or the new consumer is external to the Lattice 
 | `<vault>/iii/what/context/<vault>_iii_learning_store.jsonl` | new file (0 bytes) | Local learning store |
 | `<vault>/iii/what/context/<extension files>` | new files (if any) | Any `domain_pack` / `bridge_pack` / `local_skill` / `reviewer_registry` artifacts declared in `local_extensions` |
 | `<vault>/CLAUDE.md` | edited | Standing Order added |
-| `~/lattice/III.aDNA/MANIFEST.md` Active Consumers row | edited (optional) | New consumer registered |
+| `~/aDNA/III.aDNA/MANIFEST.md` Active Consumers row | edited (optional) | New consumer registered |
 | Optional: `<vault>/what/context/iii_domain_packs/MIGRATION_NOTE.md` | new file | If migrating from pre-federation, document the disposition of retired artifacts |
 
 ## Variants
@@ -382,14 +382,14 @@ Read any of these wrappers as a concrete reference. The minimal-baseline (wga MB
 
 ## Cross-References
 
-- Upstream identity + protocol: `~/lattice/III.aDNA/CLAUDE.md`
-- Companion skill (run the loop): `~/lattice/III.aDNA/how/skills/skill_iii_review.md`
-- Consumer federation contract: `~/lattice/III.aDNA/what/decisions/adr_002_consumer_federation_contract.md`
-- Learning store ownership: `~/lattice/III.aDNA/what/decisions/adr_003_learning_store_ownership.md`
-- Cross-vault request standard (when consumers need to coordinate with III.aDNA on new kinds): `~/lattice/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` (v0.2.0)
-- Active consumers registry: `~/lattice/III.aDNA/MANIFEST.md` § Active Consumers
-- Workspace router (Framework Ecosystem section): `~/lattice/CLAUDE.md`
+- Upstream identity + protocol: `~/aDNA/III.aDNA/CLAUDE.md`
+- Companion skill (run the loop): `~/aDNA/III.aDNA/how/skills/skill_iii_review.md`
+- Consumer federation contract: `~/aDNA/III.aDNA/what/decisions/adr_002_consumer_federation_contract.md`
+- Learning store ownership: `~/aDNA/III.aDNA/what/decisions/adr_003_learning_store_ownership.md`
+- Cross-vault request standard (when consumers need to coordinate with III.aDNA on new kinds): `~/aDNA/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` (v0.2.0)
+- Active consumers registry: `~/aDNA/III.aDNA/MANIFEST.md` § Active Consumers
+- Workspace router (Framework Ecosystem section): `~/aDNA/CLAUDE.md`
 
 ## Provenance
 
-Authored at III.aDNA Campaign B MB-6 (2026-05-12) after the 5-wrapper Campaign B P2 precedent had stabilized the federation pattern. Published to the adna base template (`~/lattice/.adna/how/skills/skill_iii_setup.md`) so any new aDNA vault forked from the template can self-onboard against III.aDNA without re-reading the precedent wrappers from scratch. Per ADR-002 §7 (existing consumer migration path) and Campaign B R5 (adna template is a public repo — additive only), this publication is strictly additive.
+Authored at III.aDNA Campaign B MB-6 (2026-05-12) after the 5-wrapper Campaign B P2 precedent had stabilized the federation pattern. Published to the adna base template (`~/aDNA/.adna/how/skills/skill_iii_setup.md`) so any new aDNA vault forked from the template can self-onboard against III.aDNA without re-reading the precedent wrappers from scratch. Per ADR-002 §7 (existing consumer migration path) and Campaign B R5 (adna template is a public repo — additive only), this publication is strictly additive.

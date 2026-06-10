@@ -5,7 +5,7 @@ created: 2026-05-11
 updated: 2026-05-14
 status: active
 category: node_operations
-trigger: "Rebuild `inventory_vaults.{md,yaml}` + `inventory_system.{md,yaml}` from current node state. Detect new vaults at `~/lattice/*.aDNA/` (or grandfathered named projects); detect removed vaults (was-listed-now-missing); detect version drift (semver bump in target vault's CHANGELOG.md vs inventory-recorded version). Updates `STATE.md` `last_full_health_check` timestamp."
+trigger: "Rebuild `inventory_vaults.{md,yaml}` + `inventory_system.{md,yaml}` from current node state. Detect new vaults at `~/aDNA/*.aDNA/` (or grandfathered named projects); detect removed vaults (was-listed-now-missing); detect version drift (semver bump in target vault's CHANGELOG.md vs inventory-recorded version). Updates `STATE.md` `last_full_health_check` timestamp."
 last_edited_by: agent_stanley
 graduated_from: LatticeHome.aDNA@411660e  # v0.1 initial bootstrap, M04 S2 of campaign_adna_v2_infrastructure
 graduated_at: 2026-05-14
@@ -15,7 +15,7 @@ tags: [skill, node_adna, inventory_refresh, graduated]
 requirements:
   tools: [ls, find, git, python3, yq-or-python-yaml]
   context: [what/inventory/*]
-  permissions: [read ~/lattice/ listing, read each vault's CHANGELOG.md + CLAUDE.md frontmatter, write what/inventory/*]
+  permissions: [read ~/aDNA/ listing, read each vault's CHANGELOG.md + CLAUDE.md frontmatter, write what/inventory/*]
 ---
 
 # Skill: Inventory Refresh
@@ -52,7 +52,7 @@ Invoked when:
 
 ### Tools/APIs
 
-- `ls`, `find` to enumerate `~/lattice/`
+- `ls`, `find` to enumerate `~/aDNA/`
 - `git` for HEAD info on each vault
 - `python3` + `yaml` to read/write YAML files
 - Tool-version commands: `git --version`, `node --version`, `python3 --version`, `uv --version`, `brew --version`, `gh --version`, `rg --version`, `zsh --version`
@@ -65,7 +65,7 @@ Invoked when:
 
 ### Permissions
 
-- Read `~/lattice/` listing + each vault's top-level files
+- Read `~/aDNA/` listing + each vault's top-level files
 - Write `what/inventory/*` (both MD + YAML atomically)
 
 ## Implementation
@@ -73,7 +73,7 @@ Invoked when:
 ### Step 1: Enumerate Workspace Directories
 
 ```bash
-ls -d ~/lattice/*/ | xargs -I{} basename {} | sort > /tmp/disk_list.txt
+ls -d ~/aDNA/*/ | xargs -I{} basename {} | sort > /tmp/disk_list.txt
 ```
 
 Filter:

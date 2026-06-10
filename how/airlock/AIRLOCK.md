@@ -40,16 +40,16 @@ frontmatter. III is the canonical implementer; this template ships only the entr
 file. For the full schema (the 5 canonical entry paths + cross-vault request patterns +
 handshake profiles + payload contract + secret-delegation rules + idempotency keys), read:
 
-- `~/lattice/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` (the spec)
-- `~/lattice/III.aDNA/how/airlock/AIRLOCK.md` (the reference instance)
+- `~/aDNA/III.aDNA/what/artifacts/iii_airlock_standard_spec.md` (the spec)
+- `~/aDNA/III.aDNA/how/airlock/AIRLOCK.md` (the reference instance)
 
 Worked example (bilateral commission across vaults):
 
-- `~/lattice/CanvasForge.aDNA/who/coordination/coord_2026_05_08_videoforge_requests_carly_herb_deck.md`
+- `~/aDNA/CanvasForge.aDNA/who/coordination/coord_2026_05_08_videoforge_requests_carly_herb_deck.md`
 
 Multilateral example (17 parallel relationships from `aDNA.aDNA/`):
 
-- `~/lattice/aDNA.aDNA/who/coordination/coord_2026_05_09_v7_*.md`
+- `~/aDNA/aDNA.aDNA/who/coordination/coord_2026_05_09_v7_*.md`
 
 ## Why opt-in?
 
@@ -69,7 +69,7 @@ the surface flip a frontmatter field; vaults that don't, ignore the file.
 3. Author your vault's coordination directory (`who/coordination/`) if not present.
 4. Reference this file from your vault's `CLAUDE.md` so arriving agents discover it.
 5. For ecosystem-wide rollout discipline, see the v3 successor campaign:
-   `~/lattice/aDNA.aDNA/how/campaigns/campaign_adna_v3_ecosystem_compliance/`
+   `~/aDNA/aDNA.aDNA/how/campaigns/campaign_adna_v3_ecosystem_compliance/`
    (mission `M05-EC` drives ecosystem-wide airlock adoption with the per-vault content
    template from
    `aDNA.aDNA/how/campaigns/campaign_adna_v2_infrastructure/missions/artifacts/m01_obj8_per_vault_coord_memo_template.md`).
@@ -84,7 +84,7 @@ round of template-level governance).
 
 ## Cross-references
 
-- `~/lattice/aDNA.aDNA/what/decisions/adr_008_airlock_template_stub.md` — this stub's
+- `~/aDNA/aDNA.aDNA/what/decisions/adr_008_airlock_template_stub.md` — this stub's
   authoring ADR + decision rationale + minimal-stub posture justification
 - III.aDNA airlock canonical (federation source) — see §Federation source above
 - v3 successor campaign + `M05-EC` mission — see §Activation steps above

@@ -15,7 +15,7 @@ tags: [skill, node_adna, health_check, d10, reproducibility_gate, graduated]
 requirements:
   tools: [grep, ls, find, python3, yq-or-python-yaml]
   context: [CLAUDE.md, MANIFEST.md, STATE.md, inventory/*, identity/*]
-  permissions: [read all LatticeHome.aDNA files, read ~/lattice/ directory listing]
+  permissions: [read all LatticeHome.aDNA files, read ~/aDNA/ directory listing]
 ---
 
 # Skill: Node Health Check
@@ -50,7 +50,7 @@ Invoked when:
 - `ls`, `find` for filesystem checks
 - `grep` for frontmatter scanning
 - `python3` + `yaml` module for YAML companion validation
-- Read access to `LatticeHome.aDNA/` and `~/lattice/` (for inventory-vs-disk reconciliation)
+- Read access to `LatticeHome.aDNA/` and `~/aDNA/` (for inventory-vs-disk reconciliation)
 
 ### Context Files
 
@@ -62,7 +62,7 @@ Invoked when:
 ### Permissions
 
 - Read all `LatticeHome.aDNA/` files
-- Read `~/lattice/` directory listing (to reconcile against `inventory_vaults.md`)
+- Read `~/aDNA/` directory listing (to reconcile against `inventory_vaults.md`)
 - Write to `LatticeHome.aDNA/STATE.md` if `update_state: true`
 
 ## Implementation
@@ -129,7 +129,7 @@ For every `.yaml` companion file in `what/inventory/` and `who/identity/`, parse
 
 ### Step 9: Inventory-vs-Disk Consistency
 
-For each vault in `inventory_vaults.yaml` `vaults:` list, verify the path exists at `~/lattice/<name>/`. Report DRIFT (warning, not failure) if:
+For each vault in `inventory_vaults.yaml` `vaults:` list, verify the path exists at `~/aDNA/<name>/`. Report DRIFT (warning, not failure) if:
 
 - A listed vault is missing on disk
 - A `.aDNA/` directory exists on disk but is NOT in the inventory

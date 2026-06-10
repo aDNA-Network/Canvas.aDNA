@@ -288,10 +288,10 @@ Agentic-DNA/
 
 ### 1. Get the vault
 
-**Option A — Clone into `~/lattice/` (recommended)**
+**Option A — Clone into `~/aDNA/` (recommended)**
 ```bash
-mkdir -p ~/lattice
-cd ~/lattice
+mkdir -p ~/aDNA
+cd ~/aDNA
 git clone https://github.com/LatticeProtocol/adna.git adna
 cd adna
 ```
@@ -299,7 +299,7 @@ cd adna
 This creates the canonical workspace layout. The `adna/` directory is the base template — you'll fork it into project directories, keeping the template clean for updates.
 
 **Option B — Use as GitHub template**
-Click **[Use this template](https://github.com/LatticeProtocol/adna/generate)** on GitHub to create your own copy with clean history. Clone the result into `~/lattice/`.
+Click **[Use this template](https://github.com/LatticeProtocol/adna/generate)** on GitHub to create your own copy with clean history. Clone the result into `~/aDNA/`.
 
 ### 2. Run setup (recommended)
 
@@ -338,8 +338,8 @@ claude
 
 **Berthier** — the vault's built-in agent personality — will detect this is the base template and guide you through workspace setup:
 
-- Creates a workspace CLAUDE.md at `~/lattice/`
-- Helps you fork into your first project (e.g., `~/lattice/my_research_lab.aDNA/`)
+- Creates a workspace CLAUDE.md at `~/aDNA/`
+- Helps you fork into your first project (e.g., `~/aDNA/my_research_lab.aDNA/`)
 - Runs the 5-question onboarding interview inside your new project
 - Customizes governance files, suggests domain extensions, offers personality customization
 
@@ -385,10 +385,10 @@ Then write your governance files using the starter templates in the full guide. 
 
 ## Multi-Project Workspaces
 
-The `~/lattice/` workspace naturally supports multiple projects. Each project is a fork of the Agentic-DNA template with its own governance, git history, and domain customization. Forked projects use the `.aDNA` suffix to indicate they follow the aDNA standard (see Standard §3.5).
+The `~/aDNA/` workspace naturally supports multiple projects. Each project is a fork of the Agentic-DNA template with its own governance, git history, and domain customization. Forked projects use the `.aDNA` suffix to indicate they follow the aDNA standard (see Standard §3.5).
 
 ```
-~/lattice/
+~/aDNA/
 ├── CLAUDE.md              # Workspace governance (auto-created on first run)
 ├── Agentic-DNA/           # Base template (never modified — role: template, no .aDNA suffix)
 ├── my_research_lab.aDNA/  # Project A (forked, customized)

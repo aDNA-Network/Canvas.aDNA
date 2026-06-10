@@ -37,7 +37,7 @@ If this aDNA vault is part of a multi-project workspace (a workspace-level CLAUD
 
 If no workspace CLAUDE.md exists at the parent, skip these updates silently.
 
-**Workspace layout**: After L1 upgrade, `latlab/` should live as a peer directory to this vault (e.g., `~/lattice/latlab/`), not inside it. The admin push or self-service install places repos at the workspace level.
+**Workspace layout**: After L1 upgrade, `latlab/` should live as a peer directory to this vault (e.g., `~/aDNA/latlab/`), not inside it. The admin push or self-service install places repos at the workspace level.
 
 ## Trigger
 
@@ -92,7 +92,7 @@ Pick the path that matches your access level:
 
 **Path A — Self-service GitHub clone (recommended if you have repo access)**:
 ```bash
-mkdir -p ~/lattice && cd ~/lattice
+mkdir -p ~/aDNA && cd ~/aDNA
 git clone https://github.com/LatticeProtocol/latlab.git
 ls latlab/deploy/native/setup_l1.sh && echo "latlab acquired" || echo "clone failed"
 ```
@@ -111,16 +111,16 @@ An admin pushes latlab to the target machine using:
 setup_l1_remote.sh <target_ssh_alias> --push-repos full
 ```
 
-This rsyncs the latlab repo to `~/lattice/latlab/` on the target.
+This rsyncs the latlab repo to `~/aDNA/latlab/` on the target.
 
 **If latlab is already present** (admin previously pushed or already cloned):
 ```bash
-ls ~/lattice/latlab/deploy/native/setup_l1.sh && echo "latlab present" || echo "latlab not found"
+ls ~/aDNA/latlab/deploy/native/setup_l1.sh && echo "latlab present" || echo "latlab not found"
 ```
 
 If present, pull latest before running setup:
 ```bash
-cd ~/lattice/latlab && git pull
+cd ~/aDNA/latlab && git pull
 ```
 
 **If no access via either path**: Ask a Lattice admin for a GitHub collaborator invite to `LatticeProtocol/latlab`, or arrange an admin SSH push (Path B).
@@ -128,7 +128,7 @@ cd ~/lattice/latlab && git pull
 ### Step 3: Run Setup
 
 ```bash
-cd ~/lattice/latlab
+cd ~/aDNA/latlab
 bash deploy/native/setup_l1.sh
 ```
 
@@ -142,7 +142,7 @@ This script is idempotent and handles:
 ### Step 4: Verify
 
 ```bash
-bash ~/lattice/latlab/deploy/native/latlab_doctor.sh
+bash ~/aDNA/latlab/deploy/native/latlab_doctor.sh
 ```
 
 All checks should show PASS or WARN. No FAIL is acceptable.
@@ -150,7 +150,7 @@ All checks should show PASS or WARN. No FAIL is acceptable.
 ### Step 5: Start JupyterHub
 
 ```bash
-bash ~/lattice/latlab/deploy/native/latlab_start.sh
+bash ~/aDNA/latlab/deploy/native/latlab_start.sh
 ```
 
 ### Step 6: Confirm

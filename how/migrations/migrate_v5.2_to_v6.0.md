@@ -29,7 +29,7 @@ tags: [migration]
 
 1. **Version verification**: Read `CLAUDE.md` frontmatter. Confirm `version: "5.2"`. If the version is already `"5.3"` or higher, STOP — check the migration registry for the correct starting migration. If version is below `"5.2"`, apply earlier migrations first (`migrate_v5.0_to_v5.1.md`, `migrate_v5.1_to_v5.2.md`).
 2. **Clean working state**: Run `git status`. If there are uncommitted changes, ask the user to commit or stash first.
-3. **Pull latest template**: Ensure `adna/` (or `.adna/` symlink target) is up to date: `cd ~/lattice/adna && git pull`. The migration references files that must exist in the v6.0 template.
+3. **Pull latest template**: Ensure `adna/` (or `.adna/` symlink target) is up to date: `cd ~/aDNA/adna && git pull`. The migration references files that must exist in the v6.0 template.
 4. **Read affected files**: Read `CLAUDE.md`, `STATE.md`, and `MANIFEST.md`. Confirm they exist and have valid YAML frontmatter.
 5. **Create safety snapshot**: Run `git tag pre-migration-v5.2`. If the tag already exists, STOP — a prior migration attempt may have failed.
 6. **Verify no concurrent sessions**: Check `how/sessions/active/` for other active sessions modifying governance files.

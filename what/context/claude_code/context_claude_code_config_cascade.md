@@ -104,17 +104,17 @@ Both load at session start. Do not re-encode in CLAUDE.md what auto-memory alrea
     |  autonomy framework, model routing
     |
     v  inherited by
-~/lattice/.claude/CLAUDE.md                # Tier 2: Workspace
+~/aDNA/.claude/CLAUDE.md                # Tier 2: Workspace
     |  Session workflow, _meta routing,
     |  commit rules, AgentDB conventions
     |
     v  inherited by
-~/lattice/my_project/.claude/CLAUDE.md     # Tier 3: Project
+~/aDNA/my_project/.claude/CLAUDE.md     # Tier 3: Project
     |  Domain map, quality gates, stack
     |  conventions, glossary
     |
     v  complemented by
-~/lattice/my_project/.claude/rules/        # Modular rule files
+~/aDNA/my_project/.claude/rules/        # Modular rule files
     ├── invariants.md                      # Security, data integrity
     ├── patterns.md                        # Naming, error handling
     ├── preferences.md                     # Formatting, tooling
@@ -134,7 +134,7 @@ Both load at session start. Do not re-encode in CLAUDE.md what auto-memory alrea
 - Autonomy: act on reversible, pause on destructive
 ```
 
-**Workspace** (`~/lattice/.claude/CLAUDE.md`):
+**Workspace** (`~/aDNA/.claude/CLAUDE.md`):
 ```markdown
 # Workspace Rules
 - Session tracking: create file in how/sessions/active/ before work
@@ -143,7 +143,7 @@ Both load at session start. Do not re-encode in CLAUDE.md what auto-memory alrea
 - AgentDB paths must be absolute
 ```
 
-**Project** (`~/lattice/my_project/.claude/CLAUDE.md`):
+**Project** (`~/aDNA/my_project/.claude/CLAUDE.md`):
 ```markdown
 # Project: My Research Lab
 - Stack: Python 3.12, pytest, ruff

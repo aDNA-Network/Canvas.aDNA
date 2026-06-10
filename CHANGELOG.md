@@ -49,12 +49,12 @@ Changelog entries are organized by **governance version** (primary heading). Sta
 - **`how/airlock/AIRLOCK.md` stub** at template level — entry-path index for cross-graph agent traffic. Adoption is opt-in per vault. (M03; ratified by ADR-008)
 - **Naming convention codification** (ADR-009): `<name>.aDNA/` directory ↔ `<name>.aDNA.git` GitHub repo isomorphism; snake_case `<name>`; grandfathered exceptions documented. Renames are operator-discretionary; per-vault application is the v3-EC successor's scope. (ADR-009 ratified at M03 phase gate)
 - **Semver discipline ADR** (ADR-011): Codifies the two-track Major.Minor-only policy already practiced in this CHANGELOG. (M06; this entry IS the first release governed by it.)
-- **`template_workspace_claude.md`**: Workspace-router CLAUDE.md template extracted from the legacy outer `adna/CLAUDE.md` per ADR-007. Directly installable to `~/lattice/CLAUDE.md`. (M03)
+- **`template_workspace_claude.md`**: Workspace-router CLAUDE.md template extracted from the legacy outer `adna/CLAUDE.md` per ADR-007. Directly installable to `~/aDNA/CLAUDE.md`. (M03)
 - **CI workflow caller-usage URL update** to `LatticeProtocol/aDNA` (3 reusable workflows). (M03)
 - **Template-root `.gitignore`**: Created with v7.0 exclusion set (`deploy/`, `what/local/`, `how/local/`, `who/operators/`, `dist/`, `.publish-clone/`, `.publish-clone.bak/`, `private/`, `*.dryrun.log`, `*.tar.gz`). (M03; per Obj 5 audit §5 G-1)
 
 ### Changed
-- **GitHub repo rename**: `LatticeProtocol/Agentic-DNA` → `LatticeProtocol/aDNA` (per ADR-006, amended 2026-05-18 to canonicalize mixed-case form matching realized GitHub state and the `<name>.aDNA/` directory-suffix convention). GitHub URL forwarding preserves existing clones; new clones use the canonical short-name URL. Operators with lowercase remotes may update at their own cadence via `git -C ~/lattice/.adna remote set-url origin https://github.com/LatticeProtocol/aDNA.git`. (M03; ADR-006 amendment 2026-05-18 M06 S2 D1)
+- **GitHub repo rename**: `LatticeProtocol/Agentic-DNA` → `LatticeProtocol/aDNA` (per ADR-006, amended 2026-05-18 to canonicalize mixed-case form matching realized GitHub state and the `<name>.aDNA/` directory-suffix convention). GitHub URL forwarding preserves existing clones; new clones use the canonical short-name URL. Operators with lowercase remotes may update at their own cadence via `git -C ~/aDNA/.adna remote set-url origin https://github.com/LatticeProtocol/aDNA.git`. (M03; ADR-006 amendment 2026-05-18 M06 S2 D1)
 - **`adna/CLAUDE.md` (outer wrapper) → `template_workspace_claude.md`**: Repurposed as a template for the workspace router (per ADR-007); now lives at `.adna/how/templates/`. (M03)
 - **`deploy_manifest.yaml` location**: Moved from repo root to `.github/deploy_manifest.yaml`. `sync_includes:` simplified to root-level paths post-flatten. (M03; per Obj 5 audit §3 D-1)
 - **`prepare_for_onboarding.sh` location**: Moved from template root to `how/skills/l1_upgrade/` OR renamed to `prepare_for_l1_upgrade.sh` (operator-decided). The L1-specific script no longer pollutes top-level discoverability. (M03; per Obj 5 audit §4 P-1)
@@ -133,7 +133,7 @@ Changelog entries are organized by **governance version** (primary heading). Sta
 ### Added
 - `role: template` marker in `MANIFEST.md` frontmatter — distinguishes the base template from forked projects
 - `how/skills/skill_project_fork.md` — dedicated skill for forking `adna/` into a new project directory
-- `~/lattice/` as the canonical workspace convention for L0 nodes
+- `~/aDNA/` as the canonical workspace convention for L0 nodes
 - L0 compute tier in CLAUDE.md Compute Tiers table (local knowledge architecture, no compute services)
 - Workspace convention diagram in CLAUDE.md Template Detection section
 
@@ -141,17 +141,17 @@ Changelog entries are organized by **governance version** (primary heading). Sta
 - `CLAUDE.md` v5.6→v5.7: merged "First-Run Detection" + "Workspace Bootstrap Detection" into unified "Template Detection & Project Setup" flow
 - `skill_onboarding.md` now runs exclusively in forked projects, never in the base template
 - `skill_workspace_init.md` Step 4 delegates project creation to `skill_project_fork.md`
-- All documentation updated from `~/Projects/` to `~/lattice/` as the recommended workspace root
-- `README.md` Quick Start updated with `~/lattice/` clone instructions and template-aware setup flow
-- `projects_folder_pattern.md` updated with `~/lattice/` as canonical workspace root and `role: template` design principle
+- All documentation updated from `~/Projects/` to `~/aDNA/` as the recommended workspace root
+- `README.md` Quick Start updated with `~/aDNA/` clone instructions and template-aware setup flow
+- `projects_folder_pattern.md` updated with `~/aDNA/` as canonical workspace root and `role: template` design principle
 - `workspace_claude_md.template` updated with fork preparation steps (strip `role: template`, set `agent_init`)
-- `STATE.md` next steps updated with `~/lattice/` convention
+- `STATE.md` next steps updated with `~/aDNA/` convention
 - Peripheral files updated: `skill_l1_upgrade.md`, `skill_lattice_publish.md`, `tutorial_lattice_publishing.md`, `tools/AGENTS.md`, `quest_l1_onboarding.md`
 
 ### Design decisions
 - `adna/` stays clean — never customized by onboarding. `git pull` always safe.
 - `role: template` in MANIFEST.md is the canonical detection mechanism (explicit, git-independent)
-- `~/lattice/` is a strong recommendation, not mandatory — system works in any location
+- `~/aDNA/` is a strong recommendation, not mandatory — system works in any location
 
 ---
 

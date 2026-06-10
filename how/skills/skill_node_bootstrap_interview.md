@@ -66,7 +66,7 @@ Before asking any question, load:
 | `CLAUDE.md` | 1-sentence persona-context paragraph (after Identity & Personality, before Operating Style) | P1 excerpt |
 | `CHANGELOG.md` | v0.1 footnote — interview-complete + non-default license note if applicable | (always; C5 footnote) |
 
-**Not touched**: any partner vault · `~/lattice/CLAUDE.md` (workspace router) · `~/lattice/.adna/` (template) · `LatticeHome.aDNA/AGENTS.md` · `LatticeHome.aDNA/README.md` · `LatticeHome.aDNA/CHANGELOG.md` body · all node-protocol AGENTS.md stubs · all 4 node-skills · `inventory_vaults.{md,yaml}` · `inventory_memberships.md` narrative (only YAML mutates).
+**Not touched**: any partner vault · `~/aDNA/CLAUDE.md` (workspace router) · `~/aDNA/.adna/` (template) · `LatticeHome.aDNA/AGENTS.md` · `LatticeHome.aDNA/README.md` · `LatticeHome.aDNA/CHANGELOG.md` body · all node-protocol AGENTS.md stubs · all 4 node-skills · `inventory_vaults.{md,yaml}` · `inventory_memberships.md` narrative (only YAML mutates).
 
 ## Steps
 

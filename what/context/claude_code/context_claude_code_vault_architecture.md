@@ -58,7 +58,7 @@ Configuration inherits top-down. Each level adds rules but must not contradict p
 
 ```
 ~/.claude/CLAUDE.md              # Global: identity, core obligations
-  └── ~/lattice/CLAUDE.md        # Workspace: shared invariants
+  └── ~/aDNA/CLAUDE.md        # Workspace: shared invariants
       └── vault/.claude/         # Vault: domain conventions
           └── project/.claude/   # Project: specific overrides
 ```

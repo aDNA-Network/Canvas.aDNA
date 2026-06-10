@@ -44,7 +44,7 @@ primitive* (Decision 9), not a 4th primitive — elevating it needs a LIP (P2 + 
 - Authored `how/campaigns/campaign_canvas_genesis_planning/campaign_canvas_genesis_planning.md` (Operation Cartography P0–P5, human-gated).
 - Authored `what/decisions/adr_000_canvas_identity.md` (status: proposed) + `what/decisions/decision_register_genesis.md` (D1–D7 stubs).
 - Recorded naming/persona exceptions in `who/coordination/coord_2026_06_06_naming_persona_exceptions.md`.
-- Added a one-line routing row for Canvas.aDNA to the workspace router (`~/lattice/CLAUDE.md`).
+- Added a one-line routing row for Canvas.aDNA to the workspace router (`~/aDNA/CLAUDE.md`).
 
 ## Verified Ground Truth (anchors)
 

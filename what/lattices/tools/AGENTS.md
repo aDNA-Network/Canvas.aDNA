@@ -36,10 +36,10 @@ No additional dependencies beyond `pyyaml` and the Python standard library.
 ### Score vault compliance
 
 ```bash
-python compliance_checker.py ~/lattice/<project_name>.aDNA                    # Score all objects
-python compliance_checker.py ~/lattice/<project_name>.aDNA --type module      # Filter by type
-python compliance_checker.py ~/lattice/<project_name>.aDNA --file what/modules/x.md  # Single file
-python compliance_checker.py ~/lattice/<project_name>.aDNA --output yaml -v   # YAML only, verbose
+python compliance_checker.py ~/aDNA/<project_name>.aDNA                    # Score all objects
+python compliance_checker.py ~/aDNA/<project_name>.aDNA --type module      # Filter by type
+python compliance_checker.py ~/aDNA/<project_name>.aDNA --file what/modules/x.md  # Single file
+python compliance_checker.py ~/aDNA/<project_name>.aDNA --output yaml -v   # YAML only, verbose
 ```
 
 ### Validate a lattice file
@@ -56,9 +56,9 @@ for error in result.errors:
 ### Validate an aDNA instance
 
 ```bash
-python adna_validate.py ~/lattice/adna                     # Auto-detect level
-python adna_validate.py ~/lattice/adna --level standard    # Check specific level
-python adna_validate.py ~/lattice/adna --governance        # Governance sync checks
+python adna_validate.py ~/aDNA/adna                     # Auto-detect level
+python adna_validate.py ~/aDNA/adna --level standard    # Check specific level
+python adna_validate.py ~/aDNA/adna --governance        # Governance sync checks
 ```
 
 ### Convert lattice to canvas

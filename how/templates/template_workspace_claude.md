@@ -10,10 +10,10 @@ tags: [template, workspace, claude_md, lattice, governance]
 
 # Template — Workspace CLAUDE.md
 
-*Use this as the starting point for `~/lattice/CLAUDE.md` — your workspace router.
+*Use this as the starting point for `~/aDNA/CLAUDE.md` — your workspace router.
 Customize Project Discovery and Workspace Layout sections to your installed projects.*
 
-<!-- This is a template. Copy to ~/lattice/CLAUDE.md and customize. Updates flow via git pull on the .adna/ clone. -->
+<!-- This is a template. Copy to ~/aDNA/CLAUDE.md and customize. Updates flow via git pull on the .adna/ clone. -->
 
 ## What Is a Lattice?
 

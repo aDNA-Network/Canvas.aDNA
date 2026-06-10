@@ -314,7 +314,7 @@ Lattices can be published to and pulled from registries for sharing across insta
 
 | Tier | Scope | Example |
 |------|-------|---------|
-| **L0** (Local) | Knowledge architecture only — Obsidian + Claude Code, no compute services | Fresh `~/lattice/` workspace |
+| **L0** (Local) | Knowledge architecture only — Obsidian + Claude Code, no compute services | Fresh `~/aDNA/` workspace |
 | **L1** (Edge) | Local/edge compute, lightweight inference — JupyterHub + Lattice network | Laptop GPU, edge device |
 | **L2** (Regional) | Institutional clusters, moderate training | University cluster, on-prem HPC |
 | **L3** (Cloud/HPC) | Large-scale data centers, heavy training | Cloud GPU fleet |

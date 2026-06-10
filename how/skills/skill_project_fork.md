@@ -21,7 +21,7 @@ requirements:
 
 Creates a new aDNA project by forking the `.adna/` base template. The fork receives the full aDNA structure (triad, templates, skills, context library, lattice tools) as a new project with its own git repository. The forked project's `MANIFEST.md` is prepared for first-run onboarding.
 
-This skill is called from the **root CLAUDE.md** at `~/lattice/CLAUDE.md` when a user wants to create a new project.
+This skill is called from the **root CLAUDE.md** at `~/aDNA/CLAUDE.md` when a user wants to create a new project.
 
 ## Trigger
 

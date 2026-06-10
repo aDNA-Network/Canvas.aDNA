@@ -259,7 +259,7 @@ The skill's primary use case. After M03 ships the v7.0 template, operators of th
 
 ### The LP path-style exception
 
-LPWhitepaper.aDNA's remote currently points at a local filesystem path (`/Users/stanley/lattice/whitepaper`). This is a Stanley-side artifact of LPWhitepaper's separate-repo-but-co-located history. The skill does not migrate this — the operator decides whether to re-anchor at GitHub during v3 successor execution. The skill warns if it detects an existing non-URL remote and recommends `git remote set-url` directly rather than running this skill.
+LPWhitepaper.aDNA's remote currently points at a local filesystem path (`/Users/stanley/aDNA/whitepaper`). This is a Stanley-side artifact of LPWhitepaper's separate-repo-but-co-located history. The skill does not migrate this — the operator decides whether to re-anchor at GitHub during v3 successor execution. The skill warns if it detects an existing non-URL remote and recommends `git remote set-url` directly rather than running this skill.
 
 ## Self-reference (Standing Order #2)
 

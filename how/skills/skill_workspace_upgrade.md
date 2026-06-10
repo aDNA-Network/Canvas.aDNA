@@ -34,7 +34,7 @@ This skill complements `skill_project_fork.md` (creates new projects) — this s
 
 | Parameter | Source | Required |
 |-----------|--------|----------|
-| `workspace_root` | The directory containing your aDNA projects (e.g., `~/lattice/`) | Yes |
+| `workspace_root` | The directory containing your aDNA projects (e.g., `~/aDNA/`) | Yes |
 | `cleanup_mode` | `aggressive` (archive everything stale) or `conservative` (only clear stubs) | No (default: `aggressive`) |
 
 ## Implementation
@@ -107,7 +107,7 @@ directory IS the git clone of the template repo (no longer a symlink to a nested
 `adna/.adna/`). Standard flow for fresh workspace bootstrap:
 
 ```bash
-cd <workspace_root>           # typically ~/lattice
+cd <workspace_root>           # typically ~/aDNA
 git clone https://github.com/LatticeProtocol/aDNA.git .adna
 ```
 
@@ -124,7 +124,7 @@ to your installed projects.
 **Verify**: `.adna/MANIFEST.md` exists and contains `role: template`. If this check
 fails, the clone is broken — re-clone or check git remote.
 
-**For pre-v7.0 workspaces (still have the legacy `~/lattice/.adna -> adna/.adna`
+**For pre-v7.0 workspaces (still have the legacy `~/aDNA/.adna -> adna/.adna`
 symlink + outer `adna/CLAUDE.md` wrapper)**: see `m01_obj2_migration_runbook.md` §2
 Path A (in-place rename) or Path B (clean re-clone) for migration to the flat post-v7.0
 layout. The `upgrade_v6_to_v7.md` guide (M08a finalized; post-M08b at
@@ -186,8 +186,8 @@ Report results.
 | No `.adna/` directory | Template not cloned | Run `git clone <adna-repo> adna/` first |
 | CLAUDE.md not writable | Permissions | Check filesystem permissions |
 | Project has no CLAUDE.md | Ungoverned project | Flag for user — may need manual CLAUDE.md creation |
-| `.adna/` missing post-clone | Clone failed or wrong path | Re-clone: `cd ~/lattice && rm -rf .adna && git clone https://github.com/LatticeProtocol/aDNA.git .adna` |
-| Workspace router missing | Pre-bootstrap state | Install from template: `cp .adna/how/templates/template_workspace_claude.md ~/lattice/CLAUDE.md` |
+| `.adna/` missing post-clone | Clone failed or wrong path | Re-clone: `cd ~/aDNA && rm -rf .adna && git clone https://github.com/LatticeProtocol/aDNA.git .adna` |
+| Workspace router missing | Pre-bootstrap state | Install from template: `cp .adna/how/templates/template_workspace_claude.md ~/aDNA/CLAUDE.md` |
 
 ## Rollback
 

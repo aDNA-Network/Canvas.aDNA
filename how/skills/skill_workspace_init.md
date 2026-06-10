@@ -30,7 +30,7 @@ requirements:
 >
 > The v7.0 workspace-init flow is content-only (no procedural skill needed):
 >
-> 1. **Fresh workspace bootstrap**: `cp .adna/how/templates/template_workspace_claude.md ~/lattice/CLAUDE.md` (per [ADR-007](../../what/decisions/adr_007_outer_adna_claude_md_disposition.md))
+> 1. **Fresh workspace bootstrap**: `cp .adna/how/templates/template_workspace_claude.md ~/aDNA/CLAUDE.md` (per [ADR-007](../../what/decisions/adr_007_outer_adna_claude_md_disposition.md))
 > 2. **Existing-content workspace upgrade**: run `skill_workspace_upgrade.md` (per M03 Obj 4 Commit 4.2 update; symlink-step removed; Step 3 alternative added)
 
 ## Replacement
@@ -82,7 +82,7 @@ None. This skill is guided through conversation with the user.
 
 Inform the user:
 
-> "Your `~/lattice/` workspace doesn't have a workspace-level CLAUDE.md yet. I can create one at `<parent_path>/CLAUDE.md` — it will help future agents discover your projects, create new ones from this template, and manage L0→L1 upgrades. Shall I set it up?"
+> "Your `~/aDNA/` workspace doesn't have a workspace-level CLAUDE.md yet. I can create one at `<parent_path>/CLAUDE.md` — it will help future agents discover your projects, create new ones from this template, and manage L0→L1 upgrades. Shall I set it up?"
 
 If the user declines, note the skip and proceed with normal session flow. Do not ask again in future sessions (the parent directory still won't have a CLAUDE.md, but the user has declined — record this in `who/coordination/` as a skip note so other agents don't re-trigger).
 
@@ -93,7 +93,7 @@ Scan the parent directory:
 1. **Existing projects** — list all subdirectories that contain a `CLAUDE.md` or `MANIFEST.md` file. These are aDNA projects already present in the workspace.
 2. **Infrastructure repos** — check if `latlab/` exists (indicates L1). Check if `lattice-protocol/` exists.
 3. **Compute tier** — if `latlab/` is present AND a JupyterHub process is running (check port 8000), tier is `L1`. Otherwise `L0`.
-4. **aDNA folder name** — the basename of this vault's directory (e.g., `adna` if cloned to `~/lattice/adna/`).
+4. **aDNA folder name** — the basename of this vault's directory (e.g., `adna` if cloned to `~/aDNA/adna/`).
 
 Report findings to the user:
 - "Found X existing project(s): ..."

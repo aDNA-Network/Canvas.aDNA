@@ -46,8 +46,8 @@ aDNA is a Markdown-based knowledge architecture — no build step, no dependenci
 
 ```bash
 # Clone the repo
-git clone https://github.com/LatticeProtocol/adna.git ~/lattice
-cd ~/lattice
+git clone https://github.com/LatticeProtocol/adna.git ~/aDNA
+cd ~/aDNA
 
 # Run setup (downloads Obsidian plugins for the template)
 chmod +x .adna/setup.sh
