@@ -19,7 +19,7 @@ collision with inherited template ADRs (`adr_001/002/003`); reconciled in P1.
 |----|----------|-----------|----------------|--------|
 | D1 | **Category vs runtime** — Framework-pure vs Platform/hybrid; where reference validators/converters live (Δ1) | P0 | `adr_000` §1 | ✅ **resolved — Option P** (Platform/standard-bearer; vault+code split) 2026-06-06 |
 | D2 | **CanvasForge relationship** — extract Standard out (A) vs spec-here/impl-in-CanvasForge (B) vs reject (C) | P2 | `adr_NNN_canvasforge_relationship` | pending |
-| D3 | **LiteratureForge seam** — document expressible AS a canvas vs federated peers sharing component schemas | P2 | `adr_NNN_literatureforge_seam` | pending |
+| D3 | **LiteratureForge seam** — document-AS-canvas vs federated-peers vs **absorb** (operator-directed 2026-06-07 → absorb; ratify at P2) | P2 | `adr_NNN_literatureforge_seam` | pending (operator input: **absorb** — see brief) |
 | D4 | **Component model** — additive `_reserved`-namespaced taxonomy across all 2D outputs | P2 | `spec_component_model.md` | pending |
 | D5 | **Panel/link semantics** — reading-order/pagination/flow/region for non-DAG outputs without breaking graph semantics | P2 | `spec_panel_link_semantics.md` | pending |
 | D6 | **Versioning & governance** — v2.0.0 line + LIP process + conformance levels + version_policy default | P2 | `adr_NNN_standard_governance` | pending |
@@ -55,6 +55,17 @@ genre submodule is the writing analog of a canvas component spec. Decide: does a
 **canvas with flow/reading-order/pagination panel-link semantics**, or do LF and Canvas remain **federated
 peers sharing component schemas**? Reconcile with Amendment-02 "Document-DNA engine" (verified to *complement*,
 not collide — it is a meta-layer above the submodule, orthogonal to canvas rendering). THE unification ADR.
+
+- **(A) document-AS-canvas** — a document is a canvas with flow/reading-order/pagination panel-link semantics.
+- **(B) federated peers** — LF + Canvas stay separate, sharing component schemas via `federation_ref`.
+- **(C) absorb** *(operator-directed 2026-06-07 — recommended starting point for the P2 ADR)* — subsume
+  LiteratureForge **into** Canvas to recenter all 2D-output creation here. Requires a **superseding ADR re-opening
+  P0 Option-P scope**: Canvas → a **two-faced 2D-output platform** (Standard face stays producer-neutral; Producer
+  face absorbs LF's composition pipeline, Thoth as composition sub-persona). Two operator forks remain (producer
+  scope: LF-only vs all-producers incl. CanvasForge/ComfyForge — couples to **D2**; and the substrate-neutrality
+  firewall). Full rationale + preservation inventory + forks:
+  `aDNALabs.aDNA/what/migration/decision_literatureforge_canvas_subsumption.md` (migration **WS-7**). **Not ratified
+  here** — phase gates are human gates; resolve at P2.
 
 ## D4 — Component model — resolve at P2
 
