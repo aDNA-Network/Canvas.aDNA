@@ -3,7 +3,7 @@ type: spec
 spec_id: spec_panel_link_semantics
 title: "aDNA Canvas panel/link semantics (D5) — flow, pagination, reading-order for non-DAG outputs"
 standard_version: "2.0.0"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
@@ -14,7 +14,7 @@ tags: [spec, canvas, panel-link, flow, pagination, genesis, p2, d5]
 
 # aDNA Canvas Panel/Link Semantics (D5)
 
-> **Status: PROPOSED — HELD at the P2 exit gate.** Specifies how non-DAG 2D outputs (papers, letters, decks,
+> **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Specifies how non-DAG 2D outputs (papers, letters, decks,
 > comics, sites) express reading-order, flow, pagination, and regions **without breaking lattice-graph
 > semantics**. Additive in `_reserved.panel_link`. RFC 2119 keywords.
 

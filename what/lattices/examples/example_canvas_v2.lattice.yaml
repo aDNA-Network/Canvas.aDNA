@@ -1,0 +1,79 @@
+# =============================================================================
+# example_canvas_v2.lattice.yaml — REFERENCE STUB (aDNA Canvas Standard v2.0.0)
+# -----------------------------------------------------------------------------
+# Illustrative only — not a registered lattice. Shows how a v2.0.0 canvas's
+# AUTHORITATIVE SOURCE (.lattice.yaml) federates against the Standard and what
+# the generated .canvas view's additive `_reserved` block looks like.
+# Companion specs: what/specs/spec_adna_canvas_standard.md (+ component_model,
+# panel_link_semantics, roundtrip_protocol_v2, context_object, conformance_suite).
+# =============================================================================
+
+lattice:
+  name: example_canvas_v2
+  version: "0.1.0"
+  lattice_type: context_graph        # this example is a small document-as-canvas
+  description: "Reference stub: a 2-section letter expressed as an aDNA canvas v2.0.0."
+  execution_mode: workflow
+
+# --- Topology (authoritative; the .canvas is a derived view) ------------------
+nodes:
+  - id: sec_intro
+    type: text
+    text: "# Greeting\n\nDear reader,"
+  - id: sec_body
+    type: text
+    text: "The aDNA Canvas Standard reduces any 2D output to a typed grammar."
+edges:
+  - id: e_intro_body
+    fromNode: sec_intro
+    toNode: sec_body
+    # reading-order edge (see _reserved.panel_link below); degrades to a plain arrow
+    toEnd: "arrow"
+
+# --- FAIR (Standard requires this on a registrable lattice) -------------------
+fair:
+  license: MIT
+  creators: [Canvas.aDNA / Mondrian]
+  keywords: [canvas, standard, v2, reference, letter]
+  provenance: "Authored as the P3 reference stub, Operation Cartography 2026-06-12."
+
+# --- Federation: this producer consumes the Canvas Standard -------------------
+# (Lives in a producer's canvas/CLAUDE.md in practice; inlined here for the example.)
+federation_ref:
+  source_vault: Canvas.aDNA
+  source_path: ~/aDNA/Canvas.aDNA
+  source_spec: what/specs/spec_adna_canvas_standard.md
+  source_impl: what/code/canvas_std/        # reference validator/converters (Option P; built in execution)
+  version: "2.0.0"
+  version_policy: minor
+  conformance_target: extended              # this letter uses panel_link + sync only
+  profiles_used: [document]
+
+# =============================================================================
+# Illustration: the additive `_reserved` block the GENERATED .canvas carries.
+# A vanilla Obsidian reader ignores all of this; strip it → a valid Core canvas.
+# (Shown as data, not re-parsed by the lattice tooling.)
+# =============================================================================
+_reserved_illustration:
+  adna_version: "2.0.0"
+  conformance_level: extended
+  sync:                                      # roundtrip_protocol_v2 §3 / spec §8
+    sync_hash: "0000000000000000"            # = compute_sync_hash(this source)
+    source_name: example_canvas_v2
+    source_version: "0.1.0"
+  component_types:                           # spec_component_model §3
+    sec_intro: { class: typography_run, semantic_type: heading, degrades_to: text }
+    sec_body:  { class: text, degrades_to: text }
+  semantic_bindings:                         # profile "document" (lattice profile KEEP, unmodified)
+    profile: document
+  panel_link:                                # spec_panel_link_semantics
+    edges:
+      e_intro_body: { kind: reading_order }
+    regions:
+      _page: { flow: vertical, pagination: paged, extent: { unit: pages, max: 1 }, surface: letter }
+    surfaces:
+      - { id: _page, role: canonical }       # exactly one canonical surface
+  context_object:                            # spec_context_object §2 (optional)
+    id: "urn:adna:canvas:example_letter"
+    version: "0.1.0"
+    refs: ["[[spec_adna_canvas_standard]]"]

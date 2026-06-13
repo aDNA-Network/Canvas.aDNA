@@ -3,7 +3,7 @@ type: spec
 spec_id: spec_context_object
 title: "aDNA Canvas context-object model (D7) — canvas as a first-class context object"
 standard_version: "2.0.0"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
@@ -14,9 +14,9 @@ tags: [spec, canvas, context-object, primitive, lip, genesis, p2, d7]
 
 # aDNA Canvas Context-Object Model (D7)
 
-> **Status: PROPOSED — HELD at the P2 exit gate.** Specifies how an aDNA canvas is a first-class **context**
-> object, and routes the canvas-**as-primitive** question (Δ2) through a **LIP** — **without touching the aDNA
-> core primitive set** (out of scope this campaign). RFC 2119 keywords.
+> **Status: RATIFIED 2026-06-12 (operator, P2 gate) — keep-as-view.** Specifies how an aDNA canvas is a
+> first-class **context** object. The canvas-**as-primitive** question (Δ2) is ratified as **deferred to an open
+> LIP** ([[lip_draft_canvas_as_primitive]]); the aDNA core primitive set is **untouched** (C3). RFC 2119 keywords.
 
 ## 1. The dual nature
 

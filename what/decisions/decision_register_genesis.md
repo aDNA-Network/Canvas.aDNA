@@ -19,12 +19,12 @@ namespace; P2 mints D2/D3/D6 (and the component/panel-link/context-object specs)
 | ID | Decision | Resolve at | Owner ADR (P2) | Status |
 |----|----------|-----------|----------------|--------|
 | D1 | **Category vs runtime** — Framework-pure vs Platform/hybrid; where reference validators/converters live (Δ1) | P0 | `adr_000` §1 | ✅ **resolved — Option P** (Platform/standard-bearer; vault+code split) 2026-06-06 |
-| D2 | **CanvasForge relationship** — extract Standard out (A) vs spec-here/impl-in-CanvasForge (B) vs reject (C) | P2 | `adr_001_canvasforge_relationship` | 📝 **proposed → Option A (extract); ratify at P2 gate** |
-| D3 | **LiteratureForge seam** — document-AS-canvas vs federated-peers vs **absorb** (operator-directed 2026-06-07 → absorb; ratify at P2) | P2 | `adr_002_literatureforge_seam` | 📝 **proposed → A-schema + B-federated-pipeline (absorb=C documented as operator fork); ratify at P2 gate** |
-| D4 | **Component model** — additive `_reserved`-namespaced taxonomy across all 2D outputs | P2 | `spec_component_model.md` | 📝 **drafted (proposed) — held at P2 gate** |
-| D5 | **Panel/link semantics** — reading-order/pagination/flow/region for non-DAG outputs without breaking graph semantics | P2 | `spec_panel_link_semantics.md` | 📝 **drafted (proposed) — held at P2 gate** |
-| D6 | **Versioning & governance** — v2.0.0 line + LIP process + conformance levels + version_policy default | P2 | `adr_003_standard_governance` | 📝 **proposed → v2.0.0 + LIP + Core/Extended/aDNA-Native; ratify at P2 gate** |
-| D7 | **Context-object / primitive status** — canvas-as-primitive vs canvas-as-view (Δ2); LIP path | P2 | `spec_context_object.md` + LIP | 📝 **drafted → keep-as-view; Δ2 LIP draft staged (`lip_draft_canvas_as_primitive`)** |
+| D2 | **CanvasForge relationship** — extract Standard out (A) vs spec-here/impl-in-CanvasForge (B) vs reject (C) | P2 | `adr_001_canvasforge_relationship` | ✅ **ratified — Option A (extract)** 2026-06-12 |
+| D3 | **LiteratureForge seam** — document-AS-canvas vs federated-peers vs **absorb** (operator-directed 2026-06-07 → absorb; ratify at P2) | P2 | `adr_002_literatureforge_seam` | ✅ **ratified — A-schema + B-federated-pipeline** 2026-06-12 (absorb/C set aside) |
+| D4 | **Component model** — additive `_reserved`-namespaced taxonomy across all 2D outputs | P2 | `spec_component_model.md` | ✅ **ratified** 2026-06-12 |
+| D5 | **Panel/link semantics** — reading-order/pagination/flow/region for non-DAG outputs without breaking graph semantics | P2 | `spec_panel_link_semantics.md` | ✅ **ratified** 2026-06-12 |
+| D6 | **Versioning & governance** — v2.0.0 line + LIP process + conformance levels + version_policy default | P2 | `adr_003_standard_governance` | ✅ **ratified — v2.0.0 + LIP + Core/Extended/aDNA-Native** 2026-06-12 |
+| D7 | **Context-object / primitive status** — canvas-as-primitive vs canvas-as-view (Δ2); LIP path | P2 | `spec_context_object.md` + LIP | ✅ **ratified keep-as-view** 2026-06-12; Δ2 = open LIP (`lip_draft_canvas_as_primitive`) |
 
 ---
 

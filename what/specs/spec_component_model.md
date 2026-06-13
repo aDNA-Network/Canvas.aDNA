@@ -3,7 +3,7 @@ type: spec
 spec_id: spec_component_model
 title: "aDNA Canvas component model (D4) — typed components across all 2D outputs"
 standard_version: "2.0.0"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
@@ -14,7 +14,7 @@ tags: [spec, canvas, component-model, genesis, p2, d4]
 
 # aDNA Canvas Component Model (D4)
 
-> **Status: PROPOSED — HELD at the P2 exit gate.** Defines the additive, `_reserved`-namespaced component
+> **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Defines the additive, `_reserved`-namespaced component
 > taxonomy that generalizes the v1.0.0 lattice-only mappings to *every* 2D output. Extends — does not replace —
 > the [[spec_adna_canvas_standard]] node/edge floor. RFC 2119 keywords.
 

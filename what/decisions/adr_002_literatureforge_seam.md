@@ -2,11 +2,11 @@
 type: decision
 adr_id: "002"
 title: "LiteratureForge seam — document-AS-canvas at the schema layer; pipeline stays a federated producer"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
-signed_by:
+signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
 superseded_by:
 resolves: D3
@@ -18,10 +18,11 @@ tags: [adr, canvas, standard, literatureforge, seam, federation, genesis, d3]
 
 ## Status
 
-**Proposed** — drafted at P2. **Operator ratifies at the P2 exit gate** (this is the second of the two gate
-sign-offs). Couples to [[adr_001_canvasforge_relationship]] (D2). ⚠️ **Operator-input note:** the operator gave
-*"absorb"* as a starting point (2026-06-07, pre-campaign). P1 evidence now suggests a substrate-neutral split;
-this ADR presents both and recommends — the operator's call at the gate.
+**Ratified** — 2026-06-12 (Stanley, operator) at the **P2 exit gate**. Drafted at P2; couples to
+[[adr_001_canvasforge_relationship]] (D2). **Ratified outcome: A-schema-absorb + B-federated-pipeline** (the
+recommended substrate-neutral split). The operator's earlier *"absorb"* lean (2026-06-07) — Option C, the
+two-faced platform — was **considered and set aside** at the gate; it remains documented in §Decision as a future
+scope-reopening path should consumer evidence later warrant it.
 
 ## Context
 

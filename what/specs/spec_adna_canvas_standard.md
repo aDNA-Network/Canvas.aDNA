@@ -3,7 +3,7 @@ type: spec
 spec_id: spec_adna_canvas_standard
 title: "aDNA Canvas Standard v2.0.0 — normative specification"
 standard_version: "2.0.0"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
@@ -14,7 +14,7 @@ tags: [spec, canvas, standard, normative, genesis, p2]
 
 # aDNA Canvas Standard — v2.0.0 (normative)
 
-> **Status: PROPOSED — HELD at the P2 exit gate.** Supersedes the embedded *Canvas Standard v1.0.0*
+> **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Supersedes the embedded *Canvas Standard v1.0.0*
 > ([[p1_source_inventory]] §A3). Normative core; the component model (D4), panel/link semantics (D5), round-trip
 > (v2), and context-object (D7) are specified in their own documents and referenced here. Key words **MUST /
 > MUST NOT / SHOULD / MAY** per RFC 2119.

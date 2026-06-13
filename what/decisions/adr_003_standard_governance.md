@@ -2,11 +2,11 @@
 type: decision
 adr_id: "003"
 title: "Standard governance — v2.0.0 line, LIP change process, conformance levels, version policy"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
-signed_by:
+signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
 superseded_by:
 resolves: D6
@@ -18,8 +18,8 @@ tags: [adr, canvas, standard, governance, versioning, lip, conformance, genesis,
 
 ## Status
 
-**Proposed** — drafted at P2. **Operator ratifies at the P2 exit gate.** Sets the version line, change process,
-and conformance levels that `spec_adna_canvas_standard.md` and the conformance suite (P3) bind to.
+**Ratified** — 2026-06-12 (Stanley, operator) at the **P2 exit gate**. Drafted at P2. Sets the version line,
+change process, and conformance levels that `spec_adna_canvas_standard.md` and the conformance suite (P3) bind to.
 
 ## Context
 

@@ -11,8 +11,9 @@ tags: [directory_index, specs, canvas, standard]
 The normative specification set for the **aDNA Canvas Standard v2.0.0**, authored in Phase P2 of Operation
 Cartography. These are the contracts producers (CanvasForge, ComfyForge, LF-successor, SiteForge) conform to.
 
-> **Status (2026-06-12):** P2 drafts — `status: proposed`, **HELD at the P2 exit gate** (operator signs off on
-> the v2.0.0 spec + the D2/D3 decisions). Not ratified until that gate clears.
+> **Status (2026-06-12):** **RATIFIED** at the P2 exit gate (operator). The v2.0.0 spec set + ADRs (D2 extract /
+> D3 schema-absorb+federated / D6 governance) are ratified. P3 (conformance suite + federation contract + `iii/`
+> wrapper) is in progress; the conformance + federation specs join this folder.
 
 ## Contents
 

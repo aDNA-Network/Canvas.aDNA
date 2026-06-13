@@ -5,7 +5,7 @@ title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
 status: in_progress
 phase_count: 6
-mission_count: 2
+mission_count: 3
 estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
@@ -112,7 +112,7 @@ freed for P2. **Two gate questions for the operator:** (1) approve the KEEP/EXTE
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 1 (est 3-4) | P1 ✅ | ✅ **drafts complete — HELD at P2 exit gate** 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec\|mission]]) |
+| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 1 (est 3-4) | P1 ✅ | ✅ **complete — P2 gate CLEARED 2026-06-12** (D2/D3/D6 + 5 specs ratified) ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec\|mission]]) |
 
 **Deliverables (in `what/specs/` + `what/decisions/`):** `spec_adna_canvas_standard.md` (normative v2.0.0;
 JSON shape; `_reserved` extension block; `_lattice_meta`; node/edge schemas; conformance levels
@@ -125,7 +125,7 @@ ADRs resolving **D2/D3/D6**.
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p3 | Conformance-suite spec + federation contract + `iii/` wrapper scaffold | 2 | P2 | planned |
+| p3 | Conformance-suite spec + federation contract + `iii/` wrapper scaffold | 1 (est 2) | P2 ✅ | ✅ **deliverables complete — HELD at P3 exit gate** 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p3_conformance_federation\|mission]]) |
 
 **Deliverables:** `spec_conformance_suite.md` (Core/Extended/aDNA-Native checks; validator contract — location
 resolved per D1/D2) · `spec_federation_contract.md` (sf_forge pattern: federation_ref + graft + version_policy
@@ -133,6 +133,17 @@ resolved per D1/D2) · `spec_federation_contract.md` (sf_forge pattern: federati
 `.lattice.yaml` stub · `iii/CLAUDE.md` wrapper scaffold (federation_ref to III/Argus; specifies VR1–VR5 /
 trap-pack / R11 **contracts** — engines stay in CanvasForge).
 **Phase exit gate:** operator reviews the consumer-integration story end to end.
+
+**Delivered 2026-06-12 (HELD at gate):**
+[[what/specs/spec_conformance_suite|spec_conformance_suite]] (Core/Extended/aDNA-Native check sets C-*/E-*/A-* +
+degradation tests D-1..D-3 + the validator contract → `canvas_std`) ·
+[[what/specs/spec_federation_contract|spec_federation_contract]] (sf_forge pattern: `canvas/` wrapper +
+`federation_ref` + graft discipline + `version_policy:minor` + 5-stage gates; **3 worked consumers** — CanvasForge,
+LF-successor, a net-new "letter" producer) · `what/lattices/examples/example_canvas_v2.lattice.yaml` (reference
+stub showing the `_reserved` block) · `iii/CLAUDE.md` wrapper scaffold + empty learning store (federates to
+III/Argus; **VR1–VR5 + canvas-visual trap schema = Canvas.aDNA-owned contract, III engines stay upstream**) ·
+[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p3_conformance_federation|mission]] ·
+[[how/missions/artifacts/canvas_genesis_planning_p3_aar|P3 AAR]].
 
 ### Phase P4: Execution-Campaign Charter (the real output)
 
@@ -174,10 +185,10 @@ upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + r
 | D1 | P0 gate | Category: where do reference validators/converters live? (Δ1) | ✅ **Platform / Option P** (ships reference tooling; vault+code split) 2026-06-06 |
 | — | P0 gate | Persona lock | ✅ **Mondrian** 2026-06-06 |
 | — | P0 gate | Scope boundary (Standard-owns vs producer-owns) | ✅ **confirmed** + reference impl 2026-06-06 |
-| D2 | P2 | CanvasForge relationship: (A) extract Standard out → CanvasForge pure producer; (B) Canvas.aDNA owns spec+conformance, CanvasForge keeps `CanvasBuilder` as reference impl; (C) reject | 📝 **proposed — `adr_001` → Option A (extract); ratify at P2 gate** |
-| D3 | P2 | LiteratureForge seam: document expressible AS a canvas vs federated peers sharing component schemas (reconcile w/ Amendment-02) | 📝 **proposed — `adr_002` → A-schema + B-federated-pipeline (absorb=C documented as operator fork); ratify at P2 gate** |
-| D6 | P2 | Versioning & governance: v2.0.0 line + LIP process + conformance levels + version_policy default | 📝 **proposed — `adr_003` → v2.0.0 + LIP + Core/Extended/aDNA-Native + version_policy:minor; ratify at P2 gate** |
-| D7 | P2 | Context-object / primitive status: canvas-as-primitive vs canvas-as-view (Δ2) — LIP path | 📝 **drafted — `spec_context_object` (keep-as-view) + `lip_draft_canvas_as_primitive`; LIP-gated** |
+| D2 | P2 | CanvasForge relationship: (A) extract Standard out → CanvasForge pure producer; (B) Canvas.aDNA owns spec+conformance, CanvasForge keeps `CanvasBuilder` as reference impl; (C) reject | ✅ **ratified — `adr_001` Option A (extract)** 2026-06-12 |
+| D3 | P2 | LiteratureForge seam: document expressible AS a canvas vs federated peers sharing component schemas (reconcile w/ Amendment-02) | ✅ **ratified — `adr_002` A-schema + B-federated-pipeline** 2026-06-12 (absorb/C set aside) |
+| D6 | P2 | Versioning & governance: v2.0.0 line + LIP process + conformance levels + version_policy default | ✅ **ratified — `adr_003` v2.0.0 + LIP + Core/Extended/aDNA-Native + version_policy:minor** 2026-06-12 |
+| D7 | P2 | Context-object / primitive status: canvas-as-primitive vs canvas-as-view (Δ2) — LIP path | ✅ **ratified — `spec_context_object` keep-as-view** 2026-06-12; Δ2 = open LIP (`lip_draft_canvas_as_primitive`) |
 
 ## Risk Register
 
@@ -261,6 +272,13 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - **Finding:** the v2.0.0 fork is almost entirely additive — every aDNA-native feature lives in `_reserved` over the KEEP baseline, so the normative spec is round-trippable to Obsidian *by construction* (the C4 degradation test is a one-line invariant, not a retrofit).
 - **Change:** at the gate, walk D2 + D3 first (they gate everything downstream), then the spec set.
 - **Follow-up:** **HELD at P2 exit gate** — operator signs off on the v2.0.0 spec + D2/D3 → flip `proposed`→`ratified`, open P3 (conformance suite + federation contract + `iii/` wrapper).
+
+### P3 — Conformance & Federation Contract (2026-06-12)
+- **Worked:** two pattern-research passes (sf_forge spec + a real `iii/` wrapper) let the federation contract + `iii/` scaffold be authored conformant-to-precedent in one session (est. 2); P2 ratified immediately prior in the same session.
+- **Didn't:** III version-pin ambiguity (router says v0.4.0, sibling CanvasForge wrapper tracks v0.5.0) — pinned v0.4.0 with a confirm-at-wiring note rather than guess.
+- **Finding:** the standard-bearer **inverts** the usual III posture — the canvas review *contract* (VR1–VR5 + trap schema) is owned **here**, while III keeps the *engines*; a clean "specify contracts, not engines" exemplar that producers inherit.
+- **Change:** confirm the III pin against `III.aDNA/STATE.md` when the wrapper is actually wired (execution).
+- **Follow-up:** **HELD at P3 exit gate** — operator reviews the consumer-integration story; then P4 (execution-campaign charter).
 
 ## Completion Summary
 

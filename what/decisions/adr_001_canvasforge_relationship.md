@@ -2,11 +2,11 @@
 type: decision
 adr_id: "001"
 title: "CanvasForge relationship — extract the Standard, CanvasForge becomes a pure producer"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
-signed_by:
+signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
 superseded_by:
 resolves: D2
@@ -18,8 +18,8 @@ tags: [adr, canvas, standard, canvasforge, federation, genesis, d2]
 
 ## Status
 
-**Proposed** — drafted at P2 (Operation Cartography). **Operator ratifies at the P2 exit gate** (one of the two
-gate sign-offs: v2.0.0 spec + D2/D3). Couples to [[adr_002_literatureforge_seam]] (D3) and the P0 Option-P lock
+**Ratified** — 2026-06-12 (Stanley, operator) at the **P2 exit gate**. Drafted at P2 (Operation Cartography);
+**Option A (extract)** confirmed. Couples to [[adr_002_literatureforge_seam]] (D3) and the P0 Option-P lock
 ([[adr_000_canvas_identity]] §1).
 
 ## Context

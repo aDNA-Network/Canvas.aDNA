@@ -3,7 +3,7 @@ type: spec
 spec_id: spec_roundtrip_protocol_v2
 title: "aDNA Canvas Round-Trip Protocol v2 — authoritative-source ↔ view"
 standard_version: "2.0.0"
-status: proposed
+status: ratified
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
@@ -13,7 +13,7 @@ tags: [spec, canvas, roundtrip, sync, genesis, p2]
 
 # aDNA Canvas Round-Trip Protocol v2
 
-> **Status: PROPOSED — HELD at the P2 exit gate.** Generalizes the v1.0 Round-Trip Protocol (KEEP,
+> **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Generalizes the v1.0 Round-Trip Protocol (KEEP,
 > [[p1_source_inventory]] §A2) from "`.lattice.yaml` ↔ `.canvas`" to "**authoritative source** ↔ **view**" for
 > any 2D output, preserving the v1.0 authority model and sync-hash. RFC 2119 keywords.
 
