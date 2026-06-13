@@ -3,7 +3,7 @@ plan_id: mission_p2_standard_spec
 type: plan
 title: "P2 — Standard Specification (v2.0.0 core)"
 owner: stanley
-status: planned
+status: completed
 campaign_id: campaign_canvas_genesis_planning
 campaign_phase: 2
 campaign_mission_number: 2
@@ -20,9 +20,9 @@ tags: [plan, campaign, genesis, canvas, p2, standard, spec]
 **Phase**: 2 — Standard Specification (the core deliverable; heaviest gate)
 **Mission**: 2 of N
 
-> **📋 CHARTERED 2026-06-12 — awaiting operator go to execute.** P1 exit gate cleared (classification ratified;
-> PIN-A locked). This charter decomposes P2; **no P2 ADR or spec is authored until the operator approves the go**
-> (phase gates are human gates, SO-1). Built directly on the accepted P1 deliverables
+> **✅ DELIVERABLES COMPLETE (full P2 push) — HELD at the P2 exit gate, 2026-06-12.** All 8 objectives authored
+> as drafts (`status: proposed`). **Operator signs off on the v2.0.0 spec + the D2/D3 decisions** to clear the
+> gate; nothing flips to `ratified` and P3 does not open until then (SO-1). Built on the accepted P1 deliverables
 > ([[p1_source_inventory]] · [[p1_fork_baseline]]).
 
 ## Goal
@@ -55,7 +55,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 > versioned), then the normative spec, then the dependent component/panel-link/round-trip/context specs.
 
 ### 1. ADR — D2 CanvasForge relationship  → `what/decisions/adr_001_canvasforge_relationship.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: Score A (extract Standard OUT → CanvasForge consumes via `federation_ref`, becomes pure
   producer; mirrors the `lattice-protocol→canvasforge` extraction precedent) vs B (spec-here/impl-stays-in-
   CanvasForge) vs C (reject). **P1 evidence (§B inventory) tilts → A**: the builder's normative core is cleanly
@@ -64,7 +64,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 - **Depends on**: none (P1 accepted)
 
 ### 2. ADR — D3 LiteratureForge seam  → `what/decisions/adr_002_literatureforge_seam.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: Resolve A (document-AS-canvas) vs B (federated peers) vs C (absorb — operator-directed
   starting point 2026-06-07). **P1 signal (§D):** the LF format-spec's `round_trip_surface` *already*
   cross-references the Canvas Round-Trip Protocol (strongest absorb-signal), but the clean producer seam keeps
@@ -75,7 +75,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 - **Depends on**: 1 (couples to D2)
 
 ### 3. ADR — D6 versioning & governance  → `what/decisions/adr_003_standard_governance.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: Ratify the **v2.0.0** successor line; the LIP-style change process (real mechanism
   `lattice-labs/how/governance/lips/lip_0001_lip_process.md`); the three **conformance levels Core / Extended /
   aDNA-Native**; consumer `version_policy` default **minor**. The major bump is justified here (new component
@@ -85,7 +85,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 ### ◆ Internal checkpoint α (recommended) — operator reviews O1–O3 before the specs build on them.
 
 ### 4. SPEC — normative v2.0.0 standard  → `what/specs/spec_adna_canvas_standard.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: The normative spec that **SUPERSEDES** the embedded v1.0.0 framing (§A3). Contains: the JSON
   shape (KEEP floor + Advanced Canvas v5.6.6 extensions); the `_reserved` extension block; the required
   `_lattice_meta`; node/edge schemas; the three conformance levels (per O3); validation rules; the **Obsidian
@@ -93,7 +93,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 - **Depends on**: 1 (where it lives), 3 (levels/versioning)
 
 ### 5. SPEC — component model (D4)  → `what/specs/spec_component_model.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: The generalized, `_reserved`-namespaced component taxonomy across all 2D outputs
   {text, typography-run, image, video, shape, embed, group/panel, link/edge, table, code, caption, region}.
   Generalizes `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` **beyond the 8 lattice types** (KEEP the 8 as a registered
@@ -103,7 +103,7 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 - **Depends on**: 4 (, 2 if absorb → must cover long-form document components)
 
 ### 6. SPEC — panel/link semantics (D5)  → `what/specs/spec_panel_link_semantics.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: Reading-order / flow / pagination / region / sequence for **non-DAG** outputs
   (papers/letters/decks/comics/sites) expressed as typed edges + region properties **without breaking
   lattice-graph semantics**. Built from C4 (slide-graph) + the LF format-spec's ordered/order-locked `sections`
@@ -111,14 +111,14 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 - **Depends on**: 4, 5
 
 ### 7. SPEC — round-trip protocol v2  → `what/specs/spec_roundtrip_protocol_v2.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: Generalize the KEEP A2 protocol: authoritative-source ↔ view; the authority matrix;
   `compute_sync_hash` staleness detection; advisory reverse path. Generalize "`.lattice.yaml`" → "authoritative
   source" for non-lattice outputs; keep the lossy-by-design boundary.
 - **Depends on**: 4
 
 ### 8. SPEC — context-object model (D7, Δ2)  → `what/specs/spec_context_object.md`
-- **Status**: planned
+- **Status**: completed (draft, proposed — held at gate)
 - **Description**: How an aDNA canvas is a first-class **context** object (stored · referenced via wikilinks /
   `federation_ref` · versioned; read-AS-context vs render-AS-output). Document **Δ2** (canvas-as-primitive vs
   canvas-as-view) and route it through a **LIP** — **do NOT touch the aDNA core primitive set** in this campaign
@@ -146,8 +146,26 @@ Recommended **internal checkpoint α** after the three foundational ADRs (O1–O
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+### Deliverables (8 + LIP draft + specs folder note)
+- ADRs (`what/decisions/`): `adr_001_canvasforge_relationship` (D2 → Option A/extract), `adr_002_literatureforge_seam` (D3 → A schema + B pipeline; absorb=C documented), `adr_003_standard_governance` (D6 → v2.0.0 + LIP + Core/Extended/aDNA-Native + version_policy minor). All `status: proposed`.
+- Specs (`what/specs/`): `spec_adna_canvas_standard` (normative core; supersedes embedded v1.0.0), `spec_component_model` (D4), `spec_panel_link_semantics` (D5), `spec_roundtrip_protocol_v2`, `spec_context_object` (D7) + `AGENTS.md` folder note. All `status: proposed`.
+- `what/decisions/lip_draft_canvas_as_primitive` (Δ2 draft for the lattice-labs LIP process; recommends keep-as-view for v2.0.0).
+
+### Descoped
+- None of the 8 objectives. The internal checkpoint α was **not** used (operator chose the full push); D2/D3 are reviewed at the single P2 exit gate instead.
+
+### Key Findings
+- Two genuine operator forks remain inside the drafts: **D2** (recommended A/extract) and **D3** (recommended A-schema + B-federated-pipeline, vs the operator's prior absorb/C lean — surfaced honestly in `adr_002`). Both ratify at the P2 gate.
+- The degradation contract (C4) made every v2.0.0 addition fit additively in `_reserved` — no baseline node/edge key was added, so the normative spec stayed round-trippable to Obsidian by construction.
+- Δ2 was cleanly quarantined: `spec_context_object` keeps canvas-as-view and routes the primitive question to a LIP draft — no aDNA core change (C3 honored).
+
+### Scope Changes
+- None.
 
 ## AAR
 
-*Mandatory before `status: completed`.*
+- **Worked**: P1's verbatim-grounded inventory let all 8 P2 docs be authored coherently in one session with consistent cross-references and a shared `_reserved` vocabulary.
+- **Didn't**: the full-push means D2/D3 (load-bearing, operator-consequential) are only reviewed *after* the specs were written on top of them — checkpoint α would have de-risked this; mitigated by keeping every spec's dependency on D2/D3 explicit and reversible.
+- **Finding**: the Standard is expressible almost entirely as `_reserved` extensions over the KEEP baseline — the fork is genuinely additive, validating the "fork, don't drift" thesis.
+- **Change**: at the gate, walk the operator through D2 + D3 first (they gate everything downstream) before the spec set.
+- **Follow-up**: on gate approval → flip ADRs/specs `proposed`→`ratified`, then open P3 (conformance suite + federation contract + `iii/` wrapper).

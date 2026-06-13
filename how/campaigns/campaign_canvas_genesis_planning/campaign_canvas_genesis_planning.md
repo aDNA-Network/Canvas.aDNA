@@ -112,7 +112,7 @@ freed for P2. **Two gate questions for the operator:** (1) approve the KEEP/EXTE
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 3-4 | P1 ✅ | 📋 **chartered 2026-06-12 — awaiting operator go to execute** ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec\|charter]]) |
+| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 1 (est 3-4) | P1 ✅ | ✅ **drafts complete — HELD at P2 exit gate** 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec\|mission]]) |
 
 **Deliverables (in `what/specs/` + `what/decisions/`):** `spec_adna_canvas_standard.md` (normative v2.0.0;
 JSON shape; `_reserved` extension block; `_lattice_meta`; node/edge schemas; conformance levels
@@ -174,10 +174,10 @@ upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + r
 | D1 | P0 gate | Category: where do reference validators/converters live? (Δ1) | ✅ **Platform / Option P** (ships reference tooling; vault+code split) 2026-06-06 |
 | — | P0 gate | Persona lock | ✅ **Mondrian** 2026-06-06 |
 | — | P0 gate | Scope boundary (Standard-owns vs producer-owns) | ✅ **confirmed** + reference impl 2026-06-06 |
-| D2 | P2 | CanvasForge relationship: (A) extract Standard out → CanvasForge pure producer; (B) Canvas.aDNA owns spec+conformance, CanvasForge keeps `CanvasBuilder` as reference impl; (C) reject | pending |
-| D3 | P2 | LiteratureForge seam: document expressible AS a canvas vs federated peers sharing component schemas (reconcile w/ Amendment-02) | pending |
-| D6 | P2 | Versioning & governance: v2.0.0 line + LIP process + conformance levels + version_policy default | pending |
-| D7 | P2 | Context-object / primitive status: canvas-as-primitive vs canvas-as-view (Δ2) — LIP path | pending |
+| D2 | P2 | CanvasForge relationship: (A) extract Standard out → CanvasForge pure producer; (B) Canvas.aDNA owns spec+conformance, CanvasForge keeps `CanvasBuilder` as reference impl; (C) reject | 📝 **proposed — `adr_001` → Option A (extract); ratify at P2 gate** |
+| D3 | P2 | LiteratureForge seam: document expressible AS a canvas vs federated peers sharing component schemas (reconcile w/ Amendment-02) | 📝 **proposed — `adr_002` → A-schema + B-federated-pipeline (absorb=C documented as operator fork); ratify at P2 gate** |
+| D6 | P2 | Versioning & governance: v2.0.0 line + LIP process + conformance levels + version_policy default | 📝 **proposed — `adr_003` → v2.0.0 + LIP + Core/Extended/aDNA-Native + version_policy:minor; ratify at P2 gate** |
+| D7 | P2 | Context-object / primitive status: canvas-as-primitive vs canvas-as-view (Δ2) — LIP path | 📝 **drafted — `spec_context_object` (keep-as-view) + `lip_draft_canvas_as_primitive`; LIP-gated** |
 
 ## Risk Register
 
@@ -254,6 +254,13 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - **Finding:** the normative Standard already exists scattered — schema floor + round-trip = KEEP, four design-doc fragments + LF visual/format specs = EXTEND — so P2 is consolidation, not invention; the embedded "standard" doc is mostly framing to SUPERSEDE.
 - **Change:** carry the `_reserved` extension map + the no-`to_canvas`/`from_canvas` aliasing note into P2 so the component model and the reference-impl API agree from the start.
 - **Follow-up:** **HELD at P1 exit gate** — operator approves classification + confirms PIN-A; then open P2 (mint D2/D3/D6 ADRs into the freed `adr_001+` namespace).
+
+### P2 — Standard Specification (2026-06-12)
+- **Worked:** all 8 objectives (3 ADRs + 5 specs) + the Δ2 LIP draft authored coherently in one session (est. 3-4) — P1's verbatim inventory paid back directly as spec structure and a shared `_reserved` vocabulary.
+- **Didn't:** the operator's full-push (no checkpoint α) means the load-bearing D2/D3 decisions are reviewed only after the specs built on them — mitigated by keeping each spec's D2/D3 dependency explicit + reversible.
+- **Finding:** the v2.0.0 fork is almost entirely additive — every aDNA-native feature lives in `_reserved` over the KEEP baseline, so the normative spec is round-trippable to Obsidian *by construction* (the C4 degradation test is a one-line invariant, not a retrofit).
+- **Change:** at the gate, walk D2 + D3 first (they gate everything downstream), then the spec set.
+- **Follow-up:** **HELD at P2 exit gate** — operator signs off on the v2.0.0 spec + D2/D3 → flip `proposed`→`ratified`, open P3 (conformance suite + federation contract + `iii/` wrapper).
 
 ## Completion Summary
 

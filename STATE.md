@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-12
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260612_211907_p1_source_inventory
+last_session: session_stanley_20260612_214547_p2_standard_spec
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,30 +14,31 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Genesis-planning — Operation Cartography. P1 CLEARED 2026-06-12; P2 (Standard Specification) CHARTERED — awaiting operator go to execute.**
+**Genesis-planning — Operation Cartography. P2 (Standard Specification) DRAFTS COMPLETE 2026-06-12 — HELD at the P2 exit gate (heaviest; awaiting operator sign-off).**
 `how/campaigns/campaign_canvas_genesis_planning/campaign_canvas_genesis_planning.md`
 
-P0 ratified 2026-06-06 (persona **Mondrian**; category **Platform/Option P**; scope confirmed — `adr_000`). **P1 executed + gate-cleared 2026-06-12** — classification ratified, **PIN-A locked** (Advanced Canvas v5.6.6 + JSON Canvas 1.0), scaffold archived (`adr_001+` freed). **P2 chartered** ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec|mission_p2_standard_spec]]): 3 foundational ADRs (D2/D3/D6) + 5 specs, **not executing until operator go** (SO-1). Planning campaign — specs + ADRs only, no runtime (C3).
+P0 ratified 2026-06-06 (Mondrian; Platform/Option P). P1 cleared 2026-06-12 (classification ratified; PIN-A locked; scaffold archived). **P2 executed 2026-06-12 (full push)** — 3 foundational ADRs (D2/D3/D6) + 5 normative specs + the Δ2 LIP draft, all `status: proposed`. **Operator signs off on the v2.0.0 spec + the D2/D3 decisions to clear the gate; nothing flips to `ratified` and P3 does not open until then** (SO-1). Planning campaign — specs + ADRs only, no runtime (C3).
 
-## ▶ Resume Here — operator go to EXECUTE P2
+## ▶ Resume Here — P2 exit gate (operator sign-off)
 
-P1 is **closed**. P2 is **chartered and held** — read [[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec|the P2 charter]]: 8 objectives in dependency order — O1 D2/CanvasForge ADR → O2 D3/LiteratureForge ADR → O3 D6/governance ADR → **◆ checkpoint α** → O4 normative `spec_adna_canvas_standard.md` → O5 component model (D4) → O6 panel/link (D5) → O7 round-trip v2 → O8 context-object (D7/Δ2 via LIP). Exit gate: operator signs off on the v2.0.0 spec + D2/D3.
+P2 drafts are **authored and HELD at the gate** (all `status: proposed`). The operator signs off on **two things**:
+1. **D2 + D3 (review FIRST — they gate everything downstream):** D2 [[what/decisions/adr_001_canvasforge_relationship|adr_001]] recommends **Option A (extract** → CanvasForge pure producer); D3 [[what/decisions/adr_002_literatureforge_seam|adr_002]] recommends **A-schema + B-federated-pipeline** (the operator's prior **absorb/C** is documented as the alternative fork).
+2. **The v2.0.0 spec set:** [[what/specs/spec_adna_canvas_standard|spec_adna_canvas_standard]] (normative core) + [[what/specs/spec_component_model|component model D4]] + [[what/specs/spec_panel_link_semantics|panel/link D5]] + [[what/specs/spec_roundtrip_protocol_v2|round-trip v2]] + [[what/specs/spec_context_object|context-object D7]]; plus D6 [[what/decisions/adr_003_standard_governance|adr_003]] + Δ2 [[what/decisions/lip_draft_canvas_as_primitive|LIP draft]] (keep-as-view).
 
-**On operator go → execute P2**, starting with the three foundational ADRs (recommended internal **checkpoint α** after O1–O3 before the specs build on them). Proposed numbering D2→`adr_001`, D3→`adr_002`, D6→`adr_003` (namespace freed at P1). Do not author P2 ADRs/specs without the go (SO-1).
+**On sign-off →** flip ADRs/specs `proposed`→`ratified`, then open **P3** (conformance suite + federation contract + `iii/` wrapper). Do not flip/advance without the gate (SO-1).
 
-**Locked inputs (P1):** PIN-A baseline; KEEP floor (schema A1 + round-trip A2 + 10 `VALID_*` enums B1); the `_reserved` extension map (key schemas minted at P2); the C4 degradation contract; alias `build()`/`read_back()`→`to_canvas`/`from_canvas` at extraction. **Δ2** (D7/O8) routes through a LIP — do **not** touch the aDNA core primitive set (out of scope).
+**Locked inputs (P1, unchanged):** PIN-A baseline; KEEP floor (schema + round-trip + 10 `VALID_*` enums); the `_reserved` extension carrier; the C4 degradation contract. Reference impl (`what/code/canvas_std/`) declared-not-built (C3; execution campaign P4). **Δ2** stays a LIP — the aDNA core primitive set is untouched.
 
 ## Parked — execution-campaign candidates (no gate change)
 
 - **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
 
-## What's Done (this session — P1, 2026-06-12)
+## What's Done (this session — P2 full push, 2026-06-12)
 
-- Opened P1; ran 4 parallel read-and-classify subagents over the source corpus (advanced_canvas standard/schema/roundtrip/graft · `core.py` constants+exports · 15 design docs · 3 LF specs).
-- Authored **`p1_source_inventory.md`** — 28 source rows labeled KEEP/EXTEND/SUPERSEDE/DEFER-TO-PRODUCER (+ 4 archived scaffold), with the verbatim constants/invariants grounding each label.
-- Authored **`p1_fork_baseline.md`** — 7 inherited invariants + 10 `VALID_*` enums + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (verbatim); the additive `_reserved` extension map; the C4 degradation contract; **PIN-A** upstream recommendation (v5.6.6 confirmed at source).
-- Reconciled the inherited scaffold: `git mv` `adr_001/002/003` + `campaign_adna_workspace_upgrade/` → `_inherited_scaffold/` holders (+ banners; history preserved); freed `adr_001+`; updated `decision_register_genesis.md`.
-- Authored `mission_p1_source_inventory.md` (tracker) + `canvas_genesis_planning_p1_aar.md` (5/5 validated); updated the campaign doc (P1 row + delivered block + P1 phase AAR + Notes) and this STATE.
+- Executed P2 (full push, operator's choice): authored 3 foundational ADRs + 5 normative specs + 1 LIP draft, all `status: proposed`, cross-consistent.
+- **ADRs** (`what/decisions/`): `adr_001_canvasforge_relationship` (D2 → A/extract), `adr_002_literatureforge_seam` (D3 → A-schema + B-pipeline; absorb=C documented), `adr_003_standard_governance` (D6 → v2.0.0 + LIP + 3 conformance levels + version_policy minor).
+- **Specs** (`what/specs/` + `AGENTS.md`): `spec_adna_canvas_standard` (normative core; supersedes embedded v1.0.0; C4 degradation §11), `spec_component_model` (D4; 12-class taxonomy, `lattice` profile KEEP, LF visual-contract absorbed), `spec_panel_link_semantics` (D5; reading-path edges + regions, non-breaking), `spec_roundtrip_protocol_v2` (generalized source↔view), `spec_context_object` (D7; keep-as-view) + `lip_draft_canvas_as_primitive` (Δ2 → lattice-labs LIP process).
+- Tracking: mission_p2 completion summary + AAR; `canvas_genesis_planning_p2_aar.md` (8/8 validated, GO pending gate); campaign (P2 row + Decision Points D2/D3/D6/D7 + P2 phase AAR); decision register; this STATE.
 
 ## Verified Ground Truth (anchors)
 
@@ -50,15 +51,15 @@ P1 is **closed**. P2 is **chartered and held** — read [[how/campaigns/campaign
 
 ## Active Blockers
 
-- None blocking. **Next gate:** operator go to **execute** the chartered P2 (one phase per gate, SO-1).
+- None blocking. **Next gate:** operator sign-off on the v2.0.0 spec + D2/D3 at the **P2 exit gate** (one phase per gate, SO-1).
 
 ## Next Steps
 
 1. ✅ P0 locked 2026-06-06 (Mondrian · Platform/Option P · scope confirmed).
 2. ✅ P1 executed + gate-cleared 2026-06-12 (classification ratified; PIN-A locked; scaffold archived; `adr_001+` freed).
-3. ✅ P2 chartered 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec|mission_p2_standard_spec]]) — **awaiting operator go to execute**.
-4. **On go → execute P2:** 3 foundational ADRs (D2/D3/D6) → ◆ checkpoint α → 5 specs; operator signs off on the v2.0.0 spec + D2/D3 at the P2 exit gate.
-5. Forward: P3 conformance + federation → P4 execution charter → P5 harmonization plan.
+3. ✅ P2 executed 2026-06-12 (full push) — 3 ADRs + 5 specs + Δ2 LIP draft, all `proposed`; **HELD at the P2 exit gate**.
+4. **P2 gate:** operator reviews D2 + D3 first, then the v2.0.0 spec set → on sign-off, flip `proposed`→`ratified`, open **P3** (conformance suite + federation contract + `iii/` wrapper).
+5. Forward: P4 execution charter → P5 harmonization plan.
 
 ## Notes
 
