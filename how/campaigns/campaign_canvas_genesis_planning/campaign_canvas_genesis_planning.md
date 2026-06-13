@@ -5,7 +5,7 @@ title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
 status: in_progress
 phase_count: 6
-mission_count: 3
+mission_count: 4
 estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
@@ -125,7 +125,7 @@ ADRs resolving **D2/D3/D6**.
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p3 | Conformance-suite spec + federation contract + `iii/` wrapper scaffold | 1 (est 2) | P2 ✅ | ✅ **deliverables complete — HELD at P3 exit gate** 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p3_conformance_federation\|mission]]) |
+| p3 | Conformance-suite spec + federation contract + `iii/` wrapper scaffold | 1 (est 2) | P2 ✅ | ✅ **complete — P3 gate CLEARED 2026-06-12** (consumer story approved) ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p3_conformance_federation\|mission]]) |
 
 **Deliverables:** `spec_conformance_suite.md` (Core/Extended/aDNA-Native checks; validator contract — location
 resolved per D1/D2) · `spec_federation_contract.md` (sf_forge pattern: federation_ref + graft + version_policy
@@ -149,7 +149,7 @@ III/Argus; **VR1–VR5 + canvas-visual trap schema = Canvas.aDNA-owned contract,
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p4 | Author `campaign_canvas_genesis` build charter (15–25 missions) | 2 | P3 | planned |
+| p4 | Author `campaign_canvas_genesis` build charter (15–25 missions) | 1 (est 2) | P3 ✅ | ✅ **complete — HELD at P4 exit gate** 2026-06-12 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p4_execution_charter\|mission]]) |
 
 **Deliverables:** `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md` — extract/own the Standard
 per D2; publish v2.0.0 schema + validators per the D1 split; conformance suite; migrate CanvasForge to consume
@@ -157,6 +157,14 @@ via `federation_ref` (deprecation-shim mirroring the lattice-protocol precedent)
 (D3); ≥1 net-new consumer (web/paper/letter); parity/regression gates (no CanvasForge/LiteratureForge output
 regresses); cutover criteria + rollback + parity references.
 **Phase exit gate:** operator approves the execution charter.
+
+**Delivered 2026-06-12 (HELD at gate):** [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|campaign_canvas_genesis]]
+— **Operation Keystone**, the execution build charter: 7 phases E0–E6 (E0 bootstrap `canvas_std` · E1 reference
+impl · E2 conformance + publish · **E3 CanvasForge migration, parity-gated** · E4 LF-successor + net-new consumer ·
+E5 federation rollout + `iii/` wiring · E6 validation & cutover), ~22 missions, deprecation-shim model + parity
+gates (vs Wilhelm 8.80 / Issue 01 8.43) + cutover/rollback. **`status: planning` — chartered, NOT activated**
+(activation is an operator decision at P5). Tracker: [[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p4_execution_charter|mission]] ·
+[[how/missions/artifacts/canvas_genesis_planning_p4_aar|P4 AAR]].
 
 ### Phase P5: Ecosystem Harmonization Plan
 
@@ -279,6 +287,13 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - **Finding:** the standard-bearer **inverts** the usual III posture — the canvas review *contract* (VR1–VR5 + trap schema) is owned **here**, while III keeps the *engines*; a clean "specify contracts, not engines" exemplar that producers inherit.
 - **Change:** confirm the III pin against `III.aDNA/STATE.md` when the wrapper is actually wired (execution).
 - **Follow-up:** **HELD at P3 exit gate** — operator reviews the consumer-integration story; then P4 (execution-campaign charter).
+
+### P4 — Execution-Campaign Charter (2026-06-12)
+- **Worked:** the ratified D2 (extract) + D3 (federated) made the charter mostly *sequencing* — build `canvas_std` here, migrate producers onto it — with no new forks; authored in one session (est. 2).
+- **Didn't:** the 22-mission / 20-30-session figures are planning estimates, re-baselined at activation.
+- **Finding:** the deprecation-shim + parity-gate pair (proven in lattice-protocol→canvasforge) is what lets the high-risk CanvasForge migration (E3) be chartered confidently — every cutover is reversible + gated on locked baselines.
+- **Change:** keep execution missions thin until each E-phase opens (SO-3), as this planning campaign did.
+- **Follow-up:** **HELD at P4 exit gate** — operator approves the charter; then P5 (harmonization plan + the authorize-or-schedule decision for Operation Keystone — closes Operation Cartography).
 
 ## Completion Summary
 
