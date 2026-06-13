@@ -4,7 +4,7 @@ adr_id: "register"
 title: "Genesis Decision Register (D1–D7) — pre-ADR stubs"
 status: open
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-12
 last_edited_by: agent_stanley
 tags: [adr, decision, register, genesis, canvas]
 ---
@@ -12,8 +12,9 @@ tags: [adr, decision, register, genesis, canvas]
 # Genesis Decision Register — D1–D7
 
 Pre-ADR stubs for the load-bearing decisions Operation Cartography must resolve. **Nothing here is ratified.**
-Each becomes a real ADR (or is folded into `adr_000`) at the gated phase shown. Numbering deferred to avoid
-collision with inherited template ADRs (`adr_001/002/003`); reconciled in P1.
+Each becomes a real ADR (or is folded into `adr_000`) at the gated phase shown. The inherited template ADRs
+(`adr_001/002/003`) were **archived → `_inherited_scaffold/` at P1 (2026-06-12)**, freeing the `adr_001+`
+namespace; P2 mints D2/D3/D6 (and the component/panel-link/context-object specs) as real ADRs starting at `adr_001`.
 
 | ID | Decision | Resolve at | Owner ADR (P2) | Status |
 |----|----------|-----------|----------------|--------|

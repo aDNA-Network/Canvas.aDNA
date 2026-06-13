@@ -5,12 +5,12 @@ title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
 status: in_progress
 phase_count: 6
-mission_count: 0
+mission_count: 1
 estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
 created: 2026-06-06
-updated: 2026-06-07
+updated: 2026-06-12
 last_edited_by: agent_stanley
 tags: [campaign, genesis, planning, canvas, standard, platform]
 ---
@@ -87,7 +87,7 @@ Option P** (Δ1 — ships reference tooling, vault+code split); scope boundary *
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p1 | Source inventory + fork baseline | 2-3 | P0 lock ✅ | ready (awaiting operator go) |
+| p1 | Source inventory + fork baseline | 1 (est 2-3) | P0 lock ✅ | ✅ deliverables complete — **HELD at P1 exit gate** (2026-06-12) |
 
 **Deliverables:** `p1_source_inventory.md` (catalog v1.0.0 doc, `CanvasBuilder` constants — `VALID_*`,
 `TYPE_MAPPING`, `EDGE_TYPE_MAPPING`; the `advanced_canvas/` corpus ~22 files; Round-Trip Protocol;
@@ -95,6 +95,18 @@ graft_manifest; LF visual/format/genre specs) labeled **KEEP / EXTEND / SUPERSED
 `p1_fork_baseline.md` (what v2.0.0 inherits from Advanced Canvas + v1.0.0; the additive `_reserved` extension
 map; **pin upstream Advanced Canvas version** — brief cites v5.6.6, confirm).
 **Phase exit gate:** operator reviews the KEEP/EXTEND/SUPERSEDE classification.
+
+**Delivered 2026-06-12 (HELD at gate):**
+[[how/campaigns/campaign_canvas_genesis_planning/missions/p1_source_inventory|p1_source_inventory.md]] (28 source
+rows: 3 KEEP · 8 EXTEND · 1 SUPERSEDE · 16 DEFER, + 4 archived scaffold) ·
+[[how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline|p1_fork_baseline.md]] (7 invariants +
+10 `VALID_*` enums + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` transcribed; `_reserved` extension map; **PIN-A** =
+Advanced Canvas **v5.6.6** [confirmed-at-source] + JSON Canvas 1.0, drift-delta to ~v6.2.1 tracked) ·
+[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p1_source_inventory|mission tracker]] ·
+[[how/missions/artifacts/canvas_genesis_planning_p1_aar|P1 AAR]] (5/5 validated, GO pending gate). Inherited
+scaffold (`adr_001/002/003` + `campaign_adna_workspace_upgrade/`) archived → `_inherited_scaffold/`; `adr_001+`
+freed for P2. **Two gate questions for the operator:** (1) approve the KEEP/EXTEND/SUPERSEDE classification;
+(2) confirm **PIN-A** upstream.
 
 ### Phase P2: Standard Specification (core deliverable)
 
@@ -220,7 +232,12 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 
 - Repo verification (2026-06-06) confirmed the brief's anchors and surfaced two deltas (Δ1 category/runtime,
   Δ2 primitive/view) now foregrounded at the P0 gate. Inherited template example ADRs (`adr_001/002/003`) +
-  `campaign_adna_workspace_upgrade/` are generic scaffold, reconciled in P1.
+  `campaign_adna_workspace_upgrade/` are generic scaffold — **reconciled in P1 ✅** (archived →
+  `_inherited_scaffold/` holders 2026-06-12, history preserved; `adr_001+` namespace freed for P2).
+- **Upstream pin (P1):** the v1.0.0 corpus cites Advanced Canvas **v5.6.6** verbatim (`…standard.md:103`,
+  `…schema.md:60`) — provenance-accurate; no JSON Canvas spec version cited. Current upstream ~v6.2.1.
+  P1 recommends **PIN-A** (pin v5.6.6 + JSON Canvas 1.0; track the v5.6.6→v6.2.1 drift-delta as a P2/execution
+  review item — absorb new upstream features *additively* via `_reserved`, never as a baseline reset).
 
 ## Phase AARs
 
@@ -230,6 +247,13 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - **Finding:** Option P tilts D2 toward extracting the standard out of CanvasForge; the `canvas_std` reference impl is the natural extraction target.
 - **Change:** carry the Platform vault+code-split assumption into P1/P2 (declare `what/code/canvas_std/` home; don't build it).
 - **Follow-up:** open P1 (source inventory + fork baseline) on operator go; pin upstream Advanced Canvas version.
+
+### P1 — Source Inventory & Fork Baseline (2026-06-12)
+- **Worked:** 4 parallel read-and-classify subagents produced a verbatim-grounded, fully-labeled 28-row inventory + fork-baseline in one session (est. 2-3); upstream pin resolved at source.
+- **Didn't:** the "~22 files" estimate undercounted the constant families — `core.py` carries 10 `VALID_*` enums (not 5); surfaced and transcribed.
+- **Finding:** the normative Standard already exists scattered — schema floor + round-trip = KEEP, four design-doc fragments + LF visual/format specs = EXTEND — so P2 is consolidation, not invention; the embedded "standard" doc is mostly framing to SUPERSEDE.
+- **Change:** carry the `_reserved` extension map + the no-`to_canvas`/`from_canvas` aliasing note into P2 so the component model and the reference-impl API agree from the start.
+- **Follow-up:** **HELD at P1 exit gate** — operator approves classification + confirms PIN-A; then open P2 (mint D2/D3/D6 ADRs into the freed `adr_001+` namespace).
 
 ## Completion Summary
 
