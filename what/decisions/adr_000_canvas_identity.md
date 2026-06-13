@@ -4,9 +4,10 @@ adr_id: "000"
 title: "Project Identity — Canvas.aDNA, the aDNA Canvas Standard"
 status: ratified
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-12
 last_edited_by: agent_stanley
 signed_by: Stanley (operator) — P0 gate 2026-06-06
+annotations: "P1 resolution 2026-06-12 — §4 baseline pinned (PIN-A: Advanced Canvas v5.6.6 + JSON Canvas 1.0)"
 supersedes:
 superseded_by:
 tags: [adr, identity, canvas, standard, framework, genesis]
@@ -79,7 +80,10 @@ converters · conformance harness) at `what/code/canvas_std/` (Option P).
 ### 4. Upstream baseline & compatibility contract (C4)
 
 The aDNA Canvas Standard is a **fork of Advanced Canvas (Obsidian) / JSON Canvas**. Pin the upstream baseline
-at P1 (brief cites Advanced Canvas **v5.6.6** — confirm current). **Compatibility contract:** aDNA-native
+at P1 (brief cites Advanced Canvas **v5.6.6** — confirm current). **✅ P1 resolution (2026-06-12):** baseline
+pinned — **Advanced Canvas v5.6.6** (confirmed cited verbatim in the v1.0.0 corpus) **+ JSON Canvas 1.0**;
+**PIN-A** ratified at the P1 exit gate (drift-delta to ~v6.2.1 tracked for P2/execution; see
+`how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md` §1). **Compatibility contract:** aDNA-native
 extensions live additively in the namespaced **`_reserved`** block so a vanilla Obsidian reader ignores them
 without error; a valid aDNA canvas **degrades to a valid Obsidian canvas**. Preserve v1.0.0 invariants
 (YAML/`.lattice.yaml` authoritative + `.canvas` view; required `_lattice_meta` group; `_reserved` extension

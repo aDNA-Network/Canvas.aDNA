@@ -8,7 +8,7 @@ phase: 1
 created: 2026-06-12
 updated: 2026-06-12
 last_edited_by: agent_stanley
-status: review
+status: accepted
 tags: [artifact, fork_baseline, canvas, standard, genesis, p1]
 ---
 
@@ -41,7 +41,12 @@ pins, given upstream has moved a full major line ahead.
 
 **Recommendation: PIN-A.** Pin **Advanced Canvas v5.6.6** + **JSON Canvas 1.0**; carry the **v5.6.6 → ~v6.2.1
 drift-delta** as a tracked P2/execution evaluation item. *(JSON Canvas 1.0 is the stable open base format; it is
-not version-cited in the corpus — flag to confirm the `.canvas` floor at P2.)* **Operator confirms at the gate.**
+not version-cited in the corpus — flag to confirm the `.canvas` floor at P2.)*
+
+> **✅ RATIFIED — operator confirmed PIN-A at the P1 exit gate, 2026-06-12.** Baseline locked: **Advanced Canvas
+> v5.6.6** + **JSON Canvas 1.0**; the v5.6.6 → ~v6.2.1 drift-delta is a tracked P2/execution review item
+> (absorb additively via `_reserved`, never as a baseline reset). The `.canvas` floor (JSON Canvas 1.0) is to be
+> confirmed at P2 (fork-baseline §6).
 
 ---
 

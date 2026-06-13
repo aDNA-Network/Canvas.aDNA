@@ -5,7 +5,7 @@ title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
 status: in_progress
 phase_count: 6
-mission_count: 1
+mission_count: 2
 estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
@@ -87,7 +87,7 @@ Option P** (Δ1 — ships reference tooling, vault+code split); scope boundary *
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p1 | Source inventory + fork baseline | 1 (est 2-3) | P0 lock ✅ | ✅ deliverables complete — **HELD at P1 exit gate** (2026-06-12) |
+| p1 | Source inventory + fork baseline | 1 (est 2-3) | P0 lock ✅ | ✅ **completed — P1 exit gate CLEARED 2026-06-12** (classification ratified; PIN-A confirmed) |
 
 **Deliverables:** `p1_source_inventory.md` (catalog v1.0.0 doc, `CanvasBuilder` constants — `VALID_*`,
 `TYPE_MAPPING`, `EDGE_TYPE_MAPPING`; the `advanced_canvas/` corpus ~22 files; Round-Trip Protocol;
@@ -112,7 +112,7 @@ freed for P2. **Two gate questions for the operator:** (1) approve the KEEP/EXTE
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 3-4 | P1 | planned |
+| p2 | v2.0.0 spec + component model + panel/link + round-trip v2 + context-object | 3-4 | P1 ✅ | 📋 **chartered 2026-06-12 — awaiting operator go to execute** ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p2_standard_spec\|charter]]) |
 
 **Deliverables (in `what/specs/` + `what/decisions/`):** `spec_adna_canvas_standard.md` (normative v2.0.0;
 JSON shape; `_reserved` extension block; `_lattice_meta`; node/edge schemas; conformance levels
