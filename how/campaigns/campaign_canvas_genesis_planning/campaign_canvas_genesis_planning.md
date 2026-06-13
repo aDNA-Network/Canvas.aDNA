@@ -5,12 +5,12 @@ title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
 status: in_progress
 phase_count: 6
-mission_count: 4
+mission_count: 5
 estimated_sessions: "8-14"
 estimation_class: governance-broad
 priority: high
 created: 2026-06-06
-updated: 2026-06-12
+updated: 2026-06-13
 last_edited_by: agent_stanley
 tags: [campaign, genesis, planning, canvas, standard, platform]
 ---
@@ -170,12 +170,22 @@ gates (vs Wilhelm 8.80 / Issue 01 8.43) + cutover/rollback. **`status: planning`
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| p5 | Harmonization plan + AAR | 1-2 | P4 | planned |
+| p5 | Harmonization plan + AAR | 1 (est 1-2) | P4 ✅ | ✅ **deliverables complete — HELD at the P5 (close) gate** 2026-06-13 ([[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p5_harmonization\|mission]]) |
 
 **Deliverables:** `p5_harmonization_plan.md` — file-by-file impact matrix across CanvasForge, LiteratureForge,
 SiteForge, VisualDNA, III, and the SS/CC consumer wrappers; deprecation-shim strategy v1.0.0→v2.0.0;
 upstream-contribution / LIP notes; router-row finalize; genesis-planning AAR + retro.
 **Phase exit gate:** operator closes genesis planning; authorizes (or schedules) the execution campaign.
+
+**Delivered 2026-06-13 (HELD at the close gate):**
+[[how/campaigns/campaign_canvas_genesis_planning/missions/p5_harmonization_plan|p5_harmonization_plan]] (impact
+matrix across CanvasForge / Archive-LiteratureForge / SiteForge / VisualDNA / III / SS-CC + the v1.0.0→v2.0.0
+deprecation-shim strategy + upstream/LIP notes) · **router-row finalized** (`~/aDNA/CLAUDE.md` → "standard-bearer
+owning the aDNA Canvas Standard v2.0.0 + `canvas_std`; CanvasForge + LF-successor producers") · the **Completion
+Summary + Campaign AAR** below. Tracker:
+[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_p5_harmonization|mission]] ·
+[[how/missions/artifacts/canvas_genesis_planning_p5_aar|P5 AAR]]. **Operator's close-gate action:** (1) close
+Cartography (status → completed, after context graduation); (2) **authorize or schedule** Operation Keystone.
 
 ### Execution-Campaign Candidates (backlog — parked, no gate change)
 
@@ -295,10 +305,48 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 - **Change:** keep execution missions thin until each E-phase opens (SO-3), as this planning campaign did.
 - **Follow-up:** **HELD at P4 exit gate** — operator approves the charter; then P5 (harmonization plan + the authorize-or-schedule decision for Operation Keystone — closes Operation Cartography).
 
+### P5 — Ecosystem Harmonization Plan (2026-06-13)
+- **Worked:** the impact matrix was a direct read-off of the ratified specs + the Keystone charter (each source → a disposition + an owning E-phase) — the harmonization plan is the inverse of the P1 inventory.
+- **Didn't:** a few dispositions (SiteForge/VisualDNA canvas-consumer wrappers) are conditional on those vaults emitting canvases — marked optional, not forced.
+- **Finding:** the migration blast radius is narrower than feared — the SS/CC wrappers are NO-OP (they consume CanvasForge *output*, not `canvas_core`); impact concentrates in CanvasForge (E3) + the new LF-successor (E4).
+- **Change:** none — the five-phase planning cadence held end-to-end.
+- **Follow-up:** **HELD at the P5 close gate** — operator closes Cartography + authorize/schedule Keystone.
+
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+> Authored at P5; **awaiting the operator's close-gate action** (status stays `in_progress` until the operator
+> closes — SO-1).
+
+### Deliverables
+- **Identity (P0):** `adr_000` (Mondrian; Platform/Option P; scope confirmed).
+- **Inventory + baseline (P1):** `p1_source_inventory` (28 sources classified) + `p1_fork_baseline` (PIN-A: Advanced Canvas v5.6.6 + JSON Canvas 1.0).
+- **The ratified Standard v2.0.0 (P2):** `spec_adna_canvas_standard` + `spec_component_model` (D4) + `spec_panel_link_semantics` (D5) + `spec_roundtrip_protocol_v2` + `spec_context_object` (D7); `adr_001` (D2 extract) / `adr_002` (D3 schema-absorb+federated) / `adr_003` (D6 governance).
+- **Contracts (P3):** `spec_conformance_suite` + `spec_federation_contract` (3 worked consumers) + `example_canvas_v2.lattice.yaml` + the `iii/` wrapper.
+- **Execution charter (P4):** `campaign_canvas_genesis` (Operation Keystone) — chartered, not activated.
+- **Harmonization (P5):** `p5_harmonization_plan` + router-row finalize.
+
+### Descoped / Deferred
+- Building the runtime (all of Operation Keystone — gated, deliberate, C3). The Δ2 canvas-as-primitive elevation (open LIP). Re-pointing SS/CC wrappers (NO-OP / verified at Keystone E6).
+
+### Key Findings
+- The fork is almost entirely **additive** — every aDNA-native feature lives in `_reserved` over the KEEP baseline, so v2.0.0 degrades to a valid Obsidian canvas by construction.
+- **Standard-bearer inversion:** the canvas review *contract* (VR1–VR5 + trap schema) is owned by Canvas.aDNA while III keeps the *engines* — "framework owns engine, standard-bearer owns contract."
+- D2 (extract) made the build mostly sequencing; the deprecation-shim + parity-gate pair makes the migration reversible.
+
+### Scope Changes
+- None across P0–P5. The D3 outcome (federated, not absorb) refined — but did not change — the planning scope.
+
+### Follow-Up
+- **Operation Keystone** (`campaign_canvas_genesis`) — activate on operator decision (separate from this close).
+- **Δ2 LIP** (`lip_draft_canvas_as_primitive`) — submit if consumer evidence warrants.
+- Upstream notes: III ownership ADR; `version_policy: tracking` canonicalization to SiteForge.
 
 ## Campaign AAR
 
-*Mandatory before `status: completed` (see `how/templates/template_aar_lightweight.md`).*
+> Authored at P5; the operator flips `status: completed` at the close gate (after context graduation).
+
+- **Worked:** the verbatim-grounded P1 inventory paid compounding dividends — it became the P2 spec structure, the P3 conformance checks, and the P5 impact matrix; each phase was a transform of the prior. Five clean human gates, no auto-advance, executed P0→P5 in sequence.
+- **Didn't:** the full-push P2 (no checkpoint α) reviewed the load-bearing D2/D3 only after the specs were built on them — survived because every spec's dependency was explicit + reversible, but the checkpoint would have de-risked it.
+- **Finding:** the whole Standard expresses as `_reserved` extensions over a KEEP baseline — "fork, don't drift" held literally (degradation to Obsidian is a one-line invariant); and "framework owns engine, standard-bearer owns contract" is the reusable doctrine.
+- **Change:** carry the "scout-then-pipeline" pattern (research real precedents before authoring) into Operation Keystone's build missions, as P1/P3 did with the corpus + the sf_forge/iii wrappers.
+- **Follow-up:** activate Operation Keystone (`campaign_canvas_genesis`) on operator decision; the Δ2 LIP and the III/SiteForge upstream notes are open, separate tracks.
