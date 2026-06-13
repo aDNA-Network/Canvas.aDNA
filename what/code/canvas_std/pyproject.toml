@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "adna-canvas-std"
+version = "0.1.0"
+description = "Reference implementation of the aDNA Canvas Standard (validators, round-trip converters, conformance harness)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "aDNA Labs / Canvas.aDNA (Mondrian)" }]
+keywords = ["canvas", "json-canvas", "obsidian", "adna", "standard", "conformance"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Software Development :: Libraries",
+]
+dependencies = []  # zero-dependency core (stdlib only); the Standard floor needs no third-party runtime
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+canvas-std = "canvas_std.conformance:_cli"  # conformance CLI — wired at E2.3
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/canvas_std"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

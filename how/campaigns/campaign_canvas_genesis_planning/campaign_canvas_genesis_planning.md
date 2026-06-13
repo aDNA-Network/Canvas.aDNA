@@ -3,7 +3,8 @@ campaign_id: campaign_canvas_genesis_planning
 type: campaign
 title: "Operation Cartography — aDNA Canvas Standard, genesis planning"
 owner: stanley
-status: in_progress
+status: completed
+closed: 2026-06-13
 phase_count: 6
 mission_count: 5
 estimated_sessions: "8-14"
@@ -314,8 +315,10 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 
 ## Completion Summary
 
-> Authored at P5; **awaiting the operator's close-gate action** (status stays `in_progress` until the operator
-> closes — SO-1).
+> ✅ **OPERATION CARTOGRAPHY CLOSED 2026-06-13** (operator close gate). Context graduation run →
+> [[what/context/context_canvas_standard_doctrine|context_canvas_standard_doctrine]]. The operator also
+> **activated Operation Keystone** (the execution build) at the same gate — see
+> [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|campaign_canvas_genesis]] (now `status: active`).
 
 ### Deliverables
 - **Identity (P0):** `adr_000` (Mondrian; Platform/Option P; scope confirmed).
@@ -343,7 +346,7 @@ stays in producers. · C9 every mission ends with SITREP + Next-Session Prompt +
 
 ## Campaign AAR
 
-> Authored at P5; the operator flips `status: completed` at the close gate (after context graduation).
+> ✅ Closed 2026-06-13 (operator). Context graduation: `what/context/context_canvas_standard_doctrine.md`.
 
 - **Worked:** the verbatim-grounded P1 inventory paid compounding dividends — it became the P2 spec structure, the P3 conformance checks, and the P5 impact matrix; each phase was a transform of the prior. Five clean human gates, no auto-advance, executed P0→P5 in sequence.
 - **Didn't:** the full-push P2 (no checkpoint α) reviewed the load-bearing D2/D3 only after the specs were built on them — survived because every spec's dependency was explicit + reversible, but the checkpoint would have de-risked it.

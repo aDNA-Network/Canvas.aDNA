@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-13
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260613_044347_p5_harmonization
+last_session: session_stanley_20260613_060751_close_keystone_e0
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,30 +14,39 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Genesis-planning — Operation Cartography. ALL PHASES P0–P5 DELIVERED 2026-06-13 — HELD at the P5 close gate (operator closes the campaign + authorizes/schedules Keystone).**
-`how/campaigns/campaign_canvas_genesis_planning/campaign_canvas_genesis_planning.md`
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; E0.1 ✅ done, E0.2 next.**
+`how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
-P0 → P1 → **P2 ratified** → **P3 cleared** → **P4 complete** (Operation Keystone charter) → **P5 complete 2026-06-13**: the harmonization plan + router-row finalize + the genesis-planning Completion Summary + Campaign AAR. **The campaign deliverables are all done; the campaign status stays `in_progress` until the operator's close gate** — (1) close Operation Cartography (`status: completed`, after context graduation); (2) **authorize or schedule** Operation Keystone (the build). Keystone activation is a separate decision (SO-1). Planning campaign — no runtime built (C3).
+Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + the conformance/federation contracts + the build charter, then **closed at the operator gate** (context graduation → `context_canvas_standard_doctrine`; `campaign_canvas_genesis_planning` `status: completed`). At the same gate the operator **activated Operation Keystone** (the execution build). **E0.1 ✅** — the `canvas_std` reference-impl skeleton stands up at `what/code/canvas_std/` (Python ≥3.11, frozen public-API stubs, smoke test green). **Building is now in scope** (C3 lifted); producer migrations are parity-gated. *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
-## ▶ Resume Here — P5 close gate (operator closes Operation Cartography)
+## ▶ Resume Here — Operation Keystone E0.2 (port the KEEP floor)
 
-All **P0–P5 deliverables are authored**; the genesis-PLANNING campaign is **done pending the operator's close gate**. Two operator close actions:
-1. **Close Operation Cartography** — optionally run `skill_context_graduation` (promote reusable knowledge to `what/context/`), then flip `campaign_canvas_genesis_planning` → `status: completed`.
-2. **Authorize or schedule Operation Keystone** — the execution build campaign [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|campaign_canvas_genesis]] is chartered (`status: planning`). Activation = set `status: active` + begin E0.1. **Separate** from closing the planning campaign.
+The Standard is ratified; the reference-impl **skeleton is up** (E0.1 ✅). **Next mission: E0.2** — port the
+**verbatim KEEP floor** into `what/code/canvas_std/src/canvas_std/schema.py` (currently empty placeholders):
+the 10 `VALID_*` enums + node/edge required-field sets + the `lattice` `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` profile,
+transcribed from [[how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline|p1_fork_baseline]] §3.
+`schema.is_floor_loaded()` flips `True` when done. Then **E0.3** (golden-canvas fixtures) → **E1** (implement
+`validate`/`strip`, `to_canvas`/`from_canvas`/`compute_sync_hash`/`diff`/`merge`, the `_reserved` validators, the
+conformance harness — all against the frozen API).
 
-**What was built (P0–P5):** the ratified **aDNA Canvas Standard v2.0.0** (5 specs + `adr_001` extract / `adr_002` federated / `adr_003` governance), the P3 conformance + federation contracts + `iii/` wrapper, the Operation Keystone build charter, and the P5 harmonization plan. **Nothing in another vault was touched** (C3) — the build starts fresh + gated under Keystone.
+**Build hygiene:** install dev tooling (`cd what/code/canvas_std && make install`) — system Python 3.14 lacks
+`pytest`; E0.1 was verified via a direct run. Keystone phase gates stay human gates (**E3** CanvasForge migration
++ **E6** cutover are load-bearing; parity vs Wilhelm 8.80 / Issue 01 8.43). Tracking:
+[[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active) ·
+[[how/campaigns/campaign_canvas_genesis/missions/mission_e0_1_canvas_std_skeleton|E0.1 mission]].
 
-**Open, separate tracks:** the Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]], keep-as-view); the III-ownership + `version_policy:tracking` upstream notes (harmonization plan §3); III pin v0.4.0 confirm-at-wiring (Keystone E5.1).
+**Open side-tracks:** Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]]); III/SiteForge upstream notes; III pin confirm at E5.1.
 
 ## Parked — execution-campaign candidates (no gate change)
 
 - **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
 
-## What's Done (this session — P4 gate + P5 close-out, 2026-06-13)
+## What's Done (this session — Cartography close + Keystone E0.1, 2026-06-13)
 
-- Cleared the **P4 exit gate** (operator approved the execution charter).
-- **Executed P5 (final phase):** `p5_harmonization_plan` (impact matrix across CanvasForge / Archive-LiteratureForge / SiteForge / VisualDNA / III / SS-CC + the v1.0.0→v2.0.0 deprecation-shim strategy + upstream/LIP notes) · **finalized the root router row** (`~/aDNA/CLAUDE.md` → v2.0.0 + `canvas_std` + LF-successor) · authored the genesis-planning **Completion Summary + Campaign AAR** · `mission_p5_harmonization` + `canvas_genesis_planning_p5_aar`.
-- Tracking: campaign (P4 row cleared, P5 row complete, P5 phase AAR, Completion Summary + Campaign AAR, mission_count→5); this STATE. **Campaign status left `in_progress`** for the operator's close gate.
+- **Closed Operation Cartography** (operator close gate): context graduation → `what/context/context_canvas_standard_doctrine.md`; flipped `campaign_canvas_genesis_planning` → `status: completed` (Completion Summary + Campaign AAR finalized).
+- **Activated Operation Keystone** (`campaign_canvas_genesis` → `status: active`).
+- **Executed E0.1:** stood up `what/code/canvas_std/` — the `adna-canvas-std` Python package (src-layout, MIT, `pyproject`/`Makefile`/`README`/`AGENTS`/`CHANGELOG`; frozen public-API stubs across `schema`/`validate`/`roundtrip`/`reserved`/`conformance`; `tests/test_smoke.py`). **Verified:** imports clean (pkg 0.1.0 · Standard 2.0.0), 5/5 stubs raise `NotImplementedError`, levels/versions/empty-floor asserted. + `mission_e0_1_canvas_std_skeleton`.
+- Tracking: Keystone E0.1 ✅ / E0.2 next; this STATE.
 
 ## Verified Ground Truth (anchors)
 
@@ -50,14 +59,14 @@ All **P0–P5 deliverables are authored**; the genesis-PLANNING campaign is **do
 
 ## Active Blockers
 
-- None blocking. **Next gate:** operator's **P5 close gate** — close Operation Cartography + authorize/schedule Keystone (one phase per gate, SO-1).
+- None blocking. **Next:** Keystone **E0.2** (port the KEEP floor into `schema.py`). `pytest` not in system Python — `make install` before E1. Load-bearing gates ahead: E3 (CanvasForge migration) + E6 (cutover).
 
 ## Next Steps
 
-1. ✅ P0 · ✅ P1 · ✅ P2 ratified · ✅ P3 · ✅ P4 — through 2026-06-12.
-2. ✅ P5 complete 2026-06-13 — harmonization plan + router finalize + Completion Summary + Campaign AAR; **HELD at the P5 close gate**.
-3. **P5 close gate (operator):** (a) optionally run context graduation → flip `campaign_canvas_genesis_planning` to `status: completed` (closes Operation Cartography); (b) **authorize or schedule** Operation Keystone (`campaign_canvas_genesis`).
-4. **Operation Keystone** (post-close, separate decision): activate → execute E0.1 onward (build `canvas_std`, migrate CanvasForge, …). Open side-tracks: Δ2 LIP; III/SiteForge upstream notes.
+1. ✅ **Operation Cartography CLOSED** 2026-06-13 — Standard v2.0.0 ratified across P0–P5; context graduated.
+2. ✅ **Operation Keystone ACTIVATED** + **E0.1 done** (`canvas_std` skeleton; E-D1 resolved = Python/hatchling).
+3. **Next: E0.2** — port the verbatim KEEP floor into `schema.py`; then E0.3 (golden fixtures) → E1 (implement validators/round-trip/_reserved/conformance against the frozen API).
+4. Ahead: E2 publish v2.0.0 schema+CLI · **E3 CanvasForge migration (parity-gated, highest-risk)** · E4 LF-successor + net-new consumer · E5 rollout + `iii/` wiring · E6 validation & cutover. Side-tracks: Δ2 LIP; III/SiteForge upstream notes.
 
 ## Notes
 

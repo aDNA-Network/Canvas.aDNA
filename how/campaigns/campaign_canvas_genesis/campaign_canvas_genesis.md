@@ -3,7 +3,8 @@ campaign_id: campaign_canvas_genesis
 type: campaign
 title: "Operation Keystone — aDNA Canvas Standard v2.0.0, execution (build & migrate)"
 owner: stanley
-status: planning
+status: active
+activated: 2026-06-13
 phase_count: 7
 mission_count: 22
 estimated_sessions: "20-30"
@@ -19,11 +20,10 @@ tags: [campaign, execution, build, canvas, standard, platform]
 # Campaign: Operation Keystone (execution)
 
 > **EXECUTION campaign — the build plan.** Authored as the **P4 deliverable** of Operation Cartography
-> (`campaign_canvas_genesis_planning`). **Status: `planning` — chartered, NOT activated.** It is the keystone that
-> makes the v2.0.0 Standard load-bearing: it builds the `canvas_std` reference implementation and migrates the
-> producers onto it. **Activation is a separate operator decision** (scheduled/authorized at Cartography P5, SO-1).
-> Unlike the planning campaign, **this campaign builds runtime + migrates code** — every producer migration is
-> parity-gated.
+> (`campaign_canvas_genesis_planning`). **🔄 ACTIVATED 2026-06-13** (operator, at the Cartography close gate) —
+> `status: active`; **E0.1 in progress.** It is the keystone that makes the v2.0.0 Standard load-bearing: it
+> builds the `canvas_std` reference implementation and migrates the producers onto it. Unlike the planning
+> campaign, **this campaign builds runtime + migrates code** — every producer migration is parity-gated.
 
 ## Goal
 
@@ -62,11 +62,15 @@ extraction-shim precedent.
 > Phase gates are human gates (SO-1). **E3 is the highest-risk phase (parity-gated CanvasForge migration).**
 
 ### Phase E0 — Bootstrap `canvas_std`
-| # | Mission | Sessions |
-|---|---------|----------|
-| E0.1 | Stand up `what/code/canvas_std/` package skeleton (layout, packaging, CI, license) | 1 |
-| E0.2 | Port the KEEP floor verbatim — 10 `VALID_*` enums + node/edge schema + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (lattice profile) | 1-2 |
-| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 |
+| # | Mission | Sessions | Status |
+|---|---------|----------|--------|
+| E0.1 | Stand up `what/code/canvas_std/` package skeleton (layout, packaging, CI, license) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_1_canvas_std_skeleton\|mission]]) |
+| E0.2 | Port the KEEP floor verbatim — 10 `VALID_*` enums + node/edge schema + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (lattice profile) | 1-2 | ◀ **next** |
+| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 | planned |
+
+> **Build progress (2026-06-13):** E0.1 ✅ — `adna-canvas-std` skeleton stands up at `what/code/canvas_std/`
+> (Python ≥3.11, src-layout, MIT, frozen public API stubbed, smoke test green via direct run). **E-D1 resolved**
+> (Python/hatchling). **Next: E0.2** — port the verbatim KEEP floor into `schema.py` from `p1_fork_baseline` §3.
 
 ### Phase E1 — Reference implementation
 | # | Mission | Sessions |
@@ -165,9 +169,8 @@ scheduled; context graduation run.
 
 ## Activation
 
-**This campaign is `status: planning` (chartered, not running).** It is activated by an explicit operator decision
-at (or after) Cartography **P5** — `set status: active`, then execute E0.1. Do not begin E0 without that
-authorization.
+**✅ ACTIVATED 2026-06-13** (operator, at the Cartography close gate) — `status: active`. E0.1 (canvas_std package
+skeleton) is in progress. E0.2+ proceed per the phase plan; phase gates remain human gates (E3/E6 load-bearing).
 
 ## Notes
 
