@@ -3,7 +3,7 @@ plan_id: mission_e3_1_canvasforge_wrapper
 type: plan
 title: "E3.1 — Introduce the canvas/ federation wrapper in CanvasForge"
 owner: stanley
-status: active
+status: completed
 campaign_id: campaign_canvas_genesis
 campaign_phase: 3
 campaign_mission_number: 1
@@ -13,6 +13,9 @@ updated: 2026-06-13
 last_edited_by: agent_stanley
 tags: [plan, campaign, keystone, e3, federation, canvasforge]
 ---
+
+> **STATUS: completed 2026-06-13** (session `session_stanley_20260613_193008_keystone_e3_open`). Wrapper landed
+> additively; see Completion Summary + AAR below.
 
 # Mission: E3.1 — Introduce the `canvas/` federation wrapper in CanvasForge
 
@@ -43,7 +46,7 @@ Keystone by making CanvasForge's standard-consumption explicit and contract-boun
 ## Objectives
 
 ### 1. Create the `canvas/` wrapper CLAUDE.md
-- **Status**: in-progress
+- **Status**: completed
 - **Session**: session_stanley_20260613_193008_keystone_e3_open
 - **Description**: Author `CanvasForge.aDNA/canvas/CLAUDE.md` modeled on the proven `Canvas.aDNA/iii/CLAUDE.md`
   precedent (frontmatter + producer-side standard-bearer note + `federation_ref` block + routing notes +
@@ -52,7 +55,7 @@ Keystone by making CanvasForge's standard-consumption explicit and contract-boun
 - **Depends on**: none
 
 ### 2. Create the `graft_manifest.yaml`
-- **Status**: in-progress
+- **Status**: completed
 - **Session**: session_stanley_20260613_193008_keystone_e3_open
 - **Description**: Record the §2.2 graft decision: the Standard's spec set + reference impl are **referenced** via
   `federation_ref` (never copied), so no grafts are required at E3.1. Manifest carries `grafts: []` + rationale.
@@ -60,7 +63,7 @@ Keystone by making CanvasForge's standard-consumption explicit and contract-boun
 - **Depends on**: 1
 
 ### 3. Verify additive-only + commit
-- **Status**: planned
+- **Status**: completed
 - **Session**: session_stanley_20260613_193008_keystone_e3_open
 - **Description**: Confirm `git status` in CanvasForge shows only the new `canvas/` dir (no `canvas_core` diff);
   commit with a `Keystone E3.1 —` message. (Push deferred per the local-commit-accumulate workspace convention.)
@@ -90,28 +93,41 @@ Keystone by making CanvasForge's standard-consumption explicit and contract-boun
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+Completed 2026-06-13 in session `session_stanley_20260613_193008_keystone_e3_open`.
 
 ### Deliverables
-- [ ] `CanvasForge.aDNA/canvas/CLAUDE.md`
-- [ ] `CanvasForge.aDNA/canvas/graft_manifest.yaml`
-- [ ] Additive-only commit in CanvasForge
+- [x] `CanvasForge.aDNA/canvas/CLAUDE.md` — `type: federation_wrapper`; `federation_ref` → Canvas.aDNA v2.0.0
+  (`source_spec` + `source_impl` `canvas_std`, `version_policy: minor`, `conformance_target: adna_native`,
+  `specs_used` ×5, `profiles_used: [lattice, deck, comic]`, producer engines as `local_extensions`); producer-side
+  standard-bearer note; downstream-safety note; routing notes; cross-references. Commit `7bb833f` (CanvasForge).
+- [x] `CanvasForge.aDNA/canvas/graft_manifest.yaml` — `grafts: []` with the §2.2 reference-not-graft rationale.
+- [x] Additive-only commit in CanvasForge (`7bb833f`) — verified `git status` shows only `canvas/`; **no diff to
+  `what/code/canvas_core/`**; baseline `3ce4d341` intact. `canvas_std` suite re-confirmed green (46 pass / 8 skip).
 
 ### Descoped
-- Any `canvas_core` code change (that is E3.2, behind the shim).
+- Any `canvas_core` code change — that is E3.2 (the deprecation shim), behind which the repoint happens.
+- A CanvasForge root Standing Order routing canvas consumption through this wrapper — deferred to E3.2/cutover when
+  the seam becomes load-bearing (kept E3.1 additive/reversible).
 
 ### Key Findings
--
+- CanvasForge already carried a mature `iii/` federation wrapper (v0.5.0-pinned, bridge_pack + local_skill) — a
+  strong local precedent for the `canvas/` wrapper's shape and the downstream-safety discipline.
+- The three downstream consumers (SS presentationforge/graphicnovelforge, CC presentationforge) reference
+  CanvasForge **lattices**, not code paths — so the wrapper is downstream-safe; the only path that will affect them
+  is the `canvas_core` public surface, which E3.2's shim is designed to preserve.
 
 ### Scope Changes
--
+- None. (The LP↔Canvas seam countersign + the broader E3 phase-open were done in the same session but are tracked
+  separately — coordination + campaign-doc/STATE, not this mission.)
 
 ## AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**:
-- **Didn't**:
-- **Finding**:
-- **Change**:
-- **Follow-up**:
+- **Worked**: Modeling the wrapper on the existing CanvasForge `iii/` wrapper + `spec_federation_contract` §6.1 made
+  the `federation_ref` shape unambiguous; the additive-only constraint held cleanly (zero `canvas_core` diff).
+- **Didn't**: Nothing blocked. Minor: a pre-existing untracked Hypnos AAR sat in CanvasForge `who/coordination/` —
+  scoped the commit to `canvas/` only to avoid sweeping unrelated work.
+- **Finding**: Anchoring the federation seam *before* touching code (E3.1 → E3.2) keeps the highest-risk phase
+  reversible — the wrapper + pinned `federation_ref` exist and are reviewable before any import repoints.
+- **Change**: none.
+- **Follow-up**: E3.2 (`mission_e3_2_canvas_core_shim`) — repoint `canvas_core` → `canvas_std` behind the
+  deprecation shim; decide the E-D2 grace window; register the shim in the Home.aDNA ledger.
