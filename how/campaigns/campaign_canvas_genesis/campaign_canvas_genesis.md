@@ -110,7 +110,7 @@ extraction-shim precedent.
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
 | E3.1 | Introduce the `canvas/` federation wrapper in CanvasForge (federation_ref + graft) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_1_canvasforge_wrapper\|mission]]) |
-| E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_2_canvas_core_shim\|mission]]) |
+| E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 | ✅ **done 2026-06-13** (constants-only; suite green at parity) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_2_canvas_core_shim\|mission]]) |
 | E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_3_parity_gate\|mission]]) |
 | E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover\|mission]]) |
 
@@ -119,9 +119,12 @@ extraction-shim precedent.
 > the additive `canvas/` federation wrapper landed in `CanvasForge.aDNA` (`federation_ref` → Canvas.aDNA v2.0.0 +
 > `graft_manifest.yaml`; commit `7bb833f`; `canvas_core` untouched, baseline `3ce4d341` intact). The LP↔Canvas seam
 > was formalized two-sided the same day (Mondrian's countersign of Noether's seam memo), so the shim work (E3.2) — a
-> §3.3 "seam-touching" change — proceeds on a settled contract. **E3.2 (the `canvas_core`→`canvas_std` deprecation
-> shim) is the first consequential code change and begins next session.** E3.3 is the load-bearing parity gate
-> (Wilhelm 8.80 / Issue 01 8.43); E3.4 cutover is operator-gated.
+> §3.3 "seam-touching" change — proceeded on a settled contract. **E3.2 ✅ done 2026-06-13** — the constants-only
+> `canvas_core`→`canvas_std` deprecation shim landed (the 10 `VALID_*` enums + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING`
+> rebound to `canvas_std.schema` behind a `DeprecationWarning` + `DEPRECATED_STUB` marker; CanvasForge suite green
+> at parity — 957 passed / 5 skipped, baseline `3ce4d341` intact; E-D2 = 12mo, registered Home.aDNA §C). **E3.3
+> (the load-bearing parity gate — Wilhelm 8.80 / Issue 01 8.43) is next and is an operator gate**; E3.4 is
+> operator-gated cutover.
 
 ### Phase E4 — LF-successor + net-new consumer
 | # | Mission | Sessions |
@@ -153,7 +156,7 @@ extraction-shim precedent.
 | D3 | LiteratureForge seam | ✅ ratified — schema-absorb + federated pipeline (`adr_002`) |
 | D6 | Governance / versioning | ✅ ratified (`adr_003`) |
 | E-D1 | `canvas_std` language/runtime + packaging | at E0.1 |
-| E-D2 | Shim grace-window length for CanvasForge | at E3.2 (default 12mo, per lattice-protocol precedent) |
+| E-D2 | Shim grace-window length for CanvasForge | ✅ **12 months** (expiry 2027-06-13) — decided E3.2 2026-06-13; registered Home.aDNA §C |
 | Δ2 | Canvas-as-primitive | open LIP (separate track) |
 
 ## Risk Register

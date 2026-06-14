@@ -3,11 +3,12 @@ plan_id: mission_e3_2_canvas_core_shim
 type: plan
 title: "E3.2 — Repoint canvas_core → canvas_std behind a deprecation shim"
 owner: stanley
-status: active
+status: completed
 campaign_id: campaign_canvas_genesis
 campaign_phase: 3
 campaign_mission_number: 2
 mission_class: implementation
+status_note: "completed 2026-06-13 — constants-only shim landed; suite green at parity; E-D2=12mo"
 created: 2026-06-13
 updated: 2026-06-13
 last_edited_by: agent_stanley
@@ -42,7 +43,7 @@ here, only the reversible repoint.
 ## Objectives
 
 ### 1. API-parity audit: canvas_std covers the canvas_core reference surface
-- **Status**: planned
+- **Status**: ✅ done
 - **Description**: Diff the reference surface CanvasForge consumes (`CanvasBuilder` constants/schema,
   `validate`/`read_back`/`diff`/`merge`/`compute_sync_hash`, `TYPE_MAPPING`/`EDGE_TYPE_MAPPING`, the `VALID_*`
   enums) against `canvas_std`'s public API. Record any gap as a blocker (fix in `canvas_std` via the governed
@@ -51,7 +52,7 @@ here, only the reversible repoint.
 - **Depends on**: E3.1 (wrapper anchors the seam)
 
 ### 2. Install the deprecation shim in canvas_core
-- **Status**: planned
+- **Status**: ✅ done
 - **Description**: Convert `canvasforge/canvas_core/` reference modules to re-export from `canvas_std` with a
   module docstring (deprecation date, old→new import path in federation_ref form, expiry), `warnings.warn(...,
   DeprecationWarning, stacklevel=2)`, `from canvas_std... import *`, and a trailing `# DEPRECATED_STUB Canvas.aDNA`
@@ -60,14 +61,14 @@ here, only the reversible repoint.
 - **Depends on**: 1
 
 ### 3. Decide E-D2 grace-window length
-- **Status**: planned
+- **Status**: ✅ done
 - **Description**: Set the shim grace window (default 12mo per the lattice-protocol precedent). Register the shim in
   `Home.aDNA` shim ledger (class, window, retire-condition, owner) per workspace Standing Rule 9.
 - **Files**: shim ledger entry (Home.aDNA); note in this mission
 - **Depends on**: 2
 
 ### 4. CanvasForge test suite green under the shim
-- **Status**: planned
+- **Status**: ✅ done
 - **Description**: Run CanvasForge's full suite; both old (`canvas_core`) and new (`canvas_std`) paths must pass,
   old path emitting `DeprecationWarning`. Fix import/compat issues until green.
 - **Files**: (tests)
@@ -91,28 +92,33 @@ here, only the reversible repoint.
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+**Completed 2026-06-13** (session `session_stanley_20260613_205753_keystone_e3_2_shim`). Operator scope:
+**constants-only** repoint + **editable install**. The `canvasforge.canvas_core` Standard floor now resolves from
+`canvas_std.schema` (SSOT) behind a deprecation shim; CanvasForge suite green at parity; baseline `3ce4d341`
+untouched. HELD at the E3.2→E3.3 boundary.
 
 ### Deliverables
-- [ ] `canvas_core` shim re-exporting from `canvas_std` (DeprecationWarning + marker)
-- [ ] E-D2 grace window decided + shim ledger entry
-- [ ] CanvasForge suite green under the shim
+- [x] `canvas_core` shim re-exporting from `canvas_std` (`DeprecationWarning` stacklevel=2 + `# DEPRECATED_STUB Canvas.aDNA` marker) — `CanvasForge.aDNA/what/code/canvas_core/core.py`, the 10 `VALID_*` enums + `TYPE_MAPPING` + `EDGE_TYPE_MAPPING` as `CanvasBuilder` class attributes now bound to `canvas_std.schema` objects (verified `is`-identical).
+- [x] E-D2 grace window decided (**12 months**, expiry **2027-06-13**) + shim ledger entry — `Home.aDNA/.../disposition_ledger_v2.md` §C (count 17→18; row + row-note; class `deprecation (in-code re-export)`; owner Mondrian + Hermes).
+- [x] CanvasForge suite green under the shim — canonical **900 passed / 3 skipped / 0 failed**; complete tree (incl. `canvas_presentation`) **957 passed / 5 skipped / 0 failed**; old + new import paths exercised; old path emits the `DeprecationWarning`. `canvas_std` own suite unregressed (46/8).
+- [x] API-parity audit artifact — `missions/artifacts/e3_2_api_parity_audit.md` (byte-identity of all 12; no mutation; no module-level floor imports; PASS/no blockers).
 
 ### Descoped
-- Parity regeneration + cutover (E3.3 / E3.4).
+- Round-trip **function** repointing (`validate`/`diff`/`merge`/round-trip) — deferred to post-E3.3 (operator chose constants-only; functions repoint once parity is proven).
+- Parity regeneration + cutover (E3.3 / E3.4). Baseline `3ce4d341` deliberately unchanged.
 
 ### Key Findings
--
+- The floor constants live as **`CanvasBuilder` class attributes** (`core.py` 46–117), accessed via `self.X` / `CanvasBuilder.X` — NOT module-level (corrects the planning-time exploration summary). This made the repoint a clean class-attribute reassignment with object identity preserved; no producer touched.
+- The cross-vault import gap was real but trivial to close: `adna-canvas-std` is a zero-dep installable package; an editable install into a py3.12 `.venv` at `CanvasForge.aDNA/what/code/.venv` (gitignored) suffices. Pillow + googleapiclient were the only env deps blocking a fully-green pre-existing suite (orthogonal to the floor).
+- All 12 floor constants are **value-identical** (verbatim E0.2 port) → zero behavioral drift from the constants repoint; the only suite delta is +1 `DeprecationWarning`.
 
 ### Scope Changes
--
+- None to mission intent. Skipped the planned `what/code/.gitignore` add — CanvasForge's **root** `.gitignore` already ignores `.venv/`. No `pytest.ini` edit needed — it does not elevate warnings to errors.
 
 ## AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**:
-- **Didn't**:
-- **Finding**:
-- **Change**:
-- **Follow-up**:
+- **Worked**: Class-attribute reassignment to `canvas_std.schema` + module-level `DeprecationWarning`/marker, validated by `is`-identity and a differential pre/post-shim suite diff (897→identical pass set; 0 regression). Editable install of the zero-dep `adna-canvas-std`.
+- **Didn't**: Pre-existing suite wasn't green out-of-the-box in a fresh venv — 28 collection errors (`PIL`) + 3 gdoc failures (`googleapiclient`); both were missing test deps, unrelated to the shim. Resolved by installing them.
+- **Finding**: The exploration summary mislocated the floor as module-level; reading the actual definition site (class attributes) changed the shim shape from "wholesale module redirect" to "surgical class-attr rebind." Verifying the definition site firsthand was load-bearing.
+- **Change**: Establish a documented CanvasForge test env (the gitignored `.venv` + the canvas_std editable install) as the standard runner for E3.3+ — captured here and in the audit note so the parity gate inherits it.
+- **Follow-up**: E3.3 parity gate (Wilhelm 8.80 / Issue 01 8.43) — regenerate locked outputs *through* `canvas_std` via this shim; if green, the round-trip-function repoint (descoped here) can follow. Shim retirement tracked to Keystone E6 (Home.aDNA §C).
