@@ -37,9 +37,34 @@ def test_conformance_levels():
     assert {lvl.value for lvl in ConformanceLevel} == {"core", "extended", "adna_native"}
 
 
-def test_keep_floor_not_loaded_yet():
-    # E0.1: the KEEP floor is declared but empty; E0.2 populates it.
-    assert schema.is_floor_loaded() is False
+def test_keep_floor_loaded():
+    # E0.2: the verbatim KEEP floor is populated.
+    assert schema.is_floor_loaded() is True
+    assert schema.VALID_NODE_TYPES == frozenset({"text", "file", "group", "link"})
+    assert schema.VALID_COLORS == frozenset({"0", "1", "2", "3", "4", "5", "6"})
+    assert None in schema.VALID_SHAPES and "database" in schema.VALID_SHAPES
+    assert schema.VALID_ENDS == frozenset({"none", "arrow"})
+    assert schema.NODE_REQUIRED_FIELDS == ("id", "type", "x", "y", "width", "height")
+    assert schema.EDGE_REQUIRED_FIELDS == ("id", "fromNode", "fromSide", "toNode", "toSide")
+
+
+def test_lattice_profile_verbatim():
+    assert len(schema.TYPE_MAPPING) == 8 and len(schema.EDGE_TYPE_MAPPING) == 5
+    assert schema.TYPE_MAPPING["module"] == {"color": "4", "shape": "predefined-process", "node_type": "file"}
+    assert schema.TYPE_MAPPING["reasoning"] == {"color": "6", "shape": "diamond", "node_type": "text"}
+    assert schema.EDGE_TYPE_MAPPING["optional"] == {
+        "path_style": "dotted",
+        "arrow": "triangle-outline",
+        "from_end": None,
+        "to_end": "arrow",
+    }
+    # every directed edge profile ends in an arrow (toEnd:"arrow" invariant)
+    assert all(e["to_end"] == "arrow" for e in schema.EDGE_TYPE_MAPPING.values())
+    # all profile tokens stay within the §6 enums (so Extended-degradation holds)
+    for entry in schema.TYPE_MAPPING.values():
+        assert entry["shape"] in schema.VALID_SHAPES
+        assert entry["color"] is None or entry["color"] in schema.VALID_COLORS
+        assert entry["node_type"] in schema.VALID_NODE_TYPES
 
 
 @pytest.mark.parametrize(

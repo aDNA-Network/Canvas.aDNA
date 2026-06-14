@@ -65,12 +65,13 @@ extraction-shim precedent.
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
 | E0.1 | Stand up `what/code/canvas_std/` package skeleton (layout, packaging, CI, license) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_1_canvas_std_skeleton\|mission]]) |
-| E0.2 | Port the KEEP floor verbatim — 10 `VALID_*` enums + node/edge schema + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (lattice profile) | 1-2 | ◀ **next** |
-| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 | planned |
+| E0.2 | Port the KEEP floor verbatim — 10 `VALID_*` enums + node/edge schema + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (lattice profile) | 1-2 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_2_keep_floor\|mission]]) |
+| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 | ◀ **next** |
 
-> **Build progress (2026-06-13):** E0.1 ✅ — `adna-canvas-std` skeleton stands up at `what/code/canvas_std/`
-> (Python ≥3.11, src-layout, MIT, frozen public API stubbed, smoke test green via direct run). **E-D1 resolved**
-> (Python/hatchling). **Next: E0.2** — port the verbatim KEEP floor into `schema.py` from `p1_fork_baseline` §3.
+> **Build progress (2026-06-13):** E0.1 ✅ skeleton (Python ≥3.11, MIT, frozen API stubs). E0.2 ✅ — `schema.py`
+> now carries the **verbatim KEEP floor** (10 `VALID_*` enums + node/edge required fields + the `lattice`
+> `TYPE_MAPPING`(8)/`EDGE_TYPE_MAPPING`(5) profile); `is_floor_loaded()`→True; smoke test green incl. a
+> token-within-enum degradation-safety check. **Next: E0.3** — golden-canvas fixtures + test-harness scaffold.
 
 ### Phase E1 — Reference implementation
 | # | Mission | Sessions |
