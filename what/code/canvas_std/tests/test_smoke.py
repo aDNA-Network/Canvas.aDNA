@@ -70,11 +70,11 @@ def test_lattice_profile_verbatim():
 @pytest.mark.parametrize(
     "call",
     [
-        # validate() is live as of E1.1; the rest are stubbed until E1.2/E1.5.
+        # live: validate (E1.1), to_canvas/from_canvas/compute_sync_hash (E1.2).
+        # still stubbed: diff/merge (E1.3), strip (E1.5).
         lambda: canvas_std.strip({}),
-        lambda: canvas_std.to_canvas({}),
-        lambda: canvas_std.from_canvas({}),
-        lambda: canvas_std.compute_sync_hash({}),
+        lambda: canvas_std.diff({}, {}),
+        lambda: canvas_std.merge({}, {}),
     ],
 )
 def test_stubs_raise_not_implemented(call):
@@ -86,3 +86,23 @@ def test_validate_is_live_core():
     # E1.1: validate() no longer raises for Core; an empty doc reports its missing arrays.
     errors = canvas_std.validate({}, ConformanceLevel.CORE)
     assert errors and any("C-1" in e for e in errors)
+
+
+def test_roundtrip_live():
+    # E1.2: to_canvas builds a conformant view; sync-hash is stable; from_canvas drafts the topology back.
+    source = {
+        "name": "t",
+        "version": "0.1.0",
+        "nodes": [
+            {"id": "a", "semantic_type": "module", "text": "M"},
+            {"id": "b", "semantic_type": "dataset", "text": "D"},
+        ],
+        "edges": [{"id": "e", "fromNode": "a", "toNode": "b", "semantic_type": "data"}],
+    }
+    canvas = canvas_std.to_canvas(source)
+    assert canvas_std.validate(canvas, ConformanceLevel.EXTENDED) == []
+    assert canvas_std.compute_sync_hash(source) == canvas_std.compute_sync_hash(canvas)
+    draft = canvas_std.from_canvas(canvas)
+    assert draft["_draft"] is True
+    assert {n["id"] for n in draft["nodes"]} == {"a", "b"}
+    assert next(n for n in draft["nodes"] if n["id"] == "a")["semantic_type"] == "module"

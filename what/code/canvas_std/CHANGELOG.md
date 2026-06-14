@@ -4,6 +4,13 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E1.2 — round-trip converters)
+- `roundtrip.py`: `compute_sync_hash` (16-hex SHA-256 over sorted node ids + `fromNode->toNode` pairs),
+  `to_canvas` (forward source->view: applies the `lattice` profile, explicit `toEnd`, injects `_reserved.sync`;
+  default geometry — layout is producer-side), `from_canvas` (advisory view->source draft; topology + best-effort
+  semantic-type recovery; `_draft: true`). `diff`/`merge` remain stubbed (E1.3).
+- `test_smoke.py`: `to_canvas`/`from_canvas`/`compute_sync_hash` removed from the stub list + a round-trip liveness test.
+
 ### Added (E1.1 — validate Core/Extended)
 - `validate.py`: implemented `validate(doc, level)` Core (C-1..C-5) + Extended (E-1..E-4) checks against the
   KEEP floor; monotone (aDNA-Native ⊃ Extended ⊃ Core). C-4 = explicit `toEnd` required (omitted → reject).
