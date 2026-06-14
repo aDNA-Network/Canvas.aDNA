@@ -11,7 +11,7 @@ estimated_sessions: "20-30"
 estimation_class: build-broad
 priority: high
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-13
 last_edited_by: agent_stanley
 predecessor: campaign_canvas_genesis_planning
 tags: [campaign, execution, build, canvas, standard, platform]
@@ -107,12 +107,20 @@ extraction-shim precedent.
 > vs Wilhelm 8.80 / Issue 01 8.43). Do not start E3 without the operator.
 
 ### Phase E3 — CanvasForge migration (parity-gated) ⚠️ highest risk
-| # | Mission | Sessions |
-|---|---------|----------|
-| E3.1 | Introduce the `canvas/` federation wrapper in CanvasForge (federation_ref + graft) | 1 |
-| E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 |
-| E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 |
-| E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 |
+| # | Mission | Sessions | Status |
+|---|---------|----------|--------|
+| E3.1 | Introduce the `canvas/` federation wrapper in CanvasForge (federation_ref + graft) | 1 | 🔄 **in-progress 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_1_canvasforge_wrapper\|mission]]) |
+| E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_2_canvas_core_shim\|mission]]) |
+| E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_3_parity_gate\|mission]]) |
+| E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover\|mission]]) |
+
+> **Phase progress (2026-06-13) — PHASE E3 OPENED 🔄 (operator-authorized gate crossing):** the operator approved
+> crossing the E2→E3 human gate; all four E3 missions are chartered (SO-3) and **E3.1 is in-progress** — the
+> additive `canvas/` federation wrapper in `CanvasForge.aDNA` (`federation_ref` → Canvas.aDNA v2.0.0, no code
+> repoint). The LP↔Canvas seam was formalized two-sided the same day (Mondrian's countersign of Noether's seam
+> memo), so the shim work (E3.2) — a §3.3 "seam-touching" change — proceeds on a settled contract. **E3.2 (the
+> `canvas_core`→`canvas_std` deprecation shim) is the first consequential code change and begins next session.**
+> E3.3 is the load-bearing parity gate (Wilhelm 8.80 / Issue 01 8.43); E3.4 cutover is operator-gated.
 
 ### Phase E4 — LF-successor + net-new consumer
 | # | Mission | Sessions |
