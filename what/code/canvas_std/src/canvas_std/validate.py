@@ -149,7 +149,10 @@ def validate(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.COR
         from canvas_std import reserved  # A-* checks (spec_conformance_suite §4)
 
         reserved_block = doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {})
-        errors += reserved.validate_reserved(reserved_block)  # NotImplementedError until E1.4
+        if not isinstance(reserved_block, dict) or not reserved_block:
+            errors.append("A-2: aDNA-Native canvas requires a populated metadata.frontmatter._reserved block")
+        else:
+            errors += reserved.validate_reserved(reserved_block, doc)
     return errors
 
 

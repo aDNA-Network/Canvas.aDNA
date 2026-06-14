@@ -4,6 +4,14 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E1.4 — _reserved validators / A-* checks)
+- `reserved.py`: `validate_reserved(reserved, doc)` (A-2 adna_version/conformance_level, A-6 sync/16-hex hash) +
+  `validate_component_types` (§7: keys resolve, class ∈ 14-class taxonomy, degrades_to ∈ baseline),
+  `validate_panel_link` (§6: kinds/ids resolve, enums, exactly-one-canonical-surface, sequence acyclicity),
+  `_validate_semantic_bindings` / `_validate_context_object`. Constants: `COMPONENT_CLASSES`, `PL_*`.
+- `validate()` aDNA-Native branch wired to `validate_reserved` (requires a populated `_reserved`). The
+  `adna_native` validate-xfail in `test_fixtures.py` now PASSES.
+
 ### Added (E1.3 — diff / merge / preserve_positions)
 - `roundtrip.py`: `diff(a, b)` (structured topology/position diff), `preserve_positions(target, reference)` (G1),
   `merge(source, canvas, strategy)` (three-way: canvas owns topology + positions, source owns semantics;

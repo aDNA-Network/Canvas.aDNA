@@ -81,8 +81,8 @@ extraction-shim precedent.
 | E1.1 | Validator (C-*/E-* checks per `spec_conformance_suite`; A-* deferred to E1.4) | 2 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e1_1_validate\|mission]]) |
 | E1.2 | Round-trip converters (`to_canvas`=`build`, `from_canvas`=`read_back`) + `compute_sync_hash` | 2 | ✅ **done 2026-06-13** |
 | E1.3 | Advisory reverse path — `diff` / `merge` (3-way) / `preserve_positions` | 1-2 | ✅ **done 2026-06-13** |
-| E1.4 | `_reserved` schema validators (component_types / semantic_bindings / panel_link / context_object) → A-* checks | 2 | ◀ **next** |
-| E1.5 | Degradation (`strip`) + D-1..D-3 tests as a first-class suite | 1 | planned |
+| E1.4 | `_reserved` schema validators (component_types / semantic_bindings / panel_link / context_object) → A-* checks | 2 | ✅ **done 2026-06-13** |
+| E1.5 | Degradation (`strip`) + D-1..D-3 tests as a first-class suite | 1 | ◀ **next** (closes E1) |
 
 > **Build progress (2026-06-13) — Phase E1 started:** E1.1 ✅ — `validate(doc, level)` implements the Core (C-*)
 > + Extended (E-*) checks in `validate.py` against the KEEP floor + golden fixtures; the core/extended/negative
