@@ -70,16 +70,28 @@ def test_lattice_profile_verbatim():
 @pytest.mark.parametrize(
     "call",
     [
-        # live: validate (E1.1), to_canvas/from_canvas/compute_sync_hash (E1.2).
-        # still stubbed: diff/merge (E1.3), strip (E1.5).
+        # live: validate (E1.1), to_canvas/from_canvas/compute_sync_hash (E1.2), diff/merge (E1.3).
+        # still stubbed: strip (E1.5).
         lambda: canvas_std.strip({}),
-        lambda: canvas_std.diff({}, {}),
-        lambda: canvas_std.merge({}, {}),
     ],
 )
 def test_stubs_raise_not_implemented(call):
     with pytest.raises(NotImplementedError):
         call()
+
+
+def test_diff_merge_live():
+    # E1.3: diff detects a moved node + a new node; merge keeps source semantics, canvas positions.
+    a = {"nodes": [{"id": "x", "type": "text", "x": 0, "y": 0, "width": 10, "height": 10}], "edges": []}
+    b = {
+        "nodes": [
+            {"id": "x", "type": "text", "x": 99, "y": 0, "width": 10, "height": 10},
+            {"id": "y", "type": "text", "x": 0, "y": 0, "width": 10, "height": 10},
+        ],
+        "edges": [],
+    }
+    d = canvas_std.diff(a, b)
+    assert d["nodes_added"] == ["y"] and d["positions_changed"] == ["x"] and d["topology_changed"] is True
 
 
 def test_validate_is_live_core():

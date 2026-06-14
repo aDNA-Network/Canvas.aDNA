@@ -12,7 +12,14 @@ STANDARD_VERSION = "2.0.0"  # the aDNA Canvas Standard version this package impl
 UPSTREAM_BASELINE = "Advanced Canvas v5.6.6 + JSON Canvas 1.0"  # PIN-A (p1_fork_baseline §1)
 
 from canvas_std.conformance import ConformanceReport, validate_suite
-from canvas_std.roundtrip import compute_sync_hash, diff, from_canvas, merge, to_canvas
+from canvas_std.roundtrip import (
+    compute_sync_hash,
+    diff,
+    from_canvas,
+    merge,
+    preserve_positions,
+    to_canvas,
+)
 from canvas_std.validate import ConformanceLevel, ValidationError, strip, validate
 
 __all__ = [
@@ -28,6 +35,7 @@ __all__ = [
     "compute_sync_hash",
     "diff",
     "merge",
+    "preserve_positions",
     "validate_suite",
     "ConformanceReport",
 ]

@@ -4,6 +4,12 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E1.3 — diff / merge / preserve_positions)
+- `roundtrip.py`: `diff(a, b)` (structured topology/position diff), `preserve_positions(target, reference)` (G1),
+  `merge(source, canvas, strategy)` (three-way: canvas owns topology + positions, source owns semantics;
+  `yaml_wins`/`canvas_wins`; conflicts flagged as records, not exceptions). `preserve_positions` exported.
+- `test_smoke.py`: `diff`/`merge` removed from the stub list (only `strip` remains) + a diff liveness check.
+
 ### Added (E1.2 — round-trip converters)
 - `roundtrip.py`: `compute_sync_hash` (16-hex SHA-256 over sorted node ids + `fromNode->toNode` pairs),
   `to_canvas` (forward source->view: applies the `lattice` profile, explicit `toEnd`, injects `_reserved.sync`;
