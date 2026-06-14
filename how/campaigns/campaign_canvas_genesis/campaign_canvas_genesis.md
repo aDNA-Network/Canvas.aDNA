@@ -111,7 +111,7 @@ extraction-shim precedent.
 |---|---------|----------|--------|
 | E3.1 | Introduce the `canvas/` federation wrapper in CanvasForge (federation_ref + graft) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_1_canvasforge_wrapper\|mission]]) |
 | E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 | ✅ **done 2026-06-13** (constants-only; suite green at parity) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_2_canvas_core_shim\|mission]]) |
-| E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_3_parity_gate\|mission]]) |
+| E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 | ✅ **done 2026-06-13 — GREEN** (deterministic structural proof; shim output-neutral) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_3_parity_gate\|mission]]) |
 | E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover\|mission]]) |
 
 > **Phase progress (2026-06-13) — PHASE E3 OPENED 🔄 (operator-authorized gate crossing); E3.1 ✅ done:** the
@@ -123,8 +123,10 @@ extraction-shim precedent.
 > `canvas_core`→`canvas_std` deprecation shim landed (the 10 `VALID_*` enums + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING`
 > rebound to `canvas_std.schema` behind a `DeprecationWarning` + `DEPRECATED_STUB` marker; CanvasForge suite green
 > at parity — 957 passed / 5 skipped, baseline `3ce4d341` intact; E-D2 = 12mo, registered Home.aDNA §C). **E3.3
-> (the load-bearing parity gate — Wilhelm 8.80 / Issue 01 8.43) is next and is an operator gate**; E3.4 is
-> operator-gated cutover.
+> (the load-bearing parity gate — Wilhelm 8.80 / Issue 01 8.43) is ✅ GREEN 2026-06-13** — the shim is proven
+> output-neutral by a deterministic structural proof (A/B normalized-canvas SHA identical shim-ON vs shim-OFF
+> `aa675665…`; 0 federated-floor rejects; baseline `3ce4d341` untouched; suite 900/3). **E3.4 (cutover) is next
+> and is an operator gate** (retire the embedded v1.0.0 framing + rollback rehearsal).
 
 ### Phase E4 — LF-successor + net-new consumer
 | # | Mission | Sessions |
