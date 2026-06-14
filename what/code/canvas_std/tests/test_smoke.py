@@ -6,8 +6,6 @@ names exist and the unimplemented stubs honor the NotImplemented contract.
 
 from __future__ import annotations
 
-import pytest
-
 import canvas_std
 from canvas_std import schema
 from canvas_std.conformance import _cli
@@ -68,16 +66,18 @@ def test_lattice_profile_verbatim():
         assert entry["node_type"] in schema.VALID_NODE_TYPES
 
 
-@pytest.mark.parametrize(
-    "call",
-    [
-        # engine (E1) + conformance harness (E2.1) are live; only the canvas-std CLI remains (E2.3).
-        lambda: _cli([]),
-    ],
-)
-def test_stubs_raise_not_implemented(call):
-    with pytest.raises(NotImplementedError):
-        call()
+def test_cli_and_schema_live(capsys):
+    # E2.3: the whole reference engine + tooling is implemented (no stubs remain).
+    from pathlib import Path
+
+    assert _cli(["schema"]) == 0
+    sch = canvas_std.json_schema()
+    assert sch["x-standard-version"] == "2.0.0" and "node" in sch["$defs"]
+    capsys.readouterr()
+
+    fx = Path(__file__).parent / "fixtures"
+    assert _cli(["validate", str(fx / "adna_native.canvas")]) == 0  # auto-detects level from _reserved
+    assert _cli(["validate", str(fx / "invalid_missing_arrow.canvas"), "--level", "core"]) == 1
 
 
 def test_validate_suite_live():

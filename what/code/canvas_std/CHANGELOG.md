@@ -4,6 +4,14 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E2.3 — publish: JSON Schema + CLI; Phase E2 complete)
+- `src/canvas_std/data/adna_canvas_v2.schema.json`: the v2.0.0 JSON Schema (draft 2020-12; structural floor +
+  enums + `_reserved` carrier). `conformance.json_schema()` loads it (importlib.resources). Exported.
+- `conformance._cli`: the `canvas-std` CLI -- `validate <file> [--level …] [--json]` (auto-detects level from
+  `_reserved.conformance_level`; exit 0/1) + `schema`. Wired via pyproject `[project.scripts]`.
+- **Phase E2 (reference impl + tooling) complete -- no stubs remain.** `pytest` 46 passed / 8 skipped; `ruff`
+  clean. Registry/federation registration deferred to E5 (rollout).
+
 ### Added (E2.2 — conformance corpus)
 - `tests/fixtures/`: `core_only_bad_shape.canvas` (reaches Core only) + `adna_bad_reserved.canvas` (reaches
   Extended only); `manifest.json` gains `expected_level_reached` + `expected_ok`.

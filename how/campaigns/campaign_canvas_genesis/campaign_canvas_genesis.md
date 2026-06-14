@@ -96,13 +96,15 @@ extraction-shim precedent.
 |---|---------|----------|--------|
 | E2.1 | Conformance harness `validate_suite(doc, declared) → ConformanceReport` | 1-2 | ✅ **done 2026-06-13** |
 | E2.2 | Canonical conformance corpus (per-level + degradation fixtures) | 1 | ✅ **done 2026-06-13** |
-| E2.3 | Publish v2.0.0 JSON Schema + conformance CLI; register v2.0.0 | 1-2 | ◀ **next** (closes E2) |
+| E2.3 | Publish v2.0.0 JSON Schema + conformance CLI; register v2.0.0 | 1-2 | ✅ **done 2026-06-13** (closes E2; registry → E5) |
 
-> **Build progress (2026-06-13) — Phase E2:** E2.1 ✅ `validate_suite → ConformanceReport` · E2.2 ✅ conformance
-> corpus (6 fixtures incl. 2 boundary cases reaching Core-only / Extended-only + `test_conformance.py`); `pytest`
-> 46 pass / 8 skip, `ruff` clean. Only the `canvas-std` CLI (`_cli`, E2.3) remains stubbed. **Next: E2.3** —
-> publish the v2.0.0 JSON Schema + the CLI (closes E2; the E2→E3 boundary holds for the operator before the
-> CanvasForge migration).
+> **Build progress (2026-06-13) — PHASE E2 COMPLETE ✅ (reference impl + tooling done):** E2.1 `validate_suite →
+> ConformanceReport` · E2.2 conformance corpus (`test_conformance.py`) · E2.3 the v2.0.0 **JSON Schema**
+> (`src/canvas_std/data/adna_canvas_v2.schema.json`, loadable via `json_schema()`) + the **`canvas-std` CLI**
+> (`validate`/`schema`; auto-level-detect; exit 0/1). `pytest` 46 pass / 8 skip, `ruff` clean — **no stubs
+> remain.** Registry/federation registration deferred to E5 rollout. **The reference implementation is complete.**
+> **⛔ HELD at the E2→E3 phase boundary** — E3 is the parity-gated CanvasForge migration (operator gate; parity
+> vs Wilhelm 8.80 / Issue 01 8.43). Do not start E3 without the operator.
 
 ### Phase E3 — CanvasForge migration (parity-gated) ⚠️ highest risk
 | # | Mission | Sessions |

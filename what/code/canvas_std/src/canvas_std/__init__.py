@@ -7,7 +7,7 @@ The reference engine is implemented across Operation Keystone E1.1–E1.5; the c
 
 from __future__ import annotations
 
-from canvas_std.conformance import ConformanceReport, validate_suite
+from canvas_std.conformance import ConformanceReport, json_schema, validate_suite
 from canvas_std.roundtrip import (
     compute_sync_hash,
     diff,
@@ -45,4 +45,5 @@ __all__ = [
     "preserve_positions",
     "validate_suite",
     "ConformanceReport",
+    "json_schema",
 ]

@@ -7,7 +7,9 @@ E2.1 implements ``validate_suite`` (spec_conformance_suite §1, §7): runs C-*/E
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+import json
+from dataclasses import asdict, dataclass, field
+from importlib import resources
 from typing import Any
 
 from canvas_std.validate import ConformanceLevel, degradation_report, validate
@@ -63,6 +65,52 @@ def validate_suite(doc: dict[str, Any], declared: ConformanceLevel = Conformance
     return report
 
 
+def json_schema() -> dict[str, Any]:
+    """Return the published v2.0.0 JSON Schema (the structural contract; semantic checks are in the validator)."""
+    text = resources.files("canvas_std").joinpath("data/adna_canvas_v2.schema.json").read_text()
+    return json.loads(text)
+
+
+def _report_dict(r: ConformanceReport) -> dict[str, Any]:
+    d = asdict(r)
+    d["declared_level"] = r.declared_level.value
+    d["level_reached"] = r.level_reached.value if r.level_reached else None
+    d["ok"] = r.ok
+    return d
+
+
 def _cli(argv: list[str] | None = None) -> int:
-    """``canvas-std`` CLI entry point (pyproject [project.scripts]). Implemented at E2.3."""
-    raise NotImplementedError("canvas-std CLI: implemented at Keystone E2.3")
+    """``canvas-std`` CLI (pyproject [project.scripts]). ``validate <file>`` + ``schema``."""
+    import argparse
+    from pathlib import Path
+
+    p = argparse.ArgumentParser(prog="canvas-std", description="aDNA Canvas Standard v2.0.0 reference tooling")
+    sub = p.add_subparsers(dest="cmd", required=True)
+    v = sub.add_parser("validate", help="run the conformance suite on a .canvas file")
+    v.add_argument("file")
+    v.add_argument("--level", choices=[lvl.value for lvl in ConformanceLevel], default=None,
+                   help="declared level (default: the doc's _reserved.conformance_level, else core)")
+    v.add_argument("--json", action="store_true", dest="as_json", help="emit the report as JSON")
+    sub.add_parser("schema", help="print the v2.0.0 JSON Schema")
+    args = p.parse_args(argv)
+
+    if args.cmd == "schema":
+        print(json.dumps(json_schema(), indent=2))
+        return 0
+
+    doc = json.loads(Path(args.file).read_text())
+    level = args.level or doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {}).get(
+        "conformance_level", "core"
+    )
+    report = validate_suite(doc, ConformanceLevel(level))
+    if args.as_json:
+        print(json.dumps(_report_dict(report), indent=2))
+    else:
+        status = "OK" if report.ok else "FAIL"
+        print(f"canvas-std {report.standard_version}: {args.file}")
+        print(f"  declared={report.declared_level.value}  level_reached={report.level_reached.value if report.level_reached else None}  [{status}]")
+        for f in report.failed:
+            print(f"  - {f['msg']}")
+        if report.degradation:
+            print(f"  degradation: {report.degradation}")
+    return 0 if report.ok else 1

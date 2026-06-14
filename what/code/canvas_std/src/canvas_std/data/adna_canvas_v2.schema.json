@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json",
+  "title": "aDNA Canvas Standard v2.0.0",
+  "description": "Structural contract for a .canvas document. Node/edge floor + enums + the _reserved carrier. Semantic checks (toEnd:arrow / C-4, id resolution, sequence-acyclicity, exactly-one-canonical-surface) are performed by the canvas_std validator (validate / validate_suite) — JSON Schema cannot express them.",
+  "x-standard-version": "2.0.0",
+  "x-upstream-baseline": "Advanced Canvas v5.6.6 + JSON Canvas 1.0",
+  "type": "object",
+  "required": ["nodes", "edges"],
+  "properties": {
+    "nodes": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+    "edges": { "type": "array", "items": { "$ref": "#/$defs/edge" } },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "frontmatter": {
+          "type": "object",
+          "properties": { "_reserved": { "$ref": "#/$defs/reserved" } }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": ["id", "type", "x", "y", "width", "height"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "enum": ["text", "file", "group", "link"] },
+        "x": { "type": "integer" },
+        "y": { "type": "integer" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "color": { "type": "string" },
+        "text": { "type": "string" },
+        "file": { "type": "string" },
+        "url": { "type": "string" },
+        "label": { "type": "string" },
+        "isStartNode": { "type": "boolean" },
+        "collapsed": { "type": "boolean" },
+        "styleAttributes": {
+          "type": "object",
+          "properties": {
+            "shape": { "enum": [null, "pill", "diamond", "parallelogram", "circle", "predefined-process", "document", "database"] },
+            "border": { "enum": [null, "dashed", "dotted", "invisible"] },
+            "textAlign": { "enum": [null, "center", "right"] }
+          }
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["id", "fromNode", "fromSide", "toNode", "toSide", "toEnd"],
+      "properties": {
+        "id": { "type": "string" },
+        "fromNode": { "type": "string" },
+        "toNode": { "type": "string" },
+        "fromSide": { "enum": ["top", "bottom", "left", "right"] },
+        "toSide": { "enum": ["top", "bottom", "left", "right"] },
+        "toEnd": { "enum": ["none", "arrow"] },
+        "fromEnd": { "enum": ["none", "arrow"] },
+        "label": { "type": "string" },
+        "color": { "type": "string" },
+        "styleAttributes": {
+          "type": "object",
+          "properties": {
+            "path": { "enum": [null, "dotted", "short-dashed", "long-dashed"] },
+            "arrow": { "enum": [null, "triangle-outline", "thin-triangle", "halved-triangle", "diamond", "diamond-outline", "circle", "circle-outline"] },
+            "pathfindingMethod": { "enum": [null, "square", "a-star"] }
+          }
+        }
+      }
+    },
+    "reserved": {
+      "type": "object",
+      "description": "aDNA-native extensions (aDNA-Native level). Stripping this block yields a valid baseline canvas (C4 degradation).",
+      "properties": {
+        "adna_version": { "type": "string" },
+        "conformance_level": { "enum": ["core", "extended", "adna_native"] },
+        "sync": {
+          "type": "object",
+          "properties": { "sync_hash": { "type": "string" }, "source_name": { "type": ["string", "null"] }, "source_version": { "type": ["string", "null"] } }
+        },
+        "component_types": { "type": "object" },
+        "semantic_bindings": { "type": "object" },
+        "panel_link": { "type": "object" },
+        "brand_style_pack_ref": { "type": "string" },
+        "context_object": {
+          "type": "object",
+          "properties": { "id": { "type": "string" }, "version": { "type": "string" }, "refs": { "type": "array" } }
+        }
+      }
+    }
+  }
+}
