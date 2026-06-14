@@ -95,12 +95,14 @@ extraction-shim precedent.
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
 | E2.1 | Conformance harness `validate_suite(doc, declared) → ConformanceReport` | 1-2 | ✅ **done 2026-06-13** |
-| E2.2 | Canonical conformance corpus (per-level + degradation fixtures) | 1 | ◀ **next** |
-| E2.3 | Publish v2.0.0 JSON Schema + conformance CLI; register v2.0.0 | 1-2 | planned |
+| E2.2 | Canonical conformance corpus (per-level + degradation fixtures) | 1 | ✅ **done 2026-06-13** |
+| E2.3 | Publish v2.0.0 JSON Schema + conformance CLI; register v2.0.0 | 1-2 | ◀ **next** (closes E2) |
 
-> **Build progress (2026-06-13) — Phase E2 started:** E2.1 ✅ — `validate_suite → ConformanceReport`
-> (`level_reached`, `passed`/`failed`, D-1..D-3 `degradation`) in `conformance.py`; `pytest` 31 pass / 4 skip,
-> `ruff` clean. Only the `canvas-std` CLI (`_cli`, E2.3) remains stubbed. **Next: E2.2** — conformance corpus.
+> **Build progress (2026-06-13) — Phase E2:** E2.1 ✅ `validate_suite → ConformanceReport` · E2.2 ✅ conformance
+> corpus (6 fixtures incl. 2 boundary cases reaching Core-only / Extended-only + `test_conformance.py`); `pytest`
+> 46 pass / 8 skip, `ruff` clean. Only the `canvas-std` CLI (`_cli`, E2.3) remains stubbed. **Next: E2.3** —
+> publish the v2.0.0 JSON Schema + the CLI (closes E2; the E2→E3 boundary holds for the operator before the
+> CanvasForge migration).
 
 ### Phase E3 — CanvasForge migration (parity-gated) ⚠️ highest risk
 | # | Mission | Sessions |

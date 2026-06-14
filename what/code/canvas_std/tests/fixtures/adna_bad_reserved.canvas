@@ -1,0 +1,15 @@
+{
+  "nodes": [
+    { "id": "a", "type": "text", "x": 0, "y": 0, "width": 120, "height": 48, "text": "A" }
+  ],
+  "edges": [],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "core",
+        "sync": { "sync_hash": "0000000000000000", "source_name": "x", "source_version": "0.1.0" }
+      }
+    }
+  }
+}

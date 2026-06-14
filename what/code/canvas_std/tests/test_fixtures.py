@@ -48,8 +48,8 @@ class TestFixtures:
                 assert f in e, f"{entry['path']}: edge {e.get('id')!r} missing {f}"
 
     def test_adna_native_declares_level_in_reserved(self, entry):
-        if entry["declared_level"] != "adna_native":
-            pytest.skip("only aDNA-Native carries _reserved.conformance_level")
+        if entry["declared_level"] != "adna_native" or not entry["expected_valid"]:
+            pytest.skip("only a valid aDNA-Native fixture declares a clean conformance_level")
         doc = _load(entry["path"])
         assert doc["metadata"]["frontmatter"]["_reserved"]["conformance_level"] == "adna_native"
 

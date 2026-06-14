@@ -4,6 +4,12 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E2.2 — conformance corpus)
+- `tests/fixtures/`: `core_only_bad_shape.canvas` (reaches Core only) + `adna_bad_reserved.canvas` (reaches
+  Extended only); `manifest.json` gains `expected_level_reached` + `expected_ok`.
+- `tests/test_conformance.py`: runs `validate_suite` over the corpus (level_reached / ok / degradation).
+  Suite: `pytest` 46 passed / 8 skipped; `ruff` clean.
+
 ### Added (E2.1 — conformance harness)
 - `conformance.py`: `validate_suite(doc, declared) -> ConformanceReport` (runs C-*/E-*/A-* at each level to find
   `level_reached`; `passed`/`failed` records; D-1..D-3 `degradation`). `ConformanceReport.ok` / `meets_declared`.

@@ -1,0 +1,33 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 120,
+      "height": 48,
+      "text": "A",
+      "styleAttributes": { "shape": "hexagon" }
+    },
+    {
+      "id": "b",
+      "type": "text",
+      "x": 0,
+      "y": 100,
+      "width": 120,
+      "height": 48,
+      "text": "B"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e",
+      "fromNode": "a",
+      "fromSide": "bottom",
+      "toNode": "b",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ]
+}

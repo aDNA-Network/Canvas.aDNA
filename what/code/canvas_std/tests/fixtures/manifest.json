@@ -1,33 +1,59 @@
 {
-  "_comment": "Golden-canvas fixture manifest (Keystone E0.3). Each entry declares the expected validator outcome. The validate()/strip() assertions in test_fixtures.py xfail until E1 implements them; the JSON-shape + declared-level checks run now.",
+  "_comment": "Golden-canvas conformance corpus (Keystone E0.3 + E2.2). Each entry declares the expected validator + validate_suite outcome. test_fixtures.py checks per-level validity + degradation; test_conformance.py checks validate_suite (level_reached + ok).",
   "fixtures": [
     {
       "path": "core_minimal.canvas",
       "declared_level": "core",
       "expected_valid": true,
       "degrades_to": "core",
-      "note": "Minimal JSON Canvas 1.0 — required fields + explicit toEnd:arrow only."
+      "expected_level_reached": "extended",
+      "expected_ok": true,
+      "note": "Minimal JSON Canvas 1.0 — required fields + explicit toEnd:arrow only. Reaches Extended vacuously."
     },
     {
       "path": "extended_styled.canvas",
       "declared_level": "extended",
       "expected_valid": true,
       "degrades_to": "core",
-      "note": "Core + styleAttributes (shape/border/textAlign/path/pathfinding within enums) + isStartNode + a group."
+      "expected_level_reached": "extended",
+      "expected_ok": true,
+      "note": "Core + styleAttributes (within enums) + isStartNode + a group."
     },
     {
       "path": "adna_native.canvas",
       "declared_level": "adna_native",
       "expected_valid": true,
       "degrades_to": "extended",
-      "note": "Extended + populated _reserved (adna_version/conformance_level/sync/component_types/semantic_bindings/panel_link/context_object) + _lattice_meta. Also the degradation case: strip() must drop _reserved and validate at extended (D-1)."
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "note": "Extended + populated _reserved + _lattice_meta. Also the degradation case (strip -> extended-valid, D-1)."
     },
     {
       "path": "invalid_missing_arrow.canvas",
       "declared_level": "core",
       "expected_valid": false,
       "degrades_to": null,
-      "note": "Negative: directed edge omits toEnd:arrow (C-4 / I4). Validator must reject at Core."
+      "expected_level_reached": null,
+      "expected_ok": false,
+      "note": "Negative: directed edge omits toEnd:arrow (C-4). Fails Core, so reaches no level."
+    },
+    {
+      "path": "core_only_bad_shape.canvas",
+      "declared_level": "extended",
+      "expected_valid": false,
+      "degrades_to": null,
+      "expected_level_reached": "core",
+      "expected_ok": false,
+      "note": "Boundary: a valid Core canvas whose styleAttributes.shape ('hexagon') is outside the enum -> Extended (E-2) fails. Reaches Core only."
+    },
+    {
+      "path": "adna_bad_reserved.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": false,
+      "degrades_to": null,
+      "expected_level_reached": "extended",
+      "expected_ok": false,
+      "note": "Boundary: Extended-valid but _reserved.conformance_level is 'core' not 'adna_native' (A-2) -> aDNA-Native fails. Reaches Extended."
     }
   ]
 }
