@@ -66,7 +66,7 @@ Python 3.14 lacks pytest). `.venv`/`*.egg-info`/`__pycache__` gitignored. Tracki
 ## Active Blockers
 
 - None blocking. E3 is open (operator-authorized); E3.1 done, **E3.2 (`canvas_core` shim) begins next session** — the first consequential code change (parity-gated downstream at E3.3). The suite runs in a `.venv` (`make install`).
-- **Pushes pending operator decision** — 4 repos hold local coord/charter/wrapper commits ahead of origin (workspace runs local-commit-accumulate; Noether's own P4.M2 cross-posts were "no push"). Push when ready.
+- **Pushes done (2026-06-13)** — all 4 repos (Canvas/CanvasForge → master, LP/aDNA.aDNA → main) synced to origin at wind-down (operator-approved full push, incl. Noether's stacked P4.M2/P4.M3 commits). Tree clean.
 
 ## Next Steps
 
@@ -74,7 +74,7 @@ Python 3.14 lacks pytest). `.venv`/`*.egg-info`/`__pycache__` gitignored. Tracki
 2. ✅ **LP↔Canvas seam countersigned** 2026-06-13 — two-sided/formalized (4-repo cross-post).
 3. ✅ **Phase E3 OPENED** (operator-authorized) + **E3.1 done** — `canvas/` federation wrapper in CanvasForge (additive; baseline `3ce4d341` intact).
 4. **→ E3.2 (next session)** — `canvas_core` → `canvas_std` deprecation shim (mirror lattice-protocol precedent; decide E-D2 grace window). Then E3.3 parity gate (**Wilhelm 8.80 / Issue 01 8.43**) → E3.4 cutover (operator-gated). After E3: E4 · E5 (`iii/` wiring + registry) · E6.
-5. **Operator decision pending:** push the 4 repos' local commits (countersign + charter + wrapper), or keep accumulating per convention.
+5. ✅ **Pushed (2026-06-13)** — all 4 repos synced to origin at wind-down (operator-approved full push, incl. Noether's stacked commits in LP & aDNA.aDNA).
 
 ## Notes
 
