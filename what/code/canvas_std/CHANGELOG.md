@@ -4,6 +4,11 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E2.1 — conformance harness)
+- `conformance.py`: `validate_suite(doc, declared) -> ConformanceReport` (runs C-*/E-*/A-* at each level to find
+  `level_reached`; `passed`/`failed` records; D-1..D-3 `degradation`). `ConformanceReport.ok` / `meets_declared`.
+- `test_smoke.py`: `validate_suite` live; only the `canvas-std` CLI (`_cli`) remains stubbed.
+
 ### Added (E1.5 — strip + degradation; Phase E1 complete)
 - `validate.py`: `strip(doc)` (deep-copy, removes `metadata.frontmatter._reserved` — the C4 op; original
   untouched) + `degradation_report(doc)` (D-1 Core-valid · D-2 Extended-valid · D-3 no `_reserved`). Exported.

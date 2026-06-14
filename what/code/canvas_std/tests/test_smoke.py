@@ -10,6 +10,7 @@ import pytest
 
 import canvas_std
 from canvas_std import schema
+from canvas_std.conformance import _cli
 from canvas_std.validate import ConformanceLevel
 
 
@@ -70,14 +71,29 @@ def test_lattice_profile_verbatim():
 @pytest.mark.parametrize(
     "call",
     [
-        # the reference engine is complete through E1.5 (validate/strip/round-trip/diff/merge/_reserved).
-        # the conformance harness + CLI are E2.1 / E2.3.
-        lambda: canvas_std.validate_suite({}, ConformanceLevel.CORE),
+        # engine (E1) + conformance harness (E2.1) are live; only the canvas-std CLI remains (E2.3).
+        lambda: _cli([]),
     ],
 )
 def test_stubs_raise_not_implemented(call):
     with pytest.raises(NotImplementedError):
         call()
+
+
+def test_validate_suite_live():
+    # E2.1: validate_suite reports the level reached + the degradation report for an aDNA-Native doc.
+    import json
+    from pathlib import Path
+
+    adna = json.loads((Path(__file__).parent / "fixtures" / "adna_native.canvas").read_text())
+    rep = canvas_std.validate_suite(adna, ConformanceLevel.ADNA_NATIVE)
+    assert rep.ok and rep.level_reached == ConformanceLevel.ADNA_NATIVE
+    assert rep.failed == [] and all(rep.degradation.values())
+    bad = canvas_std.validate_suite(
+        json.loads((Path(__file__).parent / "fixtures" / "invalid_missing_arrow.canvas").read_text()),
+        ConformanceLevel.CORE,
+    )
+    assert not bad.ok and any(f["id"] == "C-4" for f in bad.failed)
 
 
 def test_strip_and_degradation_live():
