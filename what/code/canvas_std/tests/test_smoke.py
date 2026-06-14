@@ -70,7 +70,7 @@ def test_lattice_profile_verbatim():
 @pytest.mark.parametrize(
     "call",
     [
-        lambda: canvas_std.validate({}, ConformanceLevel.CORE),
+        # validate() is live as of E1.1; the rest are stubbed until E1.2/E1.5.
         lambda: canvas_std.strip({}),
         lambda: canvas_std.to_canvas({}),
         lambda: canvas_std.from_canvas({}),
@@ -80,3 +80,9 @@ def test_lattice_profile_verbatim():
 def test_stubs_raise_not_implemented(call):
     with pytest.raises(NotImplementedError):
         call()
+
+
+def test_validate_is_live_core():
+    # E1.1: validate() no longer raises for Core; an empty doc reports its missing arrays.
+    errors = canvas_std.validate({}, ConformanceLevel.CORE)
+    assert errors and any("C-1" in e for e in errors)

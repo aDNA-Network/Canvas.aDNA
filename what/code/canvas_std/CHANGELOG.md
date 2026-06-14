@@ -4,6 +4,13 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E1.1 — validate Core/Extended)
+- `validate.py`: implemented `validate(doc, level)` Core (C-1..C-5) + Extended (E-1..E-4) checks against the
+  KEEP floor; monotone (aDNA-Native ⊃ Extended ⊃ Core). C-4 = explicit `toEnd` required (omitted → reject).
+  aDNA-Native delegates A-* to `reserved.validate_reserved` (NotImplementedError until E1.4). `strip` stays E1.5.
+- `test_smoke.py`: `validate` removed from the NotImplemented-stub list + a liveness check added. The core /
+  extended / negative `validate` xfails in `test_fixtures.py` now PASS.
+
 ### Added (E0.3 — golden fixtures + harness)
 - `tests/fixtures/`: `core_minimal.canvas`, `extended_styled.canvas`, `adna_native.canvas` (populated `_reserved`
   + `_lattice_meta`; doubles as the degradation case), `invalid_missing_arrow.canvas` (negative), `manifest.json`.

@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-13
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260613_175037_keystone_e0_3
+last_session: session_stanley_20260613_182344_keystone_e1_1
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,20 +14,20 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASE E0 ✅ COMPLETE (E0.1–E0.3); E1 next.**
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; E0 ✅ + E1.1 (validate) ✅; E1.2 next.**
 `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
-Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate** (context graduation → `context_canvas_standard_doctrine`). The operator **activated Operation Keystone** (the build). **Phase E0 (bootstrap) complete:** E0.1 skeleton (`adna-canvas-std`, Python ≥3.11) · E0.2 verbatim KEEP floor in `schema.py` (`is_floor_loaded()`→True) · E0.3 golden fixtures + harness (`tests/fixtures/` core/extended/aDNA-native/negative + `manifest.json` + `test_fixtures.py`; checkable assertions pass, `validate`/`strip` xfail-until-E1). **Building is in scope** (C3 lifted); producer migrations are parity-gated. *(Planning history: `campaign_canvas_genesis_planning/`.)*
+Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate** (context graduation → `context_canvas_standard_doctrine`). The operator **activated Operation Keystone** (the build). **Phase E0 complete** (skeleton + verbatim KEEP floor + golden fixtures/harness). **Phase E1 (reference impl) underway — E1.1 ✅:** `validate(doc, level)` implements the Core + Extended checks in `validate.py` against the KEEP floor + fixtures (core/extended/negative `validate` xfails now PASS; aDNA-Native raises until E1.4). **Building is in scope** (C3 lifted); producer migrations are parity-gated. *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
-## ▶ Resume Here — Operation Keystone E1 (implement against the frozen API + fixtures)
+## ▶ Resume Here — Operation Keystone E1.2 (round-trip converters)
 
-**Phase E0 (bootstrap) is complete** — skeleton + verbatim KEEP floor + golden fixtures/harness, all verified
-(direct runs). **Next phase: E1** — implement behavior against the frozen API and the E0.3 golden corpus, starting
-with **E1.1** (`validate(doc, level)` for Core/Extended → the C-*/E-* checks in `validate.py`; the
-`invalid_missing_arrow` fixture must reject, the others pass). Then E1.2 (`to_canvas`/`from_canvas`/
-`compute_sync_hash`), E1.3 (`diff`/`merge`), E1.4 (`_reserved` validators → A-* checks), E1.5 (`strip` + the
-D-1..D-3 degradation tests). As each lands, the matching `xfail` in `tests/test_fixtures.py` auto-flips to PASS —
-a built-in acceptance signal.
+**Phase E0 done; E1.1 done** — `validate()` Core/Extended is live and verified (core/extended fixtures pass,
+negative rejects on C-4, aDNA-Native raises until E1.4). **Next mission: E1.2** — implement the round-trip
+converters in `src/canvas_std/roundtrip.py`: `to_canvas` (=`build`) forward source→view, `from_canvas`
+(=`read_back`) advisory view→source draft, and `compute_sync_hash` (16-hex SHA-256 over sorted node ids + sorted
+`from→to` edges) per `spec_roundtrip_protocol_v2` §3–§4. Then E1.3 (`diff`/`merge`), E1.4 (`_reserved` validators
+→ A-* checks; flips the `adna_native` validate-xfail), E1.5 (`strip` + the D-1..D-3 degradation tests → flips the
+degradation xfails). Each landed mission auto-flips its `xfail` in `tests/test_fixtures.py` to PASS.
 
 **Build hygiene:** `cd what/code/canvas_std && make install` to get `pytest` (system Python 3.14 lacks it; E0 was
 verified via direct `PYTHONPATH=src python3` runs). Keystone phase gates stay human gates — **E3** (CanvasForge
@@ -40,12 +40,12 @@ the operator.** Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canva
 
 - **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
 
-## What's Done (this session — Keystone E0.3, 2026-06-13)
+## What's Done (this session — Keystone E1.1, 2026-06-13)
 
-- **E0.3:** authored golden-canvas fixtures under `what/code/canvas_std/tests/fixtures/` — `core_minimal`, `extended_styled`, `adna_native` (populated `_reserved` + `_lattice_meta`; doubles as the degradation case), `invalid_missing_arrow` (negative) + `manifest.json`.
-- `tests/test_fixtures.py` harness: now-checkable assertions (JSON shape, required fields, declared level) + `validate`/`strip` marked `xfail(strict=False)` until E1 (auto-flip to PASS when E1 lands). **Verified** via direct run — 4 fixtures well-formed, all checkable assertions pass.
-- + `mission_e0_3_fixtures`; CHANGELOG. **Phase E0 complete** (E0.1–E0.3 ✅); E1 next.
-- *(Earlier this run: closed Cartography + activated Keystone + E0.1 skeleton; E0.2 KEEP floor.)*
+- **E1.1:** implemented `validate(doc, level)` Core (C-1..C-5) + Extended (E-1..E-4) in `what/code/canvas_std/src/canvas_std/validate.py` against the KEEP floor; monotone levels; **C-4 requires an explicit `toEnd`** (omitted → reject). aDNA-Native delegates A-* to `reserved.py` (NotImplementedError until E1.4); `strip` stays E1.5.
+- Updated `test_smoke.py` (`validate` removed from NotImplemented-stubs + liveness check). **Verified** via direct run: core/extended fixtures validate clean, negative rejects on C-4, aDNA-Native valid@Extended / raises@aDNA-Native, a broken doc surfaces C-2/C-3/C-4. The core/extended/negative `validate` xfails in `test_fixtures.py` now PASS.
+- + `mission_e1_1_validate`; CHANGELOG. Keystone E1.1 ✅ / E1.2 next.
+- *(Earlier this run: Cartography closed + Keystone activated; E0.1–E0.3 bootstrap.)*
 
 ## Verified Ground Truth (anchors)
 
@@ -58,13 +58,13 @@ the operator.** Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canva
 
 ## Active Blockers
 
-- None blocking. **HELD at the E0→E1 phase boundary** for an operator check-in. `pytest` not in system Python — `make install` before E1. Load-bearing gates ahead: E3 (CanvasForge migration) + E6 (cutover).
+- None blocking. **Next:** Keystone E1.2 (round-trip converters). `pytest` not in system Python — `make install` to run the suite. Load-bearing gates ahead: E3 + E6 (operator).
 
 ## Next Steps
 
 1. ✅ **Operation Cartography CLOSED** 2026-06-13 — Standard v2.0.0 ratified across P0–P5; context graduated.
-2. ✅ **Keystone Phase E0 COMPLETE** — E0.1 skeleton · E0.2 verbatim KEEP floor · E0.3 golden fixtures + harness.
-3. **Next: Phase E1** — implement validators / round-trip / `_reserved` / conformance against the frozen API + the golden fixtures (E1.1 `validate` Core/Extended first; the negative fixture must reject). Each E1 sub-mission auto-flips its `xfail` fixture test to PASS.
+2. ✅ **Keystone** — E0 (bootstrap: skeleton + KEEP floor + fixtures/harness) + **E1.1 `validate` Core/Extended** done.
+3. **Next: E1.2** — round-trip converters (`to_canvas`/`from_canvas`/`compute_sync_hash` in `roundtrip.py`); then E1.3 `diff`/`merge` → E1.4 `_reserved` validators (flips the `adna_native` xfail) → E1.5 `strip` + degradation (flips the degradation xfails).
 4. Ahead: E2 publish v2.0.0 schema+CLI · **E3 CanvasForge migration (parity-gated, highest-risk; operator gate)** · E4 LF-successor + net-new · E5 rollout + `iii/` wiring · E6 cutover. Side-tracks: Δ2 LIP; III/SiteForge upstream notes.
 
 ## Notes
