@@ -1,0 +1,32 @@
+{
+  "nodes": [
+    {
+      "id": "intro",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 240,
+      "height": 80,
+      "text": "# Core\n\nA minimal valid JSON Canvas 1.0 / Core-level aDNA canvas: required fields only, an explicit arrow, no styleAttributes, no _reserved."
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "x": 0,
+      "y": 160,
+      "width": 240,
+      "height": 80,
+      "text": "Second node."
+    }
+  ],
+  "edges": [
+    {
+      "id": "intro_body",
+      "fromNode": "intro",
+      "fromSide": "bottom",
+      "toNode": "body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ]
+}

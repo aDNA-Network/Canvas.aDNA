@@ -66,12 +66,14 @@ extraction-shim precedent.
 |---|---------|----------|--------|
 | E0.1 | Stand up `what/code/canvas_std/` package skeleton (layout, packaging, CI, license) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_1_canvas_std_skeleton\|mission]]) |
 | E0.2 | Port the KEEP floor verbatim — 10 `VALID_*` enums + node/edge schema + `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` (lattice profile) | 1-2 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_2_keep_floor\|mission]]) |
-| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 | ◀ **next** |
+| E0.3 | Golden-canvas fixtures + test harness (Core/Extended/aDNA-Native + degradation) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e0_3_fixtures\|mission]]) |
 
-> **Build progress (2026-06-13):** E0.1 ✅ skeleton (Python ≥3.11, MIT, frozen API stubs). E0.2 ✅ — `schema.py`
-> now carries the **verbatim KEEP floor** (10 `VALID_*` enums + node/edge required fields + the `lattice`
-> `TYPE_MAPPING`(8)/`EDGE_TYPE_MAPPING`(5) profile); `is_floor_loaded()`→True; smoke test green incl. a
-> token-within-enum degradation-safety check. **Next: E0.3** — golden-canvas fixtures + test-harness scaffold.
+> **Build progress (2026-06-13) — PHASE E0 COMPLETE ✅:** E0.1 skeleton · E0.2 verbatim KEEP floor (`schema.py`,
+> `is_floor_loaded()`→True) · E0.3 golden fixtures (`tests/fixtures/`: core/extended/aDNA-native + a negative,
+> a `manifest.json`, and `test_fixtures.py` — now-checkable assertions pass; `validate`/`strip` xfail-until-E1).
+> **Next: phase E1** — implement validators / round-trip / `_reserved` validators / conformance harness against
+> the frozen API + the golden fixtures (E1.1 Core/Extended validate first). *(HELD at the E0→E1 phase boundary
+> for an operator check-in.)*
 
 ### Phase E1 — Reference implementation
 | # | Mission | Sessions |

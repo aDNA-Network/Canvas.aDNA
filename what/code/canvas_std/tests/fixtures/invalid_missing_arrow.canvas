@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "id": "a",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 200,
+      "height": 60,
+      "text": "A"
+    },
+    {
+      "id": "b",
+      "type": "text",
+      "x": 0,
+      "y": 120,
+      "width": 200,
+      "height": 60,
+      "text": "B"
+    }
+  ],
+  "edges": [
+    {
+      "id": "a_b",
+      "fromNode": "a",
+      "fromSide": "bottom",
+      "toNode": "b",
+      "toSide": "top"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-13
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260613_172929_keystone_e0_2
+last_session: session_stanley_20260613_175037_keystone_e0_3
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,25 +14,25 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; E0.1–E0.2 ✅ done, E0.3 next.**
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASE E0 ✅ COMPLETE (E0.1–E0.3); E1 next.**
 `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
-Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + the conformance/federation contracts + the build charter, then **closed at the operator gate** (context graduation → `context_canvas_standard_doctrine`; `campaign_canvas_genesis_planning` `status: completed`). The operator then **activated Operation Keystone** (the build). **E0.1 ✅** skeleton + **E0.2 ✅** the verbatim KEEP floor in `schema.py` (10 `VALID_*` enums + node/edge required fields + the `lattice` `TYPE_MAPPING`/`EDGE_TYPE_MAPPING` profile; `is_floor_loaded()`→True). **Building is now in scope** (C3 lifted); producer migrations are parity-gated. *(Planning history: `campaign_canvas_genesis_planning/`.)*
+Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate** (context graduation → `context_canvas_standard_doctrine`). The operator **activated Operation Keystone** (the build). **Phase E0 (bootstrap) complete:** E0.1 skeleton (`adna-canvas-std`, Python ≥3.11) · E0.2 verbatim KEEP floor in `schema.py` (`is_floor_loaded()`→True) · E0.3 golden fixtures + harness (`tests/fixtures/` core/extended/aDNA-native/negative + `manifest.json` + `test_fixtures.py`; checkable assertions pass, `validate`/`strip` xfail-until-E1). **Building is in scope** (C3 lifted); producer migrations are parity-gated. *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
-## ▶ Resume Here — Operation Keystone E0.3 (golden fixtures + test harness)
+## ▶ Resume Here — Operation Keystone E1 (implement against the frozen API + fixtures)
 
-The skeleton is up (E0.1 ✅) and `schema.py` carries the verbatim KEEP floor (E0.2 ✅; `is_floor_loaded()`→True,
-smoke green). **Next mission: E0.3** — author **golden-canvas fixtures** (a small corpus of known-good canvases
-at each level: Core, Extended, aDNA-Native, plus degradation pairs) under `what/code/canvas_std/tests/fixtures/`,
-and the test-harness scaffold that will exercise them once E1 implements behavior. Then **E1** — implement
-`validate`/`strip`, `to_canvas`/`from_canvas`/`compute_sync_hash`/`diff`/`merge`, the `_reserved` validators, and
-the conformance harness against the frozen API (stubs in `src/canvas_std/` raise `NotImplementedError` naming
-their E-phase).
+**Phase E0 (bootstrap) is complete** — skeleton + verbatim KEEP floor + golden fixtures/harness, all verified
+(direct runs). **Next phase: E1** — implement behavior against the frozen API and the E0.3 golden corpus, starting
+with **E1.1** (`validate(doc, level)` for Core/Extended → the C-*/E-* checks in `validate.py`; the
+`invalid_missing_arrow` fixture must reject, the others pass). Then E1.2 (`to_canvas`/`from_canvas`/
+`compute_sync_hash`), E1.3 (`diff`/`merge`), E1.4 (`_reserved` validators → A-* checks), E1.5 (`strip` + the
+D-1..D-3 degradation tests). As each lands, the matching `xfail` in `tests/test_fixtures.py` auto-flips to PASS —
+a built-in acceptance signal.
 
-**Build hygiene:** `cd what/code/canvas_std && make install` — system Python 3.14 lacks `pytest`; E0.1/E0.2 were
-verified via direct runs. Keystone phase gates stay human gates (**E3** CanvasForge migration + **E6** cutover are
-load-bearing; parity vs Wilhelm 8.80 / Issue 01 8.43). Tracking:
-[[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active) · E0.1/E0.2 missions.
+**Build hygiene:** `cd what/code/canvas_std && make install` to get `pytest` (system Python 3.14 lacks it; E0 was
+verified via direct `PYTHONPATH=src python3` runs). Keystone phase gates stay human gates — **E3** (CanvasForge
+migration; parity vs Wilhelm 8.80 / Issue 01 8.43) + **E6** (cutover) are load-bearing; **do not start E3 without
+the operator.** Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active).
 
 **Open side-tracks:** Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]]); III/SiteForge upstream notes; III pin confirm at E5.1.
 
@@ -40,12 +40,12 @@ load-bearing; parity vs Wilhelm 8.80 / Issue 01 8.43). Tracking:
 
 - **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
 
-## What's Done (this session — Keystone E0.2, 2026-06-13)
+## What's Done (this session — Keystone E0.3, 2026-06-13)
 
-- **E0.2:** ported the **verbatim KEEP floor** into `what/code/canvas_std/src/canvas_std/schema.py` — the 10 `VALID_*` enums + `NODE_REQUIRED_FIELDS`/`EDGE_REQUIRED_FIELDS` + the built-in `lattice` `TYPE_MAPPING` (8) / `EDGE_TYPE_MAPPING` (5) profile, transcribed from `p1_fork_baseline` §3; added `SEMANTIC_PROFILES`/`EDGE_PROFILES` registries (additive extension point).
-- Extended `tests/test_smoke.py` (floor-loaded + lattice spot-checks + a token-within-§6-enum degradation-safety check); **verified** via direct run — all pass, `is_floor_loaded()`→True, stubs still NotImplemented.
-- + `mission_e0_2_keep_floor`; CHANGELOG entry. Keystone E0.2 ✅ / E0.3 next.
-- *(Prior session: closed Cartography + activated Keystone + built the E0.1 skeleton.)*
+- **E0.3:** authored golden-canvas fixtures under `what/code/canvas_std/tests/fixtures/` — `core_minimal`, `extended_styled`, `adna_native` (populated `_reserved` + `_lattice_meta`; doubles as the degradation case), `invalid_missing_arrow` (negative) + `manifest.json`.
+- `tests/test_fixtures.py` harness: now-checkable assertions (JSON shape, required fields, declared level) + `validate`/`strip` marked `xfail(strict=False)` until E1 (auto-flip to PASS when E1 lands). **Verified** via direct run — 4 fixtures well-formed, all checkable assertions pass.
+- + `mission_e0_3_fixtures`; CHANGELOG. **Phase E0 complete** (E0.1–E0.3 ✅); E1 next.
+- *(Earlier this run: closed Cartography + activated Keystone + E0.1 skeleton; E0.2 KEEP floor.)*
 
 ## Verified Ground Truth (anchors)
 
@@ -58,14 +58,14 @@ load-bearing; parity vs Wilhelm 8.80 / Issue 01 8.43). Tracking:
 
 ## Active Blockers
 
-- None blocking. **Next:** Keystone **E0.3** (golden-canvas fixtures + test-harness scaffold). `pytest` not in system Python — `make install` before E1. Load-bearing gates ahead: E3 (CanvasForge migration) + E6 (cutover).
+- None blocking. **HELD at the E0→E1 phase boundary** for an operator check-in. `pytest` not in system Python — `make install` before E1. Load-bearing gates ahead: E3 (CanvasForge migration) + E6 (cutover).
 
 ## Next Steps
 
 1. ✅ **Operation Cartography CLOSED** 2026-06-13 — Standard v2.0.0 ratified across P0–P5; context graduated.
-2. ✅ **Keystone ACTIVE** — E0.1 (skeleton) + E0.2 (verbatim KEEP floor in `schema.py`) done.
-3. **Next: E0.3** — golden-canvas fixtures (Core/Extended/aDNA-Native + degradation pairs) + test-harness scaffold; then **E1** (implement validators / round-trip / `_reserved` / conformance against the frozen API).
-4. Ahead: E2 publish v2.0.0 schema+CLI · **E3 CanvasForge migration (parity-gated, highest-risk)** · E4 LF-successor + net-new consumer · E5 rollout + `iii/` wiring · E6 validation & cutover. Side-tracks: Δ2 LIP; III/SiteForge upstream notes.
+2. ✅ **Keystone Phase E0 COMPLETE** — E0.1 skeleton · E0.2 verbatim KEEP floor · E0.3 golden fixtures + harness.
+3. **Next: Phase E1** — implement validators / round-trip / `_reserved` / conformance against the frozen API + the golden fixtures (E1.1 `validate` Core/Extended first; the negative fixture must reject). Each E1 sub-mission auto-flips its `xfail` fixture test to PASS.
+4. Ahead: E2 publish v2.0.0 schema+CLI · **E3 CanvasForge migration (parity-gated, highest-risk; operator gate)** · E4 LF-successor + net-new · E5 rollout + `iii/` wiring · E6 cutover. Side-tracks: Δ2 LIP; III/SiteForge upstream notes.
 
 ## Notes
 

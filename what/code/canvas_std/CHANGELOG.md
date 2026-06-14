@@ -4,6 +4,12 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E0.3 — golden fixtures + harness)
+- `tests/fixtures/`: `core_minimal.canvas`, `extended_styled.canvas`, `adna_native.canvas` (populated `_reserved`
+  + `_lattice_meta`; doubles as the degradation case), `invalid_missing_arrow.canvas` (negative), `manifest.json`.
+- `tests/test_fixtures.py`: now-checkable assertions (JSON shape, required fields, declared level) + `validate`/
+  `strip` assertions marked `xfail(strict=False)` until E1 (they auto-flip to PASS when E1 lands). **Phase E0 complete.**
+
 ### Added (E0.2 — verbatim KEEP floor)
 - `schema.py`: the 10 `VALID_*` enums, `NODE_REQUIRED_FIELDS`/`EDGE_REQUIRED_FIELDS`, and the built-in `lattice`
   semantic profile (`TYPE_MAPPING` 8 entries + `EDGE_TYPE_MAPPING` 5 entries) — transcribed verbatim from

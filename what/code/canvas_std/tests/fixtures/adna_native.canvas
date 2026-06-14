@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "id": "_lattice_meta",
+      "type": "group",
+      "x": -60,
+      "y": -60,
+      "width": 400,
+      "height": 420,
+      "label": "lattice: example_doc v0.1.0"
+    },
+    {
+      "id": "page1",
+      "type": "group",
+      "x": -20,
+      "y": -20,
+      "width": 320,
+      "height": 340,
+      "label": "Page 1"
+    },
+    {
+      "id": "intro",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 280,
+      "height": 80,
+      "text": "# Greeting",
+      "color": "4",
+      "styleAttributes": { "shape": "predefined-process" }
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "x": 0,
+      "y": 160,
+      "width": 280,
+      "height": 100,
+      "text": "The aDNA Canvas Standard reduces any 2D output to a typed grammar."
+    }
+  ],
+  "edges": [
+    {
+      "id": "intro_body",
+      "fromNode": "intro",
+      "fromSide": "bottom",
+      "toNode": "body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "sync": {
+          "sync_hash": "0000000000000000",
+          "source_name": "example_doc",
+          "source_version": "0.1.0"
+        },
+        "component_types": {
+          "intro": { "class": "typography_run", "semantic_type": "heading", "degrades_to": "text" },
+          "body": { "class": "text", "degrades_to": "text" }
+        },
+        "semantic_bindings": { "profile": "document" },
+        "panel_link": {
+          "edges": { "intro_body": { "kind": "reading_order" } },
+          "regions": {
+            "page1": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": { "unit": "pages", "max": 1 },
+              "surface": "letter"
+            }
+          },
+          "surfaces": [{ "id": "page1", "role": "canonical" }]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:example_doc",
+          "version": "0.1.0",
+          "refs": ["[[spec_adna_canvas_standard]]"]
+        }
+      }
+    }
+  }
+}
