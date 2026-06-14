@@ -82,12 +82,14 @@ extraction-shim precedent.
 | E1.2 | Round-trip converters (`to_canvas`=`build`, `from_canvas`=`read_back`) + `compute_sync_hash` | 2 | ✅ **done 2026-06-13** |
 | E1.3 | Advisory reverse path — `diff` / `merge` (3-way) / `preserve_positions` | 1-2 | ✅ **done 2026-06-13** |
 | E1.4 | `_reserved` schema validators (component_types / semantic_bindings / panel_link / context_object) → A-* checks | 2 | ✅ **done 2026-06-13** |
-| E1.5 | Degradation (`strip`) + D-1..D-3 tests as a first-class suite | 1 | ◀ **next** (closes E1) |
+| E1.5 | Degradation (`strip`) + D-1..D-3 tests as a first-class suite | 1 | ✅ **done 2026-06-13** (closes E1) |
 
-> **Build progress (2026-06-13) — Phase E1 started:** E1.1 ✅ — `validate(doc, level)` implements the Core (C-*)
-> + Extended (E-*) checks in `validate.py` against the KEEP floor + golden fixtures; the core/extended/negative
-> `validate` xfails in `test_fixtures.py` now PASS. aDNA-Native validation raises until E1.4 (the `_reserved` A-*
-> layer). **Next: E1.2** — `to_canvas`/`from_canvas`/`compute_sync_hash` in `roundtrip.py`.
+> **Build progress (2026-06-13) — PHASE E1 COMPLETE ✅ (reference engine done):** E1.1 `validate` (Core/Extended/
+> aDNA-Native, C-*/E-*/A-*) · E1.2 round-trip (`to_canvas`/`from_canvas`/`compute_sync_hash`) · E1.3 `diff`/`merge`/
+> `preserve_positions` · E1.4 `_reserved` validators · E1.5 `strip` + degradation (D-1..D-3). The golden-fixture
+> xfails are retired; **`pytest` = 30 passed / 4 skipped, `ruff` clean** (run in `.venv`). Only `validate_suite`
+> (E2.1) + the CLI (E2.3) remain stubbed. **Next: phase E2** — conformance harness + publish v2.0.0 schema + CLI.
+> *(HELD at the E1→E2 phase boundary for an operator check-in.)*
 
 ### Phase E2 — Conformance suite + publish
 | # | Mission | Sessions |

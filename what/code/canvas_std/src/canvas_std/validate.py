@@ -9,6 +9,7 @@ Spec: spec_adna_canvas_standard §4–§6, §10 · spec_conformance_suite §2–
 
 from __future__ import annotations
 
+import copy
 from enum import Enum
 from typing import Any
 
@@ -157,5 +158,29 @@ def validate(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.COR
 
 
 def strip(doc: dict[str, Any]) -> dict[str, Any]:
-    """Return ``doc`` with ``metadata.frontmatter._reserved`` removed (the C4 degradation op). E1.5."""
-    raise NotImplementedError("strip(): implemented at Keystone E1.5")
+    """Return a copy of ``doc`` with ``metadata.frontmatter._reserved`` removed — the C4 degradation op.
+
+    The result is a valid baseline (Core/Extended) canvas: all aDNA-native semantics live only in ``_reserved``,
+    so removing it leaves a JSON-Canvas-1.0 / Advanced-Canvas file (spec_adna_canvas_standard §11; D-1..D-3).
+    Pure removal — adds no top-level node/edge key and no ``styleAttributes`` token (the no-overload rule).
+    """
+    bare = copy.deepcopy(doc)
+    fm = bare.get("metadata", {}).get("frontmatter")
+    if isinstance(fm, dict):
+        fm.pop("_reserved", None)
+    return bare
+
+
+def degradation_report(doc: dict[str, Any]) -> dict[str, bool]:
+    """The D-1..D-3 degradation checks (spec_conformance_suite §5) for an aDNA-Native doc.
+
+    D-1: ``validate(strip(doc), CORE) == []``. D-2: stripping introduces no styleAttributes token outside the
+    §6 enums (i.e. ``strip(doc)`` is Extended-valid). D-3: the stripped doc carries no ``_reserved`` (a vanilla
+    reader sees a plain baseline canvas).
+    """
+    bare = strip(doc)
+    return {
+        "D-1": validate(bare, ConformanceLevel.CORE) == [],
+        "D-2": validate(bare, ConformanceLevel.EXTENDED) == [],
+        "D-3": "_reserved" not in bare.get("metadata", {}).get("frontmatter", {}),
+    }

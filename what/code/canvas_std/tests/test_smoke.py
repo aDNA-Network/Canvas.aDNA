@@ -70,14 +70,27 @@ def test_lattice_profile_verbatim():
 @pytest.mark.parametrize(
     "call",
     [
-        # live: validate (E1.1), to_canvas/from_canvas/compute_sync_hash (E1.2), diff/merge (E1.3).
-        # still stubbed: strip (E1.5).
-        lambda: canvas_std.strip({}),
+        # the reference engine is complete through E1.5 (validate/strip/round-trip/diff/merge/_reserved).
+        # the conformance harness + CLI are E2.1 / E2.3.
+        lambda: canvas_std.validate_suite({}, ConformanceLevel.CORE),
     ],
 )
 def test_stubs_raise_not_implemented(call):
     with pytest.raises(NotImplementedError):
         call()
+
+
+def test_strip_and_degradation_live():
+    # E1.5: strip() removes _reserved; the result is Extended-valid; the D-1..D-3 report is all-true.
+    import json
+    from pathlib import Path
+
+    adna = json.loads((Path(__file__).parent / "fixtures" / "adna_native.canvas").read_text())
+    bare = canvas_std.strip(adna)
+    assert "_reserved" not in bare.get("metadata", {}).get("frontmatter", {})
+    assert "_reserved" in adna["metadata"]["frontmatter"]  # original untouched (deep copy)
+    assert canvas_std.validate(bare, ConformanceLevel.EXTENDED) == []
+    assert all(canvas_std.degradation_report(adna).values())
 
 
 def test_diff_merge_live():

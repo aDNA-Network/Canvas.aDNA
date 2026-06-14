@@ -4,6 +4,13 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (E1.5 — strip + degradation; Phase E1 complete)
+- `validate.py`: `strip(doc)` (deep-copy, removes `metadata.frontmatter._reserved` — the C4 op; original
+  untouched) + `degradation_report(doc)` (D-1 Core-valid · D-2 Extended-valid · D-3 no `_reserved`). Exported.
+- `test_fixtures.py`: retired the `validate`/`strip` `xfail` markers (behavior now real). `__init__.py` reordered
+  (re-exports before constants) for ruff. **Full suite: `pytest` 30 passed / 4 skipped; `ruff` clean.**
+- **Phase E1 (reference engine) complete.** Remaining stubs: `validate_suite` (E2.1), `canvas-std` CLI (E2.3).
+
 ### Added (E1.4 — _reserved validators / A-* checks)
 - `reserved.py`: `validate_reserved(reserved, doc)` (A-2 adna_version/conformance_level, A-6 sync/16-hex hash) +
   `validate_component_types` (§7: keys resolve, class ∈ 14-class taxonomy, degrades_to ∈ baseline),

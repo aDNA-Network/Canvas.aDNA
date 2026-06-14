@@ -53,15 +53,13 @@ class TestFixtures:
         doc = _load(entry["path"])
         assert doc["metadata"]["frontmatter"]["_reserved"]["conformance_level"] == "adna_native"
 
-    # --- xfail until E1: behavior is stubbed ------------------------------------------------
-    @pytest.mark.xfail(reason="validate() stubbed until Keystone E1.1/E1.4", strict=False, raises=NotImplementedError)
+    # --- behavior assertions: implemented across E1.1–E1.5 (xfail markers retired) ----------
     def test_validate_matches_expectation(self, entry):
         doc = _load(entry["path"])
         level = ConformanceLevel(entry["declared_level"])
         errors = validate(doc, level)
         assert (errors == []) is entry["expected_valid"], errors
 
-    @pytest.mark.xfail(reason="strip() stubbed until Keystone E1.5", strict=False, raises=NotImplementedError)
     def test_degradation(self, entry):
         if not entry["degrades_to"] or not entry["expected_valid"]:
             pytest.skip("no degradation target")

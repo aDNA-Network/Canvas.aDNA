@@ -1,15 +1,11 @@
 """adna-canvas-std — reference implementation of the aDNA Canvas Standard.
 
 Standard-bearer tooling (Option P): validators, round-trip converters, conformance harness.
-E0.1 skeleton — the public API surface is frozen here; behavior is filled by E0.2 (KEEP floor)
-and E1 (implementation). See the normative specs in Canvas.aDNA/what/specs/.
+The reference engine is implemented across Operation Keystone E1.1–E1.5; the conformance harness
++ CLI are E2. See the normative specs in Canvas.aDNA/what/specs/.
 """
 
 from __future__ import annotations
-
-__version__ = "0.1.0"  # package version
-STANDARD_VERSION = "2.0.0"  # the aDNA Canvas Standard version this package implements (distinct, per P2)
-UPSTREAM_BASELINE = "Advanced Canvas v5.6.6 + JSON Canvas 1.0"  # PIN-A (p1_fork_baseline §1)
 
 from canvas_std.conformance import ConformanceReport, validate_suite
 from canvas_std.roundtrip import (
@@ -20,7 +16,17 @@ from canvas_std.roundtrip import (
     preserve_positions,
     to_canvas,
 )
-from canvas_std.validate import ConformanceLevel, ValidationError, strip, validate
+from canvas_std.validate import (
+    ConformanceLevel,
+    ValidationError,
+    degradation_report,
+    strip,
+    validate,
+)
+
+__version__ = "0.1.0"  # package version
+STANDARD_VERSION = "2.0.0"  # the aDNA Canvas Standard version this package implements (distinct, per P2)
+UPSTREAM_BASELINE = "Advanced Canvas v5.6.6 + JSON Canvas 1.0"  # PIN-A (p1_fork_baseline §1)
 
 __all__ = [
     "__version__",
@@ -30,6 +36,7 @@ __all__ = [
     "ValidationError",
     "validate",
     "strip",
+    "degradation_report",
     "to_canvas",
     "from_canvas",
     "compute_sync_hash",
