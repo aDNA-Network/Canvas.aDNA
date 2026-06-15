@@ -3,13 +3,13 @@ plan_id: mission_e3_4_cutover
 type: plan
 title: "E3.4 — Cutover criteria + rollback rehearsal; retire embedded v1.0.0 framing"
 owner: stanley
-status: active
+status: completed
 campaign_id: campaign_canvas_genesis
 campaign_phase: 3
 campaign_mission_number: 4
 mission_class: closeout
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 last_edited_by: agent_stanley
 tags: [plan, campaign, keystone, e3, cutover, rollback, supersede, canvasforge]
 ---
@@ -42,28 +42,28 @@ source state while keeping the shim as the safety net through its grace window.
 ## Objectives
 
 ### 1. Document cutover criteria
-- **Status**: planned
+- **Status**: completed
 - **Description**: Write the cutover checklist (parity GREEN + conformance green + iii ≥ baseline + operator gate)
   per the campaign Cutover & Rollback section.
 - **Files**: cutover criteria artifact (mission artifacts)
 - **Depends on**: E3.3 GREEN
 
 ### 2. Rehearse rollback
-- **Status**: planned
+- **Status**: completed
 - **Description**: Rehearse `revert the wrapper repoint`; confirm the shim keeps the old path working and no
   consumer (SS presentationforge / graphicnovelforge, CC presentationforge) breaks. Record the rehearsal.
 - **Files**: rollback rehearsal note
 - **Depends on**: 1
 
 ### 3. Retire embedded v1.0.0 framing (supersede) — operator-gated
-- **Status**: planned
+- **Status**: completed
 - **Description**: On green + operator approval, add a supersession banner to CanvasForge's embedded Standard
   v1.0.0 context; point consumption at v2.0.0 via the `canvas/` wrapper. Archive-never-delete the v1.0.0 framing.
 - **Files**: `CanvasForge.aDNA/what/context/advanced_canvas/*` (banner), wrapper notes
 - **Depends on**: 1, 2
 
 ### 4. Schedule shim retirement
-- **Status**: planned
+- **Status**: completed
 - **Description**: Register the `canvas_core` shim retirement (window from E-D2, retire-condition = ref-sweep-zero +
   operator-ack, owner) in the `Home.aDNA` shim ledger; flag for E6.2 final cutover.
 - **Files**: shim ledger entry (Home.aDNA)
@@ -86,29 +86,33 @@ source state while keeping the shim as the safety net through its grace window.
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+**Completed 2026-06-14** (operator-authorized full cutover). CanvasForge now single-sources the aDNA Canvas Standard
+from Canvas.aDNA v2.0.0 via the `canvas/` wrapper + the `canvas_core`→`canvas_std` shim; the embedded v1.0.0 framing
+is banner-superseded (archive-never-delete). **Phase E3 is COMPLETE.** Suite 900/3 green; baseline `3ce4d341` intact.
 
 ### Deliverables
-- [ ] Cutover criteria documented + met
-- [ ] Rollback rehearsed (no consumer breakage)
-- [ ] v1.0.0 framing superseded (operator-gated)
-- [ ] Shim retirement scheduled (Home.aDNA ledger)
+- [x] Cutover criteria documented + met — `artifacts/e3_4_cutover_criteria.md` (all 6 criteria MET)
+- [x] Rollback rehearsed (no consumer breakage) — `artifacts/e3_4_rollback_rehearsal.md` (net-zero; embedded path 900/3)
+- [x] v1.0.0 framing superseded (operator-gated) — 5 banners + AGENTS routing banner in `CanvasForge.aDNA/what/context/advanced_canvas/`; `canvas/CLAUDE.md` → cutover-active
+- [x] Shim retirement scheduled (Home.aDNA ledger) — §C row marked E3.4-green; dated row note; remaining conditions (ref-sweep-zero + owner-ack) execute at E6.2
 
 ### Descoped
 - Final cross-system cutover (E6.2) + campaign AAR (E6.3).
+- **Round-trip-function repoint** (validate/diff/merge/round-trip → `canvas_std`) — operator chose keep-parked; own parity pass later.
 
 ### Key Findings
--
+- **HEAD == `1a51801`** (0 commits since E3.2) made the rollback a single-file, net-zero revert/restore — clean rehearsal.
+- The v1.0.0 framing is **concentrated in 5 files** (normative trio + 2 conformance), not all 22 — the other 15 are application-neutral design-craft (producer knowledge), correctly left unbannered.
+- The `canvas_core` shim was **already §C-registered at E3.2** with "E3.4 cutover green" as a *forward* retire-condition → E3.4's ledger work was a status **update**, not a fresh registration. §C mutates via dated row notes (frontmatter not bumped — matches the 6/11–6/13 precedent).
+- **No live `integrity_hash` validation** of the context docs (grep-confirmed) → banners are docs-only and safe; suite unchanged at 900/3.
 
 ### Scope Changes
--
+- **Root Standing-Order wiring deferred** to a follow-up: a CanvasForge *root* `CLAUDE.md` SO routing canvas-standard consumption through `canvas/` (analogous to `iii/`) edits CanvasForge's authoritative governance file — out of the approved E3.4 plan; surfaced here + in STATE, not bundled.
 
 ## AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**:
-- **Didn't**:
-- **Finding**:
-- **Change**:
-- **Follow-up**:
+- **Worked**: The deterministic precondition stack made cutover low-drama — E3.3's structural-identity proof meant "iii ≥ baseline" held *by construction*, and HEAD==`1a51801` made rollback a clean single-file net-zero revert. Banner-only supersession (archive-never-delete) kept the one-way step reversible.
+- **Didn't**: Nothing blocked. The only deliberate non-action was the root Standing-Order wiring (deferred, not dropped).
+- **Finding**: The shim was pre-registered at E3.2 with E3.4 as a forward condition, so the ledger step was an update; and the v1.0.0 framing was far more concentrated than a naive "banner the whole directory" read suggested — scoping to the 5 Standard files avoided over-deprecating useful producer context.
+- **Change**: Scoped supersession to Standard-framing files only; recorded the §C update as a dated row note per the established registry convention (no frontmatter bump).
+- **Follow-up**: (1) Add the CanvasForge root Standing Order routing consumption through `canvas/`. (2) Round-trip-function repoint (parked; own parity pass). (3) E6.2 executes ref-sweep-zero + Mondrian/Hermes owner-ack + shim retirement. (4) E4 (LF-successor + net-new consumer) is the next phase — **E3→E4 is a human gate**.

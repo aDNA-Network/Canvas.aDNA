@@ -11,7 +11,7 @@ estimated_sessions: "20-30"
 estimation_class: build-broad
 priority: high
 created: 2026-06-12
-updated: 2026-06-13
+updated: 2026-06-14
 last_edited_by: agent_stanley
 predecessor: campaign_canvas_genesis_planning
 tags: [campaign, execution, build, canvas, standard, platform]
@@ -112,7 +112,7 @@ extraction-shim precedent.
 | E3.1 | Introduce the `canvas/` federation wrapper in CanvasForge (federation_ref + graft) | 1 | ✅ **done 2026-06-13** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_1_canvasforge_wrapper\|mission]]) |
 | E3.2 | Repoint `canvas_core` → `canvas_std` behind a **deprecation shim** (mirror lattice-protocol precedent) | 2-3 | ✅ **done 2026-06-13** (constants-only; suite green at parity) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_2_canvas_core_shim\|mission]]) |
 | E3.3 | **Parity/regression gate** — no CanvasForge output regresses vs locked baselines (Wilhelm 8.80 / Issue 01 8.43) | 2 | ✅ **done 2026-06-13 — GREEN** (deterministic structural proof; shim output-neutral) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_3_parity_gate\|mission]]) |
-| E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 | ⏳ chartered ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover\|mission]]) |
+| E3.4 | Cutover criteria + rollback rehearsal; retire the embedded v1.0.0 framing (supersede) | 1-2 | ✅ **done 2026-06-14** — full cutover; v1.0.0 framing superseded; shim retire scheduled E6.2 ([[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover\|mission]]) |
 
 > **Phase progress (2026-06-13) — PHASE E3 OPENED 🔄 (operator-authorized gate crossing); E3.1 ✅ done:** the
 > operator approved crossing the E2→E3 human gate; all four E3 missions are chartered (SO-3). **E3.1 is complete** —
@@ -125,8 +125,10 @@ extraction-shim precedent.
 > at parity — 957 passed / 5 skipped, baseline `3ce4d341` intact; E-D2 = 12mo, registered Home.aDNA §C). **E3.3
 > (the load-bearing parity gate — Wilhelm 8.80 / Issue 01 8.43) is ✅ GREEN 2026-06-13** — the shim is proven
 > output-neutral by a deterministic structural proof (A/B normalized-canvas SHA identical shim-ON vs shim-OFF
-> `aa675665…`; 0 federated-floor rejects; baseline `3ce4d341` untouched; suite 900/3). **E3.4 (cutover) is next
-> and is an operator gate** (retire the embedded v1.0.0 framing + rollback rehearsal).
+> `aa675665…`; 0 federated-floor rejects; baseline `3ce4d341` untouched; suite 900/3). **E3.4 ✅ done 2026-06-14** —
+> full cutover (operator-gated): cutover criteria met, rollback rehearsed net-zero, the embedded v1.0.0 framing
+> superseded (banners; archive-never-delete), shim retirement scheduled at E6.2. **PHASE E3 COMPLETE. ⛔ HELD at the
+> E3→E4 boundary** — E4 (LF-successor + net-new consumer) is the next phase and is a human gate.
 
 ### Phase E4 — LF-successor + net-new consumer
 | # | Mission | Sessions |

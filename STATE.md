@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-06-13
+updated: 2026-06-14
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260613_215108_keystone_e3_3_parity
+last_session: session_stanley_20260614_190951_keystone_e3_4_cutover
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,67 +14,73 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASES E0+E1+E2 ✅ (reference impl + tooling COMPLETE); 🔄 PHASE E3 OPEN (operator-authorized 2026-06-13) — CanvasForge migration; E3.1 (canvas/ wrapper) ✅ + E3.2 (canvas_core→canvas_std deprecation shim) ✅ + E3.3 (parity gate) ✅ **GREEN**; ⛔ E3.4 (cutover — operator gate) NEXT.**
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASES E0+E1+E2 ✅ (reference impl + tooling) + 🟢 **PHASE E3 ✅ COMPLETE 2026-06-14** (CanvasForge migrated onto `canvas_std`, parity-gated): E3.1 (canvas/ wrapper) · E3.2 (deprecation shim) · E3.3 (parity gate GREEN) · **E3.4 (full cutover ✅)**. ⛔ HELD at the E3→E4 boundary (human gate) — E4 = LF-successor + net-new consumer.**
 `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
-Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate**. The operator **activated Operation Keystone** (the build). **E0** (skeleton + KEEP floor + golden fixtures) · **E1** (reference engine: `validate` all levels, `strip`+degradation, round-trip, `diff`/`merge`, `_reserved` validators) · **E2** (conformance harness `validate_suite`, conformance corpus, the v2.0.0 **JSON Schema** + the **`canvas-std` CLI**) — **all complete. `pytest` 46 passed / 8 skipped, `ruff` clean; no stubs remain** in `what/code/canvas_std/`. **The reference implementation is built.** **The operator authorized crossing the E2→E3 gate 2026-06-13** — E3 (parity-gated CanvasForge migration) is open; **E3.1 (canvas/ wrapper) + E3.2 (constants-only canvas_core→canvas_std deprecation shim) + E3.3 (parity gate — GREEN) are complete**; **E3.4 (cutover) is next and is an operator gate**. *(Planning history: `campaign_canvas_genesis_planning/`.)*
+Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate**. The operator **activated Operation Keystone** (the build). **E0** (skeleton + KEEP floor + golden fixtures) · **E1** (reference engine) · **E2** (conformance harness + v2.0.0 **JSON Schema** + the **`canvas-std` CLI**) built the reference implementation (`pytest` 46/8, `ruff` clean). **E3** (parity-gated CanvasForge migration) is now **COMPLETE** — E3.1 `canvas/` wrapper + E3.2 constants-only `canvas_core`→`canvas_std` deprecation shim + E3.3 parity gate (**GREEN**) + **E3.4 full cutover (2026-06-14)**: CanvasForge single-sources the Standard from Canvas.aDNA v2.0.0; the embedded v1.0.0 framing is superseded; the shim stays through its grace window (removal at E6.2). **⛔ HELD at the E3→E4 phase gate (human gate).** *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
-## ▶ Resume Here — ⛔ Phase E3 open; E3.4 (cutover) is next — OPERATOR GATE
+## ▶ Resume Here — ⛔ Phase E3 COMPLETE; HELD at E3→E4 (human gate)
 
-**E3 is OPEN** (operator-authorized 2026-06-13). **E3.1** (canvas/ wrapper) + **E3.2** (constants-only
-`canvas_core`→`canvas_std` deprecation shim) + **E3.3** (parity gate — **GREEN**) are **complete**. The E3.2 shim
-is proven **output-neutral** by a deterministic structural proof (operator-chosen Approach A): rebuilding the
-Wilhelm parity deck through the shim **shim-ON vs shim-OFF** yields an **identical** normalized-canvas SHA
-(`aa675665…`); 0 federated-floor rejects on the rebuilt deck (56 nodes) + committed comic (11 nodes); baseline
-`3ce4d341` UNCHANGED; CanvasForge suite 900/3. Evidence: `missions/artifacts/e3_3_parity_{report,verdict}.md` +
-the reusable `e3_3_parity_check.py`. **E3.2 is pushed** (Canvas.aDNA `38265f1`, CanvasForge `1a51801`).
+**Phase E3 (CanvasForge migration) is COMPLETE** as of 2026-06-14. The full cutover landed (operator-authorized):
+CanvasForge now **single-sources** the aDNA Canvas Standard from **Canvas.aDNA v2.0.0** via the `canvas/` wrapper +
+the `canvas_core`→`canvas_std` constants shim; the embedded **Canvas Standard v1.0.0 framing is superseded** (5
+supersession banners + a directory routing banner across `CanvasForge.aDNA/what/context/advanced_canvas/`;
+archive-never-delete, SO-6). Cutover criteria all MET; **rollback rehearsed net-zero** (revert the shim → embedded
+floor 900/3 green; restore HEAD → shim back; baseline `3ce4d341` intact in both states). CanvasForge suite 900/3.
+Evidence: `missions/artifacts/e3_4_cutover_criteria.md` + `e3_4_rollback_rehearsal.md`. The `canvas_core` shim stays
+live through the **E-D2 grace window (2027-06-13)**; ref-sweep-zero + Mondrian/Hermes owner-ack + removal execute at
+**E6.2** (scheduled in the Home.aDNA §C ledger).
 
-**Next: E3.4 — cutover (⛔ OPERATOR GATE; do NOT start without the operator).** Per the charter: define cutover
-criteria + **rollback rehearsal** (revert `1a51801` → the shim keeps the old path working) + retire the embedded
-v1.0.0 framing (supersede). E3.3 GREEN is the cutover precondition. The round-trip-**function** repoint descoped
-from E3.2 may also run now that constants parity is proven (its own parity pass via `e3_3_parity_check.py`). After
-E3: E4 (LF-successor + net-new consumer) · E5 (rollout + `iii/` wiring + registry) · E6 (cutover + shim
-retirement). Test env: gitignored `.venv` at `CanvasForge.aDNA/what/code/` (`adna-canvas-std` editable). Chartered:
-[[how/campaigns/campaign_canvas_genesis/missions/mission_e3_4_cutover|E3.4]].
+**Next: ⛔ E3→E4 is a PHASE gate (human gate) — do NOT open E4 without the operator.** E4 = stand up the
+LiteratureForge-successor as a federated producer (E4.1–E4.2), build ≥1 net-new consumer end-to-end (E4.3), and the
+parked deck-generator pilot as a worked build (E4.4). After E4: E5 (federation rollout + `iii/` wiring + registry) ·
+E6 (cross-system parity + final cutover/shim retirement at E6.2 + campaign AAR at E6.3). Chartered:
+[[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] §Phases E4–E6.
 
-**Build hygiene:** the suite runs in a `.venv` (`cd what/code/canvas_std && make install && make test`; system
-Python 3.14 lacks pytest). `.venv`/`*.egg-info`/`__pycache__` gitignored. Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active).
+**Open follow-ups (no gate change):** (1) **CanvasForge root Standing Order** routing canvas-standard consumption
+through the `canvas/` wrapper (analogous to `iii/`) — deferred from E3.4 (edits CanvasForge's authoritative
+`CLAUDE.md`; do deliberately). (2) **Round-trip-function repoint** (validate/diff/merge/round-trip → `canvas_std`) —
+operator chose keep-parked; runs later under its own parity pass via `e3_3_parity_check.py`.
+
+**Build hygiene:** the CanvasForge suite runs in the gitignored `.venv` at `CanvasForge.aDNA/what/code/`
+(`adna-canvas-std` editable; `.venv/bin/python -m pytest canvas_core/tests/ canvas_comic/tests/ tests/test_federation_validation.py -q` → 900/3). Canvas.aDNA's own `canvas_std` suite: `.venv` at `what/code/canvas_std`. Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active).
 
 **Open side-tracks:** Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]]); III/SiteForge upstream notes; III pin confirm at E5.1.
 
 ## Parked — execution-campaign candidates (no gate change)
 
-- **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds the P4 execution charter; informs D2/D4/D7. Opens no phase, builds no code (C3). Operation Cartography itself is **unchanged** (P0-ratified / P1-awaiting-go).
+- **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds E4.4 as a worked build; informs D2/D4/D7. Opens no phase, builds no code until E4.
 
-## What's Done (this session — Keystone E3.3 parity gate GREEN + E3.2 push, 2026-06-13)
+## What's Done (this session — Keystone E3.4 full cutover, 2026-06-14)
 
-- **E3.3 parity gate ✅ GREEN** (operator method = deterministic Approach A; no Gemini re-score). Proof chain: (1) static — `core.py` diff is constants→imports only, no method touched; (2) object-identity — 12 floor constants `is`-identical to `canvas_std.schema`; (3) determinism — two shim-ON deck rebuilds give identical normalized SHA; (4) **A/B — shim-ON vs shim-OFF rebuild of the Wilhelm deck → identical `deck_norm_sha256` `aa675665…`** ⇒ shim output-neutral; (5) federated floor accepts rebuilt deck (56 nodes) + committed comic (11 nodes), **0 rejects**; (6) baseline `3ce4d341…` UNCHANGED; (7) suite 900/3. Artifacts: `missions/artifacts/e3_3_parity_{report,verdict}.md` + reusable `e3_3_parity_check.py`. VR1–VR5 ≥ baseline holds **by construction** (output structurally identical → scores unchanged).
-- **Pushed the E3.2 batch** (operator-authorized): Canvas.aDNA `be2194e..38265f1` + CanvasForge.aDNA `7bb833f..1a51801` → origin/master. Home.aDNA stays local (Rule 4; §C ledger `c72e9cc` local-only).
-- *(Prior this run: **E3.2** — constants-only `canvas_core`→`canvas_std` deprecation shim landed (`CanvasBuilder` floor binds to `canvas_std.schema`; `DeprecationWarning` + `DEPRECATED_STUB`; producers untouched); API-parity audit (byte-identity PASS); E-D2=12mo + Home.aDNA §C registration; suite green at parity. Test env = gitignored `.venv` at `what/code/` + editable `adna-canvas-std`.)*
-- *(Earlier: Cartography closed; Keystone E0+E1+E2 reference impl (`pytest` 46/8); E3 opened + E3.1 `canvas/` wrapper + LP↔Canvas seam countersign.)*
+- **E3.4 cutover ✅ COMPLETE** (operator-authorized full cutover) — **Phase E3 CLOSED**. Four objectives:
+  1. **Cutover criteria** documented + all 6 MET (`artifacts/e3_4_cutover_criteria.md`): parity GREEN (E3.3) · suite 900/3 · iii ≥ baseline by construction · baseline `3ce4d341` locked · rollback rehearsed · operator gate.
+  2. **Rollback rehearsed net-zero** (`artifacts/e3_4_rollback_rehearsal.md`): HEAD==`1a51801`, so revert the shim → embedded floor self-contained + **900/3 green** (no consumer breakage); restore HEAD → shim back; tree clean; baseline intact both states.
+  3. **v1.0.0 framing superseded** (CanvasForge): 5 supersession banners (`…_standard/_schema/_roundtrip/_validation_results/_tooling_gaps.md`) + directory routing banner (`advanced_canvas/AGENTS.md`); `canvas/CLAUDE.md` → cutover-active. Design-craft files (typography/color/composition/…) left intact (producer knowledge, not the Standard). Archive-never-delete. Suite unchanged 900/3.
+  4. **Shim retirement scheduled**: Home.aDNA §C ledger row marked E3.4-green + dated row note; remaining conditions (ref-sweep-zero + Mondrian/Hermes owner-ack) execute at E6.2. Home.aDNA local (Rule 4).
+- *(Prior: Cartography closed; Keystone E0+E1+E2 reference impl 46/8; E3.1 wrapper + E3.2 shim + E3.3 parity GREEN.)*
 
 ## Verified Ground Truth (anchors)
 
 - Substrate already exports **PDF** (`canvas_core/pdf_export.py`, ADR-010) + **Google Docs** (`canvas_core/gdoc_export.py`, ADR-011) — the "anything-2D" thesis is grounded in shipped code.
-- **Canvas Standard v1.0.0** at `CanvasForge.aDNA/what/context/advanced_canvas/` (standard + roundtrip); invariants real (`_lattice_meta` required, `_reserved` extension carrier, type→color/shape, `toEnd:"arrow"`, YAML-authoritative). `CanvasBuilder` has `read_back/diff/merge/validate/compute_sync_hash`.
+- **Canvas Standard v1.0.0** at `CanvasForge.aDNA/what/context/advanced_canvas/` (standard + roundtrip) — **superseded 2026-06-14 (E3.4)**: now carries supersession banners → Canvas.aDNA v2.0.0. Invariants real (`_lattice_meta` required, `_reserved` extension carrier, type→color/shape, `toEnd:"arrow"`, YAML-authoritative). `CanvasBuilder` has `read_back/diff/merge/validate/compute_sync_hash`.
 - **LIP process** real: `lattice-labs/how/governance/lips/lip_0001_lip_process.md` (latest LIP-0007 ISS, 2026-05-30) → D6 mechanism.
-- **Extraction-shim precedent**: `lattice-protocol/extensions/canvas/__init__.py` → `canvasforge.canvas_core` (model for D2).
+- **Extraction-shim precedent**: `lattice-protocol/extensions/canvas/__init__.py` → `canvasforge.canvas_core` (model for the E3.2 shim).
 - **SiteForge forge pattern** (`sf_forge_pattern_spec.md`): federation_ref + graft_manifest + `version_policy: minor` + 5-stage gates (C7).
-- **LiteratureForge seam** real (`spec_visual_contract.md` V1–V8 + X1–X14; 5-part `spec_genre_submodule.md`); Amendment-02 Document-DNA engine **complements** (D3).
+- **LiteratureForge seam** real (`spec_visual_contract.md` V1–V8 + X1–X14; 5-part `spec_genre_submodule.md`); Amendment-02 Document-DNA engine **complements** (D3) — feeds E4.
 
 ## Active Blockers
 
-- **None blocking.** E3.1 + E3.2 + E3.3 (**GREEN**) done. **E3.4 (cutover) is the next mission and is an OPERATOR GATE** — do not start without the operator (retire the embedded v1.0.0 framing + rollback rehearsal). CanvasForge tests run in the gitignored `.venv` at `what/code/` (`adna-canvas-std` editable-installed).
-- **Pushes:** E3.2 batch **pushed** 2026-06-13 (Canvas.aDNA `38265f1`, CanvasForge `1a51801` → origin/master); Home.aDNA §C ledger `c72e9cc` stays **local** (Rule 4). **E3.3 close commit** (Canvas.aDNA: verdict/report/`e3_3_parity_check.py` + mission + STATE + campaign + session) pending this session's close — push per operator batch.
+- **None blocking.** Phase E3 COMPLETE. **E3→E4 is a human gate** — do not open E4 (LF-successor + net-new consumer) without the operator. CanvasForge tests run in the gitignored `.venv` at `what/code/` (`adna-canvas-std` editable).
+- **Pushes:** the E3.4 close batch (Canvas.aDNA: 2 artifacts + mission + STATE + campaign + session; CanvasForge.aDNA: 6 banner/context files + `canvas/CLAUDE.md`) is **pending push per the operator batch convention** — confirm before pushing; check `@{u}..HEAD` authorship. Home.aDNA §C ledger update stays **local** (Rule 4).
 
 ## Next Steps
 
-1. ✅ **Operation Cartography CLOSED** + **Keystone E0+E1+E2 COMPLETE** (reference impl + tooling; `pytest` 46/8, `ruff` clean).
-2. ✅ **Phase E3 OPENED** (operator-authorized) + **E3.1 (canvas/ wrapper)** + **LP↔Canvas seam countersign** — all pushed 2026-06-13.
-3. ✅ **E3.2 COMPLETE + PUSHED** 2026-06-13 — constants-only `canvas_core`→`canvas_std` deprecation shim; suite green at parity; E-D2 = 12mo + Home.aDNA §C registration.
-4. ✅ **E3.3 COMPLETE — GREEN** 2026-06-13 — deterministic structural proof (Approach A): shim **output-neutral** (A/B identical normalized-canvas SHA `aa675665…`; 0 federated-floor rejects; baseline `3ce4d341` untouched; suite 900/3). Artifacts `e3_3_parity_{report,verdict}.md` + `e3_3_parity_check.py`.
-5. **→ E3.4 (next session) — CUTOVER, ⛔ OPERATOR GATE.** Cutover criteria + **rollback rehearsal** (revert `1a51801` → shim keeps old path) + retire the embedded v1.0.0 framing. Alongside (optional): the descoped round-trip-**function** repoint, gated by its own parity pass via `e3_3_parity_check.py`. After E3: E4 · E5 (`iii/` wiring + registry) · E6.
-6. **Pushes:** E3.2 pushed; E3.3 close commit pending → push per operator batch; Home.aDNA local.
+1. ✅ Cartography CLOSED + Keystone E0+E1+E2 (reference impl 46/8, `ruff` clean) + E3.1/E3.2/E3.3.
+2. ✅ **E3.4 COMPLETE 2026-06-14** — full cutover; CanvasForge single-sources v2.0.0; v1.0.0 framing superseded; rollback rehearsed net-zero; shim retire scheduled E6.2. **PHASE E3 COMPLETE.**
+3. **→ ⛔ E3→E4 PHASE GATE (human gate).** Do not open E4 without the operator. E4 = LF-successor federated producer (E4.1–E4.2) + ≥1 net-new consumer (E4.3) + deck-generator pilot (E4.4).
+4. **Follow-ups (no gate):** CanvasForge root Standing Order (canvas/ routing); round-trip-function repoint (parked, own parity pass).
+5. **Pushes:** E3.4 close batch pending → push per operator batch; Home.aDNA local.
 
 ## Notes
 
