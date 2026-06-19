@@ -130,6 +130,15 @@ extraction-shim precedent.
 > superseded (banners; archive-never-delete), shim retirement scheduled at E6.2. **PHASE E3 COMPLETE. ⛔ HELD at the
 > E3→E4 boundary** — E4 (LF-successor + net-new consumer) is the next phase and is a human gate.
 
+> **Phase progress (2026-06-19) — pt09 reshape reconciled; Hestia loop closed (no gate change):** pt09 (2026-06-17)
+> folded the "CanvasForge as a *separate* federated producer" premise; **[[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed 2026-06-19)**
+> resolves the E4 **code-layout** reconciliation — `canvas_core` → `Canvas.aDNA/what/production/canvas_core/` (import
+> kept; env `CANVAS_CORE_HOME`; depends on installed `adna-canvas-std`), answering Hestia's substrate-path memo.
+> **Hearthstone P3 unblocked + loop closed** — Hestia staged the exemplar same-day and acked (Home §C #39 env-var
+> alias registered). The two former E3.4 follow-ups (canvas/-routing SO; round-trip-function dedup) are now
+> **contracted PT P5 items** in ADR-004's checklist. **Still ⛔ HELD at E3→E4** — this resolved the *layout*, not the
+> gate; no code moved.
+
 ### Phase E4 — LF-successor + net-new consumer
 | # | Mission | Sessions |
 |---|---------|----------|
@@ -162,6 +171,7 @@ extraction-shim precedent.
 | E-D1 | `canvas_std` language/runtime + packaging | at E0.1 |
 | E-D2 | Shim grace-window length for CanvasForge | ✅ **12 months** (expiry 2027-06-13) — decided E3.2 2026-06-13; registered Home.aDNA §C |
 | Δ2 | Canvas-as-primitive | open LIP (separate track) |
+| ADR-004 | PT P5 production-code layout (`canvas_core` → `what/production/`) | 🟡 **proposed 2026-06-19** — answers Hestia substrate-path memo; pt09 follow-up (not a genesis D-decision); operator ratifies |
 
 ## Risk Register
 

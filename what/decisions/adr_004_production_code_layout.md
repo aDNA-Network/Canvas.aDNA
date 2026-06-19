@@ -130,6 +130,9 @@ template currently records the anticipatory `what/code/canvas_core`; `source_vau
   locator/install treatment so Canvas's regression harness survives the move.
 - ~8 consumer wrappers / ~11 wrappers refederate `source_vault: CanvasForge.aDNA → Canvas.aDNA` + `source_module →
   what/production/canvas_core` (PT P5 wrapper-refederation).
+- **Notify Hestia (Home.aDNA) at relocation** — she re-verifies the staged exemplar resolver + drops the interim
+  `CanvasForge.aDNA`-archive branch (her staged fallthrough auto-flips, but she wants a re-verify); per the 2026-06-19
+  ack (`Home.aDNA/who/coordination/coord_2026_06_19_hestia_to_mondrian_substrate_staged_ack.md`).
 
 ## Related
 - [[adr_001_canvasforge_relationship]] (D2 — "CanvasForge becomes a pure producer"; this ADR sites that producer) ·

@@ -72,3 +72,11 @@ ADR-004's execution checklist, not executed in the archive. **Do not open E4 and
 without the operator.** Pending: operator ratification of ADR-004; the Canvas batch (adr_004 + reply + STATE + session)
 is committed locally and **pending push per the operator batch convention** (joins the E3.4 + pt09 batch — check
 `@{u}..HEAD` authorship first). Hestia owns the Home-side repoint + her two local ledger updates per the reply memo.
+
+## AAR
+
+- **Worked**: A decision-only unblock (ADR-004 *proposed*, no code moved) closed the cross-vault dependency **same-day** — Hestia staged the exemplar resolver and acked within hours; the skeptical Plan-agent pass caught the §4 `canvas_std`-resolution trap she confirmed *"would have bitten me"* (the topology canvas would have silently never rendered on a fresh node).
+- **Didn't**: Nothing blocked. The two E3.4 "parked follow-ups" proved **partially OBE post-pt09** — caught at grounding *before* executing, so they were re-scoped into the ADR-004 P5 checklist rather than done prematurely in the archived (about-to-move) code.
+- **Finding**: Hestia's staged fallthrough resolver (`CANVAS_CORE_HOME` → `what/production` → archive, + `canvas_std/src` as a 2nd `sys.path` entry) **auto-flips at P5** — no second touch needed when the code lands.
+- **Change**: Re-ground stale/parked charters against the latest merge (pt09) before executing — surface OBE-risk early. Cross-file coordination memos into other vaults **uncommitted** (their tree may hold the owner's in-flight work) — saved as a memory.
+- **Follow-up**: Ping Hestia when the **PT P5** `canvas_core` relocation is scheduled (she re-verifies + drops the interim archive branch). Operator to **ratify ADR-004**. Her node's *live* generator staging is deferred in her ledger §7 (her scope, not Canvas's).

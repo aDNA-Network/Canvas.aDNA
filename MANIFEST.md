@@ -1,7 +1,7 @@
 ---
 type: manifest
 created: 2026-06-06
-updated: 2026-06-06
+updated: 2026-06-19
 last_edited_by: agent_stanley
 persona: Mondrian (locked — P0 2026-06-06)
 category: Platform.aDNA (standard-bearer — Δ1 Option P, locked P0 2026-06-06)
@@ -24,14 +24,14 @@ Canvas.aDNA is the **standard-bearer**. **CanvasForge** (Hermes — spatial subs
 
 ## Status
 
-**Genesis-planning — P0 ratified 2026-06-06; P1 ready on operator go.** Campaign **Operation Cartography** (`how/campaigns/campaign_canvas_genesis_planning/`). This is a *planning* campaign: it produces (1) the forked-and-extended Standard spec, (2) this vault scaffold, and (3) an execution-campaign charter a later session runs to build it. **No runtime is built and no code is migrated in this campaign.** See `STATE.md`.
+**Execution — Operation Keystone; PHASES E0–E3 ✅, ⛔ HELD at E3→E4 (human gate).** Operation Cartography (planning) closed 2026-06-13; the operator activated **Operation Keystone** (`how/campaigns/campaign_canvas_genesis/`) — the build. **E0–E2** shipped the `canvas_std` **reference implementation** (validators · round-trip · conformance harness · v2.0.0 **JSON Schema** · `canvas-std` CLI; `pytest` 46/8, `ruff` clean). **E3** = the parity-gated **CanvasForge migration** onto `canvas_std` (full cutover 2026-06-14 — CanvasForge single-sources v2.0.0 via the `canvas/` wrapper + the `canvas_core`→`canvas_std` shim). **pt09** (2026-06-17) absorbed CanvasForge **production** (deck·comic·diagram) into this vault — Hermes merged into Mondrian; code relocates at **PT P5**. **ADR-004** (proposed 2026-06-19) fixes that P5 layout (`canvas_core` → `what/production/`). **E4** (LF-successor + net-new consumer) is the next phase and is a human gate. See `STATE.md`.
 
 ## Architecture (aDNA triad)
 
 ```
 Canvas.aDNA/
 ├── what/   # Knowledge — the Standard spec, component model, decisions (ADRs), context corpus
-├── how/    # Operations — Operation Cartography campaign, missions, sessions, templates, skills
+├── how/    # Operations — Operation Keystone campaign, missions, sessions, templates, skills
 └── who/    # People — governance, coordination (naming/persona notes)
 ```
 
@@ -53,7 +53,7 @@ Base ontology: 14 entity types (WHO 3 · WHAT 4 · HOW 7) — see CLAUDE.md § D
 
 | Audience | Start Here | Then |
 |----------|-----------|------|
-| **Agents** | `CLAUDE.md` (auto-loaded) | `STATE.md` → `how/campaigns/campaign_canvas_genesis_planning/` → P0 gate |
+| **Agents** | `CLAUDE.md` (auto-loaded) | `STATE.md` (Resume Here) → `how/campaigns/campaign_canvas_genesis/` (Operation Keystone) |
 | **Humans** | this `MANIFEST.md` | `what/decisions/adr_000_canvas_identity.md` → `STATE.md` |
 
 ## Naming note
