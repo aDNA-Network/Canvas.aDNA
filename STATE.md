@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-06-17
+updated: 2026-06-19
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260614_190951_keystone_e3_4_cutover
+last_session: session_stanley_20260619_124648_keystone_substrate_path_unblock
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -19,7 +19,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate**. The operator **activated Operation Keystone** (the build). **E0** (skeleton + KEEP floor + golden fixtures) · **E1** (reference engine) · **E2** (conformance harness + v2.0.0 **JSON Schema** + the **`canvas-std` CLI**) built the reference implementation (`pytest` 46/8, `ruff` clean). **E3** (parity-gated CanvasForge migration) is now **COMPLETE** — E3.1 `canvas/` wrapper + E3.2 constants-only `canvas_core`→`canvas_std` deprecation shim + E3.3 parity gate (**GREEN**) + **E3.4 full cutover (2026-06-14)**: CanvasForge single-sources the Standard from Canvas.aDNA v2.0.0; the embedded v1.0.0 framing is superseded; the shim stays through its grace window (removal at E6.2). **⛔ HELD at the E3→E4 phase gate (human gate).** *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
-> **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`.
+> **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.**
 
 ## ▶ Resume Here — ⛔ Phase E3 COMPLETE; HELD at E3→E4 (human gate)
 
@@ -39,10 +39,13 @@ parked deck-generator pilot as a worked build (E4.4). After E4: E5 (federation r
 E6 (cross-system parity + final cutover/shim retirement at E6.2 + campaign AAR at E6.3). Chartered:
 [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] §Phases E4–E6.
 
-**Open follow-ups (no gate change):** (1) **CanvasForge root Standing Order** routing canvas-standard consumption
-through the `canvas/` wrapper (analogous to `iii/`) — deferred from E3.4 (edits CanvasForge's authoritative
-`CLAUDE.md`; do deliberately). (2) **Round-trip-function repoint** (validate/diff/merge/round-trip → `canvas_std`) —
-operator chose keep-parked; runs later under its own parity pass via `e3_3_parity_check.py`.
+**Open follow-ups → now contracted as PT P5 items in [[what/decisions/adr_004_production_code_layout|ADR-004]]**
+(both partially OBE post-pt09; folded into the P5 relocation contract 2026-06-19, no gate change): (1) **FU1 —
+canvas/-routing Standing Order**, reframed as Canvas *production* governance (route `what/production/` standard-
+consumption through `canvas/`, mirroring `iii/`) at the P5 refederation — **not** an edit to the archived
+"do-not-resume" CanvasForge `CLAUDE.md`. (2) **FU2 — round-trip-function dedup** (validate/diff/merge/round-trip →
+`canvas_std`) at `canvas_core` relocation (once co-located with `canvas_std`), gated by `e3_3_parity_check.py`
+(baseline `3ce4d341` unchanged).
 
 **Build hygiene:** the CanvasForge suite runs in the gitignored `.venv` at `CanvasForge.aDNA/what/code/`
 (`adna-canvas-std` editable; `.venv/bin/python -m pytest canvas_core/tests/ canvas_comic/tests/ tests/test_federation_validation.py -q` → 900/3). Canvas.aDNA's own `canvas_std` suite: `.venv` at `what/code/canvas_std`. Tracking: [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active).
@@ -74,15 +77,16 @@ operator chose keep-parked; runs later under its own parity pass via `e3_3_parit
 ## Active Blockers
 
 - **None blocking.** Phase E3 COMPLETE. **E3→E4 is a human gate** — do not open E4 (LF-successor + net-new consumer) without the operator. CanvasForge tests run in the gitignored `.venv` at `what/code/` (`adna-canvas-std` editable).
-- **Pushes:** the E3.4 close batch (Canvas.aDNA: 2 artifacts + mission + STATE + campaign + session; CanvasForge.aDNA: 6 banner/context files + `canvas/CLAUDE.md`) is **pending push per the operator batch convention** — confirm before pushing; check `@{u}..HEAD` authorship. Home.aDNA §C ledger update stays **local** (Rule 4).
+- **Pushes:** the E3.4 close batch (Canvas.aDNA: 2 artifacts + mission + STATE + campaign + session; CanvasForge.aDNA: 6 banner/context files + `canvas/CLAUDE.md`) is **pending push per the operator batch convention** — confirm before pushing; check `@{u}..HEAD` authorship. **[+2026-06-19] the substrate-path batch (adr_004 + Hestia reply + STATE + session) joins this pending batch.** Home.aDNA §C ledger update stays **local** (Rule 4); the Home courtesy cross-file is Home-local too.
 
 ## Next Steps
 
 1. ✅ Cartography CLOSED + Keystone E0+E1+E2 (reference impl 46/8, `ruff` clean) + E3.1/E3.2/E3.3.
 2. ✅ **E3.4 COMPLETE 2026-06-14** — full cutover; CanvasForge single-sources v2.0.0; v1.0.0 framing superseded; rollback rehearsed net-zero; shim retire scheduled E6.2. **PHASE E3 COMPLETE.**
 3. **→ ⛔ E3→E4 PHASE GATE (human gate).** Do not open E4 without the operator. E4 = LF-successor federated producer (E4.1–E4.2) + ≥1 net-new consumer (E4.3) + deck-generator pilot (E4.4).
-4. **Follow-ups (no gate):** CanvasForge root Standing Order (canvas/ routing); round-trip-function repoint (parked, own parity pass).
-5. **Pushes:** E3.4 close batch pending → push per operator batch; Home.aDNA local.
+4. **Follow-ups → contracted PT P5 items** ([[what/decisions/adr_004_production_code_layout|ADR-004]], 2026-06-19): FU1 canvas/-routing as production governance (at P5 refederation); FU2 round-trip dedup → `canvas_std` (at relocation, gated by `e3_3_parity_check.py`).
+5. **Pushes:** E3.4 close batch **+ the 2026-06-19 substrate-path batch** pending → push per operator batch; Home.aDNA local.
+6. **adr_004 awaits operator ratification** (proposed → ratified + `signed_by`); Hestia does the exemplar repoint + her two Home-local ledger updates (deferred-items row answered; new §C env-var alias row) per the reply memo.
 
 ## Notes
 
