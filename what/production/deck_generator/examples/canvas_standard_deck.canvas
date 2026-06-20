@@ -1,0 +1,539 @@
+{
+  "nodes": [
+    {
+      "id": "deck_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 8320,
+      "height": 944,
+      "label": "The aDNA Canvas Standard v2.0.0"
+    },
+    {
+      "id": "slide0",
+      "type": "group",
+      "x": 80,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "The aDNA Canvas Standard",
+      "isStartNode": true
+    },
+    {
+      "id": "slide0_title",
+      "type": "text",
+      "x": 136,
+      "y": 402,
+      "width": 1168,
+      "height": 160,
+      "text": "# The aDNA Canvas Standard"
+    },
+    {
+      "id": "slide0_subtitle",
+      "type": "text",
+      "x": 136,
+      "y": 586,
+      "width": 1168,
+      "height": 96,
+      "text": "A typed grammar for any 2D output — paper, deck, comic, letter, site, post."
+    },
+    {
+      "id": "slide1",
+      "type": "group",
+      "x": 1456,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "What it is"
+    },
+    {
+      "id": "slide1_heading",
+      "type": "text",
+      "x": 1512,
+      "y": 200,
+      "width": 1168,
+      "height": 90,
+      "text": "## What it is"
+    },
+    {
+      "id": "slide1_body",
+      "type": "text",
+      "x": 1512,
+      "y": 310,
+      "width": 1168,
+      "height": 114,
+      "text": "An agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas — a canvas as a universal output primitive, a context object, and an interface surface."
+    },
+    {
+      "id": "slide1_bullets",
+      "type": "text",
+      "x": 1512,
+      "y": 448,
+      "width": 1168,
+      "height": 174,
+      "text": "- Positioned, typed components: text, typography, image, video, shape, embed, link.\n- A canvas is a first-class context object an agent can read, write, and round-trip.\n- Owned by Canvas.aDNA (Mondrian) as the standard-bearer Platform."
+    },
+    {
+      "id": "slide2",
+      "type": "group",
+      "x": 2832,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "Conformance levels (monotone)"
+    },
+    {
+      "id": "slide2_heading",
+      "type": "text",
+      "x": 2888,
+      "y": 200,
+      "width": 1168,
+      "height": 80,
+      "text": "## Conformance levels (monotone)"
+    },
+    {
+      "id": "slide2_table",
+      "type": "text",
+      "x": 2888,
+      "y": 300,
+      "width": 1168,
+      "height": 174,
+      "text": "| Level | Adds | Checked by |\n| --- | --- | --- |\n| Core | baseline JSON Canvas nodes + edges | C-* checks |\n| Extended | styleAttributes, isStartNode, edge styling | E-* checks |\n| aDNA-Native | the _reserved block (component model, panel/link, context object) | A-* checks |"
+    },
+    {
+      "id": "slide3",
+      "type": "group",
+      "x": 4208,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "Reduce to the grammar"
+    },
+    {
+      "id": "slide3_heading",
+      "type": "text",
+      "x": 4264,
+      "y": 200,
+      "width": 1168,
+      "height": 80,
+      "text": "## Reduce to the grammar"
+    },
+    {
+      "id": "slide3_image",
+      "type": "file",
+      "x": 4264,
+      "y": 300,
+      "width": 1168,
+      "height": 436,
+      "file": "what/specs/diagrams/canvas_grammar.png"
+    },
+    {
+      "id": "slide3_caption",
+      "type": "text",
+      "x": 4264,
+      "y": 752,
+      "width": 1168,
+      "height": 56,
+      "text": "Every 2D output reduces to the smallest set of typed components positioned on a canvas."
+    },
+    {
+      "id": "slide4",
+      "type": "group",
+      "x": 5584,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "Fork, don't drift"
+    },
+    {
+      "id": "slide4_heading",
+      "type": "text",
+      "x": 5640,
+      "y": 200,
+      "width": 1168,
+      "height": 90,
+      "text": "## Fork, don't drift"
+    },
+    {
+      "id": "slide4_body",
+      "type": "text",
+      "x": 5640,
+      "y": 310,
+      "width": 1168,
+      "height": 114,
+      "text": "A valid aDNA canvas degrades to a valid Obsidian canvas. aDNA-native semantics live additively in the namespaced _reserved block; strip it and a vanilla reader sees a plain JSON-Canvas file."
+    },
+    {
+      "id": "slide5",
+      "type": "group",
+      "x": 6960,
+      "y": 144,
+      "width": 1280,
+      "height": 720,
+      "label": "Closing"
+    },
+    {
+      "id": "slide5_quote",
+      "type": "text",
+      "x": 7016,
+      "y": 402,
+      "width": 1168,
+      "height": 200,
+      "text": "> Specify contracts, not engines — the Standard stays lean; producers do the rest."
+    },
+    {
+      "id": "slide5_attribution",
+      "type": "text",
+      "x": 7016,
+      "y": 622,
+      "width": 1168,
+      "height": 60,
+      "text": "— Mondrian · Canvas.aDNA"
+    }
+  ],
+  "edges": [
+    {
+      "id": "slide0_flow_0",
+      "fromNode": "slide0_title",
+      "fromSide": "bottom",
+      "toNode": "slide0_subtitle",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide1_flow_0",
+      "fromNode": "slide1_heading",
+      "fromSide": "bottom",
+      "toNode": "slide1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide1_flow_1",
+      "fromNode": "slide1_body",
+      "fromSide": "bottom",
+      "toNode": "slide1_bullets",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide2_flow_0",
+      "fromNode": "slide2_heading",
+      "fromSide": "bottom",
+      "toNode": "slide2_table",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide3_flow_0",
+      "fromNode": "slide3_heading",
+      "fromSide": "bottom",
+      "toNode": "slide3_image",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide3_flow_1",
+      "fromNode": "slide3_image",
+      "fromSide": "bottom",
+      "toNode": "slide3_caption",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide4_flow_0",
+      "fromNode": "slide4_heading",
+      "fromSide": "bottom",
+      "toNode": "slide4_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide5_flow_0",
+      "fromNode": "slide5_quote",
+      "fromSide": "bottom",
+      "toNode": "slide5_attribution",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_0",
+      "fromNode": "slide0",
+      "fromSide": "right",
+      "toNode": "slide1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_1",
+      "fromNode": "slide1",
+      "fromSide": "right",
+      "toNode": "slide2",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_2",
+      "fromNode": "slide2",
+      "fromSide": "right",
+      "toNode": "slide3",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_3",
+      "fromNode": "slide3",
+      "fromSide": "right",
+      "toNode": "slide4",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_4",
+      "fromNode": "slide4",
+      "fromSide": "right",
+      "toNode": "slide5",
+      "toSide": "left",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "189ca849ac807fcd",
+          "source_name": "urn:adna:canvas:deck:canvas_standard",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "deck_root": {
+            "class": "panel",
+            "semantic_type": "deck",
+            "degrades_to": "group"
+          },
+          "slide0": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide0_title": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "title"
+          },
+          "slide0_subtitle": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "subtitle"
+          },
+          "slide1": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide1_heading": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "slide1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "slide1_bullets": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "list"
+          },
+          "slide2": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide2_heading": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "slide2_table": {
+            "class": "table",
+            "degrades_to": "text",
+            "qualities": {
+              "row_count": 3,
+              "col_count": 3
+            }
+          },
+          "slide3": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide3_heading": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "slide3_image": {
+            "class": "image",
+            "degrades_to": "file",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "raster"
+            }
+          },
+          "slide3_caption": {
+            "class": "caption",
+            "degrades_to": "text"
+          },
+          "slide4": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide4_heading": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "slide4_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "slide5": {
+            "class": "panel",
+            "semantic_type": "slide",
+            "degrades_to": "group"
+          },
+          "slide5_quote": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "quote"
+          },
+          "slide5_attribution": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "attribution"
+          }
+        },
+        "semantic_bindings": {
+          "profile": "deck"
+        },
+        "panel_link": {
+          "edges": {
+            "slide0_flow_0": {
+              "kind": "reading_order"
+            },
+            "slide1_flow_0": {
+              "kind": "reading_order"
+            },
+            "slide1_flow_1": {
+              "kind": "reading_order"
+            },
+            "slide2_flow_0": {
+              "kind": "reading_order"
+            },
+            "slide3_flow_0": {
+              "kind": "reading_order"
+            },
+            "slide3_flow_1": {
+              "kind": "reading_order"
+            },
+            "slide4_flow_0": {
+              "kind": "reading_order"
+            },
+            "slide5_flow_0": {
+              "kind": "reading_order"
+            },
+            "seq_0": {
+              "kind": "sequence"
+            },
+            "seq_1": {
+              "kind": "sequence"
+            },
+            "seq_2": {
+              "kind": "sequence"
+            },
+            "seq_3": {
+              "kind": "sequence"
+            },
+            "seq_4": {
+              "kind": "sequence"
+            }
+          },
+          "regions": {
+            "slide0": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "title"
+            },
+            "slide1": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "content"
+            },
+            "slide2": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "table"
+            },
+            "slide3": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "image"
+            },
+            "slide4": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "content"
+            },
+            "slide5": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "slides",
+                "max": 1
+              },
+              "surface": "quote"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "deck_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:deck:canvas_standard",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]",
+            "[[adr_000_canvas_identity]]"
+          ]
+        }
+      }
+    }
+  }
+}

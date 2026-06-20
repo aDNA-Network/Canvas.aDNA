@@ -158,13 +158,21 @@ extraction-shim precedent.
 >
 > **Human-gate discipline:** only **E3→E4** was authorized — **E4→E5 remains a future human gate; do not auto-advance.**
 
+> **Phase progress (2026-06-19 PM) — E4.3 + E4.4 DONE (both green):** two runnable consumers now sit on the
+> `what/production/` shelf, proven on `canvas_std` alone (zero PT-P5 dependency): **`brief_consumer`** (E4.3 —
+> single-page brief → aDNA-Native `.canvas`; 10/10) and **`deck_generator`** (E4.4 — multi-slide deck → aDNA-Native
+> `.canvas`; slides = groups, deck = the one canonical surface, `sequence` chain, **image + table** components; 16/16).
+> `canvas_std` itself unchanged (46/8). The deck's persona-III + accuracy method is captured as a contract
+> (`deck_generator/iii_quality_contract.md`; wired at E5.1). **Remaining E4 = E4.1/E4.2 (LF-successor), ⛔ gated on the
+> D3 governed touch.** Still ⛔ HELD at **E4→E5**.
+
 ### Phase E4 — net-new consumer + LF-successor (in-vault, pt09-reshaped)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| E4.3 | ≥1 net-new consumer end-to-end (letter / brief / paper) on `canvas_std` — **the first build** | 1-2 | 🔄 **in progress 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
-| E4.1 | Stand up the LF-successor **in-vault** producer (D3-B; ⚠ D3 federated→in-vault needs a governed touch): consume component_model + panel_link + round-trip | 2 | ◻ stub (reshaped; gated on D3 touch) |
-| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (reshaped) |
-| E4.4 | Deck-generator pilot (parked `mission_deck_generator_canvas_pilot`) as a worked build — steps 1–3 on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ◻ stub |
+| E4.3 | ≥1 net-new consumer end-to-end (`brief_consumer`) on `canvas_std` — **the first build** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
+| E4.4 | Deck-generator pilot (`deck_generator`) as a worked build — deck `.canvas` on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_4_deck_pilot\|mission]]) |
+| E4.1 | Stand up the LF-successor **in-vault** producer (D3-B; ⚠ D3 federated→in-vault needs a governed touch): consume component_model + panel_link + round-trip | 2 | ◻ stub (reshaped; ⛔ gated on D3 touch) |
+| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (reshaped; ⛔ gated on D3 touch) |
 
 ### Phase E5 — Federation rollout + quality wiring
 | # | Mission | Sessions |
