@@ -1,0 +1,63 @@
+# Canvas.aDNA iii/ reviewer registry — the 5-lens persona-III inspect panel.
+# Wired at Keystone E5.1 (2026-06-19) from what/production/deck_generator/iii_quality_contract.md §1.
+# Consumed by III's skill_iii_review (INSPECT phase) via the iii/ federation_ref local_extension
+# (kind: reviewer_registry — ADR-002 §1a; SiteForge siteforge_reviewers.yaml precedent).
+#
+# Doctrine: the registry is the CONTRACT (Canvas-owned, standard-bearer inversion); the engine that RUNS the
+# lenses is III (module_iii_inspect_visual + skill_iii_review). The panel is audience-parameterized — the
+# invariant per the contract is ">=1 rigor lens + 1 accuracy lens, ALWAYS".
+registry_version: "1.0.0"
+contract_ref: what/production/deck_generator/iii_quality_contract.md
+applies_to: [deck, brief, comic, diagram, "any canvas-as-communication output"]
+
+standard_voices:
+  - id: domain_architect
+    prefix: CV-ARCH
+    lens: "Domain architect"
+    asks: "Is the technical substance correct and current for this audience?"
+    scope: structural        # applies now (object-level)
+  - id: quant_rigor
+    prefix: CV-RIGOR
+    lens: "Quantitative / rigor"
+    asks: "Are numbers, units, baselines, and comparisons sound?"
+    required: true           # contract invariant: >=1 rigor lens, always
+    scope: structural
+  - id: skeptical_exec
+    prefix: CV-EXEC
+    lens: "Skeptical executive"
+    asks: "Does each slide/section earn its place; is the through-line and the ask clear?"
+    scope: structural
+  - id: info_designer
+    prefix: CV-DESIGN
+    lens: "Information designer"
+    asks: "One idea per unit; legible hierarchy; signal-to-ink; containment."
+    scope: structural        # structure now; pixel VR1 (font/contrast) PT-P5-gated
+  - id: accuracy_auditor
+    prefix: CV-ACCURACY
+    lens: "Accuracy auditor"
+    asks: "Every claim traced to a source path; synthesis marked as synthesis (verify-or-omit; GRAPH-GAP register)."
+    required: true           # contract invariant: 1 accuracy lens, always
+    scope: structural
+
+# Canvas-visual traps (III pack context_iii_canvas_visual) split by what is checkable pre-render:
+trap_applicability:
+  structural_now:            # checkable on the .canvas object today
+    - CV-CONFIDENCE-01       # content confidence inflation (accuracy_auditor)
+    - CV-TEMPLATE-01         # generic filler / entity-substitution (domain_architect)
+    - CV-AUDIENCE-01         # audience-fit (skeptical_exec) — structural variance
+    - CV-INSIDER-CONTEXT-01  # fresh-viewer test (skeptical_exec)
+    - CV-HIERARCHY-01        # title/heading/body distinction via semantic_type (info_designer) — structure only
+    - CV-COHERENCE-01        # consistent node typing across units (info_designer)
+  pixel_pt_p5_gated:         # need canvas_presentation render loop (PT P5)
+    - CV-CONTRAST-01         # WCAG contrast (needs rendered pixels)
+    - CV-PENDING-01          # unresolved image/asset shipped (needs render/resolution)
+    - CV-COMIC-STYLE-01      # per-panel style lock (needs rendered art)
+    - CV-DIMENSION-VISIBILITY-01  # rendered viewport frame (structure carries 16:9 dims; pixel check at P5)
+
+escalation:
+  cross_voice_same_location_2: "+1 severity"     # 2 lenses on one location
+  cross_voice_same_location_3plus: "Critical"    # 3+ lenses -> Critical (skill_iii_review convention)
+
+ship_gate: "0 High / 0 Med across all lenses (structural). Pixel render + 24-criterion scoring at PT P5 (canvas_presentation)."
+
+dynamic_voices: []          # none at genesis; promote per skill_iii_review voice lifecycle (>=5 reviews, >=80% acceptance, + gate)

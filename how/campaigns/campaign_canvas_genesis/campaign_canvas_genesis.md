@@ -175,11 +175,22 @@ extraction-shim precedent.
 | E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (reshaped; ⛔ gated on D3 touch) |
 
 ### Phase E5 — Federation rollout + quality wiring
-| # | Mission | Sessions |
-|---|---------|----------|
-| E5.1 | Wire the `iii/` wrapper (confirm III pin vs `III.aDNA/STATE.md`); run a real canvas review | 1 |
-| E5.2 | Federation rollout to remaining producers (**ComfyUI** / **Astro** as applicable — renamed from ComfyForge/SiteForge at PT pt06/pt07) | 1-2 |
-| E5.3 | *(optional/parallel)* submit the Δ2 canvas-as-primitive LIP | 1 |
+| # | Mission | Sessions | Status |
+|---|---------|----------|--------|
+| E5.1 | Wire the `iii/` wrapper (confirm III pin vs `III.aDNA`); run a real canvas review | 1 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e5_1_iii_wiring\|mission]]) |
+| E5.2 | Federation rollout to remaining producers (**ComfyUI** / **Astro** as applicable — renamed from ComfyForge/SiteForge at PT pt06/pt07) | 1-2 | ◻ planned (wrapper refederations PT-P5-coupled) |
+| E5.3 | *(optional/parallel)* submit the Δ2 canvas-as-primitive LIP | 1 | ◻ optional |
+
+> **🔓 PHASE E5 OPENED (2026-06-19) — operator-authorized E4→E5 gate crossing** (AskUserQuestion: "Advance to E5" +
+> "Ratify ADR-004"). **E4 closed-with-deferral:** E4.3 + E4.4 done; **E4.1/E4.2 (LF-successor) carried forward as
+> D3-gated debt** (still needs the `adr_002` amendment / new ADR via the `adr_003` LIP **before** build — advancing did
+> not resolve it). **E5.1 ✅ done same session** — the Canvas `iii/` wrapper activated (scaffold → active; III pin
+> confirmed **v0.5.0** / `0f06aa6` / lattice 1.2.6; `reviewer_registry` + local learning store wired) and the **first
+> real canvas review** ran on `brief_consumer` + `deck_generator` → **0 High / 0 Med** (structural; pixel/VR1
+> PT-P5-gated), 3 Low + 1 GRAPH-GAP tracked as errata, `CANVAS-L-001` accumulated local. No regression (`canvas_std`
+> 46/8, `brief_consumer` 10/10, `deck_generator` 16/16; `ruff` clean). **ADR-004 ratified** (operator countersign).
+> Review artifact: `iii/feedback_2026_06_19_canvas_consumers.md` · mission `mission_e5_1_iii_wiring`. **⛔ Next gate:
+> E5→E6 (human gate) — do not auto-advance.**
 
 ### Phase E6 — Validation & cutover
 | # | Mission | Sessions |
@@ -198,7 +209,7 @@ extraction-shim precedent.
 | E-D1 | `canvas_std` language/runtime + packaging | at E0.1 |
 | E-D2 | Shim grace-window length for CanvasForge | ✅ **12 months** (expiry 2027-06-13) — decided E3.2 2026-06-13; registered Home.aDNA §C |
 | Δ2 | Canvas-as-primitive | open LIP (separate track) |
-| ADR-004 | PT P5 production-code layout (`canvas_core` → `what/production/`) | 🟡 **proposed 2026-06-19** — answers Hestia substrate-path memo; pt09 follow-up (not a genesis D-decision); operator ratifies |
+| ADR-004 | PT P5 production-code layout (`canvas_core` → `what/production/`) | ✅ **ratified 2026-06-19** (operator countersign at the E4→E5 gate) — answers Hestia substrate-path memo; pt09 follow-up. Binds the P5 relocation target; ratification is NOT authorization to move code (relocation = PT P5). |
 
 ## Risk Register
 

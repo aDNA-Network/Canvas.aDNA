@@ -2,11 +2,11 @@
 type: decision
 adr_id: "004"
 title: "Production code layout — canvas_core relocates to what/production/ (PT P5 relocation contract)"
-status: proposed
+status: ratified
 created: 2026-06-19
 updated: 2026-06-19
 last_edited_by: agent_stanley
-signed_by: "(pending operator ratification — proposed by Mondrian 2026-06-19)"
+signed_by: "Stanley (operator countersign 2026-06-19, Keystone E4→E5 gate); proposed by Mondrian 2026-06-19"
 supersedes:
 superseded_by:
 resolves: "pt09 E4 code-layout reshape + Hestia substrate-path memo 2026-06-18 (Hearthstone P3 unblock)"
@@ -21,12 +21,12 @@ tags: [adr, canvas, production, canvas_core, canvas_std, pt09, pt_p5, relocation
 
 ## Status
 
-**Proposed** — 2026-06-19 (Mondrian). **Awaiting operator ratification** (Canvas ADRs carry an operator signature at
-the gate; Mondrian proposes, Stanley ratifies — `signed_by` filled on countersign).
+**Ratified** — 2026-06-19 (operator Stanley, at the Keystone **E4→E5** gate; proposed by Mondrian 2026-06-19). Canvas
+ADRs carry an operator signature at the gate; Mondrian proposed, Stanley countersigned — `signed_by` filled.
 
-**This is a binding decision that pre-commits the PT P5 target — it is NOT authorization to move code now.** The
-physical relocation executes at **PT P5** under Operation Keystone; **the E3→E4 phase gate stays HELD** (this ADR
-does not open E4). It answers Hestia's substrate-path memo ([[../../../Home.aDNA/who/coordination/coord_2026_06_18_hestia_to_mondrian_canvas_substrate_path|coord 2026-06-18]])
+**This is a binding decision that pre-commits the PT P5 target — ratification is NOT authorization to move code now.**
+The physical relocation still executes at **PT P5** under Operation Keystone, independent of the Keystone phase gates
+(now advanced to **E5**); no code moves until P5. It answers Hestia's substrate-path memo ([[../../../Home.aDNA/who/coordination/coord_2026_06_18_hestia_to_mondrian_canvas_substrate_path|coord 2026-06-18]])
 and resolves the pt09-mandated "Mondrian reconciles the E4 code layout" reshape. Reply with the actionable values:
 [[../../who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply|coord 2026-06-19 reply]].
 

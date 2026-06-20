@@ -2,25 +2,27 @@
 type: federation_wrapper
 wrapper_for: III.aDNA
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-19
 last_edited_by: agent_stanley
 mission_origin: Canvas.aDNA Operation Cartography — P3 (mission_p3_conformance_federation)
-status: scaffold
-substrate_pin: "III.aDNA v0.4.0"
-pinned_at: 2026-06-12
-tags: [federation, iii, consumer_wrapper, canvas, scaffold, genesis]
+activated_by: Canvas.aDNA Operation Keystone — E5.1 (mission_e5_1_iii_wiring)
+status: active
+substrate_pin: "III.aDNA v0.5.0"
+pinned_at: 2026-06-19
+tags: [federation, iii, consumer_wrapper, canvas, active, v0_5_pinned, genesis]
 ---
 
-# Canvas.aDNA `iii/` — III.aDNA Consumer Wrapper (scaffold)
+# Canvas.aDNA `iii/` — III.aDNA Consumer Wrapper
 
 Federation wrapper for **III.aDNA** (Argus Panoptes) — the Inspect/Introspect/Improve quality framework.
 Canvas.aDNA federates against III to review canvas **output quality**, distinct from the **format conformance**
 the Standard checks itself ([[spec_conformance_suite]]). The III loop: `DISPATCH → INSPECT {Text/Code/Visual/Data}
 → INTROSPECT → IMPROVE → (human gate) → ACCUMULATE`.
 
-> **P3 SCAFFOLD — not yet wired.** `status: scaffold`; the pin/commit and exact pack list are confirmed against
-> `III.aDNA/STATE.md` when this wrapper is activated (note: sibling `CanvasForge.aDNA/iii/` tracks the v0.5.0
-> line; the workspace router records production pin **v0.4.0** — reconcile at wiring).
+> **ACTIVE — wired at Keystone E5.1 (2026-06-19).** `status: active`; pin **confirmed v0.5.0** against
+> `III.aDNA/MANIFEST.md` (Campaign-G G4 production pin `v0.4.1→v0.5.0`; siblings VideoForge/CanvasForge/wga already
+> @ v0.5.0). The stale workspace-router note (production pin "v0.4.0") is superseded by III's live state. First real
+> review: [[feedback_2026_06_19_canvas_consumers]] (brief_consumer + deck_generator; **structural** — pixel/VR1 PT-P5-gated).
 
 Per **ADR-002** (consumer federation contract) and **ADR-003** (learning-store ownership) at III.aDNA, this
 wrapper is lightweight: a `federation_ref` + `local_extensions:`. III canonical content (the review skill,
@@ -55,7 +57,10 @@ federation_ref:
   source_vault: III.aDNA
   source_path: ~/aDNA/III.aDNA
   source_skill: how/skills/skill_iii_review.md
-  version: "0.4.0"                 # confirm vs III.aDNA/STATE.md at wiring (sibling CanvasForge tracks 0.5.0)
+  version: "0.5.0"                 # confirmed vs III.aDNA/MANIFEST.md (Campaign-G G4, 2026-06-19); minor bump 0.4.0→0.5.0 reviewed per ADR-002 §3
+  pinned_at_commit: "0f06aa6"      # III v0.5.0 declaration commit (Campaign-G G4; annotated tag deferred to III G6)
+  pinned_at: 2026-06-19            # Keystone E5.1 activation
+  lattice_version: "1.2.6"         # oracle lattice (Campaign-G G2)
   version_policy: minor
   packs_used:
     - context_iii_inspect_procedures      # universal
@@ -80,6 +85,12 @@ federation_ref:
         VR1–VR5 rubric + canvas-visual trap schema are normative Canvas.aDNA artifacts
         (standard-bearer inversion). III engines render the review; the contract is ours.
       pointer: what/specs/spec_conformance_suite.md §6
+    - kind: reviewer_registry
+      path: ~/aDNA/Canvas.aDNA/iii/what/context/canvas_reviewers.yaml
+      rationale: >
+        The 5-lens persona-III inspect panel (domain architect · quantitative/rigor · skeptical
+        executive · information designer · accuracy auditor) from deck_generator/iii_quality_contract.md.
+        Existing ADR-002 §1a kind (SiteForge reviewer-registry precedent) — additive, no amendment.
 ```
 
 ## Routing notes
@@ -89,8 +100,15 @@ federation_ref:
 2. Quality review is **stage 4** of the federation 5-stage gates ([[spec_federation_contract]] §4); format
    conformance is stage 3 ([[spec_conformance_suite]]). Do not conflate them.
 3. On a III minor bump, review the changelog and update `version`; a major bump triggers re-validation.
+4. **Structural-vs-pixel split (until PT P5).** With no render loop yet (`canvas_presentation` lands at PT P5), a
+   canvas review covers the **structural** lenses (information design, accuracy/provenance, through-line, substance)
+   over the `.canvas` object; **pixel-level VR1 checks** (font size, contrast, 24-criterion scoring) are
+   **PT-P5-gated** and must not be scored as passing before then.
 
 ## Cross-References
 - [[spec_conformance_suite]] §6 (quality vs format) · [[spec_federation_contract]] §4 (5-stage gates) ·
   `III.aDNA/CLAUDE.md` (Argus) · `CanvasForge.aDNA/iii/CLAUDE.md` (sibling precedent; canvas modality) ·
   `WilhelmAI.aDNA/iii/CLAUDE.md` (minimal-form precedent).
+- E5.1 wiring: [[what/context/canvas_reviewers|canvas_reviewers.yaml]] (5-lens panel) ·
+  [[feedback_2026_06_19_canvas_consumers|first review]] ·
+  `what/production/deck_generator/iii_quality_contract.md` (the method this wraps).
