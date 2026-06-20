@@ -30,7 +30,7 @@ tags: [campaign, execution, build, canvas, standard, platform]
 Ship the **ratified aDNA Canvas Standard v2.0.0** as running infrastructure: a `canvas_std` reference
 implementation (validators · round-trip converters · conformance harness) per Option P, a published schema +
 conformance CLI, CanvasForge migrated to consume the Standard via `federation_ref` behind a deprecation shim, the
-LiteratureForge-successor stood up as a federated producer, and ≥1 net-new consumer — all with **no output
+LiteratureForge-successor stood up as a producer (originally *federated*; reshaped **in-vault** post-pt09 per `adr_005`), and ≥1 net-new consumer — all with **no output
 regression** against locked baselines.
 
 ## Context
@@ -148,7 +148,8 @@ extraction-shim precedent.
 >   not a separate federated vault. **⚠ Governance flag:** `adr_002` (D3) ratified *"schema-absorb + **federated**
 >   pipeline"*; the in-vault reality supersedes the *federated* leg. This needs a **governed touch** (an `adr_002`
 >   amendment or a new ADR via the `adr_003` LIP process) before E4.1/E4.2 are *built* — **flagged, not resolved here**
->   (the operator chose E4.3). Charter-stubbed only.
+>   (the operator chose E4.3). Charter-stubbed only. *(→ the touch is now **ratified**: `adr_005` (2026-06-19) —
+>   see the D3-touch progress note below.)*
 > - **E4.3 (net-new consumer):** **🔄 in progress (this session).** Unchanged by pt09 and buildable now on `canvas_std`
 >   alone (zero PT-P5 dependency) — `[[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer|mission_e4_3]]`.
 > - **E4.4 (deck pilot):** steps 1–3 buildable on `canvas_std`; **step-4 render loop is PT-P5-gated** (needs
@@ -171,8 +172,8 @@ extraction-shim precedent.
 |---|---------|----------|--------|
 | E4.3 | ≥1 net-new consumer end-to-end (`brief_consumer`) on `canvas_std` — **the first build** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
 | E4.4 | Deck-generator pilot (`deck_generator`) as a worked build — deck `.canvas` on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_4_deck_pilot\|mission]]) |
-| E4.1 | Stand up the LF-successor **in-vault** producer (D3-B; ⚠ D3 federated→in-vault needs a governed touch): consume component_model + panel_link + round-trip | 2 | ◻ stub (reshaped; ⛔ gated on D3 touch) |
-| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (reshaped; ⛔ gated on D3 touch) |
+| E4.1 | Stand up the LF-successor **in-vault** producer: consume component_model + panel_link + round-trip | 2 | ◻ stub (in-vault; **D3 touch = `adr_005`** ratified 2026-06-19 → **unblocked**; unscheduled) |
+| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (in-vault; **unblocked** by `adr_005` (ratified 2026-06-19); unscheduled) |
 
 ### Phase E5 — Federation rollout + quality wiring
 | # | Mission | Sessions | Status |
@@ -184,13 +185,22 @@ extraction-shim precedent.
 > **🔓 PHASE E5 OPENED (2026-06-19) — operator-authorized E4→E5 gate crossing** (AskUserQuestion: "Advance to E5" +
 > "Ratify ADR-004"). **E4 closed-with-deferral:** E4.3 + E4.4 done; **E4.1/E4.2 (LF-successor) carried forward as
 > D3-gated debt** (still needs the `adr_002` amendment / new ADR via the `adr_003` LIP **before** build — advancing did
-> not resolve it). **E5.1 ✅ done same session** — the Canvas `iii/` wrapper activated (scaffold → active; III pin
+> not resolve it; **now resolved by `adr_005`, ratified 2026-06-19 — see the D3-touch note below**). **E5.1 ✅ done same session** — the Canvas `iii/` wrapper activated (scaffold → active; III pin
 > confirmed **v0.5.0** / `0f06aa6` / lattice 1.2.6; `reviewer_registry` + local learning store wired) and the **first
 > real canvas review** ran on `brief_consumer` + `deck_generator` → **0 High / 0 Med** (structural; pixel/VR1
 > PT-P5-gated), 3 Low + 1 GRAPH-GAP tracked as errata, `CANVAS-L-001` accumulated local. No regression (`canvas_std`
 > 46/8, `brief_consumer` 10/10, `deck_generator` 16/16; `ruff` clean). **ADR-004 ratified** (operator countersign).
 > Review artifact: `iii/feedback_2026_06_19_canvas_consumers.md` · mission `mission_e5_1_iii_wiring`. **⛔ Next gate:
 > E5→E6 (human gate) — do not auto-advance.**
+
+> **Phase progress (2026-06-19 PM) — D3 governed touch (mid-E5; no gate change):** the carried E4.1/E4.2 debt is
+> resolved by **[[what/decisions/adr_005_lf_successor_in_vault|ADR-005]]** (**ratified 2026-06-19**, operator
+> countersign): pt09 makes the LF-successor **in-vault** (`what/production/`), superseding ADR-002's Option-B
+> *federated*-pipeline leg (the **Option-A schema leg stands**; ADR-005 is the "separate scope-reopening ADR" that
+> ADR-002 §Consequences prescribed). Substrate-neutrality holds via the **ADR-004 two-shelf firewall** (`canvas_std`
+> stays producer-neutral; the genre pipeline stays producer-side). **E4.1/E4.2 → unblocked (unscheduled)** —
+> buildable on `canvas_std` alone (zero PT-P5 dependency, like E4.3/E4.4). **Not a Standard LIP**
+> (schema unchanged; `adr_003` §2). **⛔ E5→E6 unchanged — still the human gate.**
 
 ### Phase E6 — Validation & cutover
 | # | Mission | Sessions |
@@ -204,7 +214,7 @@ extraction-shim precedent.
 | # | Decision | Status |
 |---|----------|--------|
 | D2 | CanvasForge relationship | ✅ ratified — extract (`adr_001`) |
-| D3 | LiteratureForge seam | ✅ ratified — schema-absorb + federated pipeline (`adr_002`) · ⚠ **federated leg OBE post-pt09** (successor is in-vault; LF wound down) → needs a governed touch (adr_002 amendment / new ADR via `adr_003` LIP) **before E4.1/E4.2 build**; flagged 2026-06-19 |
+| D3 | LiteratureForge seam | ✅ ratified — schema-absorb + federated pipeline (`adr_002`) · ✅ **B-pipeline leg reshaped in-vault by `adr_005`** (the D3 governed touch; pt09 cause; **ratified 2026-06-19**) — adopts the absorb/C path, **A-schema leg stands**; the E4.1/E4.2 D3 blocker is cleared |
 | D6 | Governance / versioning | ✅ ratified (`adr_003`) |
 | E-D1 | `canvas_std` language/runtime + packaging | at E0.1 |
 | E-D2 | Shim grace-window length for CanvasForge | ✅ **12 months** (expiry 2027-06-13) — decided E3.2 2026-06-13; registered Home.aDNA §C |
@@ -218,7 +228,7 @@ extraction-shim precedent.
 | CanvasForge output regression on migration | **High** | E3.3 parity gate vs locked baselines (Wilhelm 8.80 / Issue 01 8.43); shim allows rollback; cutover only on green. |
 | `canvas_std` ↔ embedded `CanvasBuilder` drift during migration | High | Single source of truth post-extract; shim re-exports; deprecation window with both paths tested. |
 | Round-trip fidelity loss (positions / lossy fields) | Medium | E1.2/E1.3 honor the authority matrix + lossy boundary verbatim (KEEP); golden fixtures. |
-| LF-successor scope creep (absorb vs federate) | Medium | D3 ratified = federated; pipeline stays producer-side; no two-faced platform unless a new ADR reopens it. |
+| LF-successor scope creep (absorb vs federate) | Medium | D3 originally federated; **`adr_005` (the new ADR this row anticipated) reopens it → in-vault** (pt09 already made Canvas two-faced); substrate-neutrality held by the ADR-004 two-shelf firewall; the genre pipeline stays producer-side. |
 | Net-new consumer reveals a spec gap | Medium | Treat as a v2.0.x minor (governed process); feeds back to the spec via LIP/errata. |
 
 ## Parity / Regression Strategy

@@ -11,11 +11,12 @@ mission_class: build
 created: 2026-06-19
 updated: 2026-06-19
 last_edited_by: agent_stanley
-tags: [plan, campaign, keystone, e4, lf-successor, in-vault, stub, blocked]
+tags: [plan, campaign, keystone, e4, lf-successor, in-vault, stub, unblocked]
 ---
 
-> **STATUS: thin stub (SO-3).** Charter-stubbed at the E4 gate crossing (2026-06-19). **⛔ Gated on a D3 governed
-> touch — do not build until resolved.** Objectives authored at mission entry.
+> **STATUS: thin stub (SO-3).** Charter-stubbed at the E4 gate crossing (2026-06-19). **✅ D3 touch ratified —
+> [[adr_005_lf_successor_in_vault|ADR-005]] (2026-06-19); unblocked (unscheduled).** Objectives authored at mission
+> entry.
 
 # Mission: E4.1 — Stand up the LF-successor (in-vault)
 
@@ -27,13 +28,14 @@ Stand up the LiteratureForge-successor document-production layer **in-vault** (p
 wind-down) consuming the Standard's component_model + panel_link + round-trip. Reshaped from the original
 *federated-producer* framing.
 
-## ⚠ Blocker — D3 governance touch (precondition)
+## D3 governed touch — RESOLVED by [[adr_005_lf_successor_in_vault|ADR-005]] (ratified 2026-06-19)
 
-`adr_002` (D3) ratified *"schema-absorb + **federated** pipeline"*; pt09 made the successor **in-vault**, superseding
-the *federated* leg. **Building E4.1/E4.2 requires a governed touch first** — an `adr_002` amendment or a new ADR via
-the `adr_003` LIP process (Out-of-Scope of Keystone is *ad-hoc* re-deciding; the LIP process is the sanctioned path).
-Flagged in the campaign Decision Points (2026-06-19). The LF quarry: `Archive.aDNA/LiteratureForge.aDNA/` (Thoth
-doctrine + 10 specs + 39 corpus + the `spec_visual_contract` V1–V8/X1–X14 + `spec_genre_submodule`).
+The D3 reshape is **ratified** (operator countersign 2026-06-19): pt09 made the successor **in-vault**, superseding
+ADR-002's Option-B *federated*-pipeline leg. [[adr_005_lf_successor_in_vault|ADR-005]] records the in-vault decision —
+the absorb/C path ADR-002 §Consequences prescribed as "a separate scope-reopening ADR," **not** an ad-hoc re-decide
+(so it honors the Keystone out-of-scope rule). The blocker is now **cleared** and E4.1 is buildable on `canvas_std` alone (zero PT-P5
+dependency, like E4.3/E4.4). The LF quarry to scavenge at build: `Archive.aDNA/LiteratureForge.aDNA/` (Thoth doctrine +
+10 specs + 39 corpus + the `spec_visual_contract` V1–V8/X1–X14 + `spec_genre_submodule`).
 
 ## Notes
 

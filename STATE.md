@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-19
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260619_200248_keystone_e5_1_iii_wiring
+last_session: session_stanley_20260619_211132_keystone_d3_touch
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -14,7 +14,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## Current Phase
 
-**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASES E0+E1+E2 ✅ (reference impl + tooling) + E3 ✅ (CanvasForge migration) + E4 ✅ (E4.3 `brief_consumer` 10/10 + E4.4 `deck_generator` 16/16; E4.1/E4.2 carried as D3-gated debt). 🔓 **PHASE E5 OPENED 2026-06-19** (operator-authorized E4→E5 gate crossing: "Advance to E5" + "Ratify ADR-004"); **E5.1 ✅ DONE** — Canvas `iii/` wrapper activated (III pin **v0.5.0**) + first real canvas review on both consumers (**0 High / 0 Med** structural; pixel/VR1 PT-P5-gated). **ADR-004 ratified.** ⛔ Now HELD at the E5→E6 boundary (human gate); E5.2 (federation rollout) is partly PT-P5-coupled; E4.1/E4.2 still gated on the D3 touch.**
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASES E0+E1+E2 ✅ (reference impl + tooling) + E3 ✅ (CanvasForge migration) + E4 ✅ (E4.3 `brief_consumer` 10/10 + E4.4 `deck_generator` 16/16; E4.1/E4.2 carried as D3-gated debt). 🔓 **PHASE E5 OPENED 2026-06-19** (operator-authorized E4→E5 gate crossing: "Advance to E5" + "Ratify ADR-004"); **E5.1 ✅ DONE** — Canvas `iii/` wrapper activated (III pin **v0.5.0**) + first real canvas review on both consumers (**0 High / 0 Med** structural; pixel/VR1 PT-P5-gated). **ADR-004 ratified.** ⛔ Now HELD at the E5→E6 boundary (human gate); E5.2 (federation rollout) is partly PT-P5-coupled; the **D3 touch for E4.1/E4.2 is RESOLVED — `adr_005` ratified 2026-06-19** (E4.1/E4.2 unblocked, unscheduled).**
 `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
 Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate**. The operator **activated Operation Keystone** (the build). **E0** (skeleton + KEEP floor + golden fixtures) · **E1** (reference engine) · **E2** (conformance harness + v2.0.0 **JSON Schema** + the **`canvas-std` CLI**) built the reference implementation (`pytest` 46/8, `ruff` clean). **E3** (parity-gated CanvasForge migration) is now **COMPLETE** — E3.1 `canvas/` wrapper + E3.2 constants-only `canvas_core`→`canvas_std` deprecation shim + E3.3 parity gate (**GREEN**) + **E3.4 full cutover (2026-06-14)**: CanvasForge single-sources the Standard from Canvas.aDNA v2.0.0; the embedded v1.0.0 framing is superseded; the shim stays through its grace window (removal at E6.2). **🔓 E4 OPENED 2026-06-19** (operator-authorized E3→E4 crossing) — table reconciled to in-vault production; **E4.3 + E4.4 ✅ built + green** (`brief_consumer` + `deck_generator` on `canvas_std`); **⛔ now HELD at the E4→E5 phase gate (human gate).** *(Planning history: `campaign_canvas_genesis_planning/`.)*
@@ -26,9 +26,10 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 **Phase E5 is OPEN (2026-06-19, operator-authorized E4→E5 crossing — "Advance to E5" + "Ratify ADR-004"); E5.1 is
 DONE.** (E0–E2 reference impl + E3 CanvasForge cutover + E4 consumers are complete history; the `canvas_core` shim
 stays live to the E-D2 window 2027-06-13, retired at E6.2.) **E4 closed-with-deferral:** E4.3 (`brief_consumer` 10/10)
-+ E4.4 (`deck_generator` 16/16) done; **E4.1/E4.2 (LF-successor) carried forward as D3-gated debt** (`adr_002` ratified
-a *federated* pipeline; pt09 made it in-vault → needs an amendment / new ADR via the `adr_003` LIP **before** build —
-advancing to E5 did not resolve it).
++ E4.4 (`deck_generator` 16/16) done; **E4.1/E4.2 (LF-successor) — D3 touch RESOLVED:** `adr_002`'s Option-B
+*federated* leg is superseded by **[[what/decisions/adr_005_lf_successor_in_vault|adr_005]]** (**ratified 2026-06-19**
+→ in-vault `what/production/`; the Option-A schema leg stands). **The build is unblocked** (on `canvas_std` alone, zero
+PT-P5 dependency, like E4.3/E4.4) — unscheduled, opened on operator go (SO-3).
 
 **E5.1 — `iii/` wrapper wired + first real canvas review (DONE 2026-06-19):**
 - **Wrapper activated** — `iii/CLAUDE.md` scaffold → **active**; III pin **confirmed v0.5.0** (commit `0f06aa6`, oracle
@@ -46,7 +47,7 @@ advancing to E5 did not resolve it).
 **Next: ⛔ E5→E6 is a PHASE gate (human gate) — do NOT auto-advance.** Remaining E5 = **E5.2** (federation rollout to
 ComfyUI/Astro — the ~8 producer-wrapper refederations are **PT-P5-coupled**, i.e. land at the `canvas_core`
 relocation) + **E5.3** (optional Δ2 LIP). Then E6 (cross-system parity + shim retirement E6.2 + campaign AAR E6.3).
-**Carried debt:** E4.1/E4.2 (LF-successor) on the **D3 governed touch**. Chartered:
+**Carried debt cleared:** E4.1/E4.2 (LF-successor) — **D3 touch RESOLVED** (`adr_005` ratified 2026-06-19; in-vault, supersedes `adr_002` Option-B → unblocked, unscheduled). Chartered:
 [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] §Phases E5–E6.
 
 **Open follow-ups → contracted as PT P5 items in [[what/decisions/adr_004_production_code_layout|ADR-004]] (ratified
@@ -68,18 +69,22 @@ gitignored `.venv` at `CanvasForge.aDNA/what/code/` → 900/3. Tracking:
 
 - **2026-06-07** — `[[how/campaigns/campaign_canvas_genesis_planning/missions/mission_deck_generator_canvas_pilot|mission_deck_generator_canvas_pilot]]` + `[[how/backlog/idea_deck_generator_canvas_pilot|idea_deck_generator_canvas_pilot]]`: a graph→canvas-object **deck generator** (Lattice Protocol technical brief as pilot; persona-III + accuracy-guardrail method captured), migrated from an `aDNALabs.aDNA` deck-building process. **Parked** — feeds E4.4 as a worked build; informs D2/D4/D7. Opens no phase, builds no code until E4.
 
-## What's Done (this session — Keystone E4→E5 + E5.1 iii/ wiring, 2026-06-19)
+## What's Done (this session — Keystone D3 governed touch, mid-E5, 2026-06-19)
 
-- **E4→E5 gate crossed** (operator: "Advance to E5" + "Ratify ADR-004"); E4 closed-with-deferral (E4.1/E4.2 carried as
-  D3-gated debt). **ADR-004 ratified** (`proposed → ratified` + operator `signed_by`; relocation still PT P5).
-- **E5.1 — `iii/` wrapper wired + first real canvas review.** `iii/CLAUDE.md` scaffold → active; III pin confirmed
-  **v0.5.0** (`0f06aa6`, lattice 1.2.6); `canvas_reviewers.yaml` (5-lens) + `canvas_iii_learning_store.jsonl` created;
-  `reviewer_registry` extension wired. Structural III review of both example canvases → **0 High / 0 Med**, 3 Low + 1
-  GRAPH-GAP errata, `CANVAS-L-001` accumulated local; pixel/VR1 PT-P5-deferred. **No regression** (46/8 · 10/10 · 16/16;
-  `ruff` clean; both `[OK]`). Artifact `iii/feedback_2026_06_19_canvas_consumers.md`.
-- **Governance:** `mission_e5_1_iii_wiring` authored (full + AAR); campaign-doc E5 table + progress note (E5.1 done;
-  ADR-004 row → ratified); courtesy coord to Argus (III) that Canvas's `iii/` wrapper is active @ v0.5.0.
-- *(Prior: Cartography closed; Keystone E0–E2 (46/8); E3.1–E3.4 cutover; E4 open + E4.3/E4.4 consumers; AM adr_004 proposed.)*
+- **D3 governed touch RATIFIED** (operator selected this thread at the E5 hold, then countersigned). **`adr_005`**
+  (**ratified 2026-06-19**, operator countersign; proposed by Mondrian) records the LF-successor as **in-vault**
+  (`what/production/`), superseding `adr_002`'s Option-B *federated*-pipeline leg — the "separate scope-reopening ADR"
+  `adr_002` §Consequences prescribed; cause = pt09 (CanvasForge absorbed; Canvas already two-faced). The **Option-A
+  schema leg stands**. Substrate-neutrality held by the **ADR-004 two-shelf firewall** (`canvas_std` producer-neutral;
+  genre pipeline producer-side). **Not a Standard LIP** (schema unchanged; `adr_003` §2).
+- **Reconciliation (flipped to resolved on ratification):** `adr_002` partial-supersession banner + `superseded_by`;
+  `decision_register_genesis` D3 row; campaign Decision-Points D3 row + Goal note + E4 table (E4.1/E4.2 → **unblocked**,
+  unscheduled) + Risk Register row + dated progress note; both mission stubs (blocker → RESOLVED-by-`adr_005`; tag →
+  `unblocked`).
+- **Carried debt cleared:** E4.1/E4.2 are unblocked (buildable on `canvas_std` alone, zero PT-P5 dependency). **No code
+  touched; no gate advanced** (E5→E6 stays the human gate).
+- *(Prior session: Cartography closed; Keystone E0–E2 46/8; E3.1–E3.4 cutover; E4 open + E4.3/E4.4 consumers; E4→E5
+  crossed; ADR-004 ratified; E5.1 — `iii/` wrapper active @ v0.5.0 + first canvas review 0 High/0 Med.)*
 
 ## Verified Ground Truth (anchors)
 
@@ -94,9 +99,10 @@ gitignored `.venv` at `CanvasForge.aDNA/what/code/` → 900/3. Tracking:
 
 - **None blocking E5.1** (done + green). **E5→E6 is the human gate** — do not auto-advance. Remaining E5 = **E5.2**
   (federation rollout — the ~8 producer-wrapper refederations are **PT-P5-coupled**) + **E5.3** (optional Δ2 LIP).
-- **Carried debt — E4.1/E4.2 (LF-successor), ⛔ gated on a D3 governed touch** (`adr_002` ratified a *federated*
-  pipeline; pt09 made it in-vault — needs an amendment / new ADR via the `adr_003` LIP before build). Advancing to E5
-  did not resolve it; it travels with the campaign until done.
+- **✅ RESOLVED this session — E4.1/E4.2 (LF-successor) D3 touch.** `adr_005` (**ratified 2026-06-19**, operator
+  countersign) supersedes `adr_002`'s Option-B *federated* leg → **in-vault** (the Option-A schema leg stands); the
+  absorb/C path `adr_002` prescribed, caused by pt09. E4.1/E4.2 are now **unblocked** (buildable on `canvas_std` alone,
+  zero PT-P5 dependency; unscheduled). Not a Standard LIP (schema unchanged; `adr_003` §2).
 - **ADR-004: ✅ ratified 2026-06-19** (operator countersign at the gate) — no longer a blocker. (Relocation still PT P5.)
 - **Pushes:** prior batches pushed (`fc67c07`). The **E5.1 batch** (wrapper activation + `iii/` context files + review
   artifact + adr_004 ratify + mission + campaign + STATE + session + Argus coord) is committed locally; pushed on close
@@ -111,8 +117,8 @@ gitignored `.venv` at `CanvasForge.aDNA/what/code/` → 900/3. Tracking:
 4. **→ ⛔ E5→E6 PHASE GATE (human gate).** Do not auto-advance. Remaining E5 = **E5.2** (federation rollout to
    ComfyUI/Astro — the ~8 producer-wrapper refederations are **PT-P5-coupled**) + **E5.3** (optional Δ2 LIP). Likely
    next: hold for the operator — E5.2 is mostly gated on PT P5; E5.3 (the LIP) is operator-discretionary.
-5. **Carried debt:** E4.1/E4.2 (LF-successor) on the **D3 governed touch** (`adr_002` amendment / new ADR via `adr_003`
-   LIP) — needed before that build, whenever the operator schedules it.
+5. **E4.1/E4.2 (LF-successor):** **D3 touch RESOLVED** — `adr_005` ratified 2026-06-19 (in-vault, supersedes
+   `adr_002` Option-B). **Unblocked**; buildable on `canvas_std` alone whenever the operator schedules (SO-3).
 6. **Pushes:** prior batches pushed (`fc67c07`); the **E5.1 batch** pushed on close per the operator batch convention
    (verify `@{u}..HEAD` authorship).
 7. **PT P5 watch:** ping Hestia when the `canvas_core` relocation is scheduled (she re-verifies the staged exemplar

@@ -11,11 +11,12 @@ mission_class: integration
 created: 2026-06-19
 updated: 2026-06-19
 last_edited_by: agent_stanley
-tags: [plan, campaign, keystone, e4, lf-successor, contracts, stub, blocked]
+tags: [plan, campaign, keystone, e4, lf-successor, contracts, stub, unblocked]
 ---
 
-> **STATUS: thin stub (SO-3).** Charter-stubbed at the E4 gate crossing (2026-06-19). **⛔ Gated on the same D3
-> governed touch as E4.1.** Objectives authored at mission entry.
+> **STATUS: thin stub (SO-3).** Charter-stubbed at the E4 gate crossing (2026-06-19). **✅ D3 touch ratified —
+> [[adr_005_lf_successor_in_vault|ADR-005]] (2026-06-19); unblocked** (same touch as E4.1). Objectives authored at
+> mission entry.
 
 # Mission: E4.2 — Migrate LF visual/format contracts (in-vault)
 
@@ -30,7 +31,8 @@ P1/E2; this mission wires the producer side.
 
 ## Dependencies
 
-- **Blocked by**: the D3 governed touch (see [[mission_e4_1_lf_successor]]) + E4.1 stand-up.
+- **Blocked by**: E4.1 stand-up only. The D3 governed touch is **resolved** ([[adr_005_lf_successor_in_vault|ADR-005]],
+  ratified 2026-06-19; see [[mission_e4_1_lf_successor]]).
 
 ## Completion Summary / AAR
 

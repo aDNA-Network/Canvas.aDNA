@@ -8,13 +8,19 @@ updated: 2026-06-12
 last_edited_by: agent_stanley
 signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
-superseded_by:
+superseded_by: "adr_005 (Option-B federated-pipeline leg only — pt09 reshape; the Option-A schema-absorb leg stands)"
 resolves: D3
 phase: P2
 tags: [adr, canvas, standard, literatureforge, seam, federation, genesis, d3]
 ---
 
 # ADR-002: LiteratureForge Seam (D3)
+
+> **⚠ Partially superseded (2026-06-19) — [[adr_005_lf_successor_in_vault|ADR-005]] (ratified 2026-06-19).** pt09
+> (2026-06-17) merged CanvasForge into Canvas, so the **Option-B *federated*-pipeline leg below is overtaken by
+> events**: the LF-successor is now built **in-vault** (`what/production/`), per ADR-005 (the "separate
+> scope-reopening ADR" this ADR's §Consequences prescribed). **The Option-A schema-absorb leg (§Decision 1) stands
+> unchanged** — the LF contracts already live in `canvas_std`. This ADR keeps `status: ratified` for that live leg.
 
 ## Status
 
