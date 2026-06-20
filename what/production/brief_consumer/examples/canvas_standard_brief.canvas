@@ -1,0 +1,381 @@
+{
+  "nodes": [
+    {
+      "id": "brief_page",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 700,
+      "height": 1470,
+      "label": "aDNA Canvas Standard v2.0.0 — One-Page Brief"
+    },
+    {
+      "id": "sec0_head",
+      "type": "text",
+      "x": 40,
+      "y": 96,
+      "width": 620,
+      "height": 56,
+      "text": "## What it is",
+      "color": "5"
+    },
+    {
+      "id": "sec0_body",
+      "type": "text",
+      "x": 40,
+      "y": 172,
+      "width": 620,
+      "height": 134,
+      "text": "The aDNA Canvas Standard is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas. Its thesis: a canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape, embed, and link components — is a near-universal 2D output primitive, a first-class context object, and a human-AI / human-human interface surface."
+    },
+    {
+      "id": "sec0_src0",
+      "type": "link",
+      "x": 40,
+      "y": 326,
+      "width": 620,
+      "height": 40,
+      "url": "https://jsoncanvas.org"
+    },
+    {
+      "id": "sec0_src1",
+      "type": "link",
+      "x": 40,
+      "y": 386,
+      "width": 620,
+      "height": 40,
+      "url": "https://github.com/Developer-Mike/obsidian-advanced-canvas"
+    },
+    {
+      "id": "sec1_head",
+      "type": "text",
+      "x": 40,
+      "y": 474,
+      "width": 620,
+      "height": 56,
+      "text": "## Reduce to the grammar",
+      "color": "5"
+    },
+    {
+      "id": "sec1_body",
+      "type": "text",
+      "x": 40,
+      "y": 550,
+      "width": 620,
+      "height": 112,
+      "text": "Any 2D output — paper, deck, comic, letter, site, post — reduces to a rigorous grammar of typed components positioned on a canvas. The Standard finds the smallest set of typed components and rules that expresses every output; application-specific behavior belongs in producers, never in the Standard (the substrate-neutrality test)."
+    },
+    {
+      "id": "sec2_head",
+      "type": "text",
+      "x": 40,
+      "y": 710,
+      "width": 620,
+      "height": 56,
+      "text": "## Fork, don't drift",
+      "color": "5"
+    },
+    {
+      "id": "sec2_body",
+      "type": "text",
+      "x": 40,
+      "y": 786,
+      "width": 620,
+      "height": 112,
+      "text": "A valid aDNA canvas degrades to a valid Obsidian canvas. The Standard stays round-trippable to the baseline; aDNA-native extensions live additively in the namespaced _reserved block, so stripping _reserved yields a plain JSON-Canvas / Advanced-Canvas file a vanilla reader can open."
+    },
+    {
+      "id": "sec3_head",
+      "type": "text",
+      "x": 40,
+      "y": 946,
+      "width": 620,
+      "height": 56,
+      "text": "## Conformance levels",
+      "color": "5"
+    },
+    {
+      "id": "sec3_body",
+      "type": "text",
+      "x": 40,
+      "y": 1022,
+      "width": 620,
+      "height": 112,
+      "text": "Conformance is monotone — aDNA-Native is a superset of Extended, which is a superset of Core. The canvas_std reference tooling (validators, round-trip converters, the conformance harness, and the canvas-std CLI) checks a document at a declared level and verifies that it degrades cleanly to the baseline."
+    },
+    {
+      "id": "sec3_src0",
+      "type": "link",
+      "x": 40,
+      "y": 1154,
+      "width": 620,
+      "height": 40,
+      "url": "https://jsoncanvas.org/spec/1.0/"
+    },
+    {
+      "id": "sec4_head",
+      "type": "text",
+      "x": 40,
+      "y": 1242,
+      "width": 620,
+      "height": 56,
+      "text": "## Governance",
+      "color": "5"
+    },
+    {
+      "id": "sec4_body",
+      "type": "text",
+      "x": 40,
+      "y": 1318,
+      "width": 620,
+      "height": 112,
+      "text": "Canvas.aDNA (persona Mondrian) is the standard-bearer Platform: it owns the Standard schema, the component model, the round-trip contract, the conformance-suite spec, and the reference implementation, versioned through an LIP-style governance process. Image generation stays in ComfyUI; web in Astro; video in Videos."
+    }
+  ],
+  "edges": [
+    {
+      "id": "flow_0",
+      "fromNode": "sec0_head",
+      "fromSide": "bottom",
+      "toNode": "sec0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_1",
+      "fromNode": "sec0_body",
+      "fromSide": "bottom",
+      "toNode": "sec1_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_2",
+      "fromNode": "sec1_head",
+      "fromSide": "bottom",
+      "toNode": "sec1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_3",
+      "fromNode": "sec1_body",
+      "fromSide": "bottom",
+      "toNode": "sec2_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_4",
+      "fromNode": "sec2_head",
+      "fromSide": "bottom",
+      "toNode": "sec2_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_5",
+      "fromNode": "sec2_body",
+      "fromSide": "bottom",
+      "toNode": "sec3_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_6",
+      "fromNode": "sec3_head",
+      "fromSide": "bottom",
+      "toNode": "sec3_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_7",
+      "fromNode": "sec3_body",
+      "fromSide": "bottom",
+      "toNode": "sec4_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow_8",
+      "fromNode": "sec4_head",
+      "fromSide": "bottom",
+      "toNode": "sec4_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "ref_0",
+      "fromNode": "sec0_body",
+      "fromSide": "right",
+      "toNode": "sec0_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "ref_1",
+      "fromNode": "sec0_body",
+      "fromSide": "right",
+      "toNode": "sec0_src1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "ref_2",
+      "fromNode": "sec3_body",
+      "fromSide": "right",
+      "toNode": "sec3_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "3b420262f1ae2f81",
+          "source_name": "urn:adna:canvas:brief:canvas_standard",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "brief_page": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "sec0_head": {
+            "class": "typography_run",
+            "semantic_type": "heading",
+            "degrades_to": "text"
+          },
+          "sec0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "sec0_src0": {
+            "class": "link",
+            "semantic_type": "citation",
+            "degrades_to": "link"
+          },
+          "sec0_src1": {
+            "class": "link",
+            "semantic_type": "citation",
+            "degrades_to": "link"
+          },
+          "sec1_head": {
+            "class": "typography_run",
+            "semantic_type": "heading",
+            "degrades_to": "text"
+          },
+          "sec1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "sec2_head": {
+            "class": "typography_run",
+            "semantic_type": "heading",
+            "degrades_to": "text"
+          },
+          "sec2_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "sec3_head": {
+            "class": "typography_run",
+            "semantic_type": "heading",
+            "degrades_to": "text"
+          },
+          "sec3_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "sec3_src0": {
+            "class": "link",
+            "semantic_type": "citation",
+            "degrades_to": "link"
+          },
+          "sec4_head": {
+            "class": "typography_run",
+            "semantic_type": "heading",
+            "degrades_to": "text"
+          },
+          "sec4_body": {
+            "class": "text",
+            "degrades_to": "text"
+          }
+        },
+        "semantic_bindings": {
+          "profile": "document"
+        },
+        "panel_link": {
+          "edges": {
+            "flow_0": {
+              "kind": "reading_order"
+            },
+            "flow_1": {
+              "kind": "reading_order"
+            },
+            "flow_2": {
+              "kind": "reading_order"
+            },
+            "flow_3": {
+              "kind": "reading_order"
+            },
+            "flow_4": {
+              "kind": "reading_order"
+            },
+            "flow_5": {
+              "kind": "reading_order"
+            },
+            "flow_6": {
+              "kind": "reading_order"
+            },
+            "flow_7": {
+              "kind": "reading_order"
+            },
+            "flow_8": {
+              "kind": "reading_order"
+            },
+            "ref_0": {
+              "kind": "adjacency"
+            },
+            "ref_1": {
+              "kind": "adjacency"
+            },
+            "ref_2": {
+              "kind": "adjacency"
+            }
+          },
+          "regions": {
+            "brief_page": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "letter"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "brief_page",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:brief:canvas_standard",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]",
+            "[[adr_000_canvas_identity]]"
+          ]
+        }
+      }
+    }
+  }
+}

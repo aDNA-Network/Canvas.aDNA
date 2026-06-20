@@ -11,7 +11,7 @@ estimated_sessions: "20-30"
 estimation_class: build-broad
 priority: high
 created: 2026-06-12
-updated: 2026-06-14
+updated: 2026-06-19
 last_edited_by: agent_stanley
 predecessor: campaign_canvas_genesis_planning
 tags: [campaign, execution, build, canvas, standard, platform]
@@ -139,19 +139,38 @@ extraction-shim precedent.
 > **contracted PT P5 items** in ADR-004's checklist. **Still ⛔ HELD at E3→E4** — this resolved the *layout*, not the
 > gate; no code moved.
 
-### Phase E4 — LF-successor + net-new consumer
-| # | Mission | Sessions |
-|---|---------|----------|
-| E4.1 | Stand up the LF-successor federated producer (D3-B): consume component_model + panel_link + round-trip | 2 |
-| E4.2 | Migrate LF visual/format contracts into the consumer wrapper (genre pipeline stays producer-side) | 1-2 |
-| E4.3 | ≥1 net-new consumer end-to-end (letter / web / paper) | 1-2 |
-| E4.4 | Deck-generator pilot (parked `mission_deck_generator_canvas_pilot`) as a worked build | 1-2 |
+> **🔓 PHASE E4 OPENED (2026-06-19) — operator-authorized E3→E4 gate crossing; E4 table reconciled to in-vault
+> production (pt09).** The operator authorized crossing the E3→E4 human gate and selected the **net-new consumer
+> (E4.3)** as the first build thread (planning gate + plan approval, 2026-06-19). The E4/E5 plan is reconciled to the
+> post-pt09 reality (the *federated-producer* topology is folded; production is in-vault):
+> - **E4.1 / E4.2 (LF-successor):** reframed *federated → **in-vault*** — pt09 absorbed production into Canvas and
+>   LiteratureForge was wound down (its assets are a Canvas quarry), so the successor is an in-vault production layer,
+>   not a separate federated vault. **⚠ Governance flag:** `adr_002` (D3) ratified *"schema-absorb + **federated**
+>   pipeline"*; the in-vault reality supersedes the *federated* leg. This needs a **governed touch** (an `adr_002`
+>   amendment or a new ADR via the `adr_003` LIP process) before E4.1/E4.2 are *built* — **flagged, not resolved here**
+>   (the operator chose E4.3). Charter-stubbed only.
+> - **E4.3 (net-new consumer):** **🔄 in progress (this session).** Unchanged by pt09 and buildable now on `canvas_std`
+>   alone (zero PT-P5 dependency) — `[[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer|mission_e4_3]]`.
+> - **E4.4 (deck pilot):** steps 1–3 buildable on `canvas_std`; **step-4 render loop is PT-P5-gated** (needs
+>   `canvas_presentation`, which lands at PT P5). Charter-stubbed.
+> - **E5.2:** stale producer names corrected — **ComfyForge → ComfyUI**, **SiteForge → Astro** (renamed PT pt06/pt07);
+>   the federation-rollout premise still holds (they remain consumers federating against Canvas).
+>
+> **Human-gate discipline:** only **E3→E4** was authorized — **E4→E5 remains a future human gate; do not auto-advance.**
+
+### Phase E4 — net-new consumer + LF-successor (in-vault, pt09-reshaped)
+| # | Mission | Sessions | Status |
+|---|---------|----------|--------|
+| E4.3 | ≥1 net-new consumer end-to-end (letter / brief / paper) on `canvas_std` — **the first build** | 1-2 | 🔄 **in progress 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
+| E4.1 | Stand up the LF-successor **in-vault** producer (D3-B; ⚠ D3 federated→in-vault needs a governed touch): consume component_model + panel_link + round-trip | 2 | ◻ stub (reshaped; gated on D3 touch) |
+| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (reshaped) |
+| E4.4 | Deck-generator pilot (parked `mission_deck_generator_canvas_pilot`) as a worked build — steps 1–3 on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ◻ stub |
 
 ### Phase E5 — Federation rollout + quality wiring
 | # | Mission | Sessions |
 |---|---------|----------|
 | E5.1 | Wire the `iii/` wrapper (confirm III pin vs `III.aDNA/STATE.md`); run a real canvas review | 1 |
-| E5.2 | Federation rollout to remaining producers (ComfyForge / SiteForge as applicable) | 1-2 |
+| E5.2 | Federation rollout to remaining producers (**ComfyUI** / **Astro** as applicable — renamed from ComfyForge/SiteForge at PT pt06/pt07) | 1-2 |
 | E5.3 | *(optional/parallel)* submit the Δ2 canvas-as-primitive LIP | 1 |
 
 ### Phase E6 — Validation & cutover
@@ -166,7 +185,7 @@ extraction-shim precedent.
 | # | Decision | Status |
 |---|----------|--------|
 | D2 | CanvasForge relationship | ✅ ratified — extract (`adr_001`) |
-| D3 | LiteratureForge seam | ✅ ratified — schema-absorb + federated pipeline (`adr_002`) |
+| D3 | LiteratureForge seam | ✅ ratified — schema-absorb + federated pipeline (`adr_002`) · ⚠ **federated leg OBE post-pt09** (successor is in-vault; LF wound down) → needs a governed touch (adr_002 amendment / new ADR via `adr_003` LIP) **before E4.1/E4.2 build**; flagged 2026-06-19 |
 | D6 | Governance / versioning | ✅ ratified (`adr_003`) |
 | E-D1 | `canvas_std` language/runtime + packaging | at E0.1 |
 | E-D2 | Shim grace-window length for CanvasForge | ✅ **12 months** (expiry 2027-06-13) — decided E3.2 2026-06-13; registered Home.aDNA §C |

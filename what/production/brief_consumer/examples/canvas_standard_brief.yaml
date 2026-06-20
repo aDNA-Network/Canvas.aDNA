@@ -1,0 +1,44 @@
+# A self-referential dog-food input: a one-page brief ABOUT the aDNA Canvas Standard.
+# Fully in-vault (no external content dependency). Generate with:
+#   brief-consumer build examples/canvas_standard_brief.yaml examples/canvas_standard_brief.canvas
+title: "aDNA Canvas Standard v2.0.0 — One-Page Brief"
+id: "urn:adna:canvas:brief:canvas_standard"
+version: "0.1.0"
+refs:
+  - "[[spec_adna_canvas_standard]]"
+  - "[[adr_000_canvas_identity]]"
+sections:
+  - heading: "What it is"
+    body: >
+      The aDNA Canvas Standard is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas. Its
+      thesis: a canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape,
+      embed, and link components — is a near-universal 2D output primitive, a first-class context object, and a
+      human-AI / human-human interface surface.
+    sources:
+      - label: "JSON Canvas"
+        url: "https://jsoncanvas.org"
+      - label: "Obsidian Advanced Canvas"
+        url: "https://github.com/Developer-Mike/obsidian-advanced-canvas"
+  - heading: "Reduce to the grammar"
+    body: >
+      Any 2D output — paper, deck, comic, letter, site, post — reduces to a rigorous grammar of typed components
+      positioned on a canvas. The Standard finds the smallest set of typed components and rules that expresses every
+      output; application-specific behavior belongs in producers, never in the Standard (the substrate-neutrality test).
+  - heading: "Fork, don't drift"
+    body: >
+      A valid aDNA canvas degrades to a valid Obsidian canvas. The Standard stays round-trippable to the baseline;
+      aDNA-native extensions live additively in the namespaced _reserved block, so stripping _reserved yields a plain
+      JSON-Canvas / Advanced-Canvas file a vanilla reader can open.
+  - heading: "Conformance levels"
+    body: >
+      Conformance is monotone — aDNA-Native is a superset of Extended, which is a superset of Core. The canvas_std
+      reference tooling (validators, round-trip converters, the conformance harness, and the canvas-std CLI) checks a
+      document at a declared level and verifies that it degrades cleanly to the baseline.
+    sources:
+      - label: "spec_conformance_suite"
+        url: "https://jsoncanvas.org/spec/1.0/"
+  - heading: "Governance"
+    body: >
+      Canvas.aDNA (persona Mondrian) is the standard-bearer Platform: it owns the Standard schema, the component
+      model, the round-trip contract, the conformance-suite spec, and the reference implementation, versioned through
+      an LIP-style governance process. Image generation stays in ComfyUI; web in Astro; video in Videos.
