@@ -100,3 +100,6 @@ reflow (1 model page → 4 canvas pages); 19 new tests + a frozen no-contract go
 `canvas-std validate` → `adna_native [OK]` + D-1/D-2/D-3; reflow + region-class + byte-identity asserted; no regression
 (`canvas_std` 46/8 · `brief_consumer` 10 · `deck_generator` 16); `what/code/canvas_std/` git-diff **0** (firewall held);
 `model.py` AST-guarded against any `canvas_std` import. **No phase gate advanced** — E5→E6 stays the human gate.
+
+**Full AAR artifact (AGENTS.md §4):** [[how/missions/artifacts/canvas_genesis_e4_2_aar|canvas_genesis_e4_2_aar.md]]
+(scorecard · gap register · technical debt · readiness assessment · lessons learned).

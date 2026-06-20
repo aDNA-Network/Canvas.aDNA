@@ -156,10 +156,9 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
   Med. **No E4 work remains.** 4 spec-gap erratum candidates (3 from E4.1 + 1 new from E4.2) in the LIP queue (see Open
   side-tracks); `CANVAS-L-002` addressed by E4.2 reflow (residual → PT P5).
 - **ADR-004 / ADR-005: ✅ ratified 2026-06-19** — no longer blockers. (Code relocation still PT P5.)
-- **Pushes:** prior batches pushed through `5aecb0b` (D3 touch). Unpushed and **held for operator authorization** (batch
-  convention; `@{u}..HEAD` verified all operator-authored): `68b8e7c` (E4.1 batch) + `c1ba989` (Hestia routing-hook
-  repoint) + the **E4.2 batch** (4 `document_generator` modules + 2 examples + 19 tests + golden + `iii/` feedback +
-  learning-store update + mission AAR + campaign + STATE + CLAUDE.md current-state refresh + session).
+- **Pushes:** ✅ **all pushed to `origin/master` 2026-06-20** (operator-authorized at the E4.2 close). The held batch
+  — `68b8e7c` (E4.1) + `c1ba989` (Hestia routing-hook) + `72e3383` (E4.2) + the wind-down commit (formal AAR artifact +
+  this reconciliation) — is now upstream; branch in sync (ahead 0). Nothing held.
 
 ## Next Steps
 
@@ -174,8 +173,8 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
    `document_generator` 37/37). E4.2 migrated the LF format/visual contracts (F1–F7/V1–V8/X1–X14) → declarative
    `_reserved` metadata + per-genre `GENRE_PROFILES`; first `region`-class use; section-level reflow addressed
    `CANVAS-L-002`. structural `iii/` review 0 High/0 Med; `canvas_std` untouched. **No E4 work remains.**
-6. **Pushes:** prior batches pushed through `5aecb0b`; **held for operator authorization** (batch convention,
-   `@{u}..HEAD` all operator-authored): `68b8e7c` (E4.1) + `c1ba989` (Hestia hook) + the **E4.2 batch**.
+6. **Pushes:** ✅ **done 2026-06-20** (operator-authorized) — `68b8e7c` E4.1 + `c1ba989` Hestia hook + `72e3383` E4.2 +
+   wind-down commit pushed to `origin/master`; branch in sync. Nothing held.
 7. **PT P5 watch:** ping Hestia when the `canvas_core` relocation is scheduled (she re-verifies the staged exemplar
    resolver). Two `what/production/` residents already precede P5 (no collision).
 
