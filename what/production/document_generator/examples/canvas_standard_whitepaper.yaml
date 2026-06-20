@@ -1,0 +1,94 @@
+# A self-referential whitepaper ABOUT the aDNA Canvas Standard, authored as a document_generator spec.
+# Dog-food (cf. canvas_standard_brief.yaml / canvas_standard_deck.yaml): every claim is grounded in the in-vault
+# specs (spec_adna_canvas_standard, spec_component_model, spec_panel_link_semantics, spec_roundtrip_protocol_v2,
+# adr_003). Two pages; exercises heading/body/blockquote/table/figure(+caption)/code/list/citation.
+title: "The aDNA Canvas Standard v2.0.0 — a grammar for two-dimensional output"
+id: "urn:adna:canvas:whitepaper:canvas-standard"
+version: "0.1.0"
+refs:
+  - "[[spec_adna_canvas_standard]]"
+  - "[[spec_component_model]]"
+  - "[[spec_panel_link_semantics]]"
+  - "[[adr_003_standard_governance]]"
+
+pages:
+  - sections:
+      - heading: "Abstract"
+        body: >-
+          A canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape, embed,
+          and link components — is a near-universal output primitive and a first-class context object. The aDNA Canvas
+          Standard v2.0.0 is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas: aDNA-native
+          extensions live additively in a namespaced reserved block, so a valid aDNA canvas always degrades to a valid
+          Obsidian canvas.
+        blocks:
+          - type: quote
+            text: "Reduce any two-dimensional output to a rigorous grammar of typed components positioned on a canvas."
+            attribution: "Mondrian (Canvas.aDNA operating doctrine)"
+
+      - heading: "The component grammar"
+        body: >-
+          The Standard defines a closed component taxonomy and three nested conformance levels. Each level is a strict
+          superset of the one below it, so conformance is monotone: aDNA-Native implies Extended implies Core.
+        blocks:
+          - type: table
+            table:
+              headers: ["Level", "Adds", "Baseline"]
+              rows:
+                - ["Core", "KEEP floor of node/edge fields", "JSON Canvas 1.0"]
+                - ["Extended", "styleAttributes, isStartNode, edge styling", "Advanced Canvas v5.6.6"]
+                - ["aDNA-Native", "the _reserved block (components, panel/link, context)", "Extended + _reserved"]
+        sources:
+          - label: "JSON Canvas 1.0 specification"
+            url: "https://jsoncanvas.org/spec/1.0/"
+          - label: "Obsidian Advanced Canvas"
+            url: "https://github.com/Developer-Mike/obsidian-advanced-canvas"
+
+      - heading: "Round-trip and degradation"
+        body: >-
+          The source contract (topology + semantics) is authoritative; the view (positions + visual styling) is the
+          authority on layout. The forward conversion is deterministic; the reverse is advisory. Stripping the
+          reserved block yields a plain baseline canvas — the degradation contract every aDNA canvas must satisfy.
+        blocks:
+          - type: figure
+            image: "assets/canvas_grammar.png"
+            caption: "Figure 1. The two-layer model: a baseline JSON-Canvas DAG with an additive _reserved overlay."
+        sources:
+          - label: "Round-trip protocol v2 (in-vault spec)"
+            url: "https://canvas.adna.dev/specs/roundtrip-protocol-v2"
+
+  - sections:
+      - heading: "Conformance in practice"
+        body: >-
+          The reference library canvas_std (published as adna-canvas-std, zero-dependency) validates a document at a
+          declared level, computes a stable sync hash over the topology, and reports the three degradation checks. A
+          consumer never reimplements these — it calls them.
+        blocks:
+          - type: code
+            lang: "python"
+            code: |-
+              from canvas_std import ConformanceLevel, validate, validate_suite
+
+              errors = validate(doc, ConformanceLevel.ADNA_NATIVE)
+              report = validate_suite(doc, ConformanceLevel.ADNA_NATIVE)
+              assert errors == [] and report.ok
+          - type: figure
+            image: "https://jsoncanvas.org/assets/jsoncanvas-card.png"
+            caption: "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
+        sources:
+          - label: "adna-canvas-std reference implementation (in-vault)"
+            url: "https://canvas.adna.dev/code/canvas-std"
+
+      - heading: "Governance"
+        body: >-
+          The Standard evolves under a LIP-style process on a semantic-version line. Normative changes require a
+          formal proposal; editorial errata may be handled at maintainer discretion. The round-trippable-to-baseline
+          guarantee is never traded away.
+        blocks:
+          - type: list
+            items:
+              - "MAJOR — a breaking change to the component model or round-trip contract"
+              - "MINOR — additive, backward-compatible reserved-block extensions"
+              - "PATCH — editorial and errata fixes"
+        sources:
+          - label: "adr_003 — Standard governance (LIP process)"
+            url: "https://canvas.adna.dev/decisions/adr-003"

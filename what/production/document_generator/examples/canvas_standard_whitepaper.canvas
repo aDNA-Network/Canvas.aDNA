@@ -1,0 +1,714 @@
+{
+  "nodes": [
+    {
+      "id": "doc_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 976,
+      "height": 2432,
+      "label": "The aDNA Canvas Standard v2.0.0 — a grammar for two-dimensional output"
+    },
+    {
+      "id": "page0",
+      "type": "group",
+      "x": 80,
+      "y": 144,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 1",
+      "isStartNode": true
+    },
+    {
+      "id": "page0_s0_head",
+      "type": "text",
+      "x": 152,
+      "y": 216,
+      "width": 672,
+      "height": 48,
+      "text": "## Abstract",
+      "color": "5"
+    },
+    {
+      "id": "page0_s0_body",
+      "type": "text",
+      "x": 152,
+      "y": 284,
+      "width": 672,
+      "height": 164,
+      "text": "A canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape, embed, and link components — is a near-universal output primitive and a first-class context object. The aDNA Canvas Standard v2.0.0 is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas: aDNA-native extensions live additively in a namespaced reserved block, so a valid aDNA canvas always degrades to a valid Obsidian canvas."
+    },
+    {
+      "id": "page0_s0_b0",
+      "type": "text",
+      "x": 152,
+      "y": 468,
+      "width": 672,
+      "height": 72,
+      "text": "> Reduce any two-dimensional output to a rigorous grammar of typed components positioned on a canvas."
+    },
+    {
+      "id": "page0_s0_b0_attr",
+      "type": "text",
+      "x": 152,
+      "y": 560,
+      "width": 672,
+      "height": 40,
+      "text": "— Mondrian (Canvas.aDNA operating doctrine)"
+    },
+    {
+      "id": "page0_s1_head",
+      "type": "text",
+      "x": 152,
+      "y": 644,
+      "width": 672,
+      "height": 48,
+      "text": "## The component grammar",
+      "color": "5"
+    },
+    {
+      "id": "page0_s1_body",
+      "type": "text",
+      "x": 152,
+      "y": 712,
+      "width": 672,
+      "height": 92,
+      "text": "The Standard defines a closed component taxonomy and three nested conformance levels. Each level is a strict superset of the one below it, so conformance is monotone: aDNA-Native implies Extended implies Core."
+    },
+    {
+      "id": "page0_s1_b0",
+      "type": "text",
+      "x": 152,
+      "y": 824,
+      "width": 672,
+      "height": 154,
+      "text": "| Level | Adds | Baseline |\n| --- | --- | --- |\n| Core | KEEP floor of node/edge fields | JSON Canvas 1.0 |\n| Extended | styleAttributes, isStartNode, edge styling | Advanced Canvas v5.6.6 |\n| aDNA-Native | the _reserved block (components, panel/link, context) | Extended + _reserved |"
+    },
+    {
+      "id": "page0_s1_src0",
+      "type": "link",
+      "x": 152,
+      "y": 998,
+      "width": 672,
+      "height": 40,
+      "url": "https://jsoncanvas.org/spec/1.0/"
+    },
+    {
+      "id": "page0_s1_src1",
+      "type": "link",
+      "x": 152,
+      "y": 1058,
+      "width": 672,
+      "height": 40,
+      "url": "https://github.com/Developer-Mike/obsidian-advanced-canvas"
+    },
+    {
+      "id": "page0_s2_head",
+      "type": "text",
+      "x": 152,
+      "y": 1142,
+      "width": 672,
+      "height": 48,
+      "text": "## Round-trip and degradation",
+      "color": "5"
+    },
+    {
+      "id": "page0_s2_body",
+      "type": "text",
+      "x": 152,
+      "y": 1210,
+      "width": 672,
+      "height": 116,
+      "text": "The source contract (topology + semantics) is authoritative; the view (positions + visual styling) is the authority on layout. The forward conversion is deterministic; the reverse is advisory. Stripping the reserved block yields a plain baseline canvas — the degradation contract every aDNA canvas must satisfy."
+    },
+    {
+      "id": "page0_s2_b0",
+      "type": "file",
+      "x": 152,
+      "y": 1346,
+      "width": 672,
+      "height": 320,
+      "file": "assets/canvas_grammar.png"
+    },
+    {
+      "id": "page0_s2_b0_cap",
+      "type": "text",
+      "x": 152,
+      "y": 1686,
+      "width": 672,
+      "height": 44,
+      "text": "Figure 1. The two-layer model: a baseline JSON-Canvas DAG with an additive _reserved overlay."
+    },
+    {
+      "id": "page0_s2_src0",
+      "type": "link",
+      "x": 152,
+      "y": 1750,
+      "width": 672,
+      "height": 40,
+      "url": "https://canvas.adna.dev/specs/roundtrip-protocol-v2"
+    },
+    {
+      "id": "page1",
+      "type": "group",
+      "x": 80,
+      "y": 1296,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 2"
+    },
+    {
+      "id": "page1_s0_head",
+      "type": "text",
+      "x": 152,
+      "y": 1368,
+      "width": 672,
+      "height": 48,
+      "text": "## Conformance in practice",
+      "color": "5"
+    },
+    {
+      "id": "page1_s0_body",
+      "type": "text",
+      "x": 152,
+      "y": 1436,
+      "width": 672,
+      "height": 116,
+      "text": "The reference library canvas_std (published as adna-canvas-std, zero-dependency) validates a document at a declared level, computes a stable sync hash over the topology, and reports the three degradation checks. A consumer never reimplements these — it calls them."
+    },
+    {
+      "id": "page1_s0_b0",
+      "type": "text",
+      "x": 152,
+      "y": 1572,
+      "width": 672,
+      "height": 138,
+      "text": "```python\nfrom canvas_std import ConformanceLevel, validate, validate_suite\n\nerrors = validate(doc, ConformanceLevel.ADNA_NATIVE)\nreport = validate_suite(doc, ConformanceLevel.ADNA_NATIVE)\nassert errors == [] and report.ok\n```"
+    },
+    {
+      "id": "page1_s0_b1",
+      "type": "link",
+      "x": 152,
+      "y": 1730,
+      "width": 672,
+      "height": 320,
+      "url": "https://jsoncanvas.org/assets/jsoncanvas-card.png"
+    },
+    {
+      "id": "page1_s0_b1_cap",
+      "type": "text",
+      "x": 152,
+      "y": 2070,
+      "width": 672,
+      "height": 44,
+      "text": "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
+    },
+    {
+      "id": "page1_s0_src0",
+      "type": "link",
+      "x": 152,
+      "y": 2134,
+      "width": 672,
+      "height": 40,
+      "url": "https://canvas.adna.dev/code/canvas-std"
+    },
+    {
+      "id": "page1_s1_head",
+      "type": "text",
+      "x": 152,
+      "y": 2218,
+      "width": 672,
+      "height": 48,
+      "text": "## Governance",
+      "color": "5"
+    },
+    {
+      "id": "page1_s1_body",
+      "type": "text",
+      "x": 152,
+      "y": 2286,
+      "width": 672,
+      "height": 92,
+      "text": "The Standard evolves under a LIP-style process on a semantic-version line. Normative changes require a formal proposal; editorial errata may be handled at maintainer discretion. The round-trippable-to-baseline guarantee is never traded away."
+    },
+    {
+      "id": "page1_s1_b0",
+      "type": "text",
+      "x": 152,
+      "y": 2398,
+      "width": 672,
+      "height": 92,
+      "text": "- MAJOR — a breaking change to the component model or round-trip contract\n- MINOR — additive, backward-compatible reserved-block extensions\n- PATCH — editorial and errata fixes"
+    },
+    {
+      "id": "page1_s1_src0",
+      "type": "link",
+      "x": 152,
+      "y": 2510,
+      "width": 672,
+      "height": 40,
+      "url": "https://canvas.adna.dev/decisions/adr-003"
+    }
+  ],
+  "edges": [
+    {
+      "id": "page0_ro_0",
+      "fromNode": "page0_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page0_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_1",
+      "fromNode": "page0_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page0_s0_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_2",
+      "fromNode": "page0_s0_b0",
+      "fromSide": "bottom",
+      "toNode": "page0_s0_b0_attr",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_3",
+      "fromNode": "page0_s0_b0_attr",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_4",
+      "fromNode": "page0_s1_head",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_5",
+      "fromNode": "page0_s1_body",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_6",
+      "fromNode": "page0_s1_b0",
+      "fromSide": "bottom",
+      "toNode": "page0_s2_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_7",
+      "fromNode": "page0_s2_head",
+      "fromSide": "bottom",
+      "toNode": "page0_s2_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_8",
+      "fromNode": "page0_s2_body",
+      "fromSide": "bottom",
+      "toNode": "page0_s2_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_9",
+      "fromNode": "page0_s2_b0",
+      "fromSide": "bottom",
+      "toNode": "page0_s2_b0_cap",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_adj_0",
+      "fromNode": "page0_s1_body",
+      "fromSide": "right",
+      "toNode": "page0_s1_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_adj_1",
+      "fromNode": "page0_s1_body",
+      "fromSide": "right",
+      "toNode": "page0_s1_src1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_adj_2",
+      "fromNode": "page0_s2_body",
+      "fromSide": "right",
+      "toNode": "page0_s2_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_0",
+      "fromNode": "page1_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_1",
+      "fromNode": "page1_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_2",
+      "fromNode": "page1_s0_b0",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_3",
+      "fromNode": "page1_s0_b1",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b1_cap",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_4",
+      "fromNode": "page1_s0_b1_cap",
+      "fromSide": "bottom",
+      "toNode": "page1_s1_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_5",
+      "fromNode": "page1_s1_head",
+      "fromSide": "bottom",
+      "toNode": "page1_s1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_6",
+      "fromNode": "page1_s1_body",
+      "fromSide": "bottom",
+      "toNode": "page1_s1_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_adj_0",
+      "fromNode": "page1_s0_body",
+      "fromSide": "right",
+      "toNode": "page1_s0_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_adj_1",
+      "fromNode": "page1_s1_body",
+      "fromSide": "right",
+      "toNode": "page1_s1_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_0",
+      "fromNode": "page0",
+      "fromSide": "bottom",
+      "toNode": "page1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "062d6a37fbb989eb",
+          "source_name": "urn:adna:canvas:whitepaper:canvas-standard",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "doc_root": {
+            "class": "panel",
+            "semantic_type": "document",
+            "degrades_to": "group"
+          },
+          "page0": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page0_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page0_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page0_s0_b0": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "quote"
+          },
+          "page0_s0_b0_attr": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "attribution"
+          },
+          "page0_s1_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page0_s1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page0_s1_b0": {
+            "class": "table",
+            "degrades_to": "text",
+            "qualities": {
+              "row_count": 3,
+              "col_count": 3
+            }
+          },
+          "page0_s1_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          },
+          "page0_s1_src1": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          },
+          "page0_s2_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page0_s2_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page0_s2_b0": {
+            "class": "image",
+            "degrades_to": "file",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "raster"
+            }
+          },
+          "page0_s2_b0_cap": {
+            "class": "caption",
+            "degrades_to": "text"
+          },
+          "page0_s2_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          },
+          "page1": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page1_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page1_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page1_s0_b0": {
+            "class": "code",
+            "degrades_to": "text",
+            "qualities": {
+              "lang": "python"
+            }
+          },
+          "page1_s0_b1": {
+            "class": "image",
+            "degrades_to": "link",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "external"
+            }
+          },
+          "page1_s0_b1_cap": {
+            "class": "caption",
+            "degrades_to": "text"
+          },
+          "page1_s0_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          },
+          "page1_s1_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page1_s1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page1_s1_b0": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "list"
+          },
+          "page1_s1_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          }
+        },
+        "semantic_bindings": {
+          "profile": "long_document"
+        },
+        "panel_link": {
+          "edges": {
+            "page0_ro_0": {
+              "kind": "reading_order"
+            },
+            "page0_ro_1": {
+              "kind": "reading_order"
+            },
+            "page0_ro_2": {
+              "kind": "reading_order"
+            },
+            "page0_ro_3": {
+              "kind": "reading_order"
+            },
+            "page0_ro_4": {
+              "kind": "reading_order"
+            },
+            "page0_ro_5": {
+              "kind": "reading_order"
+            },
+            "page0_ro_6": {
+              "kind": "reading_order"
+            },
+            "page0_ro_7": {
+              "kind": "reading_order"
+            },
+            "page0_ro_8": {
+              "kind": "reading_order"
+            },
+            "page0_ro_9": {
+              "kind": "reading_order"
+            },
+            "page0_adj_0": {
+              "kind": "adjacency"
+            },
+            "page0_adj_1": {
+              "kind": "adjacency"
+            },
+            "page0_adj_2": {
+              "kind": "adjacency"
+            },
+            "page1_ro_0": {
+              "kind": "reading_order"
+            },
+            "page1_ro_1": {
+              "kind": "reading_order"
+            },
+            "page1_ro_2": {
+              "kind": "reading_order"
+            },
+            "page1_ro_3": {
+              "kind": "reading_order"
+            },
+            "page1_ro_4": {
+              "kind": "reading_order"
+            },
+            "page1_ro_5": {
+              "kind": "reading_order"
+            },
+            "page1_ro_6": {
+              "kind": "reading_order"
+            },
+            "page1_adj_0": {
+              "kind": "adjacency"
+            },
+            "page1_adj_1": {
+              "kind": "adjacency"
+            },
+            "seq_0": {
+              "kind": "sequence"
+            }
+          },
+          "regions": {
+            "doc_root": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "words",
+                "max": 291
+              },
+              "surface": "print_page"
+            },
+            "page0": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            },
+            "page1": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "doc_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:whitepaper:canvas-standard",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]",
+            "[[spec_component_model]]",
+            "[[spec_panel_link_semantics]]",
+            "[[adr_003_standard_governance]]"
+          ]
+        }
+      }
+    }
+  }
+}

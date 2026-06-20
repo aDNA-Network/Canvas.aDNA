@@ -172,7 +172,7 @@ extraction-shim precedent.
 |---|---------|----------|--------|
 | E4.3 | ≥1 net-new consumer end-to-end (`brief_consumer`) on `canvas_std` — **the first build** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
 | E4.4 | Deck-generator pilot (`deck_generator`) as a worked build — deck `.canvas` on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_4_deck_pilot\|mission]]) |
-| E4.1 | Stand up the LF-successor **in-vault** producer: consume component_model + panel_link + round-trip | 2 | ◻ stub (in-vault; **D3 touch = `adr_005`** ratified 2026-06-19 → **unblocked**; unscheduled) |
+| E4.1 | Stand up the LF-successor **in-vault** producer (`document_generator`): consume component_model + panel_link + round-trip | 2 | ✅ **done 2026-06-19** — multi-page `.canvas` (`long_document`), 18/18, structural review 0H/0M, first `code`-component use ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_1_lf_successor\|mission]]) |
 | E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (in-vault; **unblocked** by `adr_005` (ratified 2026-06-19); unscheduled) |
 
 ### Phase E5 — Federation rollout + quality wiring
@@ -201,6 +201,18 @@ extraction-shim precedent.
 > stays producer-neutral; the genre pipeline stays producer-side). **E4.1/E4.2 → unblocked (unscheduled)** —
 > buildable on `canvas_std` alone (zero PT-P5 dependency, like E4.3/E4.4). **Not a Standard LIP**
 > (schema unchanged; `adr_003` §2). **⛔ E5→E6 unchanged — still the human gate.**
+
+> **Phase progress (2026-06-19, late — E4.1 BUILT; mid-E5; no gate change):** operator opened E4.1/E4.2 (SO-3) at the
+> E5 hold. **E4.1 ✅ DONE** — **`document_generator`** (`what/production/document_generator/`), the in-vault long-form
+> LF-successor, turns a document spec into a v2.0.0 aDNA-Native **multi-page** `.canvas` (`profile: long_document`;
+> pages = group nodes; `sequence` across pages + `reading_order` within + `adjacency` prose→citations), on `canvas_std`
+> alone (zero PT-P5 dep). **First use of the `code` component class.** Green: **18/18**, `ruff` clean, CLI +
+> `canvas-std validate` → `adna_native [OK]` + D-1/D-2/D-3; no regression (46/8 · 10 · 16). Structural `iii/` review
+> **0 High / 0 Med** (pixel/VR1 PT-P5-gated) — 2 Low + 1 GRAPH-GAP + **3 spec-gap erratum candidates** (orphan-anchor
+> validator absent vs `spec_panel_link_semantics §6`; no `quote`/`footnote` class; `sequence`-unit ambiguity §5.1) →
+> LIP queue (`adr_003`); artifact `iii/feedback_2026_06_19_document_generator.md`. The genre/writing pipeline stays
+> producer-side. **→ E4.2** (LF visual/format-contract migration) is the next mission — unblocked, unscheduled.
+> **⛔ E5→E6 unchanged — still the human gate.**
 
 ### Phase E6 — Validation & cutover
 | # | Mission | Sessions |

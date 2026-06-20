@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "document-generator"
+version = "0.1.0"
+description = "Reference long-form consumer of the aDNA Canvas Standard (Keystone E4.1, the LF-successor) — a structured document spec -> a v2.0.0 aDNA-Native multi-page .canvas (pages = group nodes)."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "aDNA Labs / Canvas.aDNA (Mondrian)" }]
+keywords = ["canvas", "adna", "consumer", "producer", "document", "whitepaper", "long-form", "json-canvas"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Text Processing :: Markup",
+]
+# Producer (deps allowed); the Standard's lean reference lib (canvas_std) stays zero-dep (ADR-004/ADR-005 two-shelf).
+dependencies = ["adna-canvas-std", "pyyaml>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+document-generator = "document_generator.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/document_generator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
