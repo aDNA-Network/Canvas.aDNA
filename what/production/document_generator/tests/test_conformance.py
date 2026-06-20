@@ -47,4 +47,4 @@ def test_example_yaml_builds_and_conforms():
     doc = build_document(load_document(example))
     assert validate(doc, ConformanceLevel.ADNA_NATIVE) == []
     page_groups = [n for n in doc["nodes"] if n["type"] == "group" and n["id"].startswith("page")]
-    assert len(page_groups) == 2
+    assert len(page_groups) >= 2  # E4.2 reflow paginates the (overflowing) whitepaper across several canvas pages

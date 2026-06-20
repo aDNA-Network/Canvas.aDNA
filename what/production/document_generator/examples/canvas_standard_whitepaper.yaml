@@ -5,6 +5,9 @@
 title: "The aDNA Canvas Standard v2.0.0 — a grammar for two-dimensional output"
 id: "urn:adna:canvas:whitepaper:canvas-standard"
 version: "0.1.0"
+# E4.2: declare the genre so the document carries the LiteratureForge whitepaper format/visual contracts
+# (internal LaTeX style-lock, canvas/TikZ figures, descriptive captions) as declarative _reserved metadata.
+genre: whitepaper
 refs:
   - "[[spec_adna_canvas_standard]]"
   - "[[spec_component_model]]"
@@ -74,6 +77,13 @@ pages:
           - type: figure
             image: "https://jsoncanvas.org/assets/jsoncanvas-card.png"
             caption: "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
+            # A per-figure visual-contract override (V1/V4/V6/V8): a captured external raster card, not a generated
+            # canvas figure — so it overrides the genre's canvas/TikZ/generated/descriptive defaults.
+            asset:
+              substrate: raster
+              origin: captured
+              intent_class: social_card
+              caption_form: claim_form
         sources:
           - label: "adna-canvas-std reference implementation (in-vault)"
             url: "https://canvas.adna.dev/code/canvas-std"

@@ -1,0 +1,95 @@
+# A grant-proposal document spec (genre: grant). Deliberately content-heavy: a SINGLE model page with several
+# sections whose cumulative height exceeds one canvas page, so E4.2 reflow paginates it across several canvas pages
+# (CANVAS-L-002 closed at section granularity). Exercises the grant genre profile (funder template_ref, form-fill
+# exemption, page-budget visual, external NIH style-lock), per-figure asset overrides, and the region-class surfaces.
+title: "Adaptive aDNA Harness for the Undiagnosed — R01 Proposal"
+id: "urn:adna:canvas:grant:adna-harness-r01"
+version: "0.1.0"
+genre: grant
+refs:
+  - "[[spec_format_contract]]"
+  - "[[spec_visual_contract]]"
+
+pages:
+  - sections:
+      - heading: "Specific Aims"
+        section_kind: "Specific Aims"
+        body: >-
+          Undiagnosed rare disease imposes a multi-year diagnostic odyssey on patients and families. We propose an
+          agentic aDNA harness that converts heterogeneous clinical, genomic, and phenotypic context into a governed,
+          federated reasoning graph. The aims below are order-locked to the funder template and bypass figure
+          placement (content-not-placement), per the grant format contract.
+        blocks:
+          - type: list
+            items:
+              - "Aim 1 — Construct a federated patient-context graph from EHR, variant calls, and HPO terms."
+              - "Aim 2 — Deploy a governed reasoning lattice that proposes ranked differential diagnoses with provenance."
+              - "Aim 3 — Validate against a held-out undiagnosed cohort with clinician-in-the-loop adjudication."
+        sources:
+          - label: "Wilhelm Foundation — undiagnosed program"
+            url: "https://example.org/wilhelm/undiagnosed"
+
+      - heading: "Background and Significance"
+        body: >-
+          The mean diagnostic odyssey exceeds five years and a dozen specialists. Existing pipelines silo genomic and
+          phenotypic evidence, and few preserve the provenance a clinician needs to trust a machine-proposed diagnosis.
+          A context-native harness that keeps every claim accountable to its evidence directly addresses this gap.
+        blocks:
+          - type: figure
+            image: "assets/diagnostic_odyssey.png"
+            caption: "Figure 1. The diagnostic odyssey timeline and the points an agentic harness shortens it."
+            asset:
+              producer_tool: matplotlib
+              engine_route: CanvasForge
+              origin: generated
+              target_page_fraction: 0.33
+        sources:
+          - label: "Diagnostic odyssey meta-analysis"
+            url: "https://example.org/odyssey-meta"
+
+      - heading: "Research Strategy"
+        section_kind: "Research Strategy"
+        body: >-
+          The harness composes three modules into a reasoning lattice. Evidence ingestion normalizes inputs to typed
+          context objects; the reasoning lattice ranks differentials; the adjudication surface keeps a clinician in the
+          loop. Each module is FAIR-annotated and federated, so the same lattice runs across partner sites.
+        blocks:
+          - type: table
+            table:
+              headers: ["Module", "Input", "Output"]
+              rows:
+                - ["Ingestion", "EHR + VCF + HPO", "typed context objects"]
+                - ["Reasoning lattice", "context objects", "ranked differentials + provenance"]
+                - ["Adjudication", "differentials", "clinician-confirmed diagnosis"]
+          - type: figure
+            image: "https://example.org/architecture.png"
+            caption: "Figure 2. System architecture: ingestion, reasoning lattice, and the clinician adjudication surface."
+            asset:
+              substrate: raster
+              origin: captured
+              intent_class: illustration
+
+      - heading: "Innovation"
+        body: >-
+          Unlike prior decision-support tools, the harness is context-native: every differential carries the subgraph
+          of evidence that produced it, and the round-trip contract lets a clinician edit the graph and regenerate.
+        blocks:
+          - type: code
+            lang: yaml
+            code: |-
+              lattice: rare_dx_v1
+              execution_mode: hybrid
+              modules: [ingestion, reasoning_lattice, adjudication]
+              fair: { license: MIT, provenance: "federated partner sites" }
+
+      - heading: "Budget Justification"
+        section_kind: "Budget Justification"
+        body: >-
+          The budget supports two ML engineers, one clinical informaticist, and federated compute. Form-fill line
+          items are produced as content fields for the funder portal; placement is the portal's responsibility.
+        blocks:
+          - type: list
+            items:
+              - "Personnel — 2.0 FTE engineering, 0.5 FTE clinical informatics."
+              - "Compute — federated L2 cluster time for cohort-scale reasoning."
+              - "Dissemination — open-source release and partner-site onboarding."

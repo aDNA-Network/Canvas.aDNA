@@ -1,11 +1,16 @@
-"""Shared fixtures — a deterministic 2-page document exercising every block type + its built canvas doc."""
+"""Shared fixtures — a deterministic 2-page document exercising every block type + its built canvas doc, plus the
+two E4.2 worked examples (whitepaper genre + the reflow-forcing grant)."""
 
 from __future__ import annotations
+
+from pathlib import Path
 
 import pytest
 
 from document_generator.consume import build_document
-from document_generator.model import Block, Document, Page, Section, Source
+from document_generator.model import Block, Document, Page, Section, Source, load_document
+
+EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
 
 
 @pytest.fixture
@@ -59,5 +64,18 @@ def doc(document: Document) -> dict:
 
 
 @pytest.fixture
-def n_pages(document: Document) -> int:
-    return len(document.pages)
+def n_pages(doc: dict) -> int:
+    # The count of *emitted* canvas pages (>= model pages once E4.2 reflow paginates an overflowing model page).
+    return sum(1 for n in doc["nodes"] if n["type"] == "group" and n["id"].startswith("page"))
+
+
+@pytest.fixture
+def whitepaper_doc() -> dict:
+    """The whitepaper example (genre: whitepaper) — the contract-bearing dog-food document."""
+    return build_document(load_document(EXAMPLES / "canvas_standard_whitepaper.yaml"))
+
+
+@pytest.fixture
+def grant_doc() -> dict:
+    """The grant example (genre: grant) — one content-heavy model page that reflows across several canvas pages."""
+    return build_document(load_document(EXAMPLES / "grant_proposal.yaml"))

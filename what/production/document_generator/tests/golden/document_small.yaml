@@ -1,0 +1,29 @@
+# A deliberately SMALL, no-genre document whose every model page fits within one canvas page (< CONTENT_H).
+# Golden anchor for the reflow byte-identity guard: with no genre and no overflow, E4.2 output must be byte-identical
+# to the E4.1 layout (paginate() returns exactly one fragment per model page; no contract metadata is emitted).
+title: "Small two-page document (no genre)"
+id: "urn:adna:canvas:doc:small"
+version: "0.1.0"
+refs:
+  - "[[spec_adna_canvas_standard]]"
+pages:
+  - sections:
+      - heading: "Introduction"
+        body: "A short introduction paragraph that stays well within a single page."
+        sources:
+          - label: "Spec"
+            url: "https://example.org/spec"
+      - heading: "Background"
+        body: "A short background paragraph."
+        blocks:
+          - type: list
+            items: ["alpha", "beta", "gamma"]
+  - sections:
+      - heading: "Method"
+        body: "A short method paragraph."
+        blocks:
+          - type: quote
+            text: "Keep it lean."
+            attribution: "Mondrian"
+      - heading: "Result"
+        body: "A short result paragraph that fits comfortably."

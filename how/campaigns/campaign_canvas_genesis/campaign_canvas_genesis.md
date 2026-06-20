@@ -11,7 +11,7 @@ estimated_sessions: "20-30"
 estimation_class: build-broad
 priority: high
 created: 2026-06-12
-updated: 2026-06-19
+updated: 2026-06-20
 last_edited_by: agent_stanley
 predecessor: campaign_canvas_genesis_planning
 tags: [campaign, execution, build, canvas, standard, platform]
@@ -173,7 +173,7 @@ extraction-shim precedent.
 | E4.3 | ≥1 net-new consumer end-to-end (`brief_consumer`) on `canvas_std` — **the first build** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_3_net_new_consumer\|mission]]) |
 | E4.4 | Deck-generator pilot (`deck_generator`) as a worked build — deck `.canvas` on `canvas_std`; **step-4 render PT-P5-gated** | 1-2 | ✅ **done 2026-06-19** ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_4_deck_pilot\|mission]]) |
 | E4.1 | Stand up the LF-successor **in-vault** producer (`document_generator`): consume component_model + panel_link + round-trip | 2 | ✅ **done 2026-06-19** — multi-page `.canvas` (`long_document`), 18/18, structural review 0H/0M, first `code`-component use ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_1_lf_successor\|mission]]) |
-| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) | 1-2 | ◻ stub (in-vault; **unblocked** by `adr_005` (ratified 2026-06-19); unscheduled) |
+| E4.2 | Migrate LF visual/format contracts (in-vault; genre pipeline stays producer-side) + reflow | 1-2 | ✅ **done 2026-06-20** — F1–F7/V1–V8/X1–X14 → declarative `_reserved`; per-genre profiles; first `region`-class use; section-level reflow closes `CANVAS-L-002`; 37/37 ([[how/campaigns/campaign_canvas_genesis/missions/mission_e4_2_lf_contracts\|mission]]) |
 
 ### Phase E5 — Federation rollout + quality wiring
 | # | Mission | Sessions | Status |
@@ -213,6 +213,22 @@ extraction-shim precedent.
 > LIP queue (`adr_003`); artifact `iii/feedback_2026_06_19_document_generator.md`. The genre/writing pipeline stays
 > producer-side. **→ E4.2** (LF visual/format-contract migration) is the next mission — unblocked, unscheduled.
 > **⛔ E5→E6 unchanged — still the human gate.**
+
+> **Phase progress (2026-06-20 — E4.2 DONE; mid-E5; no gate change; full envelope incl. reflow):** operator selected
+> "Build E4.2" + "Include reflow". **E4.2 ✅ DONE** — the LiteratureForge **format/visual contracts**
+> (`spec_format_contract` F1–F7 + `spec_visual_contract` V1–V8/X1–X14) now ride `document_generator`'s `.canvas` as
+> **declarative `_reserved` metadata** (`semantic_bindings.{genre,format,visual}` + `brand_style_pack_ref` + derived
+> `panel_link.surfaces`), driven by a 5-entry **`GENRE_PROFILES`** registry (whitepaper + grant worked) and per-figure
+> `asset` overrides. **First use of the `region` component class** (derived-surface markers + `rgn_subclass`). **Reflow/
+> auto-pagination** (section-level) **closes the bulk of `CANVAS-L-002`** — the whitepaper that overflowed by 662px now
+> paginates 2→5 pages; the grant's one content-heavy model page → 4 canvas pages, each ≤ `CONTENT_H`; a narrow residual
+> (a single section taller than a page) is flagged + deferred to PT P5. **Green: 37/37** (18 + 19 new), `ruff` clean;
+> both examples `adna_native [OK]` + D-1/D-2/D-3; a no-contract doc is **byte-identical to E4.1** (golden-locked). **No
+> regression** (`canvas_std` 46/8 · `brief_consumer` 10 · `deck_generator` 16); **`canvas_std` untouched** (firewall
+> git-diff 0); `model.py` AST-guarded substrate-neutral. Structural `iii/` review **0 High / 0 Med** (pixel/VR1 PT-P5);
+> `CANVAS-L-002` → addressed (residual tracked); **1 new spec-gap erratum candidate** (derived-surface backing node) +
+> the prior sequence-unit erratum **sharpened** → LIP queue. Artifact: `iii/feedback_2026_06_20_document_generator_e4_2.md`.
+> **Phase E4 is now complete (E4.1–E4.4 all done).** **⛔ E5→E6 unchanged — still the human gate.**
 
 ### Phase E6 — Validation & cutover
 | # | Mission | Sessions |

@@ -6,8 +6,8 @@
       "x": 0,
       "y": 0,
       "width": 976,
-      "height": 5888,
-      "label": "The aDNA Canvas Standard v2.0.0 — a grammar for two-dimensional output"
+      "height": 4736,
+      "label": "Adaptive aDNA Harness for the Undiagnosed — R01 Proposal"
     },
     {
       "id": "page0",
@@ -26,7 +26,7 @@
       "y": 216,
       "width": 672,
       "height": 48,
-      "text": "## Abstract",
+      "text": "## Specific Aims",
       "color": "5"
     },
     {
@@ -35,26 +35,26 @@
       "x": 152,
       "y": 284,
       "width": 672,
-      "height": 164,
-      "text": "A canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape, embed, and link components — is a near-universal output primitive and a first-class context object. The aDNA Canvas Standard v2.0.0 is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas: aDNA-native extensions live additively in a namespaced reserved block, so a valid aDNA canvas always degrades to a valid Obsidian canvas."
+      "height": 140,
+      "text": "Undiagnosed rare disease imposes a multi-year diagnostic odyssey on patients and families. We propose an agentic aDNA harness that converts heterogeneous clinical, genomic, and phenotypic context into a governed, federated reasoning graph. The aims below are order-locked to the funder template and bypass figure placement (content-not-placement), per the grant format contract."
     },
     {
       "id": "page0_s0_b0",
       "type": "text",
       "x": 152,
-      "y": 468,
+      "y": 444,
       "width": 672,
-      "height": 72,
-      "text": "> Reduce any two-dimensional output to a rigorous grammar of typed components positioned on a canvas."
+      "height": 164,
+      "text": "- Aim 1 — Construct a federated patient-context graph from EHR, variant calls, and HPO terms.\n- Aim 2 — Deploy a governed reasoning lattice that proposes ranked differential diagnoses with provenance.\n- Aim 3 — Validate against a held-out undiagnosed cohort with clinician-in-the-loop adjudication."
     },
     {
-      "id": "page0_s0_b0_attr",
-      "type": "text",
+      "id": "page0_s0_src0",
+      "type": "link",
       "x": 152,
-      "y": 560,
+      "y": 628,
       "width": 672,
       "height": 40,
-      "text": "— Mondrian (Canvas.aDNA operating doctrine)"
+      "url": "https://example.org/wilhelm/undiagnosed"
     },
     {
       "id": "page1",
@@ -72,7 +72,7 @@
       "y": 1368,
       "width": 672,
       "height": 48,
-      "text": "## The component grammar",
+      "text": "## Background and Significance",
       "color": "5"
     },
     {
@@ -81,35 +81,35 @@
       "x": 152,
       "y": 1436,
       "width": 672,
-      "height": 92,
-      "text": "The Standard defines a closed component taxonomy and three nested conformance levels. Each level is a strict superset of the one below it, so conformance is monotone: aDNA-Native implies Extended implies Core."
+      "height": 116,
+      "text": "The mean diagnostic odyssey exceeds five years and a dozen specialists. Existing pipelines silo genomic and phenotypic evidence, and few preserve the provenance a clinician needs to trust a machine-proposed diagnosis. A context-native harness that keeps every claim accountable to its evidence directly addresses this gap."
     },
     {
       "id": "page1_s0_b0",
+      "type": "file",
+      "x": 152,
+      "y": 1572,
+      "width": 672,
+      "height": 320,
+      "file": "assets/diagnostic_odyssey.png"
+    },
+    {
+      "id": "page1_s0_b0_cap",
       "type": "text",
       "x": 152,
-      "y": 1548,
+      "y": 1912,
       "width": 672,
-      "height": 154,
-      "text": "| Level | Adds | Baseline |\n| --- | --- | --- |\n| Core | KEEP floor of node/edge fields | JSON Canvas 1.0 |\n| Extended | styleAttributes, isStartNode, edge styling | Advanced Canvas v5.6.6 |\n| aDNA-Native | the _reserved block (components, panel/link, context) | Extended + _reserved |"
+      "height": 44,
+      "text": "Figure 1. The diagnostic odyssey timeline and the points an agentic harness shortens it."
     },
     {
       "id": "page1_s0_src0",
       "type": "link",
       "x": 152,
-      "y": 1722,
+      "y": 1976,
       "width": 672,
       "height": 40,
-      "url": "https://jsoncanvas.org/spec/1.0/"
-    },
-    {
-      "id": "page1_s0_src1",
-      "type": "link",
-      "x": 152,
-      "y": 1782,
-      "width": 672,
-      "height": 40,
-      "url": "https://github.com/Developer-Mike/obsidian-advanced-canvas"
+      "url": "https://example.org/odyssey-meta"
     },
     {
       "id": "page2",
@@ -127,7 +127,7 @@
       "y": 2520,
       "width": 672,
       "height": 48,
-      "text": "## Round-trip and degradation",
+      "text": "## Research Strategy",
       "color": "5"
     },
     {
@@ -137,34 +137,34 @@
       "y": 2588,
       "width": 672,
       "height": 116,
-      "text": "The source contract (topology + semantics) is authoritative; the view (positions + visual styling) is the authority on layout. The forward conversion is deterministic; the reverse is advisory. Stripping the reserved block yields a plain baseline canvas — the degradation contract every aDNA canvas must satisfy."
+      "text": "The harness composes three modules into a reasoning lattice. Evidence ingestion normalizes inputs to typed context objects; the reasoning lattice ranks differentials; the adjudication surface keeps a clinician in the loop. Each module is FAIR-annotated and federated, so the same lattice runs across partner sites."
     },
     {
       "id": "page2_s0_b0",
-      "type": "file",
+      "type": "text",
       "x": 152,
       "y": 2724,
       "width": 672,
-      "height": 320,
-      "file": "assets/canvas_grammar.png"
+      "height": 154,
+      "text": "| Module | Input | Output |\n| --- | --- | --- |\n| Ingestion | EHR + VCF + HPO | typed context objects |\n| Reasoning lattice | context objects | ranked differentials + provenance |\n| Adjudication | differentials | clinician-confirmed diagnosis |"
     },
     {
-      "id": "page2_s0_b0_cap",
-      "type": "text",
-      "x": 152,
-      "y": 3064,
-      "width": 672,
-      "height": 44,
-      "text": "Figure 1. The two-layer model: a baseline JSON-Canvas DAG with an additive _reserved overlay."
-    },
-    {
-      "id": "page2_s0_src0",
+      "id": "page2_s0_b1",
       "type": "link",
       "x": 152,
-      "y": 3128,
+      "y": 2898,
       "width": 672,
-      "height": 40,
-      "url": "https://canvas.adna.dev/specs/roundtrip-protocol-v2"
+      "height": 320,
+      "url": "https://example.org/architecture.png"
+    },
+    {
+      "id": "page2_s0_b1_cap",
+      "type": "text",
+      "x": 152,
+      "y": 3238,
+      "width": 672,
+      "height": 44,
+      "text": "Figure 2. System architecture: ingestion, reasoning lattice, and the clinician adjudication surface."
     },
     {
       "id": "page3",
@@ -182,7 +182,7 @@
       "y": 3672,
       "width": 672,
       "height": 48,
-      "text": "## Conformance in practice",
+      "text": "## Innovation",
       "color": "5"
     },
     {
@@ -191,99 +191,54 @@
       "x": 152,
       "y": 3740,
       "width": 672,
-      "height": 116,
-      "text": "The reference library canvas_std (published as adna-canvas-std, zero-dependency) validates a document at a declared level, computes a stable sync hash over the topology, and reports the three degradation checks. A consumer never reimplements these — it calls them."
+      "height": 92,
+      "text": "Unlike prior decision-support tools, the harness is context-native: every differential carries the subgraph of evidence that produced it, and the round-trip contract lets a clinician edit the graph and regenerate."
     },
     {
       "id": "page3_s0_b0",
       "type": "text",
       "x": 152,
-      "y": 3876,
+      "y": 3852,
       "width": 672,
-      "height": 138,
-      "text": "```python\nfrom canvas_std import ConformanceLevel, validate, validate_suite\n\nerrors = validate(doc, ConformanceLevel.ADNA_NATIVE)\nreport = validate_suite(doc, ConformanceLevel.ADNA_NATIVE)\nassert errors == [] and report.ok\n```"
+      "height": 116,
+      "text": "```yaml\nlattice: rare_dx_v1\nexecution_mode: hybrid\nmodules: [ingestion, reasoning_lattice, adjudication]\nfair: { license: MIT, provenance: \"federated partner sites\" }\n```"
     },
     {
-      "id": "page3_s0_b1",
-      "type": "link",
-      "x": 152,
-      "y": 4034,
-      "width": 672,
-      "height": 320,
-      "url": "https://jsoncanvas.org/assets/jsoncanvas-card.png"
-    },
-    {
-      "id": "page3_s0_b1_cap",
+      "id": "page3_s1_head",
       "type": "text",
       "x": 152,
-      "y": 4374,
-      "width": 672,
-      "height": 44,
-      "text": "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
-    },
-    {
-      "id": "page3_s0_src0",
-      "type": "link",
-      "x": 152,
-      "y": 4438,
-      "width": 672,
-      "height": 40,
-      "url": "https://canvas.adna.dev/code/canvas-std"
-    },
-    {
-      "id": "page4",
-      "type": "group",
-      "x": 80,
-      "y": 4752,
-      "width": 816,
-      "height": 1056,
-      "label": "Page 5"
-    },
-    {
-      "id": "page4_s0_head",
-      "type": "text",
-      "x": 152,
-      "y": 4824,
+      "y": 4012,
       "width": 672,
       "height": 48,
-      "text": "## Governance",
+      "text": "## Budget Justification",
       "color": "5"
     },
     {
-      "id": "page4_s0_body",
+      "id": "page3_s1_body",
       "type": "text",
       "x": 152,
-      "y": 4892,
+      "y": 4080,
       "width": 672,
       "height": 92,
-      "text": "The Standard evolves under a LIP-style process on a semantic-version line. Normative changes require a formal proposal; editorial errata may be handled at maintainer discretion. The round-trippable-to-baseline guarantee is never traded away."
+      "text": "The budget supports two ML engineers, one clinical informaticist, and federated compute. Form-fill line items are produced as content fields for the funder portal; placement is the portal's responsibility."
     },
     {
-      "id": "page4_s0_b0",
+      "id": "page3_s1_b0",
       "type": "text",
       "x": 152,
-      "y": 5004,
+      "y": 4192,
       "width": 672,
       "height": 92,
-      "text": "- MAJOR — a breaking change to the component model or round-trip contract\n- MINOR — additive, backward-compatible reserved-block extensions\n- PATCH — editorial and errata fixes"
+      "text": "- Personnel — 2.0 FTE engineering, 0.5 FTE clinical informatics.\n- Compute — federated L2 cluster time for cohort-scale reasoning.\n- Dissemination — open-source release and partner-site onboarding."
     },
     {
-      "id": "page4_s0_src0",
-      "type": "link",
-      "x": 152,
-      "y": 5116,
-      "width": 672,
-      "height": 40,
-      "url": "https://canvas.adna.dev/decisions/adr-003"
-    },
-    {
-      "id": "surface_html",
+      "id": "surface_funder_portal",
       "type": "group",
       "x": 1036,
       "y": 80,
       "width": 240,
       "height": 48,
-      "label": "surface: html"
+      "label": "surface: funder_portal"
     },
     {
       "id": "rgn_subclass",
@@ -313,11 +268,11 @@
       "toEnd": "arrow"
     },
     {
-      "id": "page0_ro_2",
-      "fromNode": "page0_s0_b0",
-      "fromSide": "bottom",
-      "toNode": "page0_s0_b0_attr",
-      "toSide": "top",
+      "id": "page0_adj_0",
+      "fromNode": "page0_s0_body",
+      "fromSide": "right",
+      "toNode": "page0_s0_src0",
+      "toSide": "left",
       "toEnd": "arrow"
     },
     {
@@ -337,18 +292,18 @@
       "toEnd": "arrow"
     },
     {
+      "id": "page1_ro_2",
+      "fromNode": "page1_s0_b0",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b0_cap",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
       "id": "page1_adj_0",
       "fromNode": "page1_s0_body",
       "fromSide": "right",
       "toNode": "page1_s0_src0",
-      "toSide": "left",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page1_adj_1",
-      "fromNode": "page1_s0_body",
-      "fromSide": "right",
-      "toNode": "page1_s0_src1",
       "toSide": "left",
       "toEnd": "arrow"
     },
@@ -372,16 +327,16 @@
       "id": "page2_ro_2",
       "fromNode": "page2_s0_b0",
       "fromSide": "bottom",
-      "toNode": "page2_s0_b0_cap",
+      "toNode": "page2_s0_b1",
       "toSide": "top",
       "toEnd": "arrow"
     },
     {
-      "id": "page2_adj_0",
-      "fromNode": "page2_s0_body",
-      "fromSide": "right",
-      "toNode": "page2_s0_src0",
-      "toSide": "left",
+      "id": "page2_ro_3",
+      "fromNode": "page2_s0_b1",
+      "fromSide": "bottom",
+      "toNode": "page2_s0_b1_cap",
+      "toSide": "top",
       "toEnd": "arrow"
     },
     {
@@ -404,48 +359,24 @@
       "id": "page3_ro_2",
       "fromNode": "page3_s0_b0",
       "fromSide": "bottom",
-      "toNode": "page3_s0_b1",
+      "toNode": "page3_s1_head",
       "toSide": "top",
       "toEnd": "arrow"
     },
     {
       "id": "page3_ro_3",
-      "fromNode": "page3_s0_b1",
+      "fromNode": "page3_s1_head",
       "fromSide": "bottom",
-      "toNode": "page3_s0_b1_cap",
+      "toNode": "page3_s1_body",
       "toSide": "top",
       "toEnd": "arrow"
     },
     {
-      "id": "page3_adj_0",
-      "fromNode": "page3_s0_body",
-      "fromSide": "right",
-      "toNode": "page3_s0_src0",
-      "toSide": "left",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page4_ro_0",
-      "fromNode": "page4_s0_head",
+      "id": "page3_ro_4",
+      "fromNode": "page3_s1_body",
       "fromSide": "bottom",
-      "toNode": "page4_s0_body",
+      "toNode": "page3_s1_b0",
       "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page4_ro_1",
-      "fromNode": "page4_s0_body",
-      "fromSide": "bottom",
-      "toNode": "page4_s0_b0",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page4_adj_0",
-      "fromNode": "page4_s0_body",
-      "fromSide": "right",
-      "toNode": "page4_s0_src0",
-      "toSide": "left",
       "toEnd": "arrow"
     },
     {
@@ -471,22 +402,14 @@
       "toNode": "page3",
       "toSide": "top",
       "toEnd": "arrow"
-    },
-    {
-      "id": "seq_3",
-      "fromNode": "page3",
-      "fromSide": "bottom",
-      "toNode": "page4",
-      "toSide": "top",
-      "toEnd": "arrow"
     }
   ],
   "metadata": {
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "0604aedc167eb191",
-          "source_name": "urn:adna:canvas:whitepaper:canvas-standard",
+          "sync_hash": "2d899db7413e7572",
+          "source_name": "urn:adna:canvas:grant:adna-harness-r01",
           "source_version": "0.1.0"
         },
         "adna_version": "2.0.0",
@@ -514,12 +437,12 @@
           "page0_s0_b0": {
             "class": "text",
             "degrades_to": "text",
-            "semantic_type": "quote"
+            "semantic_type": "list"
           },
-          "page0_s0_b0_attr": {
-            "class": "text",
-            "degrades_to": "text",
-            "semantic_type": "attribution"
+          "page0_s0_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
           },
           "page1": {
             "class": "panel",
@@ -536,19 +459,21 @@
             "degrades_to": "text"
           },
           "page1_s0_b0": {
-            "class": "table",
-            "degrades_to": "text",
+            "class": "image",
+            "degrades_to": "file",
+            "semantic_type": "figure",
             "qualities": {
-              "row_count": 3,
-              "col_count": 3
+              "substrate": "raster",
+              "producer_tool": "matplotlib",
+              "engine_route": "CanvasForge",
+              "target_page_fraction": 0.33
             }
           },
-          "page1_s0_src0": {
-            "class": "link",
-            "degrades_to": "link",
-            "semantic_type": "citation"
+          "page1_s0_b0_cap": {
+            "class": "caption",
+            "degrades_to": "text"
           },
-          "page1_s0_src1": {
+          "page1_s0_src0": {
             "class": "link",
             "degrades_to": "link",
             "semantic_type": "citation"
@@ -568,33 +493,26 @@
             "degrades_to": "text"
           },
           "page2_s0_b0": {
-            "class": "image",
-            "degrades_to": "file",
-            "semantic_type": "figure",
+            "class": "table",
+            "degrades_to": "text",
             "qualities": {
-              "substrate": "raster",
-              "producer_tool": "TikZ",
-              "engine_route": "CanvasForge",
-              "scorecard": {
-                "criteria": [
-                  "nodes",
-                  "argument",
-                  "readability",
-                  "standalone",
-                  "overcrowding"
-                ],
-                "n": 5
-              }
+              "row_count": 3,
+              "col_count": 3
             }
           },
-          "page2_s0_b0_cap": {
+          "page2_s0_b1": {
+            "class": "image",
+            "degrades_to": "link",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "external",
+              "origin": "captured",
+              "intent_class": "illustration"
+            }
+          },
+          "page2_s0_b1_cap": {
             "class": "caption",
             "degrades_to": "text"
-          },
-          "page2_s0_src0": {
-            "class": "link",
-            "degrades_to": "link",
-            "semantic_type": "citation"
           },
           "page3": {
             "class": "panel",
@@ -614,61 +532,29 @@
             "class": "code",
             "degrades_to": "text",
             "qualities": {
-              "lang": "python"
+              "lang": "yaml"
             }
           },
-          "page3_s0_b1": {
-            "class": "image",
-            "degrades_to": "link",
-            "semantic_type": "figure",
-            "qualities": {
-              "substrate": "external",
-              "origin": "captured",
-              "intent_class": "social_card"
-            }
-          },
-          "page3_s0_b1_cap": {
-            "class": "caption",
-            "degrades_to": "text",
-            "qualities": {
-              "caption_form": "claim_form"
-            }
-          },
-          "page3_s0_src0": {
-            "class": "link",
-            "degrades_to": "link",
-            "semantic_type": "citation"
-          },
-          "page4": {
-            "class": "panel",
-            "semantic_type": "page",
-            "degrades_to": "group"
-          },
-          "page4_s0_head": {
+          "page3_s1_head": {
             "class": "typography_run",
             "degrades_to": "text",
             "semantic_type": "heading"
           },
-          "page4_s0_body": {
+          "page3_s1_body": {
             "class": "text",
             "degrades_to": "text"
           },
-          "page4_s0_b0": {
+          "page3_s1_b0": {
             "class": "text",
             "degrades_to": "text",
             "semantic_type": "list"
           },
-          "page4_s0_src0": {
-            "class": "link",
-            "degrades_to": "link",
-            "semantic_type": "citation"
-          },
-          "surface_html": {
+          "surface_funder_portal": {
             "class": "region",
             "degrades_to": "group",
             "qualities": {
               "role": "derived_surface",
-              "surface": "html"
+              "surface": "funder_portal"
             }
           },
           "rgn_subclass": {
@@ -681,33 +567,51 @@
         },
         "semantic_bindings": {
           "profile": "long_document",
-          "genre": "whitepaper",
+          "genre": "grant",
           "format": {
             "length_window": {
-              "min": 5000,
-              "max": 15000,
-              "unit": "words"
+              "min": 0,
+              "max": 12,
+              "unit": "pages"
             },
+            "sections": [
+              {
+                "name": "Specific Aims",
+                "required": true,
+                "order_locked": true
+              },
+              {
+                "name": "Research Strategy",
+                "required": true,
+                "order_locked": true
+              },
+              {
+                "name": "Budget Justification",
+                "required": true,
+                "order_locked": true
+              }
+            ],
             "output_surfaces": [
               {
-                "surface": "pdf_latex",
+                "surface": "pdf",
                 "role": "canonical",
                 "aspect_ratio": "print_page"
               },
               {
-                "surface": "html",
+                "surface": "funder_portal",
                 "role": "derived"
               }
             ],
             "asset_conventions": {
-              "table_form": "booktabs",
-              "equation_form": "amsmath",
-              "figure_placement": "float"
+              "table_form": "plain",
+              "equation_form": "mathml",
+              "figure_placement": "n/a (form-bypass)"
             },
-            "round_trip_surface": "latex_source",
-            "naming_convention": {
-              "label_form": "descriptive",
-              "migration_rule": "fig:N-name -> fig:slug"
+            "round_trip_surface": "funder_portal_export",
+            "format_template_ref": {
+              "owner": "funder",
+              "template_id": "NIH-R01",
+              "resolver": "structured_form"
             }
           },
           "visual": {
@@ -717,32 +621,30 @@
             },
             "orphan_detector": {
               "mode": "label_ref",
-              "threshold": 0.2
+              "threshold": 0.1
             },
             "style_lock": {
-              "kind": "internal",
-              "provider": "lattice-styles.tex"
+              "kind": "external",
+              "provider": "NIH"
             },
             "visual_voices": [
               "visual_hierarchy",
-              "figure_text_coherence",
-              "composition",
-              "accessibility"
+              "decision_density"
             ],
             "surface_subclass": "print_page",
+            "form_fill_exemption": true,
             "default_asset": {
-              "producer_tool": "TikZ",
+              "producer_tool": "matplotlib",
               "engine_route": "CanvasForge",
               "scorecard": {
                 "criteria": [
-                  "nodes",
-                  "argument",
-                  "readability",
-                  "standalone",
-                  "overcrowding"
+                  "clarity",
+                  "page_budget",
+                  "standalone"
                 ],
-                "n": 5
-              }
+                "n": 3
+              },
+              "target_page_fraction": 0.33
             }
           }
         },
@@ -754,8 +656,8 @@
             "page0_ro_1": {
               "kind": "reading_order"
             },
-            "page0_ro_2": {
-              "kind": "reading_order"
+            "page0_adj_0": {
+              "kind": "adjacency"
             },
             "page1_ro_0": {
               "kind": "reading_order"
@@ -763,10 +665,10 @@
             "page1_ro_1": {
               "kind": "reading_order"
             },
-            "page1_adj_0": {
-              "kind": "adjacency"
+            "page1_ro_2": {
+              "kind": "reading_order"
             },
-            "page1_adj_1": {
+            "page1_adj_0": {
               "kind": "adjacency"
             },
             "page2_ro_0": {
@@ -778,8 +680,8 @@
             "page2_ro_2": {
               "kind": "reading_order"
             },
-            "page2_adj_0": {
-              "kind": "adjacency"
+            "page2_ro_3": {
+              "kind": "reading_order"
             },
             "page3_ro_0": {
               "kind": "reading_order"
@@ -793,17 +695,8 @@
             "page3_ro_3": {
               "kind": "reading_order"
             },
-            "page3_adj_0": {
-              "kind": "adjacency"
-            },
-            "page4_ro_0": {
+            "page3_ro_4": {
               "kind": "reading_order"
-            },
-            "page4_ro_1": {
-              "kind": "reading_order"
-            },
-            "page4_adj_0": {
-              "kind": "adjacency"
             },
             "seq_0": {
               "kind": "sequence"
@@ -813,9 +706,6 @@
             },
             "seq_2": {
               "kind": "sequence"
-            },
-            "seq_3": {
-              "kind": "sequence"
             }
           },
           "regions": {
@@ -824,7 +714,7 @@
               "pagination": "paged",
               "extent": {
                 "unit": "words",
-                "max": 291
+                "max": 304
               },
               "surface": "print_page"
             },
@@ -864,19 +754,10 @@
               },
               "surface": "print_page"
             },
-            "page4": {
-              "flow": "vertical",
-              "pagination": "paged",
-              "extent": {
-                "unit": "pages",
-                "max": 1
-              },
-              "surface": "print_page"
-            },
-            "surface_html": {
+            "surface_funder_portal": {
               "flow": "none",
               "pagination": "none",
-              "surface": "html"
+              "surface": "funder_portal"
             },
             "rgn_subclass": {
               "flow": "vertical",
@@ -889,25 +770,23 @@
             {
               "id": "doc_root",
               "role": "canonical",
-              "surface": "pdf_latex",
+              "surface": "pdf",
               "aspect_ratio": "print_page",
-              "round_trip": "latex_source"
+              "round_trip": "funder_portal_export"
             },
             {
-              "id": "surface_html",
+              "id": "surface_funder_portal",
               "role": "derived",
-              "surface": "html"
+              "surface": "funder_portal"
             }
           ]
         },
         "context_object": {
-          "id": "urn:adna:canvas:whitepaper:canvas-standard",
+          "id": "urn:adna:canvas:grant:adna-harness-r01",
           "version": "0.1.0",
           "refs": [
-            "[[spec_adna_canvas_standard]]",
-            "[[spec_component_model]]",
-            "[[spec_panel_link_semantics]]",
-            "[[adr_003_standard_governance]]"
+            "[[spec_format_contract]]",
+            "[[spec_visual_contract]]"
           ]
         }
       }

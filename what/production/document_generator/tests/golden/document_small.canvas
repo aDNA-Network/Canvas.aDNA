@@ -1,0 +1,402 @@
+{
+  "nodes": [
+    {
+      "id": "doc_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 976,
+      "height": 2432,
+      "label": "Small two-page document (no genre)"
+    },
+    {
+      "id": "page0",
+      "type": "group",
+      "x": 80,
+      "y": 144,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 1",
+      "isStartNode": true
+    },
+    {
+      "id": "page0_s0_head",
+      "type": "text",
+      "x": 152,
+      "y": 216,
+      "width": 672,
+      "height": 48,
+      "text": "## Introduction",
+      "color": "5"
+    },
+    {
+      "id": "page0_s0_body",
+      "type": "text",
+      "x": 152,
+      "y": 284,
+      "width": 672,
+      "height": 44,
+      "text": "A short introduction paragraph that stays well within a single page."
+    },
+    {
+      "id": "page0_s0_src0",
+      "type": "link",
+      "x": 152,
+      "y": 348,
+      "width": 672,
+      "height": 40,
+      "url": "https://example.org/spec"
+    },
+    {
+      "id": "page0_s1_head",
+      "type": "text",
+      "x": 152,
+      "y": 432,
+      "width": 672,
+      "height": 48,
+      "text": "## Background",
+      "color": "5"
+    },
+    {
+      "id": "page0_s1_body",
+      "type": "text",
+      "x": 152,
+      "y": 500,
+      "width": 672,
+      "height": 44,
+      "text": "A short background paragraph."
+    },
+    {
+      "id": "page0_s1_b0",
+      "type": "text",
+      "x": 152,
+      "y": 564,
+      "width": 672,
+      "height": 92,
+      "text": "- alpha\n- beta\n- gamma"
+    },
+    {
+      "id": "page1",
+      "type": "group",
+      "x": 80,
+      "y": 1296,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 2"
+    },
+    {
+      "id": "page1_s0_head",
+      "type": "text",
+      "x": 152,
+      "y": 1368,
+      "width": 672,
+      "height": 48,
+      "text": "## Method",
+      "color": "5"
+    },
+    {
+      "id": "page1_s0_body",
+      "type": "text",
+      "x": 152,
+      "y": 1436,
+      "width": 672,
+      "height": 44,
+      "text": "A short method paragraph."
+    },
+    {
+      "id": "page1_s0_b0",
+      "type": "text",
+      "x": 152,
+      "y": 1500,
+      "width": 672,
+      "height": 72,
+      "text": "> Keep it lean."
+    },
+    {
+      "id": "page1_s0_b0_attr",
+      "type": "text",
+      "x": 152,
+      "y": 1592,
+      "width": 672,
+      "height": 40,
+      "text": "— Mondrian"
+    },
+    {
+      "id": "page1_s1_head",
+      "type": "text",
+      "x": 152,
+      "y": 1676,
+      "width": 672,
+      "height": 48,
+      "text": "## Result",
+      "color": "5"
+    },
+    {
+      "id": "page1_s1_body",
+      "type": "text",
+      "x": 152,
+      "y": 1744,
+      "width": 672,
+      "height": 44,
+      "text": "A short result paragraph that fits comfortably."
+    }
+  ],
+  "edges": [
+    {
+      "id": "page0_ro_0",
+      "fromNode": "page0_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page0_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_1",
+      "fromNode": "page0_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_2",
+      "fromNode": "page0_s1_head",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_ro_3",
+      "fromNode": "page0_s1_body",
+      "fromSide": "bottom",
+      "toNode": "page0_s1_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page0_adj_0",
+      "fromNode": "page0_s0_body",
+      "fromSide": "right",
+      "toNode": "page0_s0_src0",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_0",
+      "fromNode": "page1_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_1",
+      "fromNode": "page1_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_2",
+      "fromNode": "page1_s0_b0",
+      "fromSide": "bottom",
+      "toNode": "page1_s0_b0_attr",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_3",
+      "fromNode": "page1_s0_b0_attr",
+      "fromSide": "bottom",
+      "toNode": "page1_s1_head",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page1_ro_4",
+      "fromNode": "page1_s1_head",
+      "fromSide": "bottom",
+      "toNode": "page1_s1_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_0",
+      "fromNode": "page0",
+      "fromSide": "bottom",
+      "toNode": "page1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "7aead7b6423a9c4e",
+          "source_name": "urn:adna:canvas:doc:small",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "doc_root": {
+            "class": "panel",
+            "semantic_type": "document",
+            "degrades_to": "group"
+          },
+          "page0": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page0_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page0_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page0_s0_src0": {
+            "class": "link",
+            "degrades_to": "link",
+            "semantic_type": "citation"
+          },
+          "page0_s1_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page0_s1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page0_s1_b0": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "list"
+          },
+          "page1": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page1_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page1_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page1_s0_b0": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "quote"
+          },
+          "page1_s0_b0_attr": {
+            "class": "text",
+            "degrades_to": "text",
+            "semantic_type": "attribution"
+          },
+          "page1_s1_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page1_s1_body": {
+            "class": "text",
+            "degrades_to": "text"
+          }
+        },
+        "semantic_bindings": {
+          "profile": "long_document"
+        },
+        "panel_link": {
+          "edges": {
+            "page0_ro_0": {
+              "kind": "reading_order"
+            },
+            "page0_ro_1": {
+              "kind": "reading_order"
+            },
+            "page0_ro_2": {
+              "kind": "reading_order"
+            },
+            "page0_ro_3": {
+              "kind": "reading_order"
+            },
+            "page0_adj_0": {
+              "kind": "adjacency"
+            },
+            "page1_ro_0": {
+              "kind": "reading_order"
+            },
+            "page1_ro_1": {
+              "kind": "reading_order"
+            },
+            "page1_ro_2": {
+              "kind": "reading_order"
+            },
+            "page1_ro_3": {
+              "kind": "reading_order"
+            },
+            "page1_ro_4": {
+              "kind": "reading_order"
+            },
+            "seq_0": {
+              "kind": "sequence"
+            }
+          },
+          "regions": {
+            "doc_root": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "words",
+                "max": 36
+              },
+              "surface": "print_page"
+            },
+            "page0": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            },
+            "page1": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "doc_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:doc:small",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]"
+          ]
+        }
+      }
+    }
+  }
+}
