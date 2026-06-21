@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-20
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260620_002812_keystone_e4_2_lf_contracts
+last_session: session_stanley_20260620_170330_keystone_e6_validation_cutover
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -12,16 +12,23 @@ tags: [state, governance, canvas, genesis]
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
+> ✅ **OPERATION KEYSTONE COMPLETE (2026-06-20).** The aDNA Canvas Standard v2.0.0 shipped as running infrastructure
+> (reference impl + parity-gated floor migration + 3 in-vault consumers, no regression); E6 validated + cutover
+> confirmed + campaign closed (operator disposition: complete-with-PT-P5-tail). **Authoritative close record:**
+> `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md` §Completion Summary + §Campaign AAR. **Open tail
+> → PT P5 + LIP queue:** `how/campaigns/campaign_canvas_genesis/missions/artifacts/e6_3_handoff_register.md`. The
+> dense sections below are retained as build history.
+
 ## Current Phase
 
-**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — Operation Keystone ACTIVE; PHASES E0+E1+E2 ✅ (reference impl + tooling) + E3 ✅ (CanvasForge migration) + E4 ✅ (E4.3 `brief_consumer` 10/10 + E4.4 `deck_generator` 16/16; E4.1/E4.2 carried as D3-gated debt). 🔓 **PHASE E5 OPENED 2026-06-19** (operator-authorized E4→E5 gate crossing: "Advance to E5" + "Ratify ADR-004"); **E5.1 ✅ DONE** — Canvas `iii/` wrapper activated (III pin **v0.5.0**) + first real canvas review on both consumers (**0 High / 0 Med** structural; pixel/VR1 PT-P5-gated). **ADR-004 ratified.** ⛔ Now HELD at the E5→E6 boundary (human gate); E5.2 (federation rollout) is partly PT-P5-coupled; the **D3 touch for E4.1/E4.2 is RESOLVED** (`adr_005` ratified 2026-06-19). **🔨 E4.1 ✅ DONE 2026-06-19** (`document_generator`, 18/18). **🔨 E4.2 ✅ DONE 2026-06-20 — PHASE E4 COMPLETE** — LF format/visual contracts (F1–F7/V1–V8/X1–X14) → declarative `_reserved` metadata + per-genre `GENRE_PROFILES`; **first `region`-class use**; **section-level reflow closes the bulk of `CANVAS-L-002`** (residual → PT P5). `document_generator` **37/37**, `ruff` clean; no regression (46/8 · 10 · 16); `canvas_std` untouched (firewall git-diff 0); structural `iii/` review **0 High / 0 Med**. No gate advanced.**
+**Operation Cartography (genesis planning) CLOSED 2026-06-13 ✅. Now in EXECUTION — **Operation Keystone COMPLETE (2026-06-20)**; PHASES E0+E1+E2 ✅ (reference impl + tooling) + E3 ✅ (CanvasForge migration) + E4 ✅ (E4.3 `brief_consumer` 10/10 + E4.4 `deck_generator` 16/16; E4.1/E4.2 carried as D3-gated debt). 🔓 **PHASE E5 OPENED 2026-06-19** (operator-authorized E4→E5 gate crossing: "Advance to E5" + "Ratify ADR-004"); **E5.1 ✅ DONE** — Canvas `iii/` wrapper activated (III pin **v0.5.0**) + first real canvas review on both consumers (**0 High / 0 Med** structural; pixel/VR1 PT-P5-gated). **ADR-004 ratified.** ✅ E5→E6 crossed + **PHASE E6 COMPLETE 2026-06-20** (E6.1 parity GREEN · E6.2 cutover confirmed · E6.3 AAR; campaign CLOSED); E5.2 (federation rollout) handed to PT P5; the **D3 touch for E4.1/E4.2 is RESOLVED** (`adr_005` ratified 2026-06-19). **🔨 E4.1 ✅ DONE 2026-06-19** (`document_generator`, 18/18). **🔨 E4.2 ✅ DONE 2026-06-20 — PHASE E4 COMPLETE** — LF format/visual contracts (F1–F7/V1–V8/X1–X14) → declarative `_reserved` metadata + per-genre `GENRE_PROFILES`; **first `region`-class use**; **section-level reflow closes the bulk of `CANVAS-L-002`** (residual → PT P5). `document_generator` **37/37**, `ruff` clean; no regression (46/8 · 10 · 16); `canvas_std` untouched (firewall git-diff 0); structural `iii/` review **0 High / 0 Med**. No gate advanced.**
 `how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis.md`
 
 Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + contracts + build charter, then **closed at the operator gate**. The operator **activated Operation Keystone** (the build). **E0** (skeleton + KEEP floor + golden fixtures) · **E1** (reference engine) · **E2** (conformance harness + v2.0.0 **JSON Schema** + the **`canvas-std` CLI**) built the reference implementation (`pytest` 46/8, `ruff` clean). **E3** (parity-gated CanvasForge migration) is now **COMPLETE** — E3.1 `canvas/` wrapper + E3.2 constants-only `canvas_core`→`canvas_std` deprecation shim + E3.3 parity gate (**GREEN**) + **E3.4 full cutover (2026-06-14)**: CanvasForge single-sources the Standard from Canvas.aDNA v2.0.0; the embedded v1.0.0 framing is superseded; the shim stays through its grace window (removal at E6.2). **🔓 E4 OPENED 2026-06-19** (operator-authorized E3→E4 crossing) — table reconciled to in-vault production; **E4.3 + E4.4 ✅ built + green** (`brief_consumer` + `deck_generator` on `canvas_std`); **⛔ now HELD at the E4→E5 phase gate (human gate).** *(Planning history: `campaign_canvas_genesis_planning/`.)*
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — E5 OPEN; E5.1 + E4 COMPLETE (E4.1+E4.2 done); ⛔ HELD at E5→E6 (human gate)
+## ▶ Resume Here — ✅ OPERATION KEYSTONE COMPLETE (2026-06-20); tail → PT P5
 
 **Phase E5 is OPEN (2026-06-19, operator-authorized E4→E5 crossing — "Advance to E5" + "Ratify ADR-004"); E5.1 is
 DONE.** (E0–E2 reference impl + E3 CanvasForge cutover + E4 consumers are complete history; the `canvas_core` shim
@@ -79,11 +86,13 @@ the bulk of `CANVAS-L-002`.
   erratum sharpened → LIP queue. Mission:
   [[how/campaigns/campaign_canvas_genesis/missions/mission_e4_2_lf_contracts|mission_e4_2]] (completed). **Phase E4 complete.**
 
-**Next: ⛔ E5→E6 is a PHASE gate (human gate) — do NOT auto-advance.** Remaining E5 = **E5.2** (federation rollout to
-ComfyUI/Astro — the ~8 producer-wrapper refederations are **PT-P5-coupled**, i.e. land at the `canvas_core`
-relocation) + **E5.3** (optional Δ2 LIP). Then E6 (cross-system parity + shim retirement E6.2 + campaign AAR E6.3).
-**Carried debt cleared:** E4.1/E4.2 (LF-successor) — **D3 touch RESOLVED** (`adr_005` ratified 2026-06-19; in-vault, supersedes `adr_002` Option-B → unblocked, unscheduled). Chartered:
-[[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] §Phases E5–E6.
+**Next: ✅ PHASE E6 COMPLETE — OPERATION KEYSTONE CLOSED (2026-06-20).** E6.1 cross-system parity **GREEN**; E6.2
+cutover confirmed at the Standard/floor level (rollback intact; shim retire scheduled 2027-06-13); E6.3 handoff
+register + context graduation + Campaign AAR. **Open tail → PT P5** (E5.2 federation rollout = the ~8
+producer-wrapper refederations + `canvas_core` relocation + v2.0.0 registration; the 55 federation-integration test
+reds are this work made concrete) **+ LIP queue** (4 spec-gap errata, `adr_003`) **+ optional** Δ2 LIP (E5.3).
+Authoritative close: [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] §Completion
+Summary; tail: `how/campaigns/campaign_canvas_genesis/missions/artifacts/e6_3_handoff_register.md`.
 
 **Open follow-ups → contracted as PT P5 items in [[what/decisions/adr_004_production_code_layout|ADR-004]] (ratified
 2026-06-19):** (1) **FU1 — canvas/-routing Standing Order** (route `what/production/` standard-consumption through
@@ -149,34 +158,32 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
 
 ## Active Blockers
 
-- **None blocking E5.1** (done + green). **E5→E6 is the human gate** — do not auto-advance. Remaining E5 = **E5.2**
-  (federation rollout — the ~8 producer-wrapper refederations are **PT-P5-coupled**) + **E5.3** (optional Δ2 LIP).
-- **✅ E4.1 + E4.2 BUILT — PHASE E4 COMPLETE** (operator opened E4.1/E4.2 at the E5 hold, SO-3; full E4.2 envelope incl.
-  reflow). `document_generator` (in-vault LF-successor) green **37/37** on `canvas_std`; structural `iii/` review 0 High/0
-  Med. **No E4 work remains.** 4 spec-gap erratum candidates (3 from E4.1 + 1 new from E4.2) in the LIP queue (see Open
-  side-tracks); `CANVAS-L-002` addressed by E4.2 reflow (residual → PT P5).
-- **ADR-004 / ADR-005: ✅ ratified 2026-06-19** — no longer blockers. (Code relocation still PT P5.)
-- **Pushes:** ✅ **all pushed to `origin/master` 2026-06-20** (operator-authorized at the E4.2 close). The held batch
-  — `68b8e7c` (E4.1) + `c1ba989` (Hestia routing-hook) + `72e3383` (E4.2) + the wind-down commit (formal AAR artifact +
-  this reconciliation) — is now upstream; branch in sync (ahead 0). Nothing held.
+- **None — OPERATION KEYSTONE COMPLETE (2026-06-20).** Core deliverable shipped + green; no Keystone work remains.
+- **Deferred (not blockers) → PT P5:** E5.2 federation rollout + the ~8 consumer-wrapper refederations (the 55
+  `test_federation_validation.py` reds — all relocation `FileNotFoundError`, **not** a floor/Standard regression) +
+  `canvas_core` relocation (ADR-004) + v2.0.0 registry registration + FU1/FU2 + parity re-baseline + the
+  `CANVAS-L-002` residual + shim-retirement execution (2027-06-13). Register: `e6_3_handoff_register.md` §A.
+- **LIP queue (`adr_003`):** 4 spec-gap errata (B1–B4). **Optional:** Δ2 LIP (E5.3).
+- **Shim:** `canvas_core→canvas_std` stays live to the E-D2 window (2027-06-13); retirement scheduled (memo to Hestia
+  for Home.aDNA §C — `who/coordination/coord_2026_06_20_mondrian_to_hestia_shim_retirement_schedule.md`).
+- **Pushes:** the E6 batch is **committed locally and HELD for operator push authorization** (all `@{u}..HEAD`
+  operator-authored). Prior batches (`68b8e7c` E4.1 · `c1ba989` Hestia hook · `72e3383` E4.2 · `2236405` wind-down)
+  already upstream.
 
 ## Next Steps
 
-1. ✅ Cartography CLOSED + Keystone E0–E2 (46/8) + E3 cutover + E4 (E4.3 10/10 + E4.4 16/16) + **E4→E5 crossed**.
-2. ✅ **ADR-004 ratified 2026-06-19** (operator countersign) — binds the PT P5 relocation target.
-3. ✅ **E5.1 DONE 2026-06-19** — `iii/` wrapper active (III pin v0.5.0) + first real canvas review (0 High / 0 Med
-   structural; pixel/VR1 PT-P5-gated); no regression.
-4. **→ ⛔ E5→E6 PHASE GATE (human gate).** Do not auto-advance. Remaining E5 = **E5.2** (federation rollout to
-   ComfyUI/Astro — the ~8 producer-wrapper refederations are **PT-P5-coupled**) + **E5.3** (optional Δ2 LIP). Likely
-   next: hold for the operator — E5.2 is mostly gated on PT P5; E5.3 (the LIP) is operator-discretionary.
-5. ✅ **E4.1 + E4.2 DONE — PHASE E4 COMPLETE** (E4.1 2026-06-19, 18/18; **E4.2 2026-06-20**, full envelope incl. reflow,
-   `document_generator` 37/37). E4.2 migrated the LF format/visual contracts (F1–F7/V1–V8/X1–X14) → declarative
-   `_reserved` metadata + per-genre `GENRE_PROFILES`; first `region`-class use; section-level reflow addressed
-   `CANVAS-L-002`. structural `iii/` review 0 High/0 Med; `canvas_std` untouched. **No E4 work remains.**
-6. **Pushes:** ✅ **done 2026-06-20** (operator-authorized) — `68b8e7c` E4.1 + `c1ba989` Hestia hook + `72e3383` E4.2 +
-   wind-down commit pushed to `origin/master`; branch in sync. Nothing held.
-7. **PT P5 watch:** ping Hestia when the `canvas_core` relocation is scheduled (she re-verifies the staged exemplar
-   resolver). Two `what/production/` residents already precede P5 (no collision).
+1. ✅ **OPERATION KEYSTONE COMPLETE (2026-06-20)** — E0–E2 reference impl (46/8) · E3 parity-gated cutover · E4 three
+   in-vault consumers (10 · 16 · 37) · E5.1 `iii/` wrapper · **E6 validation & cutover** (E6.1 GREEN · E6.2 confirmed ·
+   E6.3 AAR). Campaign `status: completed`.
+2. **→ PT P5 (Hestia / production tidy):** when the `canvas_core` relocation is scheduled, execute handoff register §A
+   — relocate `canvas_core` (ADR-004), repoint the ~8 consumer wrappers (turns the 55 `test_federation_validation.py`
+   reds green), register v2.0.0, re-baseline parity, FU1/FU2, then evaluate the shim ref-sweep for retirement
+   (2027-06-13). Ping Mondrian to re-verify the staged exemplar resolver.
+3. **LIP queue (`adr_003`):** the 4 spec-gap errata (orphan-anchor validator · quote/footnote class ·
+   sequence-vs-`region` pagination · derived-surface backing node) → governed minor-version process when prioritized.
+4. **Optional:** submit the Δ2 canvas-as-primitive LIP (E5.3); produce the migration-parity context guide
+   (graduation §D).
+5. **Push:** the E6 batch awaits operator authorization (push held per workspace discipline).
 
 ## Notes
 

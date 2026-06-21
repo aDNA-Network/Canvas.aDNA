@@ -3,8 +3,9 @@ campaign_id: campaign_canvas_genesis
 type: campaign
 title: "Operation Keystone — aDNA Canvas Standard v2.0.0, execution (build & migrate)"
 owner: stanley
-status: active
+status: completed
 activated: 2026-06-13
+completed: 2026-06-20
 phase_count: 7
 mission_count: 22
 estimated_sessions: "20-30"
@@ -231,11 +232,25 @@ extraction-shim precedent.
 > **Phase E4 is now complete (E4.1–E4.4 all done).** **⛔ E5→E6 unchanged — still the human gate.**
 
 ### Phase E6 — Validation & cutover
-| # | Mission | Sessions |
-|---|---------|----------|
-| E6.1 | Cross-system parity validation (all consumers green) | 1 |
-| E6.2 | Final cutover + rollback rehearsal; shim retirement schedule | 1 |
-| E6.3 | Campaign AAR + handoff; context graduation | 1 |
+| # | Mission | Sessions | Status |
+|---|---------|----------|--------|
+| E6.1 | Cross-system parity validation (all consumers green) | 1 | ✅ **done 2026-06-20** — GREEN; `canvas_std` frozen + 4 suites green; deck-SHA delta root-caused to a relocation absolute-path (benign) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e6_1_parity_validation\|mission]]) |
+| E6.2 | Final cutover + rollback rehearsal; shim retirement schedule | 1 | ✅ **done 2026-06-20** — cutover confirmed (floor 835/3 green); rollback intact; shim retire scheduled 2027-06-13; federation-integration reds → PT P5 ([[how/campaigns/campaign_canvas_genesis/missions/mission_e6_2_cutover_shim_schedule\|mission]]) |
+| E6.3 | Campaign AAR + handoff; context graduation | 1 | ✅ **done 2026-06-20** — handoff register + graduation; Campaign AAR below; **campaign CLOSED** (operator disposition: complete-with-PT-P5-tail) ([[how/campaigns/campaign_canvas_genesis/missions/mission_e6_3_campaign_aar\|mission]]) |
+
+> **🔓 PHASE E6 OPENED + COMPLETE (2026-06-20) — operator-authorized E5→E6 gate crossing** (AskUserQuestion: "Advance
+> to E6"). **E6.1 GREEN** — `canvas_std` provably frozen since E0.2 (firewall git-diff 0); four suites green (46/8 ·
+> 10 · 16 · 37, `ruff` clean); all four examples `adna_native [OK]` + D-1/D-2/D-3. Two anomalies **run down, not
+> waved**: (1) the deck parity `deck_norm_sha256` drift (`aa675665→0d741640`) root-caused to a single node's
+> **absolute image path** changing when pt09 archived CanvasForge under `Archive.aDNA/` (55/56 node bodies
+> byte-identical, 0 floor rejects — benign); (2) the CanvasForge KEEP suite now **835/3 floor-green + 55 red**
+> `test_federation_validation.py` — **all** `FileNotFoundError` on relocated consumer-wrapper lattices (SS/CC),
+> **zero `canvas_std`/floor API breakage** → the E5.2 / **PT-P5 wrapper-refederation** layer, not a regression.
+> **E6.2** confirmed the cutover at the Standard/floor level (rollback intact; shim retire scheduled 2027-06-13,
+> memo to Hestia). **E6.3** consolidated the handoff register (PT-P5 tail A1–A9 · LIP queue B1–B4 · graduation
+> report) + the Campaign AAR. **Operator disposition: mark completed with the PT-P5 tail.** **OPERATION KEYSTONE
+> COMPLETE.** Artifacts: `missions/artifacts/e6_1_parity_report.md` · `e6_2_cutover_confirmation.md` ·
+> `e6_3_handoff_register.md`.
 
 ## Decision Points (mostly inherited — ratified at Cartography)
 
@@ -299,8 +314,48 @@ skeleton) is in progress. E0.2+ proceed per the phase plan; phase gates remain h
 
 ## Completion Summary
 
-*Fill out at campaign close.*
+**Operation Keystone is COMPLETE (2026-06-20).** It shipped the ratified **aDNA Canvas Standard v2.0.0** as running
+infrastructure, with no output regression against locked baselines:
+
+- **E0–E2 — reference implementation.** `canvas_std` (`what/code/canvas_std/`): schema floor + validators +
+  round-trip converters + `_reserved` validators + conformance harness + the v2.0.0 **JSON Schema** + the
+  `canvas-std` **CLI**. `pytest` 46/8, `ruff` clean; no stubs.
+- **E3 — parity-gated CanvasForge migration.** `canvas/` federation wrapper + the constants-only
+  `canvas_core→canvas_std` deprecation shim; **parity GREEN** (shim output-neutral, deterministic structural proof);
+  full cutover 2026-06-14; baseline `3ce4d341` intact; v1.0.0 framing superseded by banner (archive-never-delete).
+- **E4 — three in-vault consumers on `canvas_std` alone.** `brief_consumer` 10/10 (single-page) · `deck_generator`
+  16/16 (multi-slide; image + table; first `sequence` chain) · `document_generator` 37/37 (long-form LF-successor —
+  E4.1 multi-page + first `code` component; E4.2 LF format/visual contracts F1–F7/V1–V8/X1–X14 → declarative
+  `_reserved` + `GENRE_PROFILES` + first `region` class + section reflow closing the bulk of `CANVAS-L-002`). The
+  **two-shelf firewall held** (`canvas_std` git-diff 0 across all of E4).
+- **E5.1 — quality wiring.** `iii/` wrapper live @ III v0.5.0; structural reviews **0 High / 0 Med** (pixel/VR1
+  honestly deferred to PT P5).
+- **E6 — validation & cutover.** Cross-system parity **GREEN** (E6.1); cutover confirmed at the Standard/floor level
+  (E6.2; floor 835/3 green, rollback intact); shim retirement **scheduled** 2027-06-13; handoff register + context
+  graduation (E6.3). Two relocation-induced anomalies surfaced at validation, both root-caused to the pt09 archive
+  move and neither implicating `canvas_std` — recorded + handed to PT P5.
+- **Ratified ADRs:** `adr_000` (identity) · `adr_004` (production code layout) · `adr_005` (LF-successor in-vault).
+  Inherited D2/D3/D6 + E-D1/E-D2 settled at Cartography/E3.
+
+**Closed with `status: completed` (operator disposition 2026-06-20: complete-with-PT-P5-tail).** The deferred tail
+is fully documented in `missions/artifacts/e6_3_handoff_register.md`: **PT P5** owns relocation + federation rollout
+(E5.2; the ~8 consumer-wrapper refederations = the 55 federation-integration test reds) + v2.0.0 registration +
+FU1/FU2 + parity re-baseline + the `CANVAS-L-002` residual + shim-retirement execution; the **LIP queue** (`adr_003`)
+owns 4 spec-gap errata; the **Δ2 canvas-as-primitive LIP** (E5.3) is optional.
 
 ## Campaign AAR
 
-*Mandatory before `status: completed`.*
+- **Worked**: Parity-gating every producer migration + the **two-shelf firewall** (`canvas_std` producer-neutral,
+  git-diff 0 across all of E4) kept the Standard clean while production evolved around it; the **deterministic,
+  API-free structural parity proof** made cutover safe without LLM-rescore noise or baseline-write risk.
+- **Didn't**: E5.2 federation rollout never ran in-campaign — externally PT-P5-coupled from the start; and the
+  mid-campaign **pt09 archive relocation** silently broke the archived KEEP reference's absolute-path + sibling-vault
+  path resolution, surfacing only at E6 validation.
+- **Finding**: Re-validation at close **earned its keep** — re-running the suites (rather than trusting the E3.x
+  green records) caught both relocation breakages and proved, via a content diff against the *committed* locked
+  reference, that `canvas_std` itself was untouched. Trust-but-verify beats trust-the-record across a relocation.
+- **Change**: Campaign close now ships a consolidated **handoff register** as the canonical tail-of-record; and the
+  parity check should diff against the **committed locked reference** (path-robust), not a prior-capture SHA
+  (path-fragile, as the absolute-image-path drift showed).
+- **Follow-up**: PT P5 (relocation + federation rollout + v2.0.0 registration + the 55 federation tests) · the LIP
+  queue (4 spec-gap errata) · the optional migration-parity context guide (graduation §D) · Δ2 LIP (E5.3, optional).

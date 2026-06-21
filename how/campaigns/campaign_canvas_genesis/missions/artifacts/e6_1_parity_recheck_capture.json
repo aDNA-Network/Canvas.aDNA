@@ -1,0 +1,36 @@
+{
+  "comic_fingerprint": {
+    "colors": [
+      "4",
+      "6"
+    ],
+    "node_types": [
+      "file",
+      "group",
+      "text"
+    ],
+    "shapes": []
+  },
+  "comic_floor_rejects": [],
+  "comic_nodes": 11,
+  "deck_edges": 20,
+  "deck_fingerprint": {
+    "colors": [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    "node_types": [
+      "file",
+      "group",
+      "text"
+    ],
+    "shapes": [
+      "pill"
+    ]
+  },
+  "deck_floor_rejects": [],
+  "deck_nodes": 56,
+  "deck_norm_sha256": "0d7416408b75b5cc8027580294e10315adb05e2b0b0b8efa699f578d8b98288e"
+}

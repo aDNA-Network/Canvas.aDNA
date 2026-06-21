@@ -1,7 +1,7 @@
 ---
 type: manifest
 created: 2026-06-06
-updated: 2026-06-19
+updated: 2026-06-20
 last_edited_by: agent_stanley
 persona: Mondrian (locked — P0 2026-06-06)
 category: Platform.aDNA (standard-bearer — Δ1 Option P, locked P0 2026-06-06)
@@ -24,7 +24,7 @@ Canvas.aDNA is the **standard-bearer**. **CanvasForge** (Hermes — spatial subs
 
 ## Status
 
-**Execution — Operation Keystone; PHASES E0–E3 ✅, ⛔ HELD at E3→E4 (human gate).** Operation Cartography (planning) closed 2026-06-13; the operator activated **Operation Keystone** (`how/campaigns/campaign_canvas_genesis/`) — the build. **E0–E2** shipped the `canvas_std` **reference implementation** (validators · round-trip · conformance harness · v2.0.0 **JSON Schema** · `canvas-std` CLI; `pytest` 46/8, `ruff` clean). **E3** = the parity-gated **CanvasForge migration** onto `canvas_std` (full cutover 2026-06-14 — CanvasForge single-sources v2.0.0 via the `canvas/` wrapper + the `canvas_core`→`canvas_std` shim). **pt09** (2026-06-17) absorbed CanvasForge **production** (deck·comic·diagram) into this vault — Hermes merged into Mondrian; code relocates at **PT P5**. **ADR-004** (proposed 2026-06-19) fixes that P5 layout (`canvas_core` → `what/production/`). **E4** (LF-successor + net-new consumer) is the next phase and is a human gate. See `STATE.md`.
+**✅ OPERATION KEYSTONE COMPLETE (2026-06-20) — the aDNA Canvas Standard v2.0.0 shipped as running infrastructure.** Operation Cartography (planning) closed 2026-06-13; the operator activated **Operation Keystone** (the build), now closed `status: completed`. **E0–E2** shipped the `canvas_std` **reference implementation** (validators · round-trip · conformance harness · v2.0.0 **JSON Schema** · `canvas-std` CLI; `pytest` 46/8, `ruff` clean). **E3** = the parity-gated **CanvasForge migration** onto `canvas_std` (full cutover 2026-06-14 via the `canvas/` wrapper + the `canvas_core→canvas_std` shim). **E4** stood up **three in-vault consumers** on `canvas_std` alone — `brief_consumer` 10/10 · `deck_generator` 16/16 · `document_generator` 37/37 (long-form LF-successor; the two-shelf firewall held, `canvas_std` git-diff 0). **E5.1** wired the `iii/` quality wrapper (III v0.5.0; 0 High/0 Med). **E6** validated cross-system parity (GREEN), confirmed the cutover, scheduled the shim retirement (2027-06-13), and closed the campaign (operator disposition: complete-with-PT-P5-tail). **Open tail → PT P5** (`canvas_core` relocation per ADR-004 + federation rollout E5.2 + v2.0.0 registration) **+ LIP queue** (4 spec-gap errata, `adr_003`). Ratified: `adr_000` · `adr_004` · `adr_005`. See `STATE.md` + `how/campaigns/campaign_canvas_genesis/` §Completion Summary + `missions/artifacts/e6_3_handoff_register.md`.
 
 ## Architecture (aDNA triad)
 

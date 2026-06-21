@@ -3,9 +3,10 @@
 Reference implementation of the **aDNA Canvas Standard v2.0.0** — the runnable tooling Canvas.aDNA ships as the
 standard-bearer Platform (Option P): **validators · round-trip converters · conformance harness**.
 
-> **Status: E0.1 skeleton.** The public API is stubbed (signatures match the ratified specs; bodies raise
-> `NotImplementedError`). Behavior is filled by Operation Keystone E0.2 (the verbatim KEEP floor) and E1 (the
-> implementation). This package is **not yet functional** — it is the frozen API surface E1 builds against.
+> **Status: complete (Operation Keystone E0–E2).** The reference implementation is functional — schema floor,
+> validators, round-trip converters, `_reserved` validators, and the conformance harness + `canvas-std` CLI are all
+> live; no stubs remain. `pytest` **46 passed / 8 skipped**, `ruff` clean. Validated against all in-vault consumers
+> at E6.1 (no regression). See `CHANGELOG.md` for the per-mission build log.
 
 ## What it is
 
@@ -24,7 +25,7 @@ package is its reference tooling. The normative specs live in the vault at `Canv
 
 ```bash
 pip install -e ".[dev]"
-make test     # pytest (the smoke test passes; behavior tests land with E1)
+make test     # pytest (46 passed / 8 skipped)
 make lint     # ruff
 ```
 
