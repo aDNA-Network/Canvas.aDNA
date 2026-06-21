@@ -3,8 +3,8 @@
 All notable changes to the reference implementation. The package version is distinct from the Standard version
 it implements (`STANDARD_VERSION`).
 
-## [Unreleased]
-### Added (LIP queue B1 — anchor-layer validator; Standard v2.0.1 errata, **release-cut pending operator**)
+## [2.0.1] — 2026-06-20 (LIP queue errata — B1 + B3 + B2; Standard v2.0.1)
+### Added (LIP queue B1 — anchor-layer validator)
 - `reserved.py`: `validate_anchors(reserved, node_ids)` — the `spec_panel_link_semantics` §5.3/§6 anchor layer
   (`naming_convention.label_form` ∈ {descriptive,legacy} + string `migration_rule`; `orphan_detector.mode` ∈
   {label_ref,src_cited} + `threshold` ∈ [0,1]; every `panel_link.anchors` entry + every explicit component
@@ -16,12 +16,19 @@ it implements (`STANDARD_VERSION`).
   consumer regression (`document_generator` 37 / `deck_generator` 16 / `brief_consumer` 10; all 4 example canvases [OK]).
 - Closes LIP-queue **B1** (Keystone handoff §B). Spec errata applied: `spec_panel_link_semantics` §5.3/§6 (anchor
   model) + §4/§5.1 (**B3** pagination-construct clarification).
-- **Standard release v2.0.1 PREPARED, HELD for operator release-cut.** When cut, bump in one shot →
-  `STANDARD_VERSION` (`__init__.py`), schema `title` + `x-standard-version` (keep `$id` — structural schema is
-  unchanged), `conformance.py` CLI/doc strings, `test_smoke.py` (×2) + `test_conformance.py` (×1) assertions, the
-  7 `what/specs/spec_*.md` `standard_version` frontmatters, and the `spec_federation_contract.md` §2.1 example,
-  all `2.0.0` → `2.0.1`. (Fixtures' `_reserved.adna_version` stays `2.0.0` — a 2.0.0-authored canvas remains valid
-  under the 2.0.1 validator.)
+- **B2 (ride-on-text, PATCH).** `spec_component_model` §4.4 registers the canonical long-form `semantic_type`
+  values (`quote`/`block_quote`/`footnote`/`attribution`) on `class: text` — no new taxonomy class (Mondrian
+  reduction); `reserved.py` gains the informational `LONGFORM_SEMANTIC_TYPES` registry (no validator rejects other
+  values); `tests/fixtures/adna_longform_quote.canvas` + `tests/test_longform.py` lock the convention (a footnote's
+  `qualities.ref` resolves via `validate_anchors`, B1). Closes LIP-queue **B2** (operator chose option (ii)).
+  **Suite: `pytest` 80 passed / 10 skipped; `ruff` clean.** No consumer regression (`document_generator` 37 /
+  `deck_generator` 16 / `brief_consumer` 10; all 5 example/corpus canvases [OK]).
+- **Standard release v2.0.1 CUT 2026-06-20 (operator authorized).** Bumped in one shot → `STANDARD_VERSION`
+  (`__init__.py`), schema `title` + `x-standard-version` (kept `$id` — structural schema unchanged),
+  `conformance.py` CLI/doc strings, `test_smoke.py` (×2) + `test_conformance.py` (×1) assertions, the 7
+  `what/specs/spec_*.md` `standard_version` frontmatters, and the `spec_federation_contract.md` §2.1 example, all
+  `2.0.0` → `2.0.1`. (Fixtures' `_reserved.adna_version` stays `2.0.0` — a 2.0.0-authored canvas remains valid
+  under the 2.0.1 validator. Spec doc *titles* name the v2.0.x line and stay as prose.)
 
 ### Added (E2.3 — publish: JSON Schema + CLI; Phase E2 complete)
 - `src/canvas_std/data/adna_canvas_v2.schema.json`: the v2.0.0 JSON Schema (draft 2020-12; structural floor +

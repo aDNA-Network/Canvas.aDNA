@@ -44,6 +44,10 @@ OD_MODES: frozenset[str] = frozenset({"label_ref", "src_cited"})            # or
 # Component `qualities` keys that declare an explicit cross-reference to an anchor (each value MUST resolve).
 ANCHOR_REF_KEYS: tuple[str, ...] = ("ref", "anchor", "anchor_ref", "cites", "for")
 
+# Canonical long-form text semantic_types (spec_component_model §4.4 — B2 ride-on-text; carried on class: text,
+# not dedicated taxonomy classes). Informational registry — no validator rejects other semantic_type values.
+LONGFORM_SEMANTIC_TYPES: frozenset[str] = frozenset({"quote", "block_quote", "footnote", "attribution"})
+
 _SEMVER = re.compile(r"^\d+\.\d+\.\d+")
 _HEX16 = re.compile(r"^[0-9a-f]{16}$")
 

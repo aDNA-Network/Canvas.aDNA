@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_adna_canvas_standard
 title: "aDNA Canvas Standard v2.0.0 — normative specification"
-standard_version: "2.0.0"
+standard_version: "2.0.1"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-12

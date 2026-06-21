@@ -2,10 +2,10 @@
 type: spec
 spec_id: spec_component_model
 title: "aDNA Canvas component model (D4) — typed components across all 2D outputs"
-standard_version: "2.0.0"
+standard_version: "2.0.1"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-20
 last_edited_by: agent_stanley
 phase: P2
 resolves: D4
@@ -45,6 +45,9 @@ Rendering of any component is **producer** business (C8).
 
 A component class **MUST** degrade: stripping `_reserved` leaves a valid baseline node/group/edge ([[spec_adna_canvas_standard]] §11).
 
+> **Ride-on-text (§4.4):** long-form *quote* / *block_quote* / *footnote* / *attribution* roles are carried on
+> `text` via canonical `semantic_type` values — deliberately **not** dedicated classes — keeping this taxonomy minimal.
+
 ## 3. Component record schema
 
 Each entry in `_reserved.component_types` is keyed by node/edge `id`:
@@ -73,6 +76,17 @@ bidirectional, weak(short-dashed,circle-outline)`.
 4.3. New domains (deck, comic, paper, letter, site) register **additional** profiles (e.g. `deck`, `document`)
 without altering the `lattice` profile. A profile's tokens **MUST** stay within the [[spec_adna_canvas_standard]]
 §6 enums (so Extended-level degradation holds).
+
+4.4. **Long-form text semantic_types (ride-on-text).** Quote and footnote roles ride on `class: text` through
+canonical `semantic_type` **values**, not dedicated taxonomy classes (§2 stays at its current size — the Mondrian
+reduction). The Standard registers four canonical long-form values — `quote`, `block_quote`, `footnote`,
+`attribution` — each carried on a `text` component (`degrades_to: text`). A `quote`/`block_quote` component
+**SHOULD** carry `qualities.attribution` (a source string, or a ref to an `attribution` node). A `footnote`
+component **SHOULD** carry an explicit anchor reference `qualities.ref` to the in-text anchor it backs — resolved
+by the anchor validator (B1, `spec_panel_link_semantics` §5.3/§6; `canvas_std::validate_anchors`), so a footnote
+that points nowhere is a no-orphaned-anchor violation. Tooling discovers the value set via
+`canvas_std.reserved.LONGFORM_SEMANTIC_TYPES`. Because these are **values, not classes**, a stripper still leaves a
+valid `text` node and a producer that ignores them renders plain prose (C8).
 
 ## 5. CSS-class & role-attribute bindings (⚑ C2/C3)
 

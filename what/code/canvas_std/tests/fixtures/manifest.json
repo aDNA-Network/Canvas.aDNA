@@ -72,6 +72,15 @@
       "expected_level_reached": "extended",
       "expected_ok": false,
       "note": "Negative (B1): caption qualities.ref -> 'fig_missing' is an orphaned anchor (A-5). Extended-valid, aDNA-Native fails. Reaches Extended."
+    },
+    {
+      "path": "adna_longform_quote.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "note": "Long-form ride-on-text (B2, spec_component_model §4.4): quote/block_quote/attribution/footnote roles carried on class: text via semantic_type (no dedicated class); footnote qualities.ref -> a declared anchor (resolves, B1). Valid aDNA-Native."
     }
   ]
 }

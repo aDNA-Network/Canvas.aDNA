@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_panel_link_semantics
 title: "aDNA Canvas panel/link semantics (D5) — flow, pagination, reading-order for non-DAG outputs"
-standard_version: "2.0.0"
+standard_version: "2.0.1"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-20
@@ -18,12 +18,12 @@ tags: [spec, canvas, panel-link, flow, pagination, genesis, p2, d5]
 > comics, sites) express reading-order, flow, pagination, and regions **without breaking lattice-graph
 > semantics**. Additive in `_reserved.panel_link`. RFC 2119 keywords.
 >
-> **Errata 2026-06-20 (LIP queue B1/B3; ships in the pending v2.0.1 release-cut).** §5.3/§6 **sharpened** to
+> **Errata 2026-06-20 (LIP queue B1/B3; ships in v2.0.1, cut 2026-06-20).** §5.3/§6 **sharpened** to
 > define the anchor model normatively (the previously under-specified "orphan check"); §4/§5.1 **clarified** to
 > resolve the pagination-construct ambiguity (a page is a `panel` carrying a `region`; pagination is
 > region-declared; the `sequence` unit is the section-panel). These are clarifications/errata — they make explicit
 > what §6 already mandated, changing no rule. The reference validator now enforces the anchor layer
-> (`canvas_std::validate_anchors`). `standard_version` advances to 2.0.1 when the operator cuts the release
+> (`canvas_std::validate_anchors`). `standard_version` advanced to 2.0.1 at the operator's release-cut 2026-06-20
 > (`what/decisions/lip_queue_disposition.md`).
 
 ## 1. Scope & the non-breaking guarantee

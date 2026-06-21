@@ -2,7 +2,7 @@
 type: decision
 artifact_type: lip_draft
 title: "LIP DRAFT — quote / footnote: dedicated component classes vs ride-on-text (B2)"
-status: draft
+status: resolved
 created: 2026-06-20
 updated: 2026-06-20
 last_edited_by: agent_stanley
@@ -13,10 +13,20 @@ tags: [lip, draft, canvas, component-model, quote, footnote, errata, b2]
 
 # LIP DRAFT — `quote` / `footnote`: dedicated classes vs ride-on-text (B2)
 
-> **DRAFT — NOT SUBMITTED, NOT RATIFIED.** Staged in Canvas.aDNA as the B2 decision vehicle (LIP queue,
-> `lip_queue_disposition.md`). A draft for the lattice-labs LIP process (`lip_0001_lip_process.md`); it does not
-> number itself, and **no change to `spec_component_model` or `canvas_std` occurs unless and until a real LIP
-> ratifies it.** Awaiting operator disposition.
+> **RESOLVED 2026-06-20 — option (ii) ride-on-text, applied as PATCH in v2.0.1.** Staged in Canvas.aDNA as the B2
+> decision vehicle (LIP queue, `lip_queue_disposition.md`). The operator chose ride-on-text, which is a PATCH
+> clarification (maintainer discretion, [[adr_003_standard_governance]] §2 — no lattice-labs LIP required). See
+> **Disposition** below; the original options + recommendation are retained as the decision record.
+
+## Disposition — RESOLVED 2026-06-20 (operator)
+
+**Operator chose option (ii) — formalize ride-on-text.** Applied as a **PATCH** (errata) and folded into **v2.0.1**:
+`spec_component_model.md` **§4.4** registers the canonical long-form `semantic_type` values (`quote`,
+`block_quote`, `footnote`, `attribution`) on `class: text` plus the two SHOULDs; `canvas_std.reserved`
+**`LONGFORM_SEMANTIC_TYPES`** gives the set a code home; the corpus fixture `adna_longform_quote.canvas` +
+`tests/test_longform.py` lock the convention (a footnote's `qualities.ref` resolves via B1's `validate_anchors`).
+Option (i) (dedicated `quote`/`footnote` classes, MINOR) was **not taken** — the §2 taxonomy stays at 14 classes
+(Mondrian reduction). The draft body below is retained as the decision record.
 
 ## Summary
 

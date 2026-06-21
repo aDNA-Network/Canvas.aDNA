@@ -25,7 +25,7 @@ from canvas_std.validate import (
 )
 
 __version__ = "0.1.0"  # package version
-STANDARD_VERSION = "2.0.0"  # the aDNA Canvas Standard version this package implements (distinct, per P2)
+STANDARD_VERSION = "2.0.1"  # the aDNA Canvas Standard version this package implements (distinct, per P2)
 UPSTREAM_BASELINE = "Advanced Canvas v5.6.6 + JSON Canvas 1.0"  # PIN-A (p1_fork_baseline §1)
 
 __all__ = [

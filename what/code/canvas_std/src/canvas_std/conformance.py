@@ -66,7 +66,7 @@ def validate_suite(doc: dict[str, Any], declared: ConformanceLevel = Conformance
 
 
 def json_schema() -> dict[str, Any]:
-    """Return the published v2.0.0 JSON Schema (the structural contract; semantic checks are in the validator)."""
+    """Return the published v2.0.1 JSON Schema (the structural contract; semantic checks are in the validator)."""
     text = resources.files("canvas_std").joinpath("data/adna_canvas_v2.schema.json").read_text()
     return json.loads(text)
 
@@ -84,14 +84,14 @@ def _cli(argv: list[str] | None = None) -> int:
     import argparse
     from pathlib import Path
 
-    p = argparse.ArgumentParser(prog="canvas-std", description="aDNA Canvas Standard v2.0.0 reference tooling")
+    p = argparse.ArgumentParser(prog="canvas-std", description="aDNA Canvas Standard v2.0.1 reference tooling")
     sub = p.add_subparsers(dest="cmd", required=True)
     v = sub.add_parser("validate", help="run the conformance suite on a .canvas file")
     v.add_argument("file")
     v.add_argument("--level", choices=[lvl.value for lvl in ConformanceLevel], default=None,
                    help="declared level (default: the doc's _reserved.conformance_level, else core)")
     v.add_argument("--json", action="store_true", dest="as_json", help="emit the report as JSON")
-    sub.add_parser("schema", help="print the v2.0.0 JSON Schema")
+    sub.add_parser("schema", help="print the v2.0.1 JSON Schema")
     args = p.parse_args(argv)
 
     if args.cmd == "schema":

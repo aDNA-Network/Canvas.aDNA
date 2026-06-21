@@ -1,0 +1,121 @@
+{
+  "nodes": [
+    {
+      "id": "page1",
+      "type": "group",
+      "x": -20,
+      "y": -20,
+      "width": 320,
+      "height": 560,
+      "label": "Page 1"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 280,
+      "height": 100,
+      "text": "Mondrian reduced composition to a grid of straight lines and primary fields."
+    },
+    {
+      "id": "pq",
+      "type": "text",
+      "x": 0,
+      "y": 120,
+      "width": 280,
+      "height": 80,
+      "text": "The grid is not a cage but a grammar."
+    },
+    {
+      "id": "bq",
+      "type": "text",
+      "x": 0,
+      "y": 220,
+      "width": 280,
+      "height": 100,
+      "text": "We must reduce to the fewest elements that still express the whole."
+    },
+    {
+      "id": "attr",
+      "type": "text",
+      "x": 0,
+      "y": 340,
+      "width": 280,
+      "height": 40,
+      "text": "— De Stijl, 1917"
+    },
+    {
+      "id": "fn1",
+      "type": "text",
+      "x": 0,
+      "y": 400,
+      "width": 280,
+      "height": 60,
+      "text": "1. On reduction as a universal visual language."
+    }
+  ],
+  "edges": [
+    {
+      "id": "body_bq",
+      "fromNode": "body",
+      "fromSide": "bottom",
+      "toNode": "bq",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "sync": {
+          "sync_hash": "0000000000000000",
+          "source_name": "longform_quote_doc",
+          "source_version": "0.1.0"
+        },
+        "component_types": {
+          "body": { "class": "text", "degrades_to": "text" },
+          "pq": {
+            "class": "text",
+            "semantic_type": "quote",
+            "degrades_to": "text",
+            "qualities": { "attribution": "— P. Mondrian, 1926" }
+          },
+          "bq": {
+            "class": "text",
+            "semantic_type": "block_quote",
+            "degrades_to": "text",
+            "qualities": { "attribution": "attr" }
+          },
+          "attr": { "class": "text", "semantic_type": "attribution", "degrades_to": "text" },
+          "fn1": {
+            "class": "text",
+            "semantic_type": "footnote",
+            "degrades_to": "text",
+            "qualities": { "ref": "note-1" }
+          }
+        },
+        "semantic_bindings": { "profile": "long_document" },
+        "panel_link": {
+          "edges": { "body_bq": { "kind": "reading_order" } },
+          "regions": {
+            "page1": {
+              "flow": "vertical",
+              "pagination": "continuous",
+              "surface": "letter"
+            }
+          },
+          "surfaces": [{ "id": "page1", "role": "canonical" }],
+          "anchors": { "note-1": "body" }
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:longform_quote_doc",
+          "version": "0.1.0",
+          "refs": ["[[spec_component_model]]"]
+        }
+      }
+    }
+  }
+}

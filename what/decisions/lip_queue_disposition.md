@@ -29,6 +29,17 @@ tags: [decision, standard, lip, errata, governance, disposition]
 
 All four are **C4-safe**: each is `_reserved`-scoped (or a reference-impl check) — stripping `_reserved` still yields a valid baseline canvas; none touches a top-level node/edge key or a `styleAttributes` token. None blocks a valid v2.0.0.
 
+## Closeout — operator decisions (2026-06-20)
+
+The four gates were taken at the post-Keystone closeout (`session_stanley_20260620_200612_lip_queue_closeout`):
+- **B1, B3** — implemented/clarified the prior session; **cut into v2.0.1** here.
+- **B2** — operator chose **(ii) ride-on-text**; **applied as PATCH**, folded into **v2.0.1** (`spec_component_model`
+  §4.4 + `canvas_std.reserved.LONGFORM_SEMANTIC_TYPES` + `adna_longform_quote` fixture/test). Draft
+  `lip_draft_text_quote_footnote_class.md` → resolved.
+- **B4** — operator chose **(ii) pure metadata**; a **MINOR** A-5 relaxation, so **direction locked but not applied**
+  — it rides a lattice-labs LIP (≥7-day review) → **v2.1.0**. Draft `lip_draft_derived_surface_metadata.md` updated.
+- **v2.0.1** — **cut 2026-06-20** (B1 + B3 + B2); see Release packaging.
+
 ---
 
 ## B1 — orphan-anchor + `naming_convention` validator  ·  PATCH → v2.0.1  ·  IMPLEMENT
@@ -88,15 +99,15 @@ The orphan-**traversal** engine (scanning prose for "Figure 2" refs per `orphan_
 
 ## Release packaging
 
-- **v2.0.1 — content DONE, release-cut HELD for operator.** B1 (validator + §5.3/§6 sharpen) + B3 (§4/§5.1
-  clarification) are implemented and green at `STANDARD_VERSION = "2.0.0"`. Cutting the release is a deliberate,
-  governed act (it changes the reference impl's *reported* Standard version + the schema identity + 4 test
-  assertions across 11 files) — held as a human gate, not bumped unilaterally. **One-shot bump when authorized:**
+- **v2.0.1 — CUT 2026-06-20** (operator authorized). B1 (validator + §5.3/§6 sharpen) + B3 (§4/§5.1 clarification)
+  + **B2** (ride-on-text §4.4 + `LONGFORM_SEMANTIC_TYPES`) bumped `STANDARD_VERSION` `2.0.0` → `2.0.1` (the
+  reference impl's *reported* version + schema identity-title + test assertions). **One-shot bump applied at:**
   `STANDARD_VERSION` (`canvas_std/__init__.py`) · schema `title` + `x-standard-version` (keep `$id` — structural
   schema unchanged) · `conformance.py` CLI/doc strings · `test_smoke.py` (×2) + `test_conformance.py` (×1)
   assertions · the 7 `what/specs/spec_*.md` `standard_version` frontmatters · `spec_federation_contract.md` §2.1
   example — all `2.0.0` → `2.0.1`. Fixtures' `_reserved.adna_version` stays `2.0.0` (a 2.0.0 canvas stays valid
   under the 2.0.1 validator). Then re-run `pytest`/`ruff` (expect green) + the 4 example-canvas validations.
-- **v2.1.0 (future, post-decision):** whichever of B2/B4 lands as MINOR, via the LIP process (Draft → review ≥7d → Final).
+- **v2.1.0 (next):** **B4** pure-metadata (operator-approved direction 2026-06-20) lands here as a **MINOR** A-5
+  relaxation via the LIP process (Draft → submit to lattice-labs → review ≥7d → Final). B2 already landed in v2.0.1 (PATCH).
 - **Alternative considered:** hold the *whole* errata until B2/B4 are decided and cut one release. **Rejected** —
   the B1 conformance content (the silent §6 gap) is done now; only the version *label* waits on the operator.

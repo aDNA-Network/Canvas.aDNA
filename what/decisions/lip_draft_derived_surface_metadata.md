@@ -13,10 +13,27 @@ tags: [lip, draft, canvas, panel-link, surface, conformance, errata, b4]
 
 # LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)
 
-> **DRAFT — NOT SUBMITTED, NOT RATIFIED.** Staged in Canvas.aDNA as the B4 decision vehicle (LIP queue,
-> `lip_queue_disposition.md`). A draft for the lattice-labs LIP process (`lip_0001_lip_process.md`); it does not
-> number itself, and **no change to `spec_conformance_suite` (A-5), `spec_panel_link_semantics §5.2`, or
-> `canvas_std` occurs unless and until a real LIP ratifies it.** Awaiting operator disposition.
+> **DIRECTION APPROVED 2026-06-20 (operator) — option (ii) pure metadata; NOT YET RATIFIED.** Staged in Canvas.aDNA
+> as the B4 decision vehicle (LIP queue, `lip_queue_disposition.md`). Because (ii) **relaxes A-5** it is a **MINOR**
+> change that **MUST** ride a real lattice-labs LIP (`lip_0001_lip_process.md`, ≥7-day review) before any code/spec
+> change — so **no change to `spec_conformance_suite` (A-5), `spec_panel_link_semantics §5.2`, or `canvas_std`
+> occurs this session**; it lands in **v2.1.0** when the LIP reaches Final. See **Disposition** below.
+
+## Disposition — DIRECTION LOCKED 2026-06-20 (operator); pending LIP → v2.1.0
+
+**Operator chose option (ii) — relax A-5, derived surfaces as pure metadata** (drop the synthetic `region`-class
+backing node). This is a **MINOR** conformance relaxation, so — unlike B2 — it is **not** applied as a PATCH this
+session; it rides the formal LIP process:
+
+1. **Submit** this draft to `lattice-labs/how/governance/lips/` (number it; cross-vault, operator-owned) and start
+   the **≥7-day review** (calendar gate, `lip_0001_lip_process.md`).
+2. **On Final → land in v2.1.0** at the confirmed sites: `canvas_std/reserved.py::validate_panel_link` surfaces
+   loop (`reserved.py:161–168`) changes from "every surface `id` resolves" to "the canonical surface resolves; a
+   `role: derived` surface MAY omit `id`"; amend conformance **A-5** (`spec_conformance_suite.md`) +
+   `spec_panel_link_semantics §5.2`; producers (`document_generator/consume.py`) may then stop minting the marker.
+
+Backwards-compatible (relaxing): every currently-valid canvas stays valid. Option (i) (keep/bless the backing node)
+**not taken**. The draft body below is retained as the decision record.
 
 ## Summary
 

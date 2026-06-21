@@ -51,6 +51,12 @@ lands in PT P5 (federation/relocation), the LIP queue (Standard errata), or an o
 > recommend metadata). Both await an operator decision; to **Final** needs the ≥7-day LIP review.
 > **Release:** B1+B3 packaged as **v2.0.1**, content done at `STANDARD_VERSION=2.0.0`, **release-cut HELD for operator**.
 
+> **Closeout 2026-06-20 (`session_stanley_20260620_200612_lip_queue_closeout`):** **B2 → (ii) ride-on-text APPLIED**
+> (PATCH → v2.0.1; `spec_component_model §4.4` + `canvas_std.reserved.LONGFORM_SEMANTIC_TYPES` + the
+> `adna_longform_quote` fixture/test; draft resolved). **B4 → (ii) pure metadata, DIRECTION LOCKED** — a MINOR A-5
+> relaxation, so it rides a lattice-labs LIP (≥7-day review) → **v2.1.0** (no code this session). **v2.0.1 CUT**
+> (B1 + B3 + B2; `STANDARD_VERSION` 2.0.0 → 2.0.1). Remaining LIP-queue tail = the B4 LIP submission only.
+
 ## C. Separate / optional tracks
 
 - **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): optional, cross-vault (touches the aDNA

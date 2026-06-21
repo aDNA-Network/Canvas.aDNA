@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-20
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260620_170330_keystone_e6_validation_cutover
+last_session: session_stanley_20260620_200612_lip_queue_closeout
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -28,7 +28,7 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ OPERATION KEYSTONE COMPLETE (2026-06-20); tail → PT P5
+## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE CLOSED (v2.0.1 cut + pushed 2026-06-20); tail → B4 LIP + PT P5
 
 **Phase E5 is OPEN (2026-06-19, operator-authorized E4→E5 crossing — "Advance to E5" + "Ratify ADR-004"); E5.1 is
 DONE.** (E0–E2 reference impl + E3 CanvasForge cutover + E4 consumers are complete history; the `canvas_core` shim
@@ -163,18 +163,21 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
   `test_federation_validation.py` reds — all relocation `FileNotFoundError`, **not** a floor/Standard regression) +
   `canvas_core` relocation (ADR-004) + v2.0.0 registry registration + FU1/FU2 + parity re-baseline + the
   `CANVAS-L-002` residual + shim-retirement execution (2027-06-13). Register: `e6_3_handoff_register.md` §A.
-- **LIP queue (`adr_003`) — WORKED 2026-06-20** (`mission_lip_queue_errata`): **B1 ✅ implemented** (orphan-anchor +
-  `naming_convention` validator `canvas_std::validate_anchors`; `spec_panel_link_semantics` §5.3/§6 sharpened; suite
-  **70/10** + `ruff` clean; **no consumer regression** 37/16/10 + 4 examples [OK]). **B3 ✅ clarified** in-spec (§4/§5.1
-  pagination construct). **B2 + B4 → drafted + GATED** (`lip_draft_text_quote_footnote_class` · `lip_draft_derived_surface_metadata`;
-  operator decides). Disposition: `what/decisions/lip_queue_disposition.md`. **Optional:** Δ2 LIP (E5.3).
-- **v2.0.1 release-cut — HELD for operator** (#needs-human): B1+B3 content done at `STANDARD_VERSION=2.0.0`; cutting
-  the version is a governed act (one-shot bump list in the disposition + `canvas_std/CHANGELOG.md`).
+- **LIP queue (`adr_003`) — CLOSED 2026-06-20** (`mission_lip_queue_errata` + closeout `session_…_200612`): **B1 ✅**
+  (`validate_anchors`) + **B3 ✅** (pagination clarified) + **B2 ✅** (operator chose ride-on-text — `spec_component_model`
+  §4.4 + `LONGFORM_SEMANTIC_TYPES` + `adna_longform_quote` fixture/test) all shipped in **v2.0.1**. **B4** (operator chose
+  pure-metadata) is a **MINOR** A-5 relaxation → **direction locked, pending a lattice-labs LIP (≥7-day) → v2.1.0** (no
+  code yet). Disposition: `what/decisions/lip_queue_disposition.md`. **Remaining LIP tail = the B4 LIP submission** +
+  optional Δ2 LIP (E5.3).
+- **v2.0.1 release — CUT 2026-06-20** (operator authorized): B1+B3+B2 at `STANDARD_VERSION=2.0.1` (one-shot bump per
+  the disposition); `canvas_std` **80/10** + `ruff` clean; no consumer regression (37/16/10); 4 examples + the B2
+  fixture validate `[OK]` (`canvas-std 2.0.1`). Schema `$id` kept at v2.0.0 (structural-unchanged); fixtures'
+  `adna_version` stays 2.0.0; spec doc *titles* name the v2.0.x line (prose, unbumped).
 - **Shim:** `canvas_core→canvas_std` stays live to the E-D2 window (2027-06-13); retirement scheduled (memo to Hestia
   for Home.aDNA §C — `who/coordination/coord_2026_06_20_mondrian_to_hestia_shim_retirement_schedule.md`).
-- **Pushes:** the E6 batch (`da93bbd`) **+ the LIP-queue-errata commit** are **committed locally and HELD for operator
-  push authorization** (all `@{u}..HEAD` operator-authored). Prior batches (`68b8e7c` E4.1 · `c1ba989` Hestia hook ·
-  `72e3383` E4.2 · `2236405` wind-down) already upstream.
+- **Pushes:** the v2.0.1-cut batch — **`da93bbd` (E6) + `fc1a42d` (LIP queue) + the v2.0.1-cut commit** — **pushed
+  2026-06-20** (operator authorized; all `@{u}..HEAD` were operator-authored). Prior batches (`72e3383` E4.2 ·
+  `2236405` wind-down) already upstream.
 
 ## Next Steps
 
@@ -185,18 +188,15 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
    — relocate `canvas_core` (ADR-004), repoint the ~8 consumer wrappers (turns the 55 `test_federation_validation.py`
    reds green), register v2.0.0, re-baseline parity, FU1/FU2, then evaluate the shim ref-sweep for retirement
    (2027-06-13). Ping Mondrian to re-verify the staged exemplar resolver.
-3. **LIP queue (`adr_003`) — B1/B3 DONE 2026-06-20; B2/B4 + release-cut GATED:**
-   - ✅ **B1** orphan-anchor + `naming_convention` validator implemented (`validate_anchors`); ✅ **B3** pagination
-     construct clarified in-spec. Disposition: `what/decisions/lip_queue_disposition.md`.
-   - ◻ **Operator decisions** — (a) **B2** quote/footnote: add classes vs ride-on-text (recommend ride-on-text;
-     `lip_draft_text_quote_footnote_class`); (b) **B4** derived surface: backing node vs pure metadata (recommend
-     metadata; `lip_draft_derived_surface_metadata`); (c) **cut v2.0.1?** (one-shot bump list in the disposition).
-   - ◻ taking B2/B4 LIPs to **Final** needs the ≥7-day review period (calendar-gated, operator-owned).
+3. **LIP queue (`adr_003`) — CLOSED 2026-06-20:** B1 + B3 + **B2** (ride-on-text) shipped in **v2.0.1** (cut + pushed);
+   **B4** (pure-metadata) direction-locked. **Only remaining LIP item:** submit the **B4** LIP to
+   `lattice-labs/how/governance/lips/` and run the ≥7-day review → land the A-5 relaxation in **v2.1.0** (cross-vault,
+   calendar-gated, operator-owned). Disposition: `what/decisions/lip_queue_disposition.md`.
 4. **Optional:** submit the Δ2 canvas-as-primitive LIP (E5.3); produce the migration-parity context guide
    (graduation §D).
 5. **→ PT P5 (Hestia / production tidy):** unchanged — `canvas_core` relocation + the ~8 wrapper refederations +
    v2.0.0 (or v2.0.1) registry registration + parity re-baseline (handoff register §A).
-6. **Push:** the E6 batch + the LIP-queue-errata commit await operator authorization (push held per workspace discipline).
+6. **Push:** ✅ done 2026-06-20 — the v2.0.1-cut batch (E6 `da93bbd` + LIP `fc1a42d` + the cut commit) pushed.
 
 ## Notes
 

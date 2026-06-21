@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_federation_contract
 title: "aDNA Canvas federation contract — how producers consume the Standard"
-standard_version: "2.0.0"
+standard_version: "2.0.1"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-12
@@ -36,7 +36,7 @@ federation_ref:
   source_path:        ~/aDNA/Canvas.aDNA
   source_spec:        what/specs/spec_adna_canvas_standard.md      # the normative core
   source_impl:        what/code/canvas_std/                        # reference validator/converters (Option P)
-  version:            "2.0.0"
+  version:            "2.0.1"
   version_policy:     minor                                        # minor | locked  (§3)
   conformance_target: extended | adna_native                      # the level this producer commits to emit
   specs_used:                                                      # the spec modules consumed

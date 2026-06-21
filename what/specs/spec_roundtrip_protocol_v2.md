@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_roundtrip_protocol_v2
 title: "aDNA Canvas Round-Trip Protocol v2 — authoritative-source ↔ view"
-standard_version: "2.0.0"
+standard_version: "2.0.1"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-12
