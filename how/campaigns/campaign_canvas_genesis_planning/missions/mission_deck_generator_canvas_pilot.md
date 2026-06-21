@@ -3,13 +3,13 @@ plan_id: mission_deck_generator_canvas_pilot
 type: plan
 title: "Deck Generator — graph→canvas-object pilot (Lattice Protocol)"
 owner: stanley
-status: planned
+status: completed
 campaign_id: campaign_canvas_genesis_planning
 campaign_phase: P4-candidate
 campaign_mission_number: null
 mission_class: reconnaissance
 created: 2026-06-07
-updated: 2026-06-07
+updated: 2026-06-21
 last_edited_by: agent_stanley
 tags: [plan, campaign, canvas, deck, generator, pilot, execution-candidate, parked]
 ---
@@ -119,8 +119,26 @@ contracts; round-trip to PDF/GDoc verified; conformance + D2/D4/D7 evidence file
 
 ## Completion Summary
 
-*Fill out when (if) this is promoted into the execution campaign and completed.*
+**`completed` 2026-06-21** (reconciled in the post-Keystone backlog triage). The mission's core goal — *a canvas-object
+deck generator producing a v2.0.0-conformant `.canvas` from a graph/spec* — was **delivered by Operation Keystone phase
+E4.4**: `deck_generator` shipped green (**16/16**) at `what/production/deck_generator/`, on `canvas_std` alone. The
+captured persona-III + accuracy-guardrail **method** (§Method) was the reusable IP this recon mission existed to
+preserve; it informed the E4 consumer work and the `iii/` quality wrapper (E5.1).
+
+**Premise reshaped by PT pt09 (2026-06-17):** the original "deck generator as a *producer over CanvasForge's
+`canvas_presentation`" framing (objectives 1–5, prior-art KEEP table) was superseded when CanvasForge was absorbed into
+Canvas.aDNA — production is now **in-vault** (`what/production/`), so E4.4 built the generator directly rather than as
+an external producer. The granular pre-pt09 objectives (CanvasForge cataloging, pptx round-trip comparison) were not
+executed as written; the goal they served was met by the in-vault path. No further build is owed.
 
 ## AAR
 
-*Mandatory before `status: completed`. (Parked mission — AAR for the authoring of this capture lives in the session file `session_stanley_20260607_203011_deck_generator_planning`.)*
+- **Worked:** capturing the graph→deck method + worked exemplar as a parked recon mission preserved the IP across the
+  planning→build boundary; E4.4 built on it cleanly.
+- **Didn't:** the detailed objectives 1–5 were authored against the pre-pt09 "producer over CanvasForge" architecture,
+  which the merge invalidated before they ran.
+- **Finding:** parked recon missions that pin a specific *architecture* (vs. a goal) risk going stale when the org
+  topology shifts; the goal survived, the scoped steps did not.
+- **Change:** reconciled to `completed` (goal fulfilled by E4.4) rather than re-scoping dead objectives.
+- **Follow-up:** none for the deck path. The comic/diagram production layers absorbed at pt09 are net-new candidates
+  for a future campaign, tracked separately — not this mission.

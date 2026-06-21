@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-06-20
+updated: 2026-06-21
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260620_225259_lip_review_open
+last_session: session_stanley_20260621_141753_backlog_triage
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -28,9 +28,19 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + TAIL CLEARED + LIP-0008/0009 REVIEW OPENED & ALL BATCHES PUSHED (2026-06-20); tail → review closes 2026-06-27 (→ v2.1.0 on LIP-0008 Final) + PT P5
+## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + LIP-0008/0009 REVIEW OPENED (2026-06-20) + BACKLOG TRIAGED (2026-06-21); tail → review closes 2026-06-27 (→ v2.1.0 on LIP-0008 Final) + PT P5
 
-> **▶ FULL CLOSEOUT EXECUTED (this session, `session_stanley_20260620_225259_lip_review_open`).** Operator chose the
+> **▶ POST-KEYSTONE BACKLOG TRIAGED (this session, `session_stanley_20260621_141753_backlog_triage`).** Operator chose
+> "triage + work backlog." Result: **6 of 7 ideas were inherited `.adna` template scaffold** (`agent_init` 2026-04-04,
+> `campaign_adna_polish`; root README / `.adna/README.md` / Obsidian plugins / aDNA banner+logo / generic startup) →
+> **quarantined** to `how/backlog/_inherited_scaffold/` (mirrors the campaigns precedent; `git mv`, SO-6) with
+> provenance + owning-vault routing (aDNA.aDNA / aDNALabs.aDNA). The 1 canonical idea
+> (`idea_deck_generator_canvas_pilot`) was **already shipped as E4.4** → marked `implemented`; its parked planning
+> mission reconciled to `completed` (SO-5 AAR). Root cause filed upstream
+> (`idea_upstream_fork_inherits_stale_backlog` → `aDNA-Network/aDNA`). **Live Canvas backlog is now clean** (1
+> implemented + 1 upstream). No code touched (firewall git-diff 0); **PT P5 + LIP review unchanged.**
+
+> **▶ FULL CLOSEOUT EXECUTED (prior session, `session_stanley_20260620_225259_lip_review_open`).** Operator chose the
 > full closeout — all three operator-gated actions taken: **(1)** Canvas.aDNA `6fe95c1` **pushed** (`87db9d0..6fe95c1`);
 > **(2)** the lattice-labs LIP batch **committed surgically + pushed** (`ba635dfb` — staged only `lip_0008` + `lip_0009`
 > + `lip_registry.md`; the owner's dirty `.obsidian/` tree left untouched, no `git add -A`); **(3)** **Review OPENED** on

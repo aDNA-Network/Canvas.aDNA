@@ -133,9 +133,18 @@ When an idea accumulates enough context and gets user buy-in:
 
 ## Current Backlog
 
+> Triaged 2026-06-21 (post-Keystone, `session_stanley_20260621_141753_backlog_triage`). Live backlog holds only
+> Canvas-canonical objects; inherited `.adna` template scaffold was quarantined → `_inherited_scaffold/`.
+
 | Idea | Category | Status | Priority | Effort |
 |------|----------|--------|----------|--------|
-| *(none yet)* | | | | |
+| `idea_deck_generator_canvas_pilot` | pipeline | implemented | high | plan |
+| `idea_upstream_fork_inherits_stale_backlog` | governance | proposed | medium | quick |
+
+**Archived (non-canonical):** `_inherited_scaffold/` holds 6 inherited `campaign_adna_polish` template ideas (demo
+GIF · plugin trim · inner-README III · custom logo · banner variants · startup optimization) — they concern the aDNA
+workspace/template/brand, not the Canvas Standard, and route to `aDNA.aDNA` / `aDNALabs.aDNA`. See
+[[how/backlog/_inherited_scaffold/README|_inherited_scaffold/README]].
 
 ## Load/Skip Decision
 

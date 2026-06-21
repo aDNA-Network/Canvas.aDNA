@@ -3,13 +3,13 @@ idea_id: idea_deck_generator_canvas_pilot
 type: backlog
 title: "Deck Generator — graph→canvas-object pilot (Lattice Protocol)"
 category: pipeline
-status: proposed
+status: implemented
 priority: high
 effort: plan
 proposed_by: agent_stanley
 proposed_date: 2026-06-07
 created: 2026-06-07
-updated: 2026-06-07
+updated: 2026-06-21
 last_edited_by: agent_stanley
 plan_id: mission_deck_generator_canvas_pilot
 tags: [backlog, canvas, deck, generator, pilot, graph-to-canvas, lattice-protocol]
@@ -53,5 +53,10 @@ canvas object." **No build now** (campaign constraint C3) — this is an executi
 
 ## Decision
 
-Filled in when status changes to `planned`, `implemented`, or `rejected`. (Parked as an execution-campaign
-candidate; opens when the v2.0.0 spec (P2) lands and the operator opens the execution campaign.)
+**`implemented` 2026-06-21** (post-Keystone backlog triage). The parked pilot was **fulfilled by Operation Keystone
+phase E4.4** — `deck_generator`, a graph/spec → v2.0.0 aDNA-Native deck `.canvas` consumer built on `canvas_std`
+alone, shipped green (**16/16**) at `what/production/deck_generator/`. The persona-III + accuracy-guardrail method this
+idea captured fed the E4 consumer work; the worked Lattice technical-brief exemplar informed D2/D4/D7. Linked planning
+mission `mission_deck_generator_canvas_pilot` reconciled to `completed` (fulfilled-by-E4.4) the same day. No further
+build is owed; the optional comic/diagram production layers absorbed at pt09 remain net-new candidates for a future
+campaign, not this idea.
