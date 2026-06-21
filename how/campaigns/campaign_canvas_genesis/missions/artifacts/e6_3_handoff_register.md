@@ -41,6 +41,16 @@ lands in PT P5 (federation/relocation), the LIP queue (Standard errata), or an o
 > These are **additive/non-breaking** (new class / new validator / a metadata question) → handle as v2.0.x **minor**
 > via the `adr_003` LIP process; they do **not** block a valid v2.0.0.
 
+> **Disposition 2026-06-20 (`mission_lip_queue_errata`, `what/decisions/lip_queue_disposition.md`):**
+> **B1 ✅ DONE** — `canvas_std::validate_anchors` implemented + `spec_panel_link_semantics §5.3/§6` sharpened (anchor
+> model); suite 70/10, `ruff` clean, no consumer regression. **PATCH.**
+> **B3 ✅ DONE** — clarified in-spec (§4/§5.1: a page is a `panel` carrying a `region`; pagination region-declared;
+> `sequence` unit = section-panel). **PATCH.**
+> **B2 ◻ DRAFTED + GATED** — `lip_draft_text_quote_footnote_class.md` (add classes vs ride-on-text; recommend
+> ride-on-text). **B4 ◻ DRAFTED + GATED** — `lip_draft_derived_surface_metadata.md` (backing node vs pure metadata;
+> recommend metadata). Both await an operator decision; to **Final** needs the ≥7-day LIP review.
+> **Release:** B1+B3 packaged as **v2.0.1**, content done at `STANDARD_VERSION=2.0.0`, **release-cut HELD for operator**.
+
 ## C. Separate / optional tracks
 
 - **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): optional, cross-vault (touches the aDNA

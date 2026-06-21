@@ -4,6 +4,25 @@ All notable changes to the reference implementation. The package version is dist
 it implements (`STANDARD_VERSION`).
 
 ## [Unreleased]
+### Added (LIP queue B1 — anchor-layer validator; Standard v2.0.1 errata, **release-cut pending operator**)
+- `reserved.py`: `validate_anchors(reserved, node_ids)` — the `spec_panel_link_semantics` §5.3/§6 anchor layer
+  (`naming_convention.label_form` ∈ {descriptive,legacy} + string `migration_rule`; `orphan_detector.mode` ∈
+  {label_ref,src_cited} + `threshold` ∈ [0,1]; every `panel_link.anchors` entry + every explicit component
+  anchor-reference (`qualities` key ∈ {ref,anchor,anchor_ref,cites,for}) resolves — **no orphaned anchors**).
+  Wired into `validate_reserved`. Constants `NC_LABEL_FORMS` / `OD_MODES` / `ANCHOR_REF_KEYS`. The orphan-*traversal*
+  engine stays producer-side (C8).
+- `tests/fixtures/adna_anchored.canvas` (valid) + `adna_orphan_anchor.canvas` (negative — orphan ref) + manifest
+  entries; `tests/test_anchors.py` (12 unit + e2e). **Suite: `pytest` 70 passed / 10 skipped; `ruff` clean.** No
+  consumer regression (`document_generator` 37 / `deck_generator` 16 / `brief_consumer` 10; all 4 example canvases [OK]).
+- Closes LIP-queue **B1** (Keystone handoff §B). Spec errata applied: `spec_panel_link_semantics` §5.3/§6 (anchor
+  model) + §4/§5.1 (**B3** pagination-construct clarification).
+- **Standard release v2.0.1 PREPARED, HELD for operator release-cut.** When cut, bump in one shot →
+  `STANDARD_VERSION` (`__init__.py`), schema `title` + `x-standard-version` (keep `$id` — structural schema is
+  unchanged), `conformance.py` CLI/doc strings, `test_smoke.py` (×2) + `test_conformance.py` (×1) assertions, the
+  7 `what/specs/spec_*.md` `standard_version` frontmatters, and the `spec_federation_contract.md` §2.1 example,
+  all `2.0.0` → `2.0.1`. (Fixtures' `_reserved.adna_version` stays `2.0.0` — a 2.0.0-authored canvas remains valid
+  under the 2.0.1 validator.)
+
 ### Added (E2.3 — publish: JSON Schema + CLI; Phase E2 complete)
 - `src/canvas_std/data/adna_canvas_v2.schema.json`: the v2.0.0 JSON Schema (draft 2020-12; structural floor +
   enums + `_reserved` carrier). `conformance.json_schema()` loads it (importlib.resources). Exported.

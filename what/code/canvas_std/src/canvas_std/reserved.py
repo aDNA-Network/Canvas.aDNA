@@ -38,6 +38,12 @@ PL_FLOW: frozenset[str] = frozenset({"none", "vertical", "horizontal", "columns"
 PL_PAGINATION: frozenset[str] = frozenset({"none", "paged", "continuous"})
 PL_EXTENT_UNITS: frozenset[str] = frozenset({"words", "pages", "slides"})
 
+# Anchor layer vocabularies (spec_panel_link_semantics §5.3/§6).
+NC_LABEL_FORMS: frozenset[str] = frozenset({"descriptive", "legacy"})       # naming_convention.label_form (F7/X8)
+OD_MODES: frozenset[str] = frozenset({"label_ref", "src_cited"})            # orphan_detector.mode (X2)
+# Component `qualities` keys that declare an explicit cross-reference to an anchor (each value MUST resolve).
+ANCHOR_REF_KEYS: tuple[str, ...] = ("ref", "anchor", "anchor_ref", "cites", "for")
+
 _SEMVER = re.compile(r"^\d+\.\d+\.\d+")
 _HEX16 = re.compile(r"^[0-9a-f]{16}$")
 
@@ -76,6 +82,10 @@ def validate_reserved(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str
         errors += validate_panel_link(reserved["panel_link"], node_ids, doc.get("edges", []), edge_ids)
     if "context_object" in reserved:
         errors += _validate_context_object(reserved["context_object"])
+
+    # A-5 anchor layer (spec_panel_link_semantics §5.3/§6) — naming/orphan declaration + reference resolution.
+    # Spans semantic_bindings + panel_link + component_types, so it takes the whole reserved block.
+    errors += validate_anchors(reserved, node_ids)
     return errors
 
 
@@ -156,6 +166,68 @@ def validate_panel_link(block: dict[str, Any], node_ids: set[str], edges: list[A
         for s in surfaces:
             if isinstance(s, dict) and s.get("id") not in node_ids:
                 errors.append(f"A-5: surface id {s.get('id')!r} does not resolve to a node/group")
+    return errors
+
+
+def validate_anchors(reserved: dict[str, Any], node_ids: set[str]) -> list[str]:
+    """spec_panel_link_semantics §5.3/§6 — the declarative anchor layer the Standard owns.
+
+    Validates ``naming_convention`` / ``orphan_detector`` well-formedness (wherever declared — on the LF contract
+    bindings ``semantic_bindings.format``/``visual``, or on ``panel_link``) and that every declared anchor and
+    every *explicit* component anchor-reference resolves (no orphaned anchor). The orphan-*traversal* engine
+    (prose label scanning per ``orphan_detector.mode``) is producer-side (C8) and is NOT run here.
+    """
+    errors: list[str] = []
+    if not isinstance(reserved, dict):
+        return errors
+
+    pl = reserved.get("panel_link")
+    pl = pl if isinstance(pl, dict) else {}
+
+    # naming_convention / orphan_detector may ride on the LF contract bindings (F7/X8/X2) or on panel_link.
+    decl_blocks: list[dict[str, Any]] = [pl]
+    sb = reserved.get("semantic_bindings")
+    if isinstance(sb, dict):
+        decl_blocks += [sb[k] for k in ("format", "visual") if isinstance(sb.get(k), dict)]
+
+    for blk in decl_blocks:
+        nc = blk.get("naming_convention")
+        if isinstance(nc, dict):
+            lf = nc.get("label_form")
+            if lf is not None and lf not in NC_LABEL_FORMS:
+                errors.append(f"A-5: naming_convention.label_form {lf!r} not in {sorted(NC_LABEL_FORMS)}")
+            mr = nc.get("migration_rule")
+            if mr is not None and not isinstance(mr, str):
+                errors.append(f"A-5: naming_convention.migration_rule must be a string (got {type(mr).__name__})")
+        od = blk.get("orphan_detector")
+        if isinstance(od, dict):
+            mode = od.get("mode")
+            if mode is not None and mode not in OD_MODES:
+                errors.append(f"A-5: orphan_detector.mode {mode!r} not in {sorted(OD_MODES)}")
+            th = od.get("threshold")
+            if th is not None and not (isinstance(th, (int, float)) and not isinstance(th, bool) and 0 <= th <= 1):
+                errors.append(f"A-5: orphan_detector.threshold {th!r} must be a number in [0, 1]")
+
+    # Optional anchor registry: a label -> baseline node-id map; every entry resolves.
+    anchors = pl.get("anchors")
+    anchor_labels: set[str] = set()
+    if isinstance(anchors, dict):
+        anchor_labels = set(anchors)
+        for label, target in anchors.items():
+            if isinstance(target, str) and target not in node_ids:
+                errors.append(f"A-5: panel_link.anchors[{label!r}] references missing node {target!r}")
+
+    # Explicit component anchor-references must resolve to a node id or a declared anchor label (no orphan).
+    comp = reserved.get("component_types")
+    if isinstance(comp, dict):
+        for nid, entry in comp.items():
+            quals = entry.get("qualities") if isinstance(entry, dict) else None
+            if not isinstance(quals, dict):
+                continue
+            for key in ANCHOR_REF_KEYS:
+                target = quals.get(key)
+                if isinstance(target, str) and target not in node_ids and target not in anchor_labels:
+                    errors.append(f"A-5: component {nid!r} {key} references missing anchor {target!r}")
     return errors
 
 

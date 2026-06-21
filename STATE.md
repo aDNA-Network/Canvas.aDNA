@@ -163,12 +163,18 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
   `test_federation_validation.py` reds — all relocation `FileNotFoundError`, **not** a floor/Standard regression) +
   `canvas_core` relocation (ADR-004) + v2.0.0 registry registration + FU1/FU2 + parity re-baseline + the
   `CANVAS-L-002` residual + shim-retirement execution (2027-06-13). Register: `e6_3_handoff_register.md` §A.
-- **LIP queue (`adr_003`):** 4 spec-gap errata (B1–B4). **Optional:** Δ2 LIP (E5.3).
+- **LIP queue (`adr_003`) — WORKED 2026-06-20** (`mission_lip_queue_errata`): **B1 ✅ implemented** (orphan-anchor +
+  `naming_convention` validator `canvas_std::validate_anchors`; `spec_panel_link_semantics` §5.3/§6 sharpened; suite
+  **70/10** + `ruff` clean; **no consumer regression** 37/16/10 + 4 examples [OK]). **B3 ✅ clarified** in-spec (§4/§5.1
+  pagination construct). **B2 + B4 → drafted + GATED** (`lip_draft_text_quote_footnote_class` · `lip_draft_derived_surface_metadata`;
+  operator decides). Disposition: `what/decisions/lip_queue_disposition.md`. **Optional:** Δ2 LIP (E5.3).
+- **v2.0.1 release-cut — HELD for operator** (#needs-human): B1+B3 content done at `STANDARD_VERSION=2.0.0`; cutting
+  the version is a governed act (one-shot bump list in the disposition + `canvas_std/CHANGELOG.md`).
 - **Shim:** `canvas_core→canvas_std` stays live to the E-D2 window (2027-06-13); retirement scheduled (memo to Hestia
   for Home.aDNA §C — `who/coordination/coord_2026_06_20_mondrian_to_hestia_shim_retirement_schedule.md`).
-- **Pushes:** the E6 batch is **committed locally and HELD for operator push authorization** (all `@{u}..HEAD`
-  operator-authored). Prior batches (`68b8e7c` E4.1 · `c1ba989` Hestia hook · `72e3383` E4.2 · `2236405` wind-down)
-  already upstream.
+- **Pushes:** the E6 batch (`da93bbd`) **+ the LIP-queue-errata commit** are **committed locally and HELD for operator
+  push authorization** (all `@{u}..HEAD` operator-authored). Prior batches (`68b8e7c` E4.1 · `c1ba989` Hestia hook ·
+  `72e3383` E4.2 · `2236405` wind-down) already upstream.
 
 ## Next Steps
 
@@ -179,11 +185,18 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
    — relocate `canvas_core` (ADR-004), repoint the ~8 consumer wrappers (turns the 55 `test_federation_validation.py`
    reds green), register v2.0.0, re-baseline parity, FU1/FU2, then evaluate the shim ref-sweep for retirement
    (2027-06-13). Ping Mondrian to re-verify the staged exemplar resolver.
-3. **LIP queue (`adr_003`):** the 4 spec-gap errata (orphan-anchor validator · quote/footnote class ·
-   sequence-vs-`region` pagination · derived-surface backing node) → governed minor-version process when prioritized.
+3. **LIP queue (`adr_003`) — B1/B3 DONE 2026-06-20; B2/B4 + release-cut GATED:**
+   - ✅ **B1** orphan-anchor + `naming_convention` validator implemented (`validate_anchors`); ✅ **B3** pagination
+     construct clarified in-spec. Disposition: `what/decisions/lip_queue_disposition.md`.
+   - ◻ **Operator decisions** — (a) **B2** quote/footnote: add classes vs ride-on-text (recommend ride-on-text;
+     `lip_draft_text_quote_footnote_class`); (b) **B4** derived surface: backing node vs pure metadata (recommend
+     metadata; `lip_draft_derived_surface_metadata`); (c) **cut v2.0.1?** (one-shot bump list in the disposition).
+   - ◻ taking B2/B4 LIPs to **Final** needs the ≥7-day review period (calendar-gated, operator-owned).
 4. **Optional:** submit the Δ2 canvas-as-primitive LIP (E5.3); produce the migration-parity context guide
    (graduation §D).
-5. **Push:** the E6 batch awaits operator authorization (push held per workspace discipline).
+5. **→ PT P5 (Hestia / production tidy):** unchanged — `canvas_core` relocation + the ~8 wrapper refederations +
+   v2.0.0 (or v2.0.1) registry registration + parity re-baseline (handoff register §A).
+6. **Push:** the E6 batch + the LIP-queue-errata commit await operator authorization (push held per workspace discipline).
 
 ## Notes
 
