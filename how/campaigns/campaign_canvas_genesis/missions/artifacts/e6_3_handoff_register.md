@@ -58,14 +58,20 @@ lands in PT P5 (federation/relocation), the LIP queue (Standard errata), or an o
 > (B1 + B3 + B2; `STANDARD_VERSION` 2.0.0 → 2.0.1). Remaining LIP-queue tail = the B4 LIP submission only.
 
 > **Tail progress 2026-06-20 (`session_stanley_20260620_221404_post_keystone_tail`):** B4 **FILED as LIP-0008
-> (Draft)** in `lattice-labs/how/governance/lips/` (+ `lip_registry.md`) — awaiting operator/FA Review-open (the
-> ≥7-day gate) → lands in Canvas Standard **v2.1.0** on Final. The errata **queue is fully drained.**
+> (Draft)** in `lattice-labs/how/governance/lips/` (+ `lip_registry.md`) → lands in Canvas Standard **v2.1.0** on Final.
+> The errata **queue is fully drained.**
+>
+> **Closeout 2026-06-20 (`session_stanley_20260620_225259_lip_review_open`):** the lattice-labs LIP batch (LIP-0008 +
+> LIP-0009 + registry) was **committed surgically + pushed** (`ba635dfb`), the Canvas tail batch (`6fe95c1`) was
+> **pushed**, and **Review was OPENED** on both LIPs (status Draft→Review; LIP-0001 ≥7-day period, **earliest close
+> 2026-06-27**). Next: on/after 2026-06-27 the FA accepts/rejects each LIP (LIP-0008 Final → v2.1.0; LIP-0009 = recorded
+> deferral).
 
 ## C. Separate / optional tracks
 
-- **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): **FILED as LIP-0009 (Draft) 2026-06-20**
-  (`lattice-labs/how/governance/lips/`; recommends Option V / canvas-stays-a-view — a recorded deferral, no core
-  change). Awaiting operator/FA Review-open.
+- **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): **FILED as LIP-0009 + REVIEW OPENED
+  2026-06-20** (`lattice-labs/how/governance/lips/`; status Draft→Review, ≥7-day, earliest close 2026-06-27; recommends
+  Option V / canvas-stays-a-view — a recorded deferral, no core change). FA records the disposition at review close.
 - **Low review errata** (E5.1): the **3 Low provenance/order findings → SWEPT 2026-06-20** (brief label fix +
   producer-side `CANVAS-L-001` link-label carry into `_reserved…qualities.label` in `document_generator` +
   `brief_consumer` + deck slide-order swap; suites green 10/16/37, firewall git-diff 0). `CANVAS-L-001` marked

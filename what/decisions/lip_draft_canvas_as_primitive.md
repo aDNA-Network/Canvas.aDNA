@@ -15,10 +15,11 @@ tags: [lip, draft, canvas, primitive, governance, delta2, genesis]
 
 # LIP DRAFT — Canvas as a first-class aDNA primitive? (Δ2)
 
-> **✅ FILED as LIP-0009 (Draft) 2026-06-20** — submitted to
-> `lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md` and registered (`lip_registry.md`, Draft).
-> Current recommendation **Option V** (canvas stays a view; defer P pending consumer evidence) — filing
-> **formalizes the deferral** and is retained here as the Canvas-side decision record.
+> **✅ FILED as LIP-0009 + REVIEW OPENED 2026-06-20** — submitted to
+> `lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md`, registered (`lip_registry.md`), and **Review
+> opened** (status `draft`→`review`; LIP-0001 formal ≥7-day period, **earliest close 2026-06-27**). Current
+> recommendation **Option V** (canvas stays a view; defer P pending consumer evidence) — filing **formalizes the
+> deferral**; the FA records the disposition at review close. Retained here as the Canvas-side decision record.
 >
 > Staged in Canvas.aDNA as the Δ2 proposal vehicle, now filed into the **lattice-labs LIP process**
 > (`lip_0001_lip_process.md`); **no change to

@@ -38,8 +38,8 @@ The four gates were taken at the post-Keystone closeout (`session_stanley_202606
   `lip_draft_text_quote_footnote_class.md` → resolved.
 - **B4** — operator chose **(ii) pure metadata**; a **MINOR** A-5 relaxation, so **direction locked but not applied**
   — it rides a lattice-labs LIP (≥7-day review) → **v2.1.0**. Draft `lip_draft_derived_surface_metadata.md` updated.
-  **→ FILED as LIP-0008 (Draft) 2026-06-20** (`lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md`
-  + `lip_registry.md`); awaiting operator/FA Review-open (starts the ≥7-day clock) → lands in v2.1.0 on Final.
+  **→ FILED as LIP-0008 + REVIEW OPENED 2026-06-20** (`lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md`
+  + `lip_registry.md`; status Draft→Review, ≥7-day clock, **earliest close 2026-06-27**) → on Final, lands in v2.1.0.
 - **v2.0.1** — **cut 2026-06-20** (B1 + B3 + B2); see Release packaging.
 
 ---
@@ -112,7 +112,7 @@ The orphan-**traversal** engine (scanning prose for "Figure 2" refs per `orphan_
   example — all `2.0.0` → `2.0.1`. Fixtures' `_reserved.adna_version` stays `2.0.0` (a 2.0.0 canvas stays valid
   under the 2.0.1 validator). Then re-run `pytest`/`ruff` (expect green) + the 4 example-canvas validations.
 - **v2.1.0 (next):** **B4** pure-metadata (operator-approved direction 2026-06-20) lands here as a **MINOR** A-5
-  relaxation via the LIP process. **Filed as LIP-0008 (Draft) 2026-06-20** (Draft → [operator/FA opens Review] →
-  review ≥7d → Final → land in v2.1.0). B2 already landed in v2.0.1 (PATCH).
+  relaxation via the LIP process. **Filed as LIP-0008; Review opened 2026-06-20** (Draft → Review [opened 2026-06-20] →
+  review ≥7d, earliest close 2026-06-27 → Final → land in v2.1.0). B2 already landed in v2.0.1 (PATCH).
 - **Alternative considered:** hold the *whole* errata until B2/B4 are decided and cut one release. **Rejected** —
   the B1 conformance content (the silent §6 gap) is done now; only the version *label* waits on the operator.
