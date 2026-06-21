@@ -442,7 +442,10 @@
           "page0_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "Wilhelm Foundation — undiagnosed program"
+            }
           },
           "page1": {
             "class": "panel",
@@ -476,7 +479,10 @@
           "page1_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "Diagnostic odyssey meta-analysis"
+            }
           },
           "page2": {
             "class": "panel",

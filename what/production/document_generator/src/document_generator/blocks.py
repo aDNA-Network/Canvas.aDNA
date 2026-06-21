@@ -175,7 +175,10 @@ def build_page(fragment: PageFragment, pid: str, box: Box, default_asset: AssetV
         for ci, src in enumerate(sec.sources):
             sid = f"{pid}_s{li}_src{ci}"
             pb.nodes.append({"id": sid, "type": "link", "url": src.url, **Box(c.x, y, c.w, SRC_H).as_node()})
-            pb.component_types[sid] = _comp("link", "link", semantic="citation")
+            # CANVAS-L-001 carry: a baseline JSON Canvas link node has no anchor-text slot, so the authored
+            # source label degrades to a bare URL. Preserve provenance in the metadata layer (not the baseline node).
+            pb.component_types[sid] = _comp("link", "link", semantic="citation",
+                                            qualities={"label": src.label} if src.label else None)
             pb.adjacency.append((anchor, sid))
             y += SRC_H + GAP
 

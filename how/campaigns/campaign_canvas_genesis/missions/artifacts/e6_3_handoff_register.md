@@ -57,12 +57,20 @@ lands in PT P5 (federation/relocation), the LIP queue (Standard errata), or an o
 > relaxation, so it rides a lattice-labs LIP (≥7-day review) → **v2.1.0** (no code this session). **v2.0.1 CUT**
 > (B1 + B3 + B2; `STANDARD_VERSION` 2.0.0 → 2.0.1). Remaining LIP-queue tail = the B4 LIP submission only.
 
+> **Tail progress 2026-06-20 (`session_stanley_20260620_221404_post_keystone_tail`):** B4 **FILED as LIP-0008
+> (Draft)** in `lattice-labs/how/governance/lips/` (+ `lip_registry.md`) — awaiting operator/FA Review-open (the
+> ≥7-day gate) → lands in Canvas Standard **v2.1.0** on Final. The errata **queue is fully drained.**
+
 ## C. Separate / optional tracks
 
-- **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): optional, cross-vault (touches the aDNA
-  core primitive set; lattice-labs LIP process). Draft staged; submission operator-discretionary.
-- **Low review errata** (E5.1): `CANVAS-L-001` citation-label-dropped (freq 2; not yet graduated to III canonical —
-  needs ≥3 / ≥2 sessions / Stanley+Argus gate) + the 3 Low provenance/order findings → a generator pass.
+- **E5.3 — Δ2 canvas-as-primitive LIP** (`lip_draft_canvas_as_primitive`): **FILED as LIP-0009 (Draft) 2026-06-20**
+  (`lattice-labs/how/governance/lips/`; recommends Option V / canvas-stays-a-view — a recorded deferral, no core
+  change). Awaiting operator/FA Review-open.
+- **Low review errata** (E5.1): the **3 Low provenance/order findings → SWEPT 2026-06-20** (brief label fix +
+  producer-side `CANVAS-L-001` link-label carry into `_reserved…qualities.label` in `document_generator` +
+  `brief_consumer` + deck slide-order swap; suites green 10/16/37, firewall git-diff 0). `CANVAS-L-001` marked
+  `addressed_producer_side` in the local learning store (still **not** graduated to III canonical — visible-label
+  *rendering* stays a PT-P5 render concern).
 
 ## D. Context-graduation report (`skill_context_graduation`)
 
@@ -72,15 +80,16 @@ lands in PT P5 (federation/relocation), the LIP queue (Standard errata), or an o
 |--------|-----------------|-------|-------------------|-------------|
 | `spec_federation_contract` · `spec_conformance_suite` · `spec_component_model` · `spec_panel_link_semantics` | the Standard's contracts | high | **full** (already first-class specs in `what/specs/`) | **no-op** — already durable + indexed |
 | `adr_000/004/005` | identity · two-shelf firewall · in-vault-LF | high | **full** (ADRs) | **no-op** — durable |
-| `e3_3`/`e6_1` parity proofs + the relocation gotcha | **migration parity methodology** (deterministic structural proof; absolute-path/relocation pitfalls; KEEP-floor-vs-federation split) | high (any future producer migration) | **none** | **candidate → recommend a `what/context/` guide** (deferred follow-up; ~1–2K tokens) |
+| `e3_3`/`e6_1` parity proofs + the relocation gotcha | **migration parity methodology** (deterministic structural proof; absolute-path/relocation pitfalls; KEEP-floor-vs-federation split) | high (any future producer migration) | **none** | **✅ DONE 2026-06-20** → `what/context/context_migration_parity_methodology.md` |
 | `iii/CLAUDE.md` routing-note 4 | structural-vs-pixel review split | medium | partial (lives in the wrapper) | keep in wrapper; cross-ref only |
 
 **Finding:** Keystone filed its durable knowledge **as it went** (specs + ADRs + the `iii/` wrapper), so graduation
 at close is largely **confirmatory** — most output is already durable and indexed (the "not redundant" criterion
 discards it for *new* graduation). The one genuine net-new candidate is the **migration parity methodology** (the
 deterministic-structural-proof technique + the relocation pitfalls surfaced at E6.1/E6.2). Recommended as a single
-optional context guide; **not produced here** to keep the close proportionate — flagged as a post-campaign
-follow-up for operator discretion.
+optional context guide; **produced post-campaign 2026-06-20** →
+[[what/context/context_migration_parity_methodology|context_migration_parity_methodology]] (the graduation §D
+follow-up is actioned).
 
 ## Summary
 

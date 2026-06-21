@@ -52,7 +52,11 @@ def build_brief(brief: BriefInput) -> dict[str, Any]:
         for j, src in enumerate(sec.sources):
             sid = f"sec{i}_src{j}"
             payloads[sid] = {"type": "link", "url": src.url}
+            # CANVAS-L-001 carry: baseline link nodes have no anchor-text slot; keep the authored label in the
+            # metadata layer so provenance survives the degrade-to-bare-URL (do not force it into the link node).
             component_types[sid] = {"class": "link", "semantic_type": "citation", "degrades_to": "link"}
+            if src.label:
+                component_types[sid]["qualities"] = {"label": src.label}
             last = j == len(sec.sources) - 1
             blocks.append((sid, layout.SOURCE_H, layout.SECTION_GAP if last else layout.GAP))
             ref_pairs.append((body_id, sid))

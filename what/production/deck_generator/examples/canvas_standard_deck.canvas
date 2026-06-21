@@ -80,7 +80,7 @@
       "y": 144,
       "width": 1280,
       "height": 720,
-      "label": "Conformance levels (monotone)"
+      "label": "Reduce to the grammar"
     },
     {
       "id": "slide2_heading",
@@ -89,16 +89,25 @@
       "y": 200,
       "width": 1168,
       "height": 80,
-      "text": "## Conformance levels (monotone)"
+      "text": "## Reduce to the grammar"
     },
     {
-      "id": "slide2_table",
-      "type": "text",
+      "id": "slide2_image",
+      "type": "file",
       "x": 2888,
       "y": 300,
       "width": 1168,
-      "height": 174,
-      "text": "| Level | Adds | Checked by |\n| --- | --- | --- |\n| Core | baseline JSON Canvas nodes + edges | C-* checks |\n| Extended | styleAttributes, isStartNode, edge styling | E-* checks |\n| aDNA-Native | the _reserved block (component model, panel/link, context object) | A-* checks |"
+      "height": 436,
+      "file": "what/specs/diagrams/canvas_grammar.png"
+    },
+    {
+      "id": "slide2_caption",
+      "type": "text",
+      "x": 2888,
+      "y": 752,
+      "width": 1168,
+      "height": 56,
+      "text": "Every 2D output reduces to the smallest set of typed components positioned on a canvas."
     },
     {
       "id": "slide3",
@@ -107,7 +116,7 @@
       "y": 144,
       "width": 1280,
       "height": 720,
-      "label": "Reduce to the grammar"
+      "label": "Conformance levels (monotone)"
     },
     {
       "id": "slide3_heading",
@@ -116,25 +125,16 @@
       "y": 200,
       "width": 1168,
       "height": 80,
-      "text": "## Reduce to the grammar"
+      "text": "## Conformance levels (monotone)"
     },
     {
-      "id": "slide3_image",
-      "type": "file",
+      "id": "slide3_table",
+      "type": "text",
       "x": 4264,
       "y": 300,
       "width": 1168,
-      "height": 436,
-      "file": "what/specs/diagrams/canvas_grammar.png"
-    },
-    {
-      "id": "slide3_caption",
-      "type": "text",
-      "x": 4264,
-      "y": 752,
-      "width": 1168,
-      "height": 56,
-      "text": "Every 2D output reduces to the smallest set of typed components positioned on a canvas."
+      "height": 174,
+      "text": "| Level | Adds | Checked by |\n| --- | --- | --- |\n| Core | baseline JSON Canvas nodes + edges | C-* checks |\n| Extended | styleAttributes, isStartNode, edge styling | E-* checks |\n| aDNA-Native | the _reserved block (component model, panel/link, context object) | A-* checks |"
     },
     {
       "id": "slide4",
@@ -220,7 +220,15 @@
       "id": "slide2_flow_0",
       "fromNode": "slide2_heading",
       "fromSide": "bottom",
-      "toNode": "slide2_table",
+      "toNode": "slide2_image",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "slide2_flow_1",
+      "fromNode": "slide2_image",
+      "fromSide": "bottom",
+      "toNode": "slide2_caption",
       "toSide": "top",
       "toEnd": "arrow"
     },
@@ -228,15 +236,7 @@
       "id": "slide3_flow_0",
       "fromNode": "slide3_heading",
       "fromSide": "bottom",
-      "toNode": "slide3_image",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "slide3_flow_1",
-      "fromNode": "slide3_image",
-      "fromSide": "bottom",
-      "toNode": "slide3_caption",
+      "toNode": "slide3_table",
       "toSide": "top",
       "toEnd": "arrow"
     },
@@ -301,7 +301,7 @@
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "189ca849ac807fcd",
+          "sync_hash": "c7e392747f3471a8",
           "source_name": "urn:adna:canvas:deck:canvas_standard",
           "source_version": "0.1.0"
         },
@@ -357,13 +357,17 @@
             "degrades_to": "text",
             "semantic_type": "heading"
           },
-          "slide2_table": {
-            "class": "table",
-            "degrades_to": "text",
+          "slide2_image": {
+            "class": "image",
+            "degrades_to": "file",
+            "semantic_type": "figure",
             "qualities": {
-              "row_count": 3,
-              "col_count": 3
+              "substrate": "raster"
             }
+          },
+          "slide2_caption": {
+            "class": "caption",
+            "degrades_to": "text"
           },
           "slide3": {
             "class": "panel",
@@ -375,17 +379,13 @@
             "degrades_to": "text",
             "semantic_type": "heading"
           },
-          "slide3_image": {
-            "class": "image",
-            "degrades_to": "file",
-            "semantic_type": "figure",
+          "slide3_table": {
+            "class": "table",
+            "degrades_to": "text",
             "qualities": {
-              "substrate": "raster"
+              "row_count": 3,
+              "col_count": 3
             }
-          },
-          "slide3_caption": {
-            "class": "caption",
-            "degrades_to": "text"
           },
           "slide4": {
             "class": "panel",
@@ -434,10 +434,10 @@
             "slide2_flow_0": {
               "kind": "reading_order"
             },
-            "slide3_flow_0": {
+            "slide2_flow_1": {
               "kind": "reading_order"
             },
-            "slide3_flow_1": {
+            "slide3_flow_0": {
               "kind": "reading_order"
             },
             "slide4_flow_0": {
@@ -488,7 +488,7 @@
                 "unit": "slides",
                 "max": 1
               },
-              "surface": "table"
+              "surface": "image"
             },
             "slide3": {
               "flow": "vertical",
@@ -497,7 +497,7 @@
                 "unit": "slides",
                 "max": 1
               },
-              "surface": "image"
+              "surface": "table"
             },
             "slide4": {
               "flow": "vertical",

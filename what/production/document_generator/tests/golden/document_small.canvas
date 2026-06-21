@@ -264,7 +264,10 @@
           "page0_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "Spec"
+            }
           },
           "page0_s1_head": {
             "class": "typography_run",

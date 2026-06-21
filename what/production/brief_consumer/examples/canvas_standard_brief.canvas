@@ -258,12 +258,18 @@
           "sec0_src0": {
             "class": "link",
             "semantic_type": "citation",
-            "degrades_to": "link"
+            "degrades_to": "link",
+            "qualities": {
+              "label": "JSON Canvas"
+            }
           },
           "sec0_src1": {
             "class": "link",
             "semantic_type": "citation",
-            "degrades_to": "link"
+            "degrades_to": "link",
+            "qualities": {
+              "label": "Obsidian Advanced Canvas"
+            }
           },
           "sec1_head": {
             "class": "typography_run",
@@ -295,7 +301,10 @@
           "sec3_src0": {
             "class": "link",
             "semantic_type": "citation",
-            "degrades_to": "link"
+            "degrades_to": "link",
+            "qualities": {
+              "label": "JSON Canvas 1.0 (baseline)"
+            }
           },
           "sec4_head": {
             "class": "typography_run",

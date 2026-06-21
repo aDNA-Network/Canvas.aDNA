@@ -2,7 +2,9 @@
 type: decision
 artifact_type: lip_draft
 title: "LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)"
-status: draft
+status: submitted
+lip_number: "LIP-0008"
+filed_as: "lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md"
 created: 2026-06-20
 updated: 2026-06-20
 last_edited_by: agent_stanley
@@ -13,6 +15,11 @@ tags: [lip, draft, canvas, panel-link, surface, conformance, errata, b4]
 
 # LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)
 
+> **✅ FILED as LIP-0008 (Draft) 2026-06-20** — submitted to
+> `lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md` and registered (`lip_registry.md`,
+> Draft). The operator/FA opens **Review** (→ status `review`) to start the **≥7-day** clock; on **Final** it lands in
+> Canvas Standard **v2.1.0** at the §5 sites below. This draft is retained as the Canvas-side decision record.
+>
 > **DIRECTION APPROVED 2026-06-20 (operator) — option (ii) pure metadata; NOT YET RATIFIED.** Staged in Canvas.aDNA
 > as the B4 decision vehicle (LIP queue, `lip_queue_disposition.md`). Because (ii) **relaxes A-5** it is a **MINOR**
 > change that **MUST** ride a real lattice-labs LIP (`lip_0001_lip_process.md`, ≥7-day review) before any code/spec

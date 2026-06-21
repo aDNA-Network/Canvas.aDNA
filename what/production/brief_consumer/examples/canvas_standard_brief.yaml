@@ -35,7 +35,7 @@ sections:
       reference tooling (validators, round-trip converters, the conformance harness, and the canvas-std CLI) checks a
       document at a declared level and verifies that it degrades cleanly to the baseline.
     sources:
-      - label: "spec_conformance_suite"
+      - label: "JSON Canvas 1.0 (baseline)"
         url: "https://jsoncanvas.org/spec/1.0/"
   - heading: "Governance"
     body: >

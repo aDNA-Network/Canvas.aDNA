@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-20
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260620_200612_lip_queue_closeout
+last_session: session_stanley_20260620_221404_post_keystone_tail
 tags: [state, governance, canvas, genesis]
 ---
 
@@ -28,7 +28,21 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE CLOSED (v2.0.1 cut + pushed 2026-06-20); tail → B4 LIP + PT P5
+## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + POST-KEYSTONE TAIL CLEARED (2026-06-20); tail → operator opens Review on LIP-0008/0009 + PT P5
+
+> **▶ POST-KEYSTONE TAIL CLEARED (this session, `session_stanley_20260620_221404_post_keystone_tail`).** The four
+> Mondrian-ownable tail items are done: **(1)** B4 **filed as LIP-0008 (Draft)** + **(2)** Δ2 **filed as LIP-0009
+> (Draft)** in `lattice-labs/how/governance/lips/` (+ `lip_registry.md`) — both **await the operator/FA opening
+> Review** (the ≥7-day clock; **LIP-0008 → Canvas Standard v2.1.0** on Final, LIP-0009 records the canvas-stays-a-view
+> deferral, no core change); **(3)** the **migration-parity context guide** written
+> (`what/context/context_migration_parity_methodology.md`, graduation §D); **(4)** the **3 Low review-errata SWEPT** —
+> brief label fix (F-E51-001) + **CANVAS-L-001 link-label carry** (fold `sources[].label` →
+> `_reserved…qualities.label` in `document_generator` + `brief_consumer`, producer-side, guarded) + deck slide-order
+> swap (F-E51-003). **Verified:** consumer suites **10/16/37** + ruff clean; 4 examples `adna_native [OK]`
+> (`canvas-std 2.0.1`); **`canvas_std` firewall git-diff 0**; the `document_small` golden regenerated **surgically**
+> (only `qualities.label` added). Bonus: fixed a pre-existing malformed `_meta` line in the `iii/` learning store.
+> **Cross-vault commits (lattice-labs LIP files + registry) + the Canvas batch are operator-gated** (lattice-labs
+> carries a dirty owner tree). **PT P5 (Hestia) unchanged.**
 
 **Phase E5 is OPEN (2026-06-19, operator-authorized E4→E5 crossing — "Advance to E5" + "Ratify ADR-004"); E5.1 is
 DONE.** (E0–E2 reference impl + E3 CanvasForge cutover + E4 consumers are complete history; the `canvas_core` shim
@@ -106,8 +120,9 @@ relocation (once co-located with `canvas_std`), gated by `e3_3_parity_check.py` 
 gitignored `.venv` at `CanvasForge.aDNA/what/code/` → 900/3. Tracking:
 [[how/campaigns/campaign_canvas_genesis/campaign_canvas_genesis|Operation Keystone]] (active).
 
-**Open side-tracks:** Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]]) → E5.3; the
-3 Low review errata (citation provenance; link-label carry; deck slide order) at a generator pass; III/Astro upstream
+**Open side-tracks:** Δ2 canvas-as-primitive LIP ([[what/decisions/lip_draft_canvas_as_primitive|draft]]) → **filed as
+LIP-0009 2026-06-20**; the 3 Low review errata (citation provenance; link-label carry; deck slide order) → **SWEPT
+2026-06-20** (producer-side `qualities.label` carry + fixture fixes; suites green); III/Astro upstream
 notes. **E4.1 spec-gap erratum candidates → LIP queue (`adr_003`):** (1) orphan-anchor + `naming_convention` validator
 absent — `spec_panel_link_semantics §5.3/§6` mandates the check but `canvas_std/reserved.py::validate_panel_link` lacks
 it (headline); (2) no dedicated `quote`/`blockquote` or `footnote` component class (long-form rides on `text` +
@@ -166,9 +181,11 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
 - **LIP queue (`adr_003`) — CLOSED 2026-06-20** (`mission_lip_queue_errata` + closeout `session_…_200612`): **B1 ✅**
   (`validate_anchors`) + **B3 ✅** (pagination clarified) + **B2 ✅** (operator chose ride-on-text — `spec_component_model`
   §4.4 + `LONGFORM_SEMANTIC_TYPES` + `adna_longform_quote` fixture/test) all shipped in **v2.0.1**. **B4** (operator chose
-  pure-metadata) is a **MINOR** A-5 relaxation → **direction locked, pending a lattice-labs LIP (≥7-day) → v2.1.0** (no
-  code yet). Disposition: `what/decisions/lip_queue_disposition.md`. **Remaining LIP tail = the B4 LIP submission** +
-  optional Δ2 LIP (E5.3).
+  pure-metadata, MINOR A-5 relaxation → v2.1.0) is now **FILED as LIP-0008 (Draft)**; **Δ2** (canvas-as-primitive,
+  recommends view/status-quo) **FILED as LIP-0009 (Draft)** — both in `lattice-labs/how/governance/lips/` (+ registry).
+  Disposition: `what/decisions/lip_queue_disposition.md`. **Remaining LIP tail = the operator/FA opening Review on
+  LIP-0008/0009** (≥7-day gate; LIP-0008 → v2.1.0 code on Final, LIP-0009 = recorded deferral). The errata **queue is
+  fully drained.**
 - **v2.0.1 release — CUT 2026-06-20** (operator authorized): B1+B3+B2 at `STANDARD_VERSION=2.0.1` (one-shot bump per
   the disposition); `canvas_std` **80/10** + `ruff` clean; no consumer regression (37/16/10); 4 examples + the B2
   fixture validate `[OK]` (`canvas-std 2.0.1`). Schema `$id` kept at v2.0.0 (structural-unchanged); fixtures'
@@ -188,12 +205,14 @@ metadata declaration? (surface-model erratum). Erratum (3) is **sharpened** — 
    — relocate `canvas_core` (ADR-004), repoint the ~8 consumer wrappers (turns the 55 `test_federation_validation.py`
    reds green), register v2.0.0, re-baseline parity, FU1/FU2, then evaluate the shim ref-sweep for retirement
    (2027-06-13). Ping Mondrian to re-verify the staged exemplar resolver.
-3. **LIP queue (`adr_003`) — CLOSED 2026-06-20:** B1 + B3 + **B2** (ride-on-text) shipped in **v2.0.1** (cut + pushed);
-   **B4** (pure-metadata) direction-locked. **Only remaining LIP item:** submit the **B4** LIP to
-   `lattice-labs/how/governance/lips/` and run the ≥7-day review → land the A-5 relaxation in **v2.1.0** (cross-vault,
-   calendar-gated, operator-owned). Disposition: `what/decisions/lip_queue_disposition.md`.
-4. **Optional:** submit the Δ2 canvas-as-primitive LIP (E5.3); produce the migration-parity context guide
-   (graduation §D).
+3. **LIP queue (`adr_003`) — DRAINED 2026-06-20:** B1 + B3 + **B2** shipped in **v2.0.1**; **B4** **filed as LIP-0008
+   (Draft)** in `lattice-labs/how/governance/lips/` (+ registry). **Only remaining LIP action:** the operator/FA
+   **opens Review** on LIP-0008 (starts the ≥7-day clock) → land the A-5 relaxation in **v2.1.0** on Final
+   (cross-vault, calendar-gated, operator-owned). Disposition: `what/decisions/lip_queue_disposition.md`.
+4. **Optional tail — DONE 2026-06-20:** Δ2 canvas-as-primitive **filed as LIP-0009 (Draft)** (recommends
+   view/status-quo; operator/FA opens Review); **migration-parity context guide written** ✅
+   (`what/context/context_migration_parity_methodology.md`, graduation §D); the **3 Low review-errata SWEPT**
+   (producer-side; suites green 10/16/37, firewall git-diff 0).
 5. **→ PT P5 (Hestia / production tidy):** unchanged — `canvas_core` relocation + the ~8 wrapper refederations +
    v2.0.0 (or v2.0.1) registry registration + parity re-baseline (handoff register §A).
 6. **Push:** ✅ done 2026-06-20 — the v2.0.1-cut batch (E6 `da93bbd` + LIP `fc1a42d` + the cut commit) pushed.

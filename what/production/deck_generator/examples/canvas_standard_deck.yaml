@@ -22,6 +22,11 @@ slides:
       - "A canvas is a first-class context object an agent can read, write, and round-trip."
       - "Owned by Canvas.aDNA (Mondrian) as the standard-bearer Platform."
 
+  - type: image
+    title: "Reduce to the grammar"
+    image: "what/specs/diagrams/canvas_grammar.png"
+    caption: "Every 2D output reduces to the smallest set of typed components positioned on a canvas."
+
   - type: table
     title: "Conformance levels (monotone)"
     table:
@@ -30,11 +35,6 @@ slides:
         - ["Core", "baseline JSON Canvas nodes + edges", "C-* checks"]
         - ["Extended", "styleAttributes, isStartNode, edge styling", "E-* checks"]
         - ["aDNA-Native", "the _reserved block (component model, panel/link, context object)", "A-* checks"]
-
-  - type: image
-    title: "Reduce to the grammar"
-    image: "what/specs/diagrams/canvas_grammar.png"
-    caption: "Every 2D output reduces to the smallest set of typed components positioned on a canvas."
 
   - type: content
     title: "Fork, don't drift"

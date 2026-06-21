@@ -2,9 +2,11 @@
 type: decision
 artifact_type: lip_draft
 title: "LIP DRAFT — canvas as a first-class aDNA primitive? (Δ2)"
-status: draft
+status: submitted
+lip_number: "LIP-0009"
+filed_as: "lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md"
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-20
 last_edited_by: agent_stanley
 phase: P2
 target_process: "lattice-labs/how/governance/lips/lip_0001_lip_process.md"
@@ -13,8 +15,13 @@ tags: [lip, draft, canvas, primitive, governance, delta2, genesis]
 
 # LIP DRAFT — Canvas as a first-class aDNA primitive? (Δ2)
 
-> **DRAFT — NOT SUBMITTED, NOT RATIFIED.** Staged in Canvas.aDNA as the Δ2 proposal vehicle. It is a draft for
-> the **lattice-labs LIP process** (`lip_0001_lip_process.md`); it does **not** number itself, and **no change to
+> **✅ FILED as LIP-0009 (Draft) 2026-06-20** — submitted to
+> `lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md` and registered (`lip_registry.md`, Draft).
+> Current recommendation **Option V** (canvas stays a view; defer P pending consumer evidence) — filing
+> **formalizes the deferral** and is retained here as the Canvas-side decision record.
+>
+> Staged in Canvas.aDNA as the Δ2 proposal vehicle, now filed into the **lattice-labs LIP process**
+> (`lip_0001_lip_process.md`); **no change to
 > the aDNA core primitive set occurs unless and until a real LIP ratifies it.** Operation Cartography does not
 > touch the core primitive set (out of scope).
 

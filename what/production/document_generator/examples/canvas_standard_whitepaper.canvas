@@ -546,12 +546,18 @@
           "page1_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "JSON Canvas 1.0 specification"
+            }
           },
           "page1_s0_src1": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "Obsidian Advanced Canvas"
+            }
           },
           "page2": {
             "class": "panel",
@@ -594,7 +600,10 @@
           "page2_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "Round-trip protocol v2 (in-vault spec)"
+            }
           },
           "page3": {
             "class": "panel",
@@ -637,7 +646,10 @@
           "page3_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "adna-canvas-std reference implementation (in-vault)"
+            }
           },
           "page4": {
             "class": "panel",
@@ -661,7 +673,10 @@
           "page4_s0_src0": {
             "class": "link",
             "degrades_to": "link",
-            "semantic_type": "citation"
+            "semantic_type": "citation",
+            "qualities": {
+              "label": "adr_003 — Standard governance (LIP process)"
+            }
           },
           "surface_html": {
             "class": "region",
