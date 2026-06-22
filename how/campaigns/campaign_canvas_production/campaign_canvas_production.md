@@ -6,7 +6,7 @@ owner: stanley
 status: active
 activated: 2026-06-21
 phase_count: 4
-mission_count: 8
+mission_count: 5
 estimated_sessions: "6-10"
 estimation_class: build-broad
 priority: medium
@@ -99,12 +99,17 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 ### Phase A2 — Comic producer (the larger build)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| A2.1 (C-1) | Scaffold + ported content layer (`style`/`prompt`/`panel_layout`/`rlhf_hints`) + substrate-free `model.py`; ported pure-function tests green | 1 | planned |
-| A2.2 (C-2) | Canvas construction rewrite (`layout`/`panels`/`consume` → source → `to_canvas` → `_reserved`); conformance passes aDNA-Native | 1 | planned |
-| A2.3 (C-3) | Conformance hardening (round-trip/degradation/components/panel-coverage) + CLI + example mini-issue + no-regression run | 1 | planned |
-| A2.4 (C-4) | `iii_quality_contract.md` + README/AGENTS + federation-wrapper notes | 0.5-1 | planned |
+| A2 | Build `comic_generator` — C-1 ported content layer · C-2 canvas construction · C-3 conformance+CLI+example · C-4 quality contract+docs (A2.1–A2.4 folded as objectives) | 3-5 | ✅ **done 2026-06-21** — 87/87, example aDNA-Native ([[how/campaigns/campaign_canvas_production/missions/mission_a2_comic_build\|mission]]) |
 
 **Phase exit gate (A2→A3, HUMAN):** full comic suite green (~45–55 tests), example builds + conforms, no regression in the other four suites, firewall git-diff 0, AARs GO. **HELD.**
+
+> **Phase progress (2026-06-21) — PHASE A2 COMPLETE ✅ (comic producer built):** `what/production/comic_generator/`
+> built on `canvas_std` (the 5th in-vault producer; ~1,790 src LOC, mostly ports from the `canvas_comic` quarry).
+> Multi-page/spread aDNA-Native (`comic_root` canonical surface; spread/page nested-group regions; `image`-class panels
+> carrying the 6-layer prompt in `qualities.image_prompt` — **no rendering**, ComfyUI keeps pixels). Suite **87/87**,
+> `ruff` clean; example (4-page SS mini-issue) validates aDNA-Native + degrades; `canvas_std` firewall git-diff 0; **no
+> regression** (canvas_std 80/10 · brief 10 · deck 16 · document 37 · diagram 36). **⛔ HELD at the A2→A3 phase gate
+> (human gate)** — A3 is cross-producer validation + structural `iii/` review + LIP-queue errata, then campaign close.
 
 ### Phase A3 — Validation & close
 | # | Mission | Sessions | Status |
@@ -180,6 +185,8 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 
 - **Scope change (2026-06-21, at activation):** A1.2 folded into A1.1 (one diagram-build mission, all 5 types);
   `mission_count` 9→8. Operator ratified all 6 A0 decisions (defaults) at the A0→A1 gate.
+- **Scope change (2026-06-21, at A2 open):** A2.1–A2.4 folded into one A2 mission (objectives C-1..C-4);
+  `mission_count` 8→5. Operator cleared the A1→A2 gate ("proceed to A2").
 - **Two-shelf doctrine:** `what/code/` = the Standard (immutable); `what/production/` = producers (depend on the
   installed `adna-canvas-std`, may mutate state). Both new producers live on the production shelf.
 - **Quarry, not dependency:** port logic *from* `Archive.aDNA/CanvasForge.aDNA/...`; the producers must not import

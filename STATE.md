@@ -28,7 +28,22 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ⚒ OPERATION ATELIER · A1 DIAGRAM PRODUCER BUILT ✅ (2026-06-21 — A0 ratified → `diagram_generator` 36/36 aDNA-Native); ⛔ HELD at A1→A2 (comic) gate · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+## ▶ Resume Here — ⚒ OPERATION ATELIER · A1 DIAGRAM + A2 COMIC PRODUCERS BUILT ✅ (2026-06-21 — diagram 36/36 + comic 87/87 aDNA-Native); ⛔ HELD at A2→A3 (validation & close) gate · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+
+> **⚒ ATELIER A2 COMPLETE — COMIC PRODUCER BUILT (this session, `session_stanley_20260621_202519_a2_comic_build`).**
+> Operator cleared the A1→A2 gate ("proceed to A2"); Phase **A2** built **`what/production/comic_generator/`** on
+> `canvas_std` (the 5th in-vault producer; ~1,790 src LOC, ~60% **ported** from the `canvas_comic` quarry — 6-layer
+> prompt assembly · panel-grid layout · tables; only the canvas construction rewritten). Multi-page/spread
+> **aDNA-Native**: `comic_root` group = one canonical surface; spread + page nested-group `region`s (`extent.unit:
+> pages`); panels = `image`-class `file`/`text` nodes; `sequence` (pages, acyclic) / `reading_order` (page Z-path) /
+> `adjacency` (gutters) edges; `isStartNode` on page 0. **Image boundary preserved** — the assembled prompt rides in
+> `component_types[panel].qualities.image_prompt`; **no rendering** (no ComfyUI/torch/PIL import); ComfyUI keeps pixels.
+> **Scope D5:** data-driven engine; the SS issue is the worked example only (`examples/`). **Verified independently:**
+> comic **87/87** + ruff clean; CLI build+validate `adna_native [OK]` + degradation D-1/D-2/D-3; **no regression**
+> (canvas_std 80/10 · brief 10 · deck 16 · document 37 · diagram 36); `canvas_std` firewall git-diff 0. **⛔ HELD at the
+> A2→A3 gate** — A3 = cross-producer validation + structural `iii/` review of both new examples + LIP-queue errata (the
+> diagram `PL_EXTENT_UNITS` gap + the comic `surface`-token note), then campaign close. **All 3 pt09-absorbed production
+> layers (deck · diagram · comic) are now real + green on `canvas_std`.**
 
 > **⚒ ATELIER A1 COMPLETE — DIAGRAM PRODUCER BUILT (this session, `session_stanley_20260621_194755_a1_diagram_build`).**
 > Operator **ratified all 6 A0 decisions** (defaults) → campaign `status: active`; then Phase **A1** built

@@ -1,0 +1,157 @@
+# Worked mini-issue (4 pages / 2 spreads) for the comic_generator.
+#
+# IMPORTANT: the Science-Stanley character bible, the per-spread color script, and the per-spread story state below are
+# WORKED-EXAMPLE INSTANCE DATA — they are supplied through THIS input, not baked into the engine (ratified scope D5;
+# the legacy CanvasForge engine hardcoded them as module constants — here they ride on the comic spec). An empty comic
+# with none of these still builds; the engine falls back to its generic mechanism defaults.
+#
+# Build:  comic-generator build science_stanley_mini_issue.yaml out.canvas
+# The producer emits each panel's 6-layer image PROMPT as _reserved metadata — it never renders pixels.
+
+title: "Science Stanley — Mini Issue"
+id: "urn:adna:canvas:comic:science_stanley_mini"
+version: "0.1.0"
+art_style: ghibli
+
+refs:
+  - "[[character_bible_science_stanley]]"
+  - "[[color_script_science_stanley]]"
+  - "[[storyboard_science_stanley_mini]]"
+
+# --- character bible (name -> canonical descriptor; the Layer-2 character block source) ---
+characters:
+  - name: stanley
+    descriptor: >-
+      Studio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple
+      turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses.
+  - name: agent_stanley
+    descriptor: >-
+      16-bit pixel art sprite character. Spiky brown pixel hair, white pixel lab coat over purple pixel turtleneck.
+      Retro RPG aesthetic, sprite-sheet animation energy.
+  - name: helix
+    descriptor: "Golden retriever, lab mascot. Warm, loyal presence."
+
+# --- per-spread color script (the Layer-5 lighting source) ---
+color_script:
+  - spread: 1
+    act: cover
+    dominant: "#565f89"
+    accent: "#e0af68"
+    lighting: neutral
+    mood: cover_matter
+  - spread: 2
+    act: act_1
+    dominant: "#e0af68"
+    accent: "#cfc9c2"
+    lighting: warm_golden
+    mood: inviting
+
+# --- per-spread story state (dual protagonist; presence + mood/pose merged onto the descriptor) ---
+story_state:
+  - spread: 1
+    world: cover
+    characters:
+      stanley: { present: true, mood: confident }
+  - spread: 2
+    world: ghibli
+    characters:
+      stanley: { present: true, mood: determined }
+      helix: { present: true, pose: walking_alongside }
+
+spreads:
+  - { number: 1, pages: [1, 2] }
+  - { number: 2, pages: [3, 4] }
+
+pages:
+  # Spread 1 — cover + a splash
+  - number: 1
+    layout_type: splash
+    spread_number: 1
+    art_style: ghibli
+    panels:
+      - panel_type: splash
+        scene: "Science Stanley stands in a sunlit lab, clipboard in hand, title-card energy."
+        characters: [stanley]
+        balloon_space: upper third
+        compositional_nuance: composition_naturalness
+
+  - number: 2
+    layout_type: grid
+    spread_number: 1
+    panels:
+      - panel_type: establishing
+        scene: "A wide shot of the lab: benches, beakers, a sleeping dog in the corner."
+        characters: [stanley, helix]
+        row: 0
+        col: 0
+        span_cols: 2
+      - panel_type: dialogue
+        scene: "Stanley turns to the reader and grins."
+        characters: [stanley]
+        row: 1
+        col: 0
+        balloon_space: upper third
+      - panel_type: close_up
+        scene: "A close-up of a glowing lattice diagram on a screen."
+        row: 1
+        col: 1
+        compositional_nuance: object_interaction_focus
+
+  # Spread 2 — act one, with a dual-prompt spatial-layout panel
+  - number: 3
+    layout_type: grid
+    spread_number: 2
+    panels:
+      - panel_type: action
+        scene: "Stanley races down a corridor of servers, Helix bounding beside him."
+        characters: [stanley, helix]
+        row: 0
+        col: 0
+        span_cols: 2
+        compositional_nuance: physical_contact_clarity
+      - panel_type: dialogue
+        scene: "Stanley points at a monitor; a balloon floats above."
+        characters: [stanley]
+        row: 1
+        col: 0
+        balloon_space: upper third
+        compositional_intent: object_interaction_focus
+        spatial_layout: |
+          graph TB
+              panel["panel:p3_2<br/>framing=medium"]
+
+              subgraph TOP[TOP balloon space]
+                  b1["balloon-1<br/>type=speech"]
+              end
+
+              subgraph MID[MID subject zone]
+                  s1["Stanley<br/>depth=foreground"]
+                  m1["monitor<br/>depth=midground"]
+              end
+
+              subgraph BOT[BOT ground zone]
+              end
+
+              s1 -- left-of --> m1
+              s1 -- speaks --> b1
+      - panel_type: transition
+        scene: "The screen glow fades into a pixelated dissolve."
+        row: 1
+        col: 1
+        style_override: transition
+
+  - number: 4
+    layout_type: grid
+    spread_number: 2
+    panels:
+      - panel_type: dialogue
+        scene: "Agent Stanley appears as a pixel sprite, waving."
+        characters: [agent_stanley]
+        row: 0
+        col: 0
+        style_override: pixel
+      - panel_type: close_up
+        scene: "A final close-up: the lattice resolves into a clear picture."
+        row: 0
+        col: 1
+        compositional_nuance: fading_visual_effect

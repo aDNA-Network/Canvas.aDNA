@@ -1,0 +1,551 @@
+{
+  "nodes": [
+    {
+      "id": "comic_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 1614,
+      "height": 2578,
+      "label": "Science Stanley — Mini Issue"
+    },
+    {
+      "id": "spread0",
+      "type": "group",
+      "x": 80,
+      "y": 80,
+      "width": 1454,
+      "height": 1161,
+      "label": "Spread 1"
+    },
+    {
+      "id": "spread0_page0",
+      "type": "group",
+      "x": 120,
+      "y": 176,
+      "width": 663,
+      "height": 1025,
+      "label": "Page 1",
+      "isStartNode": true
+    },
+    {
+      "id": "spread0_page0_p0",
+      "type": "text",
+      "x": 120,
+      "y": 176,
+      "width": 663,
+      "height": 1025,
+      "text": "**Panel splash**\n\nScience Stanley stands in a sunlit lab, clipboard in hand, title-card energy."
+    },
+    {
+      "id": "spread0_page1",
+      "type": "group",
+      "x": 831,
+      "y": 176,
+      "width": 663,
+      "height": 1025,
+      "label": "Page 2"
+    },
+    {
+      "id": "spread0_page1_p0",
+      "type": "text",
+      "x": 856,
+      "y": 189,
+      "width": 638,
+      "height": 326,
+      "text": "**Panel establishing**\n\nA wide shot of the lab: benches, beakers, a sleeping dog in the corner."
+    },
+    {
+      "id": "spread0_page1_p1",
+      "type": "text",
+      "x": 856,
+      "y": 525,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel dialogue**\n\nStanley turns to the reader and grins."
+    },
+    {
+      "id": "spread0_page1_p2",
+      "type": "text",
+      "x": 1180,
+      "y": 525,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel close_up**\n\nA close-up of a glowing lattice diagram on a screen."
+    },
+    {
+      "id": "spread1",
+      "type": "group",
+      "x": 80,
+      "y": 1337,
+      "width": 1454,
+      "height": 1161,
+      "label": "Spread 2"
+    },
+    {
+      "id": "spread1_page0",
+      "type": "group",
+      "x": 120,
+      "y": 1433,
+      "width": 663,
+      "height": 1025,
+      "label": "Page 3"
+    },
+    {
+      "id": "spread1_page0_p0",
+      "type": "text",
+      "x": 145,
+      "y": 1446,
+      "width": 638,
+      "height": 326,
+      "text": "**Panel action**\n\nStanley races down a corridor of servers, Helix bounding beside him."
+    },
+    {
+      "id": "spread1_page0_p1",
+      "type": "text",
+      "x": 145,
+      "y": 1782,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel dialogue**\n\nStanley points at a monitor; a balloon floats above."
+    },
+    {
+      "id": "spread1_page0_p2",
+      "type": "text",
+      "x": 469,
+      "y": 1782,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel transition**\n\nThe screen glow fades into a pixelated dissolve."
+    },
+    {
+      "id": "spread1_page1",
+      "type": "group",
+      "x": 831,
+      "y": 1433,
+      "width": 663,
+      "height": 1025,
+      "label": "Page 4"
+    },
+    {
+      "id": "spread1_page1_p0",
+      "type": "text",
+      "x": 856,
+      "y": 1446,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel dialogue**\n\nAgent Stanley appears as a pixel sprite, waving."
+    },
+    {
+      "id": "spread1_page1_p1",
+      "type": "text",
+      "x": 1180,
+      "y": 1446,
+      "width": 314,
+      "height": 326,
+      "text": "**Panel close_up**\n\nA final close-up: the lattice resolves into a clear picture."
+    }
+  ],
+  "edges": [
+    {
+      "id": "spread0_page1_ro_0",
+      "fromNode": "spread0_page1_p0",
+      "fromSide": "bottom",
+      "toNode": "spread0_page1_p1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread0_page1_ro_1",
+      "fromNode": "spread0_page1_p1",
+      "fromSide": "bottom",
+      "toNode": "spread0_page1_p2",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread0_page1_adj_0",
+      "fromNode": "spread0_page1_p0",
+      "fromSide": "right",
+      "toNode": "spread0_page1_p1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread0_page1_adj_1",
+      "fromNode": "spread0_page1_p1",
+      "fromSide": "right",
+      "toNode": "spread0_page1_p2",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page0_ro_0",
+      "fromNode": "spread1_page0_p0",
+      "fromSide": "bottom",
+      "toNode": "spread1_page0_p1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page0_ro_1",
+      "fromNode": "spread1_page0_p1",
+      "fromSide": "bottom",
+      "toNode": "spread1_page0_p2",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page0_adj_0",
+      "fromNode": "spread1_page0_p0",
+      "fromSide": "right",
+      "toNode": "spread1_page0_p1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page0_adj_1",
+      "fromNode": "spread1_page0_p1",
+      "fromSide": "right",
+      "toNode": "spread1_page0_p2",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page1_ro_0",
+      "fromNode": "spread1_page1_p0",
+      "fromSide": "bottom",
+      "toNode": "spread1_page1_p1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "spread1_page1_adj_0",
+      "fromNode": "spread1_page1_p0",
+      "fromSide": "right",
+      "toNode": "spread1_page1_p1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_0",
+      "fromNode": "spread0_page0",
+      "fromSide": "bottom",
+      "toNode": "spread0_page1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_1",
+      "fromNode": "spread0_page1",
+      "fromSide": "bottom",
+      "toNode": "spread1_page0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_2",
+      "fromNode": "spread1_page0",
+      "fromSide": "bottom",
+      "toNode": "spread1_page1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "c56c73c08428f621",
+          "source_name": "urn:adna:canvas:comic:science_stanley_mini",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "comic_root": {
+            "class": "panel",
+            "semantic_type": "comic",
+            "degrades_to": "group"
+          },
+          "spread0": {
+            "class": "panel",
+            "semantic_type": "spread",
+            "degrades_to": "group"
+          },
+          "spread0_page0": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "spread0_page0_p0": {
+            "class": "image",
+            "semantic_type": "splash",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "3:4",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident\n\nScience Stanley stands in a sunlit lab, clipboard in hand, title-card energy.\n\nSplash page composition, single dramatic image, rule of thirds placement for focal point. Composition with clear space in upper third for text overlay. (compositional nuance: subject's stance anchors the dramatic moment; avoid forced spectacle)\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident\n\nScience Stanley stands in a sunlit lab, clipboard in hand, title-card energy.\n\nSplash page composition, single dramatic image, rule of thirds placement for focal point. Composition with clear space in upper third for text overlay. (compositional nuance: subject's stance anchors the dramatic moment; avoid forced spectacle)\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "splash",
+              "status": "prompt_only"
+            }
+          },
+          "spread0_page1": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "spread0_page1_p0": {
+            "class": "image",
+            "semantic_type": "establishing",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "16:9",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident. Golden retriever, lab mascot. Warm, loyal presence.\n\nA wide shot of the lab: benches, beakers, a sleeping dog in the corner.\n\nWide angle view, long shot, full environment visible, deep perspective with foreground, midground, and background layers. tiny figure in vast environment, layered depth, bird's eye view with shadows, framed by doorway or window\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident. Golden retriever, lab mascot. Warm, loyal presence.\n\nA wide shot of the lab: benches, beakers, a sleeping dog in the corner.\n\nWide angle view, long shot, full environment visible, deep perspective with foreground, midground, and background layers. tiny figure in vast environment, layered depth, bird's eye view with shadows, framed by doorway or window\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "establishing",
+              "status": "prompt_only"
+            }
+          },
+          "spread0_page1_p1": {
+            "class": "image",
+            "semantic_type": "dialogue",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident\n\nStanley turns to the reader and grins.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition Composition with clear space in upper third for text overlay.\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., confident\n\nStanley turns to the reader and grins.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition Composition with clear space in upper third for text overlay.\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "dialogue",
+              "status": "prompt_only"
+            }
+          },
+          "spread0_page1_p2": {
+            "class": "image",
+            "semantic_type": "close_up",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nA close-up of a glowing lattice diagram on a screen.\n\nClose-up shot, eye level angle. Subject filling the frame. Shallow depth — background blurred or abstracted to dark. (compositional nuance: held object and hands share the frame focus)\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nA close-up of a glowing lattice diagram on a screen.\n\nClose-up shot, eye level angle. Subject filling the frame. Shallow depth — background blurred or abstracted to dark. (compositional nuance: held object and hands share the frame focus)\n\nneutral lighting, dominant #565f89. Mood: cover_matter\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "close_up",
+              "status": "prompt_only"
+            }
+          },
+          "spread1": {
+            "class": "panel",
+            "semantic_type": "spread",
+            "degrades_to": "group"
+          },
+          "spread1_page0": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "spread1_page0_p0": {
+            "class": "image",
+            "semantic_type": "action",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "16:9",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., determined. Golden retriever, lab mascot. Warm, loyal presence., walking_alongside\n\nStanley races down a corridor of servers, Helix bounding beside him.\n\nMedium long shot, dynamic angle view. Panel composition emphasizes movement direction and action focus. full body dynamic pose, bird's eye view dramatic shadows, multiple poses showing progression, high contrast (compositional nuance: interactions between figures read cleanly without overlap ambiguity)\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., determined. Golden retriever, lab mascot. Warm, loyal presence., walking_alongside\n\nStanley races down a corridor of servers, Helix bounding beside him.\n\nMedium long shot, dynamic angle view. Panel composition emphasizes movement direction and action focus. full body dynamic pose, bird's eye view dramatic shadows, multiple poses showing progression, high contrast (compositional nuance: interactions between figures read cleanly without overlap ambiguity)\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "action",
+              "status": "prompt_only"
+            }
+          },
+          "spread1_page0_p1": {
+            "class": "image",
+            "semantic_type": "dialogue",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., determined\n\nStanley points at a monitor; a balloon floats above.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition Composition with clear space in upper third for text overlay.\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has THREE parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\n[PART 3: COMPOSITIONAL INTENT]\nA short free-text compositional anchor describing the overall compositional feel the image should achieve (e.g. composition naturalness, physical contact clarity, crowd depth refinement, object interaction focus, fading visual effect). PART 3 is a guiding compositional intent — not a literal element to render — and operates as a tie-breaker when PART 1 and PART 2 leave compositional choices ambiguous.\n\nTreat all three parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1; use PART 3 to disambiguate compositional intent across PART 1 + PART 2:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n- Honor the PART 3 compositional intent as an anchor — when PART 1 and PART 2 admit multiple compositional readings, prefer the reading that matches PART 3\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, the PART 3 anchor text, or any structural text in the output image. The Mermaid is a composition guide, not visible content; PART 3 is an instruction, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nStudio Ghibli-style young scientist. Spiky brown hair, lean mid-height build. White lab coat over purple turtleneck, black pants. 'STANLEY' name badge. Rayban Wayfarer frames with clear lenses., determined\n\nStanley points at a monitor; a balloon floats above.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition Composition with clear space in upper third for text overlay.\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.\n\n[PART 2: SPATIAL LAYOUT]\n\ngraph TB\n    panel[\"panel:p3_2<br/>framing=medium\"]\n\n    subgraph TOP[TOP balloon space]\n        b1[\"balloon-1<br/>type=speech\"]\n    end\n\n    subgraph MID[MID subject zone]\n        s1[\"Stanley<br/>depth=foreground\"]\n        m1[\"monitor<br/>depth=midground\"]\n    end\n\n    subgraph BOT[BOT ground zone]\n    end\n\n    s1 -- left-of --> m1\n    s1 -- speaks --> b1\n\n\n[PART 3: COMPOSITIONAL INTENT]\n\nobject_interaction_focus",
+              "panel_type": "dialogue",
+              "spatial_layout": "graph TB\n    panel[\"panel:p3_2<br/>framing=medium\"]\n\n    subgraph TOP[TOP balloon space]\n        b1[\"balloon-1<br/>type=speech\"]\n    end\n\n    subgraph MID[MID subject zone]\n        s1[\"Stanley<br/>depth=foreground\"]\n        m1[\"monitor<br/>depth=midground\"]\n    end\n\n    subgraph BOT[BOT ground zone]\n    end\n\n    s1 -- left-of --> m1\n    s1 -- speaks --> b1\n",
+              "compositional_intent": "object_interaction_focus",
+              "status": "prompt_only"
+            }
+          },
+          "spread1_page0_p2": {
+            "class": "image",
+            "semantic_type": "transition",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "Mixed transition style — Studio Ghibli illustration dissolving into 16-bit pixel art at edges. Reality pixelates at borders. Human world details break into visible pixels. The monitor/screen serves as portal between worlds. CRT hum aesthetic at the boundary.\n\nThe screen glow fades into a pixelated dissolve.\n\nWide shot, high angle or flat plane. Minimal detail, emphasis on color, light, and atmosphere. dark silhouetted figures bright background, character silhouette backlit, silhouette against bright background\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nMixed transition style — Studio Ghibli illustration dissolving into 16-bit pixel art at edges. Reality pixelates at borders. Human world details break into visible pixels. The monitor/screen serves as portal between worlds. CRT hum aesthetic at the boundary.\n\nThe screen glow fades into a pixelated dissolve.\n\nWide shot, high angle or flat plane. Minimal detail, emphasis on color, light, and atmosphere. dark silhouetted figures bright background, character silhouette backlit, silhouette against bright background\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "transition",
+              "status": "prompt_only"
+            }
+          },
+          "spread1_page1": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "spread1_page1_p0": {
+            "class": "image",
+            "semantic_type": "dialogue",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "16-bit pixel art style, retro RPG aesthetic. CRT-glow palette — blues, neon greens, electric purples on dark backgrounds. Screen glow, circuit-board luminescence, scanline overlay. Sharp pixels, blocky geometry, sprite-sheet animation energy. Warm retro color palette with neon accent glows.\n\n16-bit pixel art sprite character. Spiky brown pixel hair, white pixel lab coat over purple pixel turtleneck. Retro RPG aesthetic, sprite-sheet animation energy.\n\nAgent Stanley appears as a pixel sprite, waving.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\n16-bit pixel art style, retro RPG aesthetic. CRT-glow palette — blues, neon greens, electric purples on dark backgrounds. Screen glow, circuit-board luminescence, scanline overlay. Sharp pixels, blocky geometry, sprite-sheet animation energy. Warm retro color palette with neon accent glows.\n\n16-bit pixel art sprite character. Spiky brown pixel hair, white pixel lab coat over purple pixel turtleneck. Retro RPG aesthetic, sprite-sheet animation energy.\n\nAgent Stanley appears as a pixel sprite, waving.\n\nMedium shot, eye level view. Upper third of frame clear for dialogue balloon space. Big Head close-up, over-the-shoulder view, side profile, layered depth composition\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "dialogue",
+              "status": "prompt_only"
+            }
+          },
+          "spread1_page1_p1": {
+            "class": "image",
+            "semantic_type": "close_up",
+            "degrades_to": "text",
+            "qualities": {
+              "substrate": "raster",
+              "aspect_ratio": "1:1",
+              "image_prompt": "Studio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nA final close-up: the lattice resolves into a clear picture.\n\nClose-up shot, eye level angle. Subject filling the frame. Shallow depth — background blurred or abstracted to dark. (compositional nuance: subtle visual fade or vanishing element carries a narrative beat)\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "dual_prompt": "The following description has TWO parts that describe THE SAME image.\n\n[PART 1: TEXT DESCRIPTION]\nA natural-language description of the scene's content, characters, style, and mood. This is the primary description of what to render.\n\n[PART 2: SPATIAL LAYOUT]\nA structured spatial description in Mermaid graph syntax that specifies WHERE elements appear in the frame:\n- Which third of the frame (TOP / MID / BOT)\n- Which depth layer (foreground / midground / background)\n- Spatial relationships between elements (left-of, above, contains, speaks, etc.)\n- The framing attribute (close-up | medium | wide | establishing) sets the camera distance\n\nTreat both parts as mutual descriptions of the SAME target image. Use PART 2 to disambiguate spatial intent in PART 1:\n- Place elements in the frame thirds (TOP / MID / BOT) as PART 2 specifies\n- Honor depth-layer assignments — foreground subjects render larger and sharper than background\n- Honor spatial relationships (\"left-of\", \"above\") in the rendered composition\n- Set camera distance to match the framing attribute\n\nDO NOT render the Mermaid syntax itself, the bracket markers, the section headers, or any structural text in the output image. The Mermaid is a composition guide, not visible content.\n\n[PART 1: TEXT DESCRIPTION]\n\nStudio Ghibli-inspired illustration style. Warm palette — golden ambers, soft greens, sunset oranges. Natural lighting, organic textures — paper, wood, fabric, glass. Expressive faces, fluid movement, lived-in spaces. Clean linework with painterly warmth.\n\nA final close-up: the lattice resolves into a clear picture.\n\nClose-up shot, eye level angle. Subject filling the frame. Shallow depth — background blurred or abstracted to dark. (compositional nuance: subtle visual fade or vanishing element carries a narrative beat)\n\nwarm_golden lighting, dominant #e0af68. Mood: inviting\n\nNo photorealism, no 3D rendering, no smooth gradients, no anime screentones, no watercolor, no bright white background, no legible real text, no readable words or letters, no typeset fonts, no OCR-readable characters, stylize any text as abstract glowing symbols or decorative runes, no speech bubble lettering rendered as real typography.",
+              "panel_type": "close_up",
+              "status": "prompt_only"
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "comic"
+        },
+        "panel_link": {
+          "edges": {
+            "spread0_page1_ro_0": {
+              "kind": "reading_order"
+            },
+            "spread0_page1_ro_1": {
+              "kind": "reading_order"
+            },
+            "spread0_page1_adj_0": {
+              "kind": "adjacency"
+            },
+            "spread0_page1_adj_1": {
+              "kind": "adjacency"
+            },
+            "spread1_page0_ro_0": {
+              "kind": "reading_order"
+            },
+            "spread1_page0_ro_1": {
+              "kind": "reading_order"
+            },
+            "spread1_page0_adj_0": {
+              "kind": "adjacency"
+            },
+            "spread1_page0_adj_1": {
+              "kind": "adjacency"
+            },
+            "spread1_page1_ro_0": {
+              "kind": "reading_order"
+            },
+            "spread1_page1_adj_0": {
+              "kind": "adjacency"
+            },
+            "seq_0": {
+              "kind": "sequence"
+            },
+            "seq_1": {
+              "kind": "sequence"
+            },
+            "seq_2": {
+              "kind": "sequence"
+            }
+          },
+          "regions": {
+            "comic_root": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 4
+              },
+              "surface": "comic_page"
+            },
+            "spread0": {
+              "flow": "horizontal",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 2
+              },
+              "surface": "comic_page"
+            },
+            "spread0_page0": {
+              "flow": "columns",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "comic_page"
+            },
+            "spread0_page1": {
+              "flow": "columns",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "comic_page"
+            },
+            "spread1": {
+              "flow": "horizontal",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 2
+              },
+              "surface": "comic_page"
+            },
+            "spread1_page0": {
+              "flow": "columns",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "comic_page"
+            },
+            "spread1_page1": {
+              "flow": "columns",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "comic_page"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "comic_root",
+              "role": "canonical",
+              "surface": "comic_page"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:comic:science_stanley_mini",
+          "version": "0.1.0",
+          "refs": [
+            "[[character_bible_science_stanley]]",
+            "[[color_script_science_stanley]]",
+            "[[storyboard_science_stanley_mini]]"
+          ]
+        }
+      }
+    }
+  }
+}
