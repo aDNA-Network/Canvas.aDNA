@@ -6,7 +6,7 @@ agent: agent_stanley
 persona: Mondrian
 created: 2026-06-22
 updated: 2026-06-22
-status: active
+status: completed
 campaign_id: campaign_canvas_salon
 campaign_phase: P3
 intent: "Open Salon P3 + author spec_interface_surface.md (leg-3 interface-surface contract) + file D8 coordination memos; HOLD at the ratification gate."
@@ -57,7 +57,12 @@ never self-ratify or open P4.
 - Governance currency: STATE.md resume block; campaign master (P3 row → in_progress + risk-register resolution note);
   campaign CLAUDE.md; `what/specs/AGENTS.md` index.
 - Verified firewall `git status -s -- what/code/canvas_std/` clean (spec-only; no code). Re-checked HEAD: Hestia
-  committed `e33a871` (single test file) mid-session — **no overlap** with my changeset; committing separately.
+  committed `e33a871` (single test file) mid-session — **no overlap** with my changeset; committed separately (`3c7fc55`).
+- **Ratification close (same session, operator: "Approved/commit + Sitrep and aar"):** flipped spec `status → ratified`
+  (+ RATIFIED banner; open-questions → resolved-decisions log, all 9 at defaults); folded the `I-*` family into
+  `spec_conformance_suite.md` §4.1; completed `mission_p3_interface_surface_spec` (+5-step AAR); campaign P3 → completed
+  + governance currency; session → completed + moved to history. Firewall still git-diff 0. Committed (Canvas-only;
+  push operator-gated).
 
 ## SITREP
 
@@ -70,13 +75,15 @@ never self-ratify or open P4.
 - P3 mission opened; campaign + STATE + specs index current.
 
 **In progress**
-- Mission `mission_p3_interface_surface_spec` — completes (with AAR) **at operator ratification**, not at draft.
+- None — P3 authored **and ratified** this session; mission `mission_p3_interface_surface_spec` `completed` (+AAR).
 
 **Next up (operator)**
-- Ratify the leg-3 draft (resolving the 9 open questions). On ratification: flip spec `status → ratified`, fold the
-  `I-*` family into `spec_conformance_suite.md` (separate ratified edit), complete the mission (+AAR), campaign P3 →
-  completed. **Then HOLD** at the P3→P4 gate (P4 is a stretch — do not open without the operator).
-- Operator-gated: commit/cross-post the aDNA.aDNA delivery copies into aDNA.aDNA's git; push the Canvas batch.
+- **P3→P4 gate (HELD):** open **P4** (the stretch POC — operator annotates a canvas → agent re-reads as context →
+  responds; a read-only extension of `canvas_context`) **or** go straight to **P5 close** (Completion Summary + campaign
+  AAR + follow-on leg-3-build charter). Operator's call; do not open P4 unprompted.
+- Operator-gated: commit/cross-post the aDNA.aDNA delivery copies into aDNA.aDNA's git; **push the Canvas batch** (ahead
+  4). Future: `I-*` validator implementation + the formal Standard-version cut (a deliberate release, with LIP-0008 →
+  v2.1.0); OIP `v1.x` re-anchor when the thesis lands.
 
 **Blockers**
 - None. The former High-risk OIP-thesis dependency is resolved (proceed-first-principles).

@@ -4,7 +4,7 @@ spec_id: spec_interface_surface
 title: "aDNA Canvas interface-surface contract — a canvas as a human↔AI / human↔human interaction surface (Salon leg 3)"
 standard_version: "2.0.2"
 interaction_version: "1.0"
-status: draft
+status: ratified
 created: 2026-06-22
 updated: 2026-06-22
 last_edited_by: agent_stanley
@@ -18,8 +18,13 @@ tags: [spec, canvas, interface, surface, interaction, leg3, salon, rfc2119, cont
 
 # aDNA Canvas Interface-Surface Contract (Salon leg 3)
 
-> **Status: DRAFT — authored at Operation Salon P3 (`campaign_canvas_salon`), pending the operator ratification
-> gate.** The third leg of the [[adr_000_canvas_identity|ADR-000]] three-leg thesis: legs 1 (output, Operation Palette)
+> **Status: RATIFIED 2026-06-22 (operator, Operation Salon P3 gate, `campaign_canvas_salon`).** Ratified as drafted —
+> all 9 open questions resolved at their proposed defaults (see the closing §Ratification decisions). With this
+> ratification the **Canvas three-leg thesis is complete**: leg 1 (output) + leg 2 (context object) **proven**, leg 3
+> (interface surface) **specified-and-bounded**. The proposed `I-*` conformance family is folded into
+> [[spec_conformance_suite]] §4.1 (additive + optional; `interaction_version: 1.0`; formal Standard-version cut
+> deferred per the §Ratification-decisions Q7 default).** The third leg of the
+> [[adr_000_canvas_identity|ADR-000]] three-leg thesis: legs 1 (output, Operation Palette)
 > and 2 (context object, [[spec_canvas_context_loading|Salon P2]]) are **proven**; this spec **specifies-and-bounds**
 > leg 3. It is **spec-only** this campaign (Salon **D4**) — a **contract**, never a rendering engine, capture runtime,
 > federation transport, or cross-surface router (bounded by [[adr_006_canvas_surface_boundary|ADR-006]]). It rides the
@@ -312,10 +317,10 @@ open). Routine evolution touching neither needs no external sign-off.
 - `aDNA.aDNA/how/backlog/idea_campaign_operator_interaction_patterns_unification.md` (the future OIP routing layer)
 - `how/campaigns/campaign_canvas_salon/campaign_canvas_salon.md` (P3: this spec)
 
-## Open questions (for the ratification gate)
+## Ratification decisions (resolved 2026-06-22 — all at defaults)
 
-These are flagged for the operator at the P3 ratification gate; each carries a proposed default (the draft adopts the
-default unless the operator directs otherwise).
+Ratified as drafted: at the P3 gate the operator resolved each question below **at its proposed default**. Recorded here
+as the decision log (the bold defaults are the ratified positions).
 
 1. **Primitive naming — `affordance`.** Precise and kind-neutral, but heavier than `anchor`/`response`/`turn`. Default:
    keep `affordance` (alternatives `field`/`gate` are input-biased or collide with ISS).

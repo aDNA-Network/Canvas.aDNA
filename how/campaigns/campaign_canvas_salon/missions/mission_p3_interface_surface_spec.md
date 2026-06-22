@@ -3,7 +3,7 @@ plan_id: mission_p3_interface_surface_spec
 type: plan
 title: "P3 — Leg-3 interface-surface spec (greenfield, spec-only)"
 owner: stanley
-status: in_progress
+status: completed
 campaign_id: campaign_canvas_salon
 campaign_phase: 3
 campaign_mission_number: 4
@@ -75,13 +75,15 @@ completes (with AAR) **at** ratification.
   campaign `CLAUDE.md` current-phase line; `what/specs/AGENTS.md` indexes the new spec. SITREP + draft presented; **HOLD**.
 - **Files**: `STATE.md`, `campaign_canvas_salon.md`, `campaign_canvas_salon/CLAUDE.md`, `what/specs/AGENTS.md`
 
-### 4. Ratify + close (awaits operator)
-- **Status**: pending (human gate)
-- **Description**: on operator ratification, set spec `status: draft → ratified`, fold the `I-*` family into
-  `spec_conformance_suite.md` (separate ratified edit), complete this mission (+AAR), campaign P3 row → completed, and
-  HOLD at the P3→P4 gate (P4 is a stretch; do not open without the operator).
-- **Files**: this mission (→ completed + AAR), `spec_interface_surface.md` (status flip), `spec_conformance_suite.md`,
-  campaign doc, STATE.md
+### 4. Ratify + close
+- **Status**: completed
+- **Description**: operator ratified 2026-06-22 ("Approved") at all 9 default open-question resolutions. Spec
+  `status: draft → ratified` (+ RATIFIED banner; open-questions → resolved-decisions log); the `I-*` family folded into
+  `spec_conformance_suite.md` §4.1 (additive/optional; `interaction_version 1.0`; validator-impl forward-pointed;
+  Standard-version cut deferred). Mission completed (+AAR), campaign P3 row → completed. **HOLD at the P3→P4 gate** (P4
+  is a stretch; not opened).
+- **Files**: this mission (→ completed + AAR), `spec_interface_surface.md` (ratified), `spec_conformance_suite.md`
+  (§4.1 I-*), campaign doc, campaign CLAUDE.md, STATE.md, `what/specs/AGENTS.md`
 
 ## Campaign Context
 
@@ -104,8 +106,50 @@ completes (with AAR) **at** ratification.
 
 ## Completion Summary
 
-*Filled at ratification (the mission completes at the human gate, not at draft-authoring).*
+Completed 2026-06-22 (drafted + ratified same session). **Leg 3 specified-and-bounded — the Canvas three-leg thesis is
+complete** (1 output + 2 context-object PROVEN; 3 interface-surface RATIFIED).
+
+### Deliverables
+- **[[../../../what/specs/spec_interface_surface|spec_interface_surface.md]]** (`status: ratified`) — a canvas as a
+  human↔AI / human↔human interaction surface, **as a contract** bounded by `adr_006` (no routing/engine/transport;
+  rides `_reserved.interaction` additively). Mirrors the leg-2 spec 1:1: interaction = a `read → act → re-read` loop
+  over the leg-2 `ContextGraph`; five primitives (`anchor` · `affordance` · `response` · `surface state` · `turn`);
+  concrete `_reserved.interaction` shape; normative IX1–IX6; the affordance↔anchor binding sub-contract;
+  round-trip-to-baseline as the headline property; participant-neutrality. Ratified at all 9 default open-question
+  resolutions (recorded as the §Ratification-decisions log).
+- **`I-*` conformance family** folded into `spec_conformance_suite.md` §4.1 (I-1..I-3; additive + optional;
+  `interaction_version 1.0`; degradation covered by §5; validator-impl forward-pointed; reuses `validate_anchors`).
+- **D8 coordination memos** filed — `seam: Canvas ↔ OIP` + `seam: Canvas ↔ ISS` (canonical in `who/coordination/`;
+  delivery copies staged uncommitted in `aDNA.aDNA/who/coordination/`, commit operator-gated).
+- Governance currency: STATE, campaign master (P3 → completed; OIP risk RESOLVED), campaign CLAUDE, `what/specs/AGENTS.md`.
+
+### Descoped / deferred
+- **Leg-3 runtime build** — deferred to a follow-on charter (D4 spec-only). The stretch **P4 POC** (operator-annotates →
+  agent re-reads → responds) is **not opened** (HELD at the P3→P4 gate).
+- **Formal Standard-version cut** for the `I-*` family — deferred (operator/FA at a deliberate release; open-Q7 default).
+- **OIP re-anchoring** — a future `v1.x` alignment pass when the `aDNA.aDNA` OIP/interface thesis is authored.
+
+### Key findings
+- The external "OIP/interface thesis" doc the campaign nominally gated P3 on **does not exist** (a future, unopened
+  `aDNA.aDNA` deliverable). Proceeding **first-principles, Canvas-scoped v1** — grounded on `adr_006` + the proven leg-2
+  model + ISS as exemplar — let leg 3 land without blocking on a cross-vault campaign, with a clean `interaction_version`
+  seam to re-anchor later. The High-risk register entry is resolved.
+- Framing interaction as a **loop over the leg-2 `ContextGraph`** (not a new model) kept leg 3 a thin additive overlay —
+  `anchor` reuses `panel_link.anchors`, the read step is a leg-2 load, surface-state *is* a `ContextGraph`. This is what
+  kept it inside the ADR-006 "contract, not engine" fence.
+
+### Scope changes
+- None. Built + ratified within the P3 charter; HOLD at P3→P4 (no auto-advance into the stretch POC).
 
 ## AAR
 
-*Filed at mission completion (SO-5) — i.e. at ratification.*
+- **Worked**: Mirroring the ratified leg-2 spec 1:1 (structure + RFC-2119 + the `read → act → re-read` framing over its
+  `ContextGraph`) made the greenfield leg-3 spec land coherent and firewall-safe in one session.
+- **Didn't**: The campaign's stated P3 gate ("acquire the OIP thesis doc") was unworkable as written — the doc doesn't
+  exist; the gate's own "ratified **or** deferred" escape + ratified D4 (spec-only) were what actually unblocked it.
+- **Finding**: Greenfield-with-a-missing-external-dependency resolves cleanly by **proceeding Canvas-scoped v1 with a
+  versioned re-anchor seam** (`interaction_version`), not by deferring on an unopened sibling campaign.
+- **Change**: When a phase gate names an external artifact that turns out not to exist, surface it as an operator
+  decision *before* authoring (done here in plan-mode) rather than discovering it mid-build.
+- **Follow-up**: P4 (stretch POC) or P5 (close) — operator's call at the P3→P4 gate; `I-*` validator implementation +
+  the formal Standard-version cut ride a future deliberate release; OIP `v1.x` re-anchor when the thesis lands.

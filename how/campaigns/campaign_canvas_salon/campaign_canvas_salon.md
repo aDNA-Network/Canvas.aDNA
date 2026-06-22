@@ -128,17 +128,21 @@ green; **`canvas_std` firewall git-diff 0** (loader placement per D6). Leg 2 is 
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 4 | P3 — Interface-surface spec (greenfield) | 1-2 | P0 (boundary), P2 | in_progress |
+| 4 | P3 — Interface-surface spec (greenfield) | 1-2 | P0 (boundary), P2 | completed |
 
 **Phase exit gate**: `spec_interface_surface.md` ratified **or** explicitly deferred (if the external OIP/interface
-thesis doc cannot be acquired); coordination with `aDNA.aDNA` (OIP) + ISS recorded.
+thesis doc cannot be acquired); coordination with `aDNA.aDNA` (OIP) + ISS recorded. **✅ MET** — ratified 2026-06-22; D8
+memos filed.
 
-> **P3 opened 2026-06-22** (`mission_p3_interface_surface_spec`). The external OIP/interface-thesis dependency
-> **resolved by proceeding first-principles** (operator decision, plan-mode): the doc does not exist (a future
+> **P3 COMPLETE 2026-06-22** (`mission_p3_interface_surface_spec`, completed). The external OIP/interface-thesis
+> dependency **resolved by proceeding first-principles** (operator, plan-mode): the doc does not exist (a future
 > `aDNA.aDNA` OIP-unification deliverable), so the spec was authored **Canvas-scoped v1** — grounded on `adr_006` + the
-> proven leg-2 model + ISS as exemplar — to re-anchor on a future `v1.x` OIP-alignment pass; **not** deferred. Draft
-> [[../../../what/specs/spec_interface_surface|spec_interface_surface.md]] authored (`status: draft`); D8 memos filed.
-> **HELD at the ratification gate.**
+> proven leg-2 model + ISS as exemplar — re-anchoring on a future `v1.x` OIP pass; **not** deferred.
+> [[../../../what/specs/spec_interface_surface|spec_interface_surface.md]] **ratified** (operator, "Approved", at all 9
+> default open-question resolutions); the `I-*` conformance family folded into `spec_conformance_suite.md` §4.1
+> (additive/optional; `interaction_version 1.0`; Standard-version cut deferred). D8 memos filed. **➤ The Canvas
+> three-leg thesis is now COMPLETE** — leg 1 (output) + leg 2 (context object) **proven**, leg 3 (interface surface)
+> **ratified**. **⛔ HELD at the P3→P4 gate** (P4 = stretch POC; not opened).
 
 ### Phase P4 *(stretch)*: Leg-3 proof-of-concept
 
