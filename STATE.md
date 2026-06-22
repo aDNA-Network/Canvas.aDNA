@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-06-21
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260621_193649_atelier_scaffold_a0
+last_session: session_stanley_20260621_221625_atelier_errata_v202
 tags: [state, governance, canvas, genesis, atelier]
 ---
 
@@ -28,7 +28,28 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ OPERATION ATELIER COMPLETE (2026-06-21 — diagram + comic producers built on `canvas_std`; campaign CLOSED) · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+## ▶ Resume Here — ✅ ATELIER ERRATA AT-1/AT-2 RESOLVED → STANDARD v2.0.2 (2026-06-21 — editorial PATCH; errata queue drained) · ✅ OPERATION ATELIER COMPLETE (diagram + comic producers) · ✅ KEYSTONE COMPLETE; LIP-0008/0009 review closes 2026-06-27 + PT P5
+
+> **✅ ATELIER ERRATA AT-1/AT-2 RESOLVED → CANVAS STANDARD v2.0.2 (this session,
+> `session_stanley_20260621_221625_atelier_errata_v202`).** Post-Atelier (no active campaign), the operator chose
+> "Resolve Atelier errata." Both spec-gap errata resolved as **editorial clarifications (PATCH; `adr_003` §2 —
+> maintainer-discretion, no LIP)** + shipped in **v2.0.2**: **AT-1 (option ii)** — `extent` is **OPTIONAL**; a
+> non-paginated single-surface region (`pagination: none`, e.g. a diagram/graph) legitimately omits it; **no
+> `graph`/`nodes` unit added** (a node-graph is sized by content, not paged — would conflate pagination with graph
+> size). **AT-2 (option i)** — the `surface` subclass label (region `surface` + `surfaces[].surface`) is an **OPEN,
+> producer-defined vocabulary**; **no enum added** (a closed enum would force a LIP per new producer). **No
+> validator-behavior change** — both make explicit what the reference impl already does (`extent` checked only when
+> present; `surface` never enum-checked). Edits: `spec_panel_link_semantics §4/§5.2/§6` + errata banner; doc-comments
+> in `reserved.py`; **2 regression tests** (`test_anchors.py::test_at1_*`/`test_at2_*`). **v2.0.2 cut** mirrors the
+> v2.0.1 sites (`STANDARD_VERSION` · schema `title`+`x-standard-version`, **`$id` unchanged** · `conformance.py` ·
+> `test_smoke`/`test_conformance` · 7 spec `standard_version` frontmatters + the federation example); fixtures'
+> `adna_version` stays `2.0.0`. **Verified:** `canvas_std` **82/10** (+2) + ruff clean; CLI `2.0.2`; **5 producer
+> suites green** (brief 10 · deck 16 · document 37 · diagram 36 · comic 87) + all 6 examples `adna_native [OK]`;
+> **firewall:** validator logic untouched (`reserved.py` git-diff = comments only). **Errata queue fully drained**
+> (B1–B4 + AT-1/AT-2). Disposition: `what/decisions/lip_queue_disposition.md` §Closeout — AT-1/AT-2. **No new
+> campaign; Atelier stays closed.** **Tail unchanged:** LIP-0008/0009 FA review closes **2026-06-27** (→ v2.1.0 on
+> LIP-0008 Final); PT P5 Hestia-owned. **Push pending operator authorization.** The boxes below are Atelier build
+> history.
 
 > **✅ OPERATION ATELIER COMPLETE — CAMPAIGN CLOSED (this session, `session_stanley_20260621_210130_a3_validation_close`).**
 > Phase **A3** ran validation & close: final sweep **266 passed** (canvas_std 80/10 · brief 10 · deck 16 · document 37

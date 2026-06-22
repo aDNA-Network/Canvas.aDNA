@@ -36,6 +36,9 @@ BASELINE_TYPES: frozenset[str] = frozenset({"text", "file", "group", "link"})
 PL_EDGE_KINDS: frozenset[str] = frozenset({"sequence", "reading_order", "adjacency", "dependency"})
 PL_FLOW: frozenset[str] = frozenset({"none", "vertical", "horizontal", "columns"})
 PL_PAGINATION: frozenset[str] = frozenset({"none", "paged", "continuous"})
+# `extent` is a pagination/length window; these are the only length units. `extent` is OPTIONAL (AT-1,
+# spec §4) — a non-paginated single-surface region (e.g. a diagram, pagination: none) omits it. There is
+# deliberately no graph/node unit: a node-graph is sized by content, not paged.
 PL_EXTENT_UNITS: frozenset[str] = frozenset({"words", "pages", "slides"})
 
 # Anchor layer vocabularies (spec_panel_link_semantics §5.3/§6).
@@ -162,6 +165,8 @@ def validate_panel_link(block: dict[str, Any], node_ids: set[str], edges: list[A
         if unit is not None and unit not in PL_EXTENT_UNITS:
             errors.append(f"A-5: region {gid!r} extent.unit {unit!r} invalid")
 
+    # Surfaces: enforce the `role` set (exactly one canonical) + id resolution. The `surface` subclass label is an
+    # OPEN, producer-defined vocabulary (AT-2, spec §4/§5.2) — deliberately NOT enum-checked here.
     surfaces = block.get("surfaces")
     if surfaces is not None:
         canonical = [s for s in surfaces if isinstance(s, dict) and s.get("role") == "canonical"]

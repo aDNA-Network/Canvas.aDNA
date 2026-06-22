@@ -1,9 +1,9 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json",
-  "title": "aDNA Canvas Standard v2.0.1",
+  "title": "aDNA Canvas Standard v2.0.2",
   "description": "Structural contract for a .canvas document. Node/edge floor + enums + the _reserved carrier. Semantic checks (toEnd:arrow / C-4, id resolution, sequence-acyclicity, exactly-one-canonical-surface) are performed by the canvas_std validator (validate / validate_suite) — JSON Schema cannot express them.",
-  "x-standard-version": "2.0.1",
+  "x-standard-version": "2.0.2",
   "x-upstream-baseline": "Advanced Canvas v5.6.6 + JSON Canvas 1.0",
   "type": "object",
   "required": ["nodes", "edges"],

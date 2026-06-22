@@ -2,10 +2,10 @@
 type: spec
 spec_id: spec_panel_link_semantics
 title: "aDNA Canvas panel/link semantics (D5) — flow, pagination, reading-order for non-DAG outputs"
-standard_version: "2.0.1"
+standard_version: "2.0.2"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-20
+updated: 2026-06-21
 last_edited_by: agent_stanley
 phase: P2
 resolves: D5
@@ -25,6 +25,15 @@ tags: [spec, canvas, panel-link, flow, pagination, genesis, p2, d5]
 > what §6 already mandated, changing no rule. The reference validator now enforces the anchor layer
 > (`canvas_std::validate_anchors`). `standard_version` advanced to 2.0.1 at the operator's release-cut 2026-06-20
 > (`what/decisions/lip_queue_disposition.md`).
+>
+> **Errata 2026-06-21 (Atelier AT-1/AT-2; ships in v2.0.2, cut 2026-06-21).** §4 **clarified** that `extent` is
+> **optional** — it expresses pagination/length (`words|pages|slides`), so a non-paginated single-surface region
+> (`pagination: none` — e.g. a diagram/graph) legitimately omits it (AT-1) — and that the `surface` subclass label
+> (§4, and `surfaces[].surface` §5.2) is an **open, free-form vocabulary** (producer-defined; the listed tokens are
+> non-normative examples), not a closed enum (AT-2); §6 restates both. No rule changes — this makes explicit what the
+> validator already does (`extent` validated only when present; the `surface` label never enum-checked). Surfaced while
+> building `diagram_generator` + `comic_generator` (Operation Atelier). `standard_version` advanced to 2.0.2 at the
+> operator's release-cut 2026-06-21 (`what/decisions/lip_queue_disposition.md` §Atelier addendum).
 
 ## 1. Scope & the non-breaking guarantee
 
@@ -65,12 +74,25 @@ regions:
   <group_id>:
     flow:        none | vertical | horizontal | columns
     pagination:  none | paged | continuous
-    extent:      { unit: words|pages|slides, max: <n> }   # from LF length_window
+    extent:      { unit: words|pages|slides, max: <n> }   # OPTIONAL — from LF length_window (pagination/length)
     responsive:  none | <breakpoint-profile>              # sites; producer-resolved
-    surface:     print_page | slide | web | letter | …    # surface subclass (LF)
+    surface:     print_page | slide | web | letter | …    # surface subclass (LF); OPEN vocabulary (examples)
 ```
 `pagination: paged` + `extent` define page breaks for print/PDF; `flow: columns` defines wrap. These inform
 producer layout; the Standard fixes the **declaration**, not the layout engine (C8).
+
+**`extent` is OPTIONAL (AT-1).** It expresses a **pagination/length** window — its units (`words|pages|slides`)
+are length measures — so it applies to paginated or length-bearing regions. A **non-paginated single-surface
+region** (`pagination: none` — a diagram/graph, a single graphic) is sized by its content, not paged, and
+**legitimately omits `extent`** (there is no length unit for a node-graph; do **not** invent one). When `extent`
+is present, its `unit` MUST be in the enum (§6); when absent, the region is simply non-length-bound.
+
+**`surface` is an OPEN vocabulary (AT-2).** The `surface` subclass label is a **free-form, producer-defined
+string** naming the output subclass; `print_page | slide | web | letter | …` are **non-normative examples**, not a
+closed enum. Producers mint surface tokens for their output kind (e.g. `comic_page`, or a diagram-type name like
+`flowchart`). Tools MUST accept unknown `surface` values as valid; the Standard does **not** enum-check this label
+(it is application-specific — it belongs to the producer, not the grammar). Interop tools wanting a shared
+vocabulary SHOULD treat unrecognized tokens as opaque rather than rejecting them.
 
 **Pagination ownership — a page is a panel that carries a region (no separate "page" construct).** A page,
 slide, or printed sheet is a **`panel`** (a `group` component, §2) that **carries these region properties**;
@@ -94,7 +116,10 @@ page-`panel`.
 
 5.2. **Multi-surface.** `_reserved.panel_link.surfaces` declares `output_surfaces` with exactly one `canonical`
 and zero-or-more `derived` (LF F3). The canonical surface is the round-trip authority
-(`spec_roundtrip_protocol_v2.md`); derived surfaces are regenerated, never hand-authored as source.
+(`spec_roundtrip_protocol_v2.md`); derived surfaces are regenerated, never hand-authored as source. Each entry's
+`surface` field uses the **same open vocabulary** as the region `surface` subclass (§4, AT-2) — a free-form
+producer-defined token, not a closed enum. The validator enforces the `role` set (exactly one `canonical`) and id
+resolution, never the `surface` label.
 
 5.3. **Naming/anchor links.** `caption` components and cross-references resolve against **anchors** — a
 referenceable target (a baseline node, optionally surfaced under a human label). The Standard owns the
@@ -117,7 +142,11 @@ producer-side (C8 — the Standard fixes the *declaration*, not the *engine*).
 
 Panel/link semantics are an **aDNA-Native** feature. A validator **MUST** check: every `panel_link.edges` /
 `regions` / `surfaces` key references an existing baseline `id`; `sequence` chains are acyclic; exactly one
-`canonical` surface; `extent.unit`/`flow`/`pagination` ∈ their enums.
+`canonical` surface; `flow`/`pagination` ∈ their enums, and `extent.unit` ∈ its enum **when `extent` is present**.
+`extent` is **OPTIONAL** (§4, AT-1) — a non-paginated single-surface region (e.g. a diagram) omits it, and its
+absence is conformant. The `surface` subclass label (region `surface` and `surfaces[].surface`) is an **open
+vocabulary** (§4/§5.2, AT-2) and is **NOT** enum-checked — a validator MUST NOT reject a canvas for an unrecognized
+`surface` token.
 
 For the **anchor layer** (§5.3) the validator **MUST** check, wherever each is declared: `naming_convention.label_form
 ∈ {descriptive, legacy}` and `migration_rule` is a string; `orphan_detector.mode ∈ {label_ref, src_cited}` and

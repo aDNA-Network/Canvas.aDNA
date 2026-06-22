@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_conformance_suite
 title: "aDNA Canvas conformance suite — checks for Core / Extended / aDNA-Native"
-standard_version: "2.0.1"
+standard_version: "2.0.2"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-12

@@ -131,6 +131,8 @@ each producer ships conformant aDNA-Native today. Recorded, not fixed (`adr_003`
 | **AT-1** | `PL_EXTENT_UNITS = {words,pages,slides}` has no unit for a single-surface **graph**; a diagram `region` cannot express `extent` (the producer omits it — valid, `extent` optional) | Low | Spec gap (vocabulary) | v2.0.x erratum candidate — add a `graph`/`nodes` extent unit, **or** document that single-surface graph regions legitimately omit `extent`. Editorial/errata (skippable-LIP at maintainer discretion). |
 | **AT-2** | `panel_link` region/surface `surface` field is **free-form / not enum-checked** (diagram used the diagram-type name; comic used `"comic_page"`) | Low | Spec gap (vocabulary) | low-priority v2.0.x erratum candidate — if interoperable surface tokens are wanted, introduce a small enum (`print_page`, `slide`, `web`, `graph`, …); else document `surface` as free-form by design. |
 
+> **RESOLVED 2026-06-21 → v2.0.2 (editorial PATCH; AT-1 = option ii, AT-2 = option i). See "Closeout — AT-1/AT-2" below.**
+
 **AT-1 detail.** `diagram_generator/consume.py` builds one `diagram_root` region with `flow` + `pagination: none` +
 `surface`, and **omits `extent`** because no enum unit fits a node-graph. A diagram is neither paged nor
 word/slide-counted, so this is arguably correct-by-omission; the erratum asks the Standard to make that explicit (or
@@ -142,3 +144,36 @@ flagged only so a future interop pass is a deliberate decision rather than an ac
 
 Neither is gated on the operator; both can ride a future editorial PATCH (v2.0.x) at maintainer discretion, or fold
 into the next LIP batch alongside B4/LIP-0008.
+
+### Closeout — AT-1/AT-2 (2026-06-21, `session_stanley_20260621_221625_atelier_errata_v202`)
+
+Both **RESOLVED** as editorial clarifications (PATCH; `adr_003` §2 maintainer-discretion — **no LIP required**),
+shipped in **Canvas Standard v2.0.2** (cut 2026-06-21). Plan: `~/.claude/plans/tidy-pondering-peach.md`
+(operator-approved).
+
+- **AT-1 → option (ii): `extent` is OPTIONAL.** Documented (not vocabulary-extended): `extent` expresses a
+  pagination/length window (`words|pages|slides` are length units), so a non-paginated single-surface region
+  (`pagination: none` — e.g. a diagram/graph) **legitimately omits** it. **No `graph`/`nodes` unit added** — a
+  node-graph is sized by content, not paged; adding one would conflate pagination with graph size and bake an
+  app-specific token into the grammar (substrate-neutrality / "reduce to the grammar"). Sites:
+  `spec_panel_link_semantics §4` (extent line + prose) + `§6` (conformance clause) + a `reserved.py` comment on
+  `PL_EXTENT_UNITS`.
+- **AT-2 → option (i): `surface` is an OPEN vocabulary.** Documented as a free-form, producer-defined subclass
+  label (region `surface` **and** `surfaces[].surface`); listed tokens are non-normative examples; validators MUST
+  NOT reject unknown tokens. **No enum added** — a closed enum would force a LIP per new producer and bake producer
+  vocabulary into the Standard ("application-specific behavior belongs in producers, not the grammar"). Sites:
+  `spec_panel_link_semantics §4` (surface line + prose) + `§5.2` + `§6` + a `reserved.py` comment near the surfaces
+  check.
+
+**No validator-behavior change** — both make explicit what the reference impl already does (`extent` validated only
+when present; the `surface` label never enum-checked). Two-shelf firewall held: the `canvas_std` git-diff is the
+version string + 2 regression tests (`test_anchors.py::test_at1_extent_optional_for_nonpaginated_region` +
+`test_at2_surface_label_is_open_vocabulary`) + doc-comments only — **no validator logic touched**. The v2.0.2 cut
+mirrored the v2.0.1 sites: `__init__.STANDARD_VERSION` · schema `title` + `x-standard-version` (**`$id` unchanged** —
+structural schema identical) · `conformance.py` (×3) · `test_smoke` (×2) + `test_conformance` (×1) · the 7 spec
+`standard_version` frontmatters + the `spec_federation_contract` example; fixtures' `_reserved.adna_version` stays
+`2.0.0` (a 2.0.0 canvas stays valid under 2.0.2).
+
+**The errata queue is fully drained** (B1–B4 + AT-1/AT-2 all resolved). Governance tail unchanged: **LIP-0008 /
+LIP-0009** in Review (FA-owned, earliest close **2026-06-27**; on LIP-0008 Final → v2.1.0 A-5 relaxation); **PT P5**
+(Hestia) relocation/refederation. **No new campaign** — this rode the LIP-queue track; Operation Atelier stays closed.
