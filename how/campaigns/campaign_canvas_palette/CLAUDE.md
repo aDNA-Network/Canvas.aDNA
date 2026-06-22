@@ -6,8 +6,8 @@
 |-------|-------|
 | Campaign | `campaign_canvas_palette` |
 | Owner | stanley |
-| Status | planning (activates on P0→P1 ratification) |
-| Current Phase | Phase P0: Charter & decision record |
+| Status | active (P0 ratified 2026-06-21; all 6 defaults) |
+| Current Phase | Phase P1 COMPLETE ✅ — HELD at P1→P2 gate (P2 = letter_generator) |
 | Persona | Mondrian (Canvas.aDNA) |
 
 ## Quick Start

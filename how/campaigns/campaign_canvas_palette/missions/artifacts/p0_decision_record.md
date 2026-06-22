@@ -2,7 +2,7 @@
 type: decision_record
 created: 2026-06-21
 updated: 2026-06-21
-status: draft
+status: ratified
 last_edited_by: agent_stanley
 campaign_id: campaign_canvas_palette
 mission: mission_p0_charter_triage
@@ -111,13 +111,17 @@ if context budget remains, else log to backlog for a future "fill-in-the-blanks"
 
 | # | Decision | Default | Operator disposition |
 |---|----------|---------|----------------------|
-| D1 | Codename / slug | Operation Palette / `campaign_canvas_palette` | ⏳ pending |
-| D2 | Factory artifact homes | skill `skill_canvas_producer_build.md` + scaffold `what/production/_scaffold/` | ⏳ pending |
-| D3 | Letter conformance level | `adna_native` (not §6.3 `extended`) | ⏳ pending |
-| D4 | Post domain model | single + thread; platform profiles producer-side; image as metadata | ⏳ pending |
-| D5 | Producer names | `letter_generator`, `post_generator` | ⏳ pending |
-| D6 | Optional stretch | Defer poster/one-pager to P4-if-budget | ⏳ pending |
+| D1 | Codename / slug | Operation Palette / `campaign_canvas_palette` | ✅ Accepted (default) 2026-06-21 |
+| D2 | Factory artifact homes | skill `skill_canvas_producer_build.md` + scaffold `what/production/_scaffold/` | ✅ Accepted (default) 2026-06-21 |
+| D3 | Letter conformance level | `adna_native` (not §6.3 `extended`) | ✅ Accepted (default) 2026-06-21 |
+| D4 | Post domain model | single + thread; platform profiles producer-side; image as metadata | ✅ Accepted (default) 2026-06-21 |
+| D5 | Producer names | `letter_generator`, `post_generator` | ✅ Accepted (default) 2026-06-21 |
+| D6 | Optional stretch | Defer poster/one-pager to P4-if-budget | ✅ Accepted (default) 2026-06-21 |
 
 On ratification: set this record `status: ratified`, update the campaign Decision Points, complete mission P0.1 (+AAR),
 set the campaign `status: active`, and open Phase P1 (author the P1 mission — build `skill_canvas_producer_build.md`
 + `what/production/_scaffold/` from the approved plan + `context_canvas_producer_pattern.md`).
+
+> **✅ RATIFIED 2026-06-21** — the operator accepted all 6 defaults at the P0→P1 gate
+> (`session_stanley_20260621_234513_palette_p1_factory`). Campaign activated (`status: active`); Phase P1 opened;
+> the factory build (`skill_canvas_producer_build.md` + `what/production/_scaffold/`) is authorized.

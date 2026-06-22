@@ -3,8 +3,8 @@ campaign_id: campaign_canvas_palette
 type: campaign
 title: "Operation Palette — Complete the canvas output family (letter, post) + harden the producer factory"
 owner: stanley
-status: planning
-activated:
+status: active
+activated: 2026-06-21
 phase_count: 5
 mission_count: 1
 estimated_sessions: "6-9"
@@ -83,7 +83,7 @@ legs of the thesis are deferred to a separate future campaign — see Notes.)
 ### Phase P0 — Charter & decision record (cheap; no code)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| P0.1 | Charter scaffold + a decision record (the 6 Decision Points below); confirm no letter/post producer or spec exists beyond §6.3 | ≤1 | 🔄 **in progress 2026-06-21** ([[how/campaigns/campaign_canvas_palette/missions/mission_p0_charter_triage\|mission]]) |
+| P0.1 | Charter scaffold + a decision record (the 6 Decision Points below); confirm no letter/post producer or spec exists beyond §6.3 | ≤1 | ✅ **done 2026-06-21** — 6 decisions ratified (all defaults); campaign activated ([[how/campaigns/campaign_canvas_palette/missions/mission_p0_charter_triage\|mission]]) |
 
 **Phase exit gate (P0→P1, HUMAN):** operator ratifies the P0 decision record (codename/slug, factory artifact homes,
 letter conformance level, post domain model, producer names, optional stretch). **This ratification activates the
@@ -92,10 +92,18 @@ campaign** (`status: active`) and authorizes the P1 factory build.
 ### Phase P1 — Factory hardening
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| P1 | Build `skill_canvas_producer_build.md` (via `template_skill.md`) + `what/production/_scaffold/` (inert stubs; excluded from the sweep) | 1-2 | ⏳ pending P0 |
+| P1 | Build `skill_canvas_producer_build.md` (via `template_skill.md`) + `what/production/_scaffold/` (inert stubs; excluded from the sweep) | 1-2 | ✅ **done 2026-06-21** — skill + 17-file scaffold; py_compile clean; firewall git-diff 0 ([[how/campaigns/campaign_canvas_palette/missions/mission_p1_factory\|mission]]) |
 
 **Phase exit gate (P1→P2, HUMAN):** skill reads as a faithful runbook of the pattern doc; scaffold clones cleanly
 (relative paths valid); `canvas_std` firewall git-diff 0; AAR GO. **HELD before letter (P2 pilots the scaffold).**
+
+> **Phase progress (2026-06-21) — PHASE P1 COMPLETE ✅ (factory built):** shipped
+> `how/skills/skill_canvas_producer_build.md` (the runbook) + `what/production/_scaffold/` (17 files; inert copy-me
+> producer skeleton at producer depth, `consume.py` carrying the canonical 4-step contract; `tests/` skip at module
+> level so the template never false-fails). All scaffold `.py` `py_compile` clean; `_scaffold` (underscore) excluded
+> from the named-producer sweep; **`canvas_std` firewall git-diff 0.** **⛔ HELD at the P1→P2 phase gate (human gate)** —
+> do not start the letter build (P2) without the operator. P2 clones `_scaffold` → `letter_generator` as the factory's
+> live acceptance test.
 
 ### Phase P2 — Letter producer (warm-up; pilots the scaffold)
 | # | Mission | Sessions | Status |
@@ -128,12 +136,12 @@ filed; graduation run; STATE + CLAUDE.md + README currency; `status: completed`.
 
 | # | When | Decision | Plan default | Status |
 |---|------|----------|--------------|--------|
-| 1 | P0→P1 gate | Codename / slug | Operation Palette / `campaign_canvas_palette` | ⏳ pending |
-| 2 | P0→P1 gate | Factory artifact homes | skill `how/skills/skill_canvas_producer_build.md` + scaffold `what/production/_scaffold/` (producer depth) | ⏳ pending |
-| 3 | P0→P1 gate | Letter conformance level | `adna_native` (family uniformity) over the §6.3 `extended` minimal-proof sketch | ⏳ pending |
-| 4 | P0→P1 gate | Post domain model | single post **and** thread (chain of `sequence` panels); platform profiles producer-side (char budget + aspect ratio); image support via `qualities.image_prompt` (ComfyUI renders) | ⏳ pending |
-| 5 | P0→P1 gate | Producer names | `letter_generator`, `post_generator` (mirror `*_generator`) | ⏳ pending |
-| 6 | P0→P1 gate | Optional stretch (poster / one-pager) | Defer to P4-if-budget; not committed | ⏳ pending |
+| 1 | P0→P1 gate | Codename / slug | Operation Palette / `campaign_canvas_palette` | ✅ ratified 2026-06-21 |
+| 2 | P0→P1 gate | Factory artifact homes | skill `how/skills/skill_canvas_producer_build.md` + scaffold `what/production/_scaffold/` (producer depth) | ✅ ratified 2026-06-21 |
+| 3 | P0→P1 gate | Letter conformance level | `adna_native` (family uniformity) over the §6.3 `extended` minimal-proof sketch | ✅ ratified 2026-06-21 |
+| 4 | P0→P1 gate | Post domain model | single post **and** thread (chain of `sequence` panels); platform profiles producer-side (char budget + aspect ratio); image support via `qualities.image_prompt` (ComfyUI renders) | ✅ ratified 2026-06-21 |
+| 5 | P0→P1 gate | Producer names | `letter_generator`, `post_generator` (mirror `*_generator`) | ✅ ratified 2026-06-21 |
+| 6 | P0→P1 gate | Optional stretch (poster / one-pager) | Defer to P4-if-budget; not committed | ✅ ratified 2026-06-21 |
 
 ## Risk Register
 
@@ -189,6 +197,8 @@ filed; graduation run; STATE + CLAUDE.md + README currency; `status: completed`.
 
 ## Notes
 
+- **Activation (2026-06-21):** operator ratified all 6 P0 decisions (defaults) at the P0→P1 gate
+  (`session_stanley_20260621_234513_palette_p1_factory`); campaign `status: active`; Phase P1 opened.
 - **Two-shelf doctrine:** `what/code/` = the Standard (immutable); `what/production/` = producers (depend on the
   installed `adna-canvas-std`). Both new producers + the scaffold live on the production shelf.
 - **Factory-then-pilot:** P1 builds the skill + scaffold; P2 *uses* them to build letter — that build is the factory's

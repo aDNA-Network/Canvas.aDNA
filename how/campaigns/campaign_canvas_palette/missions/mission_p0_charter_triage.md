@@ -3,7 +3,7 @@ plan_id: mission_p0_charter_triage
 type: plan
 title: "P0.1 — Charter + factory/producer decision record"
 owner: stanley
-status: in_progress
+status: completed
 campaign_id: campaign_canvas_palette
 campaign_phase: 0
 campaign_mission_number: 1
@@ -50,9 +50,9 @@ that ratification activates the campaign and authorizes the P1 factory build.**
 - **Depends on**: 1
 
 ### 3. Operator ratification (P0→P1 gate)
-- **Status**: pending — **HELD at the P0→P1 human gate**
-- **Session**: (next)
-- **Description**: Present the record; operator ratifies/edits each decision. On ratification → campaign `status: active`, open P1 (factory).
+- **Status**: completed
+- **Session**: session_stanley_20260621_234513_palette_p1_factory
+- **Description**: Presented the record; **operator accepted all 6 defaults 2026-06-21**. Campaign → `status: active`; Phase P1 opened.
 - **Files**: this mission (→ completed + AAR), campaign doc (Decision Points → ratified), the decision record (→ ratified), STATE.md
 - **Depends on**: 2
 
@@ -71,5 +71,26 @@ that ratification activates the campaign and authorizes the P1 factory build.**
 All six decisions have plan defaults in the approved plan file (`~/.claude/plans/please-read-the-claude-md-sleepy-minsky.md`).
 This mission only *records and ratifies* them; it writes no factory or producer code.
 
-> **⛔ HELD at the P0→P1 gate (human gate, SO-1).** The decision record is authored (`status: draft`); awaiting operator
-> ratification before the campaign activates and P1 opens. Completion Summary + AAR are written at ratification.
+## Completion Summary
+
+### Deliverables
+- The P0 decision record (`missions/artifacts/p0_decision_record.md`) — 6 decisions, defaults + rationale, **ratified** (operator accepted all 6 defaults 2026-06-21).
+- Confirmed: no `letter_generator`/`post_generator` (or poster/one-pager) producer; no dedicated `spec_letter_*`/`spec_post_*` → no Standard LIP required (profiles producer-side).
+
+### Descoped
+- None.
+
+### Key Findings
+- Both producers (letter, post) operate entirely within ratified specs + the `_reserved` namespace; profiles stay producer-side (zero Standard touch), so the build is decoupled from the LIP calendar gate (2026-06-27) and from PT P5.
+- The §6.3 letter sketch + the proven 5× producer pattern make this a low-design-risk build; the only genuine design content is the post domain model (D4), settled at single+thread / platform-profiles / image-as-metadata.
+
+### Scope Changes
+- None at activation (codename + all defaults accepted as charted).
+
+## AAR
+
+- **Worked**: front-loading the 6 decisions into a cheap, ratifiable record (the Keystone/Atelier lesson) cleared the build path with zero ambiguity; the scaffold-at-producer-depth call (D2) pre-empts the one real path-fragility risk.
+- **Didn't**: n/a — decision phase, no execution surprises.
+- **Finding**: all six questions had doctrine-aligned defaults; the operator accepted all, so no design divergence to absorb downstream.
+- **Change**: none.
+- **Follow-up**: P1 — build `skill_canvas_producer_build.md` + `what/production/_scaffold/` ([[how/campaigns/campaign_canvas_palette/missions/mission_p1_factory|mission]]).
