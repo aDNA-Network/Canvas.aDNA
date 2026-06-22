@@ -2,7 +2,7 @@
 type: decision_record
 created: 2026-06-21
 updated: 2026-06-21
-status: awaiting_ratification
+status: ratified
 last_edited_by: agent_stanley
 campaign_id: campaign_canvas_production
 mission: mission_a0_1_contract_profile_triage
@@ -131,12 +131,16 @@ Cosmetic; rename freely.
 
 | # | Decision | Default | Operator disposition |
 |---|----------|---------|----------------------|
-| D1 | Quality contracts | Yes — light diagram / full comic | _pending_ |
-| D2 | Profiles producer-side | Yes, no LIP | _pending_ |
-| D3 | Diagram shape-enum | qualities.shape; no baseline shape | _pending_ |
-| D4 | Diagram-type scope | All 5; flowchart+sequence first | _pending_ |
-| D5 | Comic scope | Data-driven; SS issue as example | _pending_ |
-| D6 | Codename | Operation Atelier | _pending_ |
+| D1 | Quality contracts | Yes — light diagram / full comic | ✅ Accepted (default) 2026-06-21 |
+| D2 | Profiles producer-side | Yes, no LIP | ✅ Accepted (default) 2026-06-21 |
+| D3 | Diagram shape-enum | qualities.shape; no baseline shape | ✅ Accepted (default) 2026-06-21 |
+| D4 | Diagram-type scope | All 5; flowchart+sequence first | ✅ Accepted (default) 2026-06-21 |
+| D5 | Comic scope | Data-driven; SS issue as example | ✅ Accepted (default) 2026-06-21 |
+| D6 | Codename | Operation Atelier | ✅ Accepted (default) 2026-06-21 |
 
 On ratification: set this record `status: ratified`, update the campaign Decision Points, complete mission A0.1 (+AAR),
 set the campaign `status: active`, and open Phase A1 (author the A1.1 mission from the approved plan's diagram design).
+
+> **✅ RATIFIED 2026-06-21** — the operator accepted all 6 defaults at the A0→A1 gate
+> (`session_stanley_20260621_194755_a1_diagram_build`). Campaign activated (`status: active`); Phase A1 opened;
+> the `diagram_generator` build is authorized.

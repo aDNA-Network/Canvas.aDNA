@@ -1,0 +1,276 @@
+{
+  "nodes": [
+    {
+      "id": "diagram_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 3020,
+      "height": 316,
+      "label": "How diagram-generator builds a canvas"
+    },
+    {
+      "id": "spec",
+      "type": "text",
+      "x": 80,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "Diagram spec (YAML)"
+    },
+    {
+      "id": "model",
+      "type": "text",
+      "x": 420,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "DiagramInput model"
+    },
+    {
+      "id": "source",
+      "type": "text",
+      "x": 760,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_std source contract"
+    },
+    {
+      "id": "tocanvas",
+      "type": "text",
+      "x": 1100,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "to_canvas()"
+    },
+    {
+      "id": "enrich",
+      "type": "text",
+      "x": 1440,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "enrich _reserved -> aDNA-Native"
+    },
+    {
+      "id": "review",
+      "type": "text",
+      "x": 1780,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "iii/ review (E5.1)"
+    },
+    {
+      "id": "out",
+      "type": "text",
+      "x": 2120,
+      "y": 136,
+      "width": 220,
+      "height": 100,
+      "text": "v2.0.0 .canvas"
+    },
+    {
+      "id": "mermaid_src",
+      "type": "text",
+      "x": 2460,
+      "y": 136,
+      "width": 480,
+      "height": 100,
+      "text": "```mermaid\nflowchart TD\n    spec(\"Diagram spec (YAML)\")\n    model[\"DiagramInput model\"]\n    source[\"canvas_std source contract\"]\n    tocanvas([\"to_canvas()\"])\n    enrich[\"enrich _reserved -> aDNA-Native\"]\n    review{\"iii/ review (E5.1)\"}\n    out((\"v2.0.0 .canvas\"))\n    spec -->|load_diagram| model\n    model --> source\n    source --> tocanvas\n    tocanvas --> enrich\n    enrich --> review\n    review -->|0 High/Med| out\n    review -->|findings (feedback cycle)| spec\n```"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge0",
+      "fromNode": "spec",
+      "fromSide": "bottom",
+      "toNode": "model",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge1",
+      "fromNode": "model",
+      "fromSide": "bottom",
+      "toNode": "source",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge2",
+      "fromNode": "source",
+      "fromSide": "bottom",
+      "toNode": "tocanvas",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge3",
+      "fromNode": "tocanvas",
+      "fromSide": "bottom",
+      "toNode": "enrich",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge4",
+      "fromNode": "enrich",
+      "fromSide": "bottom",
+      "toNode": "review",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge5",
+      "fromNode": "review",
+      "fromSide": "bottom",
+      "toNode": "out",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge6",
+      "fromNode": "review",
+      "fromSide": "bottom",
+      "toNode": "spec",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "1735e1719905fefa",
+          "source_name": "urn:adna:canvas:diagram:pipeline",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "diagram_root": {
+            "class": "panel",
+            "semantic_type": "diagram",
+            "degrades_to": "group"
+          },
+          "spec": {
+            "class": "shape",
+            "semantic_type": "event",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "round"
+            }
+          },
+          "model": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "source": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "tocanvas": {
+            "class": "shape",
+            "semantic_type": "terminal",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "stadium"
+            }
+          },
+          "enrich": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "review": {
+            "class": "shape",
+            "semantic_type": "decision",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "diamond"
+            }
+          },
+          "out": {
+            "class": "shape",
+            "semantic_type": "state",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "circle"
+            }
+          },
+          "mermaid_src": {
+            "class": "code",
+            "semantic_type": "mermaid_source",
+            "degrades_to": "text",
+            "qualities": {
+              "language": "mermaid"
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "diagram"
+        },
+        "panel_link": {
+          "edges": {
+            "edge0": {
+              "kind": "dependency"
+            },
+            "edge1": {
+              "kind": "dependency"
+            },
+            "edge2": {
+              "kind": "dependency"
+            },
+            "edge3": {
+              "kind": "dependency"
+            },
+            "edge4": {
+              "kind": "dependency"
+            },
+            "edge5": {
+              "kind": "dependency"
+            },
+            "edge6": {
+              "kind": "dependency"
+            }
+          },
+          "regions": {
+            "diagram_root": {
+              "flow": "vertical",
+              "pagination": "none",
+              "surface": "flowchart"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "diagram_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:diagram:pipeline",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]",
+            "[[adr_004_production_code_layout]]"
+          ]
+        }
+      }
+    }
+  }
+}

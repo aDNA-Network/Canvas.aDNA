@@ -3,9 +3,10 @@ campaign_id: campaign_canvas_production
 type: campaign
 title: "Operation Atelier — Canvas production layers (diagram, then comic) on canvas_std"
 owner: stanley
-status: planning
+status: active
+activated: 2026-06-21
 phase_count: 4
-mission_count: 9
+mission_count: 8
 estimated_sessions: "6-10"
 estimation_class: build-broad
 priority: medium
@@ -23,8 +24,9 @@ tags: [campaign, build, canvas, production, diagram, comic, atelier]
 > producers (deck · brief · document). At Production Tidy **pt09** (2026-06-17) Canvas absorbed the CanvasForge
 > production layers (**deck · comic · diagram**, Hermes→Mondrian); Keystone built only **deck** fresh. This campaign
 > builds **diagram** (warm-up) then **comic** — each a self-contained producer on the `what/production/` shelf, on the
-> already-shipped `canvas_std`, with the Standard untouched. **status: planning** until the operator ratifies the A0
-> decision record at the A0→A1 gate (that ratification = activation). Phase gates are human gates (SO-1).
+> already-shipped `canvas_std`, with the Standard untouched. **🔄 ACTIVATED 2026-06-21** — the operator ratified the A0
+> decision record at the A0→A1 gate (all 6 defaults accepted); **Phase A1 (diagram) in progress.** Phase gates are
+> human gates (SO-1).
 
 ## Goal
 
@@ -83,10 +85,16 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 ### Phase A1 — Diagram producer (warm-up)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| A1.1 | Build `diagram_generator` skeleton + model + ported syntax (`mermaid.py`) + canvas construction + `_reserved`; flowchart+sequence end-to-end | 1-2 | planned |
-| A1.2 | Remaining diagram types + full test suite + worked example (+ `iii_quality_contract.md` if A0 yes) | 1 | planned |
+| A1.1 | Build `diagram_generator` (all 5 types) — clone deck pattern; ported `mermaid.py`; flowchart+sequence end-to-end first, then class/state/gantt; full test suite + worked example + `iii_quality_contract.md` (A1.2 folded in) | 2-3 | ✅ **done 2026-06-21** — 36/36, all 5 types aDNA-Native ([[how/campaigns/campaign_canvas_production/missions/mission_a1_1_diagram_build\|mission]]) |
 
 **Phase exit gate (A1→A2, HUMAN):** full diagram suite green (~16–22 tests), every diagram type validates aDNA-Native + degrades (D-1/D-2/D-3), `canvas_std` firewall git-diff 0, mission AARs GO. **HELD before comic.**
+
+> **Phase progress (2026-06-21) — PHASE A1 COMPLETE ✅ (diagram producer built):** `what/production/diagram_generator/`
+> built on `canvas_std` (native-primary + a derived Mermaid `code` node); all 5 diagram types validate **aDNA-Native** +
+> degrade (D-1/D-2/D-3); suite **36/36**, `ruff` clean; `canvas_std` firewall git-diff 0; **no regression** (canvas_std
+> 80/10 · deck 16 · brief 10 · document 37). Worked example committed; light `iii_quality_contract.md` shipped. **1
+> spec-gap erratum candidate** (no diagram/graph unit in `PL_EXTENT_UNITS` → diagram region omits `extent`) → A3.1 LIP
+> queue. **⛔ HELD at the A1→A2 phase gate (human gate)** — do not start the comic build (A2) without the operator.
 
 ### Phase A2 — Comic producer (the larger build)
 | # | Mission | Sessions | Status |
@@ -112,12 +120,12 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 
 | # | When | Decision | Plan default | Status |
 |---|------|----------|--------------|--------|
-| 1 | A0→A1 gate | Per-producer `iii_quality_contract.md`? | Yes for both — light for diagram, full for comic | pending |
-| 2 | A0→A1 gate | `diagram`/`comic` `semantic_bindings` profiles producer-side (no Standard LIP)? | Producer-side, no LIP | pending |
-| 3 | A0→A1 gate | Diagram shape-enum policy | Mermaid shapes in `_reserved.qualities.shape`; no baseline `styleAttributes.shape` | pending |
-| 4 | A0→A1 gate | Diagram-type scope for v1 | All 5; flowchart+sequence as first end-to-end slice (A1.1), rest in A1.2 | pending |
-| 5 | A0→A1 gate | Comic scope: data-driven vs baked SS story | Data-driven engine; legacy 32-page SS issue → `examples/` only; drop `ContextPack` gate (→ `context_object.refs`); RLHF dormant; page/spread counts from input | pending |
-| 6 | A0→A1 gate | Codename / slug | Operation Atelier / `campaign_canvas_production` | pending |
+| 1 | A0→A1 gate | Per-producer `iii_quality_contract.md`? | Yes for both — light for diagram, full for comic | ✅ ratified 2026-06-21 |
+| 2 | A0→A1 gate | `diagram`/`comic` `semantic_bindings` profiles producer-side (no Standard LIP)? | Producer-side, no LIP | ✅ ratified 2026-06-21 |
+| 3 | A0→A1 gate | Diagram shape-enum policy | Mermaid shapes in `_reserved.qualities.shape`; no baseline `styleAttributes.shape` | ✅ ratified 2026-06-21 |
+| 4 | A0→A1 gate | Diagram-type scope for v1 | All 5; flowchart+sequence as first end-to-end slice (A1.1), rest in A1.2 | ✅ ratified 2026-06-21 |
+| 5 | A0→A1 gate | Comic scope: data-driven vs baked SS story | Data-driven engine; legacy 32-page SS issue → `examples/` only; drop `ContextPack` gate (→ `context_object.refs`); RLHF dormant; page/spread counts from input | ✅ ratified 2026-06-21 |
+| 6 | A0→A1 gate | Codename / slug | Operation Atelier / `campaign_canvas_production` | ✅ ratified 2026-06-21 |
 
 ## Risk Register
 
@@ -170,6 +178,8 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 
 ## Notes
 
+- **Scope change (2026-06-21, at activation):** A1.2 folded into A1.1 (one diagram-build mission, all 5 types);
+  `mission_count` 9→8. Operator ratified all 6 A0 decisions (defaults) at the A0→A1 gate.
 - **Two-shelf doctrine:** `what/code/` = the Standard (immutable); `what/production/` = producers (depend on the
   installed `adna-canvas-std`, may mutate state). Both new producers live on the production shelf.
 - **Quarry, not dependency:** port logic *from* `Archive.aDNA/CanvasForge.aDNA/...`; the producers must not import

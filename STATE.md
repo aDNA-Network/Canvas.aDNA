@@ -28,7 +28,21 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ⚒ OPERATION ATELIER OPENED (2026-06-21, planning — A0 HELD at A0→A1 gate) · ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + LIP-0008/0009 REVIEW OPENED (2026-06-20); Keystone tail → review closes 2026-06-27 (→ v2.1.0 on LIP-0008 Final) + PT P5
+## ▶ Resume Here — ⚒ OPERATION ATELIER · A1 DIAGRAM PRODUCER BUILT ✅ (2026-06-21 — A0 ratified → `diagram_generator` 36/36 aDNA-Native); ⛔ HELD at A1→A2 (comic) gate · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+
+> **⚒ ATELIER A1 COMPLETE — DIAGRAM PRODUCER BUILT (this session, `session_stanley_20260621_194755_a1_diagram_build`).**
+> Operator **ratified all 6 A0 decisions** (defaults) → campaign `status: active`; then Phase **A1** built
+> **`what/production/diagram_generator/`** on `canvas_std` (the 4th in-vault producer; ~656 src LOC): a substrate-free
+> `DiagramInput` → a v2.0.0 **aDNA-Native** `.canvas` via the deck pattern — **native-primary** (native nodes+edges
+> canonical, one `diagram_root` canonical surface) **+ a derived Mermaid `code` node**; `mermaid.py` **ported** from the
+> CanvasForge quarry (theme stripped; not a dependency). **All 5 diagram types** (flowchart · sequence · class · state ·
+> gantt) validate aDNA-Native + degrade (D-1/D-2/D-3). **Suite 36/36, `ruff` clean; `canvas_std` firewall git-diff 0;
+> no regression** (canvas_std 80/10 · deck 16 · brief 10 · document 37). Shape-enum trap handled (Mermaid shapes ride
+> `_reserved…qualities.shape`, never baseline `styleAttributes.shape`); cyclic flowcharts validate (`dependency` edges,
+> not the acyclicity-checked `sequence`). **1 spec-gap erratum candidate → A3.1 LIP queue (`adr_003`):** no
+> diagram/graph unit in `PL_EXTENT_UNITS`, so a diagram `region` omits `extent`. **⛔ HELD at the A1→A2 (comic) gate** —
+> A2 builds `comic_generator` (~1,870 LOC, mostly ports from `canvas_comic`); do not start without the operator. Design:
+> approved plan `~/.claude/plans/please-read-the-claude-md-lovely-star.md` (§Comic producer).
 
 > **⚒ OPERATION ATELIER OPENED (this session, `session_stanley_20260621_193649_atelier_scaffold_a0`).** Post-Keystone,
 > the operator chose (plan mode) to build the two production layers Canvas owns since pt09 but never built on

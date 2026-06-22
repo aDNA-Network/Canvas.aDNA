@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "diagram-generator"
+version = "0.1.0"
+description = "Reference net-new consumer of the aDNA Canvas Standard (Operation Atelier A1) — a diagram spec -> a v2.0.0 aDNA-Native diagram .canvas (a native typed graph + a derived Mermaid code node)."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "aDNA Labs / Canvas.aDNA (Mondrian)" }]
+keywords = ["canvas", "adna", "consumer", "producer", "diagram", "mermaid", "graph", "json-canvas"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Multimedia :: Graphics :: Presentation",
+]
+# Producer (deps allowed); the Standard's lean reference lib (canvas_std) stays zero-dep (ADR-004 two-shelf).
+dependencies = ["adna-canvas-std", "pyyaml>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[project.scripts]
+diagram-generator = "diagram_generator.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diagram_generator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

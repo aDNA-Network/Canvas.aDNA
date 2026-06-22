@@ -1,0 +1,29 @@
+# A self-referential dog-food input: a flowchart of the diagram-generator pipeline ITSELF.
+# Demonstrates a native typed graph (the canonical surface) + a derived Mermaid `code` node. Generate with:
+#   diagram-generator build examples/canvas_standard_flow.yaml examples/canvas_standard_flow.canvas
+# The graph deliberately includes a feedback cycle (review -> spec) to prove a flowchart WITH A CYCLE validates
+# (edges are tagged `dependency`, not the acyclicity-checked `sequence`).
+title: "How diagram-generator builds a canvas"
+id: "urn:adna:canvas:diagram:pipeline"
+version: "0.1.0"
+diagram_type: flowchart
+direction: TD
+refs:
+  - "[[spec_adna_canvas_standard]]"
+  - "[[adr_004_production_code_layout]]"
+nodes:
+  - { id: spec, label: "Diagram spec (YAML)", shape: round }
+  - { id: model, label: "DiagramInput model", shape: rect }
+  - { id: source, label: "canvas_std source contract", shape: rect }
+  - { id: tocanvas, label: "to_canvas()", shape: stadium }
+  - { id: enrich, label: "enrich _reserved -> aDNA-Native", shape: rect }
+  - { id: review, label: "iii/ review (E5.1)", shape: diamond }
+  - { id: out, label: "v2.0.0 .canvas", shape: circle }
+edges:
+  - { from: spec, to: model, label: "load_diagram" }
+  - { from: model, to: source }
+  - { from: source, to: tocanvas }
+  - { from: tocanvas, to: enrich }
+  - { from: enrich, to: review }
+  - { from: review, to: out, label: "0 High/Med" }
+  - { from: review, to: spec, label: "findings (feedback cycle)" }
