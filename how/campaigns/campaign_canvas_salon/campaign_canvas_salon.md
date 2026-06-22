@@ -119,7 +119,7 @@ new `spec_canvas_context_loading.md` keeping `spec_context_object.md` stable, or
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 3 | P2 — Canvas-as-context loader + pilot | 2-3 | P1 | active |
+| 3 | P2 — Canvas-as-context loader + pilot | 2-3 | P1 | completed |
 
 **Phase exit gate**: the loader loads an existing producer `.canvas` as a context graph **without rendering**; tests
 green; **`canvas_std` firewall git-diff 0** (loader placement per D6). Leg 2 is **proven**.
@@ -194,7 +194,7 @@ All eight are recorded with doctrine-aligned defaults in `missions/artifacts/p0_
 |-------|--------|-------|
 | All mission AARs are GO | Review AAR readiness | Yes |
 | Phase exit criteria met | Campaign doc phase exit gate | Yes — user approval |
-| **`canvas_std` firewall** | `git -C what/code/canvas_std diff --stat` empty (unless D6 lifts it) | Yes — at every gate |
+| **`canvas_std` firewall** | `git status -s -- what/code/canvas_std/` clean (unless D6 lifts it) — pathspec form; canvas_std is part of Canvas.aDNA's git, not a nested repo | Yes — at every gate |
 | Risk register updated | Campaign doc risk register | No — recommended |
 | Scope changes documented | Campaign doc scope section | Yes |
 

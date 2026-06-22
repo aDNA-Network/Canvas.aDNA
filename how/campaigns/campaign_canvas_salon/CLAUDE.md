@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, salon, surface]
 |-------|-------|
 | Campaign | `campaign_canvas_salon` |
 | Owner | stanley |
-| Status | active (P1 ratified 2026-06-22 → P2) |
-| Current Phase | P2 — Canvas-as-context loader + pilot (leg-2 reference impl; building, HOLD at P2→P3 gate) |
+| Status | active (P2 complete 2026-06-22 → P3; **leg 2 PROVEN**) |
+| Current Phase | P3 — Leg-3 interface-surface spec (greenfield); HELD at P2→P3 gate (leg 2 proven; `canvas_context` 28/28, canvas_std firewall clean) |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_palette` (Operation Palette, completed 2026-06-22) |
 
@@ -41,9 +41,12 @@ tags: [governance, campaign, canvas, salon, surface]
 
 ## Standing Orders
 
-- **`canvas_std` is immutable by default.** Never edit `what/code/canvas_std/`; verify `git -C what/code/canvas_std
-  diff --stat` is empty at every phase gate (the two-shelf firewall). The leg-2 loader is a **new sibling package**
-  unless D6 explicitly lifts the firewall.
+- **`canvas_std` is immutable by default.** Never edit `what/code/canvas_std/`; verify `git status -s --
+  what/code/canvas_std/` is clean at every phase gate (the two-shelf firewall). **NB:** `canvas_std` is part of
+  Canvas.aDNA's git, **not** a nested repo — the pathspec form above is the accurate check (a bare `git -C
+  what/code/canvas_std diff` reports the *whole* parent repo). The leg-2 loader (`canvas_context`, built P2) is a
+  **new sibling package** importing `canvas_std` read-only **via pythonpath, never an editable install** (an
+  `-e` install would write `*.egg-info` into the immutable tree). D6 keeps the firewall unless explicitly lifted.
 - **Boundary first.** `adr_006` fixes what Canvas-as-surface owns vs ISS / Astro / Terminal / OIP **before** any
   leg-2/leg-3 build. Do not specify cross-surface *routing* — that is the future `aDNA.aDNA` OIP campaign's job.
 - **Spec before impl.** Leg 2 = P1 spec → P2 impl/pilot. Leg 3 = P3 spec only (build deferred to a follow-on; P4 POC

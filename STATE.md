@@ -28,22 +28,23 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ⚒ OPERATION SALON ACTIVE at P2 (canvas-as-surface; P1 spec ratified 2026-06-22 all-as-drafted) — building the leg-2 reference loader `canvas_context` (new sibling, imports `canvas_std` read-only) + a load-without-rendering pilot; HOLD at P2→P3 gate · Palette/Atelier/Keystone COMPLETE (Standard v2.0.2; 7 producers); LIP-0008/0009 review closes 2026-06-27 + PT P5 (Hestia)
+## ▶ Resume Here — ⚒ OPERATION SALON at P3 (canvas-as-surface; **LEG 2 PROVEN** at P2 2026-06-22) — `canvas_context` reference loader + load-without-rendering pilot GREEN (28/28, ruff clean; canvas_std firewall git-diff 0, 82p/10s no-regression); HELD at P2→P3 gate (next: P3 leg-3 interface-surface spec, greenfield — gated on the external OIP/interface thesis doc) · Palette/Atelier/Keystone COMPLETE (Standard v2.0.2; 7 producers); LIP-0008/0009 review closes 2026-06-27 + PT P5 (Hestia)
 
-> **⚒ OPERATION SALON — P1 RATIFIED → P2 ACTIVE (this session, `session_stanley_20260622_143651_salon_p1_ratify_p2_loader`).**
-> The operator ratified the leg-2 loading/traversal spec
-> [[what/specs/spec_canvas_context_loading|spec_canvas_context_loading]] **as drafted** (P1→P2 gate, all-as-drafted) —
-> spec `status: ratified`, AGENTS.md index updated, **mission P1 `completed` (+AAR)**, campaign tables advanced
-> (P1 completed / **P2 active**). The spec is now the binding leg-2 contract: the abstract context-graph model + the
-> normative **L1–L7 load pipeline** (**load without rendering**) + traversal read-contract + resolver interface +
-> conformance rules, all bounded by [[what/decisions/adr_006_canvas_surface_boundary|adr_006]] (contract + reference
-> loader, **never** runtime/transport/router). Same gate authorized **building P2 this session** (operator: "build P2
-> now"). **▶ Now building** the leg-2 reference loader at `what/code/canvas_context/` — a **new sibling** importing
-> `canvas_std` read-only (D6 firewall preserved) — + a **load-without-rendering pilot** on
-> `what/production/document_generator/examples/canvas_standard_whitepaper.canvas` (32 nodes / 23 edges, adna_native,
-> `context_object` + `panel_link` reading_order/sequence + 4 wikilink refs). **⛔ HOLD at the P2→P3 gate** (leg-3
-> interface-surface spec, greenfield) — never auto-advance (SO-1). Firewall check is `git status -s -- what/code/canvas_std/`
-> (canvas_std is part of Canvas.aDNA's git, not a nested repo). Approved plan:
+> **⚒ OPERATION SALON — P1 RATIFIED + P2 COMPLETE → LEG 2 PROVEN (this session, `session_stanley_20260622_143651_salon_p1_ratify_p2_loader`).**
+> **P1:** operator ratified the leg-2 loading/traversal spec
+> [[what/specs/spec_canvas_context_loading|spec_canvas_context_loading]] **as drafted** — now the binding leg-2
+> contract (abstract context-graph model + normative **L1–L7 load pipeline** + traversal read-contract + resolver
+> interface + conformance), bounded by [[what/decisions/adr_006_canvas_surface_boundary|adr_006]] (contract + reference
+> loader, **never** runtime/transport/router). Spec `status: ratified`; mission P1 `completed` (+AAR). **P2 (built same
+> session, operator: "build P2 now"):** the leg-2 reference loader `what/code/canvas_context/` — a **new sibling**
+> importing `canvas_std` **read-only via pythonpath** (D6 firewall preserved) — `model` (§3) · `loader` (L1–L7) ·
+> `resolver` (§5) · `traversal` (§6). **Pilot proof:** `canvas_standard_whitepaper.canvas` (32 nodes / 23 edges,
+> adna_native) loads as a `ContextGraph` — identity resolved, `reading_order() == [page0..page4]`, 4 wikilink refs,
+> L3 overlay, file-by-reference — **with no render pipeline invoked** (PIL/cairosvg never imported); 2nd producer
+> (`grant_proposal`) loads identically. **`canvas_context` 28/28, ruff clean; `canvas_std` firewall git-diff 0 + its
+> suite 82p/10s (no regression).** Mission P2 `completed` (+AAR). **⛔ HELD at the P2→P3 gate** — next is **P3** (leg-3
+> interface-surface spec, greenfield; risk-gated on the external OIP/interface thesis doc). Firewall check is `git
+> status -s -- what/code/canvas_std/` (canvas_std is part of Canvas.aDNA's git, not a nested repo). Approved plan:
 > `~/.claude/plans/please-read-the-claude-md-floating-pumpkin.md`. The boxes below are prior history (Palette/Atelier/Keystone).
 
 > **✅ OPERATION PALETTE COMPLETE — CAMPAIGN CLOSED (this session, `session_stanley_20260622_005329_palette_p4_close`).**

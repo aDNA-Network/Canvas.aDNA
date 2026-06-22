@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "adna-canvas-context"
+version = "0.1.0"
+description = "Reference context-loader for the aDNA Canvas Standard — loads a .canvas as a navigable context graph WITHOUT rendering (Salon leg 2)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "aDNA Labs / Canvas.aDNA (Mondrian)" }]
+keywords = ["canvas", "context-object", "loader", "traversal", "adna", "leg2"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Software Development :: Libraries",
+]
+# Depends on the Standard reference impl (adna-canvas-std), read-only — the loader is a *consumer* of canvas_std's
+# public API, never the reverse (D6 firewall). In dev/test we resolve it via pytest `pythonpath` (../canvas_std/src)
+# so no editable install touches the canvas_std tree; a published build would pin `adna-canvas-std`.
+dependencies = []  # stdlib + canvas_std (resolved via pythonpath in dev; firewall-safe — no install into canvas_std)
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/canvas_context"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# canvas_context's own src + canvas_std's src (read-only). Relative to this rootdir; keeps canvas_std pristine
+# (no editable install → no *.egg-info written into the immutable canvas_std tree).
+pythonpath = ["src", "../canvas_std/src"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
