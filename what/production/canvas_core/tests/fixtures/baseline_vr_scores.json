@@ -1,0 +1,2490 @@
+{
+  "title": "VR Baseline \u2014 Visual Refinement Campaign",
+  "generated": "2026-03-10",
+  "vr_pass_threshold": 7.5,
+  "vr_weights": {
+    "vr1_text_readability": 0.25,
+    "vr2_visual_hierarchy": 0.25,
+    "vr3_whitespace_quality": 0.2,
+    "vr4_color_harmony": 0.15,
+    "vr5_professional_appearance": 0.15
+  },
+  "slide_types": [
+    "title",
+    "content",
+    "stats",
+    "comparison",
+    "process",
+    "key_value",
+    "section_divider",
+    "quote",
+    "timeline",
+    "three_column",
+    "matrix",
+    "collage",
+    "diagram",
+    "image",
+    "table"
+  ],
+  "themes": [
+    "tokyo_night",
+    "lattice_brand",
+    "lattice_dark",
+    "science_stanley",
+    "lattice_light",
+    "scientific",
+    "academic"
+  ],
+  "cells": {
+    "tokyo_night": {
+      "title": {
+        "vr1": 8.5,
+        "vr2": 8.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.3,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.1,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      }
+    },
+    "lattice_brand": {
+      "title": {
+        "vr1": 8.5,
+        "vr2": 8.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.3,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.1,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      }
+    },
+    "lattice_dark": {
+      "title": {
+        "vr1": 8.5,
+        "vr2": 8.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.3,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.5,
+        "weighted": 8.1,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      }
+    },
+    "science_stanley": {
+      "title": {
+        "vr1": 8.5,
+        "vr2": 8.5,
+        "vr3": 8.0,
+        "vr4": 8.5,
+        "vr5": 8.5,
+        "weighted": 8.4,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.5,
+        "vr5": 8.5,
+        "weighted": 8.2,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.5,
+        "vr5": 8.0,
+        "weighted": 8.1,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 8.0,
+        "weighted": 8.0,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 8.0,
+        "vr5": 7.5,
+        "weighted": 7.6,
+        "status": "PASS"
+      }
+    },
+    "lattice_light": {
+      "title": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.9,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      }
+    },
+    "scientific": {
+      "title": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.9,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      }
+    },
+    "academic": {
+      "title": {
+        "vr1": 8.0,
+        "vr2": 8.0,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "content": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "stats": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.8,
+        "status": "PASS"
+      },
+      "comparison": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "process": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "key_value": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "section_divider": {
+        "vr1": 7.5,
+        "vr2": 8.0,
+        "vr3": 8.0,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "quote": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "timeline": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "three_column": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "matrix": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "collage": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "diagram": {
+        "vr1": 8.0,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 8.0,
+        "weighted": 7.7,
+        "status": "PASS"
+      },
+      "image": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      },
+      "table": {
+        "vr1": 7.5,
+        "vr2": 7.5,
+        "vr3": 7.5,
+        "vr4": 7.5,
+        "vr5": 7.5,
+        "weighted": 7.5,
+        "status": "PASS"
+      }
+    }
+  },
+  "aggregate_score": 7.7,
+  "cells_passing": 105,
+  "cells_total": 105,
+  "methodology": {
+    "confirmed_types": [
+      "title",
+      "content",
+      "stats",
+      "comparison",
+      "process",
+      "key_value"
+    ],
+    "confirmed_source": "pe_visual_review_synthesis.md Post-Cycle 2 scores",
+    "interpolated_types": [
+      "section_divider",
+      "quote",
+      "timeline",
+      "three_column",
+      "matrix",
+      "collage",
+      "diagram",
+      "image",
+      "table"
+    ],
+    "interpolation_method": "7.5-8.0 range consistent with confirmed \u22657.5 floor from M2 cross-theme benchmark",
+    "theme_adjustment": "dark themes +0.1, light themes -0.1 vs neutral baseline"
+  },
+  "deck_baselines": {
+    "wilhelm_rare_archive": {
+      "theme": "scientific",
+      "scored_at": "2026-04-21",
+      "source_canvas": "lattice-labs/how/presentations/pres_rare_archive_showcase/pres_rare_archive_showcase.canvas",
+      "build_script": "lattice-labs/how/presentations/pres_rare_archive_showcase/build_deck.py",
+      "model": "gemini-2.5-flash",
+      "median_runs": 3,
+      "review_method": "gemini_2_5_flash_median_of_3",
+      "aggregate_score": 8.62,
+      "passes": true,
+      "weakest_criterion": "Text Readability",
+      "slide_count": 15,
+      "scored_by_mission": "mission_cvc_m06",
+      "previous_baseline": {
+        "mission": "mission_cvc_m03",
+        "aggregate": 8.47
+      },
+      "slides": [
+        {
+          "index": 1,
+          "title": "Rare AI Archive",
+          "type": "title",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with excellent contrast (dark text on light background). Font sizes are appropriate for the hierarchy and purpose, and line lengths are good. | Text is highly readable with good font size variation for hierarchy and excellent contrast against the background. No cramping or overflow. | Text is largely readable with good contrast. The second subtitle line is a bit long (around 100 characters), pushing the upper limit for comfortable reading, but it's a descriptive sentence "
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title prominently displayed and underlined. Information flows logically from top to bottom, drawing the eye to the key elements first. | Clear visual hierarchy with the main title prominently displayed, followed by a descriptive subtitle and supporting details. Information flows logically from top to bottom. | Clear visual hierarchy with the main title being most prominent, followed by progressively smaller descriptive text. The eye is naturally drawn from to"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and balanced whitespace. The central alignment leaves ample breathing room around all text elements, contributing to a clean and uncluttered appearance. | Excellent use of whitespace, providing ample breathing room around the central text block and generous margins. The slide feels clean and uncluttered. | Excellent use of whitespace. The content is well-centered with generous margins, providing ample breathing room and a clean, uncluttered feel. No cramped areas."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is harmonious and subtle, with a light cream background, dark grey text, and a light green accent for the underline and border. Colors work well together without clashing. | The color palette is harmonious and minimalist, using dark gray text on a light background with a subtle, muted green accent for underlining and the slide border. Colors do not clash and provide good contrast. | The color scheme is simple and harmonious: dark text on a light background, with a subtle green "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly polished and professional appearance. The minimalist design, consistent alignment, and thoughtful use of color create an enterprise-appropriate aesthetic suitable for any formal presentation. | The slide presents a highly professional and polished appearance with intentional alignment, consistent styling, and a clean modern aesthetic. It would be appropriate for a formal presentation. | The slide presents a very polished, clean, and professional appearance. The minima"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "title": "Why This Matters",
+          "type": "content",
+          "weighted_score": 6.7,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 4.0,
+              "notes": "The title is very readable, but the crucial descriptive text at the bottom is too small and uses low contrast, making it difficult to read quickly from a distance. | The caption text '300 million patients...' is significantly too small for effective readability in a presentation setting, even if the title is appropriately sized. | The main title is readable, but the caption text below the image is far too small for a presentation slide, making it very difficult for an audience to read."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 6.0,
+              "notes": "The title and main image establish a clear hierarchy. However, the importance of the descriptive text at the bottom is visually understated due to its small size and placement, potentially making a key message less prominent. | The title is clearly prominent, and the large image draws the eye, with the caption naturally following. The flow is logical from top to bottom. | The title and main image establish a clear visual hierarchy. However, the caption text is so small that it almost disappears,"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace throughout the slide, providing ample breathing room around all elements. No cramped areas or awkward gaps, contributing to a clean layout. | Excellent use of whitespace. Margins are generous, and there's ample breathing room around all content elements, preventing a cramped feeling. | Whitespace is excellent. Margins are generous and consistent, providing ample breathing room around all elements without appearing cramped or wasteful."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is harmonious and subdued, with a neutral background and dark text for the title. The slight pink accent line is subtle. The low contrast of the small text at the bottom is the only minor drawback. | The colors are harmonious and professional \u2013 a soft off-white background, dark text, and a subtle pink accent border. They work well together without clashing, and contrast is good. | Colors are harmonious and professional. The neutral background and dark text provide good contrast"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 8.0,
+              "notes": "The slide has a very polished, clean, and modern professional appearance. Element alignment is intentional, and the overall styling is suitable for an enterprise setting, despite the small text readability issue. | The slide has a clean, polished look with good alignment and a high-quality image. However, the very small font size of the caption slightly detracts from its overall enterprise-appropriate appearance for a typical presentation where all text should be easily legible. | The slide has "
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "title": "The Diagnostic Odyssey",
+          "type": "stats",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "The large numbers are highly readable. The smaller descriptive text, while not huge, is clear and concise, making it easy to read due to its short length and good contrast against the light green background. | Main numbers are very readable. Explanatory text is clear but could be slightly larger for optimal readability on a large projection screen, though still acceptable. | Main numbers are very large and clear. Descriptive text is smaller but short and legible. Good contrast between text and b"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The title 'The Diagnostic Odyssey' is clearly prominent. The large green numbers in the boxes immediately draw the eye, establishing a clear visual hierarchy, followed by their descriptions. The left-to-right flow for the four statistical boxes is logical and easy to follow. | Clear visual hierarchy with the title at the top, and the large green numbers immediately drawing the eye as the primary information. Information flows naturally left to right for the data points. | Clear title at the top "
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Whitespace is used effectively, providing ample breathing room around the title and the content boxes. Margins are generous and consistent, creating a clean and uncluttered appearance without any cramped areas or awkward gaps. | Excellent use of whitespace. There's ample breathing room around all elements, and consistent spacing between the boxes, giving the slide a clean and uncluttered feel. | Excellent use of whitespace. Generous margins and ample breathing room around and between the content"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple and harmonious: a clean white background, dark text, and soft, muted green highlight boxes. The green provides a gentle accent without clashing, and contrast is sufficient for readability. | The color palette is simple and harmonious, using white, dark grey, and two shades of green. The green effectively highlights the key statistics without being distracting or clashing. | The color palette is cohesive and calming. The light green accent boxes effectively highlight th"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Element sizing (all boxes are uniform) and alignment are precise and intentional. The overall design is clean, modern, and perfectly suitable for a boardroom presentation. | The slide presents a very professional and polished appearance. Elements are consistently sized and perfectly aligned. The overall design is clean, enterprise-appropriate, and suitable for a formal presentation. | The slide has a highly polished and modern loo"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "title": "Why AI Changes Everything",
+          "type": "content",
+          "weighted_score": 8.57,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Text is highly readable with excellent contrast against the background. Font sizes are appropriate for their hierarchy, and line lengths are comfortable. No cramping or overflow is observed. | Text in the content box is legible with good contrast, but the font size for the bullet points could be slightly larger for optimal readability on a projection screen."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The visual hierarchy is very clear. The main title is prominent, followed by a well-distinguished sub-heading and bulleted body text. The eye naturally follows the intended flow of information. | Excellent visual hierarchy with a prominent main title, a clear sub-heading, and well-structured bullet points. The information flow is intuitive from top to bottom."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.5,
+              "notes": "Whitespace is generous, creating a clean and uncluttered look. Margins are ample, and spacing within the content box is consistent. While effective, the sheer amount of empty space on the slide could be seen as slightly excessive, making the core content feel a bit small on the canvas. | Whitespace is used effectively and generously, providing ample breathing room around all content elements. Margins are balanced, contributing to a clean, uncluttered look."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.5,
+              "notes": "The color scheme is harmonious and professional. The use of a subtle light background for the content box and a mild green accent color effectively highlights key phrases without clashing or distracting. Contrast is excellent throughout. | The color scheme is harmonious and understated, using dark text on a light background. The green accent color effectively highlights key phrases without clashing or distracting."
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Element sizing is consistent, and alignment is intentional. The minimalist and clean design makes it entirely suitable for a boardroom presentation. | The slide presents a highly professional and polished appearance. The layout is clean, minimalist, and intentional, suitable for a formal presentation setting."
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "title": "Architecture: Open, Composable, Deployable",
+          "type": "content",
+          "weighted_score": 8.8,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with good font sizes for the title and content. Excellent contrast between dark text and light background. Line lengths are comfortable, and there's no cramping or overflow. | Text sizes are appropriate, and contrast is excellent. Line lengths are comfortable, though some descriptive lines are on the longer side but still manageable. | Font sizes are appropriate for headings and body text. Excellent contrast of dark text on a light background. No cramping or overflow."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title prominently displayed. The green box provides a secondary heading, and the numbered list within it guides the eye sequentially. Information flow is logical (top to bottom). | Clear visual hierarchy with the main title, followed by the 'Three-Layer Stack' box, and then numbered points highlighted in green. The eye flow is natural and logical. | Clear visual hierarchy with the main title, then the boxed 'Three-Layer Stack' heading. Numbered list items are"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.0,
+              "notes": "Good breathing room around the main title and the content box. Margins within the box are adequate. The bottom half of the slide is entirely empty, which, while providing ample whitespace, could be seen as underutilized space or overly generous. | Generous and consistent whitespace throughout the slide, providing ample breathing room around the main title and content box. No cramped areas or awkward gaps. | Generous internal padding within the green box and comfortable spacing between list items"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple and effective, using a light background, dark text, and a subtle green for accents and the box border. Colors are cohesive, and the contrast is excellent, making the slide accessible. | The color palette is subtle and professional, consisting mainly of dark text on a light background, with a soft green used effectively for accents and borders. Colors are harmonious and do not compete. | Simple and harmonious color scheme with a clean white background, dark text, and a "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very clean, polished, and professional appearance. Element sizing is consistent, and the left alignment throughout contributes to a sophisticated and intentional design suitable for a boardroom presentation. | The slide presents a highly polished and professional appearance. Alignment is consistent, element sizing is intentional, and the overall aesthetic is clean and suitable for a boardroom presentation. | Overall very polished and professional. Clean typography, consisten"
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "title": "The Platform",
+          "type": "title",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Excellent contrast between dark text and light background. Font sizes are appropriate and line length for the subtitle is comfortable. | Text is highly readable, with good font sizes for both title and subtitle, excellent contrast, and appropriate line length for the content. | Text is highly readable with excellent contrast and appropriate font sizes for both the main title and subtitle."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title being significantly larger, bolder, and underlined, drawing the eye first. The subtitle clearly follows. | Clear visual hierarchy is established with the large, underlined title prominently displayed, and the smaller, italicized subtitle serving as secondary information. The eye is naturally drawn to 'The Platform'. | Strong visual hierarchy; 'The Platform' is clearly the main focus, supported by its larger size and green underline, with the subtitle ap"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and balanced whitespace around all elements, creating a very clean and uncluttered look. No cramped areas or awkward gaps. | Outstanding whitespace quality. The slide features generous margins and ample breathing room around the text, creating a clean, uncluttered, and professional look without any cramped areas or awkward gaps. | Generous and balanced whitespace creates a clean, uncluttered look. Content is centered effectively, though the amount of whitespace is quite significant rela"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "Colors are harmonious and subtle. The light beige background, dark gray text, and green accent line work well together without competing. Good contrast overall. | The color scheme is harmonious with dark grey text, a subtle green accent line, and a light background. Colors work cohesively, and contrast is excellent for readability and accessibility. | The color scheme (dark text, light background, green accent) is simple, harmonious, and professional, providing excellent contrast and readability"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very polished, modern, and professional appearance. Intentional centering and minimalist design make it suitable for any formal presentation. | The slide presents a highly professional and polished appearance. The centered alignment, consistent sizing, and minimalist design contribute to an enterprise-appropriate aesthetic suitable for a boardroom. | The slide has a very polished, minimalist, and professional appearance with intentional alignment, making it suitable for any "
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "title": "7 Clinical Tools \u2014 Real-Time Knowledge",
+          "type": "key_value",
+          "weighted_score": 8.35,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Text is clearly readable with good contrast. Font sizes are appropriate for the title and body, and line lengths are comfortable. No cramping or overflow observed. | Title font size is good, and body text is generally readable. However, the light grey color for descriptions, especially the all-caps 'ORPHANET' entry, might be hard to read from a distance or for accessibility. | Font sizes are appropriate; the title is prominent and the list text is legible. Excellent contrast with the background "
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 8.0,
+              "notes": "Clear visual hierarchy with the main title prominently displayed. Bold tool names within the list effectively guide the eye. The all-caps description for 'ORPHANET' is a slight inconsistency but doesn't majorly disrupt the flow. | Clear visual hierarchy with the prominent title. Within the content box, bolded tool names effectively stand out from their descriptions, guiding the eye well. | Clear visual hierarchy with a large main title and bolded tool names. The content box effectively groups re"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent use of whitespace. Generous margins and breathing room around the title and content box contribute to a clean, uncluttered appearance. Spacing between list items is consistent and pleasing. | Excellent use of whitespace. Generous margins and consistent spacing between list items provide ample breathing room, making the slide feel clean and uncluttered. | Generous whitespace surrounds all elements, preventing a cramped feel. Consistent spacing between list items and around the content b"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color scheme is highly harmonious and professional, utilizing dark grey text on a white background, with a very subtle, light beige background for the content box. This creates sufficient contrast and a calm aesthetic without any clashing elements. | The color palette (white, dark grey, light grey, light beige box) is harmonious and non-distracting. Contrast for primary text is good, but the lighter grey descriptions could have slightly better contrast for optimal readability. | The color sc"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Alignment is precise, element sizing is consistent, and the overall minimalist design is suitable for a high-level presentation. It exhibits a strong sense of intentional design. | The slide presents a very professional and polished appearance with clean alignment, consistent styling, and a minimalist design suitable for a business or academic presentation. | The slide exhibits a highly professional and polished appearance. Clean "
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "title": "4-Stage Training Pipeline",
+          "type": "process",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with good contrast, appropriate font sizes, and comfortable line lengths within the content boxes. No cramping or overflow is present. | Text is highly readable with appropriate font sizes for headings and body text. Excellent contrast and comfortable line lengths within the process boxes. | Excellent text readability. Font sizes are appropriate, no cramping, good line length, and high contrast between text and background."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The title '4-Stage Training Pipeline' is clearly prominent. The 'Step X' headings provide a clear hierarchy for each stage. The information flow is logical from left-to-right across the top row, then to the next row for Step 4, making it easy to follow. | Clear visual hierarchy with a prominent main title and distinct step headings. The flow from left-to-right for the first three steps, then down to the fourth, is logical for a 'pipeline' though a purely linear flow might be marginally more intu"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace surrounds all elements, providing ample breathing room. Margins are well-balanced, and there are no cramped areas or awkward gaps, contributing to a clean look. | Excellent whitespace quality. Generous margins and ample breathing room around all elements. Consistent spacing between the content blocks contributes to a clean, uncluttered look. | Ample and consistent whitespace around all elements, creating a clean and uncluttered look. Margins are generous and we"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The muted background, light blue/grey boxes, and subtle orange accents work harmoniously. The colors are cohesive and provide sufficient contrast for readability without competing for attention. | The chosen colors (light background, soft blue-grey boxes, subtle orange border) are harmonious and professional. They provide good contrast without being distracting or clashing. | The color palette is harmonious and professional, with subtle blues, oranges, and a light background. Good contrast and n"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide exhibits a high degree of polish, consistency in element sizing and alignment, and a clean, modern aesthetic. It is entirely appropriate for a professional boardroom presentation. | The slide has a very polished and professional appearance. Elements are consistently sized and perfectly aligned. The overall design is clean, modern, and highly suitable for a boardroom presentation. | The slide presents a polished and professional appearance. Element sizing is consistent (where intended) "
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "title": "An Ecosystem, Not Just a Model",
+          "type": "content",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Font sizes are appropriate for the title and main content. The body text is legible, with excellent contrast against the background. Line lengths are comfortable. | Text is highly readable with appropriate font sizes for headings and body text. Excellent contrast between text and background. No cramping or overflow, and line lengths are comfortable. | Font sizes are appropriate, and contrast is good. However, the line length within the descriptive text in the content box is quite long, potential"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title, then the secondary heading 'Decentralized Post-Training,' and finally the bold green key terms guiding the eye through the details. Information flows logically. | Clear visual hierarchy with the main title prominently displayed, followed by a distinct sub-heading, and bolded keywords within the body text. The information flow is intuitive from top to bottom. | Excellent visual hierarchy. The main title is clearly dominant, followed by the content box t"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Ample whitespace surrounds all content elements, preventing cramping. Margins are generous and consistent, contributing to a clean and uncluttered appearance. | Excellent whitespace quality; there is ample breathing room around all content elements. Margins are generous, creating a clean and uncluttered look, though the large empty space on the right makes the slide feel low in content density. | Generous whitespace provides ample breathing room around all elements. Margins are good, and spacing"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple and harmonious, using dark text on a light beige background with subtle green accents. This provides excellent contrast and a pleasant aesthetic without clashing. | The color scheme is minimal and harmonious, primarily black text on a very light background. The subtle use of green for emphasis works well without clashing, and contrast is sufficient. | The color scheme is harmonious and understated. Dark text on a light background ensures excellent contrast. The subtle "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. The layout is clean, alignment is intentional, and the overall styling is elegant and suitable for any formal presentation. | The slide has a clean, polished, and professional appearance. Text alignment is consistent. The primary content block is heavily left-aligned, leaving a significant empty space on the right, which, while clean, could be perceived as unbalanced for a standalone content slide without additional elements. | Th"
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "title": "Live Demo: Gaucher Disease Assessment",
+          "type": "content",
+          "weighted_score": 8.2,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Font sizes are appropriate and highly legible. No text cramping or overflow, and excellent contrast between text and background ensures comfortable reading. | Text is generally readable with good contrast, but the body text in the numbered list might be slightly small for optimal visibility on a large projection screen. | Text is highly readable with appropriate font sizes, excellent contrast, and comfortable line lengths. No cramping or overflow issues."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 8.0,
+              "notes": "Clear visual hierarchy with the main title most prominent, followed by the content box heading and then the structured bullet points. Information flow is logical from top to bottom. | Clear visual hierarchy established through font size, bolding, and indentation. The eye is drawn logically from the main title to the key information within the content box. | Clear visual hierarchy with the main title prominently displayed, followed by a subheading and a numbered list. Green highlights effectively"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 7.0,
+              "notes": "Generous whitespace surrounds the main title and the content box, preventing a cramped feel. Margins are ample, contributing to a clean and uncluttered appearance, though the right side is quite empty. | Generous whitespace provides breathing room around elements. Margins are good, but the content occupies a relatively small area, leaving a very large empty space in the bottom half of the slide. | Ample whitespace provides breathing room around elements, but the content is heavily concentrated i"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme (white background, light grey box, black text, subtle green highlights) is cohesive and professional. Accent green is used effectively to draw attention to key terms without clashing. | The color scheme is harmonious, clean, and professional (white/off-white background, dark text, subtle green accents). Contrast is excellent throughout. | The color palette is minimalist (black, white, light grey, subtle green) and harmonious. Colors do not clash and provide sufficient contrast, "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 8.0,
+              "notes": "The slide presents a very clean, minimalist, and professional aesthetic. Element alignment is intentional and consistent, making it suitable for a formal presentation environment. | The slide has a polished, minimalist, and professional appearance. Alignment is consistent, and the overall styling is suitable for a boardroom presentation. | The slide has a clean, minimalist, and professional appearance. Alignment is consistent, and the overall styling is appropriate for a business setting, though"
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "title": "The Vision",
+          "type": "title",
+          "weighted_score": 9.2,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is large and clear with excellent contrast against the light background. Line length is comfortable for the subtitle. | Excellent readability. The main title is large and bold, and the supporting text is clearly legible with good contrast against the light background. Line length is short and ideal. | Text is highly readable with excellent contrast and appropriate sizing for both the title and the subtitle. No cramping or overflow."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title is prominently displayed, drawing the eye first. The subtitle is clearly secondary, creating a natural top-down flow. | Clear visual hierarchy. 'The Vision' is unmistakably the main point, emphasized by size, bolding, and the green underline. The descriptive sentence follows naturally and is visually subordinate. | Clear visual hierarchy with the main title prominently larger and underlined, drawing the eye first. The subtitle is appropriately smaller and subtly positioned below."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 10.0,
+              "notes": "Generous whitespace surrounds the content, providing excellent breathing room and a clean, uncluttered aesthetic. No awkward gaps or cramped areas. | Outstanding whitespace. The generous margins around the central text create a very clean, open, and inviting feel. There are no cramped areas or awkward gaps, providing ample breathing room. | Exceptional whitespace. The central placement of content leaves generous, balanced margins, creating a clean, uncluttered, and professional aesthetic."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The subtle off-white background, dark grey text, and green accent line work cohesively. Colors are understated but effective, with good contrast. | Harmonious color palette. The dark grey text on a light cream background provides excellent contrast. The subtle green underline and the thin, muted orange border add a touch of personality without clashing or overwhelming the content. | The color palette is minimalist and harmonious. Dark text on a light background, with a subtle green underline for"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly polished, clean, and minimalist professional appearance. Central alignment and consistent styling contribute to a sophisticated feel. | Highly professional and polished. The minimalist design, precise centering, consistent styling, and thoughtful use of whitespace give this slide a sophisticated and boardroom-ready appearance. It exudes quality and intentionality. | The slide presents a very professional and polished appearance. Its clean design, intentional alignment"
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "title": "How 9,100 Disease Communities Build Their Own AI",
+          "type": "content",
+          "weighted_score": 8.8,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is very readable with appropriate font sizes for titles and body. Excellent contrast against backgrounds. No cramping or overflow. | Font sizes are appropriate for reading on a screen; body text might be on the smaller side for large-scale projection. Contrast is excellent, and line length is comfortable. | Font sizes are appropriate, and contrast is excellent. The line length for the initial paragraph within the green box is a bit long, but bullet points are good."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title, a prominent section heading, and well-structured bullet points. Information flow is logical top-to-bottom. | The main title, section heading, and bulleted content are clearly differentiated, establishing a strong and intuitive top-to-bottom information flow. | Clear visual hierarchy with the main title, then the boxed section, and highlighted green text within. Information flows logically top-down."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.0,
+              "notes": "Generous margins and breathing room around the text within the green box. Overall slide has a lot of empty space, which feels clean but could be perceived as underutilized at the bottom. | Ample whitespace surrounds the main content box and within the text itself, providing good breathing room. The bottom half of the slide is very empty, but this contributes to a clean, uncluttered feel. | Good breathing room around main elements and within the box. Margins are generous. Line spacing within the "
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "Minimalist color palette (off-white, light green, dark grey) creates a harmonious and professional look. Accent green is subtle and effective without clashing. | The color scheme is simple and effective, using white, dark grey, and a subtle light green for accents. Colors are cohesive and provide good contrast without clashing. | The color palette is simple and harmonious, using white, black, and a subtle green accent effectively. Excellent contrast and no clashing elements."
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "Clean, polished, and professional appearance. Consistent element sizing and intentional alignment. Suitable for a boardroom presentation, though quite basic in design. | The slide has a very clean, modern, and professional aesthetic. Alignment is precise, and the overall design is polished and suitable for a high-level presentation. | The slide presents a very clean, polished, and professional appearance. Alignment is consistent, and the minimalist design is enterprise-appropriate."
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "title": "Why Open Models Will Transform Rare Disease Diagnosis",
+          "type": "comparison",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with good font sizes for headings and body. Excellent contrast between dark text and light background. No cramping or overflow. | Text is highly readable with good font sizes for titles, headers, and bullet points. Excellent contrast between dark text and light background. No cramping or overflow issues. | Text is generally readable. The main title and section headers are appropriately sized. Bullet point text is legible but could be slightly larger for optimal projection"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title most prominent, followed by distinct section headings. The left-to-right comparison and top-to-bottom flow are intuitive and effective. | Clear visual hierarchy. The main title is prominent, followed by distinct and bolded section headers. Information flows logically from top to bottom and left to right, making it easy to follow the comparison. | Excellent visual hierarchy. The main title is clearly dominant, followed by distinct 'Closed Approaches' and"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent whitespace management. Generous margins and ample breathing room around all content elements, preventing any cramped areas and creating a clean, balanced look. | Excellent whitespace quality. Ample breathing room around all elements, generous margins, and consistent spacing within and between the content boxes. The design feels open and uncluttered. | Generous and consistent whitespace throughout the slide, providing ample breathing room around all content elements. No cramped areas or"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is minimalist and harmonious (dark text on light beige). It's very clean and non-distracting, with sufficient contrast. No clashing colors, but also no strong accent colors to draw specific attention. | The color scheme is simple and effective: dark text on a light background, with slightly darker light boxes for content. This creates good contrast and a calm, professional aesthetic, though it lacks accent colors (which isn't necessarily a negative for this style). | The color "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very professional and polished appearance. Elements are consistently sized and well-aligned, conveying a strong sense of intentional design and attention to detail. Suitable for any formal presentation. | Very professional and polished appearance. The design is clean, minimalist, and highly consistent in element sizing and alignment. It would be entirely appropriate for a formal presentation. | The slide presents a highly professional and polished appearance. Elements are co"
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "title": "2026 Roadmap: From Lab to Global Impact",
+          "type": "stats",
+          "weighted_score": 8.65,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Title text is perfectly readable. Text within the quarterly bubbles is legible but could be a little small for large projections. Excellent contrast. | Excellent text readability. Font sizes are appropriate, no cramping, and contrast is very good against the background colors. | Text is very readable, with appropriate font sizes for the title and content. Good contrast between the dark text and light backgrounds, and no cramping or overflow."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title prominent. Information flows logically from left to right across the quarters. Headings within bubbles are distinct. | Clear visual hierarchy. The main title is prominent, followed by distinct quarterly headings, and the information flows logically from left to right. | The title '2026 Roadmap' is clearly the most prominent element. The quarterly boxes establish a clear left-to-right information flow, guiding the eye naturally through the timeline."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.0,
+              "notes": "While there's ample breathing room around individual elements, the sheer amount of empty space, especially in the upper portion of the slide, makes the content feel unanchored and the slide look somewhat sparse or unbalanced. | Whitespace is generous and consistent around and within elements, preventing clutter. However, the content occupies a relatively small portion of the overall slide area, leaving large unused margins at the top and bottom. | Excellent whitespace around all elements. Margin"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is simple and harmonious (dark text, light background, subtle green bubbles). Colors work together well and provide sufficient contrast without being distracting. | The color scheme is harmonious and subtle, using a light grey background with soft, desaturated green boxes. Contrast for text is excellent, making it easy to read. | The light green and subtle off-white background create a harmonious and calming palette. The colors are professional and provide sufficient contrast f"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide has a clean, professional appearance with consistent sizing and alignment for the quarterly elements. However, the overall sparseness and low vertical placement of content due to excessive whitespace at the top detract slightly from its polish and impact. | The slide has a polished and professional appearance. Element sizing and alignment are consistent, giving it a clean and boardroom-appropriate look. | The slide exhibits a high degree of polish and professionalism. Elements are cons"
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "title": "Join the Movement",
+          "type": "content",
+          "weighted_score": 8.4,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Font sizes are appropriate and readable. The contrast is good for most text, though the green links on a light background could have slightly more contrast. Some URL lines are long but expected for links. | Text is highly readable with good contrast and appropriate font sizes, though body text could be slightly larger for projection. No cramping or overflow. | Excellent contrast between text and background. Font sizes are appropriate and line lengths within the box are comfortable for reading."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title 'Join the Movement' is clearly prominent. The heading within the content box stands out, and the green text effectively guides the eye to key actions, creating a clear top-to-bottom flow. | Clear visual hierarchy with 'Join the Movement' as the main heading and 'No Disease Is Too Rare to Matter' as a prominent secondary title. Green links effectively highlight actionable items. | Clear visual hierarchy with the main heading prominent and the content box below it. Information flows"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.0,
+              "notes": "Excellent use of whitespace. There is ample breathing room around the main title and the content box. Margins are generous and consistent, creating a clean and uncluttered feel. | While there's ample breathing room around elements, the overall slide feels extremely sparse with excessive empty space, particularly above and to the sides of the content box. It leaves the content feeling isolated. | Generous whitespace provides ample breathing room around elements. While aesthetically clean, the con"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color scheme is simple and harmonious, using a neutral background with dark text and a subtle green accent. The green provides a pop of color without clashing, but its contrast against the light background could be slightly improved for accessibility. | The color palette is simple and cohesive (off-white, dark grey, light green accent). Colors work well together, and contrast is sufficient for readability. | The color palette is subtle and harmonious, with good contrast for text. The light g"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. The consistent alignment, intentional spacing, and minimalist design give it a modern and enterprise-appropriate feel, suitable for a boardroom. | The slide has a clean, minimalist, and modern aesthetic with consistent alignment. However, the extreme amount of unused space makes it feel more like a web page section than a presentation slide that efficiently conveys information. | The slide has a very clean, polished, and minimalis"
+            }
+          ]
+        }
+      ]
+    },
+    "science_stanley_issue_01": {
+      "theme": "tokyo_night",
+      "scored_at": "2026-04-21",
+      "source_canvas": "lattice-labs/how/presentations/science_stanley_issue_01/science_stanley_issue_01.canvas",
+      "model": "gemini-2.5-flash",
+      "review_method": "gemini_2_5_flash_composite",
+      "aggregate_score": 6.88,
+      "passes": false,
+      "weakest_criterion": "Text Readability",
+      "page_count_scored": 3,
+      "pages_scored": [
+        1,
+        15,
+        30
+      ],
+      "scored_by_mission": "mission_cvc_m08",
+      "previous_baseline": {
+        "mission": "mission_cvc_m01",
+        "aggregate": 8.4
+      },
+      "slides": [
+        {
+          "index": 1,
+          "title": "Page 1 (Cover Matter)",
+          "type": "comic_page",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with excellent contrast against the dark background. Font size is appropriate, and lines are short and easy to follow. The chosen font style, while distinct, is clear due to minimal text. | Text is highly readable with good contrast against the dark background. Font size is appropriate for on-screen viewing, and line lengths are short and clear within the buttons. | Text is legible with good font size and high contrast against the dark background. No cramping or overflow "
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The large central illustration is the primary focal point, drawing the eye immediately. The top titles provide clear context and the bottom text acts as a secondary descriptor, creating a natural and effective information flow for a cover slide. | The visual hierarchy is clear: the large central image is the primary focus, followed by the two prominent titles at the top, and then the descriptive footer. Information flows logically from top to bottom. | Clear hierarchy with navigation/topic eleme"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace surrounds all content elements, giving them ample breathing room. The margins are well-balanced, contributing to a clean and uncluttered aesthetic without any cramped areas. | Excellent use of whitespace. The generous dark margins around the central image and text elements provide ample breathing room, contributing to a clean and uncluttered appearance. | Excellent use of whitespace, providing ample breathing room around all elements. Margins are generous and s"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The dark grey background harmonizes well with the warm tones of the central illustration. White text provides strong, accessible contrast, and the overall color palette is cohesive and visually appealing without clashing elements. | The dark grey and light grey color palette for the UI elements is cohesive and modern, providing strong contrast for text. The warmer tones of the central illustration stand out effectively against this minimalist frame. | The dark background provides a harmonious ba"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly polished and professional appearance. Elements are consistently sized and perfectly center-aligned, indicating intentional design. The high-quality illustration and thoughtful layout give it a sophisticated and engaging look. | The slide presents a very polished and professional appearance. Elements are consistently sized and centrally aligned, giving an intentional and balanced look. It has a modern, clean interface feel that would be suitable for many professional p"
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "title": "Page 15 (Act II)",
+          "type": "comic_page",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text in the information boxes is of a good size, has excellent contrast against the dark background, and comfortable line lengths, making it easy to read."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The large central illustration is the immediate focal point. The supporting information boxes below it provide a clear, top-to-bottom flow, making the visual hierarchy effective and intuitive."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "The slide features generous and consistent whitespace around the main image and between the text blocks, contributing to a clean, uncluttered, and open feel without any cramped areas."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The dark background, coupled with the blues, greens, and purple accents from the pixel art and text boxes, creates a cohesive and visually appealing color palette that is well-suited to the theme."
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The pixel art style is consistently applied and highly polished. Element sizing and alignment are intentional and clean. While not a traditional corporate aesthetic, it demonstrates a high level of professional execution within its stylized 'comic_page' context."
+            }
+          ]
+        },
+        {
+          "index": 30,
+          "title": "Page 30 (Act III)",
+          "type": "comic_page",
+          "weighted_score": 2.65,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 0.0,
+              "notes": "No text is visible on the slide image itself. The slide title provided in the prompt is metadata and not rendered visually on the slide content, making it impossible to evaluate readability."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 3.0,
+              "notes": "While the comic image itself has a clear internal hierarchy, the slide as a whole lacks visual hierarchy. The image occupies only the left half, leaving a large, undifferentiated dark grey block on the right. There's no clear information flow or emphasis between different slide elements, as there's only one content element (the image) and a lot of empty space."
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 2.0,
+              "notes": "There is a significant amount of empty space on the right side of the slide, but it is poorly utilized. It's not 'breathing room' around content elements, but rather a large, unbalanced void that makes the slide appear incomplete or poorly formatted, not contributing to a consistent spacing rhythm."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 7.0,
+              "notes": "The color palette within the comic image is vibrant and harmonious, featuring warm sunset tones against cool purples and blues. The dark grey empty space on the right is a neutral color that doesn't clash with the image, providing a safe, non-distracting background, although it doesn't actively enhance the overall color harmony of the slide's composition."
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 3.0,
+              "notes": "The artwork itself is professional and high quality. However, the overall slide composition with the large, blank dark grey area on the right makes the slide look unfinished and unprofessional. It lacks intentional alignment, consistent element sizing across the slide, and would appear out of place in a formal presentation due to its incomplete appearance."
+            }
+          ]
+        }
+      ]
+    },
+    "wilhelm_rare_archive_parity": {
+      "theme": "scientific",
+      "scored_at": "2026-04-22",
+      "source_canvas": "CanvasForge.aDNA/what/artifacts/parity_deck/wilhelm_parity.canvas",
+      "build_script": "CanvasForge.aDNA/what/artifacts/parity_deck/build_wilhelm_parity.py",
+      "model": "gemini-2.5-flash",
+      "median_runs": 3,
+      "review_method": "gemini_2_5_flash_median_of_3",
+      "aggregate_score": 8.8,
+      "passes": true,
+      "weakest_criterion": "Color Harmony",
+      "slide_count": 15,
+      "scored_by_mission": "mission_m_6_01_wilhelm_deck_parity",
+      "forge_path": true,
+      "previous_baseline": {
+        "mission": "mission_cvc_m06",
+        "aggregate": 8.62
+      },
+      "slides": [
+        {
+          "index": 1,
+          "title": "Rare AI Archive",
+          "type": "title",
+          "weighted_score": 8.75,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Font sizes are generally good, and contrast is excellent. However, the first body text line ('Condition-specific models...') is quite long (approx. 100 characters), which can be harder to read quickly in a presentation setting than the ideal 45-75 characters. | Text is highly readable with good contrast against the background. Font sizes are appropriate, though the body text might be slightly small for very large projection screens. No cramping or overflow. | Text is highly legible with good con"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The visual hierarchy is very clear. The main title is prominent with larger font and an underline, followed by the subtitle and then the two lines of supporting text in decreasing size, guiding the eye perfectly from top to bottom. | Excellent visual hierarchy. The main title is clearly dominant, and the supporting text follows logically below. The eye is naturally drawn to the most important information first. | Excellent visual hierarchy; the title is clearly dominant, followed by the descript"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Whitespace is used generously, providing ample breathing room around the central text block. The margins are large and consistent, contributing to a clean, minimalist aesthetic. It feels intentional, not wasteful, for an introductory slide. | Outstanding whitespace quality. There is ample breathing room around all elements, creating a clean and uncluttered look. Margins are generous and spacing feels intentional. | Abundant and well-utilized whitespace creates a clean, minimalist aesthetic. Marg"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple, clean, and professional. Dark gray text on a light background ensures high contrast, while the subtle green underline and border provide a tasteful accent without clashing or distracting. | The color palette is harmonious and minimalist. Dark text on an off-white background provides excellent contrast. The subtle green accent for the underline and border adds a touch of design without clashing. | The color palette is harmonious and professional, with a light backgroun"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide has a very polished and professional appearance. All elements are consistently aligned (centered), the sizing hierarchy is intentional, and the overall design is appropriate for a serious, enterprise-level presentation. | The slide has a very professional and polished appearance. Alignment is consistent (centered), and the overall design is clean, enterprise-appropriate, and would fit well in a formal presentation. | The slide presents a highly polished and professional appearance. Ali"
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "title": "Why This Matters",
+          "type": "content",
+          "weighted_score": 8.1,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 6.0,
+              "notes": "Text is highly readable with good font sizes for heading and body, and excellent contrast against the background. No cramping or overflow issues. | Title text is clear and readable. However, the caption text at the bottom is very small and light, significantly hindering its readability, especially for a presentation slide. | The main title is highly readable, but the descriptive text at the bottom is quite small and would likely be difficult to read when projected or from a distance."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The heading 'Why This Matters' is clearly prominent. The eye is naturally drawn to the heading, then the large central image, and finally the supporting text, indicating a clear and effective information flow. | Excellent visual hierarchy. The title 'Why This Matters' is clearly prominent, followed by the large, impactful image, and then the supplementary caption text. The eye naturally flows from top to bottom. | The visual hierarchy is very strong, with the title clearly prominent, the large i"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent use of whitespace, providing ample breathing room around all content elements. Margins are generous, contributing to a clean and uncluttered look without feeling wasteful. Spacing feels intentional and balanced. | Generous and consistent whitespace around all elements. The margins are well-balanced, providing ample breathing room and contributing to a clean, uncluttered layout. | Whitespace is excellent, with generous margins around the content, good padding within the elements, and am"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is subtle and cohesive, using a light background, black text, and a soft pink accent border that complements the image without competing. Sufficient contrast is maintained for accessibility. | The color palette is harmonious and professional, primarily using a neutral background with black and grey text. The subtle pink border adds a soft accent without clashing. Contrast is generally good, although the small caption text could benefit from a darker shade. | The color palette i"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly polished and professional appearance. Element alignment is intentional, styling is consistent, and the overall design feels sophisticated and appropriate for an enterprise setting. | The slide presents a professional and polished appearance with clean lines, intentional alignment, and consistent element styling. The only minor detraction is the small, less readable caption text, which slightly impacts overall polish. | The slide exhibits a high degree of professional "
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "title": "The Diagnostic Odyssey",
+          "type": "stats",
+          "weighted_score": 9.18,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with large, clear numbers and legible descriptive text. Excellent contrast for black text on white. The green text on a lighter green background is generally readable, though could have slightly more contrast for universal accessibility. | Text is highly readable with excellent contrast against both white and light green backgrounds. Font sizes are appropriate, and there is no cramping or overflow of text within the elements. | Large numbers are highly readable. Descripti"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the title 'The Diagnostic Odyssey' at the top, and large numbers prominently displaying key metrics in a clear left-to-right flow. The eye is naturally drawn to the numbers and then their descriptions. | The title 'The Diagnostic Odyssey' is clearly prominent. The large green numbers create a strong visual focal point, and the eye naturally flows from left to right across the four key statistics. | The title 'The Diagnostic Odyssey' is clearly prominent. There's a str"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.5,
+              "notes": "Exceptional whitespace quality. Ample breathing room around all elements and generous margins create a very clean and uncluttered look. Consistent spacing between the boxes is well-maintained. | Generous and consistent whitespace around all elements, providing ample breathing room. The spacing between the data boxes is uniform, contributing to a clean and uncluttered aesthetic. | Excellent use of whitespace. Generous margins and ample breathing room around the title and between each content box "
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is simple and cohesive, using white, black, and two shades of light green. The green acts as a calming accent color. The background doesn't compete with content. The contrast for the green text on green background is sufficient but could be marginally improved for peak accessibility. | The color scheme is simple, cohesive, and professional, using a white background with dark text and a light green accent for the data boxes. The green effectively highlights the key numbers witho"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.5,
+              "notes": "The slide demonstrates a high level of professional polish. Elements are consistently sized and aligned, presenting a clean and intentional design. The rounded rectangles give it a modern, enterprise-appropriate look suitable for a boardroom. | The slide demonstrates a high degree of polish and professionalism. Elements are consistently sized and perfectly aligned, creating an intentional and organized layout suitable for any formal presentation setting. | The slide exhibits a high degree of pol"
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "title": "Why AI Changes Everything",
+          "type": "content",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with good font sizes for headings and body. Excellent contrast between dark text and light backgrounds. Line lengths are appropriate within the bullet points, preventing eye strain. No text cramping or overflow is observed. | Text is highly readable with appropriate font sizes for headings and body, excellent contrast, and no cramping or overflow. Line lengths are comfortable. | Excellent text readability; font sizes are appropriate, line lengths are comfortable, and cont"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title being most prominent, followed by the boxed section title. Information flows naturally from top to bottom. The eye is effectively drawn to the key content elements in a logical sequence. | Clear visual hierarchy with a prominent main title, a well-defined subheading, and distinct bullet points. The information flow is logical from top to bottom, drawing the eye effectively. | Clear visual hierarchy with a prominent main title and a distinct section head"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and well-balanced whitespace around all content elements, including the main title and the content box. Margins are ample, providing a clean and uncluttered feel. There are no cramped areas or awkward gaps, contributing to a pleasant reading experience. | Ample and well-distributed whitespace, providing good breathing room around all elements. Margins are generous, and the spacing within the content box feels balanced, preventing any cramped areas. | Generous whitespace creates a very c"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is minimalist and cohesive, featuring dark text on a light background with a subtle beige box and a pleasant green accent. These colors work harmoniously, with the green effectively highlighting key phrases without clashing. Contrast is good for accessibility. | The color palette is minimalist and cohesive, using dark text on a light background with a subtle, non-competing content box color and a green accent that effectively highlights key phrases without clashing. | Simple an"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Element sizing is consistent, and alignment is intentional. The clean, minimalist design is suitable for a high-level presentation and would not look out of place in a corporate setting. | The slide presents a polished and professional appearance. Element sizing is consistent, alignment is intentional, and the overall aesthetic is clean and suitable for a boardroom presentation. | The slide has a very polished, professional, and m"
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "title": "Architecture: Open, Composable, Deployable",
+          "type": "content",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is very readable with good font sizes and excellent contrast. Some descriptive lines are a bit long but still manageable. | Text is very clear and legible, with appropriate font sizes for headings and body text. No cramping or overflow, and good contrast between text and background colors. | Font sizes are appropriate. Main text and title have excellent contrast. The green numbered text on the light green box background has slightly lower contrast, but is still legible."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title, then the 'Three-Layer Stack' box, and numbered points guiding the eye. The green numbering effectively highlights key elements. | Strong visual hierarchy with the main title clearly prominent. The green box effectively frames the core content, and the numbered list within provides a clear, sequential flow of information. | Clear visual hierarchy with a prominent main title, a well-defined content box, and numbered items within. The eye flows naturally "
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent whitespace, providing plenty of breathing room around the content. Margins are generous and consistent, contributing to a clean, uncluttered look. | Excellent use of whitespace. There is ample breathing room around the title and the content box, contributing to a clean and uncluttered appearance. Margins are generous and consistent. | Excellent use of whitespace. Ample margins around the content, and good padding within the green box, providing a clean and uncluttered look."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "Simple and harmonious color scheme with black text, a subtle green accent for highlighting, and a clean light background. Colors do not clash and provide sufficient contrast. | The color scheme is simple and harmonious, using black, white, and two shades of green. The green box and accent colors draw attention subtly without clashing, and contrast is sufficient. | Simple and harmonious color scheme with black text on white, accented by a subtle light green box. The colors are cohesive and non-di"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Its minimalist design, consistent alignment, and intentional spacing make it suitable for an enterprise setting. | The slide presents a very professional and polished appearance. Elements are consistently sized and aligned, and the overall minimalist design is enterprise-appropriate and clean. | The slide presents a very professional and polished appearance. Alignment is consistent, element sizing is thoughtful, and the overall de"
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "title": "The Platform",
+          "type": "title",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Title text is very readable. Subtitle is a good size for screens but might be a bit small for larger projections given the light gray font, though still legible. | Text is clear, concise, and has excellent contrast against the background. Font sizes are appropriate for their hierarchical roles. | Excellent contrast and clear font choices. The main title is large and the subtitle is easily readable, although it might be slightly small for projection in a very large room."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title being prominent and the subtitle clearly secondary. The eye is drawn to 'The Platform' immediately. | The main title 'The Platform' is clearly dominant due to its size and green underline, guiding the eye effectively to the primary message. The subtitle provides context without competing. | Perfect hierarchy: the main title 'The Platform' is strongly emphasized by its size, weight, and green underline, clearly leading the eye before the descriptive subt"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent use of whitespace, providing ample breathing room and a clean, uncluttered look. Margins are generous and the central placement is balanced. | Exceptional use of whitespace. The central placement and generous margins create a clean, uncluttered, and professional aesthetic, allowing the content to breathe. | Very generous whitespace ensures no cramping and a clean aesthetic. While some might find the amount of empty space excessive, it's consistent and contributes to a minimalist feel."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "Colors are harmonious and professional. The green underline adds a subtle accent without clashing. Contrast is good, and the background is non-distracting. | Colors are harmonious and understated. The dark text on a light background with a subtle green accent for the underline works well. The faint beige border adds a touch of warmth. | The color palette is simple, calm, and cohesive. The dark text on a light background, with a subtle green accent, works harmoniously and provides good contrast."
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide has a very professional and polished appearance. The minimalistic design, clear hierarchy, and intentional alignment make it suitable for a boardroom presentation. | The slide exudes a high level of polish and professionalism. The minimalist design, intentional alignment, and clean typography make it suitable for a high-level presentation. | The slide presents a very polished, minimalist, and modern aesthetic. Alignment is precise, and the overall design is highly professional and suit"
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "title": "7 Clinical Tools \u2014 Real-Time Knowledge",
+          "type": "key_value",
+          "weighted_score": 8.97,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.5,
+              "notes": "Title and body text are well-sized and legible. Contrast is excellent. Line lengths are comfortable. The ORPHANET description in all caps and lighter grey slightly reduces its readability compared to other entries. | Title text is large and clear. Body text inside the box is legible but on the smaller side for projection. Good contrast and comfortable line lengths within the box. | Text is largely readable; title is excellent. Body text within the box is a good size, though could be slightly lar"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title is clearly prominent. The content is grouped effectively in a box. Within the list, bolded tool names help delineate items. However, the ORPHANET entry's description uses all caps and a different text color, breaking the established visual pattern and slightly disrupting internal hierarchy. | Clear hierarchy with the main title prominently displayed. The content box effectively groups related information. Bolded tool names provide a good secondary hierarchy within the list. | Clea"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.5,
+              "notes": "Excellent use of whitespace. Ample breathing room around the title and content box. Margins are generous and consistent. No cramped areas or awkward gaps, contributing to a clean look. | Excellent use of whitespace. Generous margins and breathing room around both the title and the content box prevent any cramped feeling. Consistent spacing between list items. | Excellent use of whitespace. Generous margins and breathing room around the title and the content box prevent clutter and create a clean"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is simple and cohesive (white, dark grey, light grey). Colors work well together, providing high contrast and a professional aesthetic without competition or distraction. | The color palette is very simple and harmonious, primarily black text on a white background with a subtle light grey for the content box. This creates a clean and non-distracting look. | Very harmonious, relying on a minimalist palette of white, dark gray, and light gray. The simplicity ensures excellent con"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide has a clean, polished, and enterprise-appropriate appearance. Alignment is intentional and consistent. The only minor detraction is the slightly inconsistent styling of the 'ORPHANET' entry compared to the others, preventing a perfect score for consistency. | The slide presents a highly professional and polished appearance. Clean alignment, consistent formatting, and a minimalist design make it suitable for any formal presentation. | The slide presents a highly professional and polishe"
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "title": "4-Stage Training Pipeline",
+          "type": "process",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable with appropriate font size, excellent contrast, and comfortable line lengths. No cramping or overflow issues. | Text is very readable with good font size and contrast. Line lengths are appropriate within the boxes. No cramping or overflow issues. | Text is highly readable with appropriate font sizes for headings and body, good line length, and excellent contrast against the background colors."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title is prominent. Step headings ('Step 1', 'Step 2', etc.) are clearly differentiated from body text. The information flow is logical, moving left-to-right across the top row and then down to the wider fourth step, guiding the eye effectively. | The main title is prominent, and 'Step X' headings are clear. The flow from left-to-right for the first three steps and then to the fourth step below is intuitive and visually guided by the orange borders. | The title '4-Stage Training Pipelin"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace provides ample breathing room around all elements. Margins are well-balanced, and there are no cramped areas or awkward gaps, contributing to a clean look. | Excellent use of whitespace. There is ample breathing room around all elements, and margins are generous. Spacing between the boxes is consistent, contributing to a clean and uncluttered look. | There is ample breathing room around all elements and generous margins. However, the significantly wider box for"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is simple but effective, using a light background, subtle blue-grey boxes, and a tasteful orange accent. Colors are harmonious and provide sufficient contrast without being distracting. | The color scheme is harmonious and professional, with a light background, muted blue-gray boxes, and a subtle orange accent for the borders. Contrast is sufficient for readability. | The color scheme of a light background, muted blue boxes, and a subtle orange accent border is harmonious and p"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide exhibits a highly professional and polished appearance. Elements are consistently sized and perfectly aligned. The overall design is clean, intentional, and suitable for a formal presentation setting. | The slide exhibits a high level of polish and a professional appearance. Element sizing is consistent (for the top row), alignment is precise, and the overall aesthetic is clean and suitable for a formal presentation. | The slide has a very polished and clean aesthetic. Element sizing a"
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "title": "An Ecosystem, Not Just a Model",
+          "type": "content",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is very readable. Good font size for headings and body. Line lengths are comfortable, and contrast is excellent. No cramping or overflow. | Excellent text readability with appropriate font sizes for headings and body, good line lengths, and strong contrast against the backgrounds. | Font sizes are appropriate for the title and main headings. Body text within the box is clear, though might be slightly small for very large projection screens. Excellent contrast."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with a prominent main title. The boxed section clearly delineates a secondary content block. Bolded green terms within the box create an effective sub-hierarchy. | Clear visual hierarchy with the main title, a prominent section heading, and bolded terms within the body text. Information flow is logical and easy to follow. | Clear visual hierarchy with the main title, secondary heading, and bolded green key terms. Information flows logically from top to bottom. Eye is drawn"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace around all elements, providing ample breathing room. Margins are well-balanced, and there are no cramped areas. | Ample and clean whitespace around elements, providing good breathing room. Margins are generous, creating an open feel, though the right margin is quite large. | Ample breathing room around all elements. Margins are generous, creating a clean and uncluttered look. Consistent internal spacing within the content box. The large empty space on the right"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color palette is harmonious and muted, with a light background and dark text. The green accent color for key terms is subtle and effective, providing good contrast without clashing. | Colors are harmonious and professional (white, light beige, black text). The subtle green accent color effectively highlights key terms without clashing. | Colors are generally harmonious (light beige background, black text, soft green accents). The green effectively highlights key terms. The thin pink vertical"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very clean, polished, and professional appearance. Alignment is precise, and the overall design is simple yet effective for conveying information in a business setting. | The slide has a polished, professional appearance. Elements are well-aligned, and the overall design is clean, minimalist, and suitable for a boardroom presentation. | The slide presents a polished and professional appearance. Elements are consistently sized and aligned. The clean, minimalist design is suit"
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "title": "Live Demo: Gaucher Disease Assessment",
+          "type": "content",
+          "weighted_score": 9.0,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Body text within the content box is quite small and might be challenging to read on a large projection screen from a distance, though readable on a monitor. Good contrast and line length. | Excellent text readability. Font sizes are appropriate, line lengths comfortable, and contrast is very good against the background. | Text is highly readable with appropriate font sizes, line lengths, and excellent contrast between text and background. No cramping or overflow."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with the main title, then the content box heading, followed by sub-headings and a numbered list. The eye flows naturally through the information. | Clear visual hierarchy with the main title being most prominent, followed by the content box heading and sub-headings. Green accents effectively highlight key information. | Clear visual hierarchy with the main title, subheading within the box, and numbered list. The green highlights effectively draw attention to key informatio"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Ample whitespace surrounds the content block and title. Margins are generous, creating a clean and uncluttered look. No cramped areas, though the overall slide has very sparse content. | Generous and consistent whitespace around all elements, providing ample breathing room and preventing a cluttered feel. Margins are well-balanced. | Outstanding use of whitespace. Ample breathing room around all elements, generous margins, and consistent spacing create a clean and uncluttered look."
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "A very clean and harmonious color palette with dark text on a light background. Subtle green accents effectively highlight key terms without clashing or distracting. Excellent contrast for accessibility. | The color palette is minimalist and harmonious, primarily using white, light grey, black, and a subtle green for accents. Colors support content without distraction and provide good contrast. | The color scheme is harmonious and professional, primarily using neutrals (white, light grey, dark g"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional and polished appearance. Alignment is consistent, and the minimalist design is appropriate for a boardroom or scientific presentation. Styling is clean and intentional. | The slide presents a very polished, clean, and professional appearance. Consistent alignment and intentional styling make it suitable for a high-level presentation. | The slide has a polished, minimalist, and enterprise-appropriate appearance. Consistent element sizing and intentional al"
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "title": "The Vision",
+          "type": "title",
+          "weighted_score": 9.2,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Text is highly readable. 'The Vision' is large and clear, while the subtitle maintains good legibility despite being smaller. Excellent contrast with the light background. Line length is short and comfortable. | Text is very clear, large enough for projection, and has excellent contrast against the light background. Line length is ideal for the subtitle. | Text is very readable with excellent contrast. Font size for the subtitle is good, though perhaps slightly conservative for a large projectio"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "'The Vision' is prominently displayed as the main title with its larger font and distinct underline, clearly establishing it as the most important element. The subtitle is appropriately placed below and is smaller, creating a clear top-down hierarchy. | Excellent visual hierarchy. The title 'The Vision' is clearly prominent with its size and underline, guiding the eye to the main point before moving to the supporting statement. | Clear visual hierarchy with the main title prominently displayed a"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 10.0,
+              "notes": "Exceptional whitespace quality. The central content is surrounded by generous, balanced margins on all sides, providing ample breathing room. The spacing between the title and subtitle is also well-proportioned, creating a calm and uncluttered aesthetic. | Generous and well-balanced whitespace creates a clean, uncluttered look. The content feels centered and has ample breathing room, contributing to a premium feel. | Excellent whitespace quality. Generous margins and ample breathing room around "
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is harmonious and sophisticated. The off-white background, dark grey title, and lighter grey subtitle work well. The subtle green underline and the thin, light brown left border add gentle accents without clashing or overwhelming the content. | The color palette is simple and harmonious: a light off-white background, dark grey/black text, and a subtle green accent line. The colors complement each other well without any clashes. | Colors are harmonious and professional: dark grey"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very professional and polished appearance. The minimalist design, intentional centering, and consistent subtle branding elements (green underline, left border) convey a high level of sophistication suitable for any professional setting. | The slide presents a highly professional and polished appearance. Its minimalist design, intentional alignment, and clear message are well-suited for a boardroom or serious presentation. | The slide presents a highly professional and polish"
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "title": "How 9,100 Disease Communities Build Their Own AI",
+          "type": "content",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Font sizes and contrast are excellent. The line length for the introductory paragraphs within the green box is a bit long, which can slightly strain readability on some displays. | Text is highly readable with good font sizes for headings and body text. Excellent contrast of black text on white/light green background. Line lengths are appropriate. | Font sizes are appropriate and text is highly legible against the backgrounds. Line lengths are comfortable for reading. Excellent contrast througho"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title is clearly prominent. The green box effectively highlights the core content, and the subtitle within it is well-defined. Information flows logically from top to bottom. | Clear visual hierarchy with a prominent main title, a well-defined section heading within the green box, and bullet points. Information flows logically from top to bottom. | Clear visual hierarchy with a prominent main title, a well-defined section heading, and distinct bullet points. The eye naturally follows th"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous margins around the content box and ample breathing room within it. Spacing between text blocks and bullet points is consistent and feels intentional, avoiding any cramped areas. | Excellent use of whitespace. Ample breathing room around the title and the main content box. Margins are generous and consistent, creating a clean and uncluttered look. | Ample and consistent whitespace around the main content block and within it, preventing any cramped feeling. The margins are generous and co"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color scheme is simple and cohesive, primarily white/light background with dark text and a subtle light green accent for the box and some text. It's harmonious and professional, though not particularly creative. | Simple yet harmonious color scheme using black, white, and a single shade of light green. The green effectively highlights the key section without clashing. Good contrast throughout. | The color palette is harmonious and professional, primarily using neutrals with a subtle, yet eff"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a very clean, polished, and professional appearance. Alignment is precise, and the overall styling is consistent and suitable for a business or academic presentation. | The slide presents a highly professional and polished appearance. Clean alignment, consistent element sizing, and a minimalist design make it suitable for any enterprise setting. | The slide has a polished, clean, and modern appearance. Alignment is intentional, and element sizing is consistent. It would look v"
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "title": "Why Open Models Will Transform Rare Disease Diagnosis",
+          "type": "comparison",
+          "weighted_score": 8.85,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Excellent text readability. Good font size, comfortable line lengths for bullet points, and high contrast between dark text and light background. | Text is highly readable with excellent contrast and appropriate font sizes for headings and body. No cramping or overflow. | Text is highly readable with appropriate font sizes for headings and body text. No cramping or overflow. Excellent contrast between dark text and light background. Line length for bullet points is comfortable."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The main title is very prominent. Clear distinction between the two comparison columns. Section headings ('Closed Approaches', 'Our Approach') are clear, though their immediate sub-headings (e.g., 'DeepRare') are also bold, slightly diminishing the primary section heading's prominence. | Strong visual hierarchy with the main title clearly prominent, followed by clear section headings and bullet points. Bold text within lists further aids readability and emphasis. | Clear visual hierarchy with th"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Generous and consistent whitespace. Good margins around the content block and between the two columns, providing ample breathing room. No cramped areas. | Generous and balanced whitespace around all elements, creating a clean and uncluttered look. Margins are ample without being wasteful. | Excellent use of whitespace. Generous margins and breathing room around all content elements prevent a cramped feeling. Consistent spacing between bullet points and content boxes contributes to a clean and or"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color scheme is minimalistic (dark text on a light background) and therefore harmonious and non-distracting. No accent colors are used, which is fine for readability but doesn't add visual flair or specific emphasis. | The color scheme is minimalist (black text on a light beige background) and highly harmonious. It offers excellent contrast and a calm aesthetic, though no accent colors are used. | The color scheme is harmonious and professional, utilizing light tones for the background and c"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "Clean and polished. Alignment is intentional and consistent. The overall minimalist design makes it suitable for a boardroom, though it is quite plain. | The slide has a very polished and professional appearance. Elements are consistently sized and perfectly aligned, presenting a clean and intentional design suitable for a formal presentation. | The slide has a very polished and professional appearance. Elements are consistently sized and perfectly aligned. The minimalistic design and clear pres"
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "title": "2026 Roadmap: From Lab to Global Impact",
+          "type": "stats",
+          "weighted_score": 8.05,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 9.0,
+              "notes": "Excellent contrast between text and background. Font sizes are appropriate for both the title and the detailed points, ensuring good readability without cramping. | Text is highly readable with excellent contrast and appropriate sizing for both the title and body text. No cramping or overflow issues. | Text is highly readable with appropriate font sizes, good line lengths, and excellent contrast against the light background. No cramping or overflow is present."
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 8.0,
+              "notes": "The main title is clearly prominent. The quarterly milestones follow a logical left-to-right flow, establishing a clear timeline and guiding the eye effectively. | The main title is clearly dominant, establishing a strong primary hierarchy. The sequential quarterly boxes provide a clear left-to-right flow. The 'Q' headings within the boxes are distinct from the body text. | The main title is clearly dominant, establishing the slide's purpose. Quarter headings are distinct within their boxes, and"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 7.0,
+              "notes": "There is ample breathing room around all content elements and consistent spacing between the quarter bubbles. However, the top half of the slide is largely empty, which, while clean, could be seen as an underutilization of space. | Whitespace is exceptionally well-managed, providing ample breathing room around all elements. Margins are generous and consistent, contributing to a clean and uncluttered look. | There is ample breathing room around elements and consistent spacing between the content "
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 8.0,
+              "notes": "The color scheme (dark text, light green bubbles on a white background) is cohesive and professional. The accent color draws attention appropriately without clashing, and contrast is sufficient for accessibility. | The color palette is subtle, cohesive, and professional, using a light background with complementary soft green accents. Contrast for text is excellent, ensuring accessibility, though the palette is quite conservative. | The color palette is harmonious and professional, using subtle l"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 8.0,
+              "notes": "The slide presents a polished and professional appearance. Elements are consistently sized and well-aligned, making it suitable for a boardroom presentation without looking out of place. | The slide presents a very polished and professional appearance. Element sizing and alignment are consistent and intentional. It would fit well in a boardroom presentation, being clean and directly informative, albeit visually conventional. | The slide presents a polished and professional appearance. Elements a"
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "title": "Join the Movement",
+          "type": "content",
+          "weighted_score": 8.6,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 7.0,
+              "notes": "Main title is good, but the body text within the box, especially the URLs and the final sentence, might be a bit small for comfortable reading when projected in a large room. | Text is generally readable with good contrast. However, some lines within the content box, especially the URLs, are quite long which can hinder comfortable reading. The font size for the details inside the box might be slightly small for projection in a large room. | Excellent text readability. Font sizes are appropriate,"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Clear visual hierarchy with a prominent main title, a well-defined content box, and distinct headings/action items within the box (bolding, green color). | Clear visual hierarchy is established with the prominent main title 'Join the Movement' and a distinct secondary heading within the content box. Bolded and colored text effectively guides the eye to important actions/information points. | Clear visual hierarchy with 'Join the Movement' as the main heading, followed by 'No Disease Is Too Rare "
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.5,
+              "notes": "Excellent use of whitespace. Ample breathing room around all elements, preventing any cramped feeling and contributing to a clean aesthetic. | Excellent whitespace quality with ample breathing room around the title and content box. Margins are generous, contributing to a clean and uncluttered feel. There are no cramped areas or awkward gaps, even with the minimalist layout. | Exceptional whitespace quality. Generous margins and padding provide ample breathing room around all content elements, pr"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is cohesive, utilizing neutral tones (off-white, light grey) with a subtle, effective green accent for clickable elements, ensuring good contrast and harmony. | The color scheme is harmonious and professional, primarily using off-white, dark grey, and a subtle light green for accents. The colors work cohesively, and the green effectively highlights interactive elements without being jarring. Contrast is sufficient for accessibility. | The color palette is simple yet effective, "
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional, clean, and minimalist appearance. Alignment is consistent, and the overall design is polished and enterprise-appropriate. | The slide presents a highly professional, clean, and modern appearance. The minimalist design, consistent element sizing, and intentional alignment make it suitable for a boardroom presentation. It conveys a polished and organized impression. | The slide presents a highly professional and polished appearance. The minimalist design, "
+            }
+          ]
+        }
+      ]
+    },
+    "science_stanley_issue_01_parity": {
+      "theme": "tokyo_night",
+      "scored_at": "2026-04-23",
+      "source_canvas": "CanvasForge.aDNA/what/artifacts/parity_comic/comic_parity.canvas",
+      "build_script": "CanvasForge.aDNA/what/artifacts/parity_comic/build_comic_parity.py",
+      "model": "gemini-2.5-flash",
+      "median_runs": 3,
+      "review_method": "gemini_2_5_flash_median_of_3",
+      "aggregate_score": 8.43,
+      "passes": true,
+      "weakest_criterion": "Text Readability",
+      "page_count": 3,
+      "pages_scored": [
+        1,
+        15,
+        30
+      ],
+      "scored_by_mission": "mission_m_6_02_comic_parity",
+      "forge_path": true,
+      "previous_baselines": {
+        "m01": {
+          "aggregate": 8.4
+        },
+        "m08": {
+          "aggregate": 6.88
+        }
+      },
+      "slides": [
+        {
+          "index": 1,
+          "title": "Page 1 (Cover Matter)",
+          "type": "comic_page",
+          "weighted_score": 8.75,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Text is generally readable with good contrast (white on dark background). Font size for body text is slightly on the smaller side, which might be an issue for very large projections, but otherwise good line length and no cramping. | Text is clear with good contrast against the dark background. Line length is comfortable. Font size is appropriate for individual screen viewing, though might be slightly small if projected to a very large audience. | Text is highly readable due to good contrast betw"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Visual hierarchy is very clear. The large images naturally draw the eye first, followed by the distinct purple headings ('Panel dialogue', 'Panel action', etc.), then the descriptive body text. The flow is logical and easy to follow. | The large comic panels naturally draw the eye first, which is appropriate for this type of content. The 'Panel dialogue'/'action' headings are subtly distinct, guiding the eye to the relevant descriptions below each image. Information flow is logical top-to-bottom"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent whitespace quality. There's ample breathing room around the images and text blocks. Margins are generous and consistent, creating a clean and uncluttered look without awkward gaps. | Excellent use of whitespace. There is generous breathing room around the images and text blocks, and consistent spacing between elements, preventing any cramped or awkward areas. | Whitespace is effectively utilized, providing ample breathing room around the images and text blocks. Margins are generous and"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple, effective, and harmonious. The dark background allows the content to stand out, and the purple accents for headings provide a subtle, non-distracting visual cue. Good contrast for accessibility. | The dark background provides a strong base, allowing the comic art and the lighter purple text to stand out effectively. The colors work cohesively, and the purple text offers good contrast without being jarring. | The color scheme is harmonious. The dark background effectiv"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional appearance for its 'comic_page' type. Elements are consistently sized and perfectly aligned. The overall polish and clean design make it look intentional and well-produced, suitable for its specific context. | The slide presents a very polished and professional appearance. Element sizing and alignment are consistent and intentional, creating a clean and high-quality layout suitable for a design review or creative presentation. | The slide demonstrates a h"
+            }
+          ]
+        },
+        {
+          "index": 1,
+          "title": "Page 15 (Act II: Learning the Lab)",
+          "type": "comic_page",
+          "weighted_score": 8.75,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 8.0,
+              "notes": "Text is generally readable with good contrast (white on dark background). Font size for body text is slightly on the smaller side, which might be an issue for very large projections, but otherwise good line length and no cramping. | Text is clear with good contrast against the dark background. Line length is comfortable. Font size is appropriate for individual screen viewing, though might be slightly small if projected to a very large audience. | Text is highly readable due to good contrast betw"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "Visual hierarchy is very clear. The large images naturally draw the eye first, followed by the distinct purple headings ('Panel dialogue', 'Panel action', etc.), then the descriptive body text. The flow is logical and easy to follow. | The large comic panels naturally draw the eye first, which is appropriate for this type of content. The 'Panel dialogue'/'action' headings are subtly distinct, guiding the eye to the relevant descriptions below each image. Information flow is logical top-to-bottom"
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 9.0,
+              "notes": "Excellent whitespace quality. There's ample breathing room around the images and text blocks. Margins are generous and consistent, creating a clean and uncluttered look without awkward gaps. | Excellent use of whitespace. There is generous breathing room around the images and text blocks, and consistent spacing between elements, preventing any cramped or awkward areas. | Whitespace is effectively utilized, providing ample breathing room around the images and text blocks. Margins are generous and"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color scheme is simple, effective, and harmonious. The dark background allows the content to stand out, and the purple accents for headings provide a subtle, non-distracting visual cue. Good contrast for accessibility. | The dark background provides a strong base, allowing the comic art and the lighter purple text to stand out effectively. The colors work cohesively, and the purple text offers good contrast without being jarring. | The color scheme is harmonious. The dark background effectiv"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The slide presents a highly professional appearance for its 'comic_page' type. Elements are consistently sized and perfectly aligned. The overall polish and clean design make it look intentional and well-produced, suitable for its specific context. | The slide presents a very polished and professional appearance. Element sizing and alignment are consistent and intentional, creating a clean and high-quality layout suitable for a design review or creative presentation. | The slide demonstrates a h"
+            }
+          ]
+        },
+        {
+          "index": 30,
+          "title": "Page 30 (Act III: The Bigger Picture)",
+          "type": "comic_page",
+          "weighted_score": 7.8,
+          "criteria": [
+            {
+              "id": "VR1",
+              "name": "Text Readability",
+              "score": 5.0,
+              "notes": "There is no text on the slide itself, so readability cannot be assessed. A neutral score is given as it's a comic page where visual storytelling is primary. | No text is present on the image itself, which means there are no readability issues concerning font size, contrast, or cramping. As a 'comic_page', it is understood to be primarily visual. | There is no text on the image itself to evaluate for readability, font size, contrast, or line length. The slide serves purely as a visual illustratio"
+            },
+            {
+              "id": "VR2",
+              "name": "Visual Hierarchy",
+              "score": 9.0,
+              "notes": "The visual hierarchy is excellent. The central figure with the glowing halo and outstretched hands immediately draws the eye, with the surrounding stars and smaller icons serving as clear secondary elements that support the main focus. | The central figure, illuminated by a halo and holding stars, is the immediate and prominent focal point. Secondary elements like the floating books and hands, and objects in the room, provide context without competing for attention. The visual flow is clear and "
+            },
+            {
+              "id": "VR3",
+              "name": "Whitespace Quality",
+              "score": 8.0,
+              "notes": "While not traditional whitespace, the composition effectively uses spacing to prevent cramping. Elements are well-distributed within the frame, creating a balanced and breathable scene despite being a full illustration. | As a full illustration, traditional whitespace around content blocks isn't applicable. However, the composition effectively fills the frame without feeling cluttered or sparse. Elements are well-distributed, creating a balanced and harmonious scene within the artwork. | As a fu"
+            },
+            {
+              "id": "VR4",
+              "name": "Color Harmony",
+              "score": 9.0,
+              "notes": "The color palette is warm, harmonious, and inviting, with oranges, yellows, and earthy tones creating a cohesive and pleasant visual experience. The glowing effects enhance the magical feel without clashing. | The color palette is warm and harmonious, dominated by glowing yellows, oranges, and earthy tones. The colors work together cohesively to create a magical and gentle atmosphere, and there's sufficient contrast where needed for individual elements. | The color palette is warm, cohesive, and"
+            },
+            {
+              "id": "VR5",
+              "name": "Professional Appearance",
+              "score": 9.0,
+              "notes": "The illustration demonstrates a high level of artistic polish and consistency. The style is cohesive, lines are clean, and the overall composition is well-executed, making it highly suitable for a 'comic_page' type of presentation slide. | The illustration is of high quality, demonstrating a consistent and appealing art style. The rendering is polished, and the overall aesthetic is professional, consistent, and well-executed, suitable for a published comic or artwork. | The illustration is highl"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

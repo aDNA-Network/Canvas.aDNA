@@ -1,0 +1,75 @@
+lattice:
+  name: comic_canvas
+  version: "1.0.0"
+  application: comic
+  lattice_type: workflow
+  description: >
+    Canvas-substrate comic workflow. Intent -> canvas-encoded pages -> courier-check
+    (VR1-VR5 + character invariance + III + R11 page-gating) -> delivery (screen + print CMYK).
+    Inherits the 7-stage production pipeline from lattice_comic_production v1.0.
+  execution:
+    mode: hybrid
+    runtime: local
+    tier: L1
+  r11_gated_nodes: [quality_review]
+  nodes:
+    - id: story_bible
+      type: process
+      description: "Parse storyboard canvas; extract acts; build per-issue bible"
+    - id: storyboard_refinement
+      type: reasoning
+      description: "Per-page panel descriptions, camera angles, transitions"
+      config:
+        model: claude-opus-4-7
+        thinking_budget: medium
+    - id: panel_layout
+      type: module
+      description: "Design panel grids with print-spec coordinates via ComicPageBuilder"
+      config:
+        callable: canvas_comic.comic.ComicPageBuilder.build_layout
+    - id: prompt_generation
+      type: module
+      description: "Assemble 6-layer prompts per panel"
+      config:
+        callable: canvas_comic.comic.ComicPageBuilder.build_prompts
+    - id: image_generation
+      type: module
+      description: "Generate 2-3 variants per panel; rate-limited. Dual-prompt enabled."
+      inputs:
+        - storyboard_canvas
+        - character_bible
+        - color_theory
+        - prompt_engineering
+        - voice_foundations
+      config:
+        provider: imagen_4_ultra
+        rate_limit: 10_per_minute
+        cost_per_image: 0.06
+        strategy: wrapper_only
+    - id: quality_review
+      type: process
+      description: "6-dimension rubric (character, style, narrative, color, composition, voice); pass 3.0; rework max 3"
+      config:
+        pass_threshold: 3.0
+        max_iterations: 3
+    - id: issue_assembly
+      type: module
+      description: "Build final Obsidian Canvas with sequential nav, act colors, startNode; export print CMYK"
+      config:
+        callable: canvas_comic.comic.ComicPageBuilder.assemble_issue
+  edges:
+    - { from: story_bible,            to: storyboard_refinement, label: "narrative structure" }
+    - { from: storyboard_refinement,  to: panel_layout,          label: "page specs" }
+    - { from: panel_layout,           to: prompt_generation,     label: "panel coords" }
+    - { from: prompt_generation,      to: image_generation,      label: "prompt payloads" }
+    - { from: image_generation,       to: quality_review,        label: "variants + selection board" }
+    - { from: quality_review,         to: prompt_generation,     label: "rework loop", condition: "review.passed == false AND iteration_count < max_iterations" }
+    - { from: quality_review,         to: issue_assembly,        label: "approved panels", condition: "review.passed == true OR iteration_count >= max_iterations" }
+  fair:
+    license: BSL-1.1
+    keywords: [canvas, comic, graphic_novel, character_invariance, print_cmyk, hermes]
+    provenance: "CanvasForge canonical; inherits lattice_comic_production v1.0"
+  federation:
+    discoverable: true
+    source_instance: canvasforge-vault
+  _migration_version: "lsu-1.0"

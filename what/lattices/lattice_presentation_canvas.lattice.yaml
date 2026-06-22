@@ -1,0 +1,64 @@
+lattice:
+  name: presentation_canvas
+  version: "1.0.0"
+  application: deck
+  lattice_type: workflow
+  description: >
+    Canvas-substrate deck workflow. Intent -> canvas-encoded slides -> courier-check
+    (VR1-VR5 + III + voice-compliance) -> delivery. Inherits the 7-stage rehearsal
+    loop from lattice_presentation_content v1.0 and federates to CanvasForge substrate.
+  execution:
+    mode: hybrid
+    runtime: local
+    tier: L1
+  r11_gated_nodes: [content_composer]
+  nodes:
+    - id: topic_loader
+      type: process
+      description: "Intake brief + audience params; validate required fields"
+    - id: context_assembler
+      type: process
+      description: "Load aDNA context by recipe; budget by token_tier"
+      config:
+        token_tiers: { minimal: 8000, standard: 20000, full: 40000 }
+    - id: outline_architect
+      type: agent
+      description: "Select narrative arc; design slide sequence; map to audience altitude"
+      config:
+        model: claude-opus-4-7
+    - id: content_composer
+      type: agent
+      description: "Generate slide content with Voice Bible; respect density profile"
+      config:
+        model: claude-opus-4-7
+    - id: voice_critic
+      type: agent
+      description: "5 foundations + 18 anti-patterns; pass threshold 0.75 baseline"
+      config:
+        model: claude-opus-4-7
+        pass_threshold: 0.75
+    - id: content_refiner
+      type: agent
+      description: "Revise draft per critique; max 2 passes"
+      config:
+        model: claude-opus-4-7
+        max_revisions: 2
+    - id: presentation_assembler
+      type: process
+      description: "Route to PresentationBuilder (canvas_presentation); apply theme; human gate"
+  edges:
+    - { from: topic_loader,        to: context_assembler,      label: "validated brief" }
+    - { from: context_assembler,   to: outline_architect,      label: "context bundle" }
+    - { from: outline_architect,   to: content_composer,       label: "outline + per-slide specs" }
+    - { from: content_composer,    to: voice_critic,           label: "draft slides" }
+    - { from: voice_critic,        to: content_refiner,        label: "critique report" }
+    - { from: content_refiner,     to: content_composer,       label: "refinement loop", condition: "score < pass_threshold AND revision_count < max_revisions" }
+    - { from: content_refiner,     to: presentation_assembler, label: "approved slides", condition: "score >= pass_threshold OR revision_count >= max_revisions" }
+  fair:
+    license: BSL-1.1
+    keywords: [canvas, deck, presentation, voice, VR1-VR5, hermes]
+    provenance: "CanvasForge canonical; inherits lattice_presentation_content v1.0"
+  federation:
+    discoverable: true
+    source_instance: canvasforge-vault
+  _migration_version: "lsu-1.0"

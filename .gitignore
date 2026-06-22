@@ -67,3 +67,6 @@ private/
 # Note: `*.aDNA/` (workspace-level subproject exclusion) is intentionally OMITTED here per
 # Obj 5 G-2 — the template repo doesn't contain subprojects. The workspace-level
 # ~/aDNA/.gitignore continues to carry `*.aDNA/`.
+
+# pt09 P5 (2026-06-22, Hestia): relocated CanvasForge engine data home — generated/local data (was untracked in Archive holder); final git-tracking TBD by Mondrian
+what/artifacts/

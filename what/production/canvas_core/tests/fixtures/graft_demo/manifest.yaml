@@ -1,0 +1,22 @@
+# Mock graft manifest for canvas_core/tests/test_graft.py.
+#
+# Three tracked files exercise the three non-trivial diff outcomes:
+#   - canvas_overview.md        — canonical_only_changed (wrapper at baseline)
+#   - voice_register_doctrine.md — wrapper_only_changed   (canonical at baseline)
+#   - three_way_conflict.md     — both_changed            (synthetic baseline)
+#
+# last_grafted_sha values are SHA-256 hex digests pinning the baseline content
+# the wrapper last accepted. The third entry's baseline is a synthetic
+# pre-divergence value that neither current canonical nor current wrapper
+# matches — that is the both-changed conflict scenario.
+schema_version: 1
+tracked_files:
+  - canonical_path: canvas_overview.md
+    wrapper_path: canvas_overview.md
+    last_grafted_sha: 168a2389202083c9c94f10a9ca206e5798f1de1f14df0824c03318b52621d234
+  - canonical_path: voice_register_doctrine.md
+    wrapper_path: voice_register_doctrine.md
+    last_grafted_sha: e09857b4d82bcf2d759090f54fc336fa2f2c6550a36e2bef5be3581dbb835a62
+  - canonical_path: three_way_conflict.md
+    wrapper_path: three_way_conflict.md
+    last_grafted_sha: 1e523b193b9f5e7c2d2a7de1229789c02ed6cf9c7ddbac399ea94fb75061671e

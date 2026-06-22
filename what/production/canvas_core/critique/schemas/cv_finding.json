@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CV-* Critique Finding",
+  "description": "Schema for a single finding from agent-autonomous canvas critique.",
+  "type": "object",
+  "properties": {
+    "trap_id": {
+      "type": "string",
+      "pattern": "^CV-[A-Z]+-[0-9]+$",
+      "description": "III trap pack ID (e.g. CV-TEXT-BOUNDS-01)"
+    },
+    "node_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Canvas node IDs referenced by this finding"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Finding severity level"
+    },
+    "observation": {
+      "type": "string",
+      "description": "Human-readable observation describing the issue"
+    }
+  },
+  "required": ["trap_id", "severity", "observation"],
+  "additionalProperties": false
+}

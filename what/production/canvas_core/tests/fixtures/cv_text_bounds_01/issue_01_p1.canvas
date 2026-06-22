@@ -1,0 +1,54 @@
+{
+  "nodes": [
+    {
+      "id": "01c9bf5bd8ee8c15",
+      "type": "group",
+      "x": 0.0,
+      "y": 0.0,
+      "width": 662.5,
+      "height": 1025.0,
+      "label": "Page 1 (Cover Matter)",
+      "isStartNode": true
+    },
+    {
+      "id": "32de277b1fe3ba4e",
+      "type": "file",
+      "x": 0.0,
+      "y": 0.0,
+      "width": 687.5,
+      "height": 1050.0,
+      "file": "how/pipelines/pipeline_comic_production/05_generate/page_01_panel_01.png"
+    },
+    {
+      "id": "42c96978648045fa",
+      "type": "text",
+      "text": "**SCIENCE STANLEY**",
+      "x": 243.75,
+      "y": 8.0,
+      "width": 200,
+      "height": 40,
+      "color": "5"
+    },
+    {
+      "id": "173d0e1a3f294a4e",
+      "type": "text",
+      "text": "**Issue 1: The Context of Context Graphs**",
+      "x": 243.75,
+      "y": 505.0,
+      "width": 200,
+      "height": 40,
+      "color": "5"
+    },
+    {
+      "id": "d81302a6a5ba4603",
+      "type": "text",
+      "text": "**Your friendly neighborhood AI scientist**",
+      "x": 243.75,
+      "y": 1002.0,
+      "width": 200,
+      "height": 40,
+      "color": "5"
+    }
+  ],
+  "edges": []
+}
