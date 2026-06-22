@@ -1,7 +1,7 @@
 ---
 type: manifest
 created: 2026-06-06
-updated: 2026-06-20
+updated: 2026-06-21
 last_edited_by: agent_stanley
 persona: Mondrian (locked — P0 2026-06-06)
 category: Platform.aDNA (standard-bearer — Δ1 Option P, locked P0 2026-06-06)
@@ -25,6 +25,8 @@ Canvas.aDNA is the **standard-bearer**. **CanvasForge** (Hermes — spatial subs
 ## Status
 
 **✅ OPERATION KEYSTONE COMPLETE (2026-06-20) — the aDNA Canvas Standard v2.0.0 shipped as running infrastructure.** Operation Cartography (planning) closed 2026-06-13; the operator activated **Operation Keystone** (the build), now closed `status: completed`. **E0–E2** shipped the `canvas_std` **reference implementation** (validators · round-trip · conformance harness · v2.0.0 **JSON Schema** · `canvas-std` CLI; `pytest` 46/8, `ruff` clean). **E3** = the parity-gated **CanvasForge migration** onto `canvas_std` (full cutover 2026-06-14 via the `canvas/` wrapper + the `canvas_core→canvas_std` shim). **E4** stood up **three in-vault consumers** on `canvas_std` alone — `brief_consumer` 10/10 · `deck_generator` 16/16 · `document_generator` 37/37 (long-form LF-successor; the two-shelf firewall held, `canvas_std` git-diff 0). **E5.1** wired the `iii/` quality wrapper (III v0.5.0; 0 High/0 Med). **E6** validated cross-system parity (GREEN), confirmed the cutover, scheduled the shim retirement (2027-06-13), and closed the campaign (operator disposition: complete-with-PT-P5-tail). **LIP queue CLOSED 2026-06-20** — B1+B3+B2 shipped in **Standard v2.0.1** (errata patch on the v2.0.0 line; B2 = ride-on-text); B4 (pure-metadata) → v2.1.0 via a lattice-labs LIP. **Open tail → PT P5** (`canvas_core` relocation per ADR-004 + federation rollout E5.2 + v2.0.x registration). Ratified: `adr_000` · `adr_004` · `adr_005`. See `STATE.md` + `how/campaigns/campaign_canvas_genesis/` §Completion Summary + `missions/artifacts/e6_3_handoff_register.md`.
+
+**✅ OPERATION ATELIER COMPLETE (2026-06-21) — both pt09-absorbed production layers built on `canvas_std`.** `campaign_canvas_production` (`status: completed`) stood up the remaining two producers: **`diagram_generator`** (36/36; all 5 diagram types — flowchart/sequence/class/state/gantt — aDNA-Native; native graph + a derived Mermaid `code` node) and **`comic_generator`** (87/87; multi-page/spread; `image`-class panels carrying the 6-layer prompt as `_reserved` metadata — **no rendering**, ComfyUI keeps pixels). With brief/deck/document, **all 5 in-vault producers** are conformant (final sweep **266 passed**; `ruff` clean; `canvas_std` firewall git-diff 0). The canvas-producer pattern is graduated to `what/context/context_canvas_producer_pattern.md`; 2 spec-gap errata (AT-1 graph extent unit · AT-2 free-form `surface`) → the LIP queue; structural `iii/` review `iii/feedback_2026_06_21_atelier_producers.md` (0 High / 0 Med). See `STATE.md` + `how/campaigns/campaign_canvas_production/` §Completion Summary.
 
 ## Architecture (aDNA triad)
 

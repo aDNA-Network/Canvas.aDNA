@@ -3,12 +3,12 @@ type: context_guide
 topic: context_library
 subtopic: recipes
 created: 2026-03-17
-updated: 2026-03-28
-sources: ["Context library AGENTS.md", "Context engineering guide", "Campaign dispatch guide"]
+updated: 2026-06-21
+sources: ["Context library AGENTS.md", "Context engineering guide", "Campaign dispatch guide", "Operation Atelier graduation"]
 context_version: "2.0"
 token_estimate: ~1000
-last_edited_by: agent_aria
-tags: [context, recipes, assembly, cross-topic, claude_code]
+last_edited_by: agent_stanley
+tags: [context, recipes, assembly, cross-topic, claude_code, canvas]
 quality_score: 4.2
 signal_density: 4
 actionability: 5
@@ -52,6 +52,7 @@ No match? Fall back to manual subtopic selection from the relevant topic AGENTS.
 | `lattice_authoring` | adna_core + lattice_basics | lattice_design, core_concepts | ~6K | Creating lattice YAML files, node/edge design |
 | `ontology_extension` | adna_core + prompt_engineering | paradigm_overview, ontology_design, ontology_workshop, PE/ontology_design | ~12K | Extending the base ontology or designing multi-entity domains |
 | `first_project_setup` | adna_core + prompt_engineering | paradigm_overview, entity_definitions, PE/agentic_scaffolding | ~8K | Setting up a new aDNA vault or project from scratch |
+| `canvas_producer_build` | what/context (standalone) + what/specs | `context_canvas_producer_pattern`, `spec_component_model`, `spec_panel_link_semantics` (+ `what/production/deck_generator/` single-surface or `document_generator/` multi-page as exemplar) | ~7K | Building a new canvas output producer (deck/comic/diagram/poster/…) on `canvas_std` — proven 5× (Operation Atelier) |
 
 ### Design — Architecture & Planning
 
@@ -117,6 +118,7 @@ When no recipe is explicitly requested, match the task to a recipe using these k
 | onboard agent, new agent, orient agent | `agent_onboarding` |
 | orchestrate, tiers, model routing, multi-agent, parallel | `orchestration_setup` |
 | hook failure, config debug, memory issue, inheritance | `operational_debugging` |
+| canvas producer, output layer, build producer, deck/comic/diagram/poster generator, canvas_std consumer | `canvas_producer_build` |
 
 If no match: fall back to manual subtopic selection from the relevant topic AGENTS.md files.
 
