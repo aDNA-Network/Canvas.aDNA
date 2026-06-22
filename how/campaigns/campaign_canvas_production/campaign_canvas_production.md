@@ -3,10 +3,11 @@ campaign_id: campaign_canvas_production
 type: campaign
 title: "Operation Atelier — Canvas production layers (diagram, then comic) on canvas_std"
 owner: stanley
-status: active
+status: completed
 activated: 2026-06-21
+completed: 2026-06-21
 phase_count: 4
-mission_count: 5
+mission_count: 4
 estimated_sessions: "6-10"
 estimation_class: build-broad
 priority: medium
@@ -24,9 +25,9 @@ tags: [campaign, build, canvas, production, diagram, comic, atelier]
 > producers (deck · brief · document). At Production Tidy **pt09** (2026-06-17) Canvas absorbed the CanvasForge
 > production layers (**deck · comic · diagram**, Hermes→Mondrian); Keystone built only **deck** fresh. This campaign
 > builds **diagram** (warm-up) then **comic** — each a self-contained producer on the `what/production/` shelf, on the
-> already-shipped `canvas_std`, with the Standard untouched. **🔄 ACTIVATED 2026-06-21** — the operator ratified the A0
-> decision record at the A0→A1 gate (all 6 defaults accepted); **Phase A1 (diagram) in progress.** Phase gates are
-> human gates (SO-1).
+> already-shipped `canvas_std`, with the Standard untouched. **✅ COMPLETED 2026-06-21** — both producers built +
+> verified (diagram **36/36** · comic **87/87**, aDNA-Native; no regression; firewall git-diff 0); A0–A3 closed at
+> their human gates (SO-1).
 
 ## Goal
 
@@ -114,10 +115,15 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 ### Phase A3 — Validation & close
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| A3.1 | Cross-producer validation (all 5 production suites + `canvas_std` 80/10) + structural `iii/` review of both new examples + log any spec-gap errata to the LIP queue (`adr_003`) | 1 | planned |
-| A3.2 | Completion Summary + Campaign AAR + `skill_context_graduation` + STATE.md + `status: completed` | 0.5-1 | planned |
+| A3 | Validation & close — A3.1 cross-producer sweep + `iii/` review + LIP-queue errata · A3.2 Completion Summary + AAR + graduation + STATE + `status: completed` (A3.1/A3.2 folded as objectives) | 1 | ✅ **done 2026-06-21** ([[how/campaigns/campaign_canvas_production/missions/mission_a3_validation_close\|mission]]) |
 
 **Campaign close gate (HUMAN / operator disposition):** all suites green; `iii/` artifacts filed; graduation run; STATE updated.
+
+> **Phase progress (2026-06-21) — PHASE A3 COMPLETE ✅ / CAMPAIGN CLOSED:** final sweep **266 passed** (canvas_std
+> 80/10 · brief 10 · deck 16 · document 37 · diagram 36 · comic 87); `canvas_std` firewall git-diff 0. Structural
+> `iii/` review filed (`iii/feedback_2026_06_21_atelier_producers.md`) — **0 High / 0 Med**, 2 Low, 2 spec-gap errata
+> (AT-1/AT-2) → LIP queue. Producer pattern graduated → `what/context/context_canvas_producer_pattern.md`. Campaign
+> `status: completed`.
 
 > Diagram alone (A0+A1) is an independently shippable deliverable (~3–4 sessions) if comic slips.
 
@@ -198,20 +204,44 @@ plan: `~/.claude/plans/please-read-the-claude-md-lovely-star.md`.
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
-
 ### Deliverables
+- **Two new in-vault producers on `canvas_std`:** `what/production/diagram_generator/` (36/36; all 5 diagram types —
+  flowchart/sequence/class/state/gantt — aDNA-Native; native-primary + derived Mermaid `code` node) and
+  `what/production/comic_generator/` (87/87; multi-page/spread; `image`-class panels carrying prompts as metadata —
+  no rendering). With brief/deck/document, **all 5 producers green** — final sweep **266 passed**; `canvas_std`
+  firewall git-diff 0 throughout.
+- **Governance/quality:** A0.1 decision record (6 ratified decisions); structural `iii/` review
+  `iii/feedback_2026_06_21_atelier_producers.md` (0 High / 0 Med); 2 spec-gap errata (AT-1 graph extent unit; AT-2
+  surface vocabulary) logged → `what/decisions/lip_queue_disposition.md`; producer pattern graduated →
+  `what/context/context_canvas_producer_pattern.md`.
+
 ### Descoped
+- Legacy comic orchestration (`ComicProductionAdapter`) + producer self-scoring (`ComicReport.review`) — out of scope
+  (CanvasForge/ComfyUI concerns; the review rubric became the comic quality *contract*, not shipped code).
+- Pixel rendering + per-panel style-lock + the 24-criterion scoring → PT P5 (`canvas_presentation`) / ComfyUI.
+
 ### Key Findings
+- The canvas grammar generalizes cleanly: a diagram (graph) and a comic (multi-page media) reduce to the **same
+  producer pipeline** as deck/document (substrate-free model → `consume` assembles source → `to_canvas` → enrich
+  `_reserved`). The Standard needed **no new feature** — only 2 minor vocabulary errata surfaced.
+- Delegating each build to a subagent seeded with the *confirmed* `canvas_std` API facts (then re-verifying via the
+  persisted venvs) produced faithful, fully green producers without substrate drift.
+
 ### Scope Changes
+- A1.2 folded into A1.1; A2.1–A2.4 folded into one A2 mission; A3.1/A3.2 folded into one A3 mission. `mission_count`
+  9→4 (builds executed as cohesive units).
+
 ### Follow-Up Campaigns
+- **None required.** Open items ride existing tracks: AT-1/AT-2 errata → LIP queue (editorial PATCH at maintainer
+  discretion, or fold into the next LIP batch); pixel render/scoring → PT P5; image rendering → ComfyUI. Future
+  producers (poster/letter/post) reuse `context_canvas_producer_pattern.md`.
 
 ## Campaign AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**:
-- **Didn't**:
-- **Finding**:
-- **Change**:
-- **Follow-up**:
+- **Worked**: the deck/document pattern + clean ports from the `canvas_comic`/`mermaid` quarry let two producers
+  (including a ~1,790-LOC comic) land green fast; per-phase human gates kept the operator in control without stalling.
+- **Didn't**: nothing blocked — the only friction was 2 minor Standard vocabulary gaps, captured as non-blocking errata.
+- **Finding**: a 2D output (a graph, a comic page) reduces to typed nodes + typed edges + `_reserved` metadata — the
+  Mondrian "reduce to the grammar" thesis held across all 5 producers.
+- **Change**: none — the Keystone producer pattern transferred 1:1; graduated it to context for the next producer.
+- **Follow-up**: AT-1/AT-2 → LIP queue; `context_canvas_producer_pattern.md` graduated for reuse.

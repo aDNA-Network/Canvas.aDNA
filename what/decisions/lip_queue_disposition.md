@@ -3,7 +3,7 @@ type: decision
 title: "LIP queue disposition — the 4 post-Keystone spec-gap errata (B1–B4)"
 status: active
 created: 2026-06-20
-updated: 2026-06-20
+updated: 2026-06-21
 last_edited_by: agent_stanley
 phase: post-keystone
 tags: [decision, standard, lip, errata, governance, disposition]
@@ -116,3 +116,29 @@ The orphan-**traversal** engine (scanning prose for "Figure 2" refs per `orphan_
   review ≥7d, earliest close 2026-06-27 → Final → land in v2.1.0). B2 already landed in v2.0.1 (PATCH).
 - **Alternative considered:** hold the *whole* errata until B2/B4 are decided and cut one release. **Rejected** —
   the B1 conformance content (the silent §6 gap) is done now; only the version *label* waits on the operator.
+
+---
+
+## Atelier addendum — AT-1, AT-2 (post-Keystone, Operation Atelier 2026-06-21)
+
+Two spec-gap erratum candidates surfaced while building the `diagram_generator` (A1) + `comic_generator` (A2)
+production layers (`how/campaigns/campaign_canvas_production/`; review `iii/feedback_2026_06_21_atelier_producers.md`).
+Both are **C4-safe** (`_reserved`-scoped; stripping `_reserved` yields a valid baseline canvas) and **non-blocking** —
+each producer ships conformant aDNA-Native today. Recorded, not fixed (`adr_003` §2).
+
+| # | Erratum | Severity | Class | Disposition |
+|---|---------|----------|-------|-------------|
+| **AT-1** | `PL_EXTENT_UNITS = {words,pages,slides}` has no unit for a single-surface **graph**; a diagram `region` cannot express `extent` (the producer omits it — valid, `extent` optional) | Low | Spec gap (vocabulary) | v2.0.x erratum candidate — add a `graph`/`nodes` extent unit, **or** document that single-surface graph regions legitimately omit `extent`. Editorial/errata (skippable-LIP at maintainer discretion). |
+| **AT-2** | `panel_link` region/surface `surface` field is **free-form / not enum-checked** (diagram used the diagram-type name; comic used `"comic_page"`) | Low | Spec gap (vocabulary) | low-priority v2.0.x erratum candidate — if interoperable surface tokens are wanted, introduce a small enum (`print_page`, `slide`, `web`, `graph`, …); else document `surface` as free-form by design. |
+
+**AT-1 detail.** `diagram_generator/consume.py` builds one `diagram_root` region with `flow` + `pagination: none` +
+`surface`, and **omits `extent`** because no enum unit fits a node-graph. A diagram is neither paged nor
+word/slide-counted, so this is arguably correct-by-omission; the erratum asks the Standard to make that explicit (or
+add a graph unit). No rule changes; a well-formed diagram canvas validates today.
+
+**AT-2 detail.** `validate_panel_link` resolves region/surface ids and roles but does not enum-check the human-readable
+`surface` label. Both Atelier producers + the E4.2 `document_generator` use it as a free-form descriptor. Harmless;
+flagged only so a future interop pass is a deliberate decision rather than an accident.
+
+Neither is gated on the operator; both can ride a future editorial PATCH (v2.0.x) at maintainer discretion, or fold
+into the next LIP batch alongside B4/LIP-0008.

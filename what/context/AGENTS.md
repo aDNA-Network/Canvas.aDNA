@@ -1,8 +1,8 @@
 ---
 type: directory_index
 created: 2026-02-17
-updated: 2026-03-28
-last_edited_by: agent_aria
+updated: 2026-06-21
+last_edited_by: agent_stanley
 tags: [directory_index, context]
 ---
 
@@ -142,6 +142,17 @@ Pre-defined context assemblies for multi-disciplinary tasks. See `context_recipe
 | lattice_basics | 2 | ~6,000 | 4.0 | active |
 | object_standards | 1 | ~3,200 | 3.8 | active |
 | claude_code (Claude Code runtime) | 4 | ~10,000 | — | active |
+
+## Standalone Guides (top-level `context_*.md`)
+
+Canvas-specific guides graduated from campaigns (not topic directories):
+
+| File | Purpose |
+|------|---------|
+| `context_canvas_standard_doctrine.md` | The aDNA Canvas Standard — doctrine + invariants |
+| `context_canvas_producer_pattern.md` | How to build a producer on `canvas_std` (proven 5×; Operation Atelier graduation) |
+| `context_migration_parity_methodology.md` | Deterministic structural-parity proof for migrating/relocating a producer (Keystone) |
+| `context_recipes.md` | Cross-topic context assemblies (3-tier budget) |
 
 ## Load/Skip Decision
 

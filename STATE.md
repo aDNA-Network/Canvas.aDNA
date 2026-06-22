@@ -28,7 +28,20 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ⚒ OPERATION ATELIER · A1 DIAGRAM + A2 COMIC PRODUCERS BUILT ✅ (2026-06-21 — diagram 36/36 + comic 87/87 aDNA-Native); ⛔ HELD at A2→A3 (validation & close) gate · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+## ▶ Resume Here — ✅ OPERATION ATELIER COMPLETE (2026-06-21 — diagram + comic producers built on `canvas_std`; campaign CLOSED) · ✅ KEYSTONE COMPLETE (v2.0.1; LIP-0008/0009 review closes 2026-06-27) + PT P5
+
+> **✅ OPERATION ATELIER COMPLETE — CAMPAIGN CLOSED (this session, `session_stanley_20260621_210130_a3_validation_close`).**
+> Phase **A3** ran validation & close: final sweep **266 passed** (canvas_std 80/10 · brief 10 · deck 16 · document 37
+> · diagram 36 · comic 87); `canvas_std` firewall git-diff 0. Structural `iii/` review filed
+> (`iii/feedback_2026_06_21_atelier_producers.md`) — **0 High / 0 Med**, 2 Low; 2 spec-gap errata (AT-1 graph extent
+> unit · AT-2 free-form `surface` vocabulary) → LIP queue (`what/decisions/lip_queue_disposition.md` §Atelier
+> addendum). Producer pattern **graduated** → `what/context/context_canvas_producer_pattern.md` (indexed in
+> `what/context/AGENTS.md`). Campaign + all 4 missions (A0.1 · A1.1 · A2 · A3) `status: completed`; Completion Summary +
+> Campaign AAR filed. **Net result: both production layers Canvas absorbed at pt09 (diagram + comic) are now real +
+> green on `canvas_std` — all 5 in-vault producers (brief · deck · document · diagram · comic) conformant.** **Open
+> items ride existing tracks (no new campaign):** AT-1/AT-2 → LIP queue · pixel render/scoring → PT P5
+> (`canvas_presentation`) · image rendering → ComfyUI. **Keystone tail unchanged:** LIP-0008/0009 review closes
+> 2026-06-27; PT P5 Hestia-owned. The boxes below are A1/A2 build history.
 
 > **⚒ ATELIER A2 COMPLETE — COMIC PRODUCER BUILT (this session, `session_stanley_20260621_202519_a2_comic_build`).**
 > Operator cleared the A1→A2 gate ("proceed to A2"); Phase **A2** built **`what/production/comic_generator/`** on
