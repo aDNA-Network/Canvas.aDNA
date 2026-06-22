@@ -130,7 +130,7 @@ class TestFederationRefValidation:
     def test_federation_ref_source_vault(self, wrapper_path):
         lattice = load_lattice(wrapper_path)
         ref = lattice.get("federation_ref", {})
-        assert ref.get("source_vault") == "CanvasForge.aDNA"
+        assert ref.get("source_vault") == "Canvas.aDNA"  # pt09: CanvasForge production absorbed into Canvas.aDNA (engine → what/production/; consumers refederated PT P5, 2026-06-22)
 
     @pytest.mark.parametrize("wrapper_path", ALL_WRAPPERS, ids=["ss_deck", "ss_comic", "cc_deck"])
     def test_federation_ref_version_policy(self, wrapper_path):
