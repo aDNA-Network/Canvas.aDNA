@@ -108,10 +108,19 @@ campaign** (`status: active`) and authorizes the P1 factory build.
 ### Phase P2 — Letter producer (warm-up; pilots the scaffold)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| P2 | Clone `_scaffold` → `letter_generator`; substrate-free `model.py` (letterhead/date/recipient/salutation/body/closing/signature); `consume.py` single surface + one paged region; four+1 suite + worked example | 1-2 | ⏳ pending P1 |
+| P2 | Clone `_scaffold` → `letter_generator`; substrate-free `model.py` (letterhead/date/recipient/salutation/body/closing/signature); `consume.py` single surface + one paged region; four+1 suite + worked example | 1-2 | ✅ **done 2026-06-22** — `letter_generator` 17/17 aDNA-Native; example `[OK]` + degrades; firewall git-diff 0 ([[how/campaigns/campaign_canvas_palette/missions/mission_p2_letter\|mission]]) |
 
 **Phase exit gate (P2→P3, HUMAN):** full letter suite green; example validates at its ratified level + degrades
 (D-1/D-2/D-3); firewall git-diff 0; AAR GO. **HELD.**
+
+> **Phase progress (2026-06-22) — PHASE P2 COMPLETE ✅ (letter producer built; factory validated):**
+> `what/production/letter_generator/` built on `canvas_std` by cloning `_scaffold` + following
+> `skill_canvas_producer_build.md` (the factory's live acceptance test — **passed**). Single `letter_root` canonical
+> surface; per-block baseline `text` nodes (letterhead/date/recipient/salutation/body₀..ₙ/closing/signature) chained
+> `reading_order`; one paged region `{unit: pages, max: 1}`, `profile: document`. Suite **17/17**, `ruff` clean; worked
+> example (10 nodes/8 edges) validates **`adna_native [OK]`** + degrades (D-1/D-2/D-3); **`canvas_std` firewall
+> git-diff 0**; no regression (canvas_std + other producers untouched). **Factory needs no changes.** **⛔ HELD at the
+> P2→P3 phase gate (human gate)** — do not start the post build (P3) without the operator.
 
 ### Phase P3 — Social post producer (the larger build)
 | # | Mission | Sessions | Status |

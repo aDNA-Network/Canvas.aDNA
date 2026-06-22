@@ -1,0 +1,281 @@
+{
+  "nodes": [
+    {
+      "id": "letter_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 800,
+      "height": 1096,
+      "label": "Cover letter — Canvas.aDNA"
+    },
+    {
+      "id": "letterhead",
+      "type": "text",
+      "x": 64,
+      "y": 112,
+      "width": 672,
+      "height": 112,
+      "text": "Piet Mondrian\naDNA Labs\nmondrian@adna.example"
+    },
+    {
+      "id": "date",
+      "type": "text",
+      "x": 64,
+      "y": 252,
+      "width": 672,
+      "height": 64,
+      "text": "2026-06-22"
+    },
+    {
+      "id": "recipient",
+      "type": "text",
+      "x": 64,
+      "y": 344,
+      "width": 672,
+      "height": 112,
+      "text": "Hiring Committee\nBauhaus Foundation\nDessau, Germany"
+    },
+    {
+      "id": "salutation",
+      "type": "text",
+      "x": 64,
+      "y": 484,
+      "width": 672,
+      "height": 64,
+      "text": "Dear Committee,"
+    },
+    {
+      "id": "body0",
+      "type": "text",
+      "x": 64,
+      "y": 576,
+      "width": 672,
+      "height": 64,
+      "text": "I write to apply for the role of standard-bearer for two-dimensional output."
+    },
+    {
+      "id": "body1",
+      "type": "text",
+      "x": 64,
+      "y": 668,
+      "width": 672,
+      "height": 64,
+      "text": "My method reduces any page — paper, deck, comic, letter, post — to a disciplined grid of typed components positioned on a canvas."
+    },
+    {
+      "id": "body2",
+      "type": "text",
+      "x": 64,
+      "y": 760,
+      "width": 672,
+      "height": 64,
+      "text": "I would welcome the chance to discuss how that grammar could serve your archive."
+    },
+    {
+      "id": "closing",
+      "type": "text",
+      "x": 64,
+      "y": 852,
+      "width": 672,
+      "height": 64,
+      "text": "Sincerely,"
+    },
+    {
+      "id": "signature",
+      "type": "text",
+      "x": 64,
+      "y": 944,
+      "width": 672,
+      "height": 88,
+      "text": "Piet Mondrian\nStandard-bearer, Canvas.aDNA"
+    }
+  ],
+  "edges": [
+    {
+      "id": "flow0",
+      "fromNode": "letterhead",
+      "fromSide": "bottom",
+      "toNode": "date",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow1",
+      "fromNode": "date",
+      "fromSide": "bottom",
+      "toNode": "recipient",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow2",
+      "fromNode": "recipient",
+      "fromSide": "bottom",
+      "toNode": "salutation",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow3",
+      "fromNode": "salutation",
+      "fromSide": "bottom",
+      "toNode": "body0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow4",
+      "fromNode": "body0",
+      "fromSide": "bottom",
+      "toNode": "body1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow5",
+      "fromNode": "body1",
+      "fromSide": "bottom",
+      "toNode": "body2",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow6",
+      "fromNode": "body2",
+      "fromSide": "bottom",
+      "toNode": "closing",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "flow7",
+      "fromNode": "closing",
+      "fromSide": "bottom",
+      "toNode": "signature",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "1382d9cb664c8271",
+          "source_name": "urn:adna:canvas:letter:cover",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "letter_root": {
+            "class": "panel",
+            "semantic_type": "document",
+            "degrades_to": "group"
+          },
+          "letterhead": {
+            "class": "text",
+            "semantic_type": "letterhead",
+            "degrades_to": "text"
+          },
+          "date": {
+            "class": "text",
+            "semantic_type": "date",
+            "degrades_to": "text"
+          },
+          "recipient": {
+            "class": "text",
+            "semantic_type": "recipient",
+            "degrades_to": "text"
+          },
+          "salutation": {
+            "class": "text",
+            "semantic_type": "salutation",
+            "degrades_to": "text"
+          },
+          "body0": {
+            "class": "text",
+            "semantic_type": "body",
+            "degrades_to": "text"
+          },
+          "body1": {
+            "class": "text",
+            "semantic_type": "body",
+            "degrades_to": "text"
+          },
+          "body2": {
+            "class": "text",
+            "semantic_type": "body",
+            "degrades_to": "text"
+          },
+          "closing": {
+            "class": "text",
+            "semantic_type": "closing",
+            "degrades_to": "text"
+          },
+          "signature": {
+            "class": "text",
+            "semantic_type": "signature",
+            "degrades_to": "text"
+          }
+        },
+        "semantic_bindings": {
+          "profile": "document"
+        },
+        "panel_link": {
+          "edges": {
+            "flow0": {
+              "kind": "reading_order"
+            },
+            "flow1": {
+              "kind": "reading_order"
+            },
+            "flow2": {
+              "kind": "reading_order"
+            },
+            "flow3": {
+              "kind": "reading_order"
+            },
+            "flow4": {
+              "kind": "reading_order"
+            },
+            "flow5": {
+              "kind": "reading_order"
+            },
+            "flow6": {
+              "kind": "reading_order"
+            },
+            "flow7": {
+              "kind": "reading_order"
+            }
+          },
+          "regions": {
+            "letter_root": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "letter_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:letter:cover",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]",
+            "[[spec_federation_contract]]"
+          ]
+        }
+      }
+    }
+  }
+}

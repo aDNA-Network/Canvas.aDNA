@@ -7,7 +7,7 @@
 | Campaign | `campaign_canvas_palette` |
 | Owner | stanley |
 | Status | active (P0 ratified 2026-06-21; all 6 defaults) |
-| Current Phase | Phase P1 COMPLETE ✅ — HELD at P1→P2 gate (P2 = letter_generator) |
+| Current Phase | Phase P2 COMPLETE ✅ — HELD at P2→P3 gate (P3 = post_generator) |
 | Persona | Mondrian (Canvas.aDNA) |
 
 ## Quick Start

@@ -1,0 +1,24 @@
+title: "Cover letter — Canvas.aDNA"
+id: "urn:adna:canvas:letter:cover"
+version: "0.1.0"
+sender:
+  - "Piet Mondrian"
+  - "aDNA Labs"
+  - "mondrian@adna.example"
+date: "2026-06-22"
+recipient:
+  - "Hiring Committee"
+  - "Bauhaus Foundation"
+  - "Dessau, Germany"
+salutation: "Dear Committee,"
+body:
+  - "I write to apply for the role of standard-bearer for two-dimensional output."
+  - "My method reduces any page — paper, deck, comic, letter, post — to a disciplined grid of typed components positioned on a canvas."
+  - "I would welcome the chance to discuss how that grammar could serve your archive."
+closing: "Sincerely,"
+signature:
+  - "Piet Mondrian"
+  - "Standard-bearer, Canvas.aDNA"
+refs:
+  - "[[spec_adna_canvas_standard]]"
+  - "[[spec_federation_contract]]"
