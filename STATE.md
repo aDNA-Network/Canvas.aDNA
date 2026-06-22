@@ -4,8 +4,8 @@ created: 2026-06-06
 updated: 2026-06-21
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260621_221625_atelier_errata_v202
-tags: [state, governance, canvas, genesis, atelier]
+last_session: session_stanley_20260621_234100_palette_scaffold_p0
+tags: [state, governance, canvas, genesis, atelier, palette]
 ---
 
 # Operational State
@@ -28,7 +28,24 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ ATELIER ERRATA AT-1/AT-2 RESOLVED → STANDARD v2.0.2 (2026-06-21 — editorial PATCH; errata queue drained) · ✅ OPERATION ATELIER COMPLETE (diagram + comic producers) · ✅ KEYSTONE COMPLETE; LIP-0008/0009 review closes 2026-06-27 + PT P5
+## ▶ Resume Here — 🎨 OPERATION PALETTE CHARTERED → HELD at the P0→P1 gate (2026-06-21; complete the output family + harden the producer factory) · ✅ ATELIER + KEYSTONE COMPLETE (Standard v2.0.2; 5 producers green); LIP-0008/0009 review closes 2026-06-27 + PT P5 (Hestia)
+
+> **🎨 OPERATION PALETTE CHARTERED — HELD at the P0→P1 gate (this session, `session_stanley_20260621_234100_palette_scaffold_p0`).**
+> Post-Atelier (no active campaign), the operator asked for a cross-campaign AAR/review; a 3-sweep retrospective
+> (Cartography → Keystone → Atelier) confirmed all three hit charter and the *output* leg of the thesis is proven
+> (5 producers, Standard untouched), but surfaced two Mondrian-owned gaps: **output coverage is incomplete** (letter
+> only spec-sketched `§6.3`; post unspec'd) and the **producer pattern is proven 5× but isn't a reusable factory**.
+> Operator chose follow-up **Option A** (complete output family + harden factory) over canvas-as-surface (B, deferred)
+> and adoption-readiness (C, gated). Chartered **Operation Palette** (`how/campaigns/campaign_canvas_palette/`,
+> `status: planning`): **P0** charter + decision record → **P1** factory (`how/skills/skill_canvas_producer_build.md`
+> + `what/production/_scaffold/`) → **P2** `letter_generator` (pilots the scaffold) → **P3** `post_generator`
+> (single + thread) → **P4** sweep + `iii/` review + graduation + close. The **P0 decision record**
+> (`missions/artifacts/p0_decision_record.md`, `status: draft`) holds 6 decisions (codename · factory homes · letter
+> level=`adna_native` · post model=single+thread/platform-profiles/image-metadata · names · optional stretch), all
+> with defaults; **landscape confirmed** (no letter/post producer or dedicated spec). **⛔ HELD at the P0→P1 human
+> gate (SO-1)** — operator ratifies the 6 decisions to activate the campaign + open P1; **no factory/producer code
+> before then.** Firewall rule every gate: `git -C what/code/canvas_std diff --stat` empty. Approved plan:
+> `~/.claude/plans/please-read-the-claude-md-sleepy-minsky.md`. The boxes below are prior history (Atelier/Keystone).
 
 > **✅ ATELIER ERRATA AT-1/AT-2 RESOLVED → CANVAS STANDARD v2.0.2 (this session,
 > `session_stanley_20260621_221625_atelier_errata_v202`).** Post-Atelier (no active campaign), the operator chose
