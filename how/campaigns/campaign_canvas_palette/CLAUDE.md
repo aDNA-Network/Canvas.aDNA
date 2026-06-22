@@ -6,8 +6,8 @@
 |-------|-------|
 | Campaign | `campaign_canvas_palette` |
 | Owner | stanley |
-| Status | active (P0 ratified 2026-06-21; all 6 defaults) |
-| Current Phase | Phase P3 COMPLETE ✅ — HELD at P3→P4 gate (P4 = sweep + iii review + graduation + close) |
+| Status | ✅ completed 2026-06-22 (P0–P4 closed; 7 producers green; factory shipped) |
+| Current Phase | — campaign complete (close record: `campaign_canvas_palette.md` §Completion Summary) |
 | Persona | Mondrian (Canvas.aDNA) |
 
 ## Quick Start

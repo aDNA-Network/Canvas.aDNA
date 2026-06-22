@@ -2,7 +2,7 @@
 type: context
 subtype: context_guide
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-06-22
 status: active
 last_edited_by: agent_stanley
 context_version: "1.0"
@@ -20,9 +20,12 @@ tags: [context, canvas, producer, pattern, consume, reserved, guide, atelier, ke
 # Canvas Producer Pattern
 
 How to build a new in-vault producer on the `canvas_std` reference impl — a generator that turns a domain spec into a
-v2.0.0 **aDNA-Native** `.canvas`. The pattern is proven **5×**: `brief_consumer`, `deck_generator`,
-`document_generator` (Keystone E4) + `diagram_generator`, `comic_generator` (Operation Atelier A1/A2). Use it for any
-future canvas output layer (poster, letter, post, …).
+v2.0.0 **aDNA-Native** `.canvas`. The pattern is proven **7×**: `brief_consumer`, `deck_generator`,
+`document_generator` (Keystone E4) + `diagram_generator`, `comic_generator` (Operation Atelier A1/A2) +
+`letter_generator` (single-surface), `post_generator` (single/thread) (Operation Palette P2/P3). Use it for any future
+canvas output layer (poster, one-pager, résumé, …). **Now operationalized as a factory:**
+`how/skills/skill_canvas_producer_build.md` (the runbook) + `what/production/_scaffold/` (a copy-me producer skeleton at
+producer depth — clone it).
 
 ## Key Principles
 
@@ -52,12 +55,13 @@ what/production/<name>/
   examples/  <worked>.yaml + <worked>.canvas   tests/  conftest.py + the "four+1" suites
 ```
 
-**The `consume.py` contract (verbatim shape across all 5 producers):**
+**The `consume.py` contract (verbatim shape across all 7 producers):**
 1. assemble `source = {"name": id, "version": v, "nodes": [...], "edges": [...]}` — nodes are
    `{"id","type":"group"|"text"|"file"|"link","text"/"label"/"file":...,"x","y","width","height"}`; a containing
    `group` node is the **single canonical surface**.
 2. `doc = to_canvas(source)` — sets explicit edge `toEnd` + `_reserved.sync`.
-3. set Advanced fields post-hoc on the node dict (e.g. `isStartNode` on the first page).
+3. set Advanced fields **post-hoc on the output `doc["nodes"]`** (e.g. `isStartNode` on the first page/panel) —
+   `to_canvas` does **not** carry source-only fields, so set them after step 2, never on the pre-`to_canvas` source node.
 4. enrich `doc["metadata"]["frontmatter"]["_reserved"]`: `adna_version="2.0.0"`, `conformance_level="adna_native"`,
    `component_types` (per node: `{class, semantic_type?, degrades_to, qualities?}`), `semantic_bindings={"profile":...}`,
    `panel_link={"edges":{eid:{kind}}, "regions":{gid:{flow,pagination,extent?,surface?}}, "surfaces":[{id,role}]}`,
@@ -100,6 +104,13 @@ reserved["context_object"] = {"id": d.id, "version": d.version, "refs": list(d.r
 ```
 
 Domain → canvas mappings that worked:
+- **Single-surface document** (letter): one `group` canonical surface → interior baseline `text` blocks chained
+  `reading_order`; one paged `region` `{flow: vertical, pagination: paged, extent: {unit: pages, max: 1}}`;
+  `profile: document`. The minimal producer (the cheapest shape).
+- **Short-form / thread** (post): one `group` surface → `text` copy nodes; a thread chains them `sequence` (linear,
+  acyclic; `isStartNode` on panel 0); an optional per-panel `image`-class node carries `qualities.image_prompt` (no
+  render) tied by `adjacency`; producer-side platform profiles ride in `component_types[root].qualities`; region
+  `pagination: "none"` (no `extent` — a post is not paginated; AT-1).
 - **Single-surface graph** (diagram): native nodes+edges canonical (one `group` surface) + a derived `code` node for a
   regenerable source (e.g. Mermaid). Edges `dependency` (cycles OK).
 - **Multi-page** (document, comic): a root `group` (canonical surface) → page/spread `group`s each carrying a `region`
@@ -119,9 +130,11 @@ Domain → canvas mappings that worked:
 
 ## Sources
 
-- Producers: `what/production/{brief_consumer,deck_generator,document_generator,diagram_generator,comic_generator}/`.
+- Producers: `what/production/{brief_consumer,deck_generator,document_generator,diagram_generator,comic_generator,letter_generator,post_generator}/`.
+- Factory: `how/skills/skill_canvas_producer_build.md` (runbook) + `what/production/_scaffold/` (copy-me skeleton).
 - Contract: `what/code/canvas_std/src/canvas_std/{reserved.py,schema.py,conformance.py}`; specs `what/specs/spec_*.md`.
-- Campaigns: Operation Keystone (`campaign_canvas_genesis`, E4) + Operation Atelier (`campaign_canvas_production`, A1/A2).
+- Campaigns: Operation Keystone (`campaign_canvas_genesis`, E4) + Operation Atelier (`campaign_canvas_production`, A1/A2)
+  + Operation Palette (`campaign_canvas_palette`, P2/P3 — letter + post; graduated the factory).
 - Decisions: [[adr_004_production_code_layout]] (two-shelf split) · [[adr_003_standard_governance]] (LIP process).
 - Related context: [[context_migration_parity_methodology]] (migrating/relocating a producer) ·
   [[context_canvas_standard_doctrine]] (the Standard itself).

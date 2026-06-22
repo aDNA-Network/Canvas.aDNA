@@ -3,15 +3,16 @@ campaign_id: campaign_canvas_palette
 type: campaign
 title: "Operation Palette — Complete the canvas output family (letter, post) + harden the producer factory"
 owner: stanley
-status: active
+status: completed
 activated: 2026-06-21
+completed: 2026-06-22
 phase_count: 5
-mission_count: 1
+mission_count: 5
 estimated_sessions: "6-9"
 estimation_class: build-broad
 priority: medium
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-06-22
 last_edited_by: agent_stanley
 predecessor: campaign_canvas_production
 tags: [campaign, build, canvas, production, producer-factory, letter, post, palette]
@@ -142,7 +143,7 @@ firewall git-diff 0; AAR GO. **HELD.**
 ### Phase P4 — Validation & close (+ optional stretch)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| P4 | Optional poster/one-pager if budget; full cross-producer sweep + structural `iii/` review; context graduation; doc currency; Completion Summary + AAR + `status: completed` | 1-2 | ⏳ pending P3 |
+| P4 | Optional poster/one-pager if budget; full cross-producer sweep + structural `iii/` review; context graduation; doc currency; Completion Summary + AAR + `status: completed` | 1-2 | ✅ **done 2026-06-22** — sweep **305 passed**; `iii/` 0H/0M; graduation 5×→7× + doc currency; campaign CLOSED ([[how/campaigns/campaign_canvas_palette/missions/mission_p4_close\|mission]]) |
 
 **Campaign close gate (HUMAN / operator disposition):** all 7 producer suites + `canvas_std` green; `iii/` artifacts
 filed; graduation run; STATE + CLAUDE.md + README currency; `status: completed`.
@@ -228,3 +229,55 @@ filed; graduation run; STATE + CLAUDE.md + README currency; `status: completed`.
   strategic campaign — recorded here so the gap isn't lost.
 - Technical designs (canvas mappings, `_reserved` enrichment, test plans) are carried into the P1/P2/P3 mission files
   at phase entry (SO-3), seeded from the approved plan + `context_canvas_producer_pattern.md`.
+
+## Completion Summary
+
+### Deliverables
+- **Producer factory (P1):** `how/skills/skill_canvas_producer_build.md` (the runbook) + `what/production/_scaffold/`
+  (17-file copy-me skeleton at producer depth; `consume.py` carries the canonical 4-step contract; `tests/` skip at
+  module level so the template never false-greens).
+- **Two net-new producers on `canvas_std`:** `what/production/letter_generator/` (P2; one-page letter, single canonical
+  surface + one paged region, `profile: document`; **17/17**) and `what/production/post_generator/` (P3; single post +
+  thread, `sequence` chain + `adjacency` post→image, producer-side platform profiles, image-prompt metadata; **20/20**).
+  Both built **by following the factory** (letter by a delegated agent + persona finish; post built directly off the
+  letter exemplar) — the factory's acceptance test passed.
+- **Validation (P4):** cross-producer sweep **305 passed** (7 producers 223 + `canvas_std` 82) + 10 skipped; `ruff`
+  clean; **`canvas_std` firewall git-diff 0** throughout; structural `iii/` review `iii/feedback_2026_06_22_palette_producers.md`
+  (**0 High / 0 Med**). Context graduated → `context_canvas_producer_pattern.md` (proven 5×→7×; letter + post mappings;
+  factory pointer; `isStartNode` post-hoc note). Doc currency: `what/production/README.md`, `CLAUDE.md` (Current state +
+  skills inventory), `how/skills/AGENTS.md`.
+- **Output family complete:** the CLAUDE.md thesis list (paper · deck · comic · **letter** · **post**; + diagram +
+  brief) is now covered by 7 in-vault producers.
+
+### Descoped
+- Optional poster/one-pager (D6) — declined by the operator at the P3→P4 gate; the factory makes them a
+  fill-in-the-blanks follow-up whenever wanted.
+- Canvas-as-surface (context-object + interface legs) — out of scope by design; recorded as the candidate next
+  strategic campaign (see Notes).
+
+### Key Findings
+- **The pattern is a factory now.** Two producers on different shapes (single-surface letter, multi-panel/thread post)
+  were built off one skill + one scaffold with **zero `canvas_std` changes** — the "fork, don't drift" thesis held an
+  8th and 9th time.
+- **The skill's "set Advanced fields post-hoc" guidance earned its keep:** `to_canvas` drops source-only fields, so
+  `isStartNode` must be set on the output node — a P3 test caught the mistake immediately.
+- **Producer builds should be sized to a single agent budget or checkpointed** — the P2 delegated build agent hit a
+  session limit mid-run; the module-level `pytest.skip` scaffold guard made the half-finished clone safe (skipped, not
+  false-green).
+
+### Scope Changes
+- `mission_count` 1→5 (P1–P4 missions authored at phase entry, SO-3). No stretch producer (D6 declined).
+
+## Campaign AAR
+
+- **Worked**: graduating the proven pattern into a skill + scaffold *first* (P1), then piloting it on the smallest
+  producer (P2 letter) before the larger one (P3 post), made each build fast and low-risk; per-phase human gates kept
+  the operator in control across a long session; the two-shelf firewall held git-diff 0 the whole way.
+- **Didn't**: the P2 build was delegated to an agent that ran out of budget mid-run — recovered by finishing in-persona;
+  P3 first run had 3 reds (1 real `isStartNode`, 2 test-only) fixed in one pass.
+- **Finding**: the canvas grammar + the factory generalize cleanly to single-surface and thread shapes with no Standard
+  touch; 7 producers, `canvas_std` git-diff 0.
+- **Change**: the factory needs no changes; the pattern doc is graduated to 7× with the new mappings + the post-hoc note.
+- **Follow-up**: **none required.** The output leg of the thesis is complete; the **context-object + interface legs**
+  remain the candidate next strategic campaign (needs a boundary ADR vs ISS/Astro/Terminal). Unchanged external tracks:
+  LIP-0008/0009 (FA, closes 2026-06-27 → v2.1.0); PT P5 (Hestia).

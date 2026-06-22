@@ -84,6 +84,7 @@ Examples:
 - `skill_node_credentials_audit.md` (agent) — enumerate credential SOURCES on a node (env-var NAMES, gh CLI auth status, SSH pubkeys, keychain entry NAMES). NAMES-only discipline; never persists values (graduated at M-H.1.5)
 - `skill_node_health_check.md` (agent) — D10 reproducibility gate for `LatticeHome.aDNA/`; validates file presence + frontmatter + YAML companion + federation block + inventory-vs-disk consistency + identity drift (graduated at M-H.1.5)
 - `skill_update_all_vaults.md` (agent) — `git pull --ff-only` across every vault listed in `inventory_vaults.yaml`; safe-by-default + flags conflicts as `#needs-human` (graduated at M-H.1.5)
+- `skill_canvas_producer_build.md` (agent) — build a new in-vault canvas producer (domain spec → v2.0.0 aDNA-Native `.canvas`) by cloning `what/production/_scaffold/` on `canvas_std`; the Operation Palette factory runbook (proven 7×)
 
 ## Template
 
