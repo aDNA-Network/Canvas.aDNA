@@ -1,0 +1,14 @@
+# Canvas.aDNA/git/.gitleaks.toml — per-graph scan config (extends the Git.aDNA baseline)
+#
+# Applied at the Git.aDNA P6 Wave 2 public-flip gate (2026-06-22, session_stanley_20260622_git_p6_wave2_iii_canvas).
+#
+# A fresh full-history gitleaks scan of Canvas.aDNA (62 commits) returned CLEAN (no leaks) at the
+# Wave-2 gate — so NO allowlist is needed. This file pins the gitleaks default ruleset for the
+# pre-push hook (ADR-011 D2) + the full-history gate (D4). If a future false-positive surfaces, add
+# a TIGHT, justified [allowlist] block here (mirror the Molecules/III precedent); never broaden the
+# fleet baseline. Real provider PATs are never allowlisted.
+
+title = "Canvas.aDNA git-ops scan (extends aDNA baseline)"
+
+[extend]
+useDefault = true
