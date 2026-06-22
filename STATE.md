@@ -48,8 +48,8 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 > **firewall:** validator logic untouched (`reserved.py` git-diff = comments only). **Errata queue fully drained**
 > (B1–B4 + AT-1/AT-2). Disposition: `what/decisions/lip_queue_disposition.md` §Closeout — AT-1/AT-2. **No new
 > campaign; Atelier stays closed.** **Tail unchanged:** LIP-0008/0009 FA review closes **2026-06-27** (→ v2.1.0 on
-> LIP-0008 Final); PT P5 Hestia-owned. **Push pending operator authorization.** The boxes below are Atelier build
-> history.
+> LIP-0008 Final); PT P5 Hestia-owned. **Pushed `64a338f` 2026-06-21** (`9eae4f6..64a338f`, operator-authorized). The
+> boxes below are Atelier build history.
 
 > **✅ OPERATION ATELIER COMPLETE — CAMPAIGN CLOSED (this session, `session_stanley_20260621_210130_a3_validation_close`).**
 > Phase **A3** ran validation & close: final sweep **266 passed** (canvas_std 80/10 · brief 10 · deck 16 · document 37

@@ -80,8 +80,9 @@ wrapper refederations + registry registration.
 **Blockers**: none.
 
 **Files touched**: see frontmatter (7 specs · 7 `canvas_std` files [version + 2 tests + comments] · disposition ·
-STATE · MANIFEST · this session). **Committed locally; push is operator-gated** — Canvas.aDNA will be ahead of
-origin by this commit; do not push without operator authorization (verify `@{u}..HEAD` all Mondrian-authored first).
+STATE · MANIFEST · this session). **Committed `64a338f`; pushed to origin 2026-06-21** (`9eae4f6..64a338f`,
+operator-authorized — `@{u}..HEAD` was Mondrian-authored). The wind-down (this AAR + push-note currency) rides a
+follow-up commit.
 
 **Minor finding (not actioned — out of scope)**: `MANIFEST.md` line ~23 still frames CanvasForge (Hermes) +
 LiteratureForge (Thoth) as external producers — stale post-pt09 (CanvasForge absorbed; Hermes→Mondrian; LF wound
@@ -96,11 +97,26 @@ are documentation/comment + version-label changes only — **no `canvas_std` val
 `reserved.py` diff = comments); 2 regression tests added (`test_anchors.py`). Suites green: `canvas_std` 82/10, all
 5 producers 10/16/37/36/87, 6 examples `[OK]`. The errata queue (B1–B4 + AT-1/AT-2) is **fully drained**; record in
 `what/decisions/lip_queue_disposition.md` §Closeout — AT-1/AT-2. **No active campaign; Operation Atelier stays
-closed.** Outstanding workspace items, all on existing tracks (no new campaign): **(1) push** — Canvas.aDNA is ahead
-of origin by the v2.0.2 commit (Mondrian/stanley-authored), push is operator-gated; **(2)** the **LIP-0008/0009** FA
+closed.** Outstanding workspace items, all on existing tracks (no new campaign): **(1) push** — ✅ done 2026-06-21 (`64a338f`
++ the wind-down commit pushed; origin in sync); **(2)** the **LIP-0008/0009** FA
 review closes **2026-06-27** — on LIP-0008 Final, cut **Standard v2.1.0** (the A-5 pure-metadata relaxation:
 `canvas_std/reserved.py::validate_panel_link` surfaces check + conformance A-5 + `spec_panel_link_semantics §5.2`),
 then `document_generator/consume.py` can stop minting synthetic `surface_<name>` marker nodes; **(3) PT P5**
 (Hestia) — `canvas_core` relocation (ADR-004) + ~8 consumer-wrapper refederations + v2.0.x registry registration +
 parity re-baseline. If the operator wants more net-new output layers (poster/letter/post), reuse
 `what/context/context_canvas_producer_pattern.md` — it's a fill-in-the-blanks build.
+
+## AAR
+
+- **Worked**: Both errata resolved as documentation/comment + version-label changes only — **zero `canvas_std`
+  validator-logic touch** (two-shelf firewall held; `reserved.py` diff = comments); `canvas_std` 82/10 (+2) and all
+  5 producers (10/16/37/36/87) stayed green on the first run.
+- **Didn't**: Nothing broke. Minor: spotted stale CanvasForge (Hermes) / LiteratureForge (Thoth) "external
+  producer" framing in `MANIFEST.md` (~L23, pre-pt09) — left untouched (out of scope).
+- **Finding**: Both "spec gaps" were already-correct behavior that only lacked *documentation* (`extent` optional
+  for non-paginated regions; `surface` an open vocabulary). The doctrine-aligned fix was **"document, don't
+  extend"** — no `graph` extent unit, no `surface` enum — keeping the grammar minimal (substrate-neutrality).
+- **Change**: none — the v2.0.1 cut's enumerated version-site list made the v2.0.2 bump mechanical; reuse it for
+  any future editorial PATCH.
+- **Follow-up**: MANIFEST CanvasForge/LF currency nit (future doc pass); LIP-0008/0009 FA review closes 2026-06-27
+  (→ v2.1.0 on LIP-0008 Final); PT P5 (Hestia). No new campaign.
