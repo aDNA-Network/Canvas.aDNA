@@ -4,8 +4,8 @@ created: 2026-06-06
 updated: 2026-06-21
 status: active
 last_edited_by: agent_stanley
-last_session: session_stanley_20260621_141753_backlog_triage
-tags: [state, governance, canvas, genesis]
+last_session: session_stanley_20260621_193649_atelier_scaffold_a0
+tags: [state, governance, canvas, genesis, atelier]
 ---
 
 # Operational State
@@ -28,7 +28,23 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + LIP-0008/0009 REVIEW OPENED (2026-06-20) + BACKLOG TRIAGED (2026-06-21); tail → review closes 2026-06-27 (→ v2.1.0 on LIP-0008 Final) + PT P5
+## ▶ Resume Here — ⚒ OPERATION ATELIER OPENED (2026-06-21, planning — A0 HELD at A0→A1 gate) · ✅ KEYSTONE COMPLETE + LIP QUEUE DRAINED (v2.0.1) + LIP-0008/0009 REVIEW OPENED (2026-06-20); Keystone tail → review closes 2026-06-27 (→ v2.1.0 on LIP-0008 Final) + PT P5
+
+> **⚒ OPERATION ATELIER OPENED (this session, `session_stanley_20260621_193649_atelier_scaffold_a0`).** Post-Keystone,
+> the operator chose (plan mode) to build the two production layers Canvas owns since pt09 but never built on
+> `canvas_std` — **`diagram_generator` (warm-up) then `comic_generator`** — in ONE phased campaign
+> ([[how/campaigns/campaign_canvas_production/campaign_canvas_production|Operation Atelier]], `status: planning`; plan
+> `~/.claude/plans/please-read-the-claude-md-lovely-star.md`). **This session scaffolded the campaign** (master doc +
+> per-campaign `CLAUDE.md` + the A0.1 mission) and **executed Phase A0.1** — a contract/profile **decision record**
+> (`how/campaigns/campaign_canvas_production/missions/artifacts/a0_1_contract_profile_decision.md`) resolving **6 gating
+> questions** (per-producer quality contracts · profiles-producer-side/**no Standard LIP** · diagram shape-enum policy ·
+> diagram-type scope · comic **data-driven** scope · codename), each with a doctrine-aligned default. Confirmed **no
+> dedicated diagram/comic spec exists** (only mentions inside federation/component/panel-link specs). **No code;
+> `canvas_std` untouched** (firewall git-diff 0). **⛔ HELD at the A0→A1 gate** — operator ratifies the 6 decisions
+> (that ratification **activates** the campaign + opens the **A1 diagram build**). The producer designs (canvas mapping,
+> port-vs-rebuild maps, `_reserved` enrichment, test plans) live in the approved plan; carried into A1/A2 missions at
+> phase entry. **Keystone tail unchanged:** LIP-0008/0009 review closes 2026-06-27; PT P5 Hestia-owned. The boxes below
+> are Keystone-close history.
 
 > **▶ POST-KEYSTONE BACKLOG TRIAGED (this session, `session_stanley_20260621_141753_backlog_triage`).** Operator chose
 > "triage + work backlog." Result: **6 of 7 ideas were inherited `.adna` template scaffold** (`agent_init` 2026-04-04,
