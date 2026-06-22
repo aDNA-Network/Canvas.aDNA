@@ -3,7 +3,7 @@ plan_id: mission_p0_charter_boundary
 type: plan
 title: "P0.1 — Charter + boundary ADR + decision record"
 owner: stanley
-status: active
+status: completed
 campaign_id: campaign_canvas_salon
 campaign_phase: 0
 campaign_mission_number: 1
@@ -59,8 +59,8 @@ loading-protocol spec).**
 - **Depends on**: 1
 
 ### 3. Operator ratification (P0→P1 gate)
-- **Status**: pending
-- **Session**: (next session)
+- **Status**: completed
+- **Session**: session_stanley_20260622_140033_salon_p0_ratify_p1_spec
 - **Description**: Present the decision record + `adr_006`. On accept/edit of each: set both records `status: ratified`,
   update the campaign Decision Points, complete this mission (+AAR), set the campaign `status: active`, and open Phase
   P1 (author the P1 mission — the leg-2 loading/traversal protocol spec).
@@ -88,27 +88,31 @@ extension. It is an explicit operator decision precisely because it changes the 
 
 ## Completion Summary
 
-*Fill out when setting `status: completed` (at P0 ratification).*
+Completed 2026-06-22 at the P0→P1 gate (`session_stanley_20260622_140033_salon_p0_ratify_p1_spec`). The operator
+ratified the 8-decision record + `adr_006` — **all eight decisions at their doctrine-aligned defaults** (D6 = the
+firewall-preserving sibling `canvas_context`). Salon is now `active` at P1.
 
 ### Deliverables
-- The campaign scaffold (charter + CLAUDE.md + P0 mission), `adr_006` (boundary), and the 8-decision record — drafted
-  this session; **ratification pending**.
+- Campaign scaffold (charter `campaign_canvas_salon.md` + per-campaign `CLAUDE.md` + this P0 mission) — **ratified**.
+- `what/decisions/adr_006_canvas_surface_boundary.md` (boundary vs ISS/Astro/Terminal/OIP) — **ratified** (binding).
+- `missions/artifacts/p0_decision_record.md` (D1–D8, defaults + rationale + alternatives) — **ratified**.
+- 3/3 objectives complete (foundation confirmed · scaffold/draft · operator ratification).
 
 ### Descoped
-- [fill at close]
+- None. P0 closed on its charter.
 
 ### Key Findings
-- [fill at close]
+- Front-loading the boundary (`adr_006`) + the load-bearing firewall posture (D6) into a cheap, ratifiable decision
+  phase worked exactly as the Cartography/Keystone lesson predicted — the single biggest call (touch `canvas_std` or
+  not) was surfaced as an explicit operator choice rather than an agent assumption, and resolved cleanly (preserve).
 
 ### Scope Changes
-- [fill at close]
+- None.
 
 ## AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**: [fill at ratification]
-- **Didn't**: [fill at ratification]
-- **Finding**: [fill at ratification]
-- **Change**: [fill at ratification]
-- **Follow-up**: [fill at ratification]
+- **Worked**: All 8 decisions carried doctrine-aligned defaults, so the gate cleared in one pass at defaults (incl. the load-bearing D6 → preserve the firewall).
+- **Didn't**: Nothing material; the gate was a clean human ratification with no edits.
+- **Finding**: Drawing the boundary ADR *before* any build gives the leg-2 spec a citable fence (contract-not-engine), which made the immediately-following P1 spec scope itself unambiguously.
+- **Change**: None — the planning-phase pattern (charter + boundary + ratifiable decision record, HOLD at gate) is reusable as-is.
+- **Follow-up**: P1 mission `mission_p1_context_loading_spec.md` — author `spec_canvas_context_loading.md` (this session); HOLD at P1→P2.

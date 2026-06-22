@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_salon
 type: campaign
 title: "Operation Salon — canvas-as-surface (context-object + interface legs)"
 owner: stanley
-status: planning
+status: active
 phase_count: 6
 mission_count: 6
 estimated_sessions: "6-10"
@@ -14,6 +14,7 @@ predecessor: campaign_canvas_palette
 created: 2026-06-22
 updated: 2026-06-22
 last_edited_by: agent_stanley
+status_history: "planning (2026-06-22 open) → active (2026-06-22 P0 ratified)"
 tags: [campaign, canvas, salon, surface, context_object, interface, genesis]
 ---
 
@@ -99,7 +100,7 @@ deferral of this campaign: [[how/campaigns/campaign_canvas_palette/campaign_canv
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 1 | P0.1 — Charter + boundary ADR + decision record | 1 | — | active |
+| 1 | P0.1 — Charter + boundary ADR + decision record | 1 | — | completed |
 
 **Phase exit gate (P0→P1, HUMAN)**: the operator ratifies the **P0 decision record** (8 decisions — codename ·
 planning-vs-build · leg sequencing · leg-3 depth · leg-2 spec home · leg-2 impl/firewall posture · boundary ADR ·
@@ -109,7 +110,7 @@ coordination posture) **and** `adr_006`. That ratification **activates** the cam
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 2 | P1 — Context-loading protocol spec | 1-2 | P0 | planned |
+| 2 | P1 — Context-loading protocol spec | 1-2 | P0 | completed |
 
 **Phase exit gate**: a spec for the agent loading/traversal protocol is authored and operator-ratified (home per D5:
 new `spec_canvas_context_loading.md` keeping `spec_context_object.md` stable, or amend in place).
@@ -118,7 +119,7 @@ new `spec_canvas_context_loading.md` keeping `spec_context_object.md` stable, or
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 3 | P2 — Canvas-as-context loader + pilot | 2-3 | P1 | planned |
+| 3 | P2 — Canvas-as-context loader + pilot | 2-3 | P1 | active |
 
 **Phase exit gate**: the loader loads an existing producer `.canvas` as a context graph **without rendering**; tests
 green; **`canvas_std` firewall git-diff 0** (loader placement per D6). Leg 2 is **proven**.
@@ -154,14 +155,14 @@ written; `status: completed`.
 
 | # | When | Decision | Status |
 |---|------|----------|--------|
-| D1 | P0→P1 gate | Codename / slug (Operation Salon / `campaign_canvas_salon`) | pending |
-| D2 | P0→P1 gate | Campaign type (planning, Cartography-model) | pending |
-| D3 | P0→P1 gate | Leg sequencing (leg-2 first, then leg-3 spec) | pending |
-| D4 | P0→P1 gate | Leg-3 depth this campaign (spec-only; P4 POC stretch; build → follow-on) | pending |
-| D5 | P0→P1 gate | Leg-2 spec home (new `spec_canvas_context_loading.md` vs amend `spec_context_object.md`) | pending |
-| D6 | P0→P1 gate | Leg-2 impl placement + firewall posture (sibling `canvas_context` vs extend `canvas_std`) | pending |
-| D7 | P0→P1 gate | Boundary ADR `adr_006` (accept/edit the ISS·Astro·Terminal·OIP boundary) | pending |
-| D8 | P0→P1 gate | Cross-vault coordination posture (heads-up memos now vs at P3) | pending |
+| D1 | P0→P1 gate | Codename / slug (Operation Salon / `campaign_canvas_salon`) | ratified 2026-06-22 |
+| D2 | P0→P1 gate | Campaign type (planning, Cartography-model) | ratified 2026-06-22 |
+| D3 | P0→P1 gate | Leg sequencing (leg-2 first, then leg-3 spec) | ratified 2026-06-22 |
+| D4 | P0→P1 gate | Leg-3 depth this campaign (spec-only; P4 POC stretch; build → follow-on) | ratified 2026-06-22 |
+| D5 | P0→P1 gate | Leg-2 spec home (new `spec_canvas_context_loading.md` vs amend `spec_context_object.md`) | ratified 2026-06-22 — new spec |
+| D6 | P0→P1 gate | Leg-2 impl placement + firewall posture (sibling `canvas_context` vs extend `canvas_std`) | ratified 2026-06-22 — sibling (firewall preserved) |
+| D7 | P0→P1 gate | Boundary ADR `adr_006` (accept/edit the ISS·Astro·Terminal·OIP boundary) | ratified 2026-06-22 |
+| D8 | P0→P1 gate | Cross-vault coordination posture (heads-up memos now vs at P3) | ratified 2026-06-22 |
 
 All eight are recorded with doctrine-aligned defaults in `missions/artifacts/p0_decision_record.md`.
 

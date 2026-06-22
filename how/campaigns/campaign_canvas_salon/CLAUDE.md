@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, salon, surface]
 |-------|-------|
 | Campaign | `campaign_canvas_salon` |
 | Owner | stanley |
-| Status | planning (→ active on P0 ratification) |
-| Current Phase | P0 — Charter, boundary ADR & decision record (HELD at P0→P1 gate) |
+| Status | active (P1 ratified 2026-06-22 → P2) |
+| Current Phase | P2 — Canvas-as-context loader + pilot (leg-2 reference impl; building, HOLD at P2→P3 gate) |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_palette` (Operation Palette, completed 2026-06-22) |
 

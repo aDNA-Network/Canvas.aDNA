@@ -1,7 +1,7 @@
 ---
 type: directory_index
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-22
 last_edited_by: agent_stanley
 tags: [directory_index, specs, canvas, standard]
 ---
@@ -24,6 +24,9 @@ Cartography. These are the contracts producers (CanvasForge, ComfyForge, LF-succ
 | `spec_panel_link_semantics.md` | D5 | Reading-order / flow / pagination / region / sequence for non-DAG outputs |
 | `spec_roundtrip_protocol_v2.md` | (generalizes v1.0 round-trip) | Authoritative-source ↔ view; authority matrix; sync-hash |
 | `spec_context_object.md` | D7 (Δ2) | Canvas as a first-class context object; routes the primitive question through a LIP |
+| `spec_conformance_suite.md` | (P3) | Conformance-level check catalog + golden-fixture suite the validator enforces |
+| `spec_federation_contract.md` | (P3) | Producer ↔ Standard consumer-wrapper contract (`federation_ref`) + 5-stage conformance gates |
+| `spec_canvas_context_loading.md` | leg-2 (Salon P1) | **Companion to `spec_context_object`** — how an agent loads a `.canvas` as a context graph *without rendering* (L1–L7 load pipeline + traversal primitives + resolver contract). `status: ratified` (Salon P1→P2 gate, 2026-06-22) — reference loader `canvas_context` built at P2 |
 
 ## Provenance
 

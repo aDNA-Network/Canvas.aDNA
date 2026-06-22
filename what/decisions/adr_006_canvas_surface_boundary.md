@@ -2,11 +2,11 @@
 type: decision
 adr_id: "006"
 title: "Canvas-as-surface boundary — what Canvas owns vs ISS / Astro / Terminal / OIP"
-status: proposed
+status: ratified
 created: 2026-06-22
 updated: 2026-06-22
 last_edited_by: agent_stanley
-signed_by:
+signed_by: stanley
 supersedes:
 superseded_by:
 campaign_id: campaign_canvas_salon
@@ -17,9 +17,10 @@ tags: [adr, canvas, surface, boundary, context_object, interface, iss, astro, te
 
 ## Status
 
-**Proposed** — to be ratified at the **P0→P1 gate** of Operation Salon (`campaign_canvas_salon`). This ADR is decision
-**D7** of the P0 decision record; its ratification (with the rest of the record) activates the campaign. Until then it
-is a draft the campaign works *toward*, not a binding boundary.
+**Ratified 2026-06-22** (operator, P0→P1 gate of Operation Salon, `campaign_canvas_salon`). This ADR was decision
+**D7** of the P0 decision record; ratified with the rest of the record (all defaults), it activated the campaign
+(`status: active`) and opened Phase P1. It is now a **binding boundary** for the leg-2/leg-3 work — the citable fence
+the campaign builds within.
 
 ## Context
 

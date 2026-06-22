@@ -2,7 +2,7 @@
 type: decision_record
 created: 2026-06-22
 updated: 2026-06-22
-status: pending
+status: ratified
 last_edited_by: agent_stanley
 campaign_id: campaign_canvas_salon
 mission: mission_p0_charter_boundary
@@ -132,15 +132,19 @@ avoids surprising neighbours; it costs one memo.
 
 | # | Decision | Default | Operator disposition |
 |---|----------|---------|----------------------|
-| D1 | Codename / slug | Operation Salon / `campaign_canvas_salon` | pending |
-| D2 | Campaign type | Planning / proving (Cartography model) | pending |
-| D3 | Leg sequencing | Leg 2 first (spec→impl→pilot), then leg 3 spec | pending |
-| D4 | Leg-3 depth | Spec-only; P4 POC stretch; build → follow-on | pending |
-| D5 | Leg-2 spec home | New `spec_canvas_context_loading.md` (keep `spec_context_object.md` stable) | pending |
-| D6 | Leg-2 impl + firewall | New sibling `canvas_context` (firewall preserved) vs extend `canvas_std` (firewall lifted) | pending |
-| D7 | Boundary ADR | Accept `adr_006` as drafted | pending |
-| D8 | Coordination posture | Heads-up memos now; formal seam at P3 | pending |
+| D1 | Codename / slug | Operation Salon / `campaign_canvas_salon` | **ratified** (default) |
+| D2 | Campaign type | Planning / proving (Cartography model) | **ratified** (default) |
+| D3 | Leg sequencing | Leg 2 first (spec→impl→pilot), then leg 3 spec | **ratified** (default) |
+| D4 | Leg-3 depth | Spec-only; P4 POC stretch; build → follow-on | **ratified** (default) |
+| D5 | Leg-2 spec home | New `spec_canvas_context_loading.md` (keep `spec_context_object.md` stable) | **ratified** (default) |
+| D6 | Leg-2 impl + firewall | New sibling `canvas_context` (firewall preserved) vs extend `canvas_std` (firewall lifted) | **ratified** — new sibling `canvas_context` (firewall preserved) |
+| D7 | Boundary ADR | Accept `adr_006` as drafted | **ratified** (default) |
+| D8 | Coordination posture | Heads-up memos now; formal seam at P3 | **ratified** (default) |
+
+> **✅ RATIFIED 2026-06-22 (operator, P0→P1 gate).** All eight decisions accepted at their doctrine-aligned defaults
+> (D6 = the firewall-preserving sibling `canvas_context`). This activates Operation Salon (`status: active`) and opens
+> Phase P1. Recorded in `session_stanley_20260622_140033_salon_p0_ratify_p1_spec`.
 
 On ratification: set this record **and** `adr_006` `status: ratified`; update the campaign Decision Points; complete
 mission P0.1 (+AAR); set the campaign `status: active`; and open Phase P1 (author the P1 mission — the leg-2
-loading/traversal protocol spec, home per D5, firewall posture per D6).
+loading/traversal protocol spec, home per D5, firewall posture per D6). **← actioned this session.**
