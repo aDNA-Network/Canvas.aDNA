@@ -128,10 +128,17 @@ green; **`canvas_std` firewall git-diff 0** (loader placement per D6). Leg 2 is 
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 4 | P3 — Interface-surface spec (greenfield) | 1-2 | P0 (boundary), P2 | planned |
+| 4 | P3 — Interface-surface spec (greenfield) | 1-2 | P0 (boundary), P2 | in_progress |
 
 **Phase exit gate**: `spec_interface_surface.md` ratified **or** explicitly deferred (if the external OIP/interface
 thesis doc cannot be acquired); coordination with `aDNA.aDNA` (OIP) + ISS recorded.
+
+> **P3 opened 2026-06-22** (`mission_p3_interface_surface_spec`). The external OIP/interface-thesis dependency
+> **resolved by proceeding first-principles** (operator decision, plan-mode): the doc does not exist (a future
+> `aDNA.aDNA` OIP-unification deliverable), so the spec was authored **Canvas-scoped v1** — grounded on `adr_006` + the
+> proven leg-2 model + ISS as exemplar — to re-anchor on a future `v1.x` OIP-alignment pass; **not** deferred. Draft
+> [[../../../what/specs/spec_interface_surface|spec_interface_surface.md]] authored (`status: draft`); D8 memos filed.
+> **HELD at the ratification gate.**
 
 ### Phase P4 *(stretch)*: Leg-3 proof-of-concept
 
@@ -170,7 +177,7 @@ All eight are recorded with doctrine-aligned defaults in `missions/artifacts/p0_
 
 | Risk | Severity | Mitigation |
 |------|----------|------------|
-| Leg-3 is greenfield **and** depends on an external "OIP/interface thesis" doc not in the vault | High | P3 gated on acquiring the doc; **spec-only** default (D4); leg-3 build deferrable to a follow-on; coordinate with `aDNA.aDNA` early (D8) |
+| Leg-3 is greenfield **and** depends on an external "OIP/interface thesis" doc not in the vault | High → **RESOLVED 2026-06-22** | Doc confirmed non-existent (future `aDNA.aDNA` OIP deliverable). Operator chose **proceed first-principles** over defer: spec authored **Canvas-scoped v1** (grounded on `adr_006` + proven leg-2 + ISS exemplar), re-anchors on a future `v1.x` OIP pass; D8 memos filed at P3 open. Mitigation taken: spec-only (D4) + coordinate early (D8). |
 | Boundary creep vs ISS / Astro / Terminal / OIP | Medium | `adr_006` fixes the boundary **first** (P0), modeled on the LP↔Canvas seam; heads-up coordination memos |
 | Touching the immutable `canvas_std` (regression across 82 tests + 7 producers) | High | Default keeps the firewall: leg-2 loader is a **new sibling package** importing `canvas_std` read-only (D6); git-diff 0 verified at every gate |
 | Δ2 / LIP-0009 (canvas-as-primitive) entanglement | Low | Legs 2 & 3 ride `_reserved`; the primitive question stays on its own LIP track (out of scope) |

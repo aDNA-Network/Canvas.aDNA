@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, salon, surface]
 |-------|-------|
 | Campaign | `campaign_canvas_salon` |
 | Owner | stanley |
-| Status | active (P2 complete 2026-06-22 → P3; **leg 2 PROVEN**) |
-| Current Phase | P3 — Leg-3 interface-surface spec (greenfield); HELD at P2→P3 gate (leg 2 proven; `canvas_context` 28/28, canvas_std firewall clean) |
+| Status | active (P3 opened 2026-06-22; **leg-3 spec DRAFTED**; legs 1+2 PROVEN) |
+| Current Phase | P3 — Leg-3 interface-surface spec; **draft `spec_interface_surface.md` authored** (Canvas-scoped v1; OIP-doc dependency resolved by proceeding first-principles) + D8 memos filed; **⛔ HELD at the P3 ratification gate** (operator ratifies → fold `I-*` into the conformance suite; do not open P4 — stretch) |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_palette` (Operation Palette, completed 2026-06-22) |
 

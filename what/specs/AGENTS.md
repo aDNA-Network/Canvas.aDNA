@@ -27,6 +27,7 @@ Cartography. These are the contracts producers (CanvasForge, ComfyForge, LF-succ
 | `spec_conformance_suite.md` | (P3) | Conformance-level check catalog + golden-fixture suite the validator enforces |
 | `spec_federation_contract.md` | (P3) | Producer ↔ Standard consumer-wrapper contract (`federation_ref`) + 5-stage conformance gates |
 | `spec_canvas_context_loading.md` | leg-2 (Salon P1) | **Companion to `spec_context_object`** — how an agent loads a `.canvas` as a context graph *without rendering* (L1–L7 load pipeline + traversal primitives + resolver contract). `status: ratified` (Salon P1→P2 gate, 2026-06-22) — reference loader `canvas_context` built at P2 |
+| `spec_interface_surface.md` | leg-3 (Salon P3) | Canvas as a **human↔AI / human↔human interaction surface** — the `read → act → re-read` loop over the leg-2 `ContextGraph`; 5 primitives (`anchor`·`affordance`·`response`·`surface state`·`turn`); additive `_reserved.interaction` shape + proposed **`I-*`** conformance family; round-trip-to-baseline. `status: **draft**` (Salon P3, 2026-06-22) — **spec-only** (D4), bounded by `adr_006`; folds `I-*` into `spec_conformance_suite` at ratification |
 
 ## Provenance
 
