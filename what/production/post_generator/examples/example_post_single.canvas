@@ -1,0 +1,84 @@
+{
+  "nodes": [
+    {
+      "id": "post_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 600,
+      "height": 198,
+      "label": "Single post — Canvas.aDNA"
+    },
+    {
+      "id": "post0",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 504,
+      "height": 102,
+      "text": "A canvas reduces any 2D output — deck, comic, letter, post — to a disciplined grid of typed components. Fork, don't drift: it degrades to a plain Obsidian canvas.",
+      "isStartNode": true
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "da37e898dcfb8cef",
+          "source_name": "urn:adna:canvas:post:single",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "post_root": {
+            "class": "panel",
+            "semantic_type": "post",
+            "degrades_to": "group",
+            "qualities": {
+              "platform": "twitter",
+              "char_budget": 280,
+              "aspect": "16:9",
+              "thread": false
+            }
+          },
+          "post0": {
+            "class": "text",
+            "semantic_type": "post_copy",
+            "degrades_to": "text",
+            "qualities": {
+              "chars": 162
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "post"
+        },
+        "panel_link": {
+          "edges": {},
+          "regions": {
+            "post_root": {
+              "flow": "vertical",
+              "pagination": "none",
+              "surface": "social_post"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "post_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:post:single",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_adna_canvas_standard]]"
+          ]
+        }
+      }
+    }
+  }
+}

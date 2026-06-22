@@ -1,0 +1,12 @@
+title: "Thread — the canvas grammar"
+id: "urn:adna:canvas:post:thread"
+platform: "linkedin"
+panels:
+  - text: "1/ A canvas is a near-universal output primitive: positioned, typed components on a surface."
+  - text: "2/ Decks, comics, documents, diagrams, letters, posts — all reduce to the same producer pipeline."
+    image_prompt: "a Mondrian composition of primary-color rectangles forming a grid of media panels"
+    alt: "a grid of primary-color panels in a Mondrian style"
+  - text: "3/ aDNA-native canvases degrade to plain Obsidian canvases. Fork, don't drift."
+refs:
+  - "[[spec_federation_contract]]"
+  - "[[context_canvas_producer_pattern]]"

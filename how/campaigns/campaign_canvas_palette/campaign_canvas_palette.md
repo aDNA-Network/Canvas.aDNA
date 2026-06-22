@@ -125,10 +125,19 @@ campaign** (`status: active`) and authorizes the P1 factory build.
 ### Phase P3 — Social post producer (the larger build)
 | # | Mission | Sessions | Status |
 |---|---------|----------|--------|
-| P3 | P3a short post spec/decision (from P0); P3b build `post_generator` — single + thread; short-form text panels + optional image-prompt metadata; platform profile producer-side; four+1 suite + worked examples | 2-3 | ⏳ pending P2 |
+| P3 | P3a short post spec/decision (from P0); P3b build `post_generator` — single + thread; short-form text panels + optional image-prompt metadata; platform profile producer-side; four+1 suite + worked examples | 2-3 | ✅ **done 2026-06-22** — `post_generator` 20/20 (single+thread); both examples `[OK]`; firewall git-diff 0 ([[how/campaigns/campaign_canvas_palette/missions/mission_p3_post\|mission]]) |
 
 **Phase exit gate (P3→P4, HUMAN):** full post suite green (single + thread); no regression in the other suites;
 firewall git-diff 0; AAR GO. **HELD.**
+
+> **Phase progress (2026-06-22) — PHASE P3 COMPLETE ✅ (post producer built):** `what/production/post_generator/`
+> built on `canvas_std` (the multi-panel/thread path; built directly off the `letter_generator` exemplar + the factory
+> skill after the P2 build-agent hit a session limit). One `post_root` canonical surface; `post{i}` copy nodes chained
+> `sequence` (linear/acyclic; `isStartNode` post-hoc on `post0`); optional `img{i}` image-class nodes carrying
+> `qualities.image_prompt` (no render — ComfyUI) tied by `adjacency`; producer-side platform profiles. Suite **20/20**,
+> `ruff` clean; two examples (single 2/0 · thread 5/3) validate **`adna_native [OK]`** + degrade; **`canvas_std`
+> firewall git-diff 0**. **7 in-vault producers now green.** **⛔ HELD at the P3→P4 phase gate (human gate)** — P4 is
+> the cross-producer sweep + `iii/` review + context graduation + close.
 
 ### Phase P4 — Validation & close (+ optional stretch)
 | # | Mission | Sessions | Status |

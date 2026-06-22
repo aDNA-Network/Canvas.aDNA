@@ -28,22 +28,22 @@ Operation Cartography (P0–P5) ratified the **aDNA Canvas Standard v2.0.0** + c
 
 > **⊕ pt09 (Production Tidy, 2026-06-17) — CanvasForge absorbed into Canvas.** `CanvasForge.aDNA` merged in (reverses E3.4); **Hermes merged into Mondrian**; Canvas now owns Standard **+** production (deck/comic/diagram) at `what/production/`. **Governance merge only** — code (`canvas_core`/`canvas_comic`/`canvas_presentation`) + ~8 consumer wrappers relocate/refederate at PT **P5** (shim-covered interim; `canvas_core→canvas_std` shim folds into the merge, Home §C #29). **Keystone reshape:** the "CanvasForge as a *separate* federated producer" premise is folded — **Mondrian reconciles the E4 phase plan** (net-new consumer + LF-successor now in-vault) at its next Keystone session; no gate auto-advances. Memo: `Home.aDNA/how/campaigns/campaign_production_tidy/coordination_drafts/coord_draft_hestia_to_mondrian_hermes_canvasforge_merge.md`. Archived source: `Archive.aDNA/CanvasForge.aDNA/`. **[2026-06-19] E4 code-layout reconciliation resolved on paper** — [[what/decisions/adr_004_production_code_layout|ADR-004]] (proposed) pins `canvas_core` → `what/production/canvas_core/` (import unchanged; env `CANVAS_CORE_HOME`; `canvas_std` resolves via installed `adna-canvas-std`), **answering Hestia's substrate-path memo → Hearthstone P3 unblocked** (reply: `who/coordination/coord_2026_06_19_mondrian_to_hestia_canvas_substrate_path_reply.md`), and folding the 2 parked follow-ups into the P5 relocation contract. **E3→E4 stays HELD; no code moves; operator ratifies adr_004.** **Loop closed (2026-06-19):** Hestia actioned same-day — exemplar **staged** (fallthrough resolver auto-flips at P5) + acked; Home §C **#39** env-var alias (`CANVASFORGE_CODE`→`CANVAS_CORE_HOME`) registered. **Forward-ref → ping Hestia when the PT P5 relocation is scheduled** (she re-verifies + drops the interim archive branch). *Wind-down housekeeping: MANIFEST de-drifted to Keystone-current; lightweight AAR filed on the session; campaign log + adr_004 P5-checklist updated.*
 
-## ▶ Resume Here — 🎨 OPERATION PALETTE: P0+P1+P2 done (letter_generator green) → HELD at the P2→P3 gate (2026-06-22; next = post_generator) · ✅ ATELIER + KEYSTONE COMPLETE (Standard v2.0.2; now 6 producers green); LIP-0008/0009 review closes 2026-06-27 + PT P5 (Hestia)
+## ▶ Resume Here — 🎨 OPERATION PALETTE: P0–P3 done (letter + post green) → HELD at the P3→P4 gate (2026-06-22; next = cross-producer sweep + iii review + close) · ✅ ATELIER + KEYSTONE COMPLETE (Standard v2.0.2; now 7 producers green); LIP-0008/0009 review closes 2026-06-27 + PT P5 (Hestia)
 
-> **🎨 OPERATION PALETTE — P0+P1+P2 DONE (letter_generator green) → HELD at the P2→P3 gate (this session, `session_stanley_20260622_000541_palette_p2_letter`).**
+> **🎨 OPERATION PALETTE — P0–P3 DONE (letter + post green) → HELD at the P3→P4 gate (this session, `session_stanley_20260622_003226_palette_p3_post`).**
 > Post-Atelier (no active campaign), the operator asked for a cross-campaign AAR/review; a 3-sweep retrospective
 > (Cartography → Keystone → Atelier) confirmed all three hit charter and the *output* leg of the thesis is proven
 > (5 producers, Standard untouched), but surfaced two Mondrian-owned gaps: **output coverage is incomplete** (letter
 > only spec-sketched `§6.3`; post unspec'd) and the **producer pattern is proven 5× but isn't a reusable factory**.
 > Operator chose follow-up **Option A** (complete output family + harden factory) over canvas-as-surface (B, deferred)
 > and adoption-readiness (C, gated). Chartered **Operation Palette** (`how/campaigns/campaign_canvas_palette/`,
-> `status: active`): **P0** ✅ (6 decisions ratified) → **P1** ✅ factory (`skill_canvas_producer_build.md` +
-> `what/production/_scaffold/`) → **P2** ✅ `letter_generator` (**17/17**; example `adna_native [OK]` + degrades; built
-> by cloning `_scaffold` + following the skill — the factory's acceptance test, **passed**; firewall git-diff 0) →
-> **P3** `post_generator` (single + thread; platform profiles producer-side; image-prompt metadata) → **P4**
-> cross-producer sweep + `iii/` review + context graduation + close. **6 in-vault producers now green** (brief · deck ·
-> document · diagram · comic · letter). **⛔ HELD at the P2→P3 human gate (SO-1)** — no producer code without the
-> operator. Firewall rule every gate: `git diff --stat -- what/code/canvas_std/` empty. Approved plan:
+> `status: active`): **P0** ✅ (6 decisions) → **P1** ✅ factory (`skill_canvas_producer_build.md` +
+> `what/production/_scaffold/`) → **P2** ✅ `letter_generator` (17/17) → **P3** ✅ `post_generator` (**20/20**; single +
+> thread; `sequence` chain, image-prompt metadata, producer-side platform profiles; both examples `adna_native [OK]` +
+> degrade; firewall git-diff 0) → **P4** cross-producer sweep (7 producers + `canvas_std`) + `iii/` review + context
+> graduation + close. **7 in-vault producers now green** (brief · deck · document · diagram · comic · letter · post).
+> **⛔ HELD at the P3→P4 human gate (SO-1)** — no further build without the operator. Firewall rule every gate:
+> `git diff --stat -- what/code/canvas_std/` empty. Approved plan:
 > `~/.claude/plans/please-read-the-claude-md-sleepy-minsky.md`. The boxes below are prior history (Atelier/Keystone).
 
 > **✅ ATELIER ERRATA AT-1/AT-2 RESOLVED → CANVAS STANDARD v2.0.2 (this session,

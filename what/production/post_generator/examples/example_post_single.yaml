@@ -1,0 +1,6 @@
+title: "Single post — Canvas.aDNA"
+id: "urn:adna:canvas:post:single"
+platform: "twitter"
+text: "A canvas reduces any 2D output — deck, comic, letter, post — to a disciplined grid of typed components. Fork, don't drift: it degrades to a plain Obsidian canvas."
+refs:
+  - "[[spec_adna_canvas_standard]]"

@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "id": "post_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 600,
+      "height": 732,
+      "label": "Thread — the canvas grammar"
+    },
+    {
+      "id": "post0",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 504,
+      "height": 80,
+      "text": "1/ A canvas is a near-universal output primitive: positioned, typed components on a surface.",
+      "isStartNode": true
+    },
+    {
+      "id": "post1",
+      "type": "text",
+      "x": 48,
+      "y": 160,
+      "width": 504,
+      "height": 80,
+      "text": "2/ Decks, comics, documents, diagrams, letters, posts — all reduce to the same producer pipeline."
+    },
+    {
+      "id": "img1",
+      "type": "text",
+      "x": 48,
+      "y": 252,
+      "width": 504,
+      "height": 320,
+      "text": "a grid of primary-color panels in a Mondrian style"
+    },
+    {
+      "id": "post2",
+      "type": "text",
+      "x": 48,
+      "y": 604,
+      "width": 504,
+      "height": 80,
+      "text": "3/ aDNA-native canvases degrade to plain Obsidian canvases. Fork, don't drift."
+    }
+  ],
+  "edges": [
+    {
+      "id": "adj1",
+      "fromNode": "post1",
+      "fromSide": "right",
+      "toNode": "img1",
+      "toSide": "left",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq0",
+      "fromNode": "post0",
+      "fromSide": "bottom",
+      "toNode": "post1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq1",
+      "fromNode": "post1",
+      "fromSide": "bottom",
+      "toNode": "post2",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "58b3dff598e2b026",
+          "source_name": "urn:adna:canvas:post:thread",
+          "source_version": "0.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "post_root": {
+            "class": "panel",
+            "semantic_type": "post",
+            "degrades_to": "group",
+            "qualities": {
+              "platform": "linkedin",
+              "char_budget": 3000,
+              "aspect": "1.91:1",
+              "thread": true
+            }
+          },
+          "post0": {
+            "class": "text",
+            "semantic_type": "post_copy",
+            "degrades_to": "text",
+            "qualities": {
+              "chars": 92
+            }
+          },
+          "post1": {
+            "class": "text",
+            "semantic_type": "post_copy",
+            "degrades_to": "text",
+            "qualities": {
+              "chars": 97
+            }
+          },
+          "img1": {
+            "class": "image",
+            "semantic_type": "post_image",
+            "degrades_to": "text",
+            "qualities": {
+              "image_prompt": "a Mondrian composition of primary-color rectangles forming a grid of media panels",
+              "alt": "a grid of primary-color panels in a Mondrian style",
+              "aspect": "1.91:1"
+            }
+          },
+          "post2": {
+            "class": "text",
+            "semantic_type": "post_copy",
+            "degrades_to": "text",
+            "qualities": {
+              "chars": 78
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "post"
+        },
+        "panel_link": {
+          "edges": {
+            "adj1": {
+              "kind": "adjacency"
+            },
+            "seq0": {
+              "kind": "sequence"
+            },
+            "seq1": {
+              "kind": "sequence"
+            }
+          },
+          "regions": {
+            "post_root": {
+              "flow": "vertical",
+              "pagination": "none",
+              "surface": "social_post"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "post_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:post:thread",
+          "version": "0.1.0",
+          "refs": [
+            "[[spec_federation_contract]]",
+            "[[context_canvas_producer_pattern]]"
+          ]
+        }
+      }
+    }
+  }
+}
