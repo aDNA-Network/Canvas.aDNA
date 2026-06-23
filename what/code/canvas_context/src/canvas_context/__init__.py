@@ -30,6 +30,12 @@ from canvas_context.model import (
     Relation,
     Surface,
 )
+from canvas_context.reconcile import (
+    Reconciliation,
+    governed_apply,
+    reconcile,
+    write_source_draft,
+)
 from canvas_context.resolver import (
     DefaultPathResolver,
     FederationDescriptor,
@@ -37,7 +43,7 @@ from canvas_context.resolver import (
     Resolver,
 )
 
-__version__ = "0.2.0"  # package version (0.2.0 — leg-3 interaction-surface extension, Salon P4)
+__version__ = "0.3.0"  # package version (0.3.0 — leg-3 governed advisory-reverse write runtime, Armature P1)
 SPEC = "spec_canvas_context_loading"  # the leg-2 protocol this realizes (leg-3: spec_interface_surface)
 STANDARD_VERSION = "2.0.2"  # the aDNA Canvas Standard version the loaded canvases conform to
 
@@ -70,4 +76,9 @@ __all__ = [
     "strip_interaction",
     "is_round_trip_safe",
     "AFFORDANCE_KINDS",
+    # leg-3 governed write (Armature P1) — advisory-reverse reconciliation over canvas_std.roundtrip
+    "reconcile",
+    "governed_apply",
+    "write_source_draft",
+    "Reconciliation",
 ]

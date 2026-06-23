@@ -1,0 +1,77 @@
+{
+  "name": "review_request",
+  "version": "0.1.0",
+  "lattice_type": "context_graph",
+  "execution": {
+    "mode": "workflow",
+    "runtime": "local",
+    "tier": "L1"
+  },
+  "nodes": [
+    {
+      "id": "review_root",
+      "type": "group"
+    },
+    {
+      "id": "summary_box",
+      "type": "text",
+      "text": "Summary: (pending)"
+    },
+    {
+      "id": "decision_box",
+      "type": "text",
+      "text": "Decision: pending",
+      "config": {
+        "decision_policy": "operator_required"
+      }
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "text": "Draft body under review. See [[spec_interface_surface]]."
+    },
+    {
+      "id": "status_box",
+      "type": "text",
+      "text": "Status: open",
+      "config": {
+        "closes_turn": true
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "fromNode": "summary_box",
+      "toNode": "decision_box"
+    },
+    {
+      "id": "e2",
+      "fromNode": "decision_box",
+      "toNode": "body"
+    },
+    {
+      "id": "e3",
+      "fromNode": "body",
+      "toNode": "status_box"
+    }
+  ],
+  "fair": {
+    "license": "MIT",
+    "creators": [
+      "Canvas.aDNA / Mondrian"
+    ],
+    "keywords": [
+      "canvas",
+      "interaction",
+      "review",
+      "armature"
+    ],
+    "provenance": "Authoritative source paired with interaction_review.canvas \u2014 Operation Armature P1."
+  },
+  "federation": {
+    "source_vault": "Canvas.aDNA",
+    "version": "2.0.2",
+    "version_policy": "minor"
+  }
+}

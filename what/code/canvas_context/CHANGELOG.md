@@ -2,6 +2,39 @@
 
 All notable changes to the leg-2 reference context-loader.
 
+## [0.3.0] — 2026-06-22
+
+Operation Armature **P1** — the leg-3 **governed advisory-reverse write runtime**. Promotes the Salon P4 POC's
+view-only `apply_response` into a runtime that closes the `read → act → re-read` loop to the authoritative source via
+the **advisory** reverse path (`spec_roundtrip_protocol_v2` §1.2/§5): a response advances the view, and the runtime
+emits a **reviewed source draft** — never a silent write to the authoritative source. Reuses `canvas_std.roundtrip`
+(`merge`/`diff`/`to_canvas`/`compute_sync_hash`); `canvas_std` untouched (D6 firewall — the P2 lift is `adr_007`'s).
+
+### Added
+- `reconcile.py` — the governed write:
+  - **`reconcile(view, source)`** → `Reconciliation` — the advisory reverse: a staleness gate (§3.2), a topology
+    `diff` delta (§5 step 3), a three-way `merge` source draft (§5 step 4), the §6 lossy-field restoration (§5 step 5 —
+    `fair`/`federation`/`execution`/per-node `config`, the step `merge`/`from_canvas` drop), and the interaction
+    response log surfaced for review. Marks the draft `_draft` + `requires_review`; mutates no input.
+  - **`governed_apply(view, source, …)`** → `(advanced_view, Reconciliation)` — the governed *act*: `apply_response`
+    (advance the view, append-only) then `reconcile`. Writes nothing to disk.
+  - **`write_source_draft(recon, path, *, reviewed_by=None)`** — writes the draft to a **separate** artifact, **never**
+    the authoritative source (the §1.2 human-review gate).
+- `tests/fixtures/review_request.source.json` (+ `_build_review_source.py` generator) — the authoritative source paired
+  with `interaction_review.canvas`; topology-matched so `compute_sync_hash(source)` equals the view's stored hash (the
+  staleness baseline). Carries the §6 source-only fields.
+- `tests/test_reconcile.py` — the **headline source-byte-unchanged** guarantee, the `_draft`/`requires_review` marking,
+  lossy-field restoration, response surfacing, the staleness gate, round-trip-to-baseline, and input purity.
+- `tests/pilot_governed_write.py` — a runnable on-disk demo of the governed loop (the authoritative source byte-unchanged).
+
+### Notes
+- The governed write is governed **because** it is advisory — `spec_roundtrip_protocol_v2 §1.2` forbids silent source
+  propagation; the runtime makes the reverse path safe + reviewable (draft + delta + staleness + conflicts), never a
+  silent mutation. The value-add over `roundtrip.py` is the governance layer it left to "a higher layer" (§6 restore +
+  the never-touch-source discipline + the response review payload).
+- Firewall (D6) held — `canvas_std` imported read-only, git-diff 0. Wiring `I-*` into the `canvas_std` harness + the
+  `interaction_version` Standard-version cut are **P2** (the `adr_007` firewall touch), not here.
+
 ## [0.2.0] — 2026-06-22
 
 Operation Salon **P4** — leg-3 interaction-loop POC. A read-only extension realizing `spec_interface_surface.md`
