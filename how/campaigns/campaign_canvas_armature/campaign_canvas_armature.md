@@ -134,12 +134,16 @@ source fixture + 8 tests + pilot; `canvas_context` **58 passed**, `ruff` clean, 
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 3 | P2 — I-* into the harness + interaction_version Standard-version cut | 1-2 | P1, ADR-007 ratified | pending |
+| 3 | P2 — I-* into the harness + interaction_version Standard-version cut | 1-2 | P1, ADR-007 ratified | completed |
 
 **Phase exit gate**: `I-1/I-2/I-3` validate natively through the `canvas-std` CLI on an interaction-bearing golden;
 `interaction_version 1.0` is cut into the Standard version; **D-1..D-3 still prove round-trip-to-baseline** on that
 golden; **full regression green** (`canvas_std` + `canvas_context` + 7 producers). This is the *only* phase that edits
-`canvas_std` — entered only on the operator's explicit approval at the P1→P2 gate, behind ADR-007.
+`canvas_std` — entered only on the operator's explicit approval at the P1→P2 gate, behind ADR-007. **✅ MET 2026-06-23**
+— `I-*` validate via the `canvas-std 2.2.0` CLI on `adna_interaction.canvas`; `interaction_version 1.0` cut → **v2.2.0**;
+D-1..D-3 green on the golden; **full regression GREEN** (`canvas_std` **105/10** · `canvas_context` **58** · 7 producers
+**223**; `ruff` clean); the firewall touch is **+159/−9 across 9 files** (logic = `validate_interaction` + a 1-line
+dispatch). **⛔ HELD at the P2→P3 gate.**
 
 ### Phase P3: Close
 

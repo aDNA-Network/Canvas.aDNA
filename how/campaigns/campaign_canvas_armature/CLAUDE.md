@@ -2,7 +2,7 @@
 type: governance
 subtype: campaign_claude
 created: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
 tags: [governance, campaign, canvas, armature, leg3, interface, runtime, firewall]
 ---
@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, armature, leg3, interface, runtime, firewal
 |-------|-------|
 | Campaign | `campaign_canvas_armature` |
 | Owner | stanley |
-| Status | 🟢 active 2026-06-22 (P0 ratified + **P1 complete** — the governed advisory-reverse write runtime is built + green; HELD at the P1→P2 firewall-touch gate) |
-| Current Phase | **⛔ HELD at the P1→P2 gate.** P1 (`mission_p1_write_runtime`) **completed** — `reconcile.py` (canvas_context 0.3.0): `reconcile`/`governed_apply`/`write_source_draft` over `canvas_std.roundtrip`; 58 passed, firewall git-diff 0; the authoritative source stays byte-unchanged. **P2 is the `adr_007` firewall touch** (wire `I-*` into `canvas_std` + cut `interaction_version 1.0` → Standard v2.2.0) — operator approval required to cross the gate. P0 (`mission_p0_charter`) completed. |
+| Status | 🟢 active (P0 + P1 + **P2 complete** — the `adr_007` firewall touch is done + green; HELD at the P2→P3 close gate) |
+| Current Phase | **⛔ HELD at the P2→P3 gate.** P2 (`mission_p2_firewall_touch_version_cut`) **completed 2026-06-23** — the first `canvas_std` edit since Keystone: `reserved.validate_interaction` (I-1/I-2/I-3) wired into the aDNA-Native `validate()` path + CLI + a golden; `canvas_context.validate_interaction_block` is now a thin delegate; **`interaction_version 1.0` cut → Standard v2.2.0**. **Full regression GREEN** (`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223; `ruff` clean); firewall touch +159/−9, reviewable. **P3 is close** (cross-suite sweep · `iii/` review · AAR · doc currency · mark the leg-3 idea `implemented` · OIP re-anchor stub) — operator approval required to cross. P0/P1 completed. |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_salon` (Operation Salon, completed 2026-06-22 — this campaign builds its deferred leg-3 *runtime*) |
 
