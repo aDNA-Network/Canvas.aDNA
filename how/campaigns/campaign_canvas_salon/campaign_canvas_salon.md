@@ -3,7 +3,8 @@ campaign_id: campaign_canvas_salon
 type: campaign
 title: "Operation Salon — canvas-as-surface (context-object + interface legs)"
 owner: stanley
-status: active
+status: completed
+completed: 2026-06-22
 phase_count: 6
 mission_count: 6
 estimated_sessions: "6-10"
@@ -14,7 +15,7 @@ predecessor: campaign_canvas_palette
 created: 2026-06-22
 updated: 2026-06-22
 last_edited_by: agent_stanley
-status_history: "planning (2026-06-22 open) → active (2026-06-22 P0 ratified)"
+status_history: "planning (2026-06-22 open) → active (2026-06-22 P0 ratified) → completed (2026-06-22 P5 close)"
 tags: [campaign, canvas, salon, surface, context_object, interface, genesis]
 ---
 
@@ -170,10 +171,18 @@ firewall git-diff 0.
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 6 | P5 — Validation, AAR, follow-on charter | 1 | P2, P3 (P4 if taken) | planned |
+| 6 | P5 — Validation, AAR, follow-on charter | 1 | P2, P3 (P4 if taken) | completed |
 
 **Phase exit gate**: campaign Completion Summary + AAR filed; doc currency done; follow-on charter (any leg-3 build)
-written; `status: completed`.
+written; `status: completed`. **✅ MET 2026-06-22.**
+
+> **P5 COMPLETE 2026-06-22 — CAMPAIGN CLOSED** (`mission_p5_close`, `completed`; session
+> `session_stanley_20260622_175728_salon_p5_close`). Validation re-confirmed (`canvas_context` 50 · `canvas_std` 82/10 ·
+> ruff clean · CLI `adna_native [OK]` · firewall git-diff 0); Completion Summary + Campaign AAR filed; the follow-on
+> authored as a **backlog idea stub** (`how/backlog/idea_campaign_leg3_interface_runtime.md` — operator-chosen depth);
+> patterns graduated → `what/context/context_canvas_surface_legs.md`; doc currency done (STATE + root CLAUDE.md). No
+> producer example shipped → `iii/` review **N/A**. Campaign `status: completed`. **Operator-gated (outward):** commit +
+> push HELD (Git-Ops §3).
 
 ## Decision Points
 
@@ -260,29 +269,83 @@ All eight are recorded with doctrine-aligned defaults in `missions/artifacts/p0_
 
 ## Completion Summary
 
-*Fill out when setting `status: completed`.*
+**Closed 2026-06-22** (P5, `mission_p5_close`). Operation Salon exercised the two under-proven legs of the three-leg
+Canvas thesis (ADR-000): **leg 2 (context object) PROVEN**, **leg 3 (interface surface) RATIFIED + POC-demonstrated**.
+With leg 1 (output) already proven by Palette, all three legs are now either proven (1, 2) or specified-and-demonstrated
+(3). The `canvas_std` firewall held **git-diff 0 at every phase gate**. Validation at close: `canvas_context` **50
+passed** (28 leg-2 + 22 leg-3) · `canvas_std` **82 passed / 10 skipped** · `ruff` clean (both) · CLI `canvas-std 2.0.2`
+→ interaction golden `adna_native [OK]` (D-1/D-2/D-3). No producer example shipped this campaign → structural `iii/`
+review **N/A**.
 
 ### Deliverables
-- [Concrete outputs: ADR, specs, loader + pilot, coordination records, follow-on charter]
+- **P0** — `adr_006_canvas_surface_boundary` (ratified): fixes what canvas-as-surface owns vs ISS / Astro / Terminal /
+  the future OIP routing layer; + the 8-decision P0 record (`missions/artifacts/p0_decision_record.md`, D1–D8 ratified
+  at doctrine-aligned defaults).
+- **P1** — `what/specs/spec_canvas_context_loading.md` (ratified): the leg-2 loading/traversal protocol — abstract
+  context-graph model + normative **L1–L7** load pipeline + traversal read-contract + resolver interface + conformance
+  (the "how" the ratified `spec_context_object.md` left unspecified).
+- **P2** — `what/code/canvas_context/` leg-2 reference loader (a **new sibling** importing `canvas_std` read-only via
+  pythonpath, D6 firewall preserved) + pilot: loads a real producer `.canvas` (whitepaper, 32 nodes / 23 edges) as a
+  navigable `ContextGraph` **with no render pipeline invoked** (PIL/cairosvg never imported); 28/28. **Leg 2 PROVEN.**
+- **P3** — `what/specs/spec_interface_surface.md` (ratified): the greenfield leg-3 interface-surface contract bounded by
+  `adr_006` (no routing / no engine / no transport; rides `_reserved.interaction`); the `read → act → re-read` loop +
+  five primitives (anchor · affordance · response · surface state · turn); the `I-*` conformance family folded into
+  `spec_conformance_suite.md §4.1`. **Leg 3 RATIFIED.**
+- **P4** *(stretch)* — `what/code/canvas_context/interaction.py` v0.2.0: the leg-3 interaction-loop POC — a read-only
+  extension *composing* the leg-2 `ContextGraph` (reader) + a pure append-only `apply_response` view-fold (reducer) +
+  the first code realization of `I-1/I-2/I-3/I-D` (in the consumer, reusing `validate_anchors` + `strip`/`validate`) +
+  an interaction-bearing golden (all 4 affordance kinds) + a runnable on-disk `read → act → re-read` demo; 50 passed
+  (28 + 22). **Leg 3 DEMONSTRATED live.**
+- **Cross-vault** — D8 coordination memos to `aDNA.aDNA` (OIP) + Argus/ISS
+  (`who/coordination/coord_2026_06_22_mondrian_to_{oip,iss}_canvas_interface_seam.md` + the salon-open heads-up).
+- **Close artifacts** — the follow-on backlog idea stub (`how/backlog/idea_campaign_leg3_interface_runtime.md`) + the
+  graduated context guide (`what/context/context_canvas_surface_legs.md`).
 
 ### Descoped
-- [Missions skipped or deferred, with justification]
+- **The leg-3 *runtime* build** — deferred to the follow-on (the P4 POC is a minimal proof, not a runtime).
+- **Cross-surface routing** (when to use Canvas vs ISS vs Terminal vs web) — owned by the future `aDNA.aDNA`
+  OIP-unification campaign; this campaign defines *what* a canvas-surface is, not *when* to choose it.
+- **Capture runtime · renderer · transport** — fenced out by `adr_006 §2`.
+- **The governed `.lattice.yaml` round-trip write** — the POC's `apply_response` is a view-only append-fold;
+  the authoritative write stays in `spec_roundtrip_protocol_v2`.
+- **Wiring `I-*` into the `canvas_std` harness** — the family is realized in the consumer; harness-wiring + the formal
+  Standard-version cut for `interaction_version 1.0` are deferred to the runtime build.
+- **Canvas-as-primitive** (Δ2 / LIP-0009) — stays on its own LIP track; legs 2 & 3 rode `_reserved`, no core change.
 
 ### Key Findings
-- [Insights and discoveries from campaign execution]
+- **Compose-not-extend kept the firewall clean for free.** Making `canvas_context` (and the leg-3 `InteractionSurface`)
+  a *has-a* consumer of `canvas_std` rather than an extension meant the immutable tree was never touched — git-diff 0
+  held at every gate without special effort.
+- **A view-only append-fold lets a POC prove the loop honestly.** An honest interaction loop wants a write; modelling
+  `apply_response` as a pure append-only fold that advances the *view* (not the authoritative `.lattice.yaml`) closed
+  the `read → act → re-read` loop live while keeping the governed round-trip write cleanly out of scope.
+- **Leg 3 was authored first-principles.** The external "OIP/interface thesis" doc ADR-000 leaned on to ground leg 3
+  **does not exist** (a future `aDNA.aDNA` deliverable). The spec was authored Canvas-scoped v1 (grounded on `adr_006` +
+  the proven leg-2 model + ISS as exemplar), designed to re-anchor on a future `v1.x` OIP pass via `interaction_version`
+  semver — additive, not re-litigated.
+- **The leg-2 gap was the loading protocol, not the metadata.** `spec_context_object.md` defined the context-object
+  metadata but not *how* an agent loads/traverses it; the new `spec_canvas_context_loading.md` + the sibling loader
+  filled it, and "load without rendering" held against a real producer output.
 
 ### Scope Changes
-- [Missions added or removed during execution, and why]
+- **Thin missions at phase entry (SO-3).** Only P0 existed at open; P1–P4 were authored at their phase gates, and
+  `mission_p5_close` (mission 6) was authored at the close.
+- **P4 stretch taken.** D4 scoped the P4 POC optional; the operator chose "build P4" at the P3→P4 gate.
+- **Follow-on depth = backlog idea stub** (operator decision at P5), not a full charter directory.
 
 ### Follow-Up Campaigns
-- [Scoped follow-up initiatives — e.g. a leg-3 build campaign]
+- **`how/backlog/idea_campaign_leg3_interface_runtime.md`** — the deferred leg-3 interaction **runtime** build (full
+  runtime + `I-*` into the `canvas_std` harness + the formal Standard-version cut + the governed round-trip write + the
+  `v1.x` OIP re-anchor). Graduates to a campaign on operator commit; carries a cross-vault dependency on the future
+  `aDNA.aDNA` OIP-unification campaign + the ISS seam.
+- **External tracks (unchanged):** LIP-0008/0009 FA review closes **2026-06-27** → v2.1.0 (LIP-0008 A-5 relaxation;
+  LIP-0009 records the canvas-as-primitive deferral); **PT P5** (Hestia) — `canvas_core` relocation + the ~8
+  consumer-wrapper refederations + shim retirement (2027-06-13).
 
 ## Campaign AAR
 
-*Mandatory before setting `status: completed`. See `how/templates/template_aar_lightweight.md`.*
-
-- **Worked**: [what went well across all missions — one line]
-- **Didn't**: [what didn't work or surprised us — one line]
-- **Finding**: [key insight or discovery — one line]
-- **Change**: [process change for next time — one line, or "none"]
-- **Follow-up**: [link to backlog/mission/issue, or "none"]
+- **Worked**: the Cartography-model planning arc — boundary ADR first, spec-before-impl, compose-not-extend — exercised both under-proven legs (2 PROVEN, 3 RATIFIED + POC-demonstrated) with the `canvas_std` firewall git-diff 0 at every gate.
+- **Didn't**: the external OIP/interface-thesis doc ADR-000 leaned on to ground leg 3 doesn't exist; surfaced at P3, resolved by proceeding first-principles (Canvas-scoped v1 + an `interaction_version` re-anchor seam) rather than stalling.
+- **Finding**: composing (*has-a*) over extending kept the firewall clean for free, and a view-only append-fold proves the interaction loop honestly without the governed write — both graduated to `context_canvas_surface_legs.md`.
+- **Change**: author the follow-on as a backlog idea stub, not a full charter directory — matches how Salon itself incubated from a Palette note and avoids presuming the next campaign is committed.
+- **Follow-up**: `how/backlog/idea_campaign_leg3_interface_runtime.md` (the leg-3 runtime build); external LIP-0008/0009 (closes 2026-06-27) + PT P5 unchanged.

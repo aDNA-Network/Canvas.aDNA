@@ -1,8 +1,8 @@
 ---
 type: directory_index
 created: 2026-02-17
-updated: 2026-02-19
-last_edited_by: agent_init
+updated: 2026-06-22
+last_edited_by: agent_stanley
 tags: [directory_index, backlog]
 ---
 
@@ -138,8 +138,14 @@ When an idea accumulates enough context and gets user buy-in:
 
 | Idea | Category | Status | Priority | Effort |
 |------|----------|--------|----------|--------|
+| `idea_campaign_leg3_interface_runtime` | technical | proposed | high | plan |
 | `idea_deck_generator_canvas_pilot` | pipeline | implemented | high | plan |
 | `idea_upstream_fork_inherits_stale_backlog` | governance | proposed | medium | quick |
+
+> `idea_campaign_leg3_interface_runtime` filed 2026-06-22 at the Operation Salon P5 close — the committed follow-on
+> (the deferred leg-3 interaction **runtime** build: governed `.lattice.yaml` round-trip write + `I-*` into the
+> `canvas_std` harness + the `interaction_version 1.0` Standard-version cut + the `v1.x` OIP re-anchor). Backlog-stub
+> depth (operator decision); graduates to a campaign on commit. Gated on the future `aDNA.aDNA` OIP-unification campaign.
 
 **Archived (non-canonical):** `_inherited_scaffold/` holds 6 inherited `campaign_adna_polish` template ideas (demo
 GIF · plugin trim · inner-README III · custom logo · banner variants · startup optimization) — they concern the aDNA

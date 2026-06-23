@@ -1,7 +1,7 @@
 ---
 type: directory_index
 created: 2026-02-17
-updated: 2026-06-21
+updated: 2026-06-22
 last_edited_by: agent_stanley
 tags: [directory_index, context]
 ---
@@ -150,7 +150,8 @@ Canvas-specific guides graduated from campaigns (not topic directories):
 | File | Purpose |
 |------|---------|
 | `context_canvas_standard_doctrine.md` | The aDNA Canvas Standard — doctrine + invariants |
-| `context_canvas_producer_pattern.md` | How to build a producer on `canvas_std` (proven 5×; Operation Atelier graduation) |
+| `context_canvas_producer_pattern.md` | How to build a producer on `canvas_std` (the **output** leg; proven 7×; Atelier+Palette graduation) |
+| `context_canvas_surface_legs.md` | How to exercise the **context-object** (leg 2) + **interface** (leg 3) legs over `canvas_std` (Operation Salon graduation) |
 | `context_migration_parity_methodology.md` | Deterministic structural-parity proof for migrating/relocating a producer (Keystone) |
 | `context_recipes.md` | Cross-topic context assemblies (3-tier budget) |
 

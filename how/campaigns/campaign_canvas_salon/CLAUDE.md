@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, salon, surface]
 |-------|-------|
 | Campaign | `campaign_canvas_salon` |
 | Owner | stanley |
-| Status | active (P4 COMPLETE 2026-06-22 — leg-3 interaction-loop POC built + demonstrated; three-leg thesis now all *exercised*; only P5 close remains) |
-| Current Phase | P4 ✅ — leg-3 stretch POC built (`mission_p4_interaction_poc`, `completed`): `canvas_context/interaction.py` (v0.2.0) composes the leg-2 `ContextGraph` + append-only `apply_response` fold + `I-1/I-2/I-3/I-D` + interaction golden (4 kinds) + the runnable `read → act → re-read` demo. **The loop closes live**; `canvas_context` **50 passed** (28+22), `canvas_std` **82/10 unchanged**, ruff clean, CLI `adna_native [OK]`, **firewall git-diff 0**. **⛔ HELD at the P4→P5 gate** — P5 (close) is the operator's separate call; never auto-advance. (Prior: P3 ✅ leg-3 ratified; legs 1+2 PROVEN.) |
+| Status | ✅ completed 2026-06-22 (P0–P5 closed; three-leg thesis closed — legs 1+2 proven, leg 3 ratified *and* POC-demonstrated; `canvas_std` firewall git-diff 0 throughout) |
+| Current Phase | — campaign complete. P5 (`mission_p5_close`) closed it: Completion Summary + Campaign AAR filed; follow-on → backlog stub `idea_campaign_leg3_interface_runtime` (the leg-3 *runtime* build); patterns graduated → `context_canvas_surface_legs.md`; doc currency done. Close record: `campaign_canvas_salon.md` §Completion Summary. **Operator-gated (outward):** commit + push HELD (Git-Ops §3). |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_palette` (Operation Palette, completed 2026-06-22) |
 
