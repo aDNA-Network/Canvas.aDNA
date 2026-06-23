@@ -138,14 +138,17 @@ When an idea accumulates enough context and gets user buy-in:
 
 | Idea | Category | Status | Priority | Effort |
 |------|----------|--------|----------|--------|
-| `idea_campaign_leg3_interface_runtime` | technical | proposed | high | plan |
+| `idea_campaign_leg3_interface_runtime` | technical | planned → `campaign_canvas_armature` | high | plan |
 | `idea_deck_generator_canvas_pilot` | pipeline | implemented | high | plan |
 | `idea_upstream_fork_inherits_stale_backlog` | governance | proposed | medium | quick |
 
 > `idea_campaign_leg3_interface_runtime` filed 2026-06-22 at the Operation Salon P5 close — the committed follow-on
 > (the deferred leg-3 interaction **runtime** build: governed `.lattice.yaml` round-trip write + `I-*` into the
-> `canvas_std` harness + the `interaction_version 1.0` Standard-version cut + the `v1.x` OIP re-anchor). Backlog-stub
-> depth (operator decision); graduates to a campaign on commit. Gated on the future `aDNA.aDNA` OIP-unification campaign.
+> `canvas_std` harness + the `interaction_version 1.0` Standard-version cut + the `v1.x` OIP re-anchor). **GRADUATED
+> 2026-06-22 → Operation Armature (`campaign_canvas_armature`)** — operator committed at the Salon-close follow-on;
+> chartered + ratified (P0→P1) as a 4-phase build (`status: planned`, `plan_id: campaign_canvas_armature`). Marks
+> `implemented` at the Armature P3 close; the `v1.x` OIP re-anchor stays a deferred sub-stub (gated on the future
+> `aDNA.aDNA` OIP-unification campaign).
 
 **Archived (non-canonical):** `_inherited_scaffold/` holds 6 inherited `campaign_adna_polish` template ideas (demo
 GIF · plugin trim · inner-README III · custom logo · banner variants · startup optimization) — they concern the aDNA

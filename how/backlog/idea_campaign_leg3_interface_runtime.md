@@ -2,7 +2,7 @@
 idea_id: idea_campaign_leg3_interface_runtime
 title: "Leg-3 Interface Runtime — canvas-as-surface build (Salon follow-on)"
 category: technical
-status: proposed
+status: planned
 priority: high
 effort: plan
 proposed_by: agent_stanley
@@ -10,7 +10,7 @@ proposed_date: 2026-06-22
 created: 2026-06-22
 updated: 2026-06-22
 last_edited_by: agent_stanley
-plan_id:
+plan_id: campaign_canvas_armature
 tags: [backlog, canvas, salon, leg3, interface, surface, runtime, interaction, follow-on]
 ---
 
@@ -65,6 +65,9 @@ Scope seed, carried from Salon P4 + the campaign Completion Summary §Descoped:
 
 ## Decision
 
-*(open — `proposed`. Graduates to a mission/campaign when the operator commits; set `status: planned` + `plan_id` then.
-The leg-3 runtime is the remaining frontier of the canvas-as-surface thesis — gated on operator commit + the OIP
-cross-vault dependency, not on any Salon deliverable.)*
+**GRADUATED 2026-06-22 → `campaign_canvas_armature` (Operation Armature).** The operator committed at the Salon-close
+follow-on; the campaign was chartered + ratified (P0→P1 gate) as a 4-phase build (P0 charter → P1 governed
+advisory-reverse write runtime → P2 the `canvas_std` firewall touch + `interaction_version` Standard-version cut, gated
+by `adr_007` → P3 close). `status: planned`, `plan_id: campaign_canvas_armature`. The OIP `v1.x` re-anchor remains a
+deferred sub-item (D8 — filed as its own stub at the Armature P3 close, gated on the future `aDNA.aDNA` OIP campaign).
+Mark `implemented` at the Armature P3 close.
