@@ -1,12 +1,16 @@
-# AGENTS.md — `canvas_context` (leg-2 reference loader)
+# AGENTS.md — `canvas_context` (leg-2 reference loader + leg-3 interaction surface)
 
-Code-as-WHAT object under `Canvas.aDNA/what/code/`. Built in **Operation Salon P2** as the reference implementation of
-`what/specs/spec_canvas_context_loading.md`. Persona: **Mondrian**.
+Code-as-WHAT object under `Canvas.aDNA/what/code/`. Built in **Operation Salon P2** (leg-2 loader, reference impl of
+`what/specs/spec_canvas_context_loading.md`); extended in **Salon P4** with the leg-3 interaction surface
+(`interaction.py`, reference impl of `what/specs/spec_interface_surface.md` §3.1 + the `I-*` family). Persona: **Mondrian**.
 
 ## What this is
 
-A loader that turns a `.canvas` into a navigable **`ContextGraph`** — the *read-as-context* face of a canvas — with
-**no rendering**. It is a read-only **consumer** of `canvas_std`'s public API.
+- **Leg 2 (read-as-context):** a loader that turns a `.canvas` into a navigable **`ContextGraph`** — with **no
+  rendering**. A read-only **consumer** of `canvas_std`'s public API.
+- **Leg 3 (interaction surface):** a thin, additive **read-only extension** that *composes* the `ContextGraph` (an
+  `InteractionSurface` *has-a* `ContextGraph`) + a pure append-only `apply_response` fold — realizing the
+  `read → act → re-read` loop. It is **not** a capture runtime, renderer, or transport (ADR-006 §2 / spec §10.2).
 
 ## Hard rules (read before editing)
 
@@ -28,7 +32,10 @@ A loader that turns a `.canvas` into a navigable **`ContextGraph`** — the *rea
 | `src/canvas_context/loader.py` | §4 | `load_context_graph()` — the normative L1–L7 pipeline |
 | `src/canvas_context/resolver.py` | §5 | `Resolver` protocol + `DefaultPathResolver` (in-vault wikilink) |
 | `src/canvas_context/traversal.py` | §6 | the reading-order walk behind `ContextGraph.reading_order()` |
+| `src/canvas_context/interaction.py` | `spec_interface_surface` §3.1/§4/§8.2/§9.1 | **leg 3** — `load_interaction_surface()` + `InteractionSurface` (read) · `apply_response()` (append-only fold) · `validate_interaction_block()` (I-1/I-2/I-3) · `strip_interaction()` + `is_round_trip_safe()` (I-D) |
 | `tests/test_pilot.py` | §9.1 | the leg-2 proof — loads a real producer `.canvas` as context, no rendering |
+| `tests/test_interaction*.py` | leg-3 §9.1 | I-1/I-2/I-3 conformance · the read→act→re-read loop proof · I-D round-trip-to-baseline |
+| `tests/pilot_interaction_loop.py` + `tests/fixtures/` | leg-3 §10.2 | the runnable on-disk loop demo + the interaction-bearing golden (`interaction_review.canvas`, all 4 affordance kinds) |
 
 ## Run
 

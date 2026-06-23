@@ -148,10 +148,23 @@ memos filed.
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 5 | P4 — Minimal canvas-native interaction loop | 1-2 | P3 | planned (stretch) |
+| 5 | P4 — Minimal canvas-native interaction loop | 1-2 | P3 | completed |
 
 **Phase exit gate**: a minimal interaction loop demonstrated (operator annotates a canvas → agent reads it as context →
 responds), **or** the operator decides to charter a leg-3 build follow-on instead. Taken only if budget remains (D4).
+**✅ MET** — the loop is demonstrated (the `read → act → re-read` proof + the runnable on-disk demo); `canvas_std`
+firewall git-diff 0.
+
+> **P4 COMPLETE 2026-06-22** (operator chose "build P4" at the P3→P4 gate; mission `mission_p4_interaction_poc`,
+> `completed`). The stretch POC is built as a **read-only extension of `canvas_context`** (spec §10.2): the new additive
+> sibling `interaction.py` *composes* the leg-2 `ContextGraph` (an `InteractionSurface` *has-a* `ContextGraph`) + a pure
+> append-only `apply_response` fold (IX5/IX6) + the `I-1/I-2/I-3/I-D` realizations (first code realization of the `I-*`
+> family, housed in the consumer) + an interaction-bearing golden (all 4 affordance kinds) + the runnable `read → act →
+> re-read` demo. **The `read → act → re-read` loop closes live** — read an annotated canvas as context (leg-2 load, no
+> rendering) → agent responds → re-read shows the turn complete. **Verified:** `canvas_context` **50 passed** (28 leg-2 +
+> 22 leg-3); `canvas_std` **82/10 unchanged**; `ruff` clean; CLI `adna_native [OK]`; **firewall git-diff 0**. **➤ All
+> three thesis legs now exercised** (1+2 proven, 3 ratified *and* demonstrated). **⛔ HELD at the P4→P5 gate** — P5
+> (close) is the operator's separate call. Approved plan: `~/.claude/plans/please-read-the-claude-md-goofy-whistle.md`.
 
 ### Phase P5: Close
 

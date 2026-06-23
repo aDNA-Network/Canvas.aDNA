@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, salon, surface]
 |-------|-------|
 | Campaign | `campaign_canvas_salon` |
 | Owner | stanley |
-| Status | active (P3 COMPLETE 2026-06-22; **leg-3 spec RATIFIED** → three-leg thesis complete; P4 stretch / P5 close remain) |
-| Current Phase | P3 ✅ — `spec_interface_surface.md` **ratified** (operator, at all 9 defaults); `I-*` family folded into `spec_conformance_suite.md` §4.1; D8 memos filed. Legs 1+2 PROVEN, leg 3 RATIFIED. **⛔ HELD at the P3→P4 gate** (P4 = stretch POC, operator-gated — do not open; next is P4 *or* P5 close) |
+| Status | active (P4 COMPLETE 2026-06-22 — leg-3 interaction-loop POC built + demonstrated; three-leg thesis now all *exercised*; only P5 close remains) |
+| Current Phase | P4 ✅ — leg-3 stretch POC built (`mission_p4_interaction_poc`, `completed`): `canvas_context/interaction.py` (v0.2.0) composes the leg-2 `ContextGraph` + append-only `apply_response` fold + `I-1/I-2/I-3/I-D` + interaction golden (4 kinds) + the runnable `read → act → re-read` demo. **The loop closes live**; `canvas_context` **50 passed** (28+22), `canvas_std` **82/10 unchanged**, ruff clean, CLI `adna_native [OK]`, **firewall git-diff 0**. **⛔ HELD at the P4→P5 gate** — P5 (close) is the operator's separate call; never auto-advance. (Prior: P3 ✅ leg-3 ratified; legs 1+2 PROVEN.) |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_palette` (Operation Palette, completed 2026-06-22) |
 
