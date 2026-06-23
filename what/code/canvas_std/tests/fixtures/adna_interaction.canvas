@@ -1,0 +1,186 @@
+{
+  "nodes": [
+    {
+      "id": "review_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 600,
+      "height": 520,
+      "label": "Review"
+    },
+    {
+      "id": "summary_box",
+      "type": "text",
+      "x": 20,
+      "y": 20,
+      "width": 560,
+      "height": 80,
+      "text": "Summary: (pending)",
+      "isStartNode": true
+    },
+    {
+      "id": "decision_box",
+      "type": "text",
+      "x": 20,
+      "y": 120,
+      "width": 560,
+      "height": 80,
+      "text": "Decision: pending"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "x": 20,
+      "y": 220,
+      "width": 560,
+      "height": 140,
+      "text": "Draft body under review. See [[spec_interface_surface]]."
+    },
+    {
+      "id": "status_box",
+      "type": "text",
+      "x": 20,
+      "y": 380,
+      "width": 560,
+      "height": 80,
+      "text": "Status: open"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "fromNode": "summary_box",
+      "fromSide": "bottom",
+      "toNode": "decision_box",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e2",
+      "fromNode": "decision_box",
+      "fromSide": "bottom",
+      "toNode": "body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e3",
+      "fromNode": "body",
+      "fromSide": "bottom",
+      "toNode": "status_box",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "sync": {
+          "sync_hash": "50fa1a52f2119800"
+        },
+        "component_types": {
+          "review_root": {
+            "class": "panel",
+            "degrades_to": "group"
+          },
+          "summary_box": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "decision_box": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "status_box": {
+            "class": "text",
+            "degrades_to": "text"
+          }
+        },
+        "panel_link": {
+          "regions": {
+            "review_root": {
+              "flow": "vertical",
+              "pagination": "none"
+            }
+          },
+          "edges": {
+            "e1": {
+              "kind": "reading_order"
+            },
+            "e2": {
+              "kind": "reading_order"
+            },
+            "e3": {
+              "kind": "reading_order"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "review_root",
+              "role": "canonical",
+              "surface": "review"
+            }
+          ],
+          "anchors": {
+            "status_marker": "status_box"
+          }
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:review:armature-p2-golden",
+          "version": "0.1.0",
+          "summary": "An interaction-bearing golden — the Armature P2 harness conformance fixture (all four affordance kinds).",
+          "refs": []
+        },
+        "interaction": {
+          "interaction_version": "1.0",
+          "affordances": {
+            "summarize": {
+              "anchor": "summary_box",
+              "kind": "input",
+              "prompt": "Summarize this surface in one line.",
+              "required": true
+            },
+            "approve": {
+              "anchor": "decision_box",
+              "kind": "choice",
+              "prompt": "Approve, revise, or reject?",
+              "options": [
+                "approve",
+                "revise",
+                "reject"
+              ],
+              "required": true
+            },
+            "margin_note": {
+              "anchor": "body",
+              "kind": "annotation",
+              "prompt": "Add a margin note on the body.",
+              "required": false
+            },
+            "mark_reviewed": {
+              "anchor": "status_marker",
+              "kind": "action",
+              "prompt": "Mark this surface reviewed.",
+              "required": false
+            }
+          },
+          "responses": [],
+          "state": {
+            "turn": "t1",
+            "open": [
+              "summarize",
+              "approve"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

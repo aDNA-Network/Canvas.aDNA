@@ -2,6 +2,24 @@
 
 All notable changes to the leg-2 reference context-loader.
 
+## [0.3.1] — 2026-06-23
+
+Operation Armature **P2** — `validate_interaction_block` now **delegates to the `canvas_std` harness**. The
+`I-1`/`I-2`/`I-3` family was wired into `canvas_std` (`validate_interaction`) at P2 (`adr_007`); this consumer drops its
+own copy of the logic and becomes a thin delegate — one source of truth. Behavior-preserving (the 58 tests stay green).
+
+### Changed
+- `interaction.py::validate_interaction_block(doc, graph=None)` — body replaced with
+  `return canvas_std.validate_interaction(_reserved(doc), doc)`. The `graph` parameter is retained for API stability
+  (`InteractionSurface.validate_interaction` passes it); resolution uses the doc path (equivalent for a well-formed
+  surface). The now-dead local `_SEMVER` + `re` import are dropped (the regex lives in the harness); `AFFORDANCE_KINDS`
+  and the act-time `_value_kind_errors` guard (used by `apply_response`) stay.
+- `STANDARD_VERSION` `2.0.2 → 2.2.0`; package `0.3.0 → 0.3.1`.
+
+### Notes
+- Firewall (D6) lifted only on the Standard's side under `adr_007` (the P2 harness touch); `canvas_context` remains a
+  read-only consumer of `canvas_std`'s public API — now including `validate_interaction`.
+
 ## [0.3.0] — 2026-06-22
 
 Operation Armature **P1** — the leg-3 **governed advisory-reverse write runtime**. Promotes the Salon P4 POC's

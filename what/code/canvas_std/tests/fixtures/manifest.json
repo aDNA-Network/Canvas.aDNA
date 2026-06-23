@@ -81,6 +81,15 @@
       "expected_level_reached": "adna_native",
       "expected_ok": true,
       "note": "Long-form ride-on-text (B2, spec_component_model §4.4): quote/block_quote/attribution/footnote roles carried on class: text via semantic_type (no dedicated class); footnote qualities.ref -> a declared anchor (resolves, B1). Valid aDNA-Native."
+    },
+    {
+      "path": "adna_interaction.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "note": "Leg-3 interaction overlay (Armature P2, spec_interface_surface §9.1): _reserved.interaction with all four affordance kinds (input/choice/annotation/action), one anchored via a panel_link.anchors label; I-1/I-2/I-3 validate natively through the harness. strip removes all _reserved incl. interaction -> extended-valid (D-1; the interaction layer is additive)."
     }
   ]
 }

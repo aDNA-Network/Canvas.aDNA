@@ -33,7 +33,7 @@ def test_validate_suite_outcome(entry):
     assert report.ok is entry["expected_ok"], f"{entry['path']}: ok {report.ok} != {entry['expected_ok']}"
     # a failing report carries structured failure records; a passing one carries none
     assert (report.failed == []) is entry["expected_valid"]
-    assert report.standard_version == "2.0.2"
+    assert report.standard_version == "2.2.0"
 
 
 def test_degradation_only_for_adna_native():

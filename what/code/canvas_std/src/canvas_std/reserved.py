@@ -3,6 +3,10 @@
 E1.4 implements ``validate_reserved`` + the ``component_types`` and ``panel_link`` sub-validators
 (spec_conformance_suite §4; spec_component_model §7; spec_panel_link_semantics §6; spec_context_object §4).
 
+Operation Armature P2 adds ``validate_interaction`` — the ``I-1``/``I-2``/``I-3`` family for the leg-3 interaction
+overlay (spec_interface_surface §9.1), wired into the aDNA-Native ``validate`` path per ``adr_007`` (the first
+leg-3 touch of the harness; it reuses the same node/anchor substrate the A-* checks already build).
+
 Spec: spec_adna_canvas_standard §7.
 """
 
@@ -53,6 +57,13 @@ LONGFORM_SEMANTIC_TYPES: frozenset[str] = frozenset({"quote", "block_quote", "fo
 
 _SEMVER = re.compile(r"^\d+\.\d+\.\d+")
 _HEX16 = re.compile(r"^[0-9a-f]{16}$")
+
+# Leg-3 interaction layer (spec_interface_surface §3.3/§9.1; wired into the harness at Armature P2 per adr_007).
+# The four affordance kinds partition what a participant can do at a point — a *closed* enum (IX3).
+AFFORDANCE_KINDS: tuple[str, ...] = ("input", "choice", "annotation", "action")
+# interaction_version is semver-shaped; "1.0" (2-part) and "1.0.0" (3-part) both accepted (spec §3.1). Deliberately
+# distinct from _SEMVER (3-part, for adna_version / context_object.version) — the interaction layer is 2-part-tolerant.
+_INTERACTION_SEMVER = re.compile(r"^\d+\.\d+(\.\d+)?$")
 
 
 def validate_reserved(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str]:
@@ -237,6 +248,103 @@ def validate_anchors(reserved: dict[str, Any], node_ids: set[str]) -> list[str]:
                 target = quals.get(key)
                 if isinstance(target, str) and target not in node_ids and target not in anchor_labels:
                     errors.append(f"A-5: component {nid!r} {key} references missing anchor {target!r}")
+    return errors
+
+
+def _interaction_value_kind_errors(aid: str, entry: dict[str, Any], value: Any) -> list[str]:
+    """IX5 value↔kind consistency: ``choice`` ∈ options · ``action`` ⇒ null · ``input``/``annotation`` non-null."""
+    errors: list[str] = []
+    kind = entry.get("kind")
+    if kind == "action":
+        if value is not None:
+            errors.append(f"I-3: action affordance {aid!r} response must carry no value (got {value!r})")
+    elif kind == "choice":
+        options = entry.get("options") or []
+        if value not in options:
+            errors.append(f"I-3: choice affordance {aid!r} value {value!r} not in declared options {list(options)}")
+    elif kind in ("input", "annotation"):
+        if value is None:
+            errors.append(f"I-3: {kind} affordance {aid!r} response value must not be null")
+    # an unknown kind is already flagged by I-2; no value check possible
+    return errors
+
+
+def validate_interaction(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str]:
+    """spec_interface_surface §9.1 — the ``I-1``/``I-2``/``I-3`` family for the leg-3 interaction overlay.
+
+    Validates ``_reserved.interaction``: **I-1** (well-formed overlay — semver ``interaction_version``, object
+    ``affordances``, list ``responses``, object ``state``), **I-2** (per affordance: its ``anchor`` resolves to a
+    node id or a declared ``panel_link.anchors`` label; ``kind`` ∈ the closed enum; ``options`` present iff
+    ``choice``), **I-3** (per response: it references a declared affordance with a kind-consistent value). A canvas
+    with no ``_reserved.interaction`` is **vacuously conformant** (I-1 — a non-interactive surface, spec §8).
+    Returns human-readable failures ([] == conformant).
+
+    Wired into the aDNA-Native ``validate`` path at Armature P2 (``adr_007``). The I-2 anchor-orphan substrate
+    (``validate_anchors``) is already run by ``validate_reserved`` on this same branch, so it is **not** re-run here:
+    this does I-1/I-2/I-3 only. ``doc`` supplies node ids; anchor labels come from ``panel_link.anchors`` (the
+    doc path only — ``canvas_std`` never imports a ``ContextGraph``; the dependency is one-way).
+    """
+    errors: list[str] = []
+    if not isinstance(reserved, dict):
+        return errors
+    block = reserved.get("interaction")
+    if not isinstance(block, dict) or not block:
+        return errors  # non-interactive surface: vacuously conformant (I-1)
+
+    # I-1 — well-formed overlay
+    iv = block.get("interaction_version")
+    if iv is not None and not (isinstance(iv, str) and _INTERACTION_SEMVER.match(iv)):
+        errors.append(f"I-1: interaction_version {iv!r} is not semver")
+    affs = block.get("affordances")
+    if affs is None:
+        affs = {}
+    elif not isinstance(affs, dict):
+        errors.append("I-1: affordances must be an object")
+        affs = {}
+    responses = block.get("responses")
+    if responses is None:
+        responses = []
+    elif not isinstance(responses, list):
+        errors.append("I-1: responses must be a list (append-only log)")
+        responses = []
+    if block.get("state") is not None and not isinstance(block.get("state"), dict):
+        errors.append("I-1: state must be an object")
+
+    # resolution sets — node ids (from the doc) + declared anchor labels (from panel_link.anchors)
+    node_ids = {n["id"] for n in doc.get("nodes", []) if isinstance(n, dict) and "id" in n}
+    pl = reserved.get("panel_link")
+    anchors = pl.get("anchors") if isinstance(pl, dict) else None
+    anchor_labels = set(anchors) if isinstance(anchors, dict) else set()
+
+    # I-2 — per affordance: anchor resolves; kind ∈ enum; options iff choice
+    for aid, entry in affs.items():
+        if not isinstance(entry, dict):
+            errors.append(f"I-2: affordance {aid!r} is not an object")
+            continue
+        anchor = entry.get("anchor")
+        if anchor not in node_ids and anchor not in anchor_labels:
+            errors.append(f"I-2: affordance {aid!r} anchor {anchor!r} does not resolve (orphaned affordance)")
+        kind = entry.get("kind")
+        if kind not in AFFORDANCE_KINDS:
+            errors.append(f"I-2: affordance {aid!r} kind {kind!r} not in {list(AFFORDANCE_KINDS)}")
+        options = entry.get("options")
+        if kind == "choice":
+            if not (isinstance(options, list) and options):
+                errors.append(f"I-2: choice affordance {aid!r} must declare a non-empty options[]")
+        elif options is not None:
+            errors.append(f"I-2: affordance {aid!r} (kind {kind!r}) must not declare options[]")
+
+    # I-3 — per response: references a declared affordance; value is kind-consistent
+    for i, r in enumerate(responses):
+        if not isinstance(r, dict):
+            errors.append(f"I-3: responses[{i}] is not an object")
+            continue
+        aid = r.get("affordance")
+        entry = affs.get(aid)
+        if not isinstance(entry, dict):
+            errors.append(f"I-3: responses[{i}] references undeclared affordance {aid!r}")
+            continue
+        errors += _interaction_value_kind_errors(str(aid), entry, r.get("value"))
     return errors
 
 

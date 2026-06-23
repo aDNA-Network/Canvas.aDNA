@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_interface_surface
 title: "aDNA Canvas interface-surface contract — a canvas as a human↔AI / human↔human interaction surface (Salon leg 3)"
-standard_version: "2.0.2"
+standard_version: "2.2.0"
 interaction_version: "1.0"
 status: ratified
 created: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
 phase: P3
 campaign_id: campaign_canvas_salon
@@ -21,9 +21,10 @@ tags: [spec, canvas, interface, surface, interaction, leg3, salon, rfc2119, cont
 > **Status: RATIFIED 2026-06-22 (operator, Operation Salon P3 gate, `campaign_canvas_salon`).** Ratified as drafted —
 > all 9 open questions resolved at their proposed defaults (see the closing §Ratification decisions). With this
 > ratification the **Canvas three-leg thesis is complete**: leg 1 (output) + leg 2 (context object) **proven**, leg 3
-> (interface surface) **specified-and-bounded**. The proposed `I-*` conformance family is folded into
-> [[spec_conformance_suite]] §4.1 (additive + optional; `interaction_version: 1.0`; formal Standard-version cut
-> deferred per the §Ratification-decisions Q7 default).** The third leg of the
+> (interface surface) **specified-and-bounded** (and, at **Operation Armature**, *built* — see the §10 note). The `I-*`
+> conformance family is folded into [[spec_conformance_suite]] §4.1 (additive + optional; `interaction_version: 1.0`,
+> **cut into Standard v2.2.0** at Armature P2 / [[adr_007_leg3_firewall_touch|adr_007]] — the Q7-deferred cut, now
+> made).** The third leg of the
 > [[adr_000_canvas_identity|ADR-000]] three-leg thesis: legs 1 (output, Operation Palette)
 > and 2 (context object, [[spec_canvas_context_loading|Salon P2]]) are **proven**; this spec **specifies-and-bounds**
 > leg 3. It is **spec-only** this campaign (Salon **D4**) — a **contract**, never a rendering engine, capture runtime,
@@ -250,9 +251,9 @@ A **conformant interaction surface**:
 - **MAY** be read by an extension of the leg-2 `canvas_context` loader; a dedicated runtime is **not** required
   (spec-only, D4).
 
-9.1. **Conformance family (proposed `I-*`).** Interaction conformance is an **aDNA-Native** feature, paralleling the
-single-row `A-5` (panel_link) and `A-7` (context_object) families in [[spec_conformance_suite]] §4. Proposed rows (to be
-added to the suite **at ratification**, not edited in by this draft):
+9.1. **Conformance family (`I-*`).** Interaction conformance is an **aDNA-Native** feature, paralleling the
+single-row `A-5` (panel_link) and `A-7` (context_object) families in [[spec_conformance_suite]] §4. The rows (folded
+into [[spec_conformance_suite]] §4.1 at Salon P3 ratification; **implemented in `canvas_std` at Armature P2**):
 
 | ID | Check |
 |----|-------|
@@ -269,16 +270,24 @@ added to the suite **at ratification**, not edited in by this draft):
 checks *format*; the *quality* of an interaction surface (is the interaction well-designed?) is the III framework's
 concern via the `iii/` wrapper, not this spec's.
 
-## 10. Reference implementation (forward-pointer)
+## 10. Reference implementation
 
-10.1. Leg 3 is **spec-only this campaign** (Salon **D4**): **no runtime is built here.** The contract stands on its own;
-a conformant reader is optional in this phase.
+> **Implemented (Operation Armature — [[adr_007_leg3_firewall_touch|adr_007]]).** The `I-*` family is wired into
+> `canvas_std` (`validate_interaction` on the aDNA-Native `validate()` path + `validate_suite` + the `canvas-std` CLI;
+> one interaction-bearing golden in the harness corpus), and `interaction_version 1.0` is **cut into Standard v2.2.0**
+> (P2). The governed advisory-reverse round-trip *write* runtime landed at Armature **P1** ([[spec_roundtrip_protocol_v2]]
+> §5). The consumer (`canvas_context`) delegates `I-*` to the harness — one source of truth. The Salon spec-only phase
+> that deferred all this is recorded below (10.1/10.2).
 
-10.2. The stretch **P4 POC** (if budget remains, D4) is the minimal `read → act → re-read` loop named in the campaign:
-an operator annotates a canvas → an agent re-reads it as context → responds. If built, a reference reader extends the
-leg-2 `canvas_context` loader **read-only** (e.g. `affordances()` / `surface_state()` accessors over the existing
-`ContextGraph`), preserving the `canvas_std` **firewall** (D6) — it **MUST NOT** become a capture runtime (that boundary
-is ISS's, ADR-006 §2). A full leg-3 *build* is deferred to a follow-on charter (Salon P5).
+10.1. Leg 3 was **spec-only at Salon** (Salon **D4**): no runtime was built there. The contract stands on its own;
+a conformant reader was optional in that phase.
+
+10.2. The stretch **P4 POC** (Salon D4) was the minimal `read → act → re-read` loop named in the campaign:
+an operator annotates a canvas → an agent re-reads it as context → responds. The reference reader extends the
+leg-2 `canvas_context` loader **read-only** (`affordances()` / `surface_state()` accessors over the existing
+`ContextGraph`), preserving the `canvas_std` **firewall** (D6) — it is **not** a capture runtime (that boundary
+is ISS's, ADR-006 §2). The full leg-3 *build* deferred here to a follow-on charter (Salon P5) **landed as Operation
+Armature** (P1 write runtime + P2 harness wiring & version cut).
 
 ## 11. Boundary (ADR-006)
 
@@ -337,7 +346,7 @@ as the decision log (the bold defaults are the ratified positions).
    standalone leg-3 suite. If folded, the suite gains an `I-*` family **at ratification** (a separate ratified edit).
 7. **Version bump.** Ratifying leg-3 adds a new `_reserved.interaction` key (additive, like `context_object` landed).
    Default: ship `standard_version: 2.0.2` + `interaction_version: 1.0`; the operator cuts the Standard version at a
-   deliberate release.
+   deliberate release. **(Done: cut into `standard_version: 2.2.0` at Operation Armature P2, 2026-06-23 / `adr_007`.)**
 8. **Participant identity model.** Default: minimal `{kind, id}`, both optional/advisory; richer identity/authz is out
    of scope (closer to OIP/ISS turf).
 9. **P4 POC.** Confirm the stretch POC is the minimal loop (operator annotates → agent re-reads as context → responds),

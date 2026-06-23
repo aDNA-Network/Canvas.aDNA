@@ -2,10 +2,10 @@
 type: spec
 spec_id: spec_conformance_suite
 title: "aDNA Canvas conformance suite — checks for Core / Extended / aDNA-Native"
-standard_version: "2.0.2"
+standard_version: "2.2.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
 phase: P3
 tags: [spec, canvas, conformance, validator, genesis, p3, interface, salon]
@@ -65,10 +65,12 @@ A Core-valid document **MUST** be a valid JSON Canvas 1.0 file (the degradation 
 
 Added at Operation Salon **P3** ratification (2026-06-22) for the leg-3 interface-surface contract
 ([[spec_interface_surface]] §4/§9). The family is **additive + optional** — a canvas without `_reserved.interaction`
-satisfies I-1 vacuously, so existing aDNA-Native documents are unaffected. It rides `interaction_version: 1.0`; the
-**formal Standard-version cut is deferred** (operator/FA at a deliberate release). The reference validator
-**implementation is forward-pointed** (built with a leg-3 reference reader, as the leg-2 loader was at Salon P2); I-2's
-anchor resolution **reuses the existing `canvas_std::validate_anchors`**.
+satisfies I-1 vacuously, so existing aDNA-Native documents are unaffected. It rides `interaction_version: 1.0`,
+**cut into Standard v2.2.0** at Operation Armature **P2** ([[adr_007_leg3_firewall_touch|adr_007]]). The reference
+validator is **implemented in `canvas_std`** (`validate_interaction` on the aDNA-Native `validate()` path, surfaced
+through `validate_suite` + the `canvas-std` CLI); I-2's anchor resolution **reuses the existing
+`canvas_std::validate_anchors`** (now in-tree alongside it). The consumer (`canvas_context`) delegates to it — one
+source of truth.
 
 | ID | Check |
 |----|-------|

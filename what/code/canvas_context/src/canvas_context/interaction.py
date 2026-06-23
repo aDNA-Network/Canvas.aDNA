@@ -15,31 +15,29 @@ Two clearly-separated halves:
   capture runtime (that boundary is ISS's, ADR-006 §2), not a renderer, not a transport, and it never writes the
   authoritative ``.lattice.yaml`` (the governed round-trip write is ``spec_roundtrip_protocol_v2``'s job, §2).
 
-Firewall (D6): ``canvas_std`` is imported **read-only** (public API + ``canvas_std.reserved`` for the anchor
-orphan check) and is never mutated. The dependency is one-way: ``canvas_context -> canvas_std``.
+Firewall (D6): ``canvas_std`` is imported **read-only** (public API incl. ``validate_interaction`` — the harness
+I-* validator the consumer now delegates to, wired in at Armature P2) and is never mutated. The dependency is
+one-way: ``canvas_context -> canvas_std``.
 """
 
 from __future__ import annotations
 
 import copy
 import json
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from canvas_std import ConformanceLevel, strip
+from canvas_std import ConformanceLevel, strip, validate_interaction
 from canvas_std import validate as core_validate
-from canvas_std.reserved import validate_anchors
 
 from canvas_context.loader import load_context_graph
 from canvas_context.model import ContextGraph
 
 # The four affordance kinds partition what a participant can do at a point (spec §3.3 / IX3 — a *closed* enum).
+# I-1/I-2/I-3 validation now lives in canvas_std (Armature P2, adr_007); this module keeps the enum it re-exports
+# and the act-time value/kind guard apply_response() uses (_value_kind_errors).
 AFFORDANCE_KINDS: tuple[str, ...] = ("input", "choice", "annotation", "action")
-
-# interaction_version is semver-shaped; "1.0" (2-part) and "1.0.0" (3-part) both accepted (spec §3.1).
-_SEMVER = re.compile(r"^\d+\.\d+(\.\d+)?$")
 
 
 # --- §3.1 record shapes -------------------------------------------------------------------------
@@ -212,81 +210,16 @@ def _value_kind_errors(aid: str, entry: dict[str, Any], value: Any) -> list[str]
 
 
 def validate_interaction_block(doc: dict[str, Any], graph: ContextGraph | None = None) -> list[str]:
-    """Realize ``I-1``/``I-2``/``I-3`` (spec §9.1) over a doc's ``_reserved.interaction``.
+    """Realize ``I-1``/``I-2``/``I-3`` (spec_interface_surface §9.1) over a doc's ``_reserved.interaction``.
 
-    Returns a list of human-readable failures ([] == conformant). A canvas with no ``_reserved.interaction`` is
-    **vacuously conformant** (I-1 — a non-interactive surface, §8). Reuses ``canvas_std::validate_anchors`` for
-    the anchor-map orphan check (the I-2 substrate, §5.2).
+    A **thin delegate** to ``canvas_std.validate_interaction`` — Armature P2 (``adr_007``) wired the family into the
+    harness, so the Standard's reference validator is now the single source of the logic (the consumer no longer
+    duplicates it). Returns human-readable failures ([] == conformant); a canvas with no ``_reserved.interaction`` is
+    vacuously conformant (a non-interactive surface, §8). The ``graph`` parameter is retained for API stability
+    (``InteractionSurface.validate_interaction`` passes it) — resolution uses the doc path, which is equivalent for a
+    well-formed surface (the graph is derived from the same doc).
     """
-    errors: list[str] = []
-    block = _interaction_block(doc)
-    if not block:
-        return errors  # non-interactive surface: vacuously conformant (I-1)
-
-    # I-1 — well-formed overlay
-    iv = block.get("interaction_version")
-    if iv is not None and not (isinstance(iv, str) and _SEMVER.match(iv)):
-        errors.append(f"I-1: interaction_version {iv!r} is not semver")
-    affs = block.get("affordances")
-    if affs is None:
-        affs = {}
-    elif not isinstance(affs, dict):
-        errors.append("I-1: affordances must be an object")
-        affs = {}
-    responses = block.get("responses")
-    if responses is None:
-        responses = []
-    elif not isinstance(responses, list):
-        errors.append("I-1: responses must be a list (append-only log)")
-        responses = []
-    if block.get("state") is not None and not isinstance(block.get("state"), dict):
-        errors.append("I-1: state must be an object")
-
-    # resolution sets — node ids and declared anchor labels
-    if graph is not None:
-        node_ids = {c.id for c in graph.components()}
-        anchor_labels = set(graph.anchors())
-    else:
-        node_ids = {n["id"] for n in doc.get("nodes", []) if isinstance(n, dict) and "id" in n}
-        pl = _reserved(doc).get("panel_link")
-        anchors = pl.get("anchors") if isinstance(pl, dict) else None
-        anchor_labels = set(anchors) if isinstance(anchors, dict) else set()
-
-    # I-2 substrate — reuse the Standard's anchor orphan check on the whole _reserved block (§5.2)
-    reserved = _reserved(doc)
-    if reserved:
-        errors += validate_anchors(reserved, set(node_ids))
-
-    # I-2 — per affordance: anchor resolves; kind ∈ enum; options iff choice
-    for aid, entry in affs.items():
-        if not isinstance(entry, dict):
-            errors.append(f"I-2: affordance {aid!r} is not an object")
-            continue
-        anchor = entry.get("anchor")
-        if anchor not in node_ids and anchor not in anchor_labels:
-            errors.append(f"I-2: affordance {aid!r} anchor {anchor!r} does not resolve (orphaned affordance)")
-        kind = entry.get("kind")
-        if kind not in AFFORDANCE_KINDS:
-            errors.append(f"I-2: affordance {aid!r} kind {kind!r} not in {list(AFFORDANCE_KINDS)}")
-        options = entry.get("options")
-        if kind == "choice":
-            if not (isinstance(options, list) and options):
-                errors.append(f"I-2: choice affordance {aid!r} must declare a non-empty options[]")
-        elif options is not None:
-            errors.append(f"I-2: affordance {aid!r} (kind {kind!r}) must not declare options[]")
-
-    # I-3 — per response: references a declared affordance; value is kind-consistent
-    for i, r in enumerate(responses):
-        if not isinstance(r, dict):
-            errors.append(f"I-3: responses[{i}] is not an object")
-            continue
-        aid = r.get("affordance")
-        entry = affs.get(aid)
-        if not isinstance(entry, dict):
-            errors.append(f"I-3: responses[{i}] references undeclared affordance {aid!r}")
-            continue
-        errors += _value_kind_errors(str(aid), entry, r.get("value"))
-    return errors
+    return validate_interaction(_reserved(doc), doc)
 
 
 # --- the act + re-read steps (a pure append-only fold) ------------------------------------------

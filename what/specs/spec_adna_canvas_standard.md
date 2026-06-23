@@ -2,10 +2,10 @@
 type: spec
 spec_id: spec_adna_canvas_standard
 title: "aDNA Canvas Standard v2.0.0 — normative specification"
-standard_version: "2.0.2"
+standard_version: "2.2.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-12
+updated: 2026-06-23
 last_edited_by: agent_stanley
 phase: P2
 upstream_baseline: "Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A)"

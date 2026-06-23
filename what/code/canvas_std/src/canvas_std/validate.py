@@ -154,6 +154,7 @@ def validate(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.COR
             errors.append("A-2: aDNA-Native canvas requires a populated metadata.frontmatter._reserved block")
         else:
             errors += reserved.validate_reserved(reserved_block, doc)
+            errors += reserved.validate_interaction(reserved_block, doc)  # I-* leg-3 overlay (Armature P2, adr_007)
     return errors
 
 

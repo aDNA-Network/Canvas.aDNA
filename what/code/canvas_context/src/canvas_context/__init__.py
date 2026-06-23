@@ -43,9 +43,9 @@ from canvas_context.resolver import (
     Resolver,
 )
 
-__version__ = "0.3.0"  # package version (0.3.0 — leg-3 governed advisory-reverse write runtime, Armature P1)
+__version__ = "0.3.1"  # package version (0.3.1 — validate_interaction_block now delegates to the canvas_std harness, Armature P2)
 SPEC = "spec_canvas_context_loading"  # the leg-2 protocol this realizes (leg-3: spec_interface_surface)
-STANDARD_VERSION = "2.0.2"  # the aDNA Canvas Standard version the loaded canvases conform to
+STANDARD_VERSION = "2.2.0"  # the aDNA Canvas Standard version the loaded canvases conform to (cut at Armature P2)
 
 __all__ = [
     "__version__",

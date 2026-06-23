@@ -3,6 +3,36 @@
 All notable changes to the reference implementation. The package version is distinct from the Standard version
 it implements (`STANDARD_VERSION`).
 
+## [2.2.0] — 2026-06-23 (Operation Armature P2 — I-* wired into the harness + the interaction_version cut)
+
+The **first deliberate edit to `canvas_std` since Operation Keystone** — bounded to the two purposes `adr_007`
+authorizes (the firewall lifts only for P2; P0/P1/P3 stay git-diff 0). Builds on Standard v2.0.2 (the AT-1/AT-2
+errata cut). The P2 exit gate is **full-regression-green**, not git-diff 0 (`adr_007` §3).
+
+### Added (I-* interaction conformance — spec_interface_surface §9.1)
+- `reserved.py`: **`validate_interaction(reserved, doc)`** — the `I-1`/`I-2`/`I-3` family for the leg-3
+  `_reserved.interaction` overlay (well-formed overlay; per-affordance anchor resolution + closed `kind` enum +
+  `options`-iff-`choice`; per-response declared-affordance + kind-consistent value). **Doc-path only** (no
+  `ContextGraph` import — the dependency stays one-way); reuses the node/anchor substrate `validate_reserved` already
+  builds and does **not** re-run `validate_anchors` (no double A-5). Adds `AFFORDANCE_KINDS` + a 2-part-tolerant
+  `_INTERACTION_SEMVER` (distinct from the 3-part `_SEMVER`).
+- `validate.py`: dispatch `validate_interaction` on the aDNA-Native path (after `validate_reserved`); surfaces through
+  `validate_suite` + the `canvas-std` CLI with no further wiring. Re-exported from `__init__`.
+- `tests/fixtures/adna_interaction.canvas` (all four affordance kinds; one label-anchored affordance) + a manifest
+  entry; `tests/test_interaction.py` (valid e2e; I-2 orphan; I-3 bad value; D-1 strip→Core; the no-double-A-5 guard;
+  the CLI validates the golden). **Suite: 105 passed / 10 skipped; `ruff` clean.**
+- The consumer `canvas_context.validate_interaction_block` becomes a **thin delegate** to this function (one source of
+  truth); **no producer regression** (brief 10 · deck 16 · document 37 · diagram 36 · comic 87 · letter 17 · post 20).
+
+### Standard release v2.2.0 CUT 2026-06-23 (operator-authorized at the P1→P2 gate, adr_007)
+- `interaction_version 1.0` graduated into a Standard version. Bumped `2.0.2 → 2.2.0` at: `STANDARD_VERSION`
+  (`__init__.py`), schema `title` + `x-standard-version` (**kept `$id`** — structural schema unchanged), `conformance.py`
+  (×3), `test_smoke.py` (×2) + `test_conformance.py` (×1), the 9 `what/specs/spec_*.md` `standard_version` frontmatters
+  + the `spec_federation_contract` example. Flipped the `spec_conformance_suite §4.1` + `spec_interface_surface §9.1/§10`
+  forward-pointers ("forward-pointed / deferred" → "implemented in `canvas_std`"). **v2.1.0 reserved for in-review LIP-0008.**
+- Fixtures' `_reserved.adna_version` stays `2.0.0` (a 2.0.0-authored canvas remains valid under the 2.2.0 validator —
+  the interaction layer is additive; D-1..D-3 round-trip-to-baseline hold on the interaction golden).
+
 ## [2.0.1] — 2026-06-20 (LIP queue errata — B1 + B3 + B2; Standard v2.0.1)
 ### Added (LIP queue B1 — anchor-layer validator)
 - `reserved.py`: `validate_anchors(reserved, node_ids)` — the `spec_panel_link_semantics` §5.3/§6 anchor layer

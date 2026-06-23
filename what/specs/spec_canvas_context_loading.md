@@ -2,10 +2,10 @@
 type: spec
 spec_id: spec_canvas_context_loading
 title: "aDNA Canvas context-loading & traversal protocol — loading a canvas as a context graph (Salon leg 2)"
-standard_version: "2.0.2"
+standard_version: "2.2.0"
 status: ratified
 created: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
 phase: P1
 campaign_id: campaign_canvas_salon

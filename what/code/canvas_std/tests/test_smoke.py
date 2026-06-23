@@ -13,7 +13,7 @@ from canvas_std.validate import ConformanceLevel
 
 
 def test_versions():
-    assert canvas_std.STANDARD_VERSION == "2.0.2"
+    assert canvas_std.STANDARD_VERSION == "2.2.0"
     assert canvas_std.__version__ == "0.1.0"
     assert "v5.6.6" in canvas_std.UPSTREAM_BASELINE
 
@@ -72,7 +72,7 @@ def test_cli_and_schema_live(capsys):
 
     assert _cli(["schema"]) == 0
     sch = canvas_std.json_schema()
-    assert sch["x-standard-version"] == "2.0.2" and "node" in sch["$defs"]
+    assert sch["x-standard-version"] == "2.2.0" and "node" in sch["$defs"]
     capsys.readouterr()
 
     fx = Path(__file__).parent / "fixtures"
