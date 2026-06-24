@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_armature
 type: campaign
 title: "Operation Armature — leg-3 interface runtime (governed write + the first canvas_std firewall touch)"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "5-9"
 calibrated_sessions: "5-8"
 estimation_class: build-with-governance-touch
@@ -12,9 +12,9 @@ mission_count: 4
 priority: high
 predecessor: campaign_canvas_salon
 created: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
-status_history: "planning (2026-06-22 open) → active (2026-06-22 P0 ratified) → ... "
+status_history: "planning (2026-06-22 open) → active (2026-06-22 P0 ratified) → completed (2026-06-23 P3 close)"
 tags: [campaign, canvas, armature, leg3, interface, surface, runtime, interaction, firewall]
 ---
 
@@ -149,11 +149,14 @@ dispatch). **⛔ HELD at the P2→P3 gate.**
 
 | Mission | Title | Sessions | Dependencies | Status |
 |---------|-------|----------|-------------|--------|
-| 4 | P3 — Validation, iii/ review, AAR, doc currency, OIP stub | 1 | P1, P2 | pending |
+| 4 | P3 — Validation, iii/ review, AAR, doc currency, OIP stub | 1 | P1, P2 | completed |
 
 **Phase exit gate**: cross-suite sweep green (no regression); structural `iii/` review of the runtime + pilot;
 Completion Summary + Campaign AAR filed; doc currency done; the leg-3 runtime backlog idea marked `implemented`; the OIP
-`v1.x` re-anchor filed as a deferred stub; `status: completed`.
+`v1.x` re-anchor filed as a deferred stub; `status: completed`. **✅ MET 2026-06-23** — sweep green (`canvas_std` 105/10
+· `canvas_context` 58 · 7 producers 223); `iii/feedback_2026_06_23_leg3_interaction_runtime.md` (0 High / 0 Med → SHIP);
+Completion Summary + Campaign AAR (above); patterns graduated → `context_canvas_surface_legs.md`; `idea_campaign_leg3_interface_runtime`
+`implemented`; `idea_oip_v1x_interface_reanchor` filed; `canvas_std` git-diff 0 restored; **campaign `completed`; P0–P3 pushed.**
 
 ## Decision Points
 
@@ -240,3 +243,80 @@ ratified 2026-06-22 at the agent's recommended values** (P0→P1 gate); the camp
 - **Version coordination.** LIP-0008 (A-5 relaxation) is in FA review → v2.1.0 on Final (closes 2026-06-27). D6 default
   reserves v2.1.0 for it and cuts `interaction_version 1.0` into **v2.2.0**, to avoid a two-change collision in one
   version; revisit at the P2 gate if LIP-0008 has already landed.
+
+## Completion Summary
+
+**Operation Armature COMPLETE — 2026-06-23.** The leg-3 interface *runtime* is built, the first deliberate `canvas_std`
+edit since Operation Keystone is landed under a ratified bounded-touch ADR, and the three-leg Canvas thesis is now
+fully runtime-enabled. A 4-phase build (Keystone model), HELD at every gate; the firewall touch was isolated to one
+separately-gated phase. Full regression green at close: **`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223**;
+`ruff` clean; `canvas-std 2.2.0` CLI validates the interaction golden `[OK]` (D-1/D-2/D-3).
+
+### Deliverables
+- **P0 — charter + decision record + ADR-007.** The 8-decision record (codename · arc · firewall posture ·
+  governed-write semantics · runtime home · version coordination · capture scope · OIP posture) + `adr_007` (the
+  leg-3 firewall-touch ADR, the inverse of Salon's firewall-preserving D6), **ratified at the agent's recs**.
+- **P1 — governed advisory-reverse write runtime (firewall-clean).** `canvas_context/reconcile.py` (0.2.0 → **0.3.0**):
+  `reconcile` (staleness gate · topology `diff` · three-way `merge` draft · §6 lossy-field restore · response payload) ·
+  `governed_apply` · `write_source_draft`, all over `canvas_std.roundtrip` read-only. A response advances the view →
+  reconciles to a **reviewed source draft**, never a silent write; the on-disk source is **byte-unchanged** (asserted).
+  8 tests + a runnable pilot. `canvas_std` git-diff 0 throughout.
+- **P2 — the firewall touch + the Standard-version cut.** `canvas_std.reserved.validate_interaction` (I-1/I-2/I-3) on
+  the aDNA-Native `validate()` path + `validate_suite` + the `canvas-std` CLI + one interaction golden; the consumer's
+  `validate_interaction_block` → a **thin delegate** (one source of truth). `interaction_version 1.0` **cut into Standard
+  v2.2.0** at every version site (schema `$id` kept; v2.1.0 reserved for LIP-0008); the `spec_conformance_suite §4.1` +
+  `spec_interface_surface §9.1/§10` forward-pointers flipped to "implemented." Firewall touch **+159/−9 across 9 files**;
+  the P2 exit gate was **full-regression-green** (not git-diff 0), per `adr_007` §3.
+- **P3 — close.** Structural `iii/` review (`iii/feedback_2026_06_23_leg3_interaction_runtime.md` — 0 High / 0 Med →
+  SHIP, 3 Low); patterns graduated → `what/context/context_canvas_surface_legs.md` (Principles 6–9); the leg-3 backlog
+  idea marked `implemented`; the OIP `v1.x` re-anchor filed as a deferred stub; doc currency; firewall restored to
+  git-diff 0; campaign closed; **P0–P3 pushed to GitHub-public `aDNA-Network/Canvas.aDNA`** (operator-authorized).
+
+### Descoped
+- **An unconditional authoritative write to `.lattice.yaml`** — the governed write is **advisory** (a reviewed draft);
+  `spec_roundtrip_protocol_v2 §1.2` forbids silent source propagation (D4).
+- **Capture runtime / gate engine** — stayed a thin pilot path; the gate engine remains ISS's (D7, ADR-006 §2).
+- **The OIP `v1.x` re-anchor build** — filed as a deferred stub only (D8; cross-vault dep on the unopened `aDNA.aDNA`
+  OIP-unification campaign).
+- **A `canvas_std` `[2.0.2]` CHANGELOG back-fill** — a pre-existing doc gap; firewall-gated out of P3 (a future
+  editorial PATCH; recorded in the `iii/` review L3 + the AAR).
+
+### Key Findings
+- **A governed write is governed *because* it is advisory.** The runtime's whole value is making the reverse path
+  *reviewable* — a draft + delta + staleness + conflicts + the response payload, with the on-disk source provably
+  byte-unchanged. The reuse line fell where the spec drew it: `merge`/`diff` already do the topology; the §6 lossy-field
+  restore + the never-touch-source discipline were the only net-new code.
+- **The firewall lifts cleanly as a bounded ADR.** Naming the single phase + two purposes + the replacement gate
+  (full-regression-green for git-diff 0) kept a "first-ever edit" to **+159/−9** — small, isolated, reviewable. Landing
+  the logic behind the old version's tests first (105 green at 2.0.2) proved non-breaking before the version cut.
+- **R1 was the load-bearing correctness call.** `validate_reserved` already runs `validate_anchors` on the aDNA-Native
+  branch, so the new `validate_interaction` must do I-1/I-2/I-3 *only* — a re-call would double-emit A-5. A dedicated
+  test locks it.
+- (Graduated to `context_canvas_surface_legs.md` Principles 6–9 + 2 anti-patterns.)
+
+### Scope Changes
+- The governed write is **advisory-reverse** (a reviewed draft), not the unconditional authoritative write the idea-stub
+  seed first named — the honest reading of `spec_roundtrip_protocol_v2 §1.2` (D4).
+- `canvas_context.STANDARD_VERSION` + package version bumped (`2.0.2`/`0.3.0` → `2.2.0`/`0.3.1`) beyond the plan's
+  "optional, leave" — for vault-wide coherence + to mark the delegate refactor.
+
+### Follow-Up
+- **`idea_oip_v1x_interface_reanchor`** (filed, deferred) — graduates to a mission when the `aDNA.aDNA` OIP-unification
+  campaign lands its interface/interaction thesis.
+- **A `canvas_std` `[2.0.2]` CHANGELOG back-fill** — future editorial PATCH (firewall-gated out of P3).
+- LIP-0008 (→ v2.1.0) closes 2026-06-27; v2.1.0 stays reserved for it.
+
+## Campaign AAR
+
+- **Worked**: the Keystone-model build with the firewall touch isolated to a single, separately-gated phase. P1 (the
+  larger build) stayed firewall-clean, so the *risky* edit (P2) was small and landed behind the old version's tests
+  first — green before the cut, a clean mechanical version pass after. Every gate HELD; nothing auto-advanced.
+- **Didn't**: nothing failed. The one real judgment was the consumer delegate — the *pure* delegate (dropping
+  `validate_anchors` from `validate_interaction_block`) held all 58 green because no test relied on that A-5 emission and
+  the well-formed fixture resolves its label anchor via the doc path (graph path == doc path).
+- **Finding**: "governed = advisory done safely" + "lift the firewall as a bounded ADR, swap git-diff-0 for
+  full-regression-green" are the two durable patterns — graduated to `context_canvas_surface_legs.md`.
+- **Change**: bumped the consumer's version constants (beyond the plan's optional) for coherence; surfaced the
+  pre-existing `[2.0.2]` CHANGELOG gap as a finding rather than fixing it in a git-diff-0 phase.
+- **Follow-up**: the OIP `v1.x` re-anchor stub (gated on the `aDNA.aDNA` OIP campaign) + the `[2.0.2]` CHANGELOG
+  back-fill (future editorial PATCH). The three-leg thesis is complete; no further Armature work.

@@ -5,8 +5,8 @@ tier: 2
 agent: agent_stanley
 persona: Mondrian
 created: 2026-06-22
-updated: 2026-06-22
-status: active
+updated: 2026-06-23
+status: completed
 campaign_id: campaign_canvas_armature
 campaign_phase: P0
 intent: "Open Operation Armature (the leg-3 interface runtime build — Salon's committed follow-on) and execute Phase P0: scaffold the campaign (master doc + CLAUDE.md + P0 mission), author the 8-decision P0 record, and draft ADR-007 (the ratifiable canvas_std firewall touch). No code. HOLD at the P0→P1 gate for operator ratification."

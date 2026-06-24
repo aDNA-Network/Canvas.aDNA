@@ -15,8 +15,8 @@ tags: [governance, campaign, canvas, armature, leg3, interface, runtime, firewal
 |-------|-------|
 | Campaign | `campaign_canvas_armature` |
 | Owner | stanley |
-| Status | 🟢 active (P0 + P1 + **P2 complete** — the `adr_007` firewall touch is done + green; HELD at the P2→P3 close gate) |
-| Current Phase | **⛔ HELD at the P2→P3 gate.** P2 (`mission_p2_firewall_touch_version_cut`) **completed 2026-06-23** — the first `canvas_std` edit since Keystone: `reserved.validate_interaction` (I-1/I-2/I-3) wired into the aDNA-Native `validate()` path + CLI + a golden; `canvas_context.validate_interaction_block` is now a thin delegate; **`interaction_version 1.0` cut → Standard v2.2.0**. **Full regression GREEN** (`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223; `ruff` clean); firewall touch +159/−9, reviewable. **P3 is close** (cross-suite sweep · `iii/` review · AAR · doc currency · mark the leg-3 idea `implemented` · OIP re-anchor stub) — operator approval required to cross. P0/P1 completed. |
+| Status | ✅ **COMPLETE 2026-06-23** (`status: completed`; P0–P3) — leg-3 interface runtime built; the first `canvas_std` firewall touch landed under `adr_007`; `interaction_version 1.0` cut → Standard **v2.2.0**; three-leg thesis fully runtime-enabled. P0–P3 pushed to GitHub-public. |
+| Current Phase | ✅ **Campaign CLOSED.** All 4 missions completed — P0 charter + `adr_007` · P1 governed advisory-reverse write runtime · P2 `I-*`→`canvas_std` harness + the v2.2.0 cut · P3 close. Full regression green (`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223); `iii/` review SHIP (0 High / 0 Med); patterns graduated → `context_canvas_surface_legs.md`; `idea_campaign_leg3_interface_runtime` `implemented`; OIP re-anchor stub filed; `canvas_std` git-diff 0 restored. Close record: `campaign_canvas_armature.md` §Completion Summary + §Campaign AAR. |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_salon` (Operation Salon, completed 2026-06-22 — this campaign builds its deferred leg-3 *runtime*) |
 

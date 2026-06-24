@@ -151,7 +151,7 @@ Canvas-specific guides graduated from campaigns (not topic directories):
 |------|---------|
 | `context_canvas_standard_doctrine.md` | The aDNA Canvas Standard — doctrine + invariants |
 | `context_canvas_producer_pattern.md` | How to build a producer on `canvas_std` (the **output** leg; proven 7×; Atelier+Palette graduation) |
-| `context_canvas_surface_legs.md` | How to exercise the **context-object** (leg 2) + **interface** (leg 3) legs over `canvas_std` (Operation Salon graduation) |
+| `context_canvas_surface_legs.md` | How to exercise the **context-object** (leg 2) + **interface** (leg 3) legs over `canvas_std`, incl. the leg-3 **runtime** — governed advisory-reverse write + the bounded firewall-touch ADR + consumer-delegates-to-harness (Salon + Armature graduation) |
 | `context_migration_parity_methodology.md` | Deterministic structural-parity proof for migrating/relocating a producer (Keystone) |
 | `context_recipes.md` | Cross-topic context assemblies (3-tier budget) |
 

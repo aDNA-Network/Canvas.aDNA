@@ -2,13 +2,13 @@
 idea_id: idea_campaign_leg3_interface_runtime
 title: "Leg-3 Interface Runtime — canvas-as-surface build (Salon follow-on)"
 category: technical
-status: planned
+status: implemented
 priority: high
 effort: plan
 proposed_by: agent_stanley
 proposed_date: 2026-06-22
 created: 2026-06-22
-updated: 2026-06-22
+updated: 2026-06-23
 last_edited_by: agent_stanley
 plan_id: campaign_canvas_armature
 tags: [backlog, canvas, salon, leg3, interface, surface, runtime, interaction, follow-on]
@@ -71,3 +71,14 @@ advisory-reverse write runtime → P2 the `canvas_std` firewall touch + `interac
 by `adr_007` → P3 close). `status: planned`, `plan_id: campaign_canvas_armature`. The OIP `v1.x` re-anchor remains a
 deferred sub-item (D8 — filed as its own stub at the Armature P3 close, gated on the future `aDNA.aDNA` OIP campaign).
 Mark `implemented` at the Armature P3 close.
+
+**✅ IMPLEMENTED 2026-06-23 (Operation Armature P3 close).** All four core scope seeds delivered: (1) the **governed
+round-trip write** landed at P1 as the *advisory-reverse* path (`canvas_context/reconcile.py` — a reviewed `_draft`,
+never a silent authoritative write; the on-disk source is byte-unchanged, honoring `spec_roundtrip_protocol_v2 §1.2`);
+(2) **`I-*` wired into the `canvas_std` harness** at P2 under ratified `adr_007` (`reserved.validate_interaction` on the
+aDNA-Native `validate()` path + CLI; the consumer is now a thin delegate); (3) **`interaction_version 1.0` cut into
+Standard v2.2.0** at P2. Scope refinements vs the seed: the *write* is **advisory** (a reviewed draft) per
+`spec_roundtrip_protocol_v2 §1.2`, not an unconditional authoritative write (D4); **capture / turn-lifecycle** stayed a
+thin pilot path, the gate engine remaining ISS's (D7). The **OIP `v1.x` re-anchor** is carried forward as its own
+deferred stub → [[idea_oip_v1x_interface_reanchor]] (D8; gated on the unopened `aDNA.aDNA` OIP-unification campaign).
+Full regression green throughout (`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223).

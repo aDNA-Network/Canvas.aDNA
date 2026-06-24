@@ -8,7 +8,7 @@ campaign_phase: 2
 mission: mission_p2_firewall_touch_version_cut
 owner: stanley
 persona: Mondrian
-status: active
+status: completed
 created: 2026-06-23
 updated: 2026-06-23
 last_edited_by: agent_stanley
@@ -102,3 +102,24 @@ AAR (`how/campaigns/campaign_canvas_armature/campaign_canvas_armature.md`) · do
 missing `canvas_std` `[2.0.2]` CHANGELOG entry) · mark `how/backlog/idea_campaign_leg3_interface_runtime.md`
 `implemented` · file the OIP `v1.x` re-anchor as a deferred stub (cross-vault dep on the unopened `aDNA.aDNA` OIP
 campaign) · set the campaign `status: completed`. Push is operator-gated (Git-Ops §3) — nothing pushed this session.
+
+## Update — P3 close + campaign CLOSED (same working session, 2026-06-23)
+
+The operator approved crossing the P2→P3 gate and (AskUserQuestion) authorized **push after P3 close**. P3 ran straight
+through (no `canvas_std` edit — the firewall is back to git-diff 0):
+- **Validation**: cross-suite sweep green (`canvas_std` 105/10 · `canvas_context` 58 · 7 producers 223; ruff clean);
+  `git status -s -- what/code/canvas_std/` clean.
+- **`iii/` review**: `iii/feedback_2026_06_23_leg3_interaction_runtime.md` — structural code/design review (panel adapted;
+  visual/pixel N/A), **0 High / 0 Med → SHIP**, 3 Low (incl. the pre-existing `[2.0.2]` CHANGELOG gap = L3).
+- **Graduation**: extended `what/context/context_canvas_surface_legs.md` (Principles 6–9 — governed-write, bounded
+  firewall-touch ADR, consumer-delegates-to-harness, land-logic-then-cut-version — + 2 anti-patterns + the rec) + the
+  `what/context/AGENTS.md` row.
+- **Backlog**: `idea_campaign_leg3_interface_runtime` → `implemented`; filed `idea_oip_v1x_interface_reanchor` (deferred,
+  D8); updated `how/backlog/AGENTS.md`.
+- **Close**: campaign Completion Summary + Campaign AAR; `mission_p3_close.md`; campaign `status: completed`; campaign
+  CLAUDE.md + project `CLAUDE.md` banner + `STATE.md` currency; both Armature sessions → `history/2026-06/`.
+- **Push**: committed P3 + **pushed P0–P3 to GitHub-public `aDNA-Network/Canvas.aDNA`** (gitleaks pre-push hook clean).
+
+**Deferred follow-ups:** the OIP `v1.x` re-anchor (gated on the `aDNA.aDNA` OIP campaign) + the `canvas_std` `[2.0.2]`
+CHANGELOG back-fill (future editorial PATCH; firewall-gated out of P3). **Operation Armature is CLOSED; no active
+campaign.** Next work is operator-directed.

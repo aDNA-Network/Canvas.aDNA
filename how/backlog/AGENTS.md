@@ -138,7 +138,8 @@ When an idea accumulates enough context and gets user buy-in:
 
 | Idea | Category | Status | Priority | Effort |
 |------|----------|--------|----------|--------|
-| `idea_campaign_leg3_interface_runtime` | technical | planned → `campaign_canvas_armature` | high | plan |
+| `idea_campaign_leg3_interface_runtime` | technical | implemented (Armature P3, 2026-06-23) | high | plan |
+| `idea_oip_v1x_interface_reanchor` | technical | proposed (deferred — gated on the `aDNA.aDNA` OIP campaign) | high | session |
 | `idea_deck_generator_canvas_pilot` | pipeline | implemented | high | plan |
 | `idea_upstream_fork_inherits_stale_backlog` | governance | proposed | medium | quick |
 
@@ -146,9 +147,10 @@ When an idea accumulates enough context and gets user buy-in:
 > (the deferred leg-3 interaction **runtime** build: governed `.lattice.yaml` round-trip write + `I-*` into the
 > `canvas_std` harness + the `interaction_version 1.0` Standard-version cut + the `v1.x` OIP re-anchor). **GRADUATED
 > 2026-06-22 → Operation Armature (`campaign_canvas_armature`)** — operator committed at the Salon-close follow-on;
-> chartered + ratified (P0→P1) as a 4-phase build (`status: planned`, `plan_id: campaign_canvas_armature`). Marks
-> `implemented` at the Armature P3 close; the `v1.x` OIP re-anchor stays a deferred sub-stub (gated on the future
-> `aDNA.aDNA` OIP-unification campaign).
+> chartered + ratified (P0→P1) as a 4-phase build. **✅ IMPLEMENTED 2026-06-23 at the Armature P3 close** (P1 governed
+> advisory-reverse write · P2 `I-*`→`canvas_std` harness + the `interaction_version 1.0` → Standard **v2.2.0** cut · P3
+> close); full regression green throughout. The `v1.x` OIP re-anchor is filed as its own deferred stub →
+> `idea_oip_v1x_interface_reanchor` (D8; gated on the unopened `aDNA.aDNA` OIP-unification campaign).
 
 **Archived (non-canonical):** `_inherited_scaffold/` holds 6 inherited `campaign_adna_polish` template ideas (demo
 GIF · plugin trim · inner-README III · custom logo · banner variants · startup optimization) — they concern the aDNA
