@@ -153,6 +153,8 @@ Canvas-specific guides graduated from campaigns (not topic directories):
 | `context_canvas_producer_pattern.md` | How to build a producer on `canvas_std` (the **output** leg; proven 7×; Atelier+Palette graduation) |
 | `context_canvas_surface_legs.md` | How to exercise the **context-object** (leg 2) + **interface** (leg 3) legs over `canvas_std`, incl. the leg-3 **runtime** — governed advisory-reverse write + the bounded firewall-touch ADR + consumer-delegates-to-harness (Salon + Armature graduation) |
 | `context_migration_parity_methodology.md` | Deterministic structural-parity proof for migrating/relocating a producer (Keystone) |
+| `context_canvas_topology_graphs.md` | **Node-Link / Topology Graphs** chapter — the graph-specific design layer (10 gap items: crossing reduction, bundling, focus-dimming, enclosure, state-luminance, hub sizing, swimlane, force-vs-layered, legend, minimap) with worked examples (contributed by Home.aDNA / Prytaneion M6.3) |
+| `context_canvas_visual_in_the_loop.md` | **Visual-in-the-loop** producer standard — "no canvas ships without an agent-confirmed render"; the design→render→screenshot→inspect→re-render loop (contributed by Home.aDNA / Prytaneion M6.3) |
 | `context_recipes.md` | Cross-topic context assemblies (3-tier budget) |
 
 ## Load/Skip Decision
