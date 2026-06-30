@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_lodestar
 type: campaign
 title: "Operation Lodestar — Canvas Standard review & strategic positioning"
 owner: stanley
-status: planning
+status: active
 estimated_sessions: "1-3"
 phase_count: 3
 mission_count: 1
@@ -12,7 +12,7 @@ predecessor: campaign_canvas_armature
 created: 2026-06-30
 updated: 2026-06-30
 last_edited_by: agent_mondrian
-status_history: "planning (2026-06-30 chartered from a Mondrian/Canvas session — awaits operator ratify of scope at the P0→P1 gate; the review itself runs in a fresh post-/clear session)"
+status_history: "planning (2026-06-30 chartered from a Mondrian/Canvas session — awaits operator ratify of scope at the P0→P1 gate; the review itself runs in a fresh post-/clear session) → active (2026-06-30, P0 ratified: D1=let-the-review-recommend · D4=assessment-only · D2/D3=recommend-don't-decide; session session_stanley_20260630_145035_lodestar_review running P1+P2)"
 tags: [campaign, canvas, lodestar, review, positioning, standard, documentation, context_graph, rlhf, primitive]
 ---
 

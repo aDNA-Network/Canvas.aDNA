@@ -2,7 +2,7 @@
 type: mission
 mission_id: mission_lodestar_review
 related_campaign: campaign_canvas_lodestar
-status: pending
+status: completed
 phase: P1
 created: 2026-06-30
 updated: 2026-06-30
@@ -71,4 +71,10 @@ existing specs/ADRs as source of truth · the 3-track recon structure already ru
 
 ## AAR
 
-*Mandatory before `status: completed` (SO-5).* — [TBD at P1 close]
+*5-line AAR (SO-5) — 2026-06-30, session `…_145035_lodestar_review`.*
+
+- **Worked:** three parallel read-only review agents (A technical · B docs · C positioning) returned dense, file-cited evidence in one pass; the `canvas_std`/`canvas_context`/7-producer suites ran **green from per-component venvs** without touching the firewall (`git status -s -- what/code/canvas_std/` stayed clean); the seeded gap register let synthesis start from evidence, not a blank page.
+- **Didn't:** the seeded register carried **five inaccuracies** — test total (386+10, not ~319), spec count (9, not 10), "no CHANGELOG" (one exists, code-scope), RLHF "adjacent/audit-trail" (a built, live package exists), "no cert kit" (raw materials exist). An Explore-only recon under-counted and under-read.
+- **Finding:** the gap is **articulation, not engineering** — every framing is served by the `_reserved`-over-view model; and a working **Canvas-as-RLHF-surface** (13 live `SelectionRecord`s + an III ADR-005 bridge) is buried in a producer and undersold.
+- **Change:** future "assess work-to-date" missions must **run the harness + read the code** in P1, not trust a prior Explore recon's numbers; treat seeded findings as hypotheses to verify.
+- **Follow-up:** operator gates the P2 follow-on (recommended: docs sprint Tier 0+1 + governance unblock Tier 3 → v2.1.0); the D3 LIP-numbering decision; the spec-it (i)/(ii) work staged. Deliverables: `missions/artifacts/lodestar_{gap_register,positioning_assessment,recommendations}.md`.
