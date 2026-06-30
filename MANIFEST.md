@@ -22,7 +22,7 @@ The thesis: a *canvas* — a possibly-linked set of panels carrying positioned *
 
 Canvas.aDNA is the **standard-bearer**. **CanvasForge** (Hermes — spatial substrate; decks/comics) and **LiteratureForge** (Thoth — document forge) are **producers** that consume the Standard.
 
-> **Repo visibility** (Git.aDNA P6 Wave 2, 2026-06-22): this vault's repo `github.com/aDNA-Network/Canvas.aDNA` (branch `master`) is now **GitHub-public**, class **P-released**, under Git.aDNA governance — visibility-flipped private→public via the agnostic `gitops_set_visibility` verb (ADR-013 host-role inversion; released-FOSS → GitHub-public). Fresh full-history `gitleaks` scan (62 commits) clean. Visibility-only — `origin` unchanged, no `rollback` remote, no Home §C shim. Git-ops declaration: `git/CLAUDE.md`; doctrine: `CLAUDE.md` → `## Git-Ops`.
+> **Repo visibility** (Git.aDNA P6 Wave 2, 2026-06-22): this vault's repo `github.com/aDNA-Network/Canvas.aDNA` (branch `master`) is now **GitHub-public**, class **P-released**, under Git.aDNA governance — visibility-flipped private→public via the agnostic `gitops_set_visibility` verb (ADR-013 host-role inversion; released-FOSS → GitHub-public). Fresh full-history `gitleaks` scan (62 commits) clean. Visibility-only — `origin` unchanged, no `rollback` remote, no Home §C shim. Git-ops declaration: `how/federation/git/CLAUDE.md`; doctrine: `CLAUDE.md` → `## Git-Ops`.
 
 ## Status
 
