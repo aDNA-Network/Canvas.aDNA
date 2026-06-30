@@ -73,7 +73,7 @@ Do NOT use this skill to:
 
 ### Step 2 — Author `iii/CLAUDE.md`
 
-Create `<consumer_vault>/iii/CLAUDE.md`. Use this skeleton (fill the bracketed values):
+Create `<consumer_vault>/how/federation/iii/CLAUDE.md`. Use this skeleton (fill the bracketed values):
 
 ```markdown
 ---
@@ -122,7 +122,7 @@ federation_ref:
   local_extensions:
     # See Step 5 — declare any consumer-specific extensions here
     - kind: learning_store_local
-      path: ~/aDNA/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
+      path: ~/aDNA/<vault_name>.aDNA/how/federation/iii/what/context/<vault_name>_iii_learning_store.jsonl
       rationale: Per ADR-003 §2 at III.aDNA; ACCUMULATE writes target this file, never the canonical upstream.
 ```
 
@@ -243,8 +243,8 @@ Always:    1 × learning_store_local (seeded empty)
 Create the empty file:
 
 ```bash
-mkdir -p ~/aDNA/<vault_name>.aDNA/iii/what/context/
-touch ~/aDNA/<vault_name>.aDNA/iii/what/context/<vault_name>_iii_learning_store.jsonl
+mkdir -p ~/aDNA/<vault_name>.aDNA/how/federation/iii/what/context/
+touch ~/aDNA/<vault_name>.aDNA/how/federation/iii/what/context/<vault_name>_iii_learning_store.jsonl
 ```
 
 Per ADR-003 §2:
@@ -260,7 +260,7 @@ Per ADR-003 §2:
 Add a Standing Order (or Standing Rule, whichever the vault uses) routing all III review through the new wrapper. Place it after the last existing Standing Order. Template:
 
 ```markdown
-**Standing Order N** ([YYYY-MM-DD]) — III review routes through the `iii/` wrapper at `<vault_name>/iii/CLAUDE.md`. The wrapper pins III.aDNA at version `<X.Y.Z>` (commit `<short_hash>`) per ADR-002 §3. Local extensions: <enumerate kind: path pairs>. ACCUMULATE writes target the local learning store at `<path>` per ADR-003 §2; the canonical upstream at `~/aDNA/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` is read-only from this vault.
+**Standing Order N** ([YYYY-MM-DD]) — III review routes through the `iii/` wrapper at `<vault_name>/how/federation/iii/CLAUDE.md`. The wrapper pins III.aDNA at version `<X.Y.Z>` (commit `<short_hash>`) per ADR-002 §3. Local extensions: <enumerate kind: path pairs>. ACCUMULATE writes target the local learning store at `<path>` per ADR-003 §2; the canonical upstream at `~/aDNA/III.aDNA/what/context/core_domain_packs/iii_corrections_canonical.jsonl` is read-only from this vault.
 ```
 
 Precedent voice (mirror these for tonal consistency):
@@ -276,7 +276,7 @@ Precedent voice (mirror these for tonal consistency):
 Check whether any other vaults federate against THIS vault as a `source_vault`. If yes, the wrapper edits must be additive only — never move or rename paths that downstream wrappers pin.
 
 ```bash
-grep -r "source_vault:.*<vault_name>" ~/aDNA/*/iii/CLAUDE.md ~/aDNA/*/*/CLAUDE.md 2>/dev/null
+grep -r "source_vault:.*<vault_name>" ~/aDNA/*/how/federation/iii/CLAUDE.md ~/aDNA/*/*/CLAUDE.md 2>/dev/null
 ```
 
 Expected outcomes:
@@ -303,7 +303,7 @@ For each hit:
 If you have write access to III.aDNA, add a row to the MANIFEST.md § Active Consumers table:
 
 ```markdown
-| `<vault_name>.aDNA` | `<vault_name>.aDNA/iii/` | <packs_used joined by comma> | **<MB-N> ✅ <YYYY-MM-DD>** — pinned at `vX.Y.Z` (commit `<hash>`); N/7 canonical packs; M modules; K local_extensions (enumerated) |
+| `<vault_name>.aDNA` | `<vault_name>.aDNA/how/federation/iii/` | <packs_used joined by comma> | **<MB-N> ✅ <YYYY-MM-DD>** — pinned at `vX.Y.Z` (commit `<hash>`); N/7 canonical packs; M modules; K local_extensions (enumerated) |
 ```
 
 If you do not have write access (or the new consumer is external to the Lattice ecosystem), the wrapper still works — III.aDNA's MANIFEST is informational, not a runtime gate.
@@ -312,9 +312,9 @@ If you do not have write access (or the new consumer is external to the Lattice 
 
 | Output | Type | Description |
 |--------|------|-------------|
-| `<vault>/iii/CLAUDE.md` | new file | Federation wrapper (federation_ref + body) |
-| `<vault>/iii/what/context/<vault>_iii_learning_store.jsonl` | new file (0 bytes) | Local learning store |
-| `<vault>/iii/what/context/<extension files>` | new files (if any) | Any `domain_pack` / `bridge_pack` / `local_skill` / `reviewer_registry` artifacts declared in `local_extensions` |
+| `<vault>/how/federation/iii/CLAUDE.md` | new file | Federation wrapper (federation_ref + body) |
+| `<vault>/how/federation/iii/what/context/<vault>_iii_learning_store.jsonl` | new file (0 bytes) | Local learning store |
+| `<vault>/how/federation/iii/what/context/<extension files>` | new files (if any) | Any `domain_pack` / `bridge_pack` / `local_skill` / `reviewer_registry` artifacts declared in `local_extensions` |
 | `<vault>/CLAUDE.md` | edited | Standing Order added |
 | `~/aDNA/III.aDNA/MANIFEST.md` Active Consumers row | edited (optional) | New consumer registered |
 | Optional: `<vault>/what/context/iii_domain_packs/MIGRATION_NOTE.md` | new file | If migrating from pre-federation, document the disposition of retired artifacts |
