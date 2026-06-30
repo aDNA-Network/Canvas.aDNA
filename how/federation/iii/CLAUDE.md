@@ -76,7 +76,7 @@ federation_ref:
   lattice: ~/aDNA/III.aDNA/what/lattices/lattice_iii_verification_oracle.lattice.yaml
   local_extensions:
     - kind: learning_store_local
-      path: ~/aDNA/Canvas.aDNA/iii/what/context/canvas_iii_learning_store.jsonl
+      path: ~/aDNA/Canvas.aDNA/how/federation/iii/what/context/canvas_iii_learning_store.jsonl
       rationale: >
         Per III ADR-003 §2 — ACCUMULATE writes target this local store; canonical
         upstream corrections are read-only from the consumer side.
@@ -86,7 +86,7 @@ federation_ref:
         (standard-bearer inversion). III engines render the review; the contract is ours.
       pointer: what/specs/spec_conformance_suite.md §6
     - kind: reviewer_registry
-      path: ~/aDNA/Canvas.aDNA/iii/what/context/canvas_reviewers.yaml
+      path: ~/aDNA/Canvas.aDNA/how/federation/iii/what/context/canvas_reviewers.yaml
       rationale: >
         The 5-lens persona-III inspect panel (domain architect · quantitative/rigor · skeptical
         executive · information designer · accuracy auditor) from deck_generator/iii_quality_contract.md.
