@@ -146,7 +146,7 @@ The vision is aspirational but the infrastructure is real and delivered. Here's 
 
 ## Get Started
 
-- **New to aDNA?** Start with the [README](README.md) — clone, setup, customize in minutes.
+- **New to aDNA?** Start with the [README](../../README.md) — clone, setup, customize in minutes.
 - **Want to contribute?** Read [`CONTRIBUTING.md`](CONTRIBUTING.md) — bug reports, improvements, and Agent Contribution Mode.
 - **Want to run a quest?** Browse [`how/quests/`](how/quests/) and follow the [Side-Quest Guide](what/docs/side_quest_guide.md).
 - **Want to add aDNA to an existing project?** See the [Migration Guide](what/docs/migration_guide.md).

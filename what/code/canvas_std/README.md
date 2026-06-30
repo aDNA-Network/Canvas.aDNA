@@ -1,12 +1,12 @@
 # adna-canvas-std
 
-Reference implementation of the **aDNA Canvas Standard v2.0.0** — the runnable tooling Canvas.aDNA ships as the
+Reference implementation of the **aDNA Canvas Standard v2.2.0** — the runnable tooling Canvas.aDNA ships as the
 standard-bearer Platform (Option P): **validators · round-trip converters · conformance harness**.
 
-> **Status: complete (Operation Keystone E0–E2).** The reference implementation is functional — schema floor,
-> validators, round-trip converters, `_reserved` validators, and the conformance harness + `canvas-std` CLI are all
-> live; no stubs remain. `pytest` **46 passed / 8 skipped**, `ruff` clean. Validated against all in-vault consumers
-> at E6.1 (no regression). See `CHANGELOG.md` for the per-mission build log.
+> **Status: complete + current to Standard v2.2.0.** The reference implementation is functional — schema floor,
+> validators, round-trip converters, `_reserved` validators (incl. the v2.2.0 `interaction` layer), and the
+> conformance harness + `canvas-std` CLI are all live; no stubs remain. `pytest` **105 passed / 10 skipped**,
+> `ruff` clean. Validated against all in-vault consumers (no regression). See `CHANGELOG.md` for the build log.
 
 ## What it is
 
@@ -25,14 +25,14 @@ package is its reference tooling. The normative specs live in the vault at `Canv
 
 ```bash
 pip install -e ".[dev]"
-make test     # pytest (46 passed / 8 skipped)
+make test     # pytest (105 passed / 10 skipped)
 make lint     # ruff
 ```
 
 ## Versioning
 
-`__version__` is the **package** version (starts `0.1.0`). `STANDARD_VERSION` is the **Standard** version this
-package implements (`"2.0.0"`). They are intentionally distinct (a P2 finding).
+`__version__` is the **package** version (`0.1.0`). `STANDARD_VERSION` is the **Standard** version this
+package implements (`"2.2.0"`). They are intentionally distinct (a P2 finding).
 
 ## Provenance
 

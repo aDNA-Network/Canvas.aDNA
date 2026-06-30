@@ -1,6 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json",
+  "$comment": "The $id is deliberately pinned to the v2.0.0 path: the structural schema (node/edge floor, enums, the _reserved carrier) is unchanged across Standard versions 2.0.0–2.2.0, so the canonical schema URL stays stable. The Standard version this schema tracks is carried in x-standard-version (currently 2.2.0); semantic and version-specific rules live in the canvas_std validator, not in this JSON Schema.",
   "title": "aDNA Canvas Standard v2.2.0",
   "description": "Structural contract for a .canvas document. Node/edge floor + enums + the _reserved carrier. Semantic checks (toEnd:arrow / C-4, id resolution, sequence-acyclicity, exactly-one-canonical-surface) are performed by the canvas_std validator (validate / validate_suite) — JSON Schema cannot express them.",
   "x-standard-version": "2.2.0",

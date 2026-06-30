@@ -1,7 +1,7 @@
 ---
 type: spec
 spec_id: spec_adna_canvas_standard
-title: "aDNA Canvas Standard v2.0.0 — normative specification"
+title: "aDNA Canvas Standard v2.2.0 — normative specification"
 standard_version: "2.2.0"
 status: ratified
 created: 2026-06-12
@@ -12,7 +12,7 @@ upstream_baseline: "Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A)"
 tags: [spec, canvas, standard, normative, genesis, p2]
 ---
 
-# aDNA Canvas Standard — v2.0.0 (normative)
+# aDNA Canvas Standard — v2.2.0 (normative)
 
 > **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Supersedes the embedded *Canvas Standard v1.0.0*
 > ([[p1_source_inventory]] §A3). Normative core; the component model (D4), panel/link semantics (D5), round-trip
@@ -24,7 +24,7 @@ tags: [spec, canvas, standard, normative, genesis, p2]
 This spec defines the file format, document/node/edge schema, the `_reserved` extension carrier, validation
 rules, conformance levels, and the Obsidian-degradation contract for an aDNA canvas. It is **substrate-neutral**:
 application-specific rendering, layout, composition, and image generation are out of scope and belong to
-producers (CanvasForge / ComfyForge / LF-successor / SiteForge), per [[adr_001_canvasforge_relationship]].
+producers (the in-vault `what/production/` generators, ComfyUI for image generation, Astro for web), per [[adr_001_canvasforge_relationship]].
 
 A conformant document declares its level in `_reserved.conformance_level` ∈ {`core`, `extended`, `adna_native`}
 (see §9 and [[adr_003_standard_governance]] §3).
