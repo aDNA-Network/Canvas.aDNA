@@ -1,0 +1,38 @@
+# Canvas.aDNA homepage descriptor — Operation Hearthlight P4 (pilot wave, 2026-06-29).
+# Schema = build_home.py DESCRIPTOR_KEYS only. Per-vault visual DNA (house `platform`) →
+# visual_dna.yaml at P4 (VisualDNA.aDNA consumer); until then the accent resolves via the
+# persona→hex lookup (mondrian → platform house) in Home's spec_fleet_home_page_palette.yaml.
+# HOME.md is machine-owned once generated (regenerate, don't hand-edit); intent lives HERE.
+persona: mondrian
+display_name: "Canvas"
+tagline: "platform — the aDNA Canvas Standard and its reference tooling"
+greeting: "Mondrian keeps the Canvas floor — the standard and its validators live below"
+
+banner:
+  path: who/assets/banners/banner_canvas.png
+  alt: "Canvas"
+
+# QUICK ACTIONS tile (≤6, T0–T3). platform class defaults to command_center.
+quick_actions:
+  - label: "producer-build"
+    icon: "▤"
+    tier: T1
+    action: open
+    target: "how/skills/skill_canvas_producer_build"
+  - label: "deploy"
+    icon: "⇪"
+    tier: T2
+    action: open
+    target: "how/skills/skill_deploy"
+  - label: "iii-setup"
+    icon: "🔍"
+    tier: T2
+    action: open
+    target: "how/skills/skill_iii_setup"
+  - label: "genesis"
+    icon: "◳"
+    tier: T1
+    action: open
+    target: "how/campaigns/campaign_canvas_genesis"
+
+updated: 2026-06-29
