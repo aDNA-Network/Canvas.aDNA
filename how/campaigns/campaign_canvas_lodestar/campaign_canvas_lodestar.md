@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_lodestar
 type: campaign
 title: "Operation Lodestar — Canvas Standard review & strategic positioning"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "1-3"
 phase_count: 3
 mission_count: 1
@@ -12,7 +12,7 @@ predecessor: campaign_canvas_armature
 created: 2026-06-30
 updated: 2026-06-30
 last_edited_by: agent_mondrian
-status_history: "planning (2026-06-30 chartered from a Mondrian/Canvas session — awaits operator ratify of scope at the P0→P1 gate; the review itself runs in a fresh post-/clear session) → active (2026-06-30, P0 ratified: D1=let-the-review-recommend · D4=assessment-only · D2/D3=recommend-don't-decide; session session_stanley_20260630_145035_lodestar_review running P1+P2)"
+status_history: "planning (2026-06-30 chartered from a Mondrian/Canvas session — awaits operator ratify of scope at the P0→P1 gate; the review itself runs in a fresh post-/clear session) → active (2026-06-30, P0 ratified: D1=let-the-review-recommend · D4=assessment-only · D2/D3=recommend-don't-decide; session session_stanley_20260630_145035_lodestar_review running P1+P2) → completed (2026-06-30, session …_164238 — P2 operator gate resolved: scope=Tier 0–3 full publish-hardening · vehicle=new campaign Operation Beacon (campaign_canvas_beacon) · D3=global+aDNA.aDNA registrar · D2=accept no-LIP-0009-reopen; review pushed 9f49a6e)"
 tags: [campaign, canvas, lodestar, review, positioning, standard, documentation, context_graph, rlhf, primitive]
 ---
 
@@ -114,6 +114,30 @@ recon (3 Explore agents) found:
 > **gap register is already seeded** (this doc §Gap register) — extend it, don't re-derive. Produce the three
 > deliverables (gap register · positioning assessment · prioritized recommendations + a recommended follow-on),
 > each with an AAR. HOLD at every phase gate. The review **recommends**; the operator **gates** the build.
+
+## P2 resolution & campaign AAR (2026-06-30)
+
+**P2 gate — resolved.** The operator reviewed the three deliverables and gated the follow-on:
+- **Scope:** build **Tier 0 + 1 + 2 + 3** (full publish-hardening). Tier 4 spec-it (C-i/C-ii) = named second wave.
+- **Vehicle:** a new campaign — **Operation Beacon** (`campaign_canvas_beacon`), phases B1–B4.
+- **D3 numbering:** global LIP sequence + **`aDNA.aDNA` as number registrar**; Canvas holds content + ratification.
+- **D2:** accept **no LIP-0009 re-open** (keep Option V); the deferral is recorded in Canvas's new LIP home at Tier 3.
+- The P1/P2 review changeset was committed (`9f49a6e`) and pushed (operator-gated).
+
+This resolves P2 and completes Lodestar's three-phase arc. The deliverables (`missions/artifacts/`) are the
+source of truth for Operation Beacon.
+
+**AAR (campaign):**
+- **Worked:** a seeded-then-verified review — the 3-Explore recon seeded the gap register; the mission *ran the
+  harness* and corrected five inaccuracies, so the recommendations rest on truth, not the seed.
+- **Didn't:** the seed over-claimed (test count, spec count, CHANGELOG, RLHF status, cert-kit) — recon-seeds are
+  hypotheses, not findings.
+- **Finding:** Canvas's thesis is *correct and largely already built*; the gap is articulation, not engineering —
+  and the most differentiated asset (a working Canvas-as-RLHF surface, 13 live records) was buried in a producer.
+- **Change:** review-and-recommend stayed strictly read-only (firewall git-diff 0); the build is a separate gated
+  campaign — clean separation of assessment from construction.
+- **Follow-up:** Operation Beacon (Tier 0–3) executes the recommendations; Tier 4 spec-it + the C-iii/C-iv
+  positioning questions remain the staged second wave / hold-open.
 
 ## Provenance
 

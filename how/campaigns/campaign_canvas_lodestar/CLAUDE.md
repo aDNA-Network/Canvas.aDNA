@@ -6,8 +6,8 @@
 |-------|-------|
 | Campaign | `campaign_canvas_lodestar` |
 | Owner | stanley |
-| Status | 🟢 **active** (P0 ratified 2026-06-30: D1=let-the-review-recommend · D4=assessment-only · D2/D3=recommend-don't-decide; running P1+P2 in session `…_145035_lodestar_review`) |
-| Current Phase | **P1 — the review.** Three parallel read-only tracks (A technical · B docs · C positioning) → P2 synthesis (3 deliverables) → operator follow-on gate. HOLD at every gate. |
+| Status | ✅ **completed** (P2 gate resolved 2026-06-30: operator chose Tier 0–3 full-hardening · new campaign **Operation Beacon** · D3=global+aDNA.aDNA registrar · D2=accept no-reopen; review pushed `9f49a6e`) |
+| Current Phase | **P2 closed.** Review delivered (3 artifacts in `missions/artifacts/`); operator gated the follow-on → **`campaign_canvas_beacon`** (Operation Beacon, Tier 0–3). |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_armature` (Operation Armature, completed 2026-06-23 — closed the three-leg runtime; Lodestar reviews + positions the whole) |
 
