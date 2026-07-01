@@ -1,7 +1,17 @@
 # Changelog — adna-canvas-std
 
-All notable changes to the reference implementation. The package version is distinct from the Standard version
-it implements (`STANDARD_VERSION`).
+All notable changes to the reference implementation and the **aDNA Canvas Standard** it implements.
+
+**Two version scopes** (they advance independently):
+
+- **Standard version** (`STANDARD_VERSION`) — heads each release entry below. History:
+  **2.0.0** (Keystone) → **2.0.1** (LIP-queue errata B1/B2/B3) → **2.0.2** (Atelier errata AT-1/AT-2) →
+  **[2.1.0 — reserved]** → **2.2.0** (Armature — the leg-3 interaction layer).
+  The **2.1.0 slot is reserved** for the in-review **LIP-0008** (A-5 "derived surface = pure metadata" relaxation):
+  the Standard jumped 2.0.2 → 2.2.0 at Armature, so 2.1.0 is held pending LIP-0008's disposition
+  (see `what/decisions/lip_queue_disposition.md`; reconciled in Operation Beacon Phase B4).
+- **Package version** (`__version__`, currently `0.1.0`) — the pip package; advances on its own cadence. The
+  `## [0.1.0]` entry below is the **package** skeleton (Keystone E0.1), not a Standard release.
 
 ## [2.2.0] — 2026-06-23 (Operation Armature P2 — I-* wired into the harness + the interaction_version cut)
 
@@ -32,6 +42,27 @@ errata cut). The P2 exit gate is **full-regression-green**, not git-diff 0 (`adr
   forward-pointers ("forward-pointed / deferred" → "implemented in `canvas_std`"). **v2.1.0 reserved for in-review LIP-0008.**
 - Fixtures' `_reserved.adna_version` stays `2.0.0` (a 2.0.0-authored canvas remains valid under the 2.2.0 validator —
   the interaction layer is additive; D-1..D-3 round-trip-to-baseline hold on the interaction golden).
+
+## [2.0.2] — 2026-06-21 (Atelier errata AT-1/AT-2 — Standard v2.0.2, editorial PATCH)
+
+Editorial clarifications drained from Operation Atelier (`adr_003 §2` maintainer-discretion, no LIP) — **no
+validator-behavior change**; both make explicit what the reference implementation already did. *(Back-filled in
+Operation Beacon B3/R2.2 — the AT-1/AT-2 cut originally bumped version strings only, leaving this entry missing.)*
+
+### Clarified (spec errata — `spec_panel_link_semantics §4/§5.2/§6`)
+- **AT-1** — `extent` is **OPTIONAL**: a non-paginated single-surface region (`pagination: "none"`, e.g. a
+  diagram/graph) legitimately omits it. No `graph`/`nodes` extent unit added (a node-graph is sized by content,
+  not paged).
+- **AT-2** — the region `surface` subclass label is an **OPEN, producer-defined vocabulary**. No enum added (a
+  closed enum would force a LIP per new producer type).
+- Doc-comments in `reserved.py`; 2 regression tests (`test_anchors.py::test_at1_*` / `test_at2_*`). Validator
+  logic untouched (`reserved.py` diff = comments only).
+
+### Standard release v2.0.2 CUT 2026-06-21 (operator-authorized)
+- Bumped `2.0.1 → 2.0.2` mirroring the v2.0.1 sites (`STANDARD_VERSION`, schema `title` + `x-standard-version`
+  [**kept `$id`** — structural schema unchanged], `conformance.py`, `test_smoke`/`test_conformance`, the 7 spec
+  `standard_version` frontmatters + the `spec_federation_contract` example). Fixtures' `_reserved.adna_version`
+  stays `2.0.0`. **Suite: `pytest` 82 passed / 10 skipped; `ruff` clean.** Errata queue B1–B4 + AT-1/AT-2 fully drained.
 
 ## [2.0.1] — 2026-06-20 (LIP queue errata — B1 + B3 + B2; Standard v2.0.1)
 ### Added (LIP queue B1 — anchor-layer validator)

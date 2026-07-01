@@ -3,6 +3,8 @@ type: spec
 spec_id: spec_adna_canvas_standard
 title: "aDNA Canvas Standard v2.2.0 — normative specification"
 standard_version: "2.2.0"
+identifier: "https://adna-network.org/canvas/standard"
+license: "spec-text CC-BY-4.0; reference-implementation MIT"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-23
@@ -15,19 +17,39 @@ tags: [spec, canvas, standard, normative, genesis, p2]
 # aDNA Canvas Standard — v2.2.0 (normative)
 
 > **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Supersedes the embedded *Canvas Standard v1.0.0*
-> ([[p1_source_inventory]] §A3). Normative core; the component model (D4), panel/link semantics (D5), round-trip
+> ([p1_source_inventory](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_source_inventory.md) §A3). Normative core; the component model (D4), panel/link semantics (D5), round-trip
 > (v2), and context-object (D7) are specified in their own documents and referenced here. Key words **MUST /
 > MUST NOT / SHOULD / MAY** per RFC 2119.
+
+## Abstract
+
+The **aDNA Canvas Standard** defines an agentic-context-native file format for two-dimensional outputs — a fork
+of Obsidian **Advanced Canvas** (v5.6.6) and **JSON Canvas** (1.0). It specifies the document/node/edge schema, a
+namespaced `_reserved` extension carrier, typed component and panel/link semantics, a round-trip contract to
+baseline Obsidian, three conformance levels (**Core · Extended · aDNA-Native**), and an Obsidian-degradation
+contract. The intent is a single grammar under which a paper, a deck, a diagram, a comic, a letter, or a page is
+the same kind of object — a canvas an agent can render as output, read as context, and interact through. The
+companion specs (component model · panel/link semantics · round-trip · context-object · conformance) are
+normative parts of this Standard (§12).
+
+| | |
+|---|---|
+| **Standard identifier** | `https://adna-network.org/canvas/standard` (namespace) |
+| **This version** | 2.2.0 · **Status:** Ratified |
+| **Upstream baseline** | Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A) |
+| **JSON Schema** | `https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json` (structural floor; `$id` deliberately pinned — see the schema `$comment`) |
+| **License** | specification text **CC BY 4.0** · reference implementation (`what/code/canvas_std/`) **MIT** |
+| **Governance** | LIP process ([adr_003_standard_governance](../decisions/adr_003_standard_governance.md)); semver at the Standard scope |
 
 ## 1. Scope & conformance
 
 This spec defines the file format, document/node/edge schema, the `_reserved` extension carrier, validation
 rules, conformance levels, and the Obsidian-degradation contract for an aDNA canvas. It is **substrate-neutral**:
 application-specific rendering, layout, composition, and image generation are out of scope and belong to
-producers (the in-vault `what/production/` generators, ComfyUI for image generation, Astro for web), per [[adr_001_canvasforge_relationship]].
+producers (the in-vault `what/production/` generators, ComfyUI for image generation, Astro for web), per [adr_001_canvasforge_relationship](../decisions/adr_001_canvasforge_relationship.md).
 
 A conformant document declares its level in `_reserved.conformance_level` ∈ {`core`, `extended`, `adna_native`}
-(see §9 and [[adr_003_standard_governance]] §3).
+(see §9 and [adr_003_standard_governance](../decisions/adr_003_standard_governance.md) §3).
 
 ## 2. Normative references (baseline pin, PIN-A)
 
@@ -67,7 +89,7 @@ MAY be present. Absence of `shape` denotes the default rectangle.
 `toNode` (node id), `toSide` ∈ {top,bottom,left,right}. `label`, `color` are **OPTIONAL**.
 
 5.2. Every **directed** edge **MUST** set top-level `toEnd: "arrow"` (Obsidian defaults to no arrow; this is a
-hard invariant — [[p1_fork_baseline]] I4). `fromEnd`/`toEnd` are top-level, **not** in `styleAttributes`.
+hard invariant — [p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) I4). `fromEnd`/`toEnd` are top-level, **not** in `styleAttributes`.
 
 5.3. Extended-level edge styling lives in `styleAttributes`: `path` ∈ {dotted, short-dashed, long-dashed},
 `arrow`, `pathfindingMethod` ∈ {square, a-star}. Typed-edge semantics (data/control/optional/…) bind via
@@ -75,7 +97,7 @@ hard invariant — [[p1_fork_baseline]] I4). `fromEnd`/`toEnd` are top-level, **
 
 ## 6. Value enums (KEEP, verbatim floor)
 
-A validator **MUST** accept exactly these tokens (from [[p1_fork_baseline]] §3):
+A validator **MUST** accept exactly these tokens (from [p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) §3):
 
 - `node.type`: `text, file, group, link`
 - `styleAttributes.shape`: *(absent)*, `pill, diamond, parallelogram, circle, predefined-process, document, database`
@@ -94,7 +116,7 @@ control/federation, `dotted` = optional.
 ## 7. The `_reserved` extension block (aDNA-Native)
 
 7.1. All aDNA-native semantics **MUST** live under `metadata.frontmatter._reserved` (a preserved, no-validation
-custom store in baseline Obsidian — [[p1_fork_baseline]] I3). This is the **only** carrier for v2.0.0 additions;
+custom store in baseline Obsidian — [p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) I3). This is the **only** carrier for v2.0.0 additions;
 the baseline node/edge fields are **not** extended (§11).
 
 7.2. Reserved keys (schemas in the cited specs):
@@ -114,13 +136,13 @@ _reserved:
 ## 8. Required `_lattice_meta` group
 
 8.1. A lattice canvas **MUST** include a group node with `id: "_lattice_meta"` encoding the source name +
-version and the **sync hash** of the authoritative-source topology ([[p1_fork_baseline]] I2). The sync hash
+version and the **sync hash** of the authoritative-source topology ([p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) I2). The sync hash
 detects view staleness (`spec_roundtrip_protocol_v2.md`). For non-lattice canvases the equivalent metadata MAY
 live solely in `_reserved.sync`.
 
 ## 9. Conformance levels
 
-Per [[adr_003_standard_governance]] §3: **Core** (JSON Canvas 1.0 + the §4/§5/§6 floor incl. `toEnd:"arrow"`) ⊂
+Per [adr_003_standard_governance](../decisions/adr_003_standard_governance.md) §3: **Core** (JSON Canvas 1.0 + the §4/§5/§6 floor incl. `toEnd:"arrow"`) ⊂
 **Extended** (Core + Advanced Canvas `styleAttributes` within §6 enums) ⊂ **aDNA-Native** (Extended + a populated
 `_reserved` block). A document **MUST** satisfy every rule of its declared level.
 
@@ -130,17 +152,21 @@ A conformant validator **MUST** reject a document that: has a duplicate or missi
 `shape`, `border`, `textAlign`, `color`, edge `path`/`arrow`/`pathfindingMethod`, or `fromSide`/`toSide` outside
 §6; has a directed edge missing `toEnd:"arrow"`; references a non-existent `fromNode`/`toNode`; or (aDNA-Native)
 carries a `_reserved` block that fails the cited sub-spec schemas. The reference validator lives in
-`what/code/canvas_std/` (Option P; built in the execution campaign — [[adr_001_canvasforge_relationship]]).
+`what/code/canvas_std/` (Option P; built in the execution campaign — [adr_001_canvasforge_relationship](../decisions/adr_001_canvasforge_relationship.md)).
 
 ## 11. Obsidian degradation contract (C4)
 
-For any aDNA canvas `K` (per [[p1_fork_baseline]] §5): **(1) Strip** — removing `metadata.frontmatter._reserved`
+For any aDNA canvas `K` (per [p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) §5): **(1) Strip** — removing `metadata.frontmatter._reserved`
 yields a valid JSON Canvas 1.0 / Advanced Canvas v5.6.6 file. **(2) Ignore** — a vanilla reader opens `K`
 unchanged and ignores `_reserved`. **(3) No-baseline-overload** — v2.0.0 introduces **no** new top-level node/edge
 keys and **no** new `styleAttributes` tokens outside §6; new power is in `_reserved` or proposed upstream. **(4)**
 the P3 conformance suite **MUST** include a degradation test: `validate(strip(K))` passes the baseline schema.
 
-## 12. Related
-- [[adr_001_canvasforge_relationship]] · [[adr_002_literatureforge_seam]] · [[adr_003_standard_governance]]
-- `spec_component_model.md` · `spec_panel_link_semantics.md` · `spec_roundtrip_protocol_v2.md` · `spec_context_object.md`
-- [[p1_fork_baseline]] (invariants/enums) · [[p1_source_inventory]] · [[adr_000_canvas_identity]] §4.
+## 12. References
+
+**Normative — companion specs** (defined jointly with this document):
+[`spec_component_model.md`](spec_component_model.md) · [`spec_panel_link_semantics.md`](spec_panel_link_semantics.md) · [`spec_roundtrip_protocol_v2.md`](spec_roundtrip_protocol_v2.md) · [`spec_context_object.md`](spec_context_object.md) · [`spec_conformance_suite.md`](spec_conformance_suite.md)
+
+**Normative — governance:** [adr_003_standard_governance](../decisions/adr_003_standard_governance.md) (the LIP change process).
+
+**Informative — provenance & decisions:** [adr_000_canvas_identity](../decisions/adr_000_canvas_identity.md) (identity/scope, §4) · [adr_001_canvasforge_relationship](../decisions/adr_001_canvasforge_relationship.md) · [adr_002_literatureforge_seam](../decisions/adr_002_literatureforge_seam.md) · [p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) (upstream invariants/enums, PIN-A) · [p1_source_inventory](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_source_inventory.md) (v1.0.0 corpus provenance)

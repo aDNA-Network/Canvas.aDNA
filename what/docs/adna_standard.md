@@ -14,6 +14,12 @@ tags: [adna, standard, spec, normative]
 
 **Agentic DNA (aDNA)** — A knowledge architecture standard for AI-native projects.
 
+> **Disambiguation.** This is the generic **aDNA *knowledge-architecture* standard** (the `who/` · `what/` ·
+> `how/` vault convention), inherited from the aDNA base template. It is **not** the **aDNA *Canvas* Standard** —
+> the 2D canvas file format that *this* vault owns and ships. For the Canvas Standard, see the repo
+> [README](../../README.md), the [Canvas Standard Explainer](canvas_standard_explainer.md), and the specs index
+> at [`../specs/`](../specs/README.md).
+
 ---
 
 ## 1. Introduction & Scope
