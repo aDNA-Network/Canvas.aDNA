@@ -1,0 +1,379 @@
+/* home_bento.css — the command_center "bento" home layout (Operation Illumination M03 O2-bento).
+ *
+ * Generalized from Home.aDNA's proven exemplar `hestia_home_v2.css`: same grid + callout-tile
+ * idiom, but (1) scoped to `.dashboard.layout-command-center` (the generator's cssclasses hook,
+ * spec_homepage_structure Am.3/Am.4) instead of Home's `.dashboard_v2`, and (2) the hardcoded
+ * Hestia-purple palette replaced by the 8 house-band defaults keyed off `.dashboard.house-<class>`
+ * (the tier-3 floor — every command_center vault renders in-house with no per-persona snippet;
+ * spec_fleet_home_page §3/§4 + spec_fleet_home_page_palette.yaml).
+ *
+ * Layers OVER core_theme.css §8 (.dashboard structural base + the masthead background). Per-vault
+ * persona accents (ADR-008 override layer: .obsidian/snippets/<persona>_accent.css) override the
+ * --home-accent-* vars (resolution tier 1/2); this snippet is the floor (tier 3). Tiles MUST be
+ * callouts — Obsidian won't render markdown in a raw <div> (fleet spec §7.3).
+ *
+ * Only the document body of a HOME changes between profiles; this snippet acts ONLY when the
+ * page carries `layout-command-center` — document homes are untouched.
+ */
+
+/* @settings
+name: aDNA Home — Bento
+id: adna-home-bento
+settings:
+  -
+    id: home-accent-primary
+    title: Home accent — primary
+    description: Persona/house primary accent (resolution tier 1; falls back to the house-band floor when unset)
+    type: variable-color
+    opacity: false
+    format: hex
+    default: '#5c85d6'
+  -
+    id: home-accent-secondary
+    title: Home accent — secondary
+    type: variable-color
+    opacity: false
+    format: hex
+    default: '#a2bbec'
+  -
+    id: home-accent-tertiary
+    title: Home accent — tertiary
+    type: variable-color
+    opacity: false
+    format: hex
+    default: '#4366ad'
+  -
+    id: home-house-hue
+    title: Home house hue (deg)
+    description: Band seed hue; informational seam for per-vault re-theming
+    type: variable-number-slider
+    default: 218
+    min: 0
+    max: 360
+    step: 1
+  -
+    id: home-density
+    title: Home density
+    type: variable-select
+    default: regular
+    options:
+      -
+        label: roomy
+        value: roomy
+      -
+        label: regular
+        value: regular
+      -
+        label: compact
+        value: compact
+  -
+    id: home-motion
+    title: Home motion
+    description: Tile hover/keyframe motion (also auto-disabled under prefers-reduced-motion)
+    type: class-toggle
+    default: true
+*/
+
+/* ===================== HOUSE-BAND DEFAULTS (tier-3 floor; §3 + palette seeds) ===================== */
+/* The 8 houses ARE the 8 matrix classes — the generator emits `house-<class>`. Node seats its indigo
+   BAND seed (#9b5cbc), NOT the reserved hearth-purple #663399 (Hestia's persona charge, §7.2 — that
+   arrives only via Home's persona accent snippet). */
+.dashboard.house-forge        { --house-primary: #d69851; --house-secondary: #ebc08e; --house-tertiary: #ab793f; }
+.dashboard.house-framework    { --house-primary: #8969d3; --house-secondary: #b9a4ea; --house-tertiary: #6647ae; }
+.dashboard.house-platform     { --house-primary: #5c85d6; --house-secondary: #a2bbec; --house-tertiary: #4366ad; }
+.dashboard.house-node         { --house-primary: #9b5cbc; --house-secondary: #c69edb; --house-tertiary: #794794; }
+.dashboard.house-org_vault    { --house-primary: #4fc47a; --house-secondary: #98e1b3; --house-tertiary: #439d64; }
+.dashboard.house-org_graph    { --house-primary: #73ce5a; --house-secondary: #ade79d; --house-tertiary: #59a744; }
+.dashboard.house-network      { --house-primary: #49beca; --house-secondary: #95dde4; --house-tertiary: #3f99a2; }
+.dashboard.house-coordination { --house-primary: #d45e74; --house-secondary: #eca2af; --house-tertiary: #ba455a; }
+
+/* Bento tokens — accents resolve: Style-Settings/persona override (--home-accent-*) → house floor. */
+.dashboard.layout-command-center {
+  --bento-accent:   var(--home-accent-primary, var(--house-primary, var(--interactive-accent)));
+  --bento-accent-2: var(--home-accent-secondary, var(--house-secondary, var(--interactive-accent-hover)));
+  --bento-accent-3: var(--home-accent-tertiary, var(--house-tertiary, var(--interactive-accent)));
+  --bento-surface: linear-gradient(158deg, rgba(40, 42, 58, 0.46), rgba(18, 19, 30, 0.66));
+  --bento-stroke: rgba(150, 150, 180, 0.30);
+  --bento-ink: var(--text-normal);
+  --bento-muted: var(--text-muted);
+  --bento-gap: 14px;
+}
+
+/* ===================== BENTO GRID ===================== */
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  grid-auto-rows: minmax(120px, auto);
+  gap: var(--bento-gap);
+  align-content: start;
+  max-width: 1100px;
+  margin-inline: auto;
+  padding-top: 8px;
+}
+/* Obsidian injects an empty sizing pusher + the inline-title/Properties header as the FIRST grid
+   children → ~256px of dead space above the masthead. Exclude them (reading-view-scoped so Live
+   Preview keeps the Properties editable). The banner masthead is the page identity (fleet §7.3). */
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-pusher { display: none; }
+.markdown-preview-view.dashboard.layout-command-center .mod-header { display: none; }
+
+/* full-width blocks span both columns */
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.home-masthead),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.home-greeting),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.timeline-hud),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.vault-grid),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(> h2),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.markdown-embed),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="info"]),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="tip"]),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > hr,
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:last-child {
+  grid-column: 1 / -1;
+}
+/* left column tiles (the wide column — STATUS holds the live boards) */
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="status"]),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="actions"]) {
+  grid-column: 1;
+}
+/* right column tiles */
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="gateway"]),
+.markdown-preview-view.dashboard.layout-command-center .markdown-preview-sizer > div:has(.callout[data-callout="topo"]) {
+  grid-column: 2;
+}
+
+/* ===================== TILES (callouts → glass bento cards) ===================== */
+.dashboard.layout-command-center .callout[data-callout="status"],
+.dashboard.layout-command-center .callout[data-callout="gateway"],
+.dashboard.layout-command-center .callout[data-callout="actions"],
+.dashboard.layout-command-center .callout[data-callout="topo"] {
+  height: 100%;
+  margin: 0;
+  background: var(--bento-surface);
+  backdrop-filter: blur(16px) saturate(1.25);
+  -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  border: 1px solid var(--bento-stroke);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.dashboard.layout-command-center .callout[data-callout="status"]  { --tile-accent: var(--bento-accent-2); }
+.dashboard.layout-command-center .callout[data-callout="gateway"] { --tile-accent: var(--bento-accent); }
+.dashboard.layout-command-center .callout[data-callout="actions"] { --tile-accent: var(--bento-accent); }
+.dashboard.layout-command-center .callout[data-callout="topo"]    { --tile-accent: var(--bento-accent-3); }
+/* hover lift (drill-down idiom) */
+.dashboard.layout-command-center .callout[data-callout="status"]:hover,
+.dashboard.layout-command-center .callout[data-callout="gateway"]:hover,
+.dashboard.layout-command-center .callout[data-callout="actions"]:hover,
+.dashboard.layout-command-center .callout[data-callout="topo"]:hover {
+  transform: translateY(-3px);
+  border-color: var(--tile-accent);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42), 0 0 16px -4px var(--tile-accent);
+}
+/* tile title row — small uppercase label with an accent dot */
+.dashboard.layout-command-center .callout[data-callout="status"] .callout-title,
+.dashboard.layout-command-center .callout[data-callout="gateway"] .callout-title,
+.dashboard.layout-command-center .callout[data-callout="actions"] .callout-title,
+.dashboard.layout-command-center .callout[data-callout="topo"] .callout-title {
+  padding: 0 0 8px 0;
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--bento-muted);
+}
+.dashboard.layout-command-center .callout .callout-title .callout-icon { display: none; }
+.dashboard.layout-command-center .callout[data-callout="status"] .callout-title::before,
+.dashboard.layout-command-center .callout[data-callout="gateway"] .callout-title::before,
+.dashboard.layout-command-center .callout[data-callout="actions"] .callout-title::before,
+.dashboard.layout-command-center .callout[data-callout="topo"] .callout-title::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tile-accent);
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: 0 0 8px var(--tile-accent);
+}
+.dashboard.layout-command-center .callout .callout-content { padding: 0; }
+
+/* STATUS tile — the live boards (campaigns/missions/sessions) read query-bound */
+.dashboard.layout-command-center .callout[data-callout="status"] .callout-content { font-size: 0.86em; }
+.dashboard.layout-command-center .callout[data-callout="status"] strong { color: var(--bento-accent-2); }
+.dashboard.layout-command-center .callout[data-callout="status"] table { font-size: 0.94em; }
+
+/* ACTIONS tile — quick-action wikilinks as chips */
+.dashboard.layout-command-center .callout[data-callout="actions"] .callout-content a {
+  display: inline-block;
+  margin: 3px 6px 3px 0;
+  padding: 4px 10px;
+  background: rgba(125, 160, 220, 0.10);
+  border: 1px solid var(--bento-stroke);
+  border-radius: 8px;
+  font-size: 0.84em;
+  text-decoration: none;
+  color: var(--bento-ink);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.dashboard.layout-command-center .callout[data-callout="actions"] .callout-content a:hover {
+  background: rgba(125, 160, 220, 0.2);
+  border-color: var(--bento-accent);
+}
+
+/* TOPO tile — graph link + optional category band-chips (node/network specialization) */
+.dashboard.layout-command-center .callout[data-callout="topo"] .callout-content a { font-weight: 600; color: var(--bento-accent-3); text-decoration: none; }
+.dashboard.layout-command-center .callout[data-callout="topo"] .tile-sub { display: block; color: var(--bento-muted); font-size: 0.78em; margin-top: 6px; }
+.dashboard.layout-command-center .band-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.dashboard.layout-command-center .band-chips .band {
+  font-family: var(--font-monospace);
+  font-size: 0.66em;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--bento-stroke);
+  color: var(--bento-ink);
+  background: rgba(140, 140, 170, 0.10);
+  white-space: nowrap;
+}
+/* band-chip palette — one taxonomy w/ spec_fleet_home_page_palette.yaml `band_chips` */
+.dashboard.layout-command-center .band-chips .b-plat  { border-color: rgba(92, 133, 214, 0.5);  color: #a2bbec; }
+.dashboard.layout-command-center .band-chips .b-ov    { border-color: rgba(79, 196, 122, 0.5);  color: #98e1b3; }
+.dashboard.layout-command-center .band-chips .b-nt    { border-color: rgba(155, 92, 188, 0.5);  color: #c69edb; }
+.dashboard.layout-command-center .band-chips .b-forge { border-color: rgba(214, 152, 81, 0.5);  color: #ebc08e; }
+.dashboard.layout-command-center .band-chips .b-fw    { border-color: rgba(137, 105, 211, 0.5); color: #b9a4ea; }
+.dashboard.layout-command-center .band-chips .b-og    { border-color: rgba(115, 206, 90, 0.5);  color: #ade79d; }
+.dashboard.layout-command-center .band-chips .b-net   { border-color: rgba(73, 190, 202, 0.5);  color: #95dde4; }
+.dashboard.layout-command-center .band-chips .b-coord { border-color: rgba(212, 94, 116, 0.5);  color: #eca2af; }
+
+/* GATEWAY tile (node/network specialization — forward-compat) */
+.dashboard.layout-command-center .callout[data-callout="gateway"] button {
+  background: linear-gradient(135deg, var(--bento-accent), var(--bento-accent-3)) !important;
+  border: none !important;
+  color: #fff !important;
+  font-weight: 700;
+  border-radius: 9px;
+  width: 100%;
+}
+.dashboard.layout-command-center .callout[data-callout="gateway"] .landing-secondary { display: block; margin-top: 10px; font-size: 0.8em; color: var(--bento-muted); }
+.dashboard.layout-command-center .net-domains { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 12px; font-family: var(--font-monospace); font-size: 0.72em; color: var(--bento-muted); }
+
+/* ===================== GREETING · FOLDS · FOOTER · GALLERY ===================== */
+.dashboard.layout-command-center .home-greeting {
+  border-left: 3px solid var(--bento-accent);
+  padding: 2px 0 2px 12px;
+  color: var(--bento-muted);
+  font-size: 1.02em;
+}
+.dashboard.layout-command-center h2 {
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: var(--bento-ink);
+  border-bottom: 1px solid var(--bento-stroke);
+  padding-bottom: 4px;
+  margin-top: 8px;
+}
+.dashboard.layout-command-center .callout[data-callout="info"],
+.dashboard.layout-command-center .callout[data-callout="tip"] {
+  background: rgba(26, 27, 38, 0.5);
+  border: 1px solid var(--bento-stroke);
+  border-radius: 12px;
+}
+/* gallery band — seats a (hand-built) Bases embed in the bento language; forward-compat */
+.dashboard.layout-command-center .markdown-preview-sizer > div:has(.markdown-embed) {
+  background: var(--bento-surface);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--bento-stroke);
+  border-radius: 14px;
+  padding: 10px 14px 16px;
+}
+
+/* ===================== GRAPH-GALLERY CARDS (the bento-of-graphs marketplace) =====================
+ * Generalized from Home's proven `.dashboard_v2 .bases-cards-*` (hestia_home_v2.css) into the fleet
+ * standard. Targets the Obsidian 1.13 Bases card DOM (child order: cover · name · summary · creator ·
+ * status · …extra). Layout via :nth-child position (Bases wraps every property identically). Knobs are
+ * tunable per-vault in the persona accent snippet. (Illumination M03 Phase 2; operator asks 2026-06-29:
+ * name on the icon's line · bigger icons · a metadata row.) */
+.dashboard.layout-command-center {
+  --gallery-icon-size: 76px;        /* was 58 — bigger, more legible icons (operator ask) */
+  --gallery-card-min: 320px;
+  --gallery-gap: 12px;
+  --gallery-name-size: 1.5em;       /* up from 1.32 — closer parity with the icon height */
+}
+.dashboard.layout-command-center .bases-cards-container {
+  gap: var(--gallery-gap) !important;
+  grid-template-columns: repeat(auto-fill, minmax(var(--gallery-card-min), 1fr)) !important;
+  --bases-cards-cover-background: transparent;
+}
+.dashboard.layout-command-center .bases-group-heading {
+  font-size: 0.72em !important; font-weight: 700 !important; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--bento-muted) !important;
+  margin: 16px 2px 8px !important; padding-bottom: 5px; border-bottom: 1px solid var(--bento-stroke);
+}
+.dashboard.layout-command-center .bases-cards-item {
+  display: grid !important;
+  grid-template-columns: var(--gallery-icon-size) 1fr !important;
+  grid-auto-rows: min-content !important;
+  align-items: center;              /* ← the fix: vertically pair the icon + name on row 1 */
+  align-content: start; gap: 4px 14px;
+  background: rgba(26, 27, 38, 0.60) !important;
+  border: 1px solid var(--bento-stroke) !important; border-radius: 13px !important;
+  padding: 15px 16px 16px !important; box-shadow: 0 2px 11px rgba(0, 0, 0, 0.26);
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.dashboard.layout-command-center .bases-cards-item:hover {
+  transform: translateY(-2px); border-color: var(--bento-accent) !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.42), 0 0 16px -6px var(--bento-accent);
+}
+/* ICON — the emblem panel (col 1, row 1), bigger; the DNA-bordered emblem fills it */
+.dashboard.layout-command-center .bases-cards-item > .bases-cards-cover {
+  grid-column: 1 !important; grid-row: 1 !important; align-self: center; margin: 0 !important;
+  width: var(--gallery-icon-size) !important; height: var(--gallery-icon-size) !important;
+  background-size: cover !important; background-repeat: no-repeat !important; background-position: center !important;
+  background-color: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid var(--bento-stroke) !important; border-radius: 12px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 1px 5px rgba(0, 0, 0, 0.30);
+}
+.dashboard.layout-command-center .bases-cards-item .bases-cards-label { display: none !important; }
+.dashboard.layout-command-center .bases-cards-item .bases-cards-property { margin: 0 !important; padding: 0 !important; background: none !important; }
+.dashboard.layout-command-center .bases-cards-item .bases-cards-line { text-align: left !important; }
+/* NAME (child 2) — beside the icon, same row, vertically centered */
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(2) { grid-column: 2 !important; grid-row: 1 !important; align-self: center; min-width: 0; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(2) .bases-cards-line {
+  font-size: var(--gallery-name-size) !important; font-weight: 800 !important; color: var(--bento-ink) !important;
+  line-height: 1.12; letter-spacing: 0.2px;
+  white-space: normal !important; overflow-wrap: anywhere; min-width: 0;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+/* SUMMARY (child 3) — full width below the header */
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(3) { grid-column: 1 / -1 !important; margin-top: 9px !important; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(3) .bases-cards-line {
+  font-size: 0.80em !important; color: var(--bento-ink) !important; opacity: 0.82; line-height: 1.42;
+  white-space: normal !important; overflow-wrap: anywhere;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+/* META ROW — CREATOR (child 4) + STATUS (child 5) share one row to reclaim height; extra fields (6,7)
+   wrap below as small monospace data points (the .base view feeds keywords/repo/version/activity). */
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(4) { grid-column: 1 !important; margin-top: 10px !important; min-width: 0; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(4) .bases-cards-line {
+  font-size: 0.72em !important; color: var(--bento-accent-2) !important; font-family: var(--font-monospace); letter-spacing: 0.3px;
+}
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(4) .bases-cards-line:not(:empty)::before { content: "\2b22  "; opacity: 0.8; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(5) { grid-column: 2 !important; margin-top: 10px !important; justify-self: end; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(5) .bases-cards-line {
+  display: inline-block; font-size: 0.63em !important; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--bento-muted) !important; font-family: var(--font-monospace);
+  border: 1px solid var(--bento-stroke); border-radius: 20px; padding: 2px 10px;
+}
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(n+6) { grid-column: 1 / -1 !important; margin-top: 4px !important; }
+.dashboard.layout-command-center .bases-cards-item > *:nth-child(n+6) .bases-cards-line {
+  font-size: 0.68em !important; color: var(--bento-muted) !important; font-family: var(--font-monospace); letter-spacing: 0.2px;
+}
+
+/* ===================== MOTION RESTRAINT (fleet §7.3 rule 4) ===================== */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard.layout-command-center .callout { transition: none !important; }
+  .dashboard.layout-command-center .callout:hover { transform: none !important; }
+}

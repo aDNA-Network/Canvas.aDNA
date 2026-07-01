@@ -1,10 +1,11 @@
 {
-  "accentColor": "#663399",
+  "accentColor": "#5c83d6",
   "theme": "obsidian",
   "cssTheme": "Tokyo Night",
   "enabledCssSnippets": [
     "core_theme",
-    "editor_polish"
+    "editor_polish",
+    "home_bento"
   ],
   "monospaceFontFamily": "JetBrains Mono, Fira Code, monospace"
 }

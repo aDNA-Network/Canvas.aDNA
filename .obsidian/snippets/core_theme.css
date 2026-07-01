@@ -2,7 +2,8 @@
  * core_theme.css — Base Visual Identity Bundle
  * Consolidated from: tokyo_night_purple, headings_styled, links_enhanced,
  *                    code_blocks, scrollbar_custom, modals_translucent
- * Theme: Tokyo Night + Rebecca Purple (#663399) accent
+ * Theme: Tokyo Night + per-vault PERSONA accent (inherits Obsidian's native --interactive-accent,
+ *        driven by appearance.json accentColor → the palette persona hex; Illumination M08)
  * ========================================================================== */
 
 
@@ -11,129 +12,97 @@
  * Replaces default Tokyo Night blue accent with Rebecca Purple
  * ========================================================================== */
 
+/* Accent INHERITS Obsidian's native accent (Illumination M08): appearance.json `accentColor`
+   sets --accent-h/s/l, from which Obsidian derives --interactive-accent / --text-accent /
+   --link-color. The seed no longer hard-codes a hue, so each vault renders its PERSONA accent.
+   Tints below derive from the same native --accent-h/s/l so they track the persona too. */
 :root {
-  --accent-h: 263;
-  --accent-s: 72%;
-  --accent-l: 42%;
-  --interactive-accent: #663399;
-  --interactive-accent-hover: #7a45b5;
-  --interactive-accent-rgb: 102, 51, 153;
-
-  --text-accent: #663399;
-  --text-accent-hover: #7a45b5;
-
-  --link-color: #663399;
-  --link-color-hover: #7a45b5;
-  --link-external-color: #8855bb;
-  --link-external-color-hover: #9966cc;
-
-  --text-selection: rgba(102, 51, 153, 0.2);
-  --text-highlight-bg: rgba(102, 51, 153, 0.25);
-}
-
-.theme-dark {
-  --accent-h: 258;
-  --accent-s: 89%;
-  --accent-l: 66%;
-  --interactive-accent: #8b5cf6;        /* vivid violet — buttons / active / CTA */
-  --interactive-accent-hover: #a78bfa;
-  --interactive-accent-rgb: 139, 92, 246;
-  --text-accent: #b48aff;               /* bright + legible (~6.5:1 on #1a1b26) */
-  --text-accent-hover: #c9b1ff;
-  --link-color: #b48aff;
-  --link-color-hover: #c9b1ff;
-  --link-external-color: #c4a5ff;
-  --link-external-color-hover: #d6c4ff;
-  --text-selection: rgba(139, 92, 246, 0.28);
-  --text-highlight-bg: rgba(139, 92, 246, 0.30);
+  --text-selection: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2);
+  --text-highlight-bg: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.25);
 }
 
 /* Buttons */
 .mod-cta,
 button.mod-cta {
-  background-color: #663399 !important;
+  background-color: var(--interactive-accent) !important;
   color: white !important;
 }
 
 button.mod-cta:hover {
-  background-color: #7744aa !important;
+  background-color: var(--interactive-accent-hover) !important;
 }
 
 /* Tags */
 .tag,
 a.tag {
-  background-color: rgba(102, 51, 153, 0.15);
-  color: #663399;
-  border-color: rgba(102, 51, 153, 0.3);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
+  color: var(--interactive-accent);
+  border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.3);
 }
 
 .theme-dark .tag,
 .theme-dark a.tag {
-  background-color: rgba(153, 102, 204, 0.2);
-  color: #aa88dd;
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2);
+  color: var(--text-accent);
 }
 
 .tag:hover,
 a.tag:hover {
-  background-color: rgba(102, 51, 153, 0.25);
-  color: #7744aa;
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.25);
+  color: var(--interactive-accent-hover);
 }
 
 /* Graph view */
-.graph-view.color-fill-highlight { color: #663399; }
-.graph-view.color-line-highlight { color: #9966cc; }
+.graph-view.color-fill-highlight { color: var(--interactive-accent); }
+.graph-view.color-line-highlight { color: var(--interactive-accent); }
 
 /* Checkboxes */
 input[type="checkbox"]:checked {
-  background-color: #663399;
-  border-color: #663399;
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
 }
 
 .theme-dark input[type="checkbox"]:checked {
-  background-color: #7744aa;
-  border-color: #7744aa;
+  background-color: var(--interactive-accent-hover);
+  border-color: var(--interactive-accent-hover);
 }
 
 .task-list-item-checkbox:checked {
-  background-color: #663399;
-  border-color: #663399;
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
 }
 
 /* Internal links */
-.internal-link { color: #663399; }
+.internal-link { color: var(--interactive-accent); }
 .theme-dark .internal-link { color: var(--text-accent); }
-.internal-link:hover { color: #7744aa; }
-
-/* Callouts */
-.callout[data-callout="tip"] { --callout-color: 102, 51, 153; }
-.callout[data-callout="info"] { --callout-color: 119, 68, 170; }
+.internal-link:hover { color: var(--interactive-accent-hover); }
 
 /* Progress bars */
-progress::-webkit-progress-value { background-color: #663399; }
-progress::-moz-progress-bar { background-color: #663399; }
+progress::-webkit-progress-value { background-color: var(--interactive-accent); }
+progress::-moz-progress-bar { background-color: var(--interactive-accent); }
 
 /* Slider */
-input[type="range"]::-webkit-slider-thumb { background-color: #663399; }
+input[type="range"]::-webkit-slider-thumb { background-color: var(--interactive-accent); }
 
 /* Search match */
 .search-result-file-matched-text,
 .cm-s-obsidian span.obsidian-search-match-highlight {
-  background-color: rgba(102, 51, 153, 0.3);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.3);
 }
 
 /* Nav active state */
 .nav-file-title.is-active,
-.nav-folder-title.is-active { color: #663399; }
+.nav-folder-title.is-active { color: var(--interactive-accent); }
 
 .theme-dark .nav-file-title.is-active,
 .theme-dark .nav-folder-title.is-active { color: var(--text-accent); }
 
 /* Sidebar tab active */
-.workspace-tab-header.is-active { color: #663399; }
+.workspace-tab-header.is-active { color: var(--interactive-accent); }
 .theme-dark .workspace-tab-header.is-active { color: var(--text-accent); }
 
 /* Frontmatter property keys */
-.metadata-property-key { color: #663399; }
+.metadata-property-key { color: var(--interactive-accent); }
 .theme-dark .metadata-property-key { color: var(--text-accent); }
 
 
@@ -183,13 +152,13 @@ body {
 
 /* H2 — Accent left border */
 .heading-h2-border .markdown-rendered h2 {
-  border-left: 4px solid var(--accent-color, #663399);
+  border-left: 4px solid var(--accent-color, var(--interactive-accent));
   padding-left: 0.5em;
   border-bottom: none;
 }
 
 .heading-h2-border .cm-s-obsidian .HyperMD-header-2 {
-  border-left: 4px solid var(--accent-color, #663399);
+  border-left: 4px solid var(--accent-color, var(--interactive-accent));
   padding-left: 0.5em;
 }
 
@@ -206,14 +175,14 @@ body {
 .markdown-rendered h4,
 .markdown-rendered h5,
 .markdown-rendered h6 {
-  color: var(--text-accent, #9966cc);
+  color: var(--text-accent, var(--interactive-accent));
 }
 
 .cm-s-obsidian .HyperMD-header-3,
 .cm-s-obsidian .HyperMD-header-4,
 .cm-s-obsidian .HyperMD-header-5,
 .cm-s-obsidian .HyperMD-header-6 {
-  color: var(--text-accent, #9966cc);
+  color: var(--text-accent, var(--interactive-accent));
 }
 
 /* Heading sizes/weights/tracking are consolidated in Section 7 (Typography & Rhythm).
@@ -314,7 +283,7 @@ settings:
     title: Code block border color
     type: variable-color
     format: hex
-    default: "#663399"
+    default: "#9aa0b3"
   -
     id: code-inline-tint
     title: Tinted inline code background
@@ -324,7 +293,7 @@ settings:
 
 body {
   --code-border-width: 3px;
-  --code-border-color: #663399;
+  --code-border-color: var(--interactive-accent);
 }
 
 /* Reading View */
@@ -345,24 +314,24 @@ body {
 
 /* Inline code — tinted background (Reading View) */
 .code-inline-tint .markdown-rendered code:not(pre code) {
-  background-color: rgba(102, 51, 153, 0.1);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1);
   border-radius: 3px;
   padding: 0.15em 0.35em;
 }
 
 .theme-dark .code-inline-tint .markdown-rendered code:not(pre code) {
-  background-color: rgba(153, 102, 204, 0.15);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
 
 /* Inline code — tinted background (Live Preview) */
 .code-inline-tint .cm-s-obsidian .cm-inline-code:not(.cm-formatting) {
-  background-color: rgba(102, 51, 153, 0.1);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1);
   border-radius: 3px;
   padding: 0.1em 0.25em;
 }
 
 .theme-dark .code-inline-tint .cm-s-obsidian .cm-inline-code:not(.cm-formatting) {
-  background-color: rgba(153, 102, 204, 0.15);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
 
 /* Language badge — fenced-block language label, top-right (Reading View; Prism language-* class) */
@@ -377,14 +346,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--code-border-color);
-  background-color: rgba(102, 51, 153, 0.12);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.12);
   padding: 0.12em 0.6em;
   border-radius: 0 0 4px 4px;
   pointer-events: none;
 }
 .theme-dark .markdown-rendered pre[class*="language-"]::before {
-  color: #b48aff;
-  background-color: rgba(153, 102, 204, 0.18);
+  color: var(--text-accent);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.18);
 }
 /* per-language labels (only these render a badge; unlisted languages stay unlabelled) */
 .markdown-rendered pre.language-python::before { content: "Python"; }
@@ -419,7 +388,7 @@ settings:
     title: Scrollbar thumb color
     type: variable-color
     format: hex
-    default: "#663399"
+    default: "#9aa0b3"
   -
     id: scrollbar-width
     title: Scrollbar width
@@ -440,7 +409,7 @@ settings:
 */
 
 body {
-  --scrollbar-thumb-color: #663399;
+  --scrollbar-thumb-color: var(--interactive-accent);
   --scrollbar-width: thin;
 }
 
@@ -465,7 +434,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--accent-color-hover, #7744aa);
+  background-color: var(--accent-color-hover, var(--interactive-accent-hover));
 }
 
 ::-webkit-scrollbar-track { background: transparent; }
@@ -523,11 +492,11 @@ body {
 }
 
 .modal-accent-border .modal {
-  border: 1px solid rgba(102, 51, 153, 0.3);
+  border: 1px solid hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.3);
 }
 
 .theme-dark .modal-accent-border .modal {
-  border: 1px solid rgba(153, 102, 204, 0.25);
+  border: 1px solid hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.25);
 }
 
 /* Command palette */
@@ -538,11 +507,11 @@ body {
 }
 
 .modal-accent-border .prompt {
-  border: 1px solid rgba(102, 51, 153, 0.3);
+  border: 1px solid hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.3);
 }
 
 .theme-dark .modal-accent-border .prompt {
-  border: 1px solid rgba(153, 102, 204, 0.25);
+  border: 1px solid hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.25);
 }
 
 /* Suggestion container */
@@ -552,11 +521,11 @@ body {
 
 /* Selected suggestion */
 .suggestion-item.is-selected {
-  background-color: rgba(102, 51, 153, 0.15);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
 
 .theme-dark .suggestion-item.is-selected {
-  background-color: rgba(153, 102, 204, 0.2);
+  background-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.2);
 }
 
 
@@ -651,17 +620,25 @@ body { --body-line-height: 1.6; }
   --home-accent-bright: var(--interactive-accent-hover);
   --home-card-bg: var(--background-secondary);
   --home-card-border: var(--background-modifier-border);
-  --home-glow: rgba(var(--interactive-accent-rgb), 0.30);
+  --home-glow: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.30);
 }
 
 /* ── Masthead scaffold (image + text-fallback variants) ─────────────────── */
 .dashboard .home-masthead {
   position: relative;
   width: 100%;
+  aspect-ratio: 21 / 9;            /* the container now holds the banner (CSS bg); the <img> child is retired */
   margin: 0.2em 0 1.4em;
   border-radius: 14px;
   overflow: hidden;
-  background: linear-gradient(120deg, var(--background-primary) 0%, var(--background-secondary) 60%, var(--background-secondary-alt) 100%);
+  /* O2-bento (spec Am.4): banner via CSS background-image — the generator passes the probe-verified
+     path as the inline --banner-img custom property (a PATH, not a color → ADR-008 §3 "no inline
+     colors" preserved); NOT <img onerror> (Obsidian sanitizes inline JS handlers → never fires, fleet
+     §7.3). Layer 2 = the neutral gradient, shown when --banner-img is unset (masthead_text variant). */
+  background-image: var(--banner-img, none), linear-gradient(120deg, var(--background-primary) 0%, var(--background-secondary) 60%, var(--background-secondary-alt) 100%);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
   box-shadow: 0 6px 28px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--home-card-border);
 }
 .dashboard .home-masthead img {
@@ -685,7 +662,7 @@ body { --body-line-height: 1.6; }
 }
 /* text-only variant (no <img>, or img hidden by onerror): flow-sized gradient band
    (a fixed aspect clipped long display+tagline text — PercySleep, Phase-C capture) */
-.dashboard .home-masthead.banner-fallback { min-height: 5.2em; display: flex; align-items: flex-end; }
+.dashboard .home-masthead.banner-fallback { aspect-ratio: auto; min-height: 5.2em; display: flex; align-items: flex-end; }
 .dashboard .home-masthead.banner-fallback .banner-text { position: static; padding: 0.9em 1.15em; font-size: 1.55em; }
 
 /* ── Timeline HUD ─────────────────────────────────────────────────────────── */
@@ -706,9 +683,9 @@ body { --body-line-height: 1.6; }
   white-space: nowrap;
 }
 .dashboard .timeline-hud .hud-tick.done {
-  background: rgba(var(--interactive-accent-rgb), 0.16);
+  background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.16);
   color: var(--text-normal);
-  border-color: rgba(var(--interactive-accent-rgb), 0.35);
+  border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.35);
 }
 .dashboard .timeline-hud .hud-tick.current {
   background: var(--home-accent);
@@ -766,14 +743,14 @@ body { --body-line-height: 1.6; }
   padding: 0.12em 0.66em;
   margin: 0.1em 0;
   border-radius: 999px;
-  background: rgba(var(--interactive-accent-rgb), 0.10);
+  background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.10);
   border: 1px solid var(--home-card-border);
   font-size: 0.9em;
   text-decoration: none !important;
   white-space: nowrap;
 }
 .dashboard .vault-grid a:hover {
-  background: rgba(var(--interactive-accent-rgb), 0.26);
+  background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.26);
   border-color: var(--home-accent-bright);
 }
 
