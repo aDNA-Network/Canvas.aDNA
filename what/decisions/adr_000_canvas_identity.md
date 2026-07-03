@@ -4,8 +4,8 @@ adr_id: "000"
 title: "Project Identity — Canvas.aDNA, the aDNA Canvas Standard"
 status: ratified
 created: 2026-06-06
-updated: 2026-06-12
-last_edited_by: agent_stanley
+updated: 2026-07-02
+last_edited_by: agent_mondrian
 signed_by: Stanley (operator) — P0 gate 2026-06-06
 annotations: "P1 resolution 2026-06-12 — §4 baseline pinned (PIN-A: Advanced Canvas v5.6.6 + JSON Canvas 1.0)"
 supersedes:
@@ -114,4 +114,4 @@ Consumer `version_policy` default: **minor** (review on minor bump).
 ## Related
 - `decision_register_genesis.md` (D1–D7) · `how/campaigns/campaign_canvas_genesis_planning/` ·
   `aDNA.aDNA/what/specs/spec_framework_ecosystem.md` · `SiteForge.aDNA/what/artifacts/sf_forge_pattern_spec.md` ·
-  `CanvasForge.aDNA/what/context/advanced_canvas/` · `lattice-labs/how/governance/lips/lip_0001_lip_process.md`.
+  `CanvasForge.aDNA/what/context/advanced_canvas/` · `who/governance/lips/lip_0001_lip_process.md` (relocated from the archived `lattice-labs` home, Beacon B4 2026-07-02).

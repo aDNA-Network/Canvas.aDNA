@@ -20,6 +20,8 @@ Team governance for this project. Defines roles, decision authority, and operati
 | `governance_decision_authority.md` | Decision authority matrix — who approves what category of change |
 | `governance_policies.md` | Operational policies — collision prevention, naming, sessions, escalation |
 | `governance_agent_protocol.md` | Agent behavioral contract — partnership model, challenge phase, autonomy framework |
+| `VISION.md` | Canvas.aDNA vision (universal 2D output primitive; the three-leg thesis) |
+| `lips/` | **LIP governance home for the aDNA Canvas Standard** — process (`lip_0001`), template, registry, and the Canvas-stewarded LIPs (0008, 0009). Stood up Operation Beacon B4 (2026-07-02). See `lips/AGENTS.md`. |
 
 Create governance files as the project matures. Start with roles and policies, add decision authority when the team grows.
 

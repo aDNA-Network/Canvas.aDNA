@@ -4,16 +4,23 @@ artifact_type: lip_draft
 title: "LIP DRAFT — canvas as a first-class aDNA primitive? (Δ2)"
 status: submitted
 lip_number: "LIP-0009"
-filed_as: "lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md"
+filed_as: "who/governance/lips/lip_0009_canvas_as_primitive.md"
+filed_as_original: "lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md (archived reader-only)"
+superseded_by: "who/governance/lips/lip_0009_canvas_as_primitive.md (live LIP, Final/Option V)"
 created: 2026-06-12
-updated: 2026-06-20
-last_edited_by: agent_stanley
+updated: 2026-07-02
+last_edited_by: agent_mondrian
 phase: P2
-target_process: "lattice-labs/how/governance/lips/lip_0001_lip_process.md"
+target_process: "who/governance/lips/lip_0001_lip_process.md"
 tags: [lip, draft, canvas, primitive, governance, delta2, genesis]
 ---
 
 # LIP DRAFT — Canvas as a first-class aDNA primitive? (Δ2)
+
+> **➡️ LIVE LIP MIGRATED (Operation Beacon B4, 2026-07-02).** The live LIP is now
+> `who/governance/lips/lip_0009_canvas_as_primitive.md` (migrated out of the archived `lattice-labs` registry) and was
+> **declared Final on Option V** (canvas stays a view; elevation deferred, no re-open — D2). Historical `lattice-labs/…`
+> references below are preserved as the as-of-2026-06-20 record.
 
 > **✅ FILED as LIP-0009 + REVIEW OPENED 2026-06-20** — submitted to
 > `lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md`, registered (`lip_registry.md`), and **Review

@@ -4,16 +4,25 @@ artifact_type: lip_draft
 title: "LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)"
 status: submitted
 lip_number: "LIP-0008"
-filed_as: "lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md"
+filed_as: "who/governance/lips/lip_0008_derived_surface_pure_metadata.md"
+filed_as_original: "lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md (archived reader-only)"
+superseded_by: "who/governance/lips/lip_0008_derived_surface_pure_metadata.md (live LIP, Accepted)"
 created: 2026-06-20
-updated: 2026-06-20
-last_edited_by: agent_stanley
+updated: 2026-07-02
+last_edited_by: agent_mondrian
 phase: post-keystone
-target_process: "lattice-labs/how/governance/lips/lip_0001_lip_process.md"
+target_process: "who/governance/lips/lip_0001_lip_process.md"
 tags: [lip, draft, canvas, panel-link, surface, conformance, errata, b4]
 ---
 
 # LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)
+
+> **➡️ LIVE LIP MIGRATED (Operation Beacon B4, 2026-07-02).** The live LIP is now
+> `who/governance/lips/lip_0008_derived_surface_pure_metadata.md` (migrated out of the archived `lattice-labs`
+> registry). Status advanced **Review → Accepted** (≥7-day review lapsed 2026-06-27; FA-ratified). The A-5 relaxation
+> lands in Canvas Standard **v2.3.0** (the reserved 2.1.0 slot was **superseded** by the Armature 2.2.0 jump), at which
+> point the live LIP → Implemented → Final. Historical `lattice-labs/…` + `v2.1.0` references below are preserved as
+> the as-of-2026-06-20 record.
 
 > **✅ FILED as LIP-0008 + REVIEW OPENED 2026-06-20** — submitted to
 > `lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md`, registered (`lip_registry.md`), and

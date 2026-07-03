@@ -3,8 +3,8 @@ type: decision
 title: "LIP queue disposition — the 4 post-Keystone spec-gap errata (B1–B4)"
 status: active
 created: 2026-06-20
-updated: 2026-06-21
-last_edited_by: agent_stanley
+updated: 2026-07-02
+last_edited_by: agent_mondrian
 phase: post-keystone
 tags: [decision, standard, lip, errata, governance, disposition]
 ---
@@ -41,6 +41,19 @@ The four gates were taken at the post-Keystone closeout (`session_stanley_202606
   **→ FILED as LIP-0008 + REVIEW OPENED 2026-06-20** (`lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md`
   + `lip_registry.md`; status Draft→Review, ≥7-day clock, **earliest close 2026-06-27**) → on Final, lands in v2.1.0.
 - **v2.0.1** — **cut 2026-06-20** (B1 + B3 + B2); see Release packaging.
+
+### B4 reconciliation update (2026-07-02, Operation Beacon Phase B4)
+
+The governance tail is now unblocked and the version target reconciled:
+- **LIP home relocated.** LIP-0008 + LIP-0009 were **migrated live** out of the archived `lattice-labs` registry into
+  the Canvas-local home **`who/governance/lips/`** (archived originals stay reader-only). Every
+  `lattice-labs/how/governance/lips/…` reference below is **historical** — the live copies are now Canvas-local.
+- **LIP-0008 → Accepted → v2.3.0 (not v2.1.0).** The ≥7-day review lapsed 2026-06-27; the FA ratified the direction
+  (Review → **Accepted**). Because the Standard shipped **v2.2.0** (Armature) before this LIP reached Final, the
+  reserved **2.1.0 slot is superseded** — the A-5 relaxation lands as **v2.3.0** at Beacon B4.2 (the gated
+  `reserved.py` touch), at which point LIP-0008 → Implemented → Final. Read every "→ v2.1.0" below as
+  **"→ v2.3.0 (2.1.0 superseded)."**
+- **LIP-0009 → Final (Option V).** Canvas stays a view; elevation deferred, no re-open (D2).
 
 ---
 

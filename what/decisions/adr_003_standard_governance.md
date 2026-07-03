@@ -4,8 +4,8 @@ adr_id: "003"
 title: "Standard governance — v2.0.0 line, LIP change process, conformance levels, version policy"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-12
-last_edited_by: agent_stanley
+updated: 2026-07-02
+last_edited_by: agent_mondrian
 signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
 superseded_by:
@@ -25,7 +25,7 @@ change process, and conformance levels that `spec_adna_canvas_standard.md` and t
 
 The aDNA Canvas Standard forks Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A, [[p1_fork_baseline]] §1) and
 supersedes the embedded v1.0.0. It needs a governed evolution mechanism. A real LIP process exists
-(`lattice-labs/how/governance/lips/lip_0001_lip_process.md`, latest LIP-0007) usable as the change mechanism.
+(`who/governance/lips/lip_0001_lip_process.md`, latest LIP-0007) usable as the change mechanism.
 
 ## Decision
 
@@ -36,7 +36,7 @@ change (must be rare; the C4 Obsidian-degradation contract makes most changes ad
 `_reserved` extensions or new conformance-optional features; **PATCH** = clarifications/errata.
 
 ### 2. Change process — **LIP-style**
-Normative changes to the Standard go through a **Lattice Improvement Proposal** (`lip_0001_lip_process.md`):
+Normative changes to the Standard go through a **Lattice Improvement Proposal** (`who/governance/lips/lip_0001_lip_process.md`):
 proposal → review → ratify, recorded in the LIP registry. The canvas-as-primitive question (D7/Δ2) is explicitly
 a LIP (it touches the aDNA core), not a unilateral edit. Editorial/errata changes may skip the full LIP at the
 maintainer's discretion (aDNA Labs).
@@ -69,4 +69,22 @@ on patch) — matching the SiteForge forge pattern. Producers may pin tighter.
 
 ## Related
 - [[adr_000_canvas_identity]] §5 (v2.0.0 proposal) · [[adr_001_canvasforge_relationship]] · [[adr_002_literatureforge_seam]] ·
-  `spec_adna_canvas_standard.md` (binds these levels) · `lattice-labs/how/governance/lips/lip_0001_lip_process.md`.
+  `spec_adna_canvas_standard.md` (binds these levels) · `who/governance/lips/lip_0001_lip_process.md`.
+
+## Amendments
+
+> The ratified decisions above are unchanged. Amendments record maintenance to the pointers/mechanism they reference.
+
+### Amendment 1 — LIP home relocation + registrar (2026-07-02, Operation Beacon B4)
+
+The LIP process home referenced in §2 (Change process), Context, and Related **moved** from the now-archived
+`lattice-labs/how/governance/lips/` (reader-only since 2026-06-27 → `Archive.aDNA/lattice-labs/…`) to the Canvas-local
+home **`who/governance/lips/`**. The path references above were re-pointed accordingly. The Canvas-local home carries a
+forked CC0 `lip_0001_lip_process.md`, `lip_template.md`, a Canvas-scoped `lip_registry.md`, and the live migrated
+Canvas-stewarded LIPs (LIP-0008, LIP-0009).
+
+**Numbering registrar (D3).** The global LIP number line is registrar'd by **aDNA.aDNA**; Canvas stewards its LIPs
+under their global numbers and holds their content + ratification. This arrangement is staged as a cross-vault
+coordination memo (`who/coordination/coord_2026_07_02_lip_registrar_handshake.md`) and is **pending Rosetta's ack** —
+until then, Canvas numbering is provisional-final under the inherited global numbers. Authority for this amendment:
+operator (FA), Phase 0.
