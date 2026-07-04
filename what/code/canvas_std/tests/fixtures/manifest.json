@@ -90,6 +90,15 @@
       "expected_level_reached": "adna_native",
       "expected_ok": true,
       "note": "Leg-3 interaction overlay (Armature P2, spec_interface_surface §9.1): _reserved.interaction with all four affordance kinds (input/choice/annotation/action), one anchored via a panel_link.anchors label; I-1/I-2/I-3 validate natively through the harness. strip removes all _reserved incl. interaction -> extended-valid (D-1; the interaction layer is additive)."
+    },
+    {
+      "path": "adna_derived_surface.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "note": "LIP-0008 (v2.3.0): panel_link with a canonical surface (id resolves) + a role:derived surface as PURE METADATA (no id / no backing node) — valid aDNA-Native under the A-5 relaxation (would FAIL pre-2.3.0). strip -> extended-valid (D-1)."
     }
   ]
 }

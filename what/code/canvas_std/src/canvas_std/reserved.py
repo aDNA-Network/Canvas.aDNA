@@ -176,16 +176,23 @@ def validate_panel_link(block: dict[str, Any], node_ids: set[str], edges: list[A
         if unit is not None and unit not in PL_EXTENT_UNITS:
             errors.append(f"A-5: region {gid!r} extent.unit {unit!r} invalid")
 
-    # Surfaces: enforce the `role` set (exactly one canonical) + id resolution. The `surface` subclass label is an
-    # OPEN, producer-defined vocabulary (AT-2, spec §4/§5.2) — deliberately NOT enum-checked here.
+    # Surfaces: enforce the `role` set (exactly one canonical) + id resolution. Per LIP-0008 (v2.3.0) a
+    # `role: derived` surface MAY be pure metadata — it may omit its `id`/backing node; every other surface's
+    # id must resolve, and a derived surface that *does* carry an `id` must still resolve. The `surface`
+    # subclass label is an OPEN, producer-defined vocabulary (AT-2, spec §4/§5.2) — deliberately NOT enum-checked.
     surfaces = block.get("surfaces")
     if surfaces is not None:
         canonical = [s for s in surfaces if isinstance(s, dict) and s.get("role") == "canonical"]
         if len(canonical) != 1:
             errors.append(f"A-5: panel_link must have exactly one canonical surface (found {len(canonical)})")
         for s in surfaces:
-            if isinstance(s, dict) and s.get("id") not in node_ids:
-                errors.append(f"A-5: surface id {s.get('id')!r} does not resolve to a node/group")
+            if not isinstance(s, dict):
+                continue
+            sid = s.get("id")
+            if s.get("role") == "derived" and sid is None:
+                continue  # LIP-0008: a derived surface with no id is pure metadata (no backing node required)
+            if sid not in node_ids:
+                errors.append(f"A-5: surface id {sid!r} does not resolve to a node/group")
     return errors
 
 

@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "id": "page1",
+      "type": "group",
+      "x": -20,
+      "y": -20,
+      "width": 320,
+      "height": 340,
+      "label": "Page 1"
+    },
+    {
+      "id": "body",
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 280,
+      "height": 120,
+      "text": "A document whose canonical surface is the paged print output; its HTML rendering is a derived surface."
+    }
+  ],
+  "edges": [],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "sync": {
+          "sync_hash": "0000000000000000",
+          "source_name": "derived_surface_doc",
+          "source_version": "0.1.0"
+        },
+        "component_types": {
+          "body": { "class": "text", "degrades_to": "text" }
+        },
+        "semantic_bindings": { "profile": "document" },
+        "panel_link": {
+          "regions": {
+            "page1": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": { "unit": "pages", "max": 1 },
+              "surface": "letter"
+            }
+          },
+          "surfaces": [
+            { "id": "page1", "role": "canonical", "surface": "print" },
+            { "role": "derived", "surface": "html" }
+          ]
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:derived_surface_doc",
+          "version": "0.1.0",
+          "refs": ["[[spec_panel_link_semantics]]", "[[lip_0008_derived_surface_pure_metadata]]"]
+        }
+      }
+    }
+  }
+}

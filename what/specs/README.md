@@ -1,7 +1,7 @@
 # The aDNA Canvas Standard — normative specifications
 
 This directory holds the **9 ratified specs** that jointly define the **aDNA Canvas Standard** (current version
-**v2.2.0**). Start with the core spec; the rest are normative companions referenced from it.
+**v2.3.0**). Start with the core spec; the rest are normative companions referenced from it.
 
 > **Not to be confused with** the generic *aDNA Universal Standard* — the knowledge-architecture convention for
 > `who/` · `what/` · `how/` vaults — at [`../docs/adna_standard.md`](../docs/adna_standard.md). *This* directory
@@ -22,7 +22,7 @@ This directory holds the **9 ratified specs** that jointly define the **aDNA Can
 | [`spec_conformance_suite.md`](spec_conformance_suite.md) | The conformance / certification suite |
 | [`spec_federation_contract.md`](spec_federation_contract.md) | The consumer federation contract |
 
-All specs are `status: ratified`, `standard_version: 2.2.0`. Changes go through the LIP process
+All specs are `status: ratified`, `standard_version: 2.3.0`. Changes go through the LIP process
 ([`../decisions/adr_003_standard_governance.md`](../decisions/adr_003_standard_governance.md)). The runnable
 reference implementation — validators, round-trip, conformance harness, the `canvas-std` CLI — is at
 [`../code/canvas_std/`](../code/canvas_std/).

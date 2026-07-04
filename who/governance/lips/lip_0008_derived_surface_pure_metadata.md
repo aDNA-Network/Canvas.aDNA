@@ -3,7 +3,7 @@ type: lip
 lip_number: "LIP-0008"
 title: "Derived Surfaces as Pure Metadata (Canvas panel_link A-5 relaxation)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
-status: accepted
+status: final
 created: 2026-06-20
 updated: 2026-07-02
 requires: []
@@ -24,7 +24,9 @@ icon: layers
 > **Migrated live into the Canvas.aDNA governance home** at Operation Beacon Phase B4 (2026-07-02) from the archived
 > lattice-labs registry (reader-only). The ≥7-day review window opened 2026-06-20 and lapsed (earliest close
 > 2026-06-27) with no objection; the FA (operator) ratified the direction, so status advanced **Review → Accepted**.
-> Implementation + the **Final** transition land in B4.2 (the gated `canvas_std` touch + version cut).
+> The A-5 relaxation then **landed in Canvas Standard v2.3.0** (Operation Beacon B4.2, 2026-07-02 — the gated
+> `canvas_std` touch + version cut; suite 115/10, certification 11/11), so status is now **Final**
+> (Review → Accepted → Implemented → Final).
 
 ## Abstract
 
@@ -139,6 +141,7 @@ declares; it cannot widen any trust, auth, or secret-handling surface.
 | 2026-06-20 | **Review opened** (status Draft→Review) — formal LIP-0001 review period (minimum 7 days); earliest close **2026-06-27**. | Steward: Protocol / FA (operator, Phase 0) |
 | 2026-07-02 | **Migrated live** into the Canvas.aDNA governance home (`who/governance/lips/`) from the archived lattice-labs registry (Operation Beacon B4.1). Archive original left reader-only. | Mondrian (Canvas.aDNA) |
 | 2026-07-02 | **Review window lapsed** (closed 2026-06-27, no objection); FA ratifies direction → status **Review → Accepted**. Reconciled landing version **v2.1.0 → v2.3.0** (2.1.0 superseded by the Armature 2.2.0 jump). Implementation + **Final** to land in B4.2. | Operator (FA), Phase 0 |
+| 2026-07-02 | **Implemented → Final.** The A-5 relaxation landed in the `canvas_std` validator (`reserved.py::validate_panel_link` surfaces loop) + fixture/regression tests (suite **115/10**, certification **11/11**) and the Standard was cut to **v2.3.0** (Operation Beacon B4.2). Status **Accepted → Implemented → Final**. | Operator (FA), Phase 0 |
 
 ## Copyright
 

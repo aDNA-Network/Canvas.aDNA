@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_panel_link_semantics
 title: "aDNA Canvas panel/link semantics (D5) — flow, pagination, reading-order for non-DAG outputs"
-standard_version: "2.2.0"
+standard_version: "2.3.0"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-23
@@ -118,8 +118,10 @@ page-`panel`.
 and zero-or-more `derived` (LF F3). The canonical surface is the round-trip authority
 (`spec_roundtrip_protocol_v2.md`); derived surfaces are regenerated, never hand-authored as source. Each entry's
 `surface` field uses the **same open vocabulary** as the region `surface` subclass (§4, AT-2) — a free-form
-producer-defined token, not a closed enum. The validator enforces the `role` set (exactly one `canonical`) and id
-resolution, never the `surface` label.
+producer-defined token, not a closed enum. Per **LIP-0008 (v2.3.0)** a `role: derived` surface is **pure metadata**:
+it MAY omit its `id` and requires no backing node; if it carries an `id`, that `id` MUST resolve. The `canonical`
+surface MUST always resolve (the single round-trip authority). The validator enforces the `role` set (exactly one
+`canonical`), the canonical surface's id resolution (plus any present derived id), never the `surface` label.
 
 5.3. **Naming/anchor links.** `caption` components and cross-references resolve against **anchors** — a
 referenceable target (a baseline node, optionally surfaced under a human label). The Standard owns the
@@ -141,8 +143,9 @@ producer-side (C8 — the Standard fixes the *declaration*, not the *engine*).
 ## 6. Conformance
 
 Panel/link semantics are an **aDNA-Native** feature. A validator **MUST** check: every `panel_link.edges` /
-`regions` / `surfaces` key references an existing baseline `id`; `sequence` chains are acyclic; exactly one
-`canonical` surface; `flow`/`pagination` ∈ their enums, and `extent.unit` ∈ its enum **when `extent` is present**.
+`regions` key (and every id-bearing `surfaces` entry) references an existing baseline `id`; `sequence` chains are
+acyclic; exactly one `canonical` surface, whose `id` resolves; a `role: derived` surface MAY omit its `id` (pure
+metadata, no backing node — **LIP-0008**); `flow`/`pagination` ∈ their enums, and `extent.unit` ∈ its enum **when `extent` is present**.
 `extent` is **OPTIONAL** (§4, AT-1) — a non-paginated single-surface region (e.g. a diagram) omits it, and its
 absence is conformant. The `surface` subclass label (region `surface` and `surfaces[].surface`) is an **open
 vocabulary** (§4/§5.2, AT-2) and is **NOT** enum-checked — a validator MUST NOT reject a canvas for an unrecognized

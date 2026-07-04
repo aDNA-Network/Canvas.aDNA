@@ -1,8 +1,8 @@
 ---
 type: spec
 spec_id: spec_adna_canvas_standard
-title: "aDNA Canvas Standard v2.2.0 — normative specification"
-standard_version: "2.2.0"
+title: "aDNA Canvas Standard v2.3.0 — normative specification"
+standard_version: "2.3.0"
 identifier: "https://adna-network.org/canvas/standard"
 license: "spec-text CC-BY-4.0; reference-implementation MIT"
 status: ratified
@@ -14,7 +14,7 @@ upstream_baseline: "Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A)"
 tags: [spec, canvas, standard, normative, genesis, p2]
 ---
 
-# aDNA Canvas Standard — v2.2.0 (normative)
+# aDNA Canvas Standard — v2.3.0 (normative)
 
 > **Status: RATIFIED 2026-06-12 (operator, P2 gate).** Supersedes the embedded *Canvas Standard v1.0.0*
 > ([p1_source_inventory](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_source_inventory.md) §A3). Normative core; the component model (D4), panel/link semantics (D5), round-trip
@@ -35,7 +35,7 @@ normative parts of this Standard (§12).
 | | |
 |---|---|
 | **Standard identifier** | `https://adna-network.org/canvas/standard` (namespace) |
-| **This version** | 2.2.0 · **Status:** Ratified |
+| **This version** | 2.3.0 · **Status:** Ratified |
 | **Upstream baseline** | Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A) |
 | **JSON Schema** | `https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json` (structural floor; `$id` deliberately pinned — see the schema `$comment`) |
 | **License** | specification text **CC BY 4.0** · reference implementation (`what/code/canvas_std/`) **MIT** |

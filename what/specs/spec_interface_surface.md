@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_interface_surface
 title: "aDNA Canvas interface-surface contract — a canvas as a human↔AI / human↔human interaction surface (Salon leg 3)"
-standard_version: "2.2.0"
+standard_version: "2.3.0"
 interaction_version: "1.0"
 status: ratified
 created: 2026-06-22

@@ -28,7 +28,7 @@ numbers.
 | LIP | Title | Type | Status | Landed | Author | Date |
 |-----|-------|------|--------|--------|--------|------|
 | [[lip_0001_lip_process\|LIP-0001]] | LIP Purpose and Guidelines (Canvas-local working copy) | Process | Accepted | — | Stanley Bishop | 2026-03-07 |
-| [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Accepted | v2.3.0 (pending B4.2) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
+| [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Final | v2.3.0 | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0009_canvas_as_primitive\|LIP-0009]] | Canvas as a First-Class aDNA Primitive (evaluation) | Standard | Final (Option V) | — (no core change) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 
 ## Status (Canvas-stewarded)
@@ -37,16 +37,16 @@ numbers.
 |--------|-------|
 | Draft | 0 |
 | Review | 0 |
-| Accepted | 2 |
+| Accepted | 1 |
 | Implemented | 0 |
-| Final | 1 |
+| Final | 2 |
 | Rejected | 0 |
 | Withdrawn | 0 |
 | **Total** | **3** |
 
-> **LIP-0008** is Accepted (review lapsed 2026-06-27, FA-ratified); it advances to **Implemented → Final** when the A-5
-> relaxation lands in **Canvas Standard v2.3.0** at Operation Beacon B4.2. **LIP-0009** is Final on **Option V** (keep
-> canvas as a view; elevation deferred, no re-open — D2).
+> **LIP-0008** is **Final** — the A-5 relaxation landed in **Canvas Standard v2.3.0** (Operation Beacon B4.2; suite
+> 115/10, certification 11/11). **LIP-0009** is Final on **Option V** (keep canvas as a view; elevation deferred, no
+> re-open — D2).
 
 ---
 *LIP Registry — Canvas.aDNA · established Operation Beacon B4, 2026-07-02 · predecessor: `Archive.aDNA/lattice-labs/how/governance/lips/lip_registry.md`*

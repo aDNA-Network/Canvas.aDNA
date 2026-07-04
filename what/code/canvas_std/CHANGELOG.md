@@ -6,12 +6,42 @@ All notable changes to the reference implementation and the **aDNA Canvas Standa
 
 - **Standard version** (`STANDARD_VERSION`) — heads each release entry below. History:
   **2.0.0** (Keystone) → **2.0.1** (LIP-queue errata B1/B2/B3) → **2.0.2** (Atelier errata AT-1/AT-2) →
-  **[2.1.0 — reserved]** → **2.2.0** (Armature — the leg-3 interaction layer).
-  The **2.1.0 slot is reserved** for the in-review **LIP-0008** (A-5 "derived surface = pure metadata" relaxation):
-  the Standard jumped 2.0.2 → 2.2.0 at Armature, so 2.1.0 is held pending LIP-0008's disposition
-  (see `what/decisions/lip_queue_disposition.md`; reconciled in Operation Beacon Phase B4).
+  **[2.1.0 — superseded]** → **2.2.0** (Armature — the leg-3 interaction layer) → **2.3.0** (Beacon B4 — LIP-0008 A-5 relaxation).
+  **2.1.0 was never cut:** LIP-0008 (A-5 "derived surface = pure metadata" relaxation) originally targeted 2.1.0, but
+  the Standard jumped 2.0.2 → 2.2.0 at Armature before LIP-0008 reached Final, so the relaxation landed as **2.3.0**
+  (Operation Beacon Phase B4) and 2.1.0 is recorded as **superseded** (see `what/decisions/lip_queue_disposition.md`).
 - **Package version** (`__version__`, currently `0.1.0`) — the pip package; advances on its own cadence. The
   `## [0.1.0]` entry below is the **package** skeleton (Keystone E0.1), not a Standard release.
+
+## [2.3.0] — 2026-07-02 (Operation Beacon B4 — LIP-0008 A-5 relaxation: derived surfaces as pure metadata)
+
+The gated `canvas_std` firewall touch of Operation Beacon Phase B4 — bounded to the single purpose ratified LIP-0008
+authorizes (the A-5 surface relaxation). Full-regression-green at the exit; the `reserved.py` diff is the surfaces
+loop only (validator logic elsewhere untouched). Resolves the reserved-2.1.0 slot: LIP-0008 targeted 2.1.0, but the
+Armature 2.2.0 jump superseded it, so the relaxation lands here as a **MINOR** atop 2.2.0.
+
+### Changed (A-5 relaxation — spec_panel_link_semantics §5.2/§6, spec_conformance_suite A-5)
+- `reserved.py::validate_panel_link` surfaces loop: a `role: derived` surface **MAY** be pure metadata — it may omit
+  its `id` and requires no backing node. The `canonical` surface still MUST resolve; a derived surface that *does*
+  carry an `id` still MUST resolve. Scoped to `_reserved.panel_link` surfaces only — the top-level node-`id`
+  requirement (`schema.NODE_REQUIRED_FIELDS`) is unchanged. Removes the synthetic `region`-class marker-node wart
+  (producers MAY now stop minting `surface_<name>` markers; not required this phase).
+- `tests/fixtures/adna_derived_surface.canvas` (canonical print surface + a `role: derived` html surface as pure
+  metadata, no id) + a manifest entry; `tests/test_anchors.py` gains 3 regression tests (derived MAY omit id;
+  derived-with-id still resolves; the relaxation is scoped to `role: derived`). **Suite: 115 passed / 10 skipped;
+  certification corpus CERTIFIED 11/11.** No producer regression (brief 10 · deck 16 · document 37 · diagram 36 ·
+  comic 87 · letter 17 · post 20).
+- Spec text amended: `spec_panel_link_semantics §5.2` (derived = pure metadata, no backing node) + §6 (conformance
+  restatement); `spec_conformance_suite` A-5 row. LIP: `who/governance/lips/lip_0008_derived_surface_pure_metadata.md`
+  (Accepted → Implemented → Final on this cut).
+
+### Standard release v2.3.0 CUT 2026-07-02 (operator-authorized at the Beacon B4 gate)
+- Bumped `2.2.0 → 2.3.0` mirroring the prior cuts: `STANDARD_VERSION` (`__init__.py`), schema `title` +
+  `x-standard-version` (**kept `$id`** — the A-5 relaxation is validator-level, the structural schema is unchanged),
+  `conformance.py` (×3), `test_smoke.py` (×2) + `test_conformance.py` (×1), the 9 `what/specs/spec_*.md`
+  `standard_version` frontmatters + the `spec_federation_contract` example + the core-spec title/H1/version-table +
+  the specs `README`. Fixtures' `_reserved.adna_version` stays `2.0.0` (a 2.0.0-authored canvas remains valid under
+  the 2.3.0 validator — the relaxation only widens what passes).
 
 ## [2.2.0] — 2026-06-23 (Operation Armature P2 — I-* wired into the harness + the interaction_version cut)
 

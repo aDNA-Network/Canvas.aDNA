@@ -117,3 +117,28 @@ def test_at2_surface_label_is_open_vocabulary():
         "surfaces": [{"id": "g", "role": "canonical", "surface": "comic_page"}],
     }
     assert validate_panel_link(block, {"g"}, [], set()) == []
+
+
+# --- LIP-0008 (v2.3.0): derived surfaces MAY be pure metadata (A-5 relaxation) ----------------------
+# The canonical surface keeps its node-resolution guarantee; a `role: derived` surface MAY omit its `id`
+# (and backing node), carrying pure metadata. A derived surface that *does* carry an `id` must still resolve.
+def test_lip0008_derived_surface_may_omit_id():
+    # canonical resolves; the derived surface is pure metadata (no id, no node) → conformant.
+    block = {"surfaces": [{"id": "g", "role": "canonical"}, {"surface": "html", "role": "derived"}]}
+    assert validate_panel_link(block, {"g"}, [], set()) == []
+
+
+def test_lip0008_derived_surface_with_id_still_resolves():
+    # optionality is about *absence*: a derived surface that carries an id must still resolve.
+    block = {"surfaces": [{"id": "g", "role": "canonical"}, {"id": "ghost", "role": "derived"}]}
+    errs = validate_panel_link(block, {"g"}, [], set())
+    assert any("ghost" in e and "does not resolve" in e for e in errs), errs
+
+
+def test_lip0008_relaxation_is_scoped_to_derived():
+    # a canonical surface must still resolve …
+    miss = {"surfaces": [{"id": "missing", "role": "canonical"}]}
+    assert any("missing" in e and "does not resolve" in e for e in validate_panel_link(miss, {"g"}, [], set()))
+    # … and only `role: derived` is exempt — another role may not omit its id.
+    other = {"surfaces": [{"id": "g", "role": "canonical"}, {"surface": "x", "role": "alt"}]}
+    assert any("does not resolve" in e for e in validate_panel_link(other, {"g"}, [], set()))

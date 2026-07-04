@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_conformance_suite
 title: "aDNA Canvas conformance suite — checks for Core / Extended / aDNA-Native"
-standard_version: "2.2.0"
+standard_version: "2.3.0"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-23
@@ -57,7 +57,7 @@ A Core-valid document **MUST** be a valid JSON Canvas 1.0 file (the degradation 
 | A-2 | `_reserved.adna_version` present + semver; `conformance_level` = `adna_native`. |
 | A-3 | `_reserved.component_types` valid per [[spec_component_model]] §7 (keys resolve; `class`∈taxonomy; profile tokens∈§6; `degrades_to`∈baseline types). |
 | A-4 | `_reserved.semantic_bindings` profiles use only §6 tokens; the built-in `lattice` profile is unmodified ([[spec_component_model]] §4.2). |
-| A-5 | `_reserved.panel_link` valid per [[spec_panel_link_semantics]] §6 (ids resolve; `sequence` acyclic; exactly one `canonical` surface; no orphaned anchors). |
+| A-5 | `_reserved.panel_link` valid per [[spec_panel_link_semantics]] §6 (region/edge + id-bearing surface ids resolve; `sequence` acyclic; exactly one `canonical` surface whose id resolves; a `role: derived` surface MAY omit its id — pure metadata, LIP-0008; no orphaned anchors). |
 | A-6 | `_reserved.sync` present; `sync_hash` matches `compute_sync_hash(source)` **or** the canvas is flagged stale ([[spec_roundtrip_protocol_v2]] §3). |
 | A-7 | `_reserved.context_object` (if present) valid per [[spec_context_object]] §4 (stable `id`; semver `version`; well-formed `refs`). |
 
