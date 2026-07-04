@@ -2,14 +2,15 @@
 type: federation_wrapper
 wrapper_for: III.aDNA
 created: 2026-06-12
-updated: 2026-06-19
-last_edited_by: agent_stanley
+updated: 2026-07-04
+last_edited_by: agent_argus
 mission_origin: Canvas.aDNA Operation Cartography — P3 (mission_p3_conformance_federation)
 activated_by: Canvas.aDNA Operation Keystone — E5.1 (mission_e5_1_iii_wiring)
+last_reviewed_at: III.aDNA campaign_m_network_primitive DP-4 (2026-07-04; v0.5.0 → v0.6.0)
 status: active
-substrate_pin: "III.aDNA v0.5.0"
-pinned_at: 2026-06-19
-tags: [federation, iii, consumer_wrapper, canvas, active, v0_5_pinned, genesis]
+substrate_pin: "III.aDNA v0.6.0"
+pinned_at: 2026-07-04
+tags: [federation, iii, consumer_wrapper, canvas, active, v0_6_pinned, genesis]
 ---
 
 # Canvas.aDNA `iii/` — III.aDNA Consumer Wrapper
@@ -19,9 +20,9 @@ Canvas.aDNA federates against III to review canvas **output quality**, distinct 
 the Standard checks itself ([[spec_conformance_suite]]). The III loop: `DISPATCH → INSPECT {Text/Code/Visual/Data}
 → INTROSPECT → IMPROVE → (human gate) → ACCUMULATE`.
 
-> **ACTIVE — wired at Keystone E5.1 (2026-06-19).** `status: active`; pin **confirmed v0.5.0** against
-> `III.aDNA/MANIFEST.md` (Campaign-G G4 production pin `v0.4.1→v0.5.0`; siblings VideoForge/CanvasForge/wga already
-> @ v0.5.0). The stale workspace-router note (production pin "v0.4.0") is superseded by III's live state. First real
+> **ACTIVE — wired at Keystone E5.1 (2026-06-19); re-pinned to v0.6.0 at III's Aqueduct DP-4 close (2026-07-04).** `status: active`; pin **v0.6.0** against
+> `III.aDNA/MANIFEST.md` (Campaign M "Operation Aqueduct" network-primitive graduation, `v0.5.0→v0.6.0`; siblings Videos/wga swept @ v0.6.0
+> in the same DP-4 sweep). III's live production pin is **v0.6.0 TAGGED**. First real
 > review: [[feedback_2026_06_19_canvas_consumers]] (brief_consumer + deck_generator; **structural** — pixel/VR1 PT-P5-gated).
 
 Per **ADR-002** (consumer federation contract) and **ADR-003** (learning-store ownership) at III.aDNA, this
@@ -57,10 +58,10 @@ federation_ref:
   source_vault: III.aDNA
   source_path: ~/aDNA/III.aDNA
   source_skill: how/skills/skill_iii_review.md
-  version: "0.5.0"                 # confirmed vs III.aDNA/MANIFEST.md (Campaign-G G4, 2026-06-19); minor bump 0.4.0→0.5.0 reviewed per ADR-002 §3
-  pinned_at_commit: "0f06aa6"      # III v0.5.0 declaration commit (Campaign-G G4; annotated tag deferred to III G6)
-  pinned_at: 2026-06-19            # Keystone E5.1 activation
-  lattice_version: "1.2.6"         # oracle lattice (Campaign-G G2)
+  version: "0.6.0"                 # confirmed vs III.aDNA/MANIFEST.md (Aqueduct DP-4, 2026-07-04); minor bump 0.5.0→0.6.0 reviewed per ADR-002 §3
+  pinned_at_commit: "be7dba1"      # III v0.6.0 tag commit (Aqueduct DP-4 close; annotated v0.6.0 tag CUT at III DP-4)
+  pinned_at: 2026-07-04            # Aqueduct DP-4 wrapper sweep
+  lattice_version: "1.2.6"         # oracle lattice (unchanged; Campaign-G G2)
   version_policy: minor
   packs_used:
     - context_iii_inspect_procedures      # universal
