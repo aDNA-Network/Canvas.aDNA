@@ -3,7 +3,7 @@ type: mission
 mission_id: mission_beacon_tier3_governance
 campaign_id: campaign_canvas_beacon
 phase: B4
-status: in_progress
+status: completed
 owner: stanley
 persona: Mondrian
 created: 2026-07-02
@@ -33,10 +33,10 @@ single reviewable `canvas_std` touch + version cut. Governance and code commit *
 | **O2** | B4.1 | Re-point dead governance refs — `adr_003 §2`/Context/Related (dated Amendment, not silent edit) + `adr_000`; annotate `lip_queue_disposition` + the two `lip_draft_*` (migration banners, history preserved) | ✅ done |
 | **O3** | B4.1 | LIP-0009 → **Final** (Option V; no re-open, D2); LIP-0008 → **Accepted** (review lapsed 2026-06-27, FA-ratified) | ✅ done |
 | **O4** | B4.1 | Stage the aDNA.aDNA (Rosetta) registrar coord memo (cross-vault, gated; never a silent write) | ✅ done |
-| **G1** | gate | **SITREP + HOLD** — governance changeset committed discretely; operator authorizes push + the B4.2 firewall touch | ⏳ at gate |
-| **O5** | B4.2 | Implement A-5 relaxation in `reserved.py` (`role: derived` surfaces MAY omit `id`; surfaces-only scope guard) + positive fixture + regression tests; re-run harness (105/10 → N green) + `certify.py` | ☐ pending |
-| **O6** | B4.2 | Cut Canvas Standard **v2.3.0** (STANDARD_VERSION + mirror sites; CHANGELOG `[2.3.0]` + 2.1.0 superseded; A-5 spec text); LIP-0008 → Implemented → Final | ☐ pending |
-| **O7** | B4.2 | **SITREP + HOLD** — code/version touch as its own separate commit; operator-gated push; Beacon close (AARs + campaign completed + STATE reconcile) | ☐ pending |
+| **G1** | gate | **SITREP + HOLD** — governance changeset committed discretely (`b344968`); operator chose "proceed to B4.2, push both at close" | ✅ done |
+| **O5** | B4.2 | Implement A-5 relaxation in `reserved.py` (`role: derived` surfaces MAY omit `id`; surfaces-only scope guard) + positive fixture + 3 regression tests; harness **115/10** + `certify.py` **11/11** | ✅ done |
+| **O6** | B4.2 | Cut Canvas Standard **v2.3.0** (STANDARD_VERSION + all mirror sites; CHANGELOG `[2.3.0]` + 2.1.0 superseded; A-5 spec text §5.2/§6 + conformance suite); LIP-0008 → Implemented → **Final** | ✅ done |
+| **O7** | B4.2 | Code/version touch as its own separate commit; push at close; Beacon close (AARs + campaign completed + STATE reconcile) | ✅ done |
 
 ## Notes
 - **Firewall (ADR-004 two-shelf).** B4.1 touched **zero** `canvas_std/src/*.py`. B4.2 is the sole gated logic touch —
@@ -51,4 +51,8 @@ single reviewable `canvas_std` touch + version cut. Governance and code commit *
 
 ## AAR
 
-_(written at mission close, after B4.2 — SO-5)_
+- **Worked:** the two-mission firewall split held cleanly — B4.1 pure governance (`canvas_std/src` git-diff 0), B4.2 the single gated `reserved.py` touch. The A-5 relaxation was a 9-line surgical change (skip id-resolution only for `role: derived` with no `id`); the harness went 105→**115/10** (+3 regression tests + the golden fixture) with zero prior-test regression, and `certify.py` reached **11/11**. The v2.3.0 cut mirrored the v2.0.1/2.0.2 site-list exactly (STANDARD_VERSION · schema title/x-standard-version [$id kept] · conformance.py ×3 · test_smoke ×2 · test_conformance ×1 · 9 spec frontmatters · federation example · core-spec title/H1/table · specs README).
+- **Didn't:** didn't renumber the LIPs (D3 keeps global 0008/0009 under an aDNA.aDNA registrar — a cross-vault dependency held open, pending Rosetta ack); didn't touch producers (they still mint synthetic marker nodes — now *optional*/valid, a future cleanup); didn't retro-insert 2.1.0 (recorded **superseded**).
+- **Finding:** the B4 investigation was right — the A-5 relaxation was genuinely **un-implemented** in v2.2.0, so advancing LIP-0008 to Final *required* real, gated code (not a paper flip). The scope guard (only `role: derived` exempt; canonical + id-bearing derived still resolve) is locked by 3 regression tests, so a future accidental over-relaxation fails CI.
+- **Change:** reserved 2.1.0 → **superseded**; the relaxation shipped as **v2.3.0** (MINOR, backward-compatible). LIP-0008 → **Final** (landed v2.3.0); LIP-0009 → **Final** (Option V, no re-open). `adr_003 §2` re-pointed to the Canvas-local LIP home via a dated Amendment.
+- **Follow-up:** Rosetta registrar ack (**#needs-human**, non-blocking); producers MAY drop synthetic marker nodes (future producer work); Tier 4 spec-it (prompting primitive · RLHF seam) remains the named second wave; on ack, flip `adr_003` Amendment 1 + `lip_registry` from "pending" to ratified.

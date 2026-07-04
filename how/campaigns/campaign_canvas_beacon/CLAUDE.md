@@ -6,8 +6,8 @@
 |-------|-------|
 | Campaign | `campaign_canvas_beacon` |
 | Owner | stanley |
-| Status | 🟢 **active** (chartered 2026-06-30 from the Lodestar P2 gate; scope Tier 0–3 locked) |
-| Current Phase | **B1–B3 COMPLETE; HOLDING at B3→B4.** Tier 0 quick-wins ✅ · Tier 1 docs ✅ (VISION replaced) · Tier 2 publishing ✅ (cert kit **CERTIFIED 10/10**). **Next: B4 — Tier 3 governance unblock (cross-vault).** HOLD (SO-1). |
+| Status | ✅ **completed** (2026-07-02 — all four phases shipped; aDNA Canvas Standard **v2.3.0**) |
+| Current Phase | **COMPLETE.** B1 quick-wins ✅ · B2 docs ✅ (VISION replaced) · B3 publishing ✅ (cert kit **CERTIFIED 11/11**) · B4 governance-unblock ✅ (LIP home stood up + **LIP-0008 A-5 relaxation → Standard v2.3.0**; LIP-0009 Final/Option V). **Open tail:** D3 Rosetta registrar ack (`#needs-human`, non-blocking). |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_lodestar` (Operation Lodestar — review-and-recommend; closed at P2 2026-06-30) |
 

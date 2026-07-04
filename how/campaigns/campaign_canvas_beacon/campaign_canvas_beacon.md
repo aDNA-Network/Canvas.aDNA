@@ -3,16 +3,16 @@ campaign_id: campaign_canvas_beacon
 type: campaign
 title: "Operation Beacon — Canvas Standard publish-hardening & governance unblock"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "4-7"
 phase_count: 4
-mission_count: 1
+mission_count: 4
 priority: high
 predecessor: campaign_canvas_lodestar
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-02
 last_edited_by: agent_mondrian
-status_history: "active (2026-06-30 — chartered from the Lodestar P2 gate; operator ratified scope=Tier 0–3 full publish-hardening · vehicle=new campaign · D3=global+aDNA.aDNA registrar · D2=accept no-LIP-0009-reopen via the approved plan; Phase B1 Tier-0 executing in session …_164238)"
+status_history: "active (2026-06-30 — chartered from the Lodestar P2 gate; scope=Tier 0–3 · D3=global+aDNA.aDNA registrar · D2=no-LIP-0009-reopen) → completed (2026-07-02 — all four phases shipped: B1 quick-wins · B2 docs · B3 publishing/cert-kit · B4 governance-unblock + LIP-0008 A-5 relaxation cut into Standard v2.3.0)"
 tags: [campaign, canvas, beacon, publishing, documentation, governance, standard, lip, conformance, rlhf]
 ---
 
@@ -21,6 +21,28 @@ tags: [campaign, canvas, beacon, publishing, documentation, governance, standard
 > The **build** that **Operation Lodestar** (review-and-recommend, closed at its P2 gate 2026-06-30)
 > recommended and the operator gated. Lodestar reviewed; Beacon builds. R-IDs below map to Lodestar's
 > deliverables (`../campaign_canvas_lodestar/missions/artifacts/lodestar_{gap_register,positioning_assessment,recommendations}.md`).
+
+## ✅ Completion Summary (2026-07-02)
+
+**Operation Beacon is COMPLETE.** All four human-gated phases shipped on a green base; the aDNA Canvas Standard is now navigable, citable, self-certifying, and its governance is unblocked.
+
+| Phase | Shipped |
+|-------|---------|
+| **B1 · Tier 0** | Wrong-repo/dead-link fixes · `canvas_std/README` version-currency · spec title/H1 · schema `$id` pin-note. |
+| **B2 · Tier 1** | Root **`README.md`** · **MANIFEST** refresh · **producer quickstart** · **Standard explainer** (RLHF-surface story) · `VISION.md` replaced (B6). |
+| **B3 · Tier 2** | **Citable spec** (Abstract · CC-BY-4.0 · stable identifier · resolvable refs) · standard-scope **version-history** · **certification kit** · specs index. |
+| **B4 · Tier 3** | **LIP governance home** stood up (`who/governance/lips/`) + LIP-0008/0009 migrated live · dead `lattice-labs` refs re-pointed (`adr_003` Amendment) · Rosetta registrar memo staged · **LIP-0008 A-5 relaxation implemented + cut into Canvas Standard v2.3.0** (LIP-0008 → Final; LIP-0009 → Final/Option V). |
+
+**End state:** aDNA Canvas Standard **v2.3.0**; `canvas_std` **115 passed / 10 skipped**, certification **11/11**; firewall clean (B4.2 = one reviewable `reserved.py` touch; `validate.py`/`schema.py` untouched). Commits: B1 `2299be0` · B2 `3d69261`/`465fbc2` · B3 `c79ac58` · B4.1 governance `b344968` · B4.2 v2.3.0 + close (this session).
+
+**Open tail (non-blocking):** the **D3 registrar handshake** — a cross-vault coord memo to `aDNA.aDNA` (Rosetta) is staged and **pending ack** (`#needs-human`); until then Canvas LIP numbering is provisional-final under the inherited global numbers. **Named second wave:** Tier 4 spec-it (prompting primitive · RLHF seam). **Deferred/hold-open:** C-iv canvas-as-primitive (D2, `idea_oip_v1x_interface_reanchor`); producer marker-node cleanup (now optional).
+
+### Campaign AAR
+- **Worked:** the tier structure front-loaded credibility-per-hour (Tier 0/1 = high-visibility, low-risk) and isolated the one genuinely-blocked + code-touching item (B4) to the end, behind its own gate. ~80% of the doc layer was repackaged internal prose, not new writing. Every `canvas_std` touch stayed reviewable; the harness never regressed (105 → 115).
+- **Didn't:** Tier 4 (spec-it) stayed out (named second wave); the D3 registrar remains a pending cross-vault ack (correctly held, not forced).
+- **Finding:** the B4 investigation earned its keep — the A-5 relaxation was *not* already in v2.2.0, so "advance LIP-0008 to Final" was a real gated code cut (v2.3.0), not a paper flip; the reserved 2.1.0 slot reconciled cleanly as *superseded*.
+- **Change:** the repo went from invisible-but-strong to a published Standard — root README + explainer + citable spec (CC-BY-4.0) + cert kit + a live LIP governance home; Standard v2.2.0 → **v2.3.0**.
+- **Follow-up:** Rosetta registrar ack; Tier 4 second wave when scheduled; producers may drop synthetic marker nodes.
 
 ## Goal
 
@@ -81,10 +103,12 @@ every `canvas_std` touch, re-run `pytest -q` and confirm `105 passed / 10 skippe
 - Lower-priority docs **B5** (Canvas↔Lattice integration) · **B8** (repo-map) · **B9** (glossary) — candidate adds, not gated tiers.
 - **A8** legacy federation suite (PT-P5, Hestia-owned) · **Hearthlight Tier-B** rollout (Hestia-owned).
 
-## Missions
+## Missions (all completed)
 
-- → `missions/mission_beacon_tier0_quickwins.md` (Phase B1 — created at charter; executing).
-- B2/B3/B4 missions are created when their phase opens (after the prior phase's operator gate). Never pre-spawn past a HOLD.
+- → `missions/mission_beacon_tier0_quickwins.md` (Phase B1 — quick wins). ✅
+- → `missions/mission_beacon_tier1_docs.md` (Phase B2 — documentation sprint). ✅
+- → `missions/mission_beacon_tier2_publishing.md` (Phase B3 — publishing hardening). ✅
+- → `missions/mission_beacon_tier3_governance.md` (Phase B4 — governance unblock + v2.3.0 A-5 relaxation). ✅
 
 ## Reuse, not rebuild
 - Lodestar's three deliverables = the source of truth (gap IDs, positioning calls, the tier menu).
