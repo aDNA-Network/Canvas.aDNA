@@ -1,9 +1,10 @@
 ---
 type: governance
 version: "7.0"
+governance_doctrine: v8.4
 token_estimate: ~3000
-updated: 2026-06-17
-last_edited_by: agent_stanley
+updated: 2026-07-05
+last_edited_by: agent_rosetta
 ---
 
 # CLAUDE.md — Canvas.aDNA
@@ -140,6 +141,48 @@ These rules apply to every session, mission, and campaign.
 4. **Local context over global context.** Read the AGENTS.md in the directory you're working in before loading broader context. The local file is authoritative for that space.
 5. **Every mission gets an AAR.** Before setting any mission to `status: completed`, append a 5-line AAR (Worked/Didn't/Finding/Change/Follow-up). Template: `how/templates/template_aar_lightweight.md`. No exceptions.
 6. **Archive, never delete.** Campaign docs, mission files, session records — permanent audit trail. Set `status: abandoned` or `status: completed`, never remove.
+
+## Governance Doctrine (v8.4)
+
+> **Adopted 2026-07-05 — the aDNA v8.4 consumer-facing governance doctrine** (guest-visit by Rosetta for Operation Concord, the
+> fleet governance-doctrine rollout; standard-side home `aDNA.aDNA/how/campaigns/campaign_w4_governance_doctrine/`). This vault
+> takes the **project-vault subset** (the five items below); it *references* node-level agentic-sudo + the Home.aDNA credential
+> broker; and it does **not** carry workspace-router-only router-row discipline. Governance **version-number** reconciliation is
+> deferred to Concord P3 / DP3 (frontmatter records `governance_doctrine: v8.4`; the `version` field is unchanged pending that ruling).
+
+### Decision Ratification (§7.7)
+
+Agents **author** decisions; operators **ratify** them. No ADR or load-bearing decision is `accepted` on an agent's say-so — it
+stays `proposed` until the operator signs, and carries a 4-field ratification block (**decision · ratified-by · date · status**).
+ADRs live in `what/decisions/`. *(Authored by agents, owned by humans — ratification is where that ownership is exercised.)*
+
+### Credential Routing (broker = Home.aDNA)
+
+Credentials are brokered by **Home.aDNA** (Hestia) on Keychain-primary + 1Password-backup — **never inlined**. Reach a secret by
+**name → environment variable** (`GITHUB_TOKEN`, `CODEBERG_TOKEN`, …); the value **never transits the conversation** (ADR-007).
+This vault records credential **names only**. Node-level **agentic sudo** (non-TTY `sudo`) follows the canonical
+`aDNA.aDNA/how/skills/skill_agentic_sudo.md`.
+
+### Operator Decision Surfacing (AskUserQuestion)
+
+When a decision is genuinely the operator's — one you cannot settle from the request, the vault, or a sensible default — **surface
+it; don't guess, don't bury it.** Use `AskUserQuestion` for a bounded choice (offer a default, allow escape, record the resolution).
+For a richer decision (multi-field input, a phase-exit / ratification gate), render an operator gate via
+`aDNA.aDNA/how/skills/skill_create_iss.md`.
+
+### Single-Writer Lease
+
+One writer at a time for any **shared config or high-collision entity**. Read current content + check `updated` immediately before
+writing; stamp `updated` + `last_edited_by` on write. **Mandatory** for the `inventory`, `identity`, and credential entity types.
+Concurrent agents coordinate via the session lock in `how/sessions/active/` — a non-empty peer session means *do not co-write its files*.
+
+### Model-Tiered Execution (`executor_tier`)
+
+Every mission/plan declares a planned **`executor_tier: fable | opus | sonnet`** — the model class the work routes to — alongside
+`token_budget_estimated`. Judgment-heavy work runs `opus`; mechanical sweeps drop to `sonnet`/`fable`. Doctrine:
+`aDNA.aDNA/what/patterns/pattern_model_tiered_campaign_execution.md`.
+
+---
 
 ## Git Coordination
 
