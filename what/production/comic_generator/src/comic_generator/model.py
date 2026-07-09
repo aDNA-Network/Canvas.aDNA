@@ -20,6 +20,7 @@ dataclasses; ``CanvasBuilder`` / ``ContextPack`` / ``ImagePrompt`` couplings dro
 from __future__ import annotations
 
 import json
+import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -143,6 +144,15 @@ class Page:
             )
         if not self.panels:
             raise ValueError(f"page {self.number} has no panels")
+        # A splash page conventionally carries ONE full-page panel; more is legal (the grid still lays them out)
+        # but almost always an authoring mistake, so it warns rather than errors (Halftone H1, gap G5).
+        if self.layout_type == "splash" and len(self.panels) > 1:
+            warnings.warn(
+                f"page {self.number}: layout_type 'splash' with {len(self.panels)} panels — "
+                "a splash conventionally carries a single full-page panel",
+                UserWarning,
+                stacklevel=2,
+            )
 
 
 @dataclass(frozen=True)
@@ -173,6 +183,7 @@ class ComicInput:
     story_state: tuple[SpreadStoryState, ...] = ()
     art_style: str = "ghibli"
     refs: tuple[str, ...] = ()
+    negative_suffix: str = ""  # Layer-6 override; empty -> the engine default (style.NEGATIVE_SUFFIX)
 
     def __post_init__(self) -> None:
         if not self.pages:
@@ -180,6 +191,39 @@ class ComicInput:
         nums = [p.number for p in self.pages]
         if len(nums) != len(set(nums)):
             raise ValueError("duplicate page number in comic")
+
+        # Spread cross-validation (Halftone H1, gap G5) — ONLY when spreads are explicitly declared. Implicit
+        # grouping by bare spread_number (no `spreads:` block) remains legal; but once the author declares the
+        # spread overlay, an undeclared reference or a dangling page ref is an authoring error, not intent.
+        if self.spreads:
+            declared = {s.number for s in self.spreads}
+            for p in self.pages:
+                if p.spread_number is not None and p.spread_number not in declared:
+                    raise ValueError(
+                        f"page {p.number} references spread {p.spread_number}, "
+                        f"which is not declared in spreads {sorted(declared)}"
+                    )
+            page_nums = set(nums)
+            for s in self.spreads:
+                missing = [n for n in s.pages if n not in page_nums]
+                if missing:
+                    raise ValueError(
+                        f"spread {s.number} declares pages {missing} that do not exist in the comic"
+                    )
+
+        # Story-state character check (warn — Halftone H1, gap G5): once a character bible is declared, a
+        # story_state key outside it is almost always a typo (the mood/pose merge would silently never fire).
+        if self.characters:
+            bible_keys = {c.name.lower() for c in self.characters}
+            for ss in self.story_state:
+                unknown = sorted(set(ss.characters) - bible_keys)
+                if unknown:
+                    warnings.warn(
+                        f"story_state spread {ss.spread} references character(s) {unknown} "
+                        "not in the character bible — their mood/pose will never merge",
+                        UserWarning,
+                        stacklevel=2,
+                    )
 
     # --- Lookups (the data-driven analogs of the quarry's _get_* helpers) ----------------------------------
 
@@ -256,6 +300,7 @@ class ComicInput:
             story_state=story_state,
             art_style=str(d.get("art_style", "ghibli")),
             refs=tuple(str(r) for r in d.get("refs", [])),
+            negative_suffix=str(d.get("negative_suffix", "")),
         )
 
 
@@ -298,8 +343,33 @@ def _story_state_from_dict(ss: dict[str, Any]) -> SpreadStoryState:
     )
 
 
+def validate_image_paths(comic: ComicInput, base_dir: str | Path | None = None) -> list[str]:
+    """Return the ``Panel.image_path`` values that do NOT resolve to an existing file (Halftone H1, gap G5).
+
+    Relative paths resolve against ``base_dir`` (typically the input file's directory); absolute paths as-is.
+    The producer accepts a missing path (it still emits a valid ``file`` node) — callers decide whether missing
+    paths warn (``load_comic``) or fail (the CLI's ``--strict-paths``).
+    """
+    base = Path(base_dir) if base_dir is not None else Path.cwd()
+    missing: list[str] = []
+    for page in comic.pages:
+        for panel in page.panels:
+            if not panel.image_path:
+                continue
+            p = Path(panel.image_path)
+            resolved = p if p.is_absolute() else base / p
+            if not resolved.exists():
+                missing.append(panel.image_path)
+    return missing
+
+
 def load_comic(path: str | Path) -> ComicInput:
-    """Load a comic from ``.yaml``/``.yml`` (PyYAML) or ``.json``."""
+    """Load a comic from ``.yaml``/``.yml`` (PyYAML) or ``.json``.
+
+    Warns (``UserWarning``) for any ``image_path`` that does not resolve relative to the input file's directory —
+    the build still proceeds (a broken path yields a valid canvas with a dangling ``file`` ref); use the CLI's
+    ``--strict-paths`` to make missing paths fatal.
+    """
     p = Path(path)
     text = p.read_text(encoding="utf-8")
     if p.suffix.lower() in (".yaml", ".yml"):
@@ -310,4 +380,13 @@ def load_comic(path: str | Path) -> ComicInput:
         data = json.loads(text)
     if not isinstance(data, dict):
         raise ValueError(f"comic input {p} did not parse to a mapping")
-    return ComicInput.from_dict(data)
+    comic = ComicInput.from_dict(data)
+    missing = validate_image_paths(comic, base_dir=p.parent)
+    if missing:
+        warnings.warn(
+            f"{p.name}: {len(missing)} panel image_path(s) do not exist relative to {p.parent}: "
+            f"{missing[:5]}{' …' if len(missing) > 5 else ''}",
+            UserWarning,
+            stacklevel=2,
+        )
+    return comic

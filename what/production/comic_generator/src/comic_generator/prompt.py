@@ -38,6 +38,7 @@ class ImagePrompt:
     mermaid_layout: str | None = None
     aspect_ratio: str = "1:1"
     compositional_intent: str | None = None
+    layers: dict[str, str] | None = None  # structured Layer-1..6 breakdown {style, characters, scene, camera, lighting, negative}
 
 
 def _maybe_append_rlhf_hint(block: str, *, register: str | None, rlhf_hints: dict[str, str] | None) -> str:
@@ -173,6 +174,7 @@ def generate_panel_prompt(
     register: str | None = None,
     rlhf_character_hints: dict[str, str] | None = None,
     rlhf_camera_nuances: dict[str, str] | None = None,
+    negative_suffix: str | None = None,
 ) -> ImagePrompt:
     """Assemble a panel's 6-layer image PROMPT (pure function; emits text only, NEVER renders).
 
@@ -182,43 +184,35 @@ def generate_panel_prompt(
       3. scene/environment (the panel's free-text scene)
       4. camera/composition (panel-type template + Wood keywords + balloon space + nuance)
       5. lighting/mood (spread color-script priority, else act default)
-      6. negative suffix
+      6. negative suffix (``negative_suffix`` override, else the engine default — Halftone H1: data-driven,
+         and carried as a **separate channel** so render backends with a distinct negative input (ComfyUI's
+         negative CLIP encode) never have to unpick the assembled text)
 
-    The instance data (bible / color-script / story-state / default style) is threaded in — nothing is read from
-    module constants (scope D5). ``mermaid_layout`` is set from the panel's ``spatial_layout`` (the dual-prompt
-    concatenation happens in ``panel_layout.assemble_dual_prompt``); ``compositional_intent`` rides through as the
-    PART-3 anchor. The ``aspect_ratio`` is the panel's explicit value, else derived from its type + grid span.
+    The instance data (bible / color-script / story-state / default style / negative) is threaded in — nothing is
+    read from module constants (scope D5). ``mermaid_layout`` is set from the panel's ``spatial_layout`` (the
+    dual-prompt concatenation happens in ``panel_layout.assemble_dual_prompt``); ``compositional_intent`` rides
+    through as the PART-3 anchor. The ``aspect_ratio`` is the panel's explicit value, else derived from its type +
+    grid span. ``ImagePrompt.layers`` carries the structured Layer-1..6 breakdown (empty string = layer absent);
+    ``text`` remains the assembled single-prompt form (identical to the pre-H1 output when no override is given).
     """
-    layers: list[str] = []
+    negative = style.NEGATIVE_SUFFIX if negative_suffix is None else negative_suffix
 
-    # Layer 1
-    layers.append(_layer1_style(panel, page, comic_default=comic_default_style))
+    layer_map: dict[str, str] = {
+        "style": _layer1_style(panel, page, comic_default=comic_default_style),
+        "characters": build_character_block(
+            panel,
+            character_bible=character_bible,
+            story_state=story_state,
+            register=register,
+            rlhf_hints=rlhf_character_hints,
+        ),
+        "scene": panel.scene or "",
+        "camera": build_camera_block(panel, register=register, rlhf_hints=rlhf_camera_nuances),
+        "lighting": build_lighting_block(panel, color_script=color_script),
+        "negative": negative,
+    }
 
-    # Layer 2
-    char_block = build_character_block(
-        panel,
-        character_bible=character_bible,
-        story_state=story_state,
-        register=register,
-        rlhf_hints=rlhf_character_hints,
-    )
-    if char_block:
-        layers.append(char_block)
-
-    # Layer 3
-    if panel.scene:
-        layers.append(panel.scene)
-
-    # Layer 4
-    layers.append(build_camera_block(panel, register=register, rlhf_hints=rlhf_camera_nuances))
-
-    # Layer 5
-    layers.append(build_lighting_block(panel, color_script=color_script))
-
-    # Layer 6
-    layers.append(style.NEGATIVE_SUFFIX)
-
-    text = "\n\n".join(layer for layer in layers if layer)
+    text = "\n\n".join(layer for layer in layer_map.values() if layer)
     aspect = panel.aspect_ratio or style.aspect_for_panel(
         panel.panel_type, span_cols=panel.span_cols, span_rows=panel.span_rows, bleed=panel.bleed
     )
@@ -227,4 +221,5 @@ def generate_panel_prompt(
         mermaid_layout=panel.spatial_layout or None,
         aspect_ratio=aspect,
         compositional_intent=panel.compositional_intent or None,
+        layers=layer_map,
     )

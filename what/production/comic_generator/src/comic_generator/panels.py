@@ -52,8 +52,10 @@ def build_panels(
     color_script: SpreadColorScript | None,
     story_state: SpreadStoryState | None,
     comic_default_style: str,
+    register: str | None = None,
     rlhf_character_hints: dict[str, str] | None = None,
     rlhf_camera_nuances: dict[str, str] | None = None,
+    negative_suffix: str | None = None,
 ) -> PanelBuild:
     """Build the interior baseline nodes (one per ``Panel``) + their ``image`` component entries for one page.
 
@@ -74,8 +76,10 @@ def build_panels(
             color_script=color_script,
             story_state=story_state,
             comic_default_style=comic_default_style,
+            register=register,
             rlhf_character_hints=rlhf_character_hints,
             rlhf_camera_nuances=rlhf_camera_nuances,
+            negative_suffix=negative_suffix,
         )
         dual_prompt = panel_layout.assemble_dual_prompt(ip)
 
@@ -86,6 +90,10 @@ def build_panels(
             "dual_prompt": dual_prompt,
             "panel_type": panel.panel_type,
         }
+        if ip.layers:
+            # Structured Layer-1..6 breakdown (Halftone H1) — the render bridge's per-channel source; the
+            # `negative` key is the separate channel a ComfyUI-style backend feeds its negative CLIP encode.
+            quals["prompt_layers"] = dict(ip.layers)
         if ip.mermaid_layout:
             quals["spatial_layout"] = ip.mermaid_layout
         if panel.compositional_intent:

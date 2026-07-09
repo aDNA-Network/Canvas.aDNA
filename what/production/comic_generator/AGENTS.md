@@ -32,6 +32,16 @@ with a panel-grid interior; the bulk is PORTED from the CanvasForge `canvas_comi
 - **`to_canvas` injects only `_reserved.sync`** — `consume.build_comic` enriches `_reserved` to aDNA-Native. Source
   nodes carry **no** `semantic_type` (so `to_canvas`'s `lattice` profile injects no color/shape onto baseline nodes).
 - **Layout is producer-side** (`layout.py` integer print geometry; `panels.py` interior nodes). Deterministic + integer.
+- **`panel_layout.py` deliberately DUPLICATES the quarry's `mermaid_layout.py`** (port-don't-import, ADR-004): the
+  relocated legacy engine at `what/production/canvas_comic/mermaid_layout.py` carries a near-verbatim sibling parser.
+  **This copy is the live one** — fix bugs HERE; the quarry copy is frozen with the legacy engine (its disposition is
+  a Halftone H6 gate). Do not "helpfully" re-unify them by importing across packages.
+- **`qualities.prompt_layers` (Halftone H1)** — every panel also emits the structured Layer-1..6 breakdown
+  `{style, characters, scene, camera, lighting, negative}` beside the assembled `image_prompt`; the `negative`
+  channel is what a ComfyUI-style backend feeds its negative CLIP encode, and `ComicInput.negative_suffix` overrides
+  it (instance data). Invariant: joining the non-empty layers with blank lines reproduces `image_prompt` exactly.
+  Contract doc (hand this to render-side consumers): `what/docs/comic_prompt_contract.md`; authority:
+  `what/decisions/adr_008_comic_render_doctrine.md`.
 
 ## Pointers
 - Sibling pattern: `what/production/document_generator/` (pages = group nodes; the multi-page precedent) +

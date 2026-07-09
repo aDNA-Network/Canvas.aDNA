@@ -64,8 +64,20 @@ def _adjacency_pairs(panel_ids: list[str], page: Any) -> list[tuple[str, str]]:
     return pairs
 
 
-def build_comic(comic: ComicInput) -> dict[str, Any]:
-    """Map a ``ComicInput`` to a v2.0.0 aDNA-Native multi-page ``.canvas`` document (a plain dict)."""
+def build_comic(
+    comic: ComicInput,
+    *,
+    register: str | None = None,
+    rlhf_character_hints: dict[str, str] | None = None,
+    rlhf_camera_nuances: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Map a ``ComicInput`` to a v2.0.0 aDNA-Native multi-page ``.canvas`` document (a plain dict).
+
+    The optional RLHF kwargs (Halftone H1) activate the ported hint mechanism end-to-end: a ``register`` plus a
+    matching hints dict appends the learned parenthetical to the character/camera blocks (``prompt.py``). All three
+    default ``None`` — the path stays inert unless a caller (e.g. the render bridge's RLHF loop) supplies them.
+    ``comic.negative_suffix`` (instance data) overrides the Layer-6 default when non-empty.
+    """
     bible = comic.character_bible()
     spreads = layout.assign_spreads(comic.pages)
 
@@ -128,6 +140,10 @@ def build_comic(comic: ComicInput) -> dict[str, Any]:
                 color_script=comic.color_script_for(page.spread_number),
                 story_state=comic.story_state_for(page.spread_number),
                 comic_default_style=comic.art_style,
+                register=register,
+                rlhf_character_hints=rlhf_character_hints,
+                rlhf_camera_nuances=rlhf_camera_nuances,
+                negative_suffix=comic.negative_suffix or None,
             )
             nodes.extend(build.nodes)
             component_types.update(build.component_types)
