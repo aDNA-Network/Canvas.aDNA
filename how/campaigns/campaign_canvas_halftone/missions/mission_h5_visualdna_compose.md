@@ -3,7 +3,7 @@ type: mission
 mission_id: mission_h5_visualdna_compose
 campaign_id: campaign_canvas_halftone
 phase: H5
-status: active
+status: completed
 owner: stanley
 persona: Mondrian
 executor_tier: fable
@@ -39,18 +39,43 @@ bundle-dir-relative) — both live conventions must compose.
 
 | # | Objective | Status |
 |---|-----------|--------|
-| **O1** | `compose_input.py` (content-layer: stdlib+yaml only): `load_bundle` (4 live `lora_refs` shapes: list · `entries:` mapping · placeholder string · absent; draft/non-character warnings) · `select_lora` (**pair-only**: `trigger_word`+`lora_ref` emitted together iff one entry is `TRAINED\|VALIDATED`; PENDING_TRAINING ⇒ both omitted — untrained trigger tokens are inert/harmful, spec §5) · `select_reference_images` (**canonical-first**, categories `{portraits, expressions, scenes}` + override; `restricted`+`discarded` excluded by substring; bundle-dir-then-vault-root resolution; **workspace-root-relative** emission; warn+skip / `--strict-refs`; cap 6) · `derive_descriptor` (compressed → portrait → full_prompt_inline; >800-char warning) · `match_bundle_to_character` (explicit `name=path` wins; direction-safe heuristic; ambiguity = hard error; panel-only chars get auto bible rows) · `enrich_comic_dict` (raw-YAML-dict enrichment; in.yaml descriptor wins; `composed_from:` provenance) | ⬜ |
-| **O2** | `model.py`: `CharacterDescriptor` + optional `trigger_word`/`lora_ref`/`reference_images`; `from_dict` mapping; `ComicInput.character_assets()` | ⬜ |
-| **O3** | `panels.py` + `consume.py`: emit `qualities.characters` **only** for panel characters with ≥1 asset field (key omitted otherwise — existing tests + committed comic_render fixture untouched by construction) | ⬜ |
-| **O4** | `__main__.py`: argparse refactor (`build` byte-compatible incl. exit codes) + `compose <in.yaml> -o <out.yaml> --bundle [name=]<path>…` + `build --bundle` one-shot | ⬜ |
-| **O5** | Tests: `test_compose_input.py` (incl. the named **`test_lora_less_compose_reference_images_only`** exit-criterion test; committed YAML fixture bundles + tmp `.aDNA` trees + generated 1-px PNGs; live Stanley/Bearly smokes skip-if-absent) · `compose_input.py` appended to `CONTENT_MODULES` (`test_model_neutrality.py`) · +1 `comic_render/tests/test_extract.py` lift test | ⬜ |
-| **O6** | Docs: README + AGENTS.md (pairing invariant · compose-before-plan ordering) · `what/docs/comic_prompt_contract.md` dated amendment (`qualities.characters` = structured asset channel, distinct from Layer-2 text) | ⬜ |
-| **O7** | Verification (producer suite + sweep + comic_render + firewall 0) + staged Callisto close-notify memo | ⬜ |
+| **O1** | `compose_input.py` (content-layer: stdlib+yaml only): `load_bundle` (4 live `lora_refs` shapes: list · `entries:` mapping · placeholder string · absent; draft/non-character warnings) · `select_lora` (**pair-only**: `trigger_word`+`lora_ref` emitted together iff one entry is `TRAINED\|VALIDATED`; PENDING_TRAINING ⇒ both omitted — untrained trigger tokens are inert/harmful, spec §5) · `select_reference_images` (**canonical-first**, categories `{portraits, expressions, scenes}` + override; `restricted`+`discarded` excluded by substring; bundle-dir-then-vault-root resolution; **workspace-root-relative** emission; warn+skip / `--strict-refs`; cap 6) · `derive_descriptor` (compressed → portrait → full_prompt_inline; >800-char warning) · `match_bundle_to_character` (explicit `name=path` wins; direction-safe heuristic; ambiguity = hard error; panel-only chars get auto bible rows) · `enrich_comic_dict` (raw-YAML-dict enrichment; in.yaml descriptor wins; `composed_from:` provenance) | ✅ |
+| **O2** | `model.py`: `CharacterDescriptor` + optional `trigger_word`/`lora_ref`/`reference_images`; `from_dict` mapping; `ComicInput.character_assets()` | ✅ |
+| **O3** | `panels.py` + `consume.py`: emit `qualities.characters` **only** for panel characters with ≥1 asset field (key omitted otherwise — existing tests + committed comic_render fixture untouched by construction) | ✅ |
+| **O4** | `__main__.py`: argparse refactor (`build` byte-compatible incl. exit codes) + `compose <in.yaml> -o <out.yaml> --bundle [name=]<path>…` + `build --bundle` one-shot | ✅ |
+| **O5** | Tests: `test_compose_input.py` (incl. the named **`test_lora_less_compose_reference_images_only`** exit-criterion test; committed YAML fixture bundles + tmp `.aDNA` trees + generated 1-px PNGs; live Stanley/Bearly smokes skip-if-absent) · `compose_input.py` appended to `CONTENT_MODULES` (`test_model_neutrality.py`) · +1 `comic_render/tests/test_extract.py` lift test | ✅ |
+| **O6** | Docs: README + AGENTS.md (pairing invariant · compose-before-plan ordering) · `what/docs/comic_prompt_contract.md` dated amendment (`qualities.characters` = structured asset channel, distinct from Layer-2 text) | ✅ |
+| **O7** | Verification (producer suite + sweep + comic_render + firewall 0) + staged Callisto close-notify memo | ✅ |
 
-## Verification
+## Verification (run 2026-08-04 — all green)
 
-*(filled at mission close with actual run results)*
+- **`comic_generator` 123 passed** (100 baseline + 23 new; `ruff` clean). The exit-criterion test
+  **`test_lora_less_compose_reference_images_only`** proves both live bundle shapes (Stanley-like
+  PENDING_TRAINING + Bearly-like `lora_refs: []`) compose to reference-images-only — zero
+  `trigger_word`/`lora_ref` anywhere in the enriched dict OR the built canvas.
+- **Live-bundle smokes green** (read-only cross-vault): Stanley v0.1.13 → LoRA-less, `ScienceStanley.aDNA/…`
+  refs, portrait-subset descriptor; Bearly v0.1.0 → LoRA-less, `Bearly.aDNA/…` refs.
+- **7-producer sweep 259** (10 · 16 · 37 · 36 · **123** · 17 · 20 — only comic moved). **`comic_render` 73**
+  (72 + the new lift test; committed fixture + src untouched — the H2-reserved seam consumed as-designed).
+- E2E CLI: `compose` → enriched YAML reloads via `load_comic` → `build` carries `qualities.characters`;
+  `build --bundle` one-shot equivalent; provenance idempotent on recompose.
+- **Firewall: `git diff --stat -- what/code/canvas_std/` empty** (and `canvas_context/` empty).
 
 ## AAR (SO-5)
 
-*(5-line AAR at mission close — SO-5)*
+- **Worked:** the H2-reserved seam (`PanelSpec.characters` + the `extract.py` lift) meant H5 landed entirely
+  producer-side with zero `comic_render` src changes; raw-dict enrichment (no model round-trip) preserved
+  unknown YAML keys by construction.
+- **Didn't:** the plan-time design survived contact only because exploration had already overturned two of its
+  rules — the spec's canonical list-form `lora_refs` exists in NO live bundle (Stanley nests `entries:`), and
+  Bearly's sole portrait is `canonical: false`, killing canonical-ONLY selection before it shipped.
+- **Finding:** "graceful degradation" clauses become real only when a consumer tests them — both live bundles
+  are LoRA-less in practice (PENDING_TRAINING / rights-HELD), so reference-images-only is the fleet's *actual*
+  path today; the pair-gate turns spec §5's label-hygiene warning into an enforced invariant.
+- **Change:** reference selection went canonical-FIRST with category overrides (`--ref-category`) so Bearly's
+  self-declared primary references (`series_panels`) are reachable without an anchor election.
+- **Follow-up:** (1) H3+: dispatch/refine consumption of `characters[]` (the pro-image class accepts reference
+  images — pre-ruled 2026-08-04); (2) recompose picks up a `TRAINED` flip atomically (documented in AGENTS);
+  (3) VisualDNA `consumer_compat` has no `comic` consumer — read-only consumption needs no amendment; the
+  ADR-004 extension is Pygmalion's call (offered in the staged Callisto memo); (4) per-panel style-register
+  overrides vs comic-level LoRA selection — H6 refine-chain territory.

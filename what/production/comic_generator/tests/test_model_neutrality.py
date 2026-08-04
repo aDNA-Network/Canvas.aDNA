@@ -14,7 +14,7 @@ from pathlib import Path
 SRC = Path(__file__).resolve().parents[1] / "src" / "comic_generator"
 
 # The substrate-free content layer (must not see canvas_std).
-CONTENT_MODULES = ["model.py", "style.py", "prompt.py", "panel_layout.py", "rlhf_hints.py"]
+CONTENT_MODULES = ["model.py", "style.py", "prompt.py", "panel_layout.py", "rlhf_hints.py", "compose_input.py"]
 
 # No module anywhere in the package may import an image-render engine (image-boundary hard rule).
 IMAGE_RENDER_FORBIDDEN = ("comfy", "comfyui", "PIL", "cv2", "torch", "diffusers", "imageio")

@@ -46,10 +46,19 @@ class CharacterDescriptor:
     The ``name`` is matched case-insensitively against a panel's ``characters`` list; ``descriptor`` is the Layer-2
     character-block text. This replaces the quarry's hardcoded ``CHARACTER_STANLEY``/``_AGENT_STANLEY``/``_HELIX``
     constants — the engine no longer knows any specific character; the bible is supplied per comic.
+
+    The optional asset fields (Halftone H5, VisualDNA compose) carry the character's render-side identity —
+    ``trigger_word``/``lora_ref`` travel as a PAIR or not at all (an untrained trigger token is inert/harmful;
+    ``compose_input.select_lora`` enforces the gate), and ``reference_images`` are workspace-root-relative paths
+    (``<Vault>.aDNA/…``). They ride into ``qualities.characters`` (the manifest asset channel) via
+    ``ComicInput.character_assets()`` — they are NOT prompt text (that stays the Layer-2 ``descriptor``).
     """
 
     name: str
     descriptor: str = ""
+    trigger_word: str | None = None
+    lora_ref: str | None = None
+    reference_images: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -231,6 +240,27 @@ class ComicInput:
         """name.lower() -> descriptor (the character registry the prompt engine consults)."""
         return {c.name.lower(): c.descriptor for c in self.characters}
 
+    def character_assets(self) -> dict[str, dict[str, Any]]:
+        """name.lower() -> the panel-facing asset entry (Halftone H5) — only characters with ≥1 asset field.
+
+        Entry shape: ``{name, trigger_word?, lora_ref?, reference_images?}`` with only non-empty fields present
+        (``name`` keeps the bible spelling). This is the structured channel ``panels.py`` emits per panel as
+        ``qualities.characters`` and the render bridge lifts into its manifest — distinct from the Layer-2
+        descriptor TEXT, which continues to ride in the assembled prompt.
+        """
+        out: dict[str, dict[str, Any]] = {}
+        for c in self.characters:
+            entry: dict[str, Any] = {"name": c.name}
+            if c.trigger_word:
+                entry["trigger_word"] = c.trigger_word
+            if c.lora_ref:
+                entry["lora_ref"] = c.lora_ref
+            if c.reference_images:
+                entry["reference_images"] = list(c.reference_images)
+            if len(entry) > 1:
+                out[c.name.lower()] = entry
+        return out
+
     def color_script_for(self, spread_number: int | None) -> SpreadColorScript | None:
         if spread_number is None:
             return None
@@ -273,7 +303,13 @@ class ComicInput:
             for s in d.get("spreads", [])
         )
         characters = tuple(
-            CharacterDescriptor(name=str(c["name"]), descriptor=str(c.get("descriptor", "")))
+            CharacterDescriptor(
+                name=str(c["name"]),
+                descriptor=str(c.get("descriptor", "")),
+                trigger_word=(str(c["trigger_word"]) if c.get("trigger_word") else None),
+                lora_ref=(str(c["lora_ref"]) if c.get("lora_ref") else None),
+                reference_images=tuple(str(r) for r in c.get("reference_images", []) or []),
+            )
             for c in d.get("characters", [])
         )
         color_script = tuple(

@@ -45,6 +45,28 @@ from comic_generator import build_comic, load_comic
 doc = build_comic(load_comic("examples/science_stanley_mini_issue.yaml"))  # -> a v2.0.0 aDNA-Native .canvas dict
 ```
 
+### VisualDNA compose (Halftone H5)
+
+```bash
+# Enrich the spec with a character bundle's assets (file-shaped, inspectable), then build:
+comic-generator compose in.yaml -o in.composed.yaml \
+    --bundle ~/aDNA/ScienceStanley.aDNA/what/visual_dna/characters/stanley/stanley.yaml
+comic-generator build in.composed.yaml out.canvas
+
+# Or one-shot (explicit name=bundle binding; heuristic display_name/id matching otherwise):
+comic-generator build in.yaml out.canvas --bundle stanley=…/stanley.yaml
+```
+
+Compose fills empty `descriptor`s from the bundle's text subsets (an authored descriptor always wins), selects
+reference images **canonical-first** (default categories `portraits`/`expressions`/`scenes` + any canonical item
+elsewhere; `--ref-category` to override — e.g. Bearly's `series_panels`; cap `--max-refs`, default 6), and emits
+them workspace-root-relative (`<Vault>.aDNA/…`). The **LoRA pair-gate**: `trigger_word` + `lora_ref` are attached
+together only when a bundle entry is `TRAINED`/`VALIDATED` — `PENDING_TRAINING`/rights-HELD bundles compose
+**reference-images-only** (both live bundles today). Panels then carry `qualities.characters` (the structured
+asset channel the render bridge lifts); the Layer-2 prompt text is unchanged. **Compose before `plan`** — the
+render manifest's staleness guard is topology-keyed, so recomposing prompts/assets alone does not invalidate an
+existing manifest (delete it or re-`plan` after compose).
+
 ## Layout
 
 ```

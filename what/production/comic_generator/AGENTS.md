@@ -42,6 +42,16 @@ with a panel-grid interior; the bulk is PORTED from the CanvasForge `canvas_comi
   it (instance data). Invariant: joining the non-empty layers with blank lines reproduces `image_prompt` exactly.
   Contract doc (hand this to render-side consumers): `what/docs/comic_prompt_contract.md`; authority:
   `what/decisions/adr_008_comic_render_doctrine.md`.
+- **`qualities.characters` (Halftone H5)** — the structured ASSET channel (distinct from `prompt_layers.characters`,
+  which is Layer-2 TEXT): panels whose characters carry ≥1 asset field emit
+  `[{name, trigger_word?, lora_ref?, reference_images[]?}]`; the key is OMITTED otherwise. Assets arrive via
+  `compose_input.py` (VisualDNA bundles → enriched input; cross-vault reads are READ-ONLY). Invariants:
+  **`trigger_word` ⇔ `lora_ref`** (the pair-gate — emitted together from one `TRAINED|VALIDATED` entry or not at
+  all; an untrained trigger token is inert/harmful, VisualDNA spec §5); `reference_images` are
+  workspace-root-relative (`<Vault>.aDNA/…`); LoRA-less (reference-images-only) compose is a first-class path —
+  the H5 exit criterion and Bearly's *required* path. **Compose before `plan`**: the render manifest's staleness
+  guard is topology-keyed, so a recompose alone does not invalidate an existing manifest. A `TRAINED` flip in a
+  bundle is picked up atomically by recomposing (cheap, file-shaped).
 
 ## Pointers
 - Sibling pattern: `what/production/document_generator/` (pages = group nodes; the multi-page precedent) +

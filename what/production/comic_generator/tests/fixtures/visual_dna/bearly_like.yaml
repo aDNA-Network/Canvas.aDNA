@@ -1,0 +1,29 @@
+# Test double of the LIVE Bearly bundle shapes (Bearly.aDNA … bearly.yaml v0.1.0):
+# VAULT-ROOT-relative reference paths · list-form `lora_refs: []` (rights-HELD → LoRA-less is the REQUIRED
+# path) · draft status (no canon election; sole portrait canonical:false) · restricted category · spaces in
+# filenames · dual-listed discarded item.
+visual_dna:
+  id: bearly_character_bearly
+  display_name: Bearly
+  entity_type: character
+  version: "0.1.0"
+  status: draft
+  text_prompt:
+    description: fixture double of the live Bearly bundle
+    portrait_subset: "A small round bear cub, soft pencil linework, butterfly on rump."
+  reference_image_set:
+    portraits:
+      - path: what/corpus/characters/Bearly.png
+        label: hero pose
+        canonical: false
+    series_panels:
+      - path: "what/corpus/series/1. Bearly made it.png"
+      - path: what/corpus/series/practicing.png
+    restricted:
+      - path: what/corpus/characters/blink_final.png
+        label: working reference — never composed
+    discarded:
+      reason: canon election + rights exclusions
+      items:
+        - "practicing.png — dual-listed (category AND discarded)"
+  lora_refs: []

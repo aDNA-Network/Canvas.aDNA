@@ -1,0 +1,25 @@
+# Forward-shape fixture: spec v1.0 canonical LIST-form lora_refs with eligible entries (TRAINED + VALIDATED)
+# and distinct registers — exercises the pair-gate's positive path + register preference. No live bundle has
+# this state yet (Stanley PENDING_TRAINING, Bearly rights-HELD); recompose picks the pair up when one does.
+visual_dna:
+  id: hero_character_test
+  display_name: Hero
+  entity_type: character
+  version: "1.0.0"
+  status: active_canonical_anchor
+  text_prompt:
+    compressed_character_subset: "A caped test hero, bold ink lines."
+    portrait_subset: "A caped test hero drawn with bold ink lines, square jaw, star emblem — long form."
+  reference_image_set:
+    portraits:
+      - path: refs/hero.png
+        canonical: true
+  lora_refs:
+    - path: ComfyForge.aDNA/what/loras/hero_ghibli_v1.safetensors
+      register: ghibli
+      trigger_word: testhero
+      status: TRAINED
+    - path: ComfyForge.aDNA/what/loras/hero_pixel_v1.safetensors
+      register: pixel
+      trigger_word: testhero_pixel
+      status: VALIDATED

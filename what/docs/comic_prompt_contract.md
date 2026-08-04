@@ -2,7 +2,7 @@
 type: doc
 title: "Comic prompt contract — the 6-layer assembly, prompt_layers channels, and dual-prompt wrapper"
 created: 2026-07-09
-updated: 2026-07-09
+updated: 2026-08-04
 last_edited_by: agent_mondrian
 status: active
 audience: "render-side consumers (ComfyUI.aDNA / Vulcan; the comic_render bridge; any external renderer)"
@@ -36,13 +36,30 @@ metadata.frontmatter._reserved.component_types[<panel_node_id>] = {
     "spatial_layout": "<mermaid comic_panel_layout>",   # present iff the panel declared one
     "compositional_intent": "<free text>",              # present iff declared (PART 3 anchor)
     "panel_type": "<panel_type>",
-    "status": "prompt_only" | "rendered"
+    "status": "prompt_only" | "rendered",
+    "characters": [                                     # §1a (Halftone H5) — present iff assets composed
+      {"name": "<bible spelling>", "trigger_word": "…", "lora_ref": "…", "reference_images": ["<Vault>.aDNA/…"]}
+    ]
   }
 }
 ```
 
 A renderer consumes `prompt_only` panels; a `rendered` panel already has a baseline `file` node pointing at its
 image. (The `comic_render` manifest — Halftone H2 — extracts exactly these fields per panel.)
+
+### 1a. `qualities.characters` — the structured asset channel *(Amendment, 2026-08-04 — Halftone H5)*
+
+Distinct from `prompt_layers.characters` (which is Layer-2 **text**): this is the per-panel **asset** list for
+render-side conditioning, composed from VisualDNA bundles (`compose_input.py`) and lifted verbatim into the
+render manifest's `PanelSpec.characters`. Contract:
+
+- Present **iff** ≥1 of the panel's characters carries ≥1 asset field; each entry carries only non-empty fields.
+- **`trigger_word` ⇔ `lora_ref`** (the pair-gate): both present — sourced together from one `TRAINED`/`VALIDATED`
+  bundle entry — or both absent. An untrained trigger token is never emitted (VisualDNA spec §5 label hygiene).
+- `reference_images[]` are **workspace-root-relative** (`<Vault>.aDNA/…`), canonical-first, capped (default 6).
+  **LoRA-less (reference-images-only) entries are a first-class path** — the required path for rights-HELD or
+  untrained bundles; renderers MUST NOT assume the pair exists.
+- The channel is additive: prompt assembly (§2–§4) is unchanged by its presence.
 
 ## 2. The 6-layer assembly (`image_prompt`)
 

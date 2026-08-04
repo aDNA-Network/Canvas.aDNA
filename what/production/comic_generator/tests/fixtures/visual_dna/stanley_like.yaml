@@ -1,0 +1,53 @@
+# Test double of the LIVE Stanley bundle shapes (ScienceStanley.aDNA … stanley.yaml v0.1.13):
+# bundle-dir-relative reference paths · mapping-with-`entries` lora_refs · PENDING_TRAINING (LoRA-less in
+# practice) · mapping-shaped corpus category (real_photos) · dual-listed discarded item · no compressed subset.
+visual_dna:
+  id: ss_character_stanley
+  display_name: "Science Stanley (Stanley Bishop)"
+  entity_type: character
+  version: "0.1.13"
+  status: active_canonical_anchor
+  text_prompt:
+    description: fixture double of the live Stanley bundle
+    portrait_subset: "Studio Ghibli-style young scientist with warm brown eyes; purple turtleneck always."
+  reference_image_set:
+    portraits:
+      - path: references/anchor_iconic_portrait.png
+        label: canonical anchor
+        canonical: true
+      - path: references/var_1_portrait_closeup.png
+        label: portrait closeup
+    expressions:
+      - path: references/var_3_expression_warm_laughing.png
+        label: warm laughing
+      - path: references/var_4_expression_focused.png
+        label: dual-listed — also in discarded
+      - path: references/var_5_missing.png
+        label: referenced but not on disk
+    scenes:
+      - path: references/var_2_wide_cinematic.png
+        label: wide cinematic
+    establishing:
+      - path: references/establishing_canonical.png
+        label: canonical item OUTSIDE the default category set (still composes)
+        canonical: true
+      - path: references/establishing_extra.png
+        label: non-canonical outside the default set (never composes by default)
+    real_photos:
+      description: mapping-shaped category — corpus/verification data, never composed
+      photos:
+        - path: references/real_photos/headshot.png
+    discarded:
+      reason: diverged from canonical style
+      items:
+        - "anchor_var_6_at_whiteboard.png — diverged"
+        - "references/var_4_expression_focused.png — dual-listed exclusion"
+  lora_refs:
+    entries:
+      - path: ComfyForge.aDNA/what/loras/ss_character_pixel_v0.1.safetensors
+        model_family: sdxl
+        register: pixel
+        trigger_word: sciencestanley
+        recommended_weight: null
+        trained_at: null
+        status: PENDING_TRAINING

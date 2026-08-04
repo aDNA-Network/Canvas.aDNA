@@ -79,6 +79,7 @@ def build_comic(
     ``comic.negative_suffix`` (instance data) overrides the Layer-6 default when non-empty.
     """
     bible = comic.character_bible()
+    assets = comic.character_assets()  # Halftone H5 — {} unless bundle assets were composed onto the input
     spreads = layout.assign_spreads(comic.pages)
 
     nodes: list[dict[str, Any]] = []
@@ -144,6 +145,7 @@ def build_comic(
                 rlhf_character_hints=rlhf_character_hints,
                 rlhf_camera_nuances=rlhf_camera_nuances,
                 negative_suffix=comic.negative_suffix or None,
+                character_assets=assets or None,
             )
             nodes.extend(build.nodes)
             component_types.update(build.component_types)

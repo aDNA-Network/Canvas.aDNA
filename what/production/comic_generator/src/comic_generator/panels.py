@@ -56,6 +56,7 @@ def build_panels(
     rlhf_character_hints: dict[str, str] | None = None,
     rlhf_camera_nuances: dict[str, str] | None = None,
     negative_suffix: str | None = None,
+    character_assets: dict[str, dict[str, Any]] | None = None,
 ) -> PanelBuild:
     """Build the interior baseline nodes (one per ``Panel``) + their ``image`` component entries for one page.
 
@@ -98,6 +99,20 @@ def build_panels(
             quals["spatial_layout"] = ip.mermaid_layout
         if panel.compositional_intent:
             quals["compositional_intent"] = panel.compositional_intent
+        if character_assets:
+            # Halftone H5: the structured asset channel — only this panel's characters, only asset-bearing
+            # entries (`ComicInput.character_assets()` pre-filters), copied so no list aliases across panels.
+            # The key is OMITTED when empty; the render bridge lifts it (`comic_render/extract.py`).
+            assets = []
+            for cname in panel.characters:
+                entry = character_assets.get(cname.lower())
+                if entry:
+                    entry = dict(entry)
+                    if "reference_images" in entry:
+                        entry["reference_images"] = list(entry["reference_images"])
+                    assets.append(entry)
+            if assets:
+                quals["characters"] = assets
 
         if panel.image_path:
             pb.nodes.append({"id": nid, "type": "file", "file": panel.image_path, **abox.as_node()})

@@ -114,3 +114,15 @@ def test_custom_plan_options_recorded(canvas_path):
 def test_loaded_manifest_equals_planned(planned):
     manifest, mpath, _ = planned
     assert RenderManifest.load(mpath).to_dict() == manifest.to_dict()
+
+
+def test_plan_lifts_qualities_characters_into_panelspec(canvas_path):
+    """H5 seam: the producer's `qualities.characters` asset channel rides into `PanelSpec.characters`."""
+    doc = json.loads(canvas_path.read_text())
+    ct = doc["metadata"]["frontmatter"]["_reserved"]["component_types"]
+    assets = [{"name": "stanley", "reference_images": ["ScienceStanley.aDNA/refs/anchor.png"]}]
+    ct[SPLASH_ID]["qualities"]["characters"] = assets
+    canvas_path.write_text(json.dumps(doc))
+    manifest, _ = plan(canvas_path)
+    assert manifest.panel(SPLASH_ID).characters == assets
+    assert all(p.characters == [] for p in manifest.panels if p.panel_id != SPLASH_ID)
