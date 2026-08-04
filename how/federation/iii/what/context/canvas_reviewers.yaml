@@ -6,7 +6,7 @@
 # Doctrine: the registry is the CONTRACT (Canvas-owned, standard-bearer inversion); the engine that RUNS the
 # lenses is III (module_iii_inspect_visual + skill_iii_review). The panel is audience-parameterized — the
 # invariant per the contract is ">=1 rigor lens + 1 accuracy lens, ALWAYS".
-registry_version: "1.0.0"
+registry_version: "1.1.0"   # 1.1.0 (2026-08-03, Halftone HV): geometric traps registered + canvas-visual-check CLI noted
 contract_ref: what/production/deck_generator/iii_quality_contract.md
 applies_to: [deck, brief, comic, diagram, "any canvas-as-communication output"]
 
@@ -48,6 +48,17 @@ trap_applicability:
     - CV-INSIDER-CONTEXT-01  # fresh-viewer test (skeptical_exec)
     - CV-HIERARCHY-01        # title/heading/body distinction via semantic_type (info_designer) — structure only
     - CV-COHERENCE-01        # consistent node typing across units (info_designer)
+    # -- geometric traps (info_designer), registered 2026-08-03 (Halftone HV; Oration M-R5 intake). These are
+    # -- Python-implemented in what/production/canvas_core/traps/ with Obsidian-CSS-calibrated constants
+    # -- (text_metrics OBSIDIAN_*) and runnable standalone: `python -m canvas_core.traps.cli` (canvas-visual-check).
+    - CV-TEXT-BOUNDS-01      # text overflow (Obsidian-calibrated required-height model) / overlap / group-exit
+    - CV-NODE-DENSITY-01     # aggregate content-to-container fill excess
+    - CV-GROUP-PADDING-01    # content bleeds to the container frame edge
+    - CV-IMAGE-ASPECT-RATIO-01  # image aspect drift / hero-slot under-fill (source dims via PIL fallback)
+    - CV-LEAD-COST-01        # `#`/`##`/`###` lead in a text node (98.9px vs 40px for **bold**; flex margins never collapse)
+    - CV-GROUP-LABEL-01      # group label chars > width/25 (CAPS) or width/22 (mixed) — hard-ellipsises
+    - CV-EDGE-LABEL-01       # edge label >20 chars / opaque midpoint box covering non-endpoint nodes (first edge-geometry trap)
+    - CV-FILE-PROPS-01       # file-node target missing / embed title clips / Properties table exposed (needs vault_root)
   pixel_pt_p5_gated:         # need canvas_presentation render loop (PT P5)
     - CV-CONTRAST-01         # WCAG contrast (needs rendered pixels)
     - CV-PENDING-01          # unresolved image/asset shipped (needs render/resolution)
@@ -58,6 +69,6 @@ escalation:
   cross_voice_same_location_2: "+1 severity"     # 2 lenses on one location
   cross_voice_same_location_3plus: "Critical"    # 3+ lenses -> Critical (skill_iii_review convention)
 
-ship_gate: "0 High / 0 Med across all lenses (structural). Pixel render + 24-criterion scoring at PT P5 (canvas_presentation)."
+ship_gate: "0 High / 0 Med across all lenses (structural), INCLUDING a clean `canvas-visual-check` run (geometric traps above). Agent-confirmed Obsidian render per spec_federation_contract §4 Amendment 1. Pixel render + 24-criterion scoring at PT P5 (canvas_presentation)."
 
 dynamic_voices: []          # none at genesis; promote per skill_iii_review voice lifecycle (>=5 reviews, >=80% acceptance, + gate)

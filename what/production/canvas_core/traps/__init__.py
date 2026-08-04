@@ -209,4 +209,54 @@ TRAP_PACK_REGISTRY = {
         "severity_default": "medium",
         "description": "Content bleeds to container frame edge (aggregate fill > 0.90 OR per-node padding-min violation per design-token resolution)",
     },
+    # CV-LEAD-COST-01 + CV-GROUP-LABEL-01 + CV-EDGE-LABEL-01 + CV-FILE-PROPS-01
+    # added 2026-08-03 by Halftone HV (visual-fidelity rail; gap G7). Close the
+    # four fleet-wide uncovered checks from the Oration M-R5 incident (a canvas
+    # passed `canvas-std validate` [OK] and rendered unreadable): heading lead
+    # cost in flex (non-collapsing-margin) text nodes · group-label truncation
+    # vs width · edge-label length/collision (the FIRST edge-geometry trap) ·
+    # file-node resolution + embed/Properties rendering reality. Constants are
+    # Obsidian-CSS-derived (canvas_core.text_metrics OBSIDIAN_*), absorbed with
+    # credit from Oration.aDNA canvas_fit_check.py (Kennedy coord 2026-08-03).
+    # CLI: `python -m canvas_core.traps.cli` ("canvas-visual-check").
+    "CV-LEAD-COST-01": {
+        "scope": "substrate",
+        "status": "implemented",
+        "graduated": False,
+        "cycles_fired": 0,
+        "cycles_accepted": 0,
+        "module": "canvas_core.traps.cv_lead_cost_01",
+        "severity_default": "medium",
+        "description": "Heading lead (`#`/`##`/`###`) in a canvas text node — costs up to 98.9px before any body text vs 40px for a **bold** lead (Obsidian flex margins never collapse)",
+    },
+    "CV-GROUP-LABEL-01": {
+        "scope": "substrate",
+        "status": "implemented",
+        "graduated": False,
+        "cycles_fired": 0,
+        "cycles_accepted": 0,
+        "module": "canvas_core.traps.cv_group_label_01",
+        "severity_default": "high",
+        "description": "Group label exceeds its width budget (chars > width/25 CAPS or width/22 mixed) — hard-ellipsises, and scales worse as you zoom out",
+    },
+    "CV-EDGE-LABEL-01": {
+        "scope": "substrate",
+        "status": "implemented",
+        "graduated": False,
+        "cycles_fired": 0,
+        "cycles_accepted": 0,
+        "module": "canvas_core.traps.cv_edge_label_01",
+        "severity_default": "high",
+        "description": "Edge label too long (>30 fails, 21-30 warns; cap 20 or omit) or its opaque midpoint box covers non-endpoint nodes / group-label bands — first edge-geometry trap",
+    },
+    "CV-FILE-PROPS-01": {
+        "scope": "substrate",
+        "status": "implemented",
+        "graduated": False,
+        "cycles_fired": 0,
+        "cycles_accepted": 0,
+        "module": "canvas_core.traps.cv_file_props_01",
+        "severity_default": "high",
+        "description": "File-node target missing, embed title clips, or targets carry YAML frontmatter with propertiesInDocument != hidden (Properties table renders instead of content); needs vault_root kwarg",
+    },
 }

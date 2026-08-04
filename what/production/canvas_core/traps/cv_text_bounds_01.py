@@ -19,7 +19,12 @@ New in M-1-07 (Phase 1 — Substrate Extraction).
 
 from __future__ import annotations
 
-from ..text_metrics import measure_text_extent
+from ..text_metrics import (
+    OBSIDIAN_SAFE_FILL,
+    measure_obsidian_extent,
+    measure_text_extent,
+    obsidian_required_node_height,
+)
 from ..spatial import bounding_box, detect_overlaps
 from . import TrapFinding
 
@@ -105,6 +110,7 @@ def check(
     r11_node_ids: set[str] | None = None,
     font_size: float = 16.0,
     font_family: str | None = None,
+    calibration: str = "obsidian",
 ) -> list[TrapFinding]:
     """Run CV-TEXT-BOUNDS-01 against a canvas.
 
@@ -113,7 +119,15 @@ def check(
         r11_node_ids: Optional set of node IDs under R11 gating.
             Findings involving R11 nodes get severity +1.
         font_size: Default font size for text measurement (px).
+            **Legacy path only** (``calibration="legacy"``).
         font_family: Default font family for text measurement.
+            **Legacy path only** (``calibration="legacy"``).
+        calibration: ``"obsidian"`` (default, HV 2026-08-03) measures
+            overflow with the Obsidian-CSS-derived model
+            (:func:`canvas_core.text_metrics.measure_obsidian_extent` —
+            non-collapsing flex margins, lead costs, 48px side padding,
+            SAFE_FILL headroom) and emits a required-height fix hint.
+            ``"legacy"`` preserves the pre-HV raw-extent path.
 
     Returns:
         List of :class:`TrapFinding` instances (may be empty).
@@ -136,6 +150,25 @@ def check(
         node_id = tn.get("id", "<unknown>")
 
         if not text.strip() or declared_w <= 0 or declared_h <= 0:
+            continue
+
+        if calibration == "obsidian":
+            need = measure_obsidian_extent(text, declared_w)
+            avail = OBSIDIAN_SAFE_FILL * declared_h
+            if need > avail:
+                shown = avail / need if need else 1.0
+                fix_h = obsidian_required_node_height(text, declared_w)
+                findings.append(TrapFinding(
+                    trap_id=TRAP_ID,
+                    condition="overflow",
+                    node_ids=[node_id],
+                    severity=SEVERITY_DEFAULTS["overflow"],
+                    message=(
+                        f"Text needs {need:.0f}px in a {declared_w:.0f}x{declared_h:.0f} node "
+                        f"({avail:.0f}px usable) — ~{shown:.0%} shown in Obsidian. "
+                        f"Set height >= {fix_h}"
+                    ),
+                ))
             continue
 
         mw, mh, path = measure_text_extent(

@@ -5,8 +5,8 @@ title: "aDNA Canvas federation contract — how producers consume the Standard"
 standard_version: "2.3.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-08-03
+last_edited_by: agent_mondrian
 phase: P3
 conforms_to: "SiteForge.aDNA/what/artifacts/sf_forge_pattern_spec.md"
 tags: [spec, canvas, federation, forge-pattern, genesis, p3]
@@ -66,15 +66,28 @@ permitted for transitional consumers but a 2.0.0-conformant producer **SHOULD** 
 
 A producer's build of an aDNA canvas **MUST** pass, in order:
 1. **Build-time** — the canvas is well-formed JSON; node/edge ids unique.
-2. **Runtime** — renders in the producer's engine without error.
+2. **Runtime** — renders in the producer's engine without error. A canvas surfaced to a human in Obsidian
+   additionally requires an **agent-confirmed render**: the agent opens it in live Obsidian, captures a
+   screenshot, and reads it before shipping (`what/context/context_canvas_visual_in_the_loop.md`). *(Amendment 1)*
 3. **Offline** — **format conformance**: `spec_conformance_suite` `validate(doc, conformance_target)` passes,
-   including the degradation tests D-1..D-3.
+   including the degradation tests D-1..D-3 — **and visual fit**: `canvas-visual-check`
+   (`what/production/canvas_core/traps/cli.py`; the Obsidian-calibrated geometry traps) reports no high/critical
+   findings. *(Amendment 1)*
 4. **III semantic review** — **output quality** against the canvas review contract (VR1–VR5 + canvas-visual trap
    schema) via the `iii/` wrapper ([[iii/CLAUDE]]). Engines stay in III.aDNA.
 5. **Human gate** — producer-side approval before delivery.
 
 Stage 3 (format) is Canvas.aDNA-owned; stage 4 (quality) is III-owned-engine / Canvas-owned-contract; the
 producer **cannot skip** either.
+
+> **Amendment 1 (2026-08-03, Halftone HV).** Stages 2/3 extended with the **visual gate**: schema conformance had
+> proven insufficient in the field — a canvas validated `[OK]` and shipped unreadable (Oration M-R5; Kennedy
+> coord 2026-08-03). Format ≠ fit ≠ sight: `canvas-std validate` (schema) · `canvas-visual-check` (geometry) ·
+> the agent-confirmed render (sight) are three distinct, non-substitutable checks. Authoring rules with the
+> measured numbers: `what/docs/canvas_authoring_guidance.md`.
+>
+> Ratification: **decision** Amendment 1 (visual gate into stages 2/3) · **ratified-by** operator (stanley) ·
+> **date** 2026-08-03 (plan approval = the HV gate) · **status** accepted.
 
 ## 5. Wrapper discipline (what goes where)
 

@@ -3,7 +3,7 @@ type: context_guide
 topic: canvas
 subtopic: visual_in_the_loop
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-08-03
 sources: ["Operation Prytaneion Phase 1 (Home.aDNA M1.1 capability)", "Home.aDNA what/code/{canvas_visual_loop,iii_runner,window_helpers}.py"]
 context_version: "1.0"
 token_estimate: ~1500
@@ -51,8 +51,13 @@ Home's hardened harness (offered as the worked reference; the *code home* — `c
 
 ## Adoption path
 
-1. Adopt the **standard** (agent-confirmed render) in `canvas_std` producer doctrine — independent of any specific harness.
-2. If the harness graduates into `canvas_core`: generalize `window_helpers` behind an abstract `get_window_info()` with per-OS backends; keep the Gemini critique optional.
+1. ~~Adopt the **standard** (agent-confirmed render) in `canvas_std` producer doctrine — independent of any specific harness.~~
+   ✅ **EXECUTED 2026-08-03 (Halftone HV; closes HOME-CV-3).** Wired into `how/skills/skill_canvas_producer_build.md`
+   (steps 5/6 + Verification) and `what/specs/spec_federation_contract.md` §4 Amendment 1 (stages 2/3). Trigger: the
+   Oration M-R5 incident — a canvas validated `[OK]` and shipped unreadable; this doc predicted it. Companion CLI:
+   `canvas-visual-check` (`what/production/canvas_core/traps/cli.py`); authoring numbers:
+   `what/docs/canvas_authoring_guidance.md`.
+2. If the harness graduates into `canvas_core`: generalize `window_helpers` behind an abstract `get_window_info()` with per-OS backends; keep the Gemini critique optional. *(Still open — Mondrian's call; flagged in the 2026-08-03 Hestia reply memo.)*
 3. The canvas-visual *learnings* (state-luminance scoring, edge-de-spaghetti critique prompts, the no-canvas-without-screenshot check) are a separate **III.aDNA** graduation candidate (filed at M6.3).
 
 ## Sources

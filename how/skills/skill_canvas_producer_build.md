@@ -2,7 +2,7 @@
 type: skill
 skill_type: agent
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-08-03
 status: active
 category: development
 trigger: "Building a new in-vault canvas producer (a generator that turns a domain spec into a v2.0.0 aDNA-Native .canvas) on canvas_std"
@@ -77,11 +77,22 @@ PYTHONPATH=src .venv/bin/python -m pytest tests -q          # all green
 .venv/bin/ruff check src tests                              # clean
 .venv/bin/<name>_generator build examples/<x>.yaml examples/<x>.canvas
 .venv/bin/canvas-std validate examples/<x>.canvas           # -> "adna_native [OK]"
+python3 ../canvas_core/traps/cli.py examples/<x>.canvas --strict   # canvas-visual-check -> [OK]
 ```
+
+> **`canvas-std [OK]` is schema, not sight** (HV, 2026-08-03). Schema conformance says nothing about whether the
+> canvas *reads* — a validated canvas has shipped unreadable (Oration M-R5). Two further gates are mandatory:
+> **(a) `canvas-visual-check`** (above — the Obsidian-calibrated geometry traps; fix hints included; authoring
+> rules in `what/docs/canvas_authoring_guidance.md`), and **(b) the agent-confirmed render**: open the canvas in
+> live Obsidian, capture a screenshot, and **read it yourself** before shipping — per
+> `what/context/context_canvas_visual_in_the_loop.md` ("no canvas ships without an agent-confirmed Obsidian
+> screenshot"; Home.aDNA's `canvas_visual_loop.py` harness is the worked reference).
 
 ### 6. Firewall + quality gate
 - **Firewall (load-bearing):** `git diff --stat -- what/code/canvas_std/` MUST be empty. A producer never edits the
   Standard — if you think you must, file a LIP (`adr_003`).
+- **Visual gate (HV):** `canvas-visual-check examples/<x>.canvas --strict` clean **+ an agent-confirmed Obsidian
+  render** of the example — the agent reads the screenshot and judges it; validation output is never a substitute.
 - **Quality:** route the example through the `iii/` wrapper (target 0 High / 0 Med); ship an `iii_quality_contract.md`
   (a contract, not an engine — the producer emits the metadata a review needs and does not score itself, C8).
 
@@ -116,8 +127,9 @@ A new `what/production/<name>_generator/` — green "four+1" suite, `ruff` clean
 ## Verification
 
 `PYTHONPATH=src .venv/bin/python -m pytest tests -q` all green · `canvas-std validate examples/<x>.canvas` →
-`adna_native [OK]` · `degradation_report(doc)` all-True · `git diff --stat -- what/code/canvas_std/` empty · structural
-`iii/` review 0 High / 0 Med.
+`adna_native [OK]` · `canvas-visual-check examples/<x>.canvas --strict` → `[OK]` · **agent-confirmed Obsidian render**
+(screenshot read + judged) · `degradation_report(doc)` all-True · `git diff --stat -- what/code/canvas_std/` empty ·
+structural `iii/` review 0 High / 0 Med.
 
 ## Related
 - Pattern: `what/context/context_canvas_producer_pattern.md` · Scaffold: `what/production/_scaffold/`
