@@ -4,7 +4,7 @@ spec_id: spec_canvas_review_surface
 title: "Canvas review surface — Meta Bind capture ↔ interaction affordances ↔ the RLHF sinks (Halftone HR)"
 standard_version: "2.3.0"
 interaction_version: "1.0"
-status: draft
+status: ratified
 created: 2026-08-04
 updated: 2026-08-04
 last_edited_by: agent_mondrian
@@ -18,6 +18,8 @@ tags: [spec, canvas, review, rlhf, metabind, interaction, affordance, schema_a, 
 
 # Canvas Review Surface (Halftone HR)
 
+> **Ratified 2026-08-04** (operator, §7.7 block below — the GO-wave plan approval was the signature).
+>
 > **What this is.** The canonical mapping from **Meta Bind controls** on sidecar notes to the ratified
 > **interaction-runtime affordance kinds** (`spec_interface_surface.md`, `interaction_version: 1.0`), plus the
 > **collector contract** that fans one operator verdict into the three sinks — the canvas's append-only
@@ -124,11 +126,11 @@ spend under an operator gate. Until then `regenerate_requested` is an inert, col
 | 4 | Pilot corpus | the real dataset | roadmap §6 explicit; `{kind: ai}` marking keeps agent runs distinguishable |
 | 5 | Buttons vs toggles | pilot ships toggles for pin/escalate + one `updateMetadata` button (regenerate) | both JS-less; the render check resolves preference |
 
-**Ratification (§7.7):** this spec is `status: draft` — operator ratification is an HR gate item.
+**Ratification (§7.7):**
 
 | Field | Value |
 |-------|-------|
 | Decision | spec_canvas_review_surface v1.0 (mapping · sidecar schema · collector contract · dispatch stub) |
-| Ratified by | — |
-| Date | — |
-| Status | **proposed** (awaiting operator ratification at the HR gate) |
+| Ratified by | stanley (operator) — plan approval = the signature (2026-08-04 GO-wave plan; Amendment-1 precedent) |
+| Date | 2026-08-04 |
+| Status | **accepted** |

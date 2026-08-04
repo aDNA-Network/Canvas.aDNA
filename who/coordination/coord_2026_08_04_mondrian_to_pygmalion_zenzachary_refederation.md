@@ -2,7 +2,7 @@
 type: coordination
 subtype: refederation_ask
 direction: outbound
-status: staged_pending_GO          # delivery = per-send operator GO (Rule 10); copy → ZenZachary.aDNA/who/coordination/
+status: sent                       # delivered 2026-08-04 (operator batch GO at plan approval — the GO wave)
 created: 2026-08-04
 updated: 2026-08-04
 last_edited_by: agent_mondrian
