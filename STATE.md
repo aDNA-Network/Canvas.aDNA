@@ -12,6 +12,8 @@ tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, feder
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
+> **▶ 2026-08-04 — 🟢 THE PARALLEL TRIO LANDED: H5 EXECUTED · HR BUILT (gate-pending) · HF EXECUTED — H3 held for Luke with spend params PRE-RULED (Mondrian, `session_stanley_20260804_115855_halftone_h5_hr_hf`).** Operator rulings at plan approval (= the H5/HR/HF gates, HV/H2 precedent): phase selection H5+HR+HF · **H3 NOT opened — held for Luke's cloud lane** with parameters pre-ruled (**Gemini pro-image class · 3 variants/panel · $5 cap · `GEMINI_API_KEY` via the Home broker · aspect = geometry-derived** [mission_h2 finding #1]; recorded in the campaign H3 row + roadmap §4 #1) · `app.json` `propertiesInDocument: "hidden"` consented. **H5 (`comic_generator/compose_input.py`)**: VisualDNA bundles → enriched ComicInput → per-panel `qualities.characters` → the H2-reserved manifest lift (**zero `comic_render` src changes**). **Exit criterion proven by the named test** `test_lora_less_compose_reference_images_only` — Stanley-like (PENDING_TRAINING · `entries:` mapping · bundle-dir-relative) AND Bearly-like (`lora_refs: []` rights-HELD · vault-root-relative · `canonical: false`) fixtures + live-bundle smokes; **pair-gate** (trigger⇔lora from one `TRAINED\|VALIDATED` entry or neither); canonical-FIRST selection + `--ref-category`; workspace-root-relative emission; argparse CLI (`build` byte-compatible · `compose` · `build --bundle`); prompt-contract **§1a amendment**. comic 100→**123** · sweep **259** · comic_render **73**. **HR**: `spec_canvas_review_surface.md` (**draft** — ratification at the gate; Meta Bind ↔ affordance kinds; Bearly's nine controls informative; **dispatch = `review_dispatch_contract v0` NAMED STUB**, the Callisto seam) + `canvas_core/rlhf/review_canvas.py` → **REAL pilot** `what/artifacts/review_surface_pilot/` (6 SS variants — premise corrected: they live in-vault at `style_registry/ss_character/`, NOT in ComfyUI.aDNA; `adna_native` [OK] D-1/2/3 green; **`canvas-visual-check` 0 findings** after the rail corrected the first-draft geometry, 10 medium → rework → 0) + `review_collect.py` (three sinks: append-only `apply_response` via guarded `canvas_context` bootstrap · Schema-A per approval → the real corpus · III accumulate; **4-layer idempotency** incl. ledger-loss self-heal via the canvas-`at` fallback clock; `{kind: ai}` attribution — simulated verdicts never forged as human) + `iii_bridge` store-default repointed to the live `canvas_iii_learning_store.jsonl`. canvas_core 787→**800/3**; CLI plumbing E2E proven on a scratchpad copy. **HF**: census artifact (21 wrappers; **mechanism correction** — all six "CanvasForge-targeting" wrappers already carry `source_vault: Canvas.aDNA`; drift is `wrapper_for`/`substrate_pin`/prose/runtime-paths; only Emacs clean at 2.3.0; Home's runtime import via the archive shim = highest functional risk; Oration = NO wrapper, the G7 enabling condition) + **NEW `how/federation/federation_index.md`** (living registry; Vulcan follow-up **#3 satisfied**; standing drift ledger) + **5 memos `staged_pending_GO`** (Pygmalion ZZ-refit ×3 · Astro refit+rename [SiteForge alias lands once] · Janus light · Kennedy **adopt-a-wrapper** [the G7 structural closure] · Vulcan ack). Suites: comic_generator **123** · producers **259** · comic_render **73** · canvas_core **800/3** · canvas_std **115/10** · cert **11/11** · **firewall diff 0** (canvas_std AND canvas_context). 5 local commits; **origin still `9d22561` — 6 ahead; parity push = its own GO (Luke's H3 lane is blocked on it)**.
+>
 > **▶ 2026-08-03 (late) — 🟢 H2 EXECUTED: the render bridge is REAL · all four operator asks cleared (Mondrian, `session_stanley_20260803_224918_halftone_h2_bridge`).** Four rulings at plan approval: **H2 gate GO** (approval = the gate, HV precedent) · **all 5 memo GOs** (delivered same session: Kennedy→Oration · Noether→LatticeProtocol · Callisto→Bearly · Berthier→aDNALabs [**dev-lane annex RATIFIED** by that GO] · Hestia→Home; per-send, files-only, no target-vault commits) · **parity push GO — EXECUTED** (`master → origin` at `9d22561`, gitleaks clean; Luke's PR flow unblocked) · **open decision #5 ruled: `issue.rendered.canvas` = derived artifact**. **H2 build**: NEW `what/production/comic_render/` (producer idiom; 9 modules + `comic-render` CLI; **72 tests**; own `.venv`): manifest v0.1 with first-class **`render_chain`** (chain, not switch) · extract (staleness-guarded) · `backends/fake` (**pure-Python PNG, zero PIL** — deterministic, location-independent bytes) + additive `RefineClient` protocol · chain dispatch+refine (idempotent; **budget_cap enforced before the first call**) · **Schema-A-only** select (fake runs corpus-isolated under `runs/…/selections/`) · write-back-to-NEW-file (topology + `_reserved.sync` **byte-identical, asserted**; ANCHOR_REF_KEYS guarded) · stage-6 validate (aDNA-Native + D-1/2/3 + files + DPI) · PrintExporter compose shim (**R5 canvas-absolute→bleed remap, golden ±1px**; full-page→full-bleed promotion) · inverted AST no-diffusion guard. **E2E offline proof**: mini-issue fixture → 27 fake variants → 9 selections → rendered canvas revalidates (`c56c73c08428f621` unchanged) → **4 composited 2062×3150 page JPGs**; hybrid generate→refine chain proven; re-runs = zero new work. **Amended exit executed**: `canvas-visual-check` clean-running (found + fixed a REAL HV-trap gap: CV-FILE-PROPS-01 crashed on binary targets — the fleet's first image file nodes; hardened + 3 regression tests → canvas_core **787/3**) + **agent-confirmed render** (pages read + confirmed; recorded in the mission). NEW signal recorded for H3: **aspect drift** (declared `3:4` vs authored 663×1025 geometry → ~10–14% cover-crop; `CV-IMAGE-ASPECT-RATIO-01` caught it). Suites: producers 236 · canvas_std 115/10 · cert 11/11 · **firewall diff 0**.
 >
 > **▶ 2026-08-03 — 🟢 HALFTONE SCOPE AMENDED (+HV/+HR/+HF) · HV EXECUTED · intake wave cleared (Mondrian, `session_stanley_20260803_213854_halftone_amendment_hv`).** Operator folded three phases into Halftone (plan approval = the HV gate): **HV visual-fidelity rail — EXECUTED**: `canvas-visual-check` CLI (`canvas_core/traps/cli.py`) over the trap pack · 4 new geometry traps (`CV-LEAD-COST-01`/`CV-GROUP-LABEL-01`/`CV-EDGE-LABEL-01` [first edge-geometry trap]/`CV-FILE-PROPS-01`) · `text_metrics.py` **Obsidian-CSS calibration** (Kennedy's `canvas_fit_check.py` absorbed with credit; `CV-TEXT-BOUNDS-01` overflow now calibrated) · **agent-confirmed-render doctrine ADOPTED** (`skill_canvas_producer_build` + `spec_federation_contract` §4 **Amendment 1**, operator-ratified; **closes HOME-CV-3**) · `canvas_reviewers.yaml` **1.1.0** · `what/docs/canvas_authoring_guidance.md`. Trigger: the **Oration M-R5 incident** (a canvas passed `canvas-std [OK]` and rendered unreadable; Kennedy coord 2026-08-03 — intake ask executed same-day, backlog idea filed as `accepted/graduated`). **HR** (G9, RLHF review surface — Meta Bind capture → Schema-A + III; pattern + working pilot over real images; dispatch contract-only pending Bearly P5 evidence) + **HF** (G8, federation census/index + staged refederation memos; ~6 wrappers still CanvasForge-targeting, no index — the incident's enabling condition) chartered, open at their own gates. **Verification:** canvas_core **784 passed/3 skipped** (own `.venv` reconstituted — the suite was runnable in NO venv since the pt09-P5 relocation) · producers **236** · `canvas_std` **115/10** untouched · certification **11/11** · firewall diff **0**. **Hygiene:** stale 07-09 session filed → `history/2026-07/` (Hestia W8 + Callisto §3 flags cleared) · CLAUDE.md persona drift fixed (Berthier→Mondrian) · STATE lower half rewritten current (stale Keystone sections → state archive, verbatim). **5 reply memos staged `staged_pending_GO`** (Kennedy ack · Callisto [H5 LoRA-less = **untested**, now an H5 exit criterion; HR seam named] · Berthier [dev-lane annex → `halftone_dev_lanes.md`; Luke = cloud lane H3 + first-light H6] · Noether G4-relabel ack · Hestia HOME-CV-3 disposition) — **deliveries are per-send operator GOs**.
@@ -24,26 +26,30 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — 🟢 **OPERATION HALFTONE** (live; phases H0–H6 + HV/HR/HF)
 
-**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ — H5+HR+HF OPENED 2026-08-04** (operator phase selection; plan approval = their
-gates, HV/H2 precedent; session `_115855` executing). **H3 HELD for Luke's cloud lane** (operator ruling
-2026-08-04; ratified dev-lane annex) with its **spend parameters PRE-RULED**: **Gemini pro-image class** (exact
-ID + live pricing verified before dispatch) · **3 variants/panel** · **$5 cap** (manifest-enforced) ·
-**`GEMINI_API_KEY`** via the Home broker (names-only) · **aspect = geometry-derived** (mission_h2 finding #1
-ruling; implement in extract at H3 open). The H3 **gate call itself remains open** — and Luke's lane is
-**blocked on the next parity push** (origin stops at `9d22561`; the H2 commit `3fee793` is local-only). Read:
+**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · HR 🟡 built (gate-pending) — H3 HELD for Luke's cloud lane**
+(spend params **PRE-RULED** 2026-08-04: Gemini pro-image class · 3 variants/panel · $5 cap · `GEMINI_API_KEY`
+via the Home broker · aspect = geometry-derived; the gate call itself stays open; Luke's lane is **blocked on
+the next parity push** — origin stops at `9d22561`, local is 6 ahead). Remaining build phases: **H3** (Luke's
+lane; implement the geometry-aspect ruling in `extract.py` at open) → **H4** (bind `RefineClient` to Vulcan's
+`comic_panel_refine`; his follow-ups #1/#2 parked there) → **H6** (authoring contract · print E2E · RLHF seam
+doc anchored on HR's spec + Bearly P5 evidence · `canvas_comic` disposition · AAR/close). Read:
 `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
 `missions/mission_{h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
-`missions/artifacts/halftone_{gap_register,roadmap}.md`.
+`how/federation/federation_index.md` (NEW) → `missions/artifacts/halftone_federation_census_20260804.md`.
 
-**Awaiting the operator (surface at next contact / session close):**
-1. **Per-send GOs** for the memos this session stages (Callisto H5-close notify + the HF wave) — Rule 10.
-2. **Parity push GO** (`master → origin`, gitleaks pre-push) — unblocks Luke's H3 lane (spend params now ruled).
-3. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human`.
+**Awaiting the operator (surface at next contact):**
+1. **Six per-send memo GOs** (Rule 10; batching legal): **Callisto** (H5-close notify — LoRA-less = YES) ·
+   **Pygmalion** (ZZ 3-wrapper refit) · **Astro** (refit + rename) · **Janus** (light, engagement-scoped) ·
+   **Kennedy** (Oration **adopt-a-wrapper** — the G7 closure) · **Vulcan** (courtesy ack, #3 satisfied).
+2. **Parity push GO** (`master → origin`, gitleaks pre-push; 6 commits) — **unblocks Luke's H3 lane**.
+3. **HR gate items**: ratify `spec_canvas_review_surface.md` (§7.7 block ready) · **agent-confirmed Obsidian
+   render** of `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (buttons-vs-toggles resolved
+   there) · your first real review pass (then `review_collect` per its README).
+4. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human`.
 
-*(Resolved 2026-08-04 at this session's gate surfacing: phase selection = H5+HR+HF · H3 spend params + aspect
-policy pre-ruled — recorded in the campaign master H3 row + roadmap §4 #1. Prior, 2026-08-03 at the H2 plan
-approval: all 5 memo GOs — delivered · parity push — executed `→ 9d22561` · H2 gate — executed · decision #5 —
-derived artifact.)*
+*(Resolved 2026-08-04 at this session's gate surfacing: phase selection = H5+HR+HF [plan approval = the gates] ·
+H3 spend params + aspect policy pre-ruled · `propertiesInDocument: "hidden"` consented. Prior, 2026-08-03: 5
+memo GOs delivered · parity push → `9d22561` · H2 gate · decision #5 = derived artifact.)*
 
 ## Parked — execution-campaign candidates (no gate change)
 
@@ -55,29 +61,31 @@ derived artifact.)*
 Lodestar → Beacon (v2.3.0; LIP queue drained) → **Halftone** (chartered 2026-07-09; **amended 2026-08-03** +HV/HR/HF).
 Done: H0 charter · H1 producer hardening (comic 87→100; `adr_008` + prompt contract) · **HV visual-fidelity rail**
 (CLI + 4 traps + calibration + doctrine adoption + reviewers 1.1.0 + guidance) · **H2 render bridge**
-(`comic_render` 0.1.0 — 9 modules + CLI, 72 tests, offline E2E to composited pages; dev-lane annex ratified).
-Open: **H3** (first real page, at gate; SPEND+eye gates; M-SB-D2 convergence; aspect-policy ruling first) →
-H4 (Vulcan seam; wrapper already delivered `comfyui/` 0.2.0 @ `a8a4356`; `RefineClient` protocol ready) →
-H5 (VisualDNA compose; **LoRA-less exit criterion**; parallel-eligible NOW) → HR · HF → H6 (close).
+(`comic_render` 0.1.0 — offline E2E to composited pages; dev-lane annex ratified) · **H5 VisualDNA compose**
+(2026-08-04 — LoRA-less exercised + tested, the exit criterion; comic 123) · **HF federation hygiene**
+(2026-08-04 — census + `federation_index.md` + 5 staged memos). **HR built, gate-pending** (spec draft + real
+pilot [visual-check 0] + three-sink collector; canvas_core 800/3; gate = ratification + render-confirm +
+operator pass). Open: **H3** (Luke's cloud lane; params pre-ruled; blocked on parity push) → H4 (Vulcan seam;
+`comfyui/` 0.2.0 indexed; `RefineClient` ready) → H6 (close).
 
-## What's Done (this session — 2026-08-03 late, H2 + the four asks)
+## What's Done (this session — 2026-08-04, the H5+HR+HF trio)
 
-- **Operator asks cleared**: 5 memos **delivered** (Canvas-side copies flipped `sent`; Berthier GO **ratified**
-  `halftone_dev_lanes.md`) · **parity push executed** (`3e95533..9d22561 master → origin`, gitleaks clean) ·
-  H2 gate ruled (plan approval) · decision #5 ruled (**derived artifact**).
-- **H2 build — NEW `what/production/comic_render/`** (producer idiom; dep `adna-canvas-std` only; guarded
-  self-bootstrap for the unpackaged `canvas_core`): `manifest.py` (v0.1 + `render_chain`) · `extract.py` ·
-  `backends/{base,fake}` (+`RefineClient` additive protocol; pure-PNG fake, no PIL) · `dispatch.py` (chain
-  executor; budget cap pre-enforced) · `select.py` (Schema-A only) · `writeback.py` (NEW-file; invariants
-  asserted) · `validate.py` (stage-6 gate) · `compose.py` (R5 shim) · `cli.py` (`plan|dispatch|refine|select|
-  write-back|validate|compose` + `run --until`) · `png_meta.py`/`vault.py` utils · AGENTS.md ·
-  iii_quality_contract.md · README · own `.venv` · **72 tests + ruff clean**.
-- **canvas_core hardening**: CV-FILE-PROPS-01 binary-target fix (media = existence-only; utf-8 crash on the
-  fleet's first image file nodes) + 3 regression tests → **787/3**.
-- **Amended exit executed**: visual-check on `mini_issue.rendered.canvas` (expected geometry classes only; NEW
-  aspect-drift signal recorded for H3) + agent-confirmed render of the composited pages (mission-recorded).
-- **Verification**: comic_render 72 · producers 236 · canvas_core 787/3 · canvas_std 115/10 · cert 11/11 ·
-  firewall diff 0. Full E2E CLI proof incl. hybrid chain; idempotent re-runs; cross-directory reproducibility.
+- **Gate rulings recorded**: phases H5+HR+HF opened (plan approval = gates) · H3 held for Luke + spend params
+  pre-ruled (pro-image · 3var · $5 · `GEMINI_API_KEY` · geometry-aspect) → campaign H3 row + roadmap §4 #1.
+- **H5**: `comic_generator/compose_input.py` (bundle parsing across all 4 live `lora_refs` shapes ·
+  **pair-gate** · canonical-FIRST refs · both path conventions → workspace-root-relative · descriptor chain ·
+  direction-safe matching · raw-dict enrichment + idempotent provenance) · `CharacterDescriptor` +3 asset
+  fields · `qualities.characters` emission (omitted-when-empty) · argparse CLI · prompt-contract §1a ·
+  **23 new tests incl. the named exit-criterion test + live smokes** · staged Callisto notify.
+- **HR**: `spec_canvas_review_surface.md` (draft) + `review_canvas.py` (REAL 6-variant pilot; `adna_native`
+  [OK]; visual-check 10-medium→rework→**0**) + `review_collect.py` (three sinks · 4-layer idempotency ·
+  ledger-loss self-heal · `{kind: ai}` attribution) + `iii_bridge` live-store repoint + 13 tests + CLI
+  plumbing E2E; `app.json` hidden-properties key (consented); pilot uncommitted-by-policy (artifacts
+  gitignored; deterministic rebuild = `python -m canvas_core.rlhf.review_canvas`).
+- **HF**: census artifact (21 wrappers; mechanism correction) · `how/federation/federation_index.md` (NEW;
+  Vulcan #3 satisfied; drift ledger) · 5 memos `staged_pending_GO`.
+- **Verification**: comic_generator **123** · producers **259** · comic_render **73** · canvas_core **800/3** ·
+  canvas_std **115/10** · cert **11/11** · ruff clean · **firewall diff 0**. 6 commits local; origin `9d22561`.
 
 ## Verified Ground Truth (anchors)
 
