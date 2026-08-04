@@ -4,10 +4,10 @@ artifact_type: gap_register
 campaign_id: campaign_canvas_halftone
 title: "Halftone gap register — the comic system, reviewed end-to-end"
 created: 2026-07-09
-updated: 2026-07-09
+updated: 2026-08-03
 last_edited_by: agent_mondrian
 status: active
-tags: [artifact, review, comic, gap-register, halftone]
+tags: [artifact, review, comic, gap-register, halftone, visual_fidelity, federation, rlhf]
 ---
 
 # Halftone Gap Register — comic system review (2026-07-07/09)
@@ -15,7 +15,8 @@ tags: [artifact, review, comic, gap-register, halftone]
 > Three-track read-only review: **code** (comic_generator + canvas_comic + canvas_core internals) ·
 > **governance/specs** (campaign history, spec coverage, process) · **end-to-end workflow** (cross-vault seams,
 > consumers, actual outputs). Verdict: **a well-built spec→canvas producer whose pipeline dead-ends at rendering.
-> Zero comics have ever been rendered.** Gap IDs G1–G6 are the campaign's work register.
+> Zero comics have ever been rendered.** Gap IDs G1–G6 are the campaign's work register; **G7–G9 added at the
+> 2026-08-03 operator scope amendment** (Kennedy/Oration intake · federation census · RLHF-surface assembly).
 
 ## What works (the keep list)
 
@@ -110,6 +111,62 @@ example + doctrine pointers); the agentic skill is a later wave / SS-Prism consu
   production substrate; ComfyForge = style-transfer engine") · `adr_005` dual-prompt protocol · `adr_008` prompt-
   construction contract · `adr_004/006/007` visual-QA/RLHF — all still only in `Archive.aDNA/CanvasForge.aDNA/`.
 → **Fix: H1 (ADR port + prompt contract) + H6 (RLHF seam doc + canvas_comic disposition)**.
+
+### G7 🟠 Visual fidelity — `canvas-std [OK]` on an unreadable canvas *(added 2026-08-03)*
+
+The schema validator is right to be schema-only (substrate-neutrality) — but **nothing fills the visual gap**, so
+`[OK]` reads to an author as "this canvas is good." Evidence (Kennedy memo,
+`who/coordination/coord_2026_08_03_kennedy_to_mondrian_canvas_visual_fidelity.md`):
+- **The incident**: Oration's `canvas_oration_map.canvas` (53 nodes, built for a live Richard Greene review) passed
+  `canvas-std 2.3.0 … [OK]` and rendered with **~20/23 text nodes clipped mid-sentence**, group labels ellipsised,
+  edge labels as opaque boxes over other nodes, file cards ~80% YAML Properties table.
+- **Root cause is Obsidian geometry, not schema**: canvas text nodes are `display:flex; flex-direction:column` —
+  margins don't collapse; a `##` lead costs **98.9px** (### 74.8px · `**bold**` 40.0px) before any body text; a
+  320×110 node had 11px left.
+- **The machinery exists, unwired**: `what/production/canvas_core/traps/` — 9 implemented traps incl.
+  `CV-TEXT-BOUNDS-01` — but `run_all_traps` has only internal call sites; **no CLI, no skill/doc mention, absent
+  from `canvas_reviewers.yaml`**. An author following the documented path never encounters them.
+- **The doctrine exists, un-adopted**: `what/context/context_canvas_visual_in_the_loop.md` ("no canvas ships
+  without an agent-confirmed Obsidian screenshot") — its adoption step 1 was never executed; **HOME-CV-3 open
+  since 2026-06-24**. Had it been wired, the canvas could not have shipped.
+- **Four fleet-wide uncovered checks**: edge-label geometry (edges never geometrically evaluated) · group-label
+  width truncation · file-node Properties-table preview (`html_renderer.py` ~1550–1576 is blind by construction) ·
+  `text_metrics.py` calibration (hardcoded `font_size=16.0`, never Obsidian-derived).
+- **Contributed fix**: Kennedy's `canvas_fit_check.py` (Obsidian-CSS-derived constants; reproduced the failure
+  exactly — 22 TEXT-FIT + 8 GROUP-LABEL fails on the broken map, 65 passed/0 fails on the reworked one).
+→ **Fix: HV** (CLI + new traps + calibration + doctrine adoption + reviewer registration + authoring guidance).
+
+### G8 🟡 Federation drift — the contract is ratified, adoption is partial *(added 2026-08-03)*
+
+- `spec_federation_contract.md` (RATIFIED 2026-06-12) mandates a `canvas/` wrapper + 5-stage gate (stage 3 =
+  `canvas_std` conformance · stage 4 = III review) for every producer emitting aDNA canvases. Reality: **~14
+  wrappers target Canvas.aDNA at drifting pins** (1.0 → 2.3.0; only Emacs is clean at v2.3.0), **~6 still target
+  legacy CanvasForge.aDNA** (ZenZachary ×3 · Astro · SiteForge · SuperLeague), and the Keystone **E5.2 rollout
+  tail never ran** (PT-P5-coupled from the start).
+- **No federation index exists** — the wrapper set is discoverable only by filesystem scan; Vulcan's new
+  `how/federation/comfyui/` wrapper (0.2.0 @ `a8a4356`, 2026-08-03) has nowhere to be indexed.
+- **The G7 incident's enabling condition**: Oration has **no canvas wrapper at all** (`how/federation/` = git + iii
+  only), so its canvas bypassed stages 3–5 entirely.
+→ **Fix: HF** (census + Canvas-side index + staged per-vault refederation memos; deliveries per-send GO).
+
+### G9 🟠 RLHF surface — every layer exists, nothing is assembled *(added 2026-08-03)*
+
+No operator-facing capture surface exists, though all five layers are live:
+- **Canvas grammar + runtime**: interaction v1.0 (`_reserved.interaction`; affordance kinds
+  `input|choice|annotation|action`; the golden fixture already declares `approve`/`mark_reviewed`); append-only
+  `apply_response`; advisory-reverse writes.
+- **Store + bridge**: `canvas_core/rlhf/` Schema-A `SelectionRecord` (13 live records) + `iii_bridge.py`
+  (III ADR-005 signal channel); comic RLHF hints threaded E2E at H1 (default-inert).
+- **Render surface**: Meta Bind + Advanced Canvas fleet-wide (lean-9 Tier-1) — but **zero
+  buttonTemplates/inputFieldTemplates configured**, `enableJs: false` (deliberate posture; capture must work
+  without JS — INPUT fields / `updateMetadata` buttons writing sidecar frontmatter).
+- **Precedent**: Bearly's dry-run (`Bearly.aDNA/what/specs/spec_bearly_rlhf_canvas.md` — nine controls mapped to
+  affordance kinds; `loop_log.jsonl`; placeholder pixels; P5 real-pixel slice gated) + III's image-eval
+  **Finding G** (4-persona agentic consensus mismatched operator preference — the argument FOR human buttons) +
+  ComfyUI's standing order "variant selection is human-gated" with no interactive surface to do it on.
+- **The seam**: button → dispatch → fresh generation → linked child node is unshipped on **both** standards
+  (Callisto 2026-07-28 §2); Bearly P5 will send prototype evidence.
+→ **Fix: HR** (capture-side spec + working pilot over real images; dispatch contract-only) **+ H6** (seam doc).
 
 ## Cross-checks that came back CLEAN (no action)
 

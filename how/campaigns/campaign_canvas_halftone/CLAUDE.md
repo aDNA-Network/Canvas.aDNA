@@ -7,15 +7,15 @@
 | Campaign | `campaign_canvas_halftone` |
 | Owner | stanley |
 | Status | 🟢 **active** (chartered 2026-07-09 from the operator-approved comic-system review) |
-| Current Phase | **H0+H1 COMPLETE; HOLDING at H1→H2.** Charter + review artifacts ✅ · producer hardening ✅ (prompt_layers · validations · RLHF E2E · suite 87→100; producers 236; firewall clean) · governance rail 1 ✅ (adr_008 adoption + prompt contract). **Next: H2 — `comic_render` bridge, offline.** HOLD (SO-1). |
+| Current Phase | **H0+H1+HV ✅ — HOLDING at →H2** (2026-08-03 scope amendment: +HV/+HR/+HF; plan approval = the HV gate, executed same day). HV shipped: `canvas-visual-check` CLI · 4 geometry traps · Obsidian calibration · doctrine adoption (spec §4 Amendment 1; HOME-CV-3 closed) · reviewers 1.1.0 · authoring guidance — canvas_core **784/3**, producers 236, `canvas_std` 115/10, firewall clean. **Next: H2** (`comic_render` bridge, offline — exit now includes `canvas-visual-check` + agent-confirmed render). HR (RLHF surface) parallel-eligible; HF (federation) any order. HOLD (SO-1). |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_beacon` (publish-hardening; completed 2026-07-02) |
 
 ## Quick Start
 
 1. Read this file (auto-loaded in the campaign dir).
-2. Read `campaign_canvas_halftone.md` — the master/charter (goal, locked decisions, phases H0–H6, firewall discipline).
-3. Read the **source of truth**: `missions/artifacts/halftone_gap_register.md` (G1–G6 evidence) + `halftone_roadmap.md` (tier detail + bridge architecture).
+2. Read `campaign_canvas_halftone.md` — the master/charter (goal, locked decisions + 2026-08-03 scope amendment, phases H0–H6 + HV/HR/HF, firewall discipline).
+3. Read the **source of truth**: `missions/artifacts/halftone_gap_register.md` (G1–G9 evidence) + `halftone_roadmap.md` (tier detail + bridge architecture + HV/HR/HF sections).
 4. Check `STATE.md` for the open phase; run that phase's mission (create a session in `how/sessions/active/`).
 5. **HOLD at every phase gate** (SO-1). Per-mission AAR (SO-5). Commit/push operator-gated (Git-Ops §3). **H3 render dispatch is additionally SPEND-gated.**
 
@@ -23,10 +23,12 @@
 
 | File | Purpose |
 |------|---------|
-| `campaign_canvas_halftone.md` | Master/charter — phases H0–H6, locked decisions, firewall, missions index |
-| `missions/artifacts/halftone_gap_register.md` | The review's G1–G6 gap register with file:line evidence |
-| `missions/artifacts/halftone_roadmap.md` | Tier detail: bridge architecture, manifest contract, backend interop, risks |
+| `campaign_canvas_halftone.md` | Master/charter — phases H0–H6 + HV/HR/HF, locked decisions + 2026-08-03 amendment, firewall, missions index |
+| `missions/artifacts/halftone_gap_register.md` | The review's G1–G9 gap register with file:line evidence |
+| `missions/artifacts/halftone_roadmap.md` | Tier detail: bridge architecture, manifest contract, backend interop, risks, HV/HR/HF architecture |
 | `missions/mission_h1_producer_hardening.md` | H0+H1 mission (charter · prompt_layers · validation · ADR port · prompt contract) |
+| `missions/mission_hv_visual_fidelity.md` | HV mission (visual-check CLI · geometry traps · calibration · doctrine adoption · guidance) |
+| `missions/artifacts/halftone_dev_lanes.md` | Second-developer annex (Luke, Berthier S105): branch/PR flow · review law · lane split — draft pending ratification |
 
 ## Standing Orders (campaign-local)
 
@@ -57,6 +59,8 @@
 | `what/docs/comic_prompt_contract.md` (after H1) | H2+ — the prompt contract the manifest + Vulcan memo bind to |
 | `ScienceStanley.aDNA/what/visual_dna/characters/stanley/stanley.yaml` | H5 — the empirical VisualDNA anchor |
 | `Archive.aDNA/CanvasForge.aDNA/what/decisions/` (read-only quarry) | H1 — ADR port sources |
+| `what/production/canvas_core/traps/` + `what/docs/canvas_authoring_guidance.md` | HV+ — the visual-check pack + the authoring rules every phase's canvases obey |
+| `what/specs/spec_interface_surface.md` + `canvas_core/rlhf/` + `Bearly.aDNA/what/specs/spec_bearly_rlhf_canvas.md` (read-only) | HR — affordance grammar · Schema-A store · the dry-run precedent |
 
 ## Delegation Notes
 

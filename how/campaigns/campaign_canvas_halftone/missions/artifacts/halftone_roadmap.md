@@ -4,10 +4,10 @@ artifact_type: roadmap
 campaign_id: campaign_canvas_halftone
 title: "Halftone roadmap — render-bridge architecture + tier plan"
 created: 2026-07-09
-updated: 2026-07-09
+updated: 2026-08-03
 last_edited_by: agent_mondrian
 status: active
-tags: [artifact, roadmap, comic, render-bridge, manifest, backends, halftone]
+tags: [artifact, roadmap, comic, render-bridge, manifest, backends, halftone, visual_fidelity, rlhf_surface, federation]
 ---
 
 # Halftone Roadmap — the bridge architecture + tier plan
@@ -92,13 +92,16 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
 | Phase | Tier | Missions | Depends on |
 |-------|------|----------|------------|
 | H1 | T0 + G1 | 1–2 · producer hardening (`prompt_layers` = **manifest prerequisite**) + ADR port + prompt contract | — |
-| H2 | T1.1 | 1 · bridge offline (fake E2E → composited page; sync_hash-unchanged golden) | H1 |
-| H3 | T1.2 | 1 · gemini adapter + **first real rendered page** (SPEND gate + eye-gate) | H2 |
-| H4 | T1.3 | 1 · Vulcan coord memo + contract fixtures/mocked tests + gemini→comfy chain proven | H2 (ack non-blocking) |
-| H5 | T2 | 1–2 · VisualDNA compose (bundles → ComicInput + manifest `characters[]`) | H2 (parallel-eligible) |
-| H6 | T3′ + T4 + G | 1–2 · authoring contract · full-issue print E2E (geometry shim golden · CMYK · DPI policy) · RLHF seam doc · canvas_comic disposition · close | H3 |
+| **HV** | G7 rail | 1 · visual-check CLI + geometry traps + calibration + doctrine adoption + reviewer registration + authoring guidance (§5) | — *(executed 2026-08-03 at plan approval)* |
+| H2 | T1.1 | 1 · bridge offline (fake E2E → composited page; sync_hash-unchanged golden; **exit += `canvas-visual-check` + agent-confirmed render**) | H1, HV |
+| H3 | T1.2 | 1 · gemini adapter + **first real rendered page** (SPEND gate + eye-gate; M-SB-D2 first-light convergence — dev-lane annex) | H2 |
+| H4 | T1.3 | 1 · Vulcan seam (wrapper delivered 2026-08-03) + contract fixtures/mocked tests + gemini→comfy chain proven | H2 (ack non-blocking) |
+| H5 | T2 | 1–2 · VisualDNA compose (bundles → ComicInput + manifest `characters[]`; **exit += LoRA-less compose exercised + tested**) | H2 (parallel-eligible) |
+| **HR** | G9 | 1–2 · review-surface spec + Meta Bind pilot over real images + collector; dispatch contract-stub only (§6) | HV (parallel-eligible; not blocked by H2/H3) |
+| **HF** | G8 | 1 · federation census + index + staged refederation memos (§7) — `executor_tier: sonnet` eligible | — (any order; deliveries per-send GO) |
+| H6 | T3′ + T4 + G | 1–2 · authoring contract · full-issue print E2E (geometry shim golden · CMYK · DPI policy) · RLHF seam doc (anchored by HR + Bearly evidence) · canvas_comic disposition · dev-lane ratification record · close | H3, HR |
 
-**Minimum path to the first rendered page: H1 → H2 → H3** (2–3 sessions).
+**Minimum path to the first rendered page: H1 → H2 → H3** (2–3 sessions; HV done).
 
 ## 3. Risk register (full)
 
@@ -125,3 +128,68 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    keeps data either way. *(gate: H6)*
 5. **`issue.rendered.canvas` authority** — rec.: derived artifact of the YAML source (producer stays authoritative;
    re-renders cheap). *(gate: H2 write-back design ack)*
+6. **HR pilot subject timing** — rec.: pilot on existing ComfyUI SS variant images (read-only consumption; records
+   stay Canvas-side) so HR needn't wait for H3; re-run the surface on the first H3 renders as the second consumer.
+   *(gate: HR open)*
+7. **HF delivery GOs** — each staged refederation memo is a separate per-send GO (Rule 10); operator may batch.
+   Bundling the Vulcan courtesy-ack with the HF index memo is recommended. *(gate: HF close)*
+
+## 5. HV — the visual-fidelity rail *(added 2026-08-03; executed at plan approval)*
+
+**Thesis (Kennedy intake):** `canvas-std validate` is schema-only *by design*; nothing filled the visual gap, so
+`[OK]` misled authors. HV fills it on the production shelf (firewall intact):
+
+- **CLI** `what/production/canvas_core/traps/cli.py` — "`canvas-visual-check`", the sibling of `canvas-std
+  validate`. Runnable `python -m canvas_core.traps.cli <file.canvas>…` (direct-path bootstrap for other vaults;
+  console-script packaging = follow-up). Args: `--json` · `--strict` (findings ≥ medium also fail) · `--vault-root`
+  (file-resolution traps). Human output carries **required-height fix hints** (tell how to fix, not just that you
+  failed). Exit nonzero on high/critical.
+- **New traps** (registry + per-trap test, existing convention): `CV-LEAD-COST-01` (`##`/`###` lead in text nodes —
+  98.9/74.8px vs 40.0px for `**bold**`) · `CV-GROUP-LABEL-01` (label chars vs `width/25` CAPS · `width/22` mixed) ·
+  `CV-EDGE-LABEL-01` (first edge-geometry trap; >20 chars fails; 83% of fleet edges already carry no label) ·
+  `CV-FILE-PROPS-01` (file-node target resolves + Properties-table exposure unless `propertiesInDocument: hidden`).
+- **Calibration**: `text_metrics.py` gains Obsidian-CSS-derived constants (from Kennedy's `canvas_fit_check.py`,
+  validated against the observed failure: predicted 43%/44% shown vs operator-observed ~51%/"half"); the fit rule
+  `chars ≤ (W−48)(0.90·H − P)/208`.
+- **Doctrine adoption** (the never-taken step): `skill_canvas_producer_build.md` validate step += visual-check +
+  **agent-confirmed Obsidian render**; `spec_federation_contract.md` dated amendment (stage gains the visual gate);
+  `context_canvas_visual_in_the_loop.md` adoption step marked executed → **HOME-CV-3 dispositioned**.
+- **Registration**: `canvas_reviewers.yaml` → 1.1.0; geometric traps join `trap_applicability.structural_now`.
+- **Guidance**: `what/docs/canvas_authoring_guidance.md` — the five authoring rules with real numbers; documents the
+  `html_renderer.py` file-node blindness as a known limitation (renderer fix deferred; the static trap covers it).
+
+## 6. HR — the RLHF review surface *(added 2026-08-03; capture-side build, dispatch contract-only)*
+
+**Thesis:** every layer exists (interaction runtime v1.0 · Schema-A + `iii_bridge` · Meta Bind fleet-wide · Bearly
+dry-run precedent · III Finding G "agentic consensus ≠ operator preference") — HR assembles them into a working
+operator surface. `enableJs: false` is preserved throughout.
+
+```
+image variants ──pilot builder──▶ review .canvas (image node + sidecar-note node per variant, linked)
+sidecar note  ──Meta Bind INPUT / updateMetadata BUTTON──▶ frontmatter verdicts {verdict, rating, defect_tags[], note}
+frontmatter   ──collector (canvas_core/rlhf/review_collect.py)──▶ interaction apply_response (append-only)
+                                                                + Schema-A SelectionRecord + III learning-store JSONL
+regenerate    ──── contract stub ONLY (the Callisto dispatch seam; await Bearly P5 evidence) ────
+```
+
+- **Spec** `what/specs/spec_canvas_review_surface.md` — the canonical Meta Bind ↔ affordance mapping:
+  approve/reject → `choice` · rating → `choice` · defect tags (controlled vocab) → `choice` (multi) · free note →
+  `annotation` · prompt edit → `input` · regenerate/pin/escalate → `action` (captured as intent flags; dispatch
+  deferred). Bearly `spec_bearly_rlhf_canvas.md` §3 (nine controls) is the informative precedent; ISS remains the
+  sibling surface for flat rich-context gates; surface-choice routing = the future OIP layer's call.
+- **Pilot**: real images (ComfyUI SS variants now — read-only consumption; H3 renders when they land); verdicts
+  land as Schema-A records beside the existing 13; III store via the existing bridge (ADR-005 signal shape).
+- **Feeds H6**: the RLHF seam doc (Lodestar R4.2) anchors on this spec + Bearly's evidence; open decision #4
+  (III store vs `interaction.responses`) resolves there — capture keeps Schema-A either way.
+
+## 7. HF — federation hygiene *(added 2026-08-03; mechanical, `executor_tier: sonnet` eligible)*
+
+- **Census**: filesystem scan of `*/how/federation/canvas*` (+ legacy `canvasforge`) — at amendment time: **~14
+  wrappers target Canvas.aDNA** (pins drifting 1.0→2.3.0; Emacs clean at v2.3.0) · **~6 target legacy
+  CanvasForge.aDNA** (ZenZachary ×3 · Astro · SiteForge · SuperLeague) · Oration has **none** (the G7 enabling
+  condition).
+- **Index**: `how/federation/federation_index.md` (Canvas-side; consumers + wrappers + pins + last-verified) —
+  folds Vulcan's `comfyui/` wrapper (0.2.0 @ `a8a4356`) per his memo's follow-up #3.
+- **Staged memos**: one per stale/missing wrapper (refederation ask: `source_vault → Canvas.aDNA`, pin to v2.3.0,
+  5-stage gate pointer, `canvas-visual-check` in stage guidance; Oration additionally: adopt a wrapper). All
+  `staged_pending_GO`; **deliveries are per-send operator GO** — Canvas never writes another vault.
