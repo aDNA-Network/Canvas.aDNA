@@ -6,6 +6,7 @@
   "defaultViewMode": "preview",
   "livePreview": true,
   "showFrontmatter": true,
+  "propertiesInDocument": "hidden",
   "foldHeading": true,
   "foldIndent": true,
   "pdfExportSettings": {

@@ -1,12 +1,15 @@
-"""III RLHF bridge — map CanvasForge selection records to ADR-005 signals.
+"""III RLHF bridge — map Canvas selection records to ADR-005 signals.
 
 Closes the HITL feedback loop for image generation: each operator
 variant-pick captured as a ``sel_*.json`` becomes an ADR-005 §2-compliant
-signal in the CanvasForge-local III learning store at
-``iii/what/context/canvasforge_iii_learning_store.jsonl``. Single-vault
+signal in the Canvas-local III learning store at
+``how/federation/iii/what/context/canvas_iii_learning_store.jsonl``
+(reached below via the vault-root ``iii`` symlink). Single-vault
 start per ``campaign_canvasforge_v1_2_planning`` Q3=b — writes to the
 local store only; cross-vault graduation defers to ADR-003 §3 with
-standard frequency ≥ 3 + acceptance ≥ 80% criteria.
+standard frequency ≥ 3 + acceptance ≥ 80% criteria. *(Store default
+repointed 2026-08-04, Halftone HR — the pre-merge ``canvasforge_…`` name
+had gone stale against the live store.)*
 
 **Scope (Pillar E S1+S2)**:
 - Input: Schema-A ``sel_*.json`` records (the 11-field shape produced by
@@ -49,12 +52,12 @@ from typing import Any
 
 from .selection import SelectionRecord, validate_selection_record
 
-# CanvasForge.aDNA root: this file is at .../what/code/canvas_core/rlhf/iii_bridge.py
+# Canvas.aDNA root: this file is at .../what/production/canvas_core/rlhf/iii_bridge.py
 # so 5 parents up reaches the vault root.
 _VAULT_ROOT = Path(__file__).resolve().parents[4]
 
 DEFAULT_LEARNING_STORE = (
-    _VAULT_ROOT / "iii" / "what" / "context" / "canvasforge_iii_learning_store.jsonl"
+    _VAULT_ROOT / "iii" / "what" / "context" / "canvas_iii_learning_store.jsonl"
 )
 DEFAULT_CORPUS_DIR = _VAULT_ROOT / "what" / "artifacts" / "image_gen_dataset" / "2026-05"
 

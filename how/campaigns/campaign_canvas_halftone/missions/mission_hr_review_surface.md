@@ -3,7 +3,7 @@ type: mission
 mission_id: mission_hr_review_surface
 campaign_id: campaign_canvas_halftone
 phase: HR
-status: active
+status: built_gate_pending
 owner: stanley
 persona: Mondrian
 executor_tier: fable
@@ -41,18 +41,50 @@ Doc-shape anchor (verified): `_reserved` lives at `metadata.frontmatter._reserve
 
 | # | Objective | Status |
 |---|-----------|--------|
-| **O1** | `what/specs/spec_canvas_review_surface.md` (draft): normative control↔affordance table (verdict→`choice[approve/reject/skip]` · rating→`choice["1".."5"]` single-axis v1.0 · defect_tags→`choice`(10-term Bearly vocab, one response per tag) · note→`annotation` · prompt_edit→`input` · regenerate/pin/escalate→`action` intent flags) · sidecar frontmatter schema (+ collector ledger keys) · verbatim JS-less Meta Bind snippets · three-sink collector contract + idempotency + participant attribution · **§ `review_dispatch_contract v0` NAMED STUB** · H6 forward-pointer (open decision #4) · +1 row `what/specs/AGENTS.md` | ⬜ |
-| **O2** | `iii_bridge.py`: `DEFAULT_LEARNING_STORE` filename → `canvas_iii_learning_store.jsonl` (live store) + stale docstring paths; **`DEFAULT_CORPUS_DIR` untouched** (test-coupled); regression test | ⬜ |
-| **O3** | `canvas_core/rlhf/review_canvas.py` (builder + `_main`): consumes `variations.manifest.json` → `what/artifacts/review_surface_pilot/{ss_variant_review.canvas, sidecars/var_1..6.md, README.md}`; trap-derived int geometry (exact-aspect image nodes; `**bold**` leads, no `#`; labels in budget); 8×6 namespaced affordances anchored on sidecar node ids; self-check `validate(doc, ADNA_NATIVE) == []`; refuses to overwrite verdict-bearing sidecars | ⬜ |
-| **O4** | Pilot generated + `.obsidian/app.json` `propertiesInDocument: "hidden"` (operator-consented in-plan) + `canvas-std validate` green + `canvas-visual-check` clean (or expected-only, documented) | ⬜ |
-| **O5** | `canvas_core/rlhf/review_collect.py`: guarded bootstrap → `canvas_context.interaction.apply_response` (collector owns doc write-back) · `verdict == approve` → Schema-A record per approved variant (all 6 as variants[], F-36 vault-relative, deterministic `selection_id`) → **real corpus** `what/artifacts/image_gen_dataset/` · III `accumulate` to the live store · reject-only → responses only (bridge charter is accept-only; reject→III = H6 decision #4) · 4-layer idempotency · `--dry-run`/`--force`/`--turn` | ⬜ |
-| **O6** | Tests: `test_review_canvas.py` + `test_review_collect.py` (tmp vault fixture w/ hidden-properties app.json; idempotent + ledger-loss replays; dry-run byte-identical; F-36 + I-3 green post-write; reject-only path; `{kind: ai}` participants only — never forged as human) | ⬜ |
-| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy → **agent-confirmed Obsidian render with the operator** (html_renderer is file-node-blind by design; buttons-vs-toggles fallback resolved here) → operator invited to a real review pass (records land beside the existing 13) · full canvas_core suite + firewall 0 | ⬜ |
+| **O1** | `what/specs/spec_canvas_review_surface.md` (draft): normative control↔affordance table (verdict→`choice[approve/reject/skip]` · rating→`choice["1".."5"]` single-axis v1.0 · defect_tags→`choice`(10-term Bearly vocab, one response per tag) · note→`annotation` · prompt_edit→`input` · regenerate/pin/escalate→`action` intent flags) · sidecar frontmatter schema (+ collector ledger keys) · verbatim JS-less Meta Bind snippets · three-sink collector contract + idempotency + participant attribution · **§ `review_dispatch_contract v0` NAMED STUB** · H6 forward-pointer (open decision #4) · +1 row `what/specs/AGENTS.md` | ✅ |
+| **O2** | `iii_bridge.py`: `DEFAULT_LEARNING_STORE` filename → `canvas_iii_learning_store.jsonl` (live store) + stale docstring paths; **`DEFAULT_CORPUS_DIR` untouched** (test-coupled); regression test | ✅ |
+| **O3** | `canvas_core/rlhf/review_canvas.py` (builder + `_main`): consumes `variations.manifest.json` → `what/artifacts/review_surface_pilot/{ss_variant_review.canvas, sidecars/var_1..6.md, README.md}`; trap-derived int geometry (exact-aspect image nodes; `**bold**` leads, no `#`; labels in budget); 8×6 namespaced affordances anchored on sidecar node ids; self-check `validate(doc, ADNA_NATIVE) == []`; refuses to overwrite verdict-bearing sidecars | ✅ |
+| **O4** | Pilot generated + `.obsidian/app.json` `propertiesInDocument: "hidden"` (operator-consented in-plan) + `canvas-std validate` green + `canvas-visual-check` clean (or expected-only, documented) | ✅ |
+| **O5** | `canvas_core/rlhf/review_collect.py`: guarded bootstrap → `canvas_context.interaction.apply_response` (collector owns doc write-back) · `verdict == approve` → Schema-A record per approved variant (all 6 as variants[], F-36 vault-relative, deterministic `selection_id`) → **real corpus** `what/artifacts/image_gen_dataset/` · III `accumulate` to the live store · reject-only → responses only (bridge charter is accept-only; reject→III = H6 decision #4) · 4-layer idempotency · `--dry-run`/`--force`/`--turn` | ✅ |
+| **O6** | Tests: `test_review_canvas.py` + `test_review_collect.py` (tmp vault fixture w/ hidden-properties app.json; idempotent + ledger-loss replays; dry-run byte-identical; F-36 + I-3 green post-write; reject-only path; `{kind: ai}` participants only — never forged as human) | ✅ |
+| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy ✅ · full canvas_core suite + firewall 0 ✅ · **agent-confirmed Obsidian render with the operator + the operator's real review pass → AT THE HR GATE** (with spec ratification) — the surface can only be sight-certified live | 🟡 gate |
 
-## Verification
+## Verification (build side, run 2026-08-04 — all green)
 
-*(filled at mission close with actual run results)*
+- **`canvas_core` 800 passed / 3 skipped** (787 baseline + 13 new; `ruff` clean; `test_iii_bridge` unaffected
+  by the store-default repoint — regression test added).
+- **The pilot is REAL and gate-ready**: `what/artifacts/review_surface_pilot/` — `ss_variant_review.canvas`
+  (6 variants, 48 affordances, `adna_native` **[OK]** with D-1/2/3 green) + 6 Meta Bind sidecars + README.
+  `canvas-visual-check`: **0 findings** — the first draft fired 10 medium findings (CV-GROUP-PADDING-01
+  width-fill 94% + CV-IMAGE-ASPECT-RATIO-01 slot-underfill 17%); the geometry was reworked to clear the
+  measured gates (content span 88.9% < 90%; fit-box images ≥ 20% slot area at exact ratios) — **the HV rail
+  gated its own second consumer, again**.
+- **CLI plumbing E2E (scratchpad copy, `{kind: ai}`)**: dry-run byte-identical + correct would-write report →
+  real run fans one simulated verdict into all three sinks (3 responses w/ `ai` attribution · 1 Schema-A
+  record + audit line · 1 III line) → **replay = complete no-op** (0/0/0; `skipped: 6`); `state.open`
+  correctly drops the answered verdict. Idempotency layers proven in tests incl. **ledger-loss replay**
+  (canvas `at` = fallback clock → same deterministic `selection_id`).
+- `.obsidian/app.json` `propertiesInDocument: "hidden"` set (operator-consented in-plan); Meta Bind 1.4.10
+  `enableJs: false` preserved (no JS anywhere in the surface).
+- **Firewall: `what/code/canvas_std/` diff 0 · `what/code/canvas_context/` diff 0** (import-only via the
+  guarded bootstrap).
 
 ## AAR (SO-5)
 
-*(5-line AAR at mission close — SO-5)*
+- **Worked:** the assembled-from-existing-layers thesis held — `apply_response`, Schema-A, `iii_bridge`,
+  `CanvasBuilder`, and the trap pack were consumed unmodified; the only genuinely new logic is the fan-out +
+  layered idempotency, and the whole surface landed with 13 tests in one slice.
+- **Didn't:** my "trap-derived" first-draft geometry failed its own gate — 10 medium findings on generation
+  (group width-fill 94%, 1:1 slot-underfill 17%); and the `min(iw, 640)` width cap was a latent
+  exact-aspect breaker the fit-box rule replaced.
+- **Finding:** the visual rail keeps proving itself on its own builders — HV's traps corrected H2's
+  consumer (binary targets) and now HR's (slot/padding budgets); "trap-derived by intention" ≠ "trap-clean by
+  measurement" — generate, check, rework is the loop.
+- **Change:** selection stamps fall back to the canvas's earliest verdict-response `at` when the sidecar
+  ledger is lost — the canvas itself became the durable clock, making the deterministic `selection_id`
+  survive every idempotency-layer failure mode we could construct.
+- **Follow-up:** (1) at the gate: spec ratification + agent-confirmed Obsidian render (buttons-vs-toggles
+  resolved there) + the operator's first real pass; (2) H6: the RLHF seam doc anchors on this spec + Bearly
+  P5 evidence (open decision #4: reject→III routing); (3) re-run the surface on the first H3 renders (the
+  second consumer, roadmap decision #6); (4) Meta Bind input/button templates could graduate into
+  `.obsidian` config once the pilot pattern settles.
