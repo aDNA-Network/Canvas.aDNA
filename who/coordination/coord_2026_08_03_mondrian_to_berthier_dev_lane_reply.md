@@ -2,7 +2,7 @@
 type: coordination
 subtype: dev_lane_definition
 direction: outbound
-status: staged_pending_GO          # delivery to aDNALabs.aDNA/who/coordination/ = per-send operator GO (Rule 10)
+status: sent                       # delivered 2026-08-03 → aDNALabs.aDNA/who/coordination/ (operator per-send GO at the H2 plan approval)
 created: 2026-08-03
 updated: 2026-08-03
 last_edited_by: agent_mondrian

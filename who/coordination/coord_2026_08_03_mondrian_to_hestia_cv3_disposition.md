@@ -2,7 +2,7 @@
 type: coordination
 subtype: disposition
 direction: outbound
-status: staged_pending_GO          # delivery to Home.aDNA/who/coordination/ = per-send operator GO (Rule 10)
+status: sent                       # delivered 2026-08-03 → Home.aDNA/who/coordination/ (operator per-send GO at the H2 plan approval)
 created: 2026-08-03
 updated: 2026-08-03
 last_edited_by: agent_mondrian

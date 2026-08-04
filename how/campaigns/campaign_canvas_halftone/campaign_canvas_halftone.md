@@ -81,7 +81,9 @@ staged refederation memos) — so what the pipeline ships is inspectable, review
 
 - → `missions/mission_h1_producer_hardening.md` (H0+H1 — completed 2026-07-09).
 - → `missions/mission_hv_visual_fidelity.md` (HV — created + executed at the 2026-08-03 scope amendment).
-- H2–H6 + HR/HF missions are created when their phase opens (never pre-spawn past a HOLD).
+- → `missions/mission_h2_render_bridge.md` (H2 — completed 2026-08-03; gate = the H2 plan approval,
+  which also ruled open decision #5 = **derived artifact** and ratified the dev-lane annex).
+- H3–H6 + HR/HF missions are created when their phase opens (never pre-spawn past a HOLD).
 - Dev-lane annex (second developer, Luke — Berthier S105): `missions/artifacts/halftone_dev_lanes.md` (draft;
   operator ratification rides the reply-memo GO).
 

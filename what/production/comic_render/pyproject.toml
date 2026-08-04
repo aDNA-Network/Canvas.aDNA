@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "comic-render"
+version = "0.1.0"
+description = "The Halftone render bridge (H2) — issue.canvas -> render manifest -> dispatched variants -> selection -> issue.rendered.canvas -> composited print pages. Canvas DISPATCHES, it does not diffuse: HTTP dispatch clients OK; render engines never; PIL only via canvas_core.print."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "aDNA Labs / Canvas.aDNA (Mondrian)" }]
+keywords = ["canvas", "adna", "comic", "render", "bridge", "manifest", "dispatch", "json-canvas"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Multimedia :: Graphics",
+]
+# Bridge (deps allowed); canvas_std stays the lean editable dep. canvas_core is NOT pip-packaged —
+# it is reached via the production-shelf sys.path (pytest pythonpath below + the guarded bootstrap
+# in comic_render/__init__.py, the traps/cli.py precedent).
+dependencies = ["adna-canvas-std"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6"]
+# Environment deps of the UNPACKAGED canvas_core import surface (its __init__ pulls print/gdoc/style
+# modules). comic_render's own source never imports these — the AST boundary test enforces it.
+env = ["pillow>=10", "pyyaml>=6", "google-api-python-client>=2"]
+
+[project.scripts]
+comic-render = "comic_render.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/comic_render"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# "src" for comic_render itself; ".." puts the production shelf on sys.path so `import canvas_core` works.
+pythonpath = ["src", ".."]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]

@@ -93,3 +93,34 @@ class TestTitleClips:
         clips = [f for f in check(canvas, vault_root=root)
                  if f.condition in ("title_clips", "content_hidden")]
         assert clips == []
+
+
+class TestBinaryTargets:
+    """Halftone H2 regression: image file nodes (the render bridge's write-back output) must get
+    the existence check ONLY — embed/Properties semantics are markdown-target behavior, and the
+    utf-8 read crashed on the PNG signature before this guard."""
+
+    _PNG = (b"\x89PNG\r\n\x1a\n" + b"\x00" * 32)  # signature + junk — enough to poison utf-8
+
+    def test_png_target_no_crash_no_embed_findings(self, tmp_path):
+        root = _vault(tmp_path)  # properties NOT hidden — must still not fire for a PNG
+        (root / "panel.png").write_bytes(self._PNG)
+        canvas = _canvas([_file_node("p1", "panel.png", w=260, h=60)])
+        findings = check(canvas, vault_root=root)
+        assert findings == []  # exists + binary → clean
+
+    def test_png_target_missing_still_fires(self, tmp_path):
+        root = _vault(tmp_path)
+        canvas = _canvas([_file_node("p1", "runs/panel.png")])
+        conditions = {f.condition for f in check(canvas, vault_root=root)}
+        assert conditions == {"file_missing"}
+
+    def test_mixed_targets_markdown_still_checked(self, tmp_path):
+        root = _vault(tmp_path)  # properties visible
+        (root / "panel.png").write_bytes(self._PNG)
+        (root / "note.md").write_text("---\ntype: note\n---\n\n# Hi\n\nBody.\n")
+        canvas = _canvas([_file_node("p1", "panel.png"), _file_node("f1", "note.md")])
+        exposed = [f for f in check(canvas, vault_root=root)
+                   if f.condition == "properties_exposed"]
+        assert len(exposed) == 1
+        assert exposed[0].node_ids == ["f1"]  # the PNG node is not implicated

@@ -6,7 +6,7 @@ title: "Halftone dev-lane annex — second developer (Luke Waltman, aDLabs Core 
 created: 2026-08-03
 updated: 2026-08-03
 last_edited_by: agent_mondrian
-status: draft_pending_ratification
+status: ratified
 relates: ["aDNALabs coord 2026-07-24 (Berthier S105 — Second Baton)", campaign_core_dev_luke, adr_019_core_developer_luke]
 tags: [artifact, dev_lanes, luke, comic_generator, halftone, second_baton]
 ---
@@ -14,8 +14,9 @@ tags: [artifact, dev_lanes, luke, comic_generator, halftone, second_baton]
 # Halftone Dev-Lane Annex — Luke Waltman on the comic/graphic-novel generator
 
 > Answers Berthier's S105 ask #1 (`who/coordination/coord_2026_07_24_berthier_to_mondrian_canvas_luke_dev_lane.md`):
-> branch/PR flow · review law · which Halftone lanes are Luke's vs Mondrian's. **Draft — operator ratification
-> rides the reply-memo GO** (the staged `coord_2026_08_03_mondrian_to_berthier_dev_lane_reply.md`).
+> branch/PR flow · review law · which Halftone lanes are Luke's vs Mondrian's. **Ratified 2026-08-03** — the
+> operator's per-send GO on `coord_2026_08_03_mondrian_to_berthier_dev_lane_reply.md` (delivered same day) was
+> the ratification, per the annex's own terms.
 
 ## 1. Branch/PR flow (public repo `aDNA-Network/Canvas.aDNA`)
 
@@ -27,8 +28,8 @@ tags: [artifact, dev_lanes, luke, comic_generator, halftone, second_baton]
   suite **100** — the S105 memo's "87" predates H1) + `canvas_std` suite (115/10) + **firewall check**
   `git diff --stat -- what/code/canvas_std/` empty.
 - **Precondition** (M-SB-C1 "dev-ready"): `canvas_std` + `comic_generator` editable installs on his box; the full
-  battery green there. Public-parity push is required first — **pending operator GO** (Canvas is ahead of origin;
-  the GO rides M-SB-C1, per the S105 memo; nothing pushes without the operator's word).
+  battery green there. Public-parity push — **executed 2026-08-03** (operator GO at the H2 plan approval;
+  `master → origin` at `9d22561`, gitleaks clean); origin now carries H1 + HV.
 
 ## 2. Review law
 
@@ -70,6 +71,6 @@ spec exists, Mondrian's mini-issue splash is the fallback subject (H3 does not b
 | Field | Value |
 |-------|-------|
 | Decision | Dev-lane annex v1 (flow · review law · lane split · first-light convergence) |
-| Ratified by | *(pending — operator, at the Berthier reply-memo GO)* |
-| Date | — |
-| Status | **draft_pending_ratification** |
+| Ratified by | stanley (operator) — the per-send GO on the Berthier reply memo, given at the 2026-08-03 H2 plan approval |
+| Date | 2026-08-03 |
+| Status | **ratified** |

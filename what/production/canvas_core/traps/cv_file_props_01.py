@@ -50,6 +50,11 @@ TRAP_ID = "CV-FILE-PROPS-01"
 
 _SEVERITY_ORDER = ["low", "medium", "high", "critical"]
 
+# Embed semantics (header + H1 + Properties table) are MARKDOWN-target behavior. Binary/media
+# targets (png/jpg/pdf/…) render as the asset itself — for those, existence is the only check.
+# (Surfaced by Halftone H2: the first fleet canvas with image file nodes crashed the utf-8 read.)
+_MARKDOWN_EXTS = {".md", ".markdown"}
+
 
 def _escalate_severity(severity: str) -> str:
     idx = _SEVERITY_ORDER.index(severity)
@@ -60,7 +65,7 @@ def _has_frontmatter(path: str) -> bool:
     try:
         with open(path, encoding="utf-8") as fh:
             return fh.readline().strip() == "---"
-    except OSError:
+    except (OSError, UnicodeDecodeError):
         return False
 
 
@@ -69,7 +74,7 @@ def _embed_body(path: str) -> tuple[str | None, str | None]:
     try:
         with open(path, encoding="utf-8") as fh:
             lines = fh.read().split("\n")
-    except OSError:
+    except (OSError, UnicodeDecodeError):
         return None, None
     i = 0
     if lines and lines[0].strip() == "---":  # skip frontmatter
@@ -167,6 +172,9 @@ def check(
                 message=f"File node target does not exist: {rel}",
             ))
             continue
+
+        if os.path.splitext(target)[1].lower() not in _MARKDOWN_EXTS:
+            continue  # media target — renders as the asset; no embed/Properties semantics
 
         if _has_frontmatter(target):
             frontmatter_nodes.append(node_id)
