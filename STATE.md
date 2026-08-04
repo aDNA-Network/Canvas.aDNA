@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-08-03
+updated: 2026-08-04
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260803_224918_halftone_h2_bridge
+last_session: session_stanley_20260804_115855_halftone_h5_hr_hf
 tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard]
 ---
 
@@ -24,24 +24,26 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — 🟢 **OPERATION HALFTONE** (live; phases H0–H6 + HV/HR/HF)
 
-**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ (2026-08-03) — HOLDING at →H3** (SO-1; H3 is additionally **SPEND-gated + eye-gated**).
-H3 = `backends/gemini.py` + the **first REAL rendered page in the fleet's history** (registry slot + chain executor
-+ budget enforcement already in place; M-SB-D2 first-light convergence per the **ratified** dev-lane annex — Luke
-leads the cloud lane under Mondrian review). **H5** (VisualDNA compose) now parallel-eligible after H2; **HR**
-parallel-eligible; **HF** any order, sonnet-eligible. Read: `how/campaigns/campaign_canvas_halftone/` (master +
-CLAUDE.md) → `missions/mission_h2_render_bridge.md` (verification + the 3 recorded findings) →
+**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ — H5+HR+HF OPENED 2026-08-04** (operator phase selection; plan approval = their
+gates, HV/H2 precedent; session `_115855` executing). **H3 HELD for Luke's cloud lane** (operator ruling
+2026-08-04; ratified dev-lane annex) with its **spend parameters PRE-RULED**: **Gemini pro-image class** (exact
+ID + live pricing verified before dispatch) · **3 variants/panel** · **$5 cap** (manifest-enforced) ·
+**`GEMINI_API_KEY`** via the Home broker (names-only) · **aspect = geometry-derived** (mission_h2 finding #1
+ruling; implement in extract at H3 open). The H3 **gate call itself remains open** — and Luke's lane is
+**blocked on the next parity push** (origin stops at `9d22561`; the H2 commit `3fee793` is local-only). Read:
+`how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
+`missions/mission_{h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
 `missions/artifacts/halftone_{gap_register,roadmap}.md`.
 
-**Awaiting the operator (surface at next contact):**
-1. **H2→H3 gate call + SPEND parameters** (roadmap open decision #1): model tier · variants/panel (rec. 3) ·
-   budget cap (manifest-enforced, proven) · credential name via the Home broker (`GEMINI_API_KEY`-class,
-   names-only). Plus the **aspect-policy ruling** (mission finding #1): request geometry-derived aspect vs
-   producer emits geometry-consistent ratios — decide before real spend.
-2. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human`.
+**Awaiting the operator (surface at next contact / session close):**
+1. **Per-send GOs** for the memos this session stages (Callisto H5-close notify + the HF wave) — Rule 10.
+2. **Parity push GO** (`master → origin`, gitleaks pre-push) — unblocks Luke's H3 lane (spend params now ruled).
+3. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human`.
 
-*(Resolved 2026-08-03 at the H2 plan approval: all 5 memo GOs — delivered · parity push — executed `→ 9d22561` ·
-H2 gate — executed · decision #5 — derived artifact. The H2 changeset itself is committed locally, NOT pushed —
-next parity push is its own GO.)*
+*(Resolved 2026-08-04 at this session's gate surfacing: phase selection = H5+HR+HF · H3 spend params + aspect
+policy pre-ruled — recorded in the campaign master H3 row + roadmap §4 #1. Prior, 2026-08-03 at the H2 plan
+approval: all 5 memo GOs — delivered · parity push — executed `→ 9d22561` · H2 gate — executed · decision #5 —
+derived artifact.)*
 
 ## Parked — execution-campaign candidates (no gate change)
 

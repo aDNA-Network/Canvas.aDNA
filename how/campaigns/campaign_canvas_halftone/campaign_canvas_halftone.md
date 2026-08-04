@@ -10,9 +10,9 @@ mission_count: 3
 priority: high
 predecessor: campaign_canvas_beacon
 created: 2026-07-09
-updated: 2026-08-03
+updated: 2026-08-04
 last_edited_by: agent_mondrian
-status_history: "active (2026-07-09 — chartered from the operator-approved comic-system review; scope=full program T0–T4+G · backend=hybrid Gemini→ComfyUI-refine · T3=contract-only); amended (2026-08-03 — operator scope amendment: +HV visual-fidelity rail · +HR RLHF review surface · +HF federation index/memos; HV executed at plan approval)"
+status_history: "active (2026-07-09 — chartered from the operator-approved comic-system review; scope=full program T0–T4+G · backend=hybrid Gemini→ComfyUI-refine · T3=contract-only); amended (2026-08-03 — operator scope amendment: +HV visual-fidelity rail · +HR RLHF review surface · +HF federation index/memos; HV executed at plan approval); h5_hr_hf_opened (2026-08-04 — plan approval = their gates; H3 held for Luke's cloud lane, spend params pre-ruled)"
 tags: [campaign, canvas, halftone, comic, producer, render, bridge, comfyui, gemini, visualdna, print, governance, visual_fidelity, rlhf_surface, metabind, federation]
 ---
 
@@ -62,7 +62,7 @@ staged refederation memos) — so what the pipeline ships is inspectable, review
 | **H1** | T0+G1 | **Producer hardening** — `qualities.prompt_layers` (incl. separate `negative` channel; configurable suffix) · validation (image_path exists · spread refs · splash guard · story_state chars) · RLHF-hints tests · full-span test · Mermaid-dup note. **Governance 1** — port quarry ADRs (provider-strategy · dual-prompt · prompt-construction) + write `what/docs/comic_prompt_contract.md`. | SITREP + HOLD |
 | **HV** | G7 rail | **Visual-fidelity rail** *(added 2026-08-03; executed at plan approval)* — `canvas-visual-check` CLI (`canvas_core/traps/cli.py`) over the trap pack · new geometry traps (CV-LEAD-COST-01 · CV-GROUP-LABEL-01 · CV-EDGE-LABEL-01 · CV-FILE-PROPS-01) · `text_metrics.py` Obsidian-CSS calibration (Kennedy's `canvas_fit_check.py` absorbed) · **agent-confirmed-render doctrine adopted** (producer skill + federation contract; closes HOME-CV-3) · `canvas_reviewers.yaml` 1.1.0 · `what/docs/canvas_authoring_guidance.md`. Firewall holds (production shelf only). | plan approval 2026-08-03 = gate; SITREP at close |
 | **H2** | T1.1 | **Render bridge, offline** — new `what/production/comic_render/` (manifest v0.1 w/ `render_chain` · extract · backends/{fake} · dispatch · select · write-back-to-NEW-file · validate · compose shim · CLI · AST no-diffusion guard). Exit: fake-rendered mini-issue page composites; rendered canvas revalidates, sync_hash unchanged. **Exit amended (2026-08-03):** composited outputs additionally pass `canvas-visual-check` + an agent-confirmed Obsidian render (HV rail). | SITREP + HOLD |
-| **H3** | T1.2 | **First REAL rendered page** — `backends/gemini.py` (credential via Home broker); **SPEND GATE** (model tier · variants · budget cap) → live render mini-issue splash → operator eye-gate → composited page JPG. *(2026-08-03: first-light convergence — aDNALabs M-SB-D2 may supply the page spec via Luke's cloud lane; see `missions/artifacts/halftone_dev_lanes.md`.)* | SPEND GATE + eye-gate |
+| **H3** | T1.2 | **First REAL rendered page** — `backends/gemini.py` (credential via Home broker); **SPEND GATE** (model tier · variants · budget cap) → live render mini-issue splash → operator eye-gate → composited page JPG. *(2026-08-03: first-light convergence — aDNALabs M-SB-D2 may supply the page spec via Luke's cloud lane; see `missions/artifacts/halftone_dev_lanes.md`.)* *(2026-08-04: spend params **PRE-RULED** at the H5/HR/HF gate surfacing — **Gemini pro-image class** [exact ID + live pricing verified before dispatch] · **3 variants/panel** · **$5 cap** · **`GEMINI_API_KEY`** via the Home broker · **aspect = geometry-derived** [mission_h2 finding #1 ruling: extract snaps each panel's true w/h to the nearest backend-supported ratio; manifest records declared + effective; implement at H3 open]. The **gate call itself remains open** — phase held for Luke's cloud lane.)* | SPEND GATE + eye-gate |
 | **H4** | T1.3 | **Vulcan seam + interop** — contract fixtures + mocked tests · flag-gated live path · prove gemini→comfy refine chain once. **Amended (2026-08-03):** Vulcan's consumer wrapper is already delivered (`how/federation/comfyui/`, 0.2.0 @ `a8a4356`, 2026-08-03) — fold its follow-ups: adjust `skills_used`/`workflows_used` at the first render session · decide the archived LoRA-dispatch-runner rehoming · index the wrapper (HF). | SITREP + HOLD |
 | **H5** | T2 | **VisualDNA auto-compose** — `compose_input.py`: bundles → enriched ComicInput + manifest `characters[]` (trigger words · lora_refs · reference images); reference conditioning; LoRA into refine when trained. *(Parallel-eligible after H2.)* **Exit amended (2026-08-03):** **LoRA-less compose (reference-images-only) exercised + tested** — Bearly's *required* path (rights-HELD LoRA; Callisto 2026-07-28 §1, currently untested); notify Bearly at close. | SITREP + HOLD |
 | **HR** | G9 | **RLHF review surface** *(added 2026-08-03; parallel-eligible after HV)* — `what/specs/spec_canvas_review_surface.md`: Meta Bind controls ↔ interaction-runtime affordance kinds (`input\|choice\|annotation\|action`; Bearly §3 nine-control mapping as informative precedent); capture-side architecture = frontmatter verdicts on sidecar notes (`enableJs: false` preserved) → agent collector → Schema-A `SelectionRecord` (`canvas_core/rlhf/`) + III store (`iii_bridge.py`) · **working pilot** review canvas over real images (ComfyUI SS variants now; H3 renders when they land) · **dispatch-side = named contract stub only** (the Callisto seam) pending Bearly P5 evidence · feeds H6's RLHF seam doc. | SITREP + HOLD |
@@ -83,9 +83,13 @@ staged refederation memos) — so what the pipeline ships is inspectable, review
 - → `missions/mission_hv_visual_fidelity.md` (HV — created + executed at the 2026-08-03 scope amendment).
 - → `missions/mission_h2_render_bridge.md` (H2 — completed 2026-08-03; gate = the H2 plan approval,
   which also ruled open decision #5 = **derived artifact** and ratified the dev-lane annex).
-- H3–H6 + HR/HF missions are created when their phase opens (never pre-spawn past a HOLD).
-- Dev-lane annex (second developer, Luke — Berthier S105): `missions/artifacts/halftone_dev_lanes.md` (draft;
-  operator ratification rides the reply-memo GO).
+- → `missions/mission_h5_visualdna_compose.md` (H5 — opened 2026-08-04; gate = plan approval).
+- → `missions/mission_hr_review_surface.md` (HR — opened 2026-08-04; gate = plan approval).
+- → `missions/mission_hf_federation_hygiene.md` (HF — opened 2026-08-04; gate = plan approval).
+- H3/H4/H6 missions are created when their phase opens (never pre-spawn past a HOLD); H3 is **held for Luke's
+  cloud lane** (2026-08-04 ruling; spend params pre-ruled in the H3 row + roadmap §4 #1).
+- Dev-lane annex (second developer, Luke — Berthier S105): `missions/artifacts/halftone_dev_lanes.md`
+  (**ratified 2026-08-03**).
 
 ## Next-session prompt
 

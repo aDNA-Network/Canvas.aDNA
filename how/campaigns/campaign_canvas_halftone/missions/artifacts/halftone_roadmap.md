@@ -4,7 +4,7 @@ artifact_type: roadmap
 campaign_id: campaign_canvas_halftone
 title: "Halftone roadmap — render-bridge architecture + tier plan"
 created: 2026-07-09
-updated: 2026-08-03
+updated: 2026-08-04
 last_edited_by: agent_mondrian
 status: active
 tags: [artifact, roadmap, comic, render-bridge, manifest, backends, halftone, visual_fidelity, rlhf_surface, federation]
@@ -120,7 +120,13 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
 
 ## 4. Operator decisions still open (surface at their gates)
 
-1. **H3 spend parameters** — model tier · variants/panel (rec. 3) · budget cap · credential. *(gate: H3)*
+1. **H3 spend parameters** — ✅ **RULED 2026-08-04** (at the H5/HR/HF gate surfacing, ahead of the H3 gate call):
+   model = **Gemini pro-image class** (exact model ID + live pricing verified before any dispatch, under the cap) ·
+   **3 variants/panel** · **budget cap $5** (manifest-enforced pre-dispatch, proven at H2) · credential
+   **`GEMINI_API_KEY`** via the Home broker (names-only). Companion ruling: **aspect policy = derive from
+   geometry** (mission_h2 finding #1) — extract computes each panel's true w/h and snaps to the nearest
+   backend-supported ratio; manifest records declared + effective; producer untouched; implement at H3 open.
+   **The H3 gate call itself remains open** — phase held for Luke's cloud lane (ratified annex). *(was gate: H3)*
 2. **Vulcan memo delivery timing** + whether to bundle the LoRA-training-completion ask. *(gate: H4)*
 3. **`canvas_comic` disposition** — rec.: reader-only freeze now, archive after H3; port `ComicReport` only if the
    scoring loop revives. *(gate: H6)*
