@@ -4,7 +4,14 @@
       "id": "default",
       "name": "Default",
       "fileVisibility": "supported",
-      "propertyKeys": [],
+      "propertyKeys": [
+        {
+          "key": "status",
+          "showInNavigation": true,
+          "showInList": true,
+          "showInFileMenu": false
+        }
+      ],
       "hiddenFolders": [],
       "hiddenTags": [],
       "hiddenFileNames": [],
@@ -64,6 +71,7 @@
     }
   ],
   "vaultProfile": "default",
+  "vaultTitle": "navigation",
   "syncModes": {
     "vaultProfile": "synced",
     "homepage": "synced",
@@ -451,6 +459,8 @@
     ]
   },
   "customVaultName": "",
+  "pinnedNotes": {},
+  "collapsedPinnedContexts": {},
   "fileIcons": {},
   "fileColors": {},
   "fileBackgroundColors": {},
@@ -461,10 +471,14 @@
     "how": "#9ece6a"
   },
   "folderBackgroundColors": {},
+  "folderSortOverrides": {},
+  "folderTreeSortOverrides": {},
   "folderAppearances": {},
   "tagIcons": {},
   "tagColors": {},
   "tagBackgroundColors": {},
+  "tagSortOverrides": {},
+  "tagTreeSortOverrides": {},
   "tagAppearances": {},
   "propertyIcons": {},
   "propertyColors": {
@@ -486,6 +500,8 @@
     "superseded": "#f7768e"
   },
   "propertyBackgroundColors": {},
+  "propertySortOverrides": {},
+  "propertyTreeSortOverrides": {},
   "propertyAppearances": {},
   "virtualFolderColors": {},
   "virtualFolderBackgroundColors": {},
@@ -513,5 +529,7 @@
     "#404040"
   ],
   "lastShownVersion": "2.6.6",
-  "propertyFields": "status"
+  "rootFolderOrder": [],
+  "rootTagOrder": [],
+  "rootPropertyOrder": []
 }

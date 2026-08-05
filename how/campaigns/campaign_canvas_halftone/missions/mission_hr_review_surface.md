@@ -47,7 +47,7 @@ Doc-shape anchor (verified): `_reserved` lives at `metadata.frontmatter._reserve
 | **O4** | Pilot generated + `.obsidian/app.json` `propertiesInDocument: "hidden"` (operator-consented in-plan) + `canvas-std validate` green + `canvas-visual-check` clean (or expected-only, documented) | ✅ |
 | **O5** | `canvas_core/rlhf/review_collect.py`: guarded bootstrap → `canvas_context.interaction.apply_response` (collector owns doc write-back) · `verdict == approve` → Schema-A record per approved variant (all 6 as variants[], F-36 vault-relative, deterministic `selection_id`) → **real corpus** `what/artifacts/image_gen_dataset/` · III `accumulate` to the live store · reject-only → responses only (bridge charter is accept-only; reject→III = H6 decision #4) · 4-layer idempotency · `--dry-run`/`--force`/`--turn` | ✅ |
 | **O6** | Tests: `test_review_canvas.py` + `test_review_collect.py` (tmp vault fixture w/ hidden-properties app.json; idempotent + ledger-loss replays; dry-run byte-identical; F-36 + I-3 green post-write; reject-only path; `{kind: ai}` participants only — never forged as human) | ✅ |
-| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy ✅ · full canvas_core suite + firewall 0 ✅ · **spec RATIFIED 2026-08-04** (GO-wave plan approval = the §7.7 signature) ✅ · remaining at the gate: **agent-confirmed Obsidian render** (link handed to the operator at the GO wave) + the operator's real review pass (at leisure; collector idempotent) | 🟡 gate (1 of 3 items closed) |
+| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy ✅ · full canvas_core suite + firewall 0 ✅ · **spec RATIFIED 2026-08-04** (GO-wave plan approval = the §7.7 signature) ✅ · **agent-confirmed Obsidian render EXECUTED 2026-08-04** (session `_174045` — full stack on real Obsidian 1.13.4: structure + interactive layer + widgets-inside-canvas-embeds; **two live failures caught + fixed by the gate item itself** — see §Gate progress) ✅ · remaining: the operator's real review pass (at leisure; collector idempotent) | 🟡 gate (2 of 3 items closed) |
 
 ## Verification (build side, run 2026-08-04 — all green)
 
@@ -68,6 +68,32 @@ Doc-shape anchor (verified): `_reserved` lives at `metadata.frontmatter._reserve
   `enableJs: false` preserved (no JS anywhere in the surface).
 - **Firewall: `what/code/canvas_std/` diff 0 · `what/code/canvas_context/` diff 0** (import-only via the
   guarded bootstrap).
+
+## Gate progress — 2026-08-04 agent-confirmed render (session `_174045`)
+
+The render-confirm gate item earned its place twice over — **two real failures no schema/geometry rail could
+see**, both caught by looking at the actual paint:
+
+1. **The vault was in Obsidian restricted mode** — no per-vault trust key (`enable-plugin-5e4905b3c43ec6d7`)
+   in app Local Storage; NO community plugin had ever loaded on this node's Canvas.aDNA window. Meta Bind
+   syntax rendered as raw `INPUT[...]` code spans: **the surface's interactive layer had never rendered,
+   anywhere, ever.** Resolution: operator flipped community plugins ON (verified via the leveldb trust key +
+   vault reload + live paint).
+2. **`defect_tags` multiSelect rendered `[META_BIND_ERROR]`** — Meta Bind (1.4.x) allows `multiSelect` only
+   as a fenced ```meta-bind **block**; the builder emitted it inline. Resolution: `review_canvas.py` emission
+   form fixed (constraint recorded in the docstring), pilot rebuilt deterministic (overwrite guard clean —
+   all sidecars `verdict: null`), revalidated `adna_native [OK]` + visual-check 0 · review tests 13 ·
+   canvas_core **800/3** · ruff clean · firewall diff 0.
+
+**Confirmed live (evidence: session captures):** all 8 controls as real widgets in note view — verdict +
+rating dropdowns · defect-tags 10-option multiSelect · note + prompt_edit textareas · pin/escalate toggles ·
+regenerate button — **and the full interactive layer inside canvas file-node embeds** (dropdowns +
+multiSelect live in the embedded sidecars; images/labels/edges painting; embeds scroll internally). No
+degradation: the review UX works directly on the canvas surface.
+
+**Buttons-vs-toggles RESOLVED:** both idioms render correctly — toggles for boolean intent flags
+(`pin_requested`/`escalate`), a button for the one-shot `regenerate` (`updateMetadata`). The ratified spec's
+control↔affordance table stands unchanged (the spec never pinned the multiSelect emission form — no errata).
 
 ## AAR (SO-5)
 

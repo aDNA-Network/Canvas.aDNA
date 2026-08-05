@@ -162,7 +162,12 @@ def _sidecar_frontmatter(v: VariantEntry, surface: str, canvas_rel: str) -> dict
 
 
 def _sidecar_body(v: VariantEntry) -> str:
-    """Meta Bind controls — JS-less (INPUT fields + one `updateMetadata` button; `enableJs: false` holds)."""
+    """Meta Bind controls — JS-less (INPUT fields + one `updateMetadata` button; `enableJs: false` holds).
+
+    multiSelect is block-only in Meta Bind (1.4.x): inline `INPUT[multiSelect(...)]` renders
+    [META_BIND_ERROR]; it must be emitted as a fenced ```meta-bind block (agent-confirmed render,
+    2026-08-04).
+    """
     verdict_opts = ", ".join(f"option({o})" for o in VERDICT_OPTIONS)
     rating_opts = ", ".join(f"option({o})" for o in RATING_OPTIONS)
     defect_opts = ", ".join(f"option({t})" for t in DEFECT_VOCAB)
@@ -173,7 +178,9 @@ Rating (1–5): `INPUT[inlineSelect({rating_opts}):rating]`
 
 Defect tags (controlled vocabulary):
 
-`INPUT[multiSelect({defect_opts}):defect_tags]`
+```meta-bind
+INPUT[multiSelect({defect_opts}):defect_tags]
+```
 
 Note: `INPUT[textArea:note]`
 Prompt edit (whole-string delta, v1.0): `INPUT[textArea:prompt_edit]`
