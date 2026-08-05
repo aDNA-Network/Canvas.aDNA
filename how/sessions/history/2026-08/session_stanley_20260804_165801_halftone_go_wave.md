@@ -5,7 +5,7 @@ tier: 2
 persona: Mondrian
 campaign: campaign_canvas_halftone
 phase: "GO wave (post H5/HR/HF): 6 memo deliveries · HR spec ratification · render-confirm · parity push"
-status: active
+status: completed
 owner: stanley
 created: 2026-08-04
 updated: 2026-08-04
@@ -44,3 +44,29 @@ at `_115855` close; re-checked before push).
 - 16:58 — Session opened. Plan approved = the GO batch (6 sends · ratification · push).
 - 17:0x — All six memos DELIVERED (files-only; recipients' copies carry `sent`; zero target-vault commits). Canvas-side statuses flipped.
 - 17:0x — spec_canvas_review_surface v1.0 RATIFIED (§7.7 filled: stanley · 2026-08-04 · accepted; plan approval = signature). AGENTS row + mission_hr updated (HR gate: 1/3 closed; render-confirm link handed to operator; review pass at leisure).
+- 17:1x — STATE closed (GO-wave banner; Resume-Here → HR render-confirm + review pass · D3 standing); session filed; pushing.
+
+## SITREP (close)
+
+- **Completed**: six memo deliveries (files-only, recipients carry `sent`, zero target-vault commits) ·
+  `spec_canvas_review_surface` v1.0 **RATIFIED** (§7.7: stanley · 2026-08-04 · accepted) · STATE + mission_hr +
+  specs AGENTS updated · **parity push executed** (`master → origin`) — **Luke's H3 lane UNBLOCKED**.
+- **In progress**: HR gate 2/3 remaining (agent-confirmed Obsidian render — link with the operator; real review
+  pass at leisure).
+- **Next up**: Luke opens H3 (params pre-ruled; geometry-aspect ruling implements in `extract.py` there) → H4 →
+  H6. Canvas is in waiting posture; no Mondrian-executable build work open.
+- **Blockers**: none. Standing: D3 registrar ack `#needs-human` (nudge available on request).
+- **Files touched**: 6 Canvas-side memo status flips · spec (ratified) · specs AGENTS · mission_hr · STATE ·
+  this file. Cross-vault (uncommitted, Rule 10): 6 memo copies into
+  Bearly/ZenZachary/Astro/SuperLeague/Oration/ComfyUI `who/coordination/`.
+
+## Next Session Prompt
+
+> Open `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md). H0–H2/H5/HF complete; HR gate is 1/3
+> closed (spec RATIFIED; remaining: agent-confirmed Obsidian render of
+> `what/artifacts/review_surface_pilot/ss_variant_review.canvas` + the operator's review pass →
+> `review_collect --approver <op>`). H3 is Luke's cloud lane — UNBLOCKED (origin carries comic_render, the
+> pre-ruled spend params [pro-image · 3 var/panel · $5 · GEMINI_API_KEY · geometry-derived aspect], and the
+> ratified annex); Mondrian reviews his PRs (branch `luke/h3-gemini-backend`, per the annex battery). After H3:
+> H4 (bind `RefineClient` to Vulcan's `comic_panel_refine`) → H6 (close). All memos delivered; watch
+> `who/coordination/` for replies (Callisto/Kennedy most likely). Firewall: `what/code/canvas_std/` untouched.
