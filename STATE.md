@@ -4,7 +4,7 @@ created: 2026-06-06
 updated: 2026-08-04
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260804_165801_halftone_go_wave
+last_session: session_stanley_20260804_174045_halftone_hr_render_confirm
 tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard]
 ---
 
@@ -12,6 +12,8 @@ tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, feder
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
+> **▶ 2026-08-04 (night) — 🟢 HR GATE 2/3: THE AGENT-CONFIRMED RENDER EXECUTED — and it caught two live failures (Mondrian, `session_stanley_20260804_174045_halftone_hr_render_confirm`).** The doctrine paid for itself twice in one gate item. **Catch #1: the vault was in Obsidian restricted mode** — no per-vault trust key in app Local Storage; NO community plugin had ever loaded on this node's Canvas window; Meta Bind syntax painted as raw `INPUT[...]` code spans — **the surface's interactive layer had never rendered, anywhere, ever** (schema [OK] + visual-check 0 the whole time — neither rail can see it). Operator flipped community plugins ON (verified: leveldb trust key + vault reload + live paint; a first ~18:00 flip attempt hadn't persisted — re-ruled and re-executed ~22:22). **Catch #2: `defect_tags` multiSelect rendered `[META_BIND_ERROR]`** — block-only in Meta Bind 1.4.x, the builder emitted it inline; fixed (`review_canvas.py` → fenced ```meta-bind block, constraint in the docstring), pilot rebuilt deterministic (overwrite guard clean), revalidated (`adna_native` [OK] · visual-check 0 · review tests 13 · canvas_core **800/3** · ruff clean · firewall diff 0). **Confirmed live on real Obsidian 1.13.4:** all 8 controls as real widgets in note view AND **the full interactive layer inside canvas file-node embeds** (no degradation — the review UX works directly on the canvas). **Buttons-vs-toggles RESOLVED:** both idioms render (toggles = boolean intent flags · button = one-shot regenerate); the ratified spec's table stands, no errata (the spec never pinned emission form). Hygiene: two Jun-29 `.obsidian` strays added per tracked-sibling policy + notebook-navigator schema churn committed. **Remaining HR gate item (1): the operator's review pass** — the canvas is open in front of them. Local commits only; origin stays `4984ecf` (push = operator-gated batch).
+>
 > **▶ 2026-08-04 (late) — 🟢 THE GO WAVE EXECUTED: all six memos DELIVERED · `spec_canvas_review_surface` v1.0 RATIFIED · parity push → origin (Mondrian, `session_stanley_20260804_165801_halftone_go_wave`).** Plan approval = the batch GO (H2 precedent): **six deliveries** (Callisto H5-close notify [the written commitment fulfilled: LoRA-less = YES] · Pygmalion ZZ 3-wrapper refit · Astro refit+rename · Janus light · Kennedy **Oration adopt-a-wrapper** [the G7 structural closure] · Vulcan ack [#3 satisfied]) — files-only into target `who/coordination/`, recipients' copies carry `sent`, **zero target-vault commits** (Rule 10). **HR gate 1/3 closed**: the spec is **ratified** (§7.7: stanley · 2026-08-04 · accepted); remaining = **agent-confirmed Obsidian render** (link handed to the operator) + the operator's real review pass (at leisure; collector idempotent). **Parity push executed** (`master → origin`; gitleaks clean) — **Luke's H3 lane is UNBLOCKED** (comic_render + the pre-ruled spend params + the ratified annex are now public). D3 registrar ack stays standing (no nudge memo, by ruling). Canvas posture: **waiting** — Luke's H3 · Bearly's P5 evidence · the two HR gate leftovers; no Mondrian-executable build work open.
 >
 > **▶ 2026-08-04 — 🟢 THE PARALLEL TRIO LANDED: H5 EXECUTED · HR BUILT (gate-pending) · HF EXECUTED — H3 held for Luke with spend params PRE-RULED (Mondrian, `session_stanley_20260804_115855_halftone_h5_hr_hf`).** Operator rulings at plan approval (= the H5/HR/HF gates, HV/H2 precedent): phase selection H5+HR+HF · **H3 NOT opened — held for Luke's cloud lane** with parameters pre-ruled (**Gemini pro-image class · 3 variants/panel · $5 cap · `GEMINI_API_KEY` via the Home broker · aspect = geometry-derived** [mission_h2 finding #1]; recorded in the campaign H3 row + roadmap §4 #1) · `app.json` `propertiesInDocument: "hidden"` consented. **H5 (`comic_generator/compose_input.py`)**: VisualDNA bundles → enriched ComicInput → per-panel `qualities.characters` → the H2-reserved manifest lift (**zero `comic_render` src changes**). **Exit criterion proven by the named test** `test_lora_less_compose_reference_images_only` — Stanley-like (PENDING_TRAINING · `entries:` mapping · bundle-dir-relative) AND Bearly-like (`lora_refs: []` rights-HELD · vault-root-relative · `canonical: false`) fixtures + live-bundle smokes; **pair-gate** (trigger⇔lora from one `TRAINED\|VALIDATED` entry or neither); canonical-FIRST selection + `--ref-category`; workspace-root-relative emission; argparse CLI (`build` byte-compatible · `compose` · `build --bundle`); prompt-contract **§1a amendment**. comic 100→**123** · sweep **259** · comic_render **73**. **HR**: `spec_canvas_review_surface.md` (**draft** — ratification at the gate; Meta Bind ↔ affordance kinds; Bearly's nine controls informative; **dispatch = `review_dispatch_contract v0` NAMED STUB**, the Callisto seam) + `canvas_core/rlhf/review_canvas.py` → **REAL pilot** `what/artifacts/review_surface_pilot/` (6 SS variants — premise corrected: they live in-vault at `style_registry/ss_character/`, NOT in ComfyUI.aDNA; `adna_native` [OK] D-1/2/3 green; **`canvas-visual-check` 0 findings** after the rail corrected the first-draft geometry, 10 medium → rework → 0) + `review_collect.py` (three sinks: append-only `apply_response` via guarded `canvas_context` bootstrap · Schema-A per approval → the real corpus · III accumulate; **4-layer idempotency** incl. ledger-loss self-heal via the canvas-`at` fallback clock; `{kind: ai}` attribution — simulated verdicts never forged as human) + `iii_bridge` store-default repointed to the live `canvas_iii_learning_store.jsonl`. canvas_core 787→**800/3**; CLI plumbing E2E proven on a scratchpad copy. **HF**: census artifact (21 wrappers; **mechanism correction** — all six "CanvasForge-targeting" wrappers already carry `source_vault: Canvas.aDNA`; drift is `wrapper_for`/`substrate_pin`/prose/runtime-paths; only Emacs clean at 2.3.0; Home's runtime import via the archive shim = highest functional risk; Oration = NO wrapper, the G7 enabling condition) + **NEW `how/federation/federation_index.md`** (living registry; Vulcan follow-up **#3 satisfied**; standing drift ledger) + **5 memos `staged_pending_GO`** (Pygmalion ZZ-refit ×3 · Astro refit+rename [SiteForge alias lands once] · Janus light · Kennedy **adopt-a-wrapper** [the G7 structural closure] · Vulcan ack). Suites: comic_generator **123** · producers **259** · comic_render **73** · canvas_core **800/3** · canvas_std **115/10** · cert **11/11** · **firewall diff 0** (canvas_std AND canvas_context). 5 local commits; **origin still `9d22561` — 6 ahead; parity push = its own GO (Luke's H3 lane is blocked on it)**.
@@ -28,7 +30,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — 🟢 **OPERATION HALFTONE** (live; phases H0–H6 + HV/HR/HF)
 
-**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · HR 🟡 built (gate 1/3 closed — spec ratified) — H3 HELD for
+**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · HR 🟡 built (gate 2/3 closed — spec ratified · render agent-confirmed) — H3 HELD for
 Luke's cloud lane** (spend params **PRE-RULED** 2026-08-04: Gemini pro-image class · 3 variants/panel · $5 cap ·
 `GEMINI_API_KEY` via the Home broker · aspect = geometry-derived; the gate call itself stays open; **his lane is
 UNBLOCKED — the GO-wave parity push landed everything on origin**). Remaining build phases: **H3** (Luke's
@@ -40,10 +42,10 @@ doc anchored on HR's spec + Bearly P5 evidence · `canvas_comic` disposition · 
 `how/federation/federation_index.md` (NEW) → `missions/artifacts/halftone_federation_census_20260804.md`.
 
 **Awaiting the operator (surface at next contact):**
-1. **HR gate leftovers (2 of 3)**: **agent-confirmed Obsidian render** of
-   `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (open it, confirm — or hand Mondrian a
-   screenshot; buttons-vs-toggles resolves there) · your first real review pass (at leisure; then
-   `review_collect --approver <you>` per the pilot README).
+1. **HR gate leftover (1 of 3 — the last)**: **your real review pass** on
+   `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (open in Obsidian — all 8 controls are
+   live, in note view and inside the canvas embeds; set verdicts, save; then Mondrian runs
+   `review_collect --approver stanley` per the pilot README — idempotent, at leisure).
 2. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
 
 *(Resolved 2026-08-04 at the GO wave [plan approval = the batch]: all six memo deliveries — EXECUTED ·
@@ -62,12 +64,13 @@ Done: H0 charter · H1 producer hardening (comic 87→100; `adr_008` + prompt co
 (CLI + 4 traps + calibration + doctrine adoption + reviewers 1.1.0 + guidance) · **H2 render bridge**
 (`comic_render` 0.1.0 — offline E2E to composited pages; dev-lane annex ratified) · **H5 VisualDNA compose**
 (2026-08-04 — LoRA-less exercised + tested, the exit criterion; comic 123) · **HF federation hygiene**
-(2026-08-04 — census + `federation_index.md` + 5 staged memos). **HR built, gate-pending** (spec draft + real
-pilot [visual-check 0] + three-sink collector; canvas_core 800/3; gate = ratification + render-confirm +
-operator pass). Open: **H3** (Luke's cloud lane; params pre-ruled; blocked on parity push) → H4 (Vulcan seam;
-`comfyui/` 0.2.0 indexed; `RefineClient` ready) → H6 (close).
+(2026-08-04 — census + `federation_index.md` + 5 staged memos). **HR built, gate 2/3 closed** (spec **RATIFIED** [GO wave] ·
+render **agent-confirmed** [2026-08-04 `_174045`: two live catches — restricted mode + multiSelect
+block-only; all 8 controls live incl. inside canvas embeds; canvas_core 800/3]; remaining = the operator's
+review pass). Open: **H3** (Luke's cloud lane; params pre-ruled; lane UNBLOCKED since the parity push) →
+H4 (Vulcan seam; `comfyui/` 0.2.0 indexed; `RefineClient` ready) → H6 (close).
 
-## What's Done (this session — 2026-08-04, the H5+HR+HF trio)
+## What's Done (session `_115855` — 2026-08-04, the H5+HR+HF trio)
 
 - **Gate rulings recorded**: phases H5+HR+HF opened (plan approval = gates) · H3 held for Luke + spend params
   pre-ruled (pro-image · 3var · $5 · `GEMINI_API_KEY` · geometry-aspect) → campaign H3 row + roadmap §4 #1.
