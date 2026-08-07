@@ -412,6 +412,72 @@ class TestNamedWorkflowTemplates:
         assert patched["10"]["inputs"]["text"] == "NEG"
 
 
+class TestLiveRunRegressions:
+    """The two defects the 2026-08-07 live run against a real ComfyUI exposed.
+
+    Both were invisible to mocks by construction: mocked polls return instantly, and a mock has
+    no result cache. Recorded here so they cannot silently return.
+    """
+
+    def test_generation_budget_is_not_the_http_timeout(self):
+        """A 30s HTTP timeout as the sampling deadline abandons every real generation."""
+        cfg = ComfyForgeConfig()
+        assert cfg.timeout_s == 30                      # per-request HTTP
+        assert cfg.generation_timeout_s >= 300          # wall-clock sampling budget
+        assert cfg.generation_timeout_s != cfg.timeout_s
+
+    def test_poll_history_deadline_uses_the_generation_budget(self):
+        adapter = ComfyForgeTier1Adapter(
+            ComfyForgeConfig(generation_timeout_s=0, poll_interval_s=0.01)
+        )
+        with patch("urllib.request.urlopen", side_effect=OSError("nope")):
+            with pytest.raises(TimeoutError, match="timed out after 0s"):
+                adapter._poll_history("pid")
+
+    def test_save_prefix_varies_per_output_so_comfyui_does_not_serve_a_cached_empty_run(self):
+        """Identical graphs hit ComfyUI's cache and return success with NO outputs."""
+        adapter = ComfyForgeTier1Adapter()
+        a = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+            filename_prefix="canvas_refine_panel_v1",
+        )
+        b = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+            filename_prefix="canvas_refine_panel_v2",
+        )
+        assert a["9"]["inputs"]["filename_prefix"] != b["9"]["inputs"]["filename_prefix"]
+        assert a != b, "same-seed refines to different destinations must not be identical graphs"
+
+    def test_refine_derives_the_prefix_from_the_output_filename(self, tmp_path):
+        seed = tmp_path / "p_v1.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        captured = {}
+
+        def _submit(graph):
+            captured["graph"] = graph
+            return "pid"
+
+        with patch.object(adapter, "health_check", return_value=True), \
+             patch.object(adapter, "_upload_image", return_value="p_v1.png"), \
+             patch.object(adapter, "_submit_workflow", side_effect=_submit), \
+             patch.object(adapter, "_poll_history", return_value={"outputs": {}}):
+            adapter.refine_image(str(seed), "p", str(tmp_path / "refined" / "p_v1.png"))
+
+        assert captured["graph"]["9"]["inputs"]["filename_prefix"] == "canvas_refine_p_v1"
+
+    def test_empty_outputs_error_names_the_cache_as_the_likely_cause(self, tmp_path):
+        seed = tmp_path / "s.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        with patch.object(adapter, "health_check", return_value=True), \
+             patch.object(adapter, "_upload_image", return_value="s.png"), \
+             patch.object(adapter, "_submit_workflow", return_value="pid"), \
+             patch.object(adapter, "_poll_history", return_value={"outputs": {}}):
+            result = adapter.refine_image(str(seed), "p", str(tmp_path / "o.png"))
+        assert "execution_cached" in result["error"]
+
+
 class TestRefineImageFlow:
     def test_missing_seed_image_fails_before_any_http(self):
         adapter = ComfyForgeTier1Adapter()

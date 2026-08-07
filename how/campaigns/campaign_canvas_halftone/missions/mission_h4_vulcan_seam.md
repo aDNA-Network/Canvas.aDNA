@@ -46,6 +46,37 @@ bridge module is a thin manifest-shaped binding.
 | **O7** | Staged Vulcan memo (`comic_panel_refine` ask + endpoint question + open decision #2 recommendation) · wrapper follow-up **#1 closed** · **#2 recommendation** written | ✅ |
 | **O8** | Records + verification — README/AGENTS, campaign master + CLAUDE.md, roadmap §1/§4, federation index, STATE, full suites, firewall diff 0, AAR | ✅ |
 
+## Live verification against a real ComfyUI (2026-08-07 — item 0)
+
+Run on **L1** (`~/ComfyUI` 0.24.1, MPS, `sd_xl_base_1.0.safetensors`) — no Anduril, no Gemini,
+**zero spend**. It exposed **three** things the mocked suite could not, which is the whole argument
+for having done it:
+
+| # | Defect | Why mocks could never catch it |
+|---|--------|-------------------------------|
+| **L1** | `_poll_history` used `timeout_s` (a **30s HTTP-request** timeout) as the **generation** deadline. A 20-step SDXL img2img samples ~35s on MPS, so the adapter abandoned jobs the server went on to finish. Pre-existing since M-3-05; inherited, not introduced by H4. **Fix:** `generation_timeout_s` (600s) split from `timeout_s`. | mocked polls return instantly |
+| **L2** | Identical graphs hit ComfyUI's **result cache** → `status: success`, every node `execution_cached`, and **empty outputs** → download found nothing. The deterministic refine seed made this the *common* case. **Fix:** `filename_prefix` derives from the output filename (also gives server-side traceability); the empty-outputs error now names the cache. | a mock has no result cache |
+| **L3** | `DEFAULT_UPSCALE_MODEL` was a guessed `RealESRGAN_x2.pth`; the installed weight is `RealESRGAN_x4plus.pth`. | a mock accepts any model name |
+
+**Four paths then verified green, and the images were *looked at*** (the HV agent-confirmed-render
+doctrine — not just asserted):
+
+| Path | Result |
+|------|--------|
+| Built-in img2img graph | 36s cold sample → a correct cel-shaded lighthouse on a basalt cliff |
+| **Vulcan's REAL `workflow_img2img.json`**, patched by node class | 42s → `source=template:workflow_img2img`, a correct copper diving bell. **The patch convention holds against his actual file** — node 3 positive, 4 negative, 5 LoadImage, 7 KSampler |
+| LoRA slot with a real weight (`lora_ss_ghibli_probe_v0-000004`) | 46s → loads and conditions cleanly. Rendered a *generic bearded scientist, not Stanley* — an independent corroboration of Vulcan's own **F-M04-B** ("identity locks to a WRONG attractor"). Wiring proven; likeness is his retrain |
+| Upscale (`RealESRGAN_x4plus`) | 1024² → **4096²**. Materially over-solves roadmap **R7** (full-bleed 2K ≈ 195 DPI, under the 200 threshold) |
+
+**Operational finding (documented in `comic_render/README.md`):** refining a **`fake`** panel looks
+broken and isn't. The fake backend emits flat solid-colour PNGs; img2img at a production denoise
+(~0.4) preserves seed structure, and a solid colour has none — so you get a flat field back. At
+denoise ≥0.9 the identical call renders the prompt properly. In the real chain the seed is a
+structured cloud panel where 0.4 is correct. Worth knowing before someone reads mush as a broken seam.
+
+Regression after the fixes: canvas_core **819 → 824/3** (5 new regression tests pinning L1/L2/L3),
+comic_render **92/1**, firewall diff **0**, ruff clean.
+
 ## Findings
 
 1. **Endpoint policy belongs to the bridge, not the substrate** *(design refinement from the approved plan)*.

@@ -71,8 +71,10 @@ DEFAULT_REFINE_DENOISE = 0.4
 # positive prompt (H1 split the channel precisely so chain backends could honor it, roadmap R6).
 DEFAULT_REFINE_NEGATIVE = "blurry, low quality, distorted, watermark, text"
 
-# Upscale model asked of Vulcan in the comic_panel_refine workflow (optional stage).
-DEFAULT_UPSCALE_MODEL = "RealESRGAN_x2.pth"
+# Upscale model for the optional refine upscale stage. Named in the comic_panel_refine ask.
+# Corrected 2026-08-07 from a guessed "RealESRGAN_x2.pth" to the weight actually installed on L1 —
+# a name the mocks happily accepted and no real server would have.
+DEFAULT_UPSCALE_MODEL = "RealESRGAN_x4plus.pth"
 
 
 def _node_sort_key(node_id: str) -> tuple[int, int | str]:
@@ -89,7 +91,10 @@ class ComfyForgeConfig:
     """Configuration for the Tier 1 ComfyForge adapter."""
 
     endpoint: str = "http://10.42.0.8:8188"
-    timeout_s: int = 30
+    timeout_s: int = 30                  # per-HTTP-request timeout (submit · upload · download)
+    # Wall-clock budget for a generation to finish, polled via /history. MUST NOT be timeout_s:
+    # sampling takes minutes where an HTTP round-trip takes milliseconds (see _poll_history).
+    generation_timeout_s: int = 600
     failover_ms: int = 2000
     poll_interval_s: float = 2.0
     style_config_path: str | None = None
@@ -247,6 +252,8 @@ class ComfyForgeTier1Adapter:
                     seed=seed if seed is not None else self._refine_seed(prompt, seed_path),
                     lora=lora,
                     upscale=upscale,
+                    filename_prefix=f"canvas_refine_{Path(output_path).stem}"
+                    if output_path else "canvas_refine",
                 )
             prompt_id = self._submit_workflow(graph)
             history = self._poll_history(prompt_id)
@@ -345,6 +352,7 @@ class ComfyForgeTier1Adapter:
         seed: int,
         lora: dict[str, Any] | None = None,
         upscale: bool = False,
+        filename_prefix: str = "canvas_refine",
     ) -> dict[str, Any]:
         """Build the built-in SDXL img2img graph (the fallback when no template resolves).
 
@@ -427,9 +435,14 @@ class ComfyForgeTier1Adapter:
             }
             save_source = ["13", 0]
 
+        # Per-output prefix, not a constant: ComfyUI caches by graph identity, so two refines that
+        # differ only in destination path would be byte-identical graphs — the server returns
+        # `execution_cached` with EMPTY outputs and the download finds nothing. (The deterministic
+        # refine seed makes that collision the common case, not the rare one.) Varying the prefix
+        # also makes server-side outputs traceable back to the panel variant that asked for them.
         workflow["9"] = {
             "class_type": "SaveImage",
-            "inputs": {"images": save_source, "filename_prefix": "canvas_refine"},
+            "inputs": {"images": save_source, "filename_prefix": filename_prefix},
         }
         return workflow
 
@@ -602,9 +615,17 @@ class ComfyForgeTier1Adapter:
         return prompt_id
 
     def _poll_history(self, prompt_id: str) -> dict[str, Any]:
-        """Poll /history/{prompt_id} until generation completes or times out."""
+        """Poll /history/{prompt_id} until generation completes or times out.
+
+        The deadline is ``generation_timeout_s`` — a **wall-clock sampling budget**, not the
+        per-request HTTP timeout. Conflating the two silently caps every real generation at 30s:
+        an SDXL img2img at 20 steps takes ~35s of sampling alone on MPS, so the adapter abandoned
+        jobs the server went on to finish successfully. (Found 2026-08-07 by the H4 live smoke
+        against a real ComfyUI; mocked polls return instantly and can never surface it.)
+        """
         url = f"{self.config.endpoint}/history/{prompt_id}"
-        deadline = time.monotonic() + self.config.timeout_s
+        budget = self.config.generation_timeout_s
+        deadline = time.monotonic() + budget
 
         while time.monotonic() < deadline:
             try:
@@ -618,8 +639,7 @@ class ComfyForgeTier1Adapter:
             time.sleep(self.config.poll_interval_s)
 
         raise TimeoutError(
-            f"ComfyUI generation timed out after {self.config.timeout_s}s "
-            f"(prompt_id={prompt_id})"
+            f"ComfyUI generation timed out after {budget}s (prompt_id={prompt_id})"
         )
 
     def _download_image(
@@ -641,7 +661,10 @@ class ComfyForgeTier1Adapter:
 
         if not image_info:
             raise RuntimeError(
-                f"No images in ComfyUI history for prompt_id={prompt_id}"
+                f"No images in ComfyUI history for prompt_id={prompt_id} — if the run reported "
+                "success with every node 'execution_cached', an identical graph was already "
+                "executed and the server emitted no new outputs (vary the SaveImage "
+                "filename_prefix or the seed)"
             )
 
         filename = image_info.get("filename", f"{prompt_id}.png")

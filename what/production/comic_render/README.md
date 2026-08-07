@@ -62,6 +62,13 @@ ComfyUI mechanics live in `canvas_core.comfyforge_adapter` — the boundary guar
 so `backends/comfy.py` stays a thin manifest-shaped binding. The recorded HTTP contract is in
 `tests/fixtures/comfy/`; a live smoke exists behind `-m network`.
 
+> **Refining a `fake` panel looks broken and isn't.** The fake backend emits flat solid-colour
+> PNGs. img2img at a production denoise (~0.4) preserves the seed's structure — and a solid colour
+> *has* none, so you get a flat field back and may conclude the seam is broken. It isn't: at
+> denoise ≥0.9 the same call renders the prompt properly (verified live 2026-08-07). In the real
+> chain the seed is a cloud-generated panel with real structure, where 0.4 is correct. If you are
+> smoke-testing `generate:fake,refine:comfy`, raise the denoise or seed from a real image.
+
 `issue.rendered.canvas` is a **derived artifact** (operator ruling 2026-08-03): the YAML source +
 producer stay authoritative — re-render, don't merge back.
 
