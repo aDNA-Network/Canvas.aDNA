@@ -30,14 +30,20 @@ federation_ref:
   version_policy: tracking              # advance pinned_at_commit when Canvas needs new capabilities
   pinned_at_commit: "a8a4356"           # ComfyUI.aDNA HEAD 2026-08-03 (category Platform·SDG applied; M03 gate open)
   pinned_at: 2026-08-03
+  # Adjusted 2026-08-06 (Halftone H4 — Vulcan follow-up #1) to ACTUAL Canvas consumption. Canvas
+  # consumes ComfyUI as the chain's REFINE stage only; generation is the cloud backend's (ADR-003).
   skills_used:
-    - how/skills/skill_generation_session.md       # text/img → workflow → generation → III review
     - how/skills/skill_iii_visual_triage.md        # generation-trap audit of variants
-    - how/skills/skill_lora_training.md            # LoRA training dispatch (Anduril-gated)
+  skills_referenced:                               # read for context; not a Canvas-side runtime path
+    - how/skills/skill_generation_session.md       # text/img → workflow → generation → III review
+    - how/skills/skill_lora_training.md            # LoRA TRAINING is Vulcan's + Anduril-gated; Canvas only LOADS a trained LoRA
   workflows_used:
-    - what/workflows/base/workflow_txt2img.json
-    - what/workflows/base/workflow_img2img.json
-    - what/workflows/base/workflow_upscale.json
+    - what/workflows/base/workflow_img2img.json    # the refine stage's structural reference
+    - what/workflows/base/workflow_upscale.json    # roadmap R7 (full-bleed DPI headroom)
+  workflows_requested:                             # asked 2026-08-06; not yet upstream
+    - comic_panel_refine                           # img2img + separate negative + denoise + LoRA slot + upscale
+                                                   # contract shape: Canvas.aDNA/what/production/comic_render/tests/fixtures/comfy/comic_panel_refine.json
+                                                   # absent upstream ⇒ adapter falls back to its built-in graph (workflow_source: builtin)
   contexts_used:
     - what/context/iii/comfyforge_generation_traps.yaml   # 9 generation traps — upstream filename (ComfyUI.aDNA-owned)
   adrs_inherited:
@@ -46,8 +52,9 @@ federation_ref:
     - what/decisions/adr_006_sdxl_flux_base_models.md
     - what/decisions/adr_007_kohya_lora_training.md
   server_endpoints:
-    l1_local: http://localhost:8188      # Canvas render support runs L1-local
+    l1_local: http://localhost:8188      # Canvas render support runs L1-local — the H4 refine default
     l2_mesh: per ComfyUI.aDNA current node state   # LoRA training = Anduril (see upstream STATE)
+    override_env: COMIC_RENDER_COMFY_ENDPOINT      # H4: the bridge resolves this, else l1_local
   secrets_dependency: none               # local inference; no API keys
   local_extensions: []
 ```

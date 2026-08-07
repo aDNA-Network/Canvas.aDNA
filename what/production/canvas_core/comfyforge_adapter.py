@@ -8,22 +8,33 @@ API pattern per coord note § Tier 1 contract:
     POST /prompt          — submit workflow JSON → {"prompt_id": "<UUID>"}
     GET  /history/{id}    — poll for completion → download image
     GET  /system_stats    — health check (circuit-breaker probe)
+    POST /upload/image    — stage a seed image for img2img (refine; H4)
 
 Circuit-breaker escalation:
     Anduril (primary) → Mac MPS (fallback) → Imagen (v1.0 safety net)
+
+**Refine (img2img), added at Halftone H4** — the hybrid backend the operator locked is a *chain*:
+a cloud backend generates, ComfyUI refines. ``refine_image`` is that second stage, conforming to
+``comic_render.backends.base.RefineClient``. It lives here, not in the bridge, by the bridge's own
+boundary rule: "Canvas dispatches, it does not diffuse" — the H4 seam is an HTTP adapter in
+``canvas_core``; the bridge module is a thin manifest-shaped binding.
 
 Migrated: N/A (new in M-3-05)
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
+import mimetypes
 import shutil
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
+import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -48,6 +59,26 @@ ASPECT_RATIO_MAP: dict[str, tuple[int, int]] = {
 
 DEFAULT_DIMENSIONS = (1024, 1024)
 
+# ---------------------------------------------------------------------------
+# Refine (img2img) defaults — H4
+# ---------------------------------------------------------------------------
+
+# Denoise strength for the refine stage. <1.0 is what makes it img2img rather than txt2img:
+# the seed image survives, the style is unified over it.
+DEFAULT_REFINE_DENOISE = 0.4
+
+# The negative channel travels as its own CLIPTextEncode node — NEVER concatenated into the
+# positive prompt (H1 split the channel precisely so chain backends could honor it, roadmap R6).
+DEFAULT_REFINE_NEGATIVE = "blurry, low quality, distorted, watermark, text"
+
+# Upscale model asked of Vulcan in the comic_panel_refine workflow (optional stage).
+DEFAULT_UPSCALE_MODEL = "RealESRGAN_x2.pth"
+
+
+def _node_sort_key(node_id: str) -> tuple[int, int | str]:
+    """ComfyUI node ids are numeric strings — order them numerically, not lexically ("10" < "6")."""
+    return (0, int(node_id)) if node_id.isdigit() else (1, node_id)
+
 
 # ---------------------------------------------------------------------------
 # Configuration
@@ -67,6 +98,10 @@ class ComfyForgeConfig:
     scheduler: str = "normal"
     steps: int = 20
     cfg_scale: float = 7.0
+    # Directory of named ComfyUI workflow templates (e.g. ComfyUI.aDNA's what/workflows/). When a
+    # refine call names a workflow that resolves here, the template is patched; otherwise the
+    # built-in img2img graph is used. Read-only consumption of the owning vault (Rule 10).
+    workflow_dir: str | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -142,6 +177,297 @@ class ComfyForgeTier1Adapter:
                 "error": str(e),
                 "adapter": "comfyforge_tier1",
             }
+
+    # ------------------------------------------------------------------
+    # RefineClient conformance (img2img — Halftone H4)
+    # ------------------------------------------------------------------
+
+    def refine_image(
+        self,
+        seed_image: str,
+        prompt: str,
+        output_path: str | None = None,
+        negative: str | None = None,
+        denoise: float = DEFAULT_REFINE_DENOISE,
+        workflow: str | None = None,
+        lora: dict[str, Any] | None = None,
+        upscale: bool = False,
+        seed: int | None = None,
+    ) -> dict[str, Any]:
+        """Refine an existing image via ComfyUI img2img.
+
+        The second stage of the hybrid render chain: ``seed_image`` (a cloud-generated panel)
+        is uploaded, encoded to latent, and re-sampled at ``denoise`` < 1.0 so the composition
+        survives while style unifies. Conforms to ``RefineClient``; the extra ``lora`` /
+        ``upscale`` / ``seed`` arguments are a superset the bridge binding may pass through.
+
+        ``lora`` (optional): ``{"name": str, "strength_model": float, "strength_clip": float}``.
+        ``workflow`` (optional): a named template resolved under ``config.workflow_dir`` — e.g.
+        Vulcan's ``comic_panel_refine``. When it does not resolve, the built-in graph is used and
+        the return records which was taken, so a missing upstream workflow degrades rather than
+        fails.
+
+        Returns ``{"success": True, "image_path": str, ...}`` or
+        ``{"success": False, "error": str}`` — the same shape as ``generate_image``.
+        """
+        seed_path = Path(seed_image)
+        if not seed_path.exists():
+            return {
+                "success": False,
+                "error": f"seed_image not found: {seed_image}",
+                "adapter": "comfyforge_tier1",
+            }
+
+        if not self.health_check():
+            return {
+                "success": False,
+                "error": "comfyui_unreachable",
+                "adapter": "comfyforge_tier1",
+                "endpoint": self.config.endpoint,
+            }
+
+        try:
+            uploaded = self._upload_image(seed_path)
+            template, source = self._resolve_refine_workflow(workflow)
+            if template is not None:
+                graph = self._patch_workflow_template(
+                    template,
+                    prompt=self._apply_style(prompt, "photo"),
+                    negative=negative or DEFAULT_REFINE_NEGATIVE,
+                    seed_filename=uploaded,
+                    denoise=denoise,
+                    seed=seed if seed is not None else self._refine_seed(prompt, seed_path),
+                )
+            else:
+                graph = self._build_img2img_workflow(
+                    prompt=prompt,
+                    negative=negative,
+                    seed_filename=uploaded,
+                    denoise=denoise,
+                    seed=seed if seed is not None else self._refine_seed(prompt, seed_path),
+                    lora=lora,
+                    upscale=upscale,
+                )
+            prompt_id = self._submit_workflow(graph)
+            history = self._poll_history(prompt_id)
+            image_path = self._download_image(history, prompt_id, output_path)
+            return {
+                "success": True,
+                "image_path": image_path,
+                "adapter": "comfyforge_tier1",
+                "prompt_id": prompt_id,
+                "stage": "refine",
+                "denoise": denoise,
+                "workflow_source": source,
+            }
+        except Exception as e:
+            logger.error("ComfyForge refine failed: %s", e)
+            return {
+                "success": False,
+                "error": str(e),
+                "adapter": "comfyforge_tier1",
+                "stage": "refine",
+            }
+
+    @staticmethod
+    def _refine_seed(prompt: str, seed_path: Path) -> int:
+        """Deterministic refine seed from (prompt, seed-image name).
+
+        Unlike ``_build_workflow``'s wall-clock seed, refine is part of a reproducible bridge run:
+        the same panel variant refined twice must ask for the same sampling.
+        """
+        digest = hashlib.sha256(f"{prompt}:{seed_path.name}".encode()).digest()
+        return int.from_bytes(digest[:4], "big")
+
+    def _resolve_refine_workflow(
+        self, workflow: str | None
+    ) -> tuple[dict[str, Any] | None, str]:
+        """Resolve a named workflow template → (graph, source-label).
+
+        ``(None, "builtin")`` when no name was given or the name does not resolve — the built-in
+        img2img graph then applies. A named-but-missing workflow is a degradation, not an error:
+        the upstream workflow (Vulcan's ``comic_panel_refine``) may not exist yet.
+        """
+        if not workflow:
+            return None, "builtin"
+        if not self.config.workflow_dir:
+            logger.info("workflow %r requested but no workflow_dir configured — built-in graph",
+                        workflow)
+            return None, "builtin"
+        candidate = Path(self.config.workflow_dir).expanduser() / f"{workflow}.json"
+        if not candidate.exists():
+            logger.info("workflow %r not found at %s — built-in graph", workflow, candidate)
+            return None, "builtin"
+        return json.loads(candidate.read_text()), f"template:{workflow}"
+
+    def _patch_workflow_template(
+        self,
+        template: dict[str, Any],
+        *,
+        prompt: str,
+        negative: str,
+        seed_filename: str,
+        denoise: float,
+        seed: int,
+    ) -> dict[str, Any]:
+        """Patch a named workflow template's inputs by node class.
+
+        Convention (the contract asked of Vulcan): the FIRST ``CLIPTextEncode`` is positive, the
+        second negative; ``LoadImage`` takes the uploaded seed; ``KSampler`` takes denoise + seed.
+        Everything else in the template — checkpoint, LoRA stack, upscale — is the workflow
+        author's business and is left untouched.
+        """
+        graph = json.loads(json.dumps(template))  # never mutate the caller's template
+        text_nodes = [
+            k for k in sorted(graph, key=_node_sort_key)
+            if graph[k].get("class_type") == "CLIPTextEncode"
+        ]
+        if text_nodes:
+            graph[text_nodes[0]].setdefault("inputs", {})["text"] = prompt
+        if len(text_nodes) > 1:
+            graph[text_nodes[1]].setdefault("inputs", {})["text"] = negative
+        for node in graph.values():
+            class_type = node.get("class_type")
+            if class_type == "LoadImage":
+                node.setdefault("inputs", {})["image"] = seed_filename
+            elif class_type == "KSampler":
+                inputs = node.setdefault("inputs", {})
+                inputs["denoise"] = denoise
+                inputs["seed"] = seed
+        return graph
+
+    def _build_img2img_workflow(
+        self,
+        prompt: str,
+        negative: str | None,
+        seed_filename: str,
+        denoise: float,
+        seed: int,
+        lora: dict[str, Any] | None = None,
+        upscale: bool = False,
+    ) -> dict[str, Any]:
+        """Build the built-in SDXL img2img graph (the fallback when no template resolves).
+
+        Shape mirrors ``_build_workflow`` — checkpoint → (optional LoRA) → CLIP encodes →
+        KSampler → VAE decode → (optional upscale) → save — with ``LoadImage``/``VAEEncode``
+        supplying the latent instead of ``EmptyLatentImage``, and ``denoise`` < 1.0.
+        """
+        styled_prompt = self._apply_style(prompt, "photo")
+        negative_text = negative or DEFAULT_REFINE_NEGATIVE
+
+        model_source: list[Any] = ["4", 0]
+        clip_source: list[Any] = ["4", 1]
+
+        workflow: dict[str, Any] = {
+            "3": {
+                "class_type": "KSampler",
+                "inputs": {
+                    "seed": seed,
+                    "steps": self.config.steps,
+                    "cfg": self.config.cfg_scale,
+                    "sampler_name": self.config.sampler,
+                    "scheduler": self.config.scheduler,
+                    "denoise": denoise,
+                    "model": model_source,
+                    "positive": ["6", 0],
+                    "negative": ["7", 0],
+                    "latent_image": ["11", 0],
+                },
+            },
+            "4": {
+                "class_type": "CheckpointLoaderSimple",
+                "inputs": {"ckpt_name": self.config.checkpoint},
+            },
+            "6": {
+                "class_type": "CLIPTextEncode",
+                "inputs": {"text": styled_prompt, "clip": clip_source},
+            },
+            "7": {
+                "class_type": "CLIPTextEncode",
+                "inputs": {"text": negative_text, "clip": clip_source},
+            },
+            "8": {
+                "class_type": "VAEDecode",
+                "inputs": {"samples": ["3", 0], "vae": ["4", 2]},
+            },
+            "10": {
+                "class_type": "LoadImage",
+                "inputs": {"image": seed_filename, "upload": "image"},
+            },
+            "11": {
+                "class_type": "VAEEncode",
+                "inputs": {"pixels": ["10", 0], "vae": ["4", 2]},
+            },
+        }
+
+        if lora and lora.get("name"):
+            workflow["14"] = {
+                "class_type": "LoraLoader",
+                "inputs": {
+                    "lora_name": lora["name"],
+                    "strength_model": float(lora.get("strength_model", 1.0)),
+                    "strength_clip": float(lora.get("strength_clip", 1.0)),
+                    "model": ["4", 0],
+                    "clip": ["4", 1],
+                },
+            }
+            workflow["3"]["inputs"]["model"] = ["14", 0]
+            workflow["6"]["inputs"]["clip"] = ["14", 1]
+            workflow["7"]["inputs"]["clip"] = ["14", 1]
+
+        save_source: list[Any] = ["8", 0]
+        if upscale:
+            workflow["12"] = {
+                "class_type": "UpscaleModelLoader",
+                "inputs": {"model_name": DEFAULT_UPSCALE_MODEL},
+            }
+            workflow["13"] = {
+                "class_type": "ImageUpscaleWithModel",
+                "inputs": {"upscale_model": ["12", 0], "image": ["8", 0]},
+            }
+            save_source = ["13", 0]
+
+        workflow["9"] = {
+            "class_type": "SaveImage",
+            "inputs": {"images": save_source, "filename_prefix": "canvas_refine"},
+        }
+        return workflow
+
+    def _upload_image(self, path: Path) -> str:
+        """``POST /upload/image`` (multipart) → the server-side filename a LoadImage references.
+
+        Hand-rolled multipart: the adapter is stdlib-only by design (no ``requests`` dependency
+        on the production shelf).
+        """
+        boundary = f"----adnaCanvas{uuid.uuid4().hex}"
+        content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"
+        parts: list[bytes] = []
+        for name, value in (("type", "input"), ("overwrite", "true")):
+            parts.append(
+                f"--{boundary}\r\nContent-Disposition: form-data; name=\"{name}\"\r\n\r\n"
+                f"{value}\r\n".encode()
+            )
+        parts.append(
+            f"--{boundary}\r\nContent-Disposition: form-data; name=\"image\"; "
+            f"filename=\"{path.name}\"\r\nContent-Type: {content_type}\r\n\r\n".encode()
+        )
+        parts.append(path.read_bytes())
+        parts.append(f"\r\n--{boundary}--\r\n".encode())
+        body = b"".join(parts)
+
+        req = urllib.request.Request(
+            f"{self.config.endpoint}/upload/image",
+            data=body,
+            method="POST",
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
+        )
+        with urllib.request.urlopen(req, timeout=self.config.timeout_s) as resp:
+            data = json.loads(resp.read())
+        name = data.get("name")
+        if not name:
+            raise RuntimeError(f"No filename in /upload/image response: {data}")
+        subfolder = data.get("subfolder") or ""
+        return f"{subfolder}/{name}" if subfolder else name
 
     # ------------------------------------------------------------------
     # Health check (circuit-breaker probe)

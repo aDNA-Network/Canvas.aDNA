@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from comic_render.backends import make_generate_client, make_refine_client
+from comic_render.backends.comfy import ComfyRefineClient
 from comic_render.backends.fake import FakeImageClient, FakeRefineClient, dims_for
 from comic_render.png_meta import read_png_size, write_solid_png
 
@@ -69,12 +70,17 @@ def test_fake_refine_depends_on_seed_image_bytes(tmp_path):
     assert missing["success"] is False
 
 
-def test_registry_fake_available_others_gated(tmp_path):
+def test_registry_fake_available_gemini_still_gated(tmp_path):
     assert isinstance(make_generate_client("fake"), FakeImageClient)
     assert isinstance(make_refine_client("fake"), FakeRefineClient)
     with pytest.raises(NotImplementedError, match="H3"):
         make_generate_client("gemini")
-    with pytest.raises(NotImplementedError, match="H4"):
-        make_refine_client("comfy")
     with pytest.raises(ValueError, match="unknown"):
         make_generate_client("dalle")
+
+
+def test_comfy_is_a_refine_backend_only(tmp_path):
+    """H4 opened the refine seam; ComfyUI is deliberately NOT a generate backend (ADR-003)."""
+    assert isinstance(make_refine_client("comfy"), ComfyRefineClient)
+    with pytest.raises(NotImplementedError, match="not a generate backend"):
+        make_generate_client("comfy")

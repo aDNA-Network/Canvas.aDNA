@@ -55,15 +55,30 @@ def check_freshness(manifest: RenderManifest, canvas_doc: dict[str, Any]) -> Non
 
 
 def parse_chain(spec: str) -> list[RenderStage]:
-    """Parse ``"generate:fake,refine:fake@0.4"`` → ordered RenderStages (chain, not switch)."""
+    """Parse a chain spec → ordered RenderStages (chain, not switch).
+
+    Grammar: ``<stage>:<backend>[@denoise][/workflow]``, comma-separated. The trailing
+    ``/workflow`` (H4) names a backend-side workflow — e.g.
+    ``"generate:gemini,refine:comfy@0.4/comic_panel_refine"`` binds the refine stage to Vulcan's
+    named ComfyUI workflow. Omitting it keeps the pre-H4 shape exactly.
+    """
     stages: list[RenderStage] = []
     for part in (s.strip() for s in spec.split(",") if s.strip()):
         stage_name, _, backend_part = part.partition(":")
         if not backend_part:
-            raise ValueError(f"chain stage {part!r} must be '<stage>:<backend>[@denoise]'")
+            raise ValueError(
+                f"chain stage {part!r} must be '<stage>:<backend>[@denoise][/workflow]'"
+            )
+        backend_part, _, workflow = backend_part.partition("/")
         backend, _, denoise_part = backend_part.partition("@")
+        if not backend:
+            raise ValueError(
+                f"chain stage {part!r} must be '<stage>:<backend>[@denoise][/workflow]'"
+            )
         denoise = float(denoise_part) if denoise_part else None
-        stages.append(RenderStage(stage=stage_name, backend=backend, denoise=denoise))
+        stages.append(RenderStage(
+            stage=stage_name, backend=backend, denoise=denoise, workflow=workflow or None,
+        ))
     if not stages:
         raise ValueError(f"empty render chain spec {spec!r}")
     return stages

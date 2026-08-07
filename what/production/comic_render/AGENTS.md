@@ -29,12 +29,18 @@ selection → `issue.rendered.canvas` (NEW file) → composited print pages. Bui
    gate).
 6. **Spend is operator-gated**: `budget_cap` enforcement in `dispatch.py` is load-bearing; the
    `gemini` backend (H3) must not land without the SPEND-gate plumbing intact.
+7. **Backend modules stay thin** (H4 precedent). Protocol mechanics — HTTP, multipart, workflow
+   JSON — belong in `canvas_core` (that is what lets rule 1's forbidden-import list stay strict);
+   `backends/*.py` maps manifest fields onto them and nothing more.
 
 ## Working here
 
 - Own venv: `python -m venv .venv && pip install -e ../../code/canvas_std -e '.[dev,env]'`.
 - Run tests from THIS directory: `python -m pytest -q` (pyproject `pythonpath = ["src", ".."]`
-  reaches the unpackaged `canvas_core`).
+  reaches the unpackaged `canvas_core`). The default suite is fully offline; `-m network` runs the
+  live ComfyUI smoke and needs `COMIC_RENDER_COMFY_ENDPOINT`.
+- `tests/fixtures/comfy/` is the **contract with ComfyUI.aDNA** — when a real capture disagrees
+  with it, that delta is the integration work; update the fixture deliberately, not reflexively.
 - The manifest sidecar is resumable state — every stage idempotent; keep it that way.
 - After any change: this suite green + `comic_generator` suite unaffected + full producer sweep +
   firewall check (see the campaign CLAUDE.md).

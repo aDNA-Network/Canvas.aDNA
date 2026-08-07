@@ -22,6 +22,10 @@ class RefineClient(Protocol):
     or ``{"success": False, "error": str}``. The production form binds to Vulcan's
     ``comic_panel_refine`` ComfyUI workflow at H4 (img2img + positive/negative + denoise +
     LoRA slot + upscale); H2 proves the chain with the fake.
+
+    ``lora`` (H4, optional) is the panel's ``characters[]`` entry carrying the pair-gated
+    ``{trigger_word, lora_ref}`` — the LoRA slot the roadmap reserves for "LoRA re-enters via the
+    refine chain when trained" (R3). Backends that cannot condition on a LoRA ignore it.
     """
 
     def refine_image(
@@ -32,4 +36,5 @@ class RefineClient(Protocol):
         negative: str | None = None,
         denoise: float = 0.4,
         workflow: str | None = None,
+        lora: dict[str, Any] | None = None,
     ) -> dict[str, Any]: ...

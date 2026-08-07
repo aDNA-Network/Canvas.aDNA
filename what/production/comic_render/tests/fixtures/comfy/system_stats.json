@@ -1,0 +1,17 @@
+{
+  "system": {
+    "os": "posix",
+    "comfyui_version": "0.3.27",
+    "python_version": "3.12.4",
+    "pytorch_version": "2.5.1"
+  },
+  "devices": [
+    {
+      "name": "cuda:0 NVIDIA GeForce RTX 3090",
+      "type": "cuda",
+      "index": 0,
+      "vram_total": 25757220864,
+      "vram_free": 24310382592
+    }
+  ]
+}

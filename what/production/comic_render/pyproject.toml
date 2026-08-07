@@ -36,6 +36,12 @@ packages = ["src/comic_render"]
 testpaths = ["tests"]
 # "src" for comic_render itself; ".." puts the production shelf on sys.path so `import canvas_core` works.
 pythonpath = ["src", ".."]
+# Mirrors the shelf-level pytest.ini (which does not apply when running from this package dir).
+# The default suite is fully offline; `network` marks the H4 live-path smoke.
+markers = [
+  "network: tests requiring network access (a reachable ComfyUI node)",
+  "slow: tests with intentional long-running behavior (>5s)",
+]
 
 [tool.ruff]
 line-length = 100

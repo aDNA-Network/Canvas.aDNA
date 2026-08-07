@@ -1,0 +1,20 @@
+{
+  "8f2c1d64-1a9e-4f0b-9c7a-3d5e6f7a8b90": {
+    "prompt": [],
+    "outputs": {
+      "9": {
+        "images": [
+          {
+            "filename": "canvas_refine_00001_.png",
+            "subfolder": "",
+            "type": "output"
+          }
+        ]
+      }
+    },
+    "status": {
+      "status_str": "success",
+      "completed": true
+    }
+  }
+}

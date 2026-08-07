@@ -72,6 +72,13 @@ Per panel:
   via an optional `RefineClient` protocol (don't break `ImageClient`). Production form binds to Vulcan's
   `comic_panel_refine` workflow (img2img + positive/negative + denoise + LoRA slot + RealESRGAN upscale) — asked in
   the H4 coord memo; a flag-gated experimental path works against any reachable ComfyUI meanwhile.
+  *(**Built 2026-08-06, H4.** `refine_image` landed in `canvas_core/comfyforge_adapter.py` — the placement the
+  bridge's own boundary comment specifies — with `/upload/image`, a built-in img2img graph, and named-template
+  patching by node class (first `CLIPTextEncode` positive · second negative · `LoadImage` seed · `KSampler`
+  denoise+seed). A named-but-missing workflow **degrades to the built-in graph**, so `comic_panel_refine` not
+  existing upstream never blocks. `backends/comfy.py` is the thin binding; endpoint = `COMIC_RENDER_COMFY_ENDPOINT`
+  else the wrapper's `l1_local`. `RefineClient` gained an optional `lora` — dispatch lifts the pair-gated entry
+  from `characters[]`, closing R3's "LoRA re-enters via the refine chain when trained".)*
 
 ### Write-back — new file, never mutate
 
@@ -127,7 +134,14 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    geometry** (mission_h2 finding #1) — extract computes each panel's true w/h and snaps to the nearest
    backend-supported ratio; manifest records declared + effective; producer untouched; implement at H3 open.
    **The H3 gate call itself remains open** — phase held for Luke's cloud lane (ratified annex). *(was gate: H3)*
-2. **Vulcan memo delivery timing** + whether to bundle the LoRA-training-completion ask. *(gate: H4)*
+2. **Vulcan memo delivery timing** + whether to bundle the LoRA-training-completion ask — **surfaced at the
+   H4 gate 2026-08-06, still the operator's call.** The memo is written and staged
+   (`coord_2026_08_06_mondrian_to_vulcan_comic_panel_refine_ask.md`, `staged_pending_GO`): it asks for the
+   `comic_panel_refine` workflow, poses the endpoint question, and carries Canvas's recommendation on
+   follow-up #2 (**leave the archived LoRA-dispatch runner archived** — it solved dispatch-side *training*,
+   which is Vulcan's and Anduril-gated; Canvas only needs to *load* a trained LoRA, which the refine graph's
+   slot covers; rehoming would put training-shaped code on the Canvas shelf against the standing boundary).
+   Nothing blocks on delivery — an unresolvable workflow degrades to the built-in graph. *(gate: H4)*
 3. **`canvas_comic` disposition** — rec.: reader-only freeze now, archive after H3; port `ComicReport` only if the
    scoring loop revives. *(gate: H6)*
 4. **RLHF routing** (III store vs leg-3 `interaction.responses`) — the seam doc (H6) frames it; Schema-A capture

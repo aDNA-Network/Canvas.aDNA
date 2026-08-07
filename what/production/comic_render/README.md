@@ -29,8 +29,38 @@ python -m pytest -q && ruff check src tests
 ```
 
 The manifest sidecar is the resumable state; every stage is idempotent (re-runs skip completed
-work). `gemini` (first real pixels, SPEND-gated) lands at Halftone H3; `comfy` (the Vulcan
-`comic_panel_refine` seam) at H4; VisualDNA character compose at H5.
+work). `gemini` (first real pixels, SPEND-gated) lands at Halftone H3; VisualDNA character compose
+landed at H5; `comfy` refine landed at **H4** (below).
+
+## The render chain
+
+```
+<stage>:<backend>[@denoise][/workflow]   comma-separated, ordered
+```
+
+```bash
+--chain "generate:fake"                                    # default; offline
+--chain "generate:fake,refine:fake@0.4"                    # chain proof, no network
+--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"   # the production hybrid
+```
+
+The hybrid is a **chain, not a switch**: the cloud backend generates, ComfyUI refines its output
+(img2img). `comfy` is a refine backend only — asking for `generate:comfy` raises, because the cloud
+backend is the production substrate (inherited ADR-003).
+
+### The `comfy` refine backend (H4 — the Vulcan seam)
+
+| Knob | Default | Notes |
+|------|---------|-------|
+| `COMIC_RENDER_COMFY_ENDPOINT` | `http://localhost:8188` | the L1-local endpoint `how/federation/comfyui/` declares |
+| `COMIC_RENDER_COMFY_WORKFLOW_DIR` | unset | dir of named workflow templates; point it at ComfyUI.aDNA's `what/workflows/` once `comic_panel_refine` exists |
+| `/workflow` in the chain | none | names a template in that dir; **unresolvable ⇒ built-in img2img graph** (`workflow_source: builtin`), never a failure |
+
+The negative channel travels as its own node (never concatenated), and a panel's pair-gated
+`characters[]` entry (H5) becomes a `LoraLoader` plus a trigger token on the positive prompt.
+ComfyUI mechanics live in `canvas_core.comfyforge_adapter` — the boundary guard's stated intent —
+so `backends/comfy.py` stays a thin manifest-shaped binding. The recorded HTTP contract is in
+`tests/fixtures/comfy/`; a live smoke exists behind `-m network`.
 
 `issue.rendered.canvas` is a **derived artifact** (operator ruling 2026-08-03): the YAML source +
 producer stay authoritative — re-render, don't merge back.

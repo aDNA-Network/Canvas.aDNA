@@ -51,6 +51,20 @@ def _chain_stages(panel: PanelSpec, stage_kind: str):
     return [s for s in panel.render_chain if s.stage == stage_kind]
 
 
+def _lora_for(panel: PanelSpec) -> dict[str, Any] | None:
+    """The panel's pair-gated LoRA entry, if any (H4 — the refine-stage LoRA slot).
+
+    ``characters[]`` (H5) emits ``trigger_word`` and ``lora_ref`` together or not at all, so the
+    first entry carrying a ``lora_ref`` is a trained, safe-to-condition pair. Backends that cannot
+    condition on a LoRA ignore it; the roadmap's R3 mitigation is exactly this — "LoRA re-enters
+    via the refine chain when trained".
+    """
+    for character in panel.characters:
+        if isinstance(character, dict) and character.get("lora_ref"):
+            return character
+    return None
+
+
 def run_generate(
     manifest: RenderManifest,
     manifest_path: str | Path,
@@ -152,6 +166,7 @@ def run_refine(
             _enforce_budget(manifest, len(planned), cost_per)
 
             out_dir.mkdir(parents=True, exist_ok=True)
+            lora = _lora_for(panel)
             produced: list[Path] = []
             for seed_path, out_path in zip(current, planned):
                 seed_image = str(base / stage.seed_image) if stage.seed_image else str(seed_path)
@@ -162,6 +177,7 @@ def run_refine(
                     negative=panel.negative,
                     denoise=stage.denoise if stage.denoise is not None else 0.4,
                     workflow=stage.workflow,
+                    lora=lora,
                 )
                 if not result.get("success"):
                     raise RuntimeError(

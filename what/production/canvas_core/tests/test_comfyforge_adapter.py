@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from canvas_core.comfyforge_adapter import (
     ASPECT_RATIO_MAP,
+    DEFAULT_REFINE_NEGATIVE,
     ComfyForgeConfig,
     ComfyForgeTier1Adapter,
 )
@@ -261,6 +262,300 @@ class TestGenerateImageFlow:
                 result = adapter.generate_image("test")
                 assert result["success"] is False
                 assert "server error" in result["error"]
+
+
+# ---------------------------------------------------------------------------
+# Refine / img2img — Halftone H4 (the Vulcan seam)
+# ---------------------------------------------------------------------------
+
+class TestImg2ImgWorkflowConstruction:
+    def test_latent_comes_from_the_seed_image_not_an_empty_latent(self):
+        """The defining difference from txt2img: LoadImage → VAEEncode supplies the latent."""
+        adapter = ComfyForgeTier1Adapter()
+        wf = adapter._build_img2img_workflow(
+            prompt="a cat", negative=None, seed_filename="seed.png", denoise=0.4, seed=7,
+        )
+        assert wf["10"]["class_type"] == "LoadImage"
+        assert wf["10"]["inputs"]["image"] == "seed.png"
+        assert wf["11"]["class_type"] == "VAEEncode"
+        assert wf["11"]["inputs"]["pixels"] == ["10", 0]
+        assert wf["3"]["inputs"]["latent_image"] == ["11", 0]
+        assert not any(n.get("class_type") == "EmptyLatentImage" for n in wf.values())
+
+    def test_denoise_and_seed_are_honored(self):
+        adapter = ComfyForgeTier1Adapter()
+        wf = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.62, seed=12345,
+        )
+        assert wf["3"]["inputs"]["denoise"] == 0.62
+        assert wf["3"]["inputs"]["seed"] == 12345
+
+    def test_negative_travels_in_its_own_node_never_concatenated(self):
+        """Roadmap R6: H1 split the negative channel precisely so chain backends honor it."""
+        adapter = ComfyForgeTier1Adapter()
+        wf = adapter._build_img2img_workflow(
+            prompt="a hero", negative="extra limbs, blurry",
+            seed_filename="s.png", denoise=0.4, seed=1,
+        )
+        assert wf["7"]["inputs"]["text"] == "extra limbs, blurry"
+        assert "extra limbs" not in wf["6"]["inputs"]["text"]
+        assert wf["3"]["inputs"]["negative"] == ["7", 0]
+
+    def test_default_negative_when_none_supplied(self):
+        adapter = ComfyForgeTier1Adapter()
+        wf = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+        )
+        assert wf["7"]["inputs"]["text"] == DEFAULT_REFINE_NEGATIVE
+
+    def test_lora_node_present_only_when_a_lora_is_passed(self):
+        adapter = ComfyForgeTier1Adapter()
+        without = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+        )
+        assert not any(n.get("class_type") == "LoraLoader" for n in without.values())
+        assert without["3"]["inputs"]["model"] == ["4", 0]
+
+        with_lora = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+            lora={"name": "stanley_v1.safetensors", "strength_model": 0.8},
+        )
+        assert with_lora["14"]["class_type"] == "LoraLoader"
+        assert with_lora["14"]["inputs"]["lora_name"] == "stanley_v1.safetensors"
+        assert with_lora["14"]["inputs"]["strength_model"] == 0.8
+        # model AND both clip encodes rewire through the LoRA
+        assert with_lora["3"]["inputs"]["model"] == ["14", 0]
+        assert with_lora["6"]["inputs"]["clip"] == ["14", 1]
+        assert with_lora["7"]["inputs"]["clip"] == ["14", 1]
+
+    def test_upscale_stage_is_optional_and_feeds_save(self):
+        adapter = ComfyForgeTier1Adapter()
+        plain = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1,
+        )
+        assert plain["9"]["inputs"]["images"] == ["8", 0]
+
+        upscaled = adapter._build_img2img_workflow(
+            prompt="p", negative=None, seed_filename="s.png", denoise=0.4, seed=1, upscale=True,
+        )
+        assert upscaled["13"]["class_type"] == "ImageUpscaleWithModel"
+        assert upscaled["13"]["inputs"]["image"] == ["8", 0]
+        assert upscaled["9"]["inputs"]["images"] == ["13", 0]
+
+    def test_refine_seed_is_deterministic_per_prompt_and_seed_image(self):
+        """Refine is part of a reproducible bridge run — no wall-clock seeds."""
+        a = ComfyForgeTier1Adapter._refine_seed("prompt", Path("/x/panel_v1.png"))
+        b = ComfyForgeTier1Adapter._refine_seed("prompt", Path("/other/dir/panel_v1.png"))
+        c = ComfyForgeTier1Adapter._refine_seed("prompt", Path("/x/panel_v2.png"))
+        assert a == b  # location-independent
+        assert a != c  # variant-sensitive
+
+
+class TestNamedWorkflowTemplates:
+    def _template(self) -> dict:
+        return {
+            "3": {"class_type": "KSampler", "inputs": {"denoise": 1.0, "seed": 0}},
+            "6": {"class_type": "CLIPTextEncode", "inputs": {"text": "PLACEHOLDER"}},
+            "7": {"class_type": "CLIPTextEncode", "inputs": {"text": "PLACEHOLDER"}},
+            "10": {"class_type": "LoadImage", "inputs": {"image": "PLACEHOLDER"}},
+            "20": {"class_type": "LoraLoader", "inputs": {"lora_name": "authors_choice.safetensors"}},
+        }
+
+    def test_unresolvable_workflow_degrades_to_builtin(self, tmp_path):
+        """comic_panel_refine may not exist upstream yet — that is a degradation, not a failure."""
+        adapter = ComfyForgeTier1Adapter(config=ComfyForgeConfig(workflow_dir=str(tmp_path)))
+        graph, source = adapter._resolve_refine_workflow("comic_panel_refine")
+        assert graph is None and source == "builtin"
+
+        no_dir = ComfyForgeTier1Adapter()
+        assert no_dir._resolve_refine_workflow("comic_panel_refine") == (None, "builtin")
+        assert no_dir._resolve_refine_workflow(None) == (None, "builtin")
+
+    def test_resolved_template_is_patched_by_node_class(self, tmp_path):
+        (tmp_path / "comic_panel_refine.json").write_text(json.dumps(self._template()))
+        adapter = ComfyForgeTier1Adapter(config=ComfyForgeConfig(workflow_dir=str(tmp_path)))
+        template, source = adapter._resolve_refine_workflow("comic_panel_refine")
+        assert source == "template:comic_panel_refine"
+
+        patched = adapter._patch_workflow_template(
+            template, prompt="positive text", negative="negative text",
+            seed_filename="seed.png", denoise=0.35, seed=99,
+        )
+        assert patched["6"]["inputs"]["text"] == "positive text"   # first CLIPTextEncode
+        assert patched["7"]["inputs"]["text"] == "negative text"   # second
+        assert patched["10"]["inputs"]["image"] == "seed.png"
+        assert patched["3"]["inputs"]["denoise"] == 0.35
+        assert patched["3"]["inputs"]["seed"] == 99
+        # the workflow author's own nodes are left alone
+        assert patched["20"]["inputs"]["lora_name"] == "authors_choice.safetensors"
+
+    def test_patching_never_mutates_the_caller_template(self, tmp_path):
+        template = self._template()
+        adapter = ComfyForgeTier1Adapter()
+        adapter._patch_workflow_template(
+            template, prompt="p", negative="n", seed_filename="s.png", denoise=0.1, seed=1,
+        )
+        assert template["6"]["inputs"]["text"] == "PLACEHOLDER"
+        assert template["3"]["inputs"]["denoise"] == 1.0
+
+    def test_text_nodes_ordered_numerically_not_lexically(self, tmp_path):
+        """Node ids are numeric strings: "10" must not sort before "6"."""
+        template = {
+            "10": {"class_type": "CLIPTextEncode", "inputs": {"text": "x"}},
+            "6": {"class_type": "CLIPTextEncode", "inputs": {"text": "x"}},
+        }
+        adapter = ComfyForgeTier1Adapter()
+        patched = adapter._patch_workflow_template(
+            template, prompt="POS", negative="NEG", seed_filename="s.png", denoise=0.4, seed=1,
+        )
+        assert patched["6"]["inputs"]["text"] == "POS"
+        assert patched["10"]["inputs"]["text"] == "NEG"
+
+
+class TestRefineImageFlow:
+    def test_missing_seed_image_fails_before_any_http(self):
+        adapter = ComfyForgeTier1Adapter()
+        with patch("urllib.request.urlopen", side_effect=AssertionError("no HTTP expected")):
+            result = adapter.refine_image("/nonexistent/seed.png", "p", "/tmp/out.png")
+        assert result["success"] is False
+        assert "seed_image not found" in result["error"]
+
+    def test_unreachable_endpoint_short_circuits(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"\x89PNG fake")
+        adapter = ComfyForgeTier1Adapter()
+        with patch.object(adapter, "health_check", return_value=False):
+            result = adapter.refine_image(str(seed), "p", str(tmp_path / "out.png"))
+        assert result["success"] is False
+        assert result["error"] == "comfyui_unreachable"
+        assert result["endpoint"] == adapter.config.endpoint
+
+    def test_upload_builds_multipart_and_returns_server_filename(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"\x89PNG fake image bytes")
+        adapter = ComfyForgeTier1Adapter()
+        captured = {}
+
+        def mock_urlopen(req, timeout=None):
+            captured["url"] = req.full_url
+            captured["content_type"] = req.headers.get("Content-type")
+            captured["body"] = req.data
+            mock = MagicMock()
+            mock.read.return_value = json.dumps(
+                {"name": "seed.png", "subfolder": "", "type": "input"}
+            ).encode()
+            mock.__enter__ = MagicMock(return_value=mock)
+            mock.__exit__ = MagicMock(return_value=False)
+            return mock
+
+        with patch("urllib.request.urlopen", side_effect=mock_urlopen):
+            name = adapter._upload_image(seed)
+
+        assert name == "seed.png"
+        assert captured["url"].endswith("/upload/image")
+        assert captured["content_type"].startswith("multipart/form-data; boundary=")
+        assert b'name="image"; filename="seed.png"' in captured["body"]
+        assert b"\x89PNG fake image bytes" in captured["body"]
+
+    def test_upload_prefixes_subfolder_when_the_server_returns_one(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        mock = MagicMock()
+        mock.read.return_value = json.dumps({"name": "seed.png", "subfolder": "canvas"}).encode()
+        mock.__enter__ = MagicMock(return_value=mock)
+        mock.__exit__ = MagicMock(return_value=False)
+        with patch("urllib.request.urlopen", return_value=mock):
+            assert adapter._upload_image(seed) == "canvas/seed.png"
+
+    def test_upload_without_a_filename_raises(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        mock = MagicMock()
+        mock.read.return_value = json.dumps({}).encode()
+        mock.__enter__ = MagicMock(return_value=mock)
+        mock.__exit__ = MagicMock(return_value=False)
+        with patch("urllib.request.urlopen", return_value=mock), \
+             pytest.raises(RuntimeError, match="No filename"):
+            adapter._upload_image(seed)
+
+    def test_successful_refine_end_to_end(self, tmp_path):
+        """health → upload → submit → poll → download, with strict call accounting."""
+        seed = tmp_path / "panel_v1.png"
+        seed.write_bytes(b"\x89PNG seed")
+        out = tmp_path / "refined" / "panel_v1.png"
+        adapter = ComfyForgeTier1Adapter()
+
+        responses = [
+            ({}, 200),                                            # health check
+            ({"name": "panel_v1.png", "subfolder": ""}, 200),     # upload
+            ({"prompt_id": "refine-1"}, 200),                     # submit
+            ({"refine-1": {"outputs": {"9": {"images": [
+                {"filename": "canvas_refine_00001_.png", "subfolder": "", "type": "output"}
+            ]}}}}, 200),                                          # poll
+            (b"\x89PNG refined bytes", 200),                      # download
+        ]
+        submitted = {}
+        call_count = [0]
+
+        def mock_urlopen(req, timeout=None):
+            if call_count[0] >= len(responses):
+                raise AssertionError(f"unexpected urlopen call #{call_count[0] + 1}")
+            idx = call_count[0]
+            call_count[0] += 1
+            if req.full_url.endswith("/prompt"):
+                submitted["graph"] = json.loads(req.data)["prompt"]
+            resp_data, status = responses[idx]
+            mock = MagicMock()
+            mock.status = status
+            if isinstance(resp_data, bytes):
+                mock.read.side_effect = [resp_data, b""]
+            else:
+                mock.read.return_value = json.dumps(resp_data).encode()
+            mock.__enter__ = MagicMock(return_value=mock)
+            mock.__exit__ = MagicMock(return_value=False)
+            return mock
+
+        with patch("urllib.request.urlopen", side_effect=mock_urlopen):
+            result = adapter.refine_image(
+                str(seed), "a hero mid-stride", str(out),
+                negative="blurry", denoise=0.45,
+            )
+
+        assert result["success"] is True
+        assert result["stage"] == "refine"
+        assert result["denoise"] == 0.45
+        assert result["workflow_source"] == "builtin"
+        assert Path(result["image_path"]).read_bytes() == b"\x89PNG refined bytes"
+        # the uploaded name reached the graph's LoadImage node
+        assert submitted["graph"]["10"]["inputs"]["image"] == "panel_v1.png"
+        assert submitted["graph"]["3"]["inputs"]["denoise"] == 0.45
+        assert submitted["graph"]["7"]["inputs"]["text"] == "blurry"
+
+    def test_submission_failure_is_reported_not_raised(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        with patch.object(adapter, "health_check", return_value=True), \
+             patch.object(adapter, "_upload_image", return_value="seed.png"), \
+             patch.object(adapter, "_submit_workflow", side_effect=RuntimeError("server error")):
+            result = adapter.refine_image(str(seed), "p", str(tmp_path / "out.png"))
+        assert result["success"] is False
+        assert "server error" in result["error"]
+        assert result["stage"] == "refine"
+
+    def test_empty_history_outputs_is_reported(self, tmp_path):
+        seed = tmp_path / "seed.png"
+        seed.write_bytes(b"png")
+        adapter = ComfyForgeTier1Adapter()
+        with patch.object(adapter, "health_check", return_value=True), \
+             patch.object(adapter, "_upload_image", return_value="seed.png"), \
+             patch.object(adapter, "_submit_workflow", return_value="pid"), \
+             patch.object(adapter, "_poll_history", return_value={"outputs": {}}):
+            result = adapter.refine_image(str(seed), "p", str(tmp_path / "out.png"))
+        assert result["success"] is False
+        assert "No images" in result["error"]
 
 
 # ---------------------------------------------------------------------------

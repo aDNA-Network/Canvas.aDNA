@@ -107,6 +107,7 @@ class FakeRefineClient:
         negative: str | None = None,
         denoise: float = 0.4,
         workflow: str | None = None,
+        lora: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         seed_path = Path(seed_image)
         if not seed_path.exists():
@@ -118,5 +119,8 @@ class FakeRefineClient:
             (negative or "").encode("utf-8"),
         )
         write_solid_png(output_path, width, height, color)
-        self.calls.append({"seed_image": seed_image, "output_path": output_path, "denoise": denoise})
+        # ``lora`` is recorded, not honored: the fake has no model to condition. Recording it is
+        # what lets the chain tests assert dispatch threaded the pair-gated entry through.
+        self.calls.append({"seed_image": seed_image, "output_path": output_path,
+                           "denoise": denoise, "lora": lora})
         return {"success": True, "image_path": output_path, "adapter": "fake_refine", "cost_usd": self.cost_per_image}

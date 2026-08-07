@@ -46,7 +46,7 @@ broken refs; ALL drift is identity/pin/prose/path-level (census §1).
 
 | Wrapper | Source vault (persona) | Pin | Policy | Notes |
 |---|---|---|---|---|
-| `comfyui/` | ComfyUI.aDNA (Vulcan) | **0.2.0** @ `a8a4356` (2026-08-03) | tracking | Restores the ex-`comfyforge/` consumer seam. **Vulcan follow-up #3 (index the wrapper): SATISFIED by this row.** Pending: #1 adjust `skills_used`/`workflows_used` at the first render session (H3/H4) · #2 archived-LoRA-dispatch-runner rehoming decision (H4). Sibling exemplars: WebForge + ZenZachary `comfyui/` wrappers. |
+| `comfyui/` | ComfyUI.aDNA (Vulcan) | **0.2.0** @ `a8a4356` (2026-08-03) | tracking | Restores the ex-`comfyforge/` consumer seam. **Vulcan follow-up #3 (index the wrapper): SATISFIED by this row.** **#1 CLOSED 2026-08-06 (H4)** — `skills_used`/`workflows_used` now record actual Canvas consumption (ComfyUI = the chain's *refine* stage; generation is the cloud backend's, ADR-003), plus `workflows_requested: comic_panel_refine` and `server_endpoints.override_env`. **#2 pending an operator/Vulcan call** — Canvas recommends leaving the archived LoRA-dispatch runner archived (staged memo `coord_2026_08_06_…_comic_panel_refine_ask.md`). Live consumption: `COMIC_RENDER_COMFY_ENDPOINT` → else the declared `l1_local`. Sibling exemplars: WebForge + ZenZachary `comfyui/` wrappers. |
 | `git/` | Git.aDNA (Grace Hopper) | per declaration | — | Git-ops federation (GitHub-public since P6 Wave 2). |
 | `iii/` | III.aDNA (Argus Panoptes) | per declaration | — | Quality loop; live learning store `iii/what/context/canvas_iii_learning_store.jsonl` (the `iii` symlink resolves here; `iii_bridge` default repointed 2026-08-04, HR). |
 
