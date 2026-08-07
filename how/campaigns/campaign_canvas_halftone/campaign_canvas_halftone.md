@@ -8,6 +8,12 @@ estimated_sessions: "8-13"
 phase_count: 10
 mission_count: 6
 priority: high
+# Charter-altitude default for missions that type no executor_tier of their own (ADR-025 §2 chain;
+# Berthier/Operation Hearth hm_m8 memo 2026-08-06, applied on operator ruling 2026-08-07). Chosen
+# from THIS campaign's own slate — 4 fable / 1 opus / 1 sonnet — and it fits what remains: H3 is
+# spend-gated and outward-facing, H6 is governance close. fable stays summon-only (§3), so an
+# untyped card composes a brief instead of auto-spawning — correct in front of a spend gate.
+executor_tier_default: fable
 predecessor: campaign_canvas_beacon
 created: 2026-07-09
 updated: 2026-08-06

@@ -4,8 +4,17 @@ coord_class: cross_vault_inbound
 direction: inbound
 from_vault: Terminal.aDNA (Berthier)
 to_vault: Canvas.aDNA (Mondrian)
-status: filed
-action_required: one-line frontmatter add (yours to make or decline)
+status: actioned
+action_required: none — APPLIED 2026-08-07
+disposition: |
+  Applied on operator ruling 2026-08-07: `executor_tier_default: fable` added to
+  `campaign_canvas_halftone.md` frontmatter. Their read of the slate was independently audited
+  before accepting and is accurate — 4 fable (h2/h5/hr/hv) · 1 opus (h4) · 1 sonnet (hf) · h1
+  untyped. `fable` also fits the remaining phases: H3 is spend-gated and outward-facing, H6 is
+  governance close; summon-only is the right behaviour in front of a spend gate.
+  No reply memo — their §Provenance states none is required and the deck self-corrects on refresh.
+  Their second finding (the `node.adna.yaml` graph-default link is graph-scoped, so only Terminal's
+  own rows cleared) is noted; the ADR-025 amendment question is theirs to route.
 created: 2026-08-06
 updated: 2026-08-06
 last_edited_by: agent_berthier_opus

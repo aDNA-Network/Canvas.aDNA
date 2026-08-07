@@ -2,9 +2,9 @@
 type: coordination
 subtype: capability_ask
 direction: outbound
-status: staged_pending_GO          # delivery is a per-send operator GO (Rule 10)
+status: sent                       # DELIVERED 2026-08-07 on operator GO — files-only into ComfyUI.aDNA/who/coordination/, zero commits in their tree (Rule 10)
 created: 2026-08-06
-updated: 2026-08-06
+updated: 2026-08-07
 last_edited_by: agent_mondrian
 from: mondrian (Canvas.aDNA)
 to: vulcan (ComfyUI.aDNA)
