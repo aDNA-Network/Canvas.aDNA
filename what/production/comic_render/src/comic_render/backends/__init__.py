@@ -1,9 +1,8 @@
 """Render-chain backends — dispatch clients only, never engines.
 
-Registry maps backend names to (generate-client factory, refine-client factory). H2 ships ``fake``
-(the offline default everywhere in tests); H4 lands ``comfy`` **refine** (the Vulcan seam);
-``gemini`` generate arrives at H3 (SPEND-gated) — until then it raises a clean
-``NotImplementedError`` naming its phase.
+Registry maps backend names to (generate-client factory, refine-client factory). H2 shipped
+``fake`` (the offline default everywhere in tests); H4 landed ``comfy`` **refine** (the Vulcan
+seam); H3 landed ``gemini`` **generate** — the first backend here that spends money.
 
 ``comfy`` stays absent from the GENERATE registry on purpose: in this chain ComfyUI is the
 *refine* engine and the cloud backend is the production substrate (inherited ADR-003). Asking for
@@ -18,15 +17,7 @@ from comic_render.aspect import DEFAULT_SUPPORTED
 from comic_render.backends.base import ImageClient, RefineClient
 from comic_render.backends.comfy import ComfyRefineClient
 from comic_render.backends.fake import FakeImageClient, FakeRefineClient
-
-
-def _not_yet(backend: str, phase: str):
-    def _raise(**_: Any):
-        raise NotImplementedError(
-            f"backend {backend!r} arrives at Halftone {phase} — H2 is the offline bridge; "
-            "use 'fake'"
-        )
-    return _raise
+from comic_render.backends.gemini import GeminiImageClient
 
 
 def _generate_only_elsewhere(backend: str, reason: str):
@@ -37,7 +28,7 @@ def _generate_only_elsewhere(backend: str, reason: str):
 
 GENERATE_BACKENDS: dict[str, Any] = {
     "fake": FakeImageClient,
-    "gemini": _not_yet("gemini", "H3 (SPEND-gated)"),
+    "gemini": GeminiImageClient,
     "comfy": _generate_only_elsewhere(
         "comfy",
         "ComfyUI is the refine stage of the chain (ADR-003: the cloud backend is the production "

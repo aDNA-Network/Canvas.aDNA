@@ -7,6 +7,7 @@ import pytest
 from comic_render.backends import make_generate_client, make_refine_client
 from comic_render.backends.comfy import ComfyRefineClient
 from comic_render.backends.fake import FakeImageClient, FakeRefineClient, dims_for
+from comic_render.backends.gemini import GeminiImageClient
 from comic_render.png_meta import read_png_size, write_solid_png
 
 
@@ -70,11 +71,17 @@ def test_fake_refine_depends_on_seed_image_bytes(tmp_path):
     assert missing["success"] is False
 
 
-def test_registry_fake_available_gemini_still_gated(tmp_path):
+def test_registry_fake_available_gemini_now_live(tmp_path, monkeypatch):
+    """H3 INVERTED this test (it asserted gemini raised ``NotImplementedError`` naming its phase).
+
+    Inverted rather than deleted, per the H6 precedent: the assertion that a backend is gated and
+    the assertion that it is live are the same test at different times, and keeping the history
+    visible is worth more than a tidy diff.
+    """
+    monkeypatch.setenv("GEMINI_API_KEY", "test-key-value")
     assert isinstance(make_generate_client("fake"), FakeImageClient)
     assert isinstance(make_refine_client("fake"), FakeRefineClient)
-    with pytest.raises(NotImplementedError, match="H3"):
-        make_generate_client("gemini")
+    assert isinstance(make_generate_client("gemini"), GeminiImageClient)
     with pytest.raises(ValueError, match="unknown"):
         make_generate_client("dalle")
 

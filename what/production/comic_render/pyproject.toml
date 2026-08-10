@@ -25,6 +25,10 @@ dev = ["pytest>=8", "ruff>=0.6"]
 # Environment deps of the UNPACKAGED canvas_core import surface (its __init__ pulls print/gdoc/style
 # modules). comic_render's own source never imports these — the AST boundary test enforces it.
 env = ["pillow>=10", "pyyaml>=6", "google-api-python-client>=2"]
+# The gemini generate backend (H3). Kept OUT of the default install: the whole pipeline is provable
+# offline against `fake`, and only a run that actually spends money needs this SDK. The backend
+# imports it lazily inside the call, so the suite passes without it.
+cloud = ["google-genai>=2"]
 
 [project.scripts]
 comic-render = "comic_render.cli:main"
