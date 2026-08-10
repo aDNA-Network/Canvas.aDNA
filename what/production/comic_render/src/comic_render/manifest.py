@@ -75,6 +75,19 @@ class PanelSpec:
     existing_image_path: str | None = None
     render_chain: list[RenderStage] = field(default_factory=list)
     results: dict[str, Any] = field(default_factory=dict)  # stages write: variants/refined/selection
+    # H3 — geometry-derived aspect (2026-08-04 ruling). ``aspect_ratio`` above stays the DECLARED
+    # value and is never overwritten; these record what was actually requested and what it cost.
+    effective_aspect_ratio: str | None = None  # snapped from geometry to the backend's menu
+    aspect_snap_error: float | None = None  # |ln(true/effective)| — residual, not eliminated
+
+    @property
+    def request_aspect_ratio(self) -> str:
+        """The ratio dispatch asks the backend for: geometry-derived when planned, else declared.
+
+        The fallback is what keeps manifests planned before H3 loadable and dispatchable — they
+        simply behave as they did, requesting the declared ratio.
+        """
+        return self.effective_aspect_ratio or self.aspect_ratio
 
     @property
     def negative(self) -> str | None:
@@ -102,6 +115,9 @@ class RenderManifest:
     register: str = "comic_default"  # RLHF SelectionRecord register for this run
     panels: list[PanelSpec] = field(default_factory=list)
     spend: dict[str, Any] = field(default_factory=dict)  # dispatch writes {"usd": float, "calls": int}
+    # H3 — panels whose drawn geometry disagreed with their declared aspect_ratio, one line each.
+    # Persisted deliberately: this is the audit trail for every crop the render will contain.
+    aspect_notes: list[str] = field(default_factory=list)
 
     # ------------------------------------------------------------------
     # Serialization
@@ -114,7 +130,8 @@ class RenderManifest:
                 {k: v for k, v in s.items() if v is not None} for s in p["render_chain"]
             ]
             for opt in ("prompt_layers", "dual_prompt", "spatial_layout",
-                        "compositional_intent", "existing_image_path"):
+                        "compositional_intent", "existing_image_path",
+                        "effective_aspect_ratio", "aspect_snap_error"):
                 if p[opt] is None:
                     del p[opt]
         return d

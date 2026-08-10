@@ -108,7 +108,16 @@ def _emit(payload: dict[str, Any], as_json: bool) -> None:
         print(json.dumps(payload, indent=2))
         return
     stage_name = payload.pop("stage", "?")
-    print(f"[{stage_name}] " + ", ".join(f"{k}={v}" for k, v in payload.items()))
+    # NON-EMPTY list values are per-item detail (aspect drift, warnings) — one line each, after the
+    # summary. Inlining them into the k=v run makes the summary unreadable exactly when it matters.
+    # An EMPTY list stays in the summary: ``generated=[]`` is the idempotency proof that a re-run
+    # did zero work, and breaking it out would render it as nothing at all.
+    detail = {k: v for k, v in payload.items() if isinstance(v, list) and v}
+    summary = {k: v for k, v in payload.items() if k not in detail}
+    print(f"[{stage_name}] " + ", ".join(f"{k}={v}" for k, v in summary.items()))
+    for key, lines in detail.items():
+        for line in lines:
+            print(f"[{stage_name}] {key}: {line}")
 
 
 def _run_stage(name: str, args: argparse.Namespace) -> dict[str, Any]:
@@ -127,7 +136,11 @@ def _run_stage(name: str, args: argparse.Namespace) -> dict[str, Any]:
             "comic_id": manifest.comic_id,
             "panels": len(manifest.panels),
             "dispatchable": len(manifest.dispatchable()),
+            "aspect_drift": len(manifest.aspect_notes),
             "sync_hash": manifest.source_sync_hash,
+            # Surfaced, not just recorded: every line is a crop the render will contain, and a
+            # manifest field nobody reads is how the H2 drift stayed invisible in the first place.
+            "aspect_notes": manifest.aspect_notes,
         }
     manifest, mpath, _doc = _load_state(args.canvas)
     if name == "dispatch":

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from comic_render.aspect import DEFAULT_SUPPORTED
 from comic_render.backends.base import ImageClient, RefineClient
 from comic_render.backends.comfy import ComfyRefineClient
 from comic_render.backends.fake import FakeImageClient, FakeRefineClient
@@ -48,6 +49,18 @@ REFINE_BACKENDS: dict[str, Any] = {
     "fake": FakeRefineClient,
     "comfy": ComfyRefineClient,
 }
+
+
+def supported_aspects_for(backend: str | None) -> tuple[str, ...]:
+    """The aspect menu a generate backend accepts — read WITHOUT constructing the client.
+
+    Plan runs before any credential is needed and must stay that way, so this reads the class
+    attribute off the registry entry. Backends that declare nothing (and the not-yet placeholders,
+    which are plain functions) fall back to the conservative default.
+    """
+    entry = GENERATE_BACKENDS.get(backend or "")
+    declared = getattr(entry, "SUPPORTED_ASPECTS", None)
+    return tuple(declared) if declared else DEFAULT_SUPPORTED
 
 
 def make_generate_client(backend: str) -> ImageClient:

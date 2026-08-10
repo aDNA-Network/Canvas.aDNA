@@ -17,6 +17,8 @@ from typing import Any
 from canvas_core.print import canvas_units_to_px
 from canvas_std import compute_sync_hash
 
+from comic_render.aspect import DEFAULT_SUPPORTED, drift_report, effective_for
+from comic_render.backends import supported_aspects_for
 from comic_render.manifest import (
     STATUS_PROMPT_ONLY,
     STATUS_RENDERED,
@@ -225,7 +227,16 @@ def plan(
     default_chain = parse_chain(chain)
     output_dir = f"runs/{comic_id}"
 
+    # Geometry-derived aspect (H3): the menu belongs to whichever backend will actually be asked
+    # for pixels — the generate stage. Resolved without constructing the client, so planning a
+    # gemini chain never needs a credential.
+    generate_backend = next(
+        (s.backend for s in default_chain if s.stage == "generate"), None
+    )
+    supported = supported_aspects_for(generate_backend) if generate_backend else DEFAULT_SUPPORTED
+
     specs: list[PanelSpec] = []
+    aspect_notes: list[str] = []
     missing_prompts: list[str] = []
     for pid in ordered_pages:
         reading = _reading_order(doc, panels_by_page[pid], reserved)
@@ -236,6 +247,13 @@ def plan(
             prompt_text = q.get("image_prompt", "")
             if status == STATUS_PROMPT_ONLY and not prompt_text:
                 missing_prompts.append(nid)
+            declared = q.get("aspect_ratio", "1:1")
+            effective, snap_error = effective_for(
+                node.get("width", 0), node.get("height", 0), declared, supported
+            )
+            note = drift_report(declared, effective, snap_error)
+            if note:
+                aspect_notes.append(f"{nid}: {note}")
             specs.append(
                 PanelSpec(
                     panel_id=nid,
@@ -247,7 +265,9 @@ def plan(
                     dual_prompt=q.get("dual_prompt"),
                     spatial_layout=q.get("spatial_layout"),
                     compositional_intent=q.get("compositional_intent"),
-                    aspect_ratio=q.get("aspect_ratio", "1:1"),
+                    aspect_ratio=declared,  # DECLARED — never overwritten by the snap
+                    effective_aspect_ratio=effective,
+                    aspect_snap_error=round(snap_error, 4),
                     target_px={
                         "w": canvas_units_to_px(node.get("width", 0)),
                         "h": canvas_units_to_px(node.get("height", 0)),
@@ -279,6 +299,7 @@ def plan(
         budget_cap=budget_cap,
         register=register,
         panels=specs,
+        aspect_notes=aspect_notes,
     )
     manifest.save(out_path)
     return manifest, out_path

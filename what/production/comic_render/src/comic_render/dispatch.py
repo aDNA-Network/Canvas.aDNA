@@ -104,12 +104,12 @@ def run_generate(
             text=panel.prompt_text,
             mermaid_layout=panel.spatial_layout,
             compositional_intent=panel.compositional_intent,
-            aspect_ratio=panel.aspect_ratio,
+            aspect_ratio=panel.request_aspect_ratio,
         )
         saved = wiring.generate_variants(
             client=client,
             prompt=prompt,
-            aspect_ratio=panel.aspect_ratio,
+            aspect_ratio=panel.request_aspect_ratio,
             target_dir=base / panel.output_dir,
             item_id=panel.panel_id,
             count=panel.variant_count,
