@@ -66,7 +66,7 @@ margin-top both apply in full. At the fleet defaults (`--font-text-size: 16px`, 
 | check | proves | command |
 |---|---|---|
 | 1. Schema | conformance to the Standard | `canvas-std validate <file.canvas>` |
-| 2. Visual fit | the geometry above | `python -m canvas_core.traps.cli <file.canvas>` *(from `what/production/`)*; from any other vault use the batteries-included venv: `<Canvas.aDNA>/what/production/canvas_core/.venv/bin/python <Canvas.aDNA>/what/production/canvas_core/traps/cli.py <file.canvas>` — `--strict` to fail on medium findings, `--json` for machines, `--vault-root` if auto-detection (nearest `.obsidian`) misses |
+| 2. Visual fit | the geometry above | `python -m canvas_core.traps.cli <file.canvas>` *(from `what/production/`)*; from any other vault use the batteries-included venv: `<Canvas.aDNA>/what/production/canvas_core/.venv/bin/python <Canvas.aDNA>/what/production/canvas_core/traps/cli.py <file.canvas>` — `--strict` to fail on medium findings, `--json` for machines, `--vault-root` if auto-detection (nearest `.obsidian`) misses, **`--profile knowledge-canvas\|comic\|all`** (default `knowledge-canvas`; use `comic` for comic pages — see Known limitations) |
 | 3. Sight | it actually reads | open in live Obsidian → screenshot → **the agent reads the image and judges it** (`what/context/context_canvas_visual_in_the_loop.md`; Home.aDNA `canvas_visual_loop.py` is the worked harness) |
 
 ## Known limitations & expected findings
@@ -74,10 +74,19 @@ margin-top both apply in full. At the fleet defaults (`--font-text-size: 16px`, 
 - `canvas_core/html_renderer.py` models a `file` node as image-or-placeholder only — the HTML/Playwright render
   loop is **blind by construction** to the Properties-table failure mode. CV-FILE-PROPS-01 covers it statically;
   the renderer fix is a deferred follow-up (Halftone HV close notes).
-- **Print-geometry comics pack panels edge-to-edge by design** (ComixWellspring trim, deterministic integer grid) —
-  expect CV-GROUP-PADDING-01 / CV-NODE-DENSITY-01 findings on comic pages and **review them rather than
-  auto-failing**; the comic pipeline (Halftone H2+) interprets these against its print spec. The aesthetic
-  breathing-room thresholds are tuned for information canvases.
+- **Print-geometry comics pack panels edge-to-edge by design** (ComixWellspring trim, deterministic integer grid).
+  *(Superseded 2026-08-09, Halftone H6 — this used to say "expect the findings and review them rather than
+  auto-failing". That was advice where a mechanism belonged.)* **Use `--profile comic`.** It drops the three
+  knowledge-canvas *aesthetic* traps — `CV-GROUP-PADDING-01` · `CV-HIERARCHY-01` · `CV-NODE-DENSITY-01` — whose
+  breathing-room, title-slot and fill-ratio thresholds are tuned for information canvases and which a conformant
+  comic page fails by definition. Measured on the mini-issue: **24 findings → 0**, and none of the 24 was a
+  defect. Every **correctness** trap still runs (text bounds · image aspect ratio · file resolution · edge labels
+  · lead cost · coherence · pending) — the profile drops inapplicable aesthetics, never a check that can catch a
+  real defect.
+- `CV-COMIC-STYLE-01` (comic style-lock drift: character/palette/rendering inconsistency) is registered,
+  `comic-specific`, and **deliberately still scaffolded**. It compares *rendered pixels* across panels, so it
+  cannot be calibrated against the fake backend's solid PNGs — it needs H3's real renders. The `comic` profile
+  admits it now so it runs the day it is implemented.
 - CV-PENDING-01 firing on a `status: prompt_only` comic is **correct** — it is telling you the pipeline
   dead-ends at rendering, which is exactly Operation Halftone's G1.
 

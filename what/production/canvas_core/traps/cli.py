@@ -34,12 +34,23 @@ from `--vault-root`, else auto-detected by walking up from the canvas file to
 the nearest directory containing `.obsidian`; without one, the file-resolution
 trap (CV-FILE-PROPS-01) skips and a note is printed.
 
-By default the CLI runs the **visual-fidelity profile**: every implemented
-trap except deck-workflow ones (registry scope ``deck-specific``, plus
-CV-DIMENSION-VISIBILITY-01, whose aspect-ratio-metadata expectation presumes
-a presentation pipeline and would flag every hand-authored vault canvas).
-``--all-traps`` runs the full pack — the deck/producer build path already
-does, via ``run_all_traps`` directly.
+**Profiles** (``--profile``, default ``knowledge-canvas``):
+
+- ``knowledge-canvas`` — every implemented trap except deck-workflow ones
+  (registry scope ``deck-specific``, plus CV-DIMENSION-VISIBILITY-01, whose
+  aspect-ratio-metadata expectation presumes a presentation pipeline and would
+  flag every hand-authored vault canvas) and the comic-domain traps.
+- ``comic`` — additionally drops the three **knowledge-canvas aesthetic**
+  traps (group padding · hierarchy/title-slot · node density) that a composed
+  comic page fails *by design*, and admits ``comic-specific`` traps.
+  Added at Halftone H6 from H4 finding #4.
+- ``all`` — the full pack. ``--all-traps`` is the deprecated alias.
+
+Every profile keeps the **correctness** traps — text bounds, image aspect
+ratio, file resolution, edge labels, lead cost, coherence, pending. A profile
+drops domain-inapplicable *aesthetics*, never a check that can catch a real
+defect. The deck/producer build path runs the full pack via ``run_all_traps``
+directly.
 
 Neither this check nor `canvas-std validate` substitutes for **looking at the
 rendered canvas** — the agent-confirmed-render doctrine
@@ -81,16 +92,56 @@ _FAIL_SEVERITIES = {"critical", "high"}
 # profile: they presume deck metadata a hand-authored vault canvas never has.
 _PRESENTATION_ONLY = {"CV-DIMENSION-VISIBILITY-01"}
 
+# Container-geometry traps that encode KNOWLEDGE-CANVAS AESTHETICS — breathing
+# room, a title slot, a fill-ratio ceiling. They are correct for a board a
+# human reads by scanning. They are wrong for a **comic page**, which is a
+# composed reading surface: panels bleed flush to the page edge BY DESIGN, a
+# page carries no heading, and a full-page splash fills its page by definition.
+#
+# Halftone H4 finding #4 measured it: the mini-issue draws 24 findings at
+# source and 18 rendered, and every one of them comes from exactly these three
+# traps. None is a defect. A gate that always fails is not a gate.
+_KNOWLEDGE_CANVAS_AESTHETICS = {
+    "CV-GROUP-PADDING-01",
+    "CV-HIERARCHY-01",
+    "CV-NODE-DENSITY-01",
+}
 
-def _profile_skips(all_traps: bool) -> set[str]:
-    if all_traps:
-        return set()
-    skips = set(_PRESENTATION_ONLY)
-    skips.update(
+DEFAULT_PROFILE = "knowledge-canvas"
+PROFILES = ("knowledge-canvas", "comic", "all")
+
+
+def _scoped(scope: str) -> set[str]:
+    return {
         trap_id for trap_id, meta in TRAP_PACK_REGISTRY.items()
-        if meta.get("scope") == "deck-specific"
-    )
+        if meta.get("scope") == scope
+    }
+
+
+def _profile_skips(profile: str = DEFAULT_PROFILE) -> set[str]:
+    """Trap ids suppressed under ``profile``.
+
+    ``all`` suppresses nothing. Every profile keeps the **correctness** traps
+    (text bounds, image aspect ratio, file resolution, edge labels, lead cost,
+    coherence, pending) — profiles only ever drop domain-inapplicable
+    *aesthetic* checks, never a check that can catch a real defect.
+    """
+    if profile == "all":
+        return set()
+    skips = set(_PRESENTATION_ONLY) | _scoped("deck-specific")
+    if profile == "comic":
+        skips |= _KNOWLEDGE_CANVAS_AESTHETICS
+        skips -= _scoped("comic-specific")  # admit the comic-domain traps
+    else:
+        skips |= _scoped("comic-specific")
     return skips
+
+
+def _resolve_profile(profile: str | None, all_traps: bool) -> str:
+    """``--all-traps`` is the pre-H6 spelling of ``--profile all``."""
+    if profile is not None:
+        return profile
+    return "all" if all_traps else DEFAULT_PROFILE
 
 
 def _detect_vault_root(canvas_path: str) -> str | None:
@@ -119,13 +170,22 @@ def check_canvas(
     canvas_path: str,
     vault_root: str | None = None,
     all_traps: bool = False,
+    profile: str | None = None,
 ) -> tuple[list[TrapFinding], str | None]:
     """Run the trap pack against one canvas file.
 
     Returns ``(findings, resolved_vault_root)``. Raises ``OSError`` /
-    ``ValueError`` on unreadable input. With ``all_traps=False`` (default),
-    findings from presentation-workflow traps are dropped (see module doc).
+    ``ValueError`` on unreadable input.
+
+    ``profile`` selects the trap set (``knowledge-canvas`` default · ``comic``
+    · ``all``); see ``_profile_skips``. ``all_traps=True`` is the pre-H6
+    spelling of ``profile="all"`` and is honored when ``profile`` is omitted.
     """
+    profile = _resolve_profile(profile, all_traps)
+    if profile not in PROFILES:
+        raise ValueError(
+            f"unknown profile {profile!r} (expected one of {', '.join(PROFILES)})"
+        )
     with open(canvas_path, encoding="utf-8") as fh:
         canvas_data = json.load(fh)
     root = vault_root or _detect_vault_root(canvas_path)
@@ -137,7 +197,7 @@ def check_canvas(
         kwargs["vault_root"] = root
         kwargs["asset_root"] = root
     findings = run_all_traps(canvas_data, **kwargs)
-    skips = _profile_skips(all_traps)
+    skips = _profile_skips(profile)
     if skips:
         findings = [f for f in findings if f.trap_id not in skips]
     return findings, root
@@ -167,13 +227,29 @@ def main(argv: list[str] | None = None) -> int:
         help="medium-severity findings also fail the run",
     )
     parser.add_argument(
+        "--profile", choices=PROFILES, default=None,
+        help=(
+            f"trap set to run (default: {DEFAULT_PROFILE}). 'comic' drops the "
+            "knowledge-canvas aesthetic traps (padding/hierarchy/density) that "
+            "a composed comic page fails by design, and admits comic-domain "
+            "traps; correctness traps run under every profile. 'all' runs the "
+            "full pack."
+        ),
+    )
+    parser.add_argument(
         "--all-traps", action="store_true", dest="all_traps",
-        help="include presentation-workflow traps excluded from the default profile",
+        help="deprecated alias for --profile all",
     )
     args = parser.parse_args(argv)
 
+    try:
+        profile = _resolve_profile(args.profile, args.all_traps)
+    except ValueError as exc:  # pragma: no cover - argparse validates choices
+        print(f"canvas-visual-check: {exc}", file=sys.stderr)
+        return 2
+
     fail_severities = _FAIL_SEVERITIES | ({"medium"} if args.strict else set())
-    skips = _profile_skips(args.all_traps)
+    skips = _profile_skips(profile)
     n_traps = sum(
         1 for trap_id, meta in TRAP_PACK_REGISTRY.items()
         if meta.get("status") in ("implemented", "graduated")
@@ -186,7 +262,7 @@ def main(argv: list[str] | None = None) -> int:
     for path in args.paths:
         try:
             findings, root = check_canvas(
-                path, vault_root=args.vault_root, all_traps=args.all_traps,
+                path, vault_root=args.vault_root, profile=profile,
             )
         except (OSError, ValueError) as exc:
             if args.as_json:
@@ -205,6 +281,7 @@ def main(argv: list[str] | None = None) -> int:
         reports.append({
             "canvas": path,
             "vault_root": root,
+            "profile": profile,
             "traps_run": n_traps,
             "findings": [_finding_dict(f) for f in findings],
             "counts": counts,
@@ -213,7 +290,7 @@ def main(argv: list[str] | None = None) -> int:
 
         if not args.as_json:
             print(f"canvas-visual-check: {path}")
-            print(f"  {n_traps} traps run"
+            print(f"  {n_traps} traps run (profile={profile})"
                   + (f", vault_root={root}" if root
                      else "  (no vault root — file-resolution traps skipped)"))
             for sev in _SEVERITY_ORDER:
