@@ -4,7 +4,7 @@ spec_id: spec_rlhf_seam
 title: "The RLHF seam — Canvas owns the capture substrate, III owns the signal schema (Lodestar R4.2)"
 standard_version: "2.3.0"
 interaction_version: "1.0"
-status: proposed
+status: accepted
 created: 2026-08-09
 updated: 2026-08-09
 last_edited_by: agent_mondrian
@@ -26,8 +26,9 @@ tags: [spec, rlhf, seam, iii, interaction, schema_a, capture, signal, halftone, 
 > (`SelectionRecord`, L40) · `canvas_core/rlhf/iii_bridge.py` (`selection_to_iii_signal` L132 ·
 > `accumulate` L251) · `canvas_core/rlhf/review_collect.py` (the collector, the only writer of record).
 >
-> **Status `proposed`.** §7.7 ratification block at the foot; the operator signs. Nothing in §5 is built —
-> this spec is written *before* its implementation deliberately (agents author, operators ratify).
+> **Status `accepted`** (operator, 2026-08-09 — §7.7 block at the foot). This spec was written *before* its
+> implementation deliberately (agents author, operators ratify); the signature is what released §5's
+> **S-1..S-4** to be built. Implementation landed in the same session as the signature, never ahead of it.
 
 ## 1. The boundary (normative)
 
@@ -127,7 +128,8 @@ concretely: today the bridge's only input is a Schema-A record; it gains a secon
 
 ## 5. Implementation follow-ups (named, NOT built in this pass)
 
-Deliberately unbuilt while this spec is `proposed` — building against an unratified spec inverts §7.7.
+Deliberately unbuilt while this spec was `proposed` — building against an unratified spec inverts §7.7.
+**Released by the 2026-08-09 ratification**; build status is tracked in §6a.
 
 | # | Work | Where |
 |---|---|---|
@@ -162,6 +164,10 @@ until S-1..S-4 land under a ratified spec.
 | Field | Value |
 |-------|-------|
 | Decision | spec_rlhf_seam v1.0 (the ownership boundary · store discrimination · ISS resolution · reject routing) |
-| Ratified by | *(pending — operator)* |
-| Date | *(pending)* |
-| Status | **proposed** |
+| Ratified by | stanley |
+| Date | 2026-08-09 |
+| Status | **accepted** |
+
+> Ratified at the H3 plan gate (2026-08-09). The signature is what unblocks **S-1..S-4** (§5): the
+> implementation was deliberately withheld while this spec was `proposed`, so it becomes buildable
+> work the moment the boundary is signed — not before.

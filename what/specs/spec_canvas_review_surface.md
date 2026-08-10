@@ -13,8 +13,9 @@ amendments:
   - date: 2026-08-09
     phase: H6
     section: "§6 review_dispatch_contract v0"
-    summary: "Named stub → six-clause contract; D5 (refusal atomicity, F-S030-1) + D6 (venue boundary) folded in from Bearly s030/s031 evidence. Still contract-only. Ratification PENDING."
-    status: proposed
+    summary: "Named stub → six-clause contract; D5 (refusal atomicity, F-S030-1) + D6 (venue boundary) folded in from Bearly s030/s031 evidence. Still contract-only. Ratified 2026-08-09 (H3 plan gate)."
+    status: accepted
+    ratified_by: stanley
 campaign_id: campaign_canvas_halftone
 resolves: "gap G9 — the RLHF review surface (every layer existed; no assembled operator surface)"
 supersedes:
@@ -183,10 +184,13 @@ a ratified contract.
 | Field | Value |
 |-------|-------|
 | Decision | `review_dispatch_contract v0` — the six-clause contract (D5 refusal atomicity · D6 venue boundary) |
-| Ratified by | *(pending — operator)* |
-| Date | *(pending)* |
-| Status | **proposed** |
+| Ratified by | stanley (operator) — signed at the H3 plan gate, 2026-08-09 |
+| Date | 2026-08-09 |
+| Status | **accepted** |
 
-> *Why this amendment does not ride the plan approval as its signature (unlike v1.0): the 2026-08-09 plan
-> approved **writing** the clauses; D5/D6 did not exist as text when it was given. A signature cannot precede
-> the text it signs. Surfaced at the H6 gate.*
+> *Why this amendment did not ride the H6 plan approval as its signature (unlike v1.0): that approval covered
+> **writing** the clauses; D5/D6 did not exist as text when it was given, and a signature cannot precede the
+> text it signs. It was surfaced at the H6 close and signed at the next gate, against the finished clauses.*
+>
+> The contract is now **bound**. The dispatcher itself stays unbuilt — by the D-clause ruling (the venue has
+> never run a batch), not by any missing dependency.

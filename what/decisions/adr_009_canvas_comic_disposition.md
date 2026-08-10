@@ -2,11 +2,11 @@
 type: decision
 adr_id: "009"
 title: "canvas_comic disposition — reader-only freeze now, archive after H3"
-status: proposed
+status: accepted
 created: 2026-08-09
 updated: 2026-08-09
 last_edited_by: agent_mondrian
-signed_by:
+signed_by: stanley
 supersedes:
 superseded_by:
 phase: halftone-h6
@@ -18,7 +18,8 @@ tags: [adr, canvas, canvas_comic, disposition, freeze, archive, legacy, quarry, 
 
 ## Status
 
-**proposed** — operator ruling recorded at the H6 plan gate (2026-08-09); §7.7 signature pending.
+**accepted** — operator ruling recorded at the H6 plan gate (2026-08-09); §7.7 signature given at the H3 plan
+gate the same day. The archive step (decision 4) remains sequenced behind H3 landing.
 
 ## Context
 
@@ -89,6 +90,10 @@ made explicit. That is the freeze rule working as intended: *keep it runnable, a
 | Field | Value |
 |-------|-------|
 | Decision | `canvas_comic` = reader-only freeze now · archive after H3 · `ComicReport` not ported |
-| Ratified by | *(pending — operator)* |
-| Date | *(pending)* |
-| Status | **proposed** |
+| Ratified by | stanley |
+| Date | 2026-08-09 |
+| Status | **accepted** |
+
+> Ratified at the H3 plan gate (2026-08-09). The archive step is now authorized but still
+> **conditional on H3 landing** — the 99 tests stay in the suite as a regression net over the
+> trim/bleed lineage until real pixels have validated those constants.

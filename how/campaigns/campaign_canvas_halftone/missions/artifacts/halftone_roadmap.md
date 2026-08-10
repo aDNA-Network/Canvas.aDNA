@@ -133,7 +133,10 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    **`GEMINI_API_KEY`** via the Home broker (names-only). Companion ruling: **aspect policy = derive from
    geometry** (mission_h2 finding #1) — extract computes each panel's true w/h and snaps to the nearest
    backend-supported ratio; manifest records declared + effective; producer untouched; implement at H3 open.
-   **The H3 gate call itself remains open** — phase held for Luke's cloud lane (ratified annex). *(was gate: H3)*
+   **H3 gate call — MADE 2026-08-09**: the operator opened H3 at plan approval *and* opened the spend gate for
+   the same session, and assigned the whole phase — `backends/gemini.py` included — to **Mondrian**. That
+   overrides the dev-lane annex §3 "shared, Luke leads the cloud lane" row; the annex is amended in the open
+   (dated §3a) rather than overwritten, and Luke's lane narrows to the H6/M-SB-D2 first light. *(was gate: H3)*
 2. **Vulcan memo delivery timing** + whether to bundle the LoRA-training-completion ask — **surfaced at the
    H4 gate 2026-08-06, still the operator's call.** The memo is written and staged
    (`coord_2026_08_06_mondrian_to_vulcan_comic_panel_refine_ask.md`, `staged_pending_GO`): it asks for the
@@ -146,7 +149,8 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    after H3**; `ComicReport` not ported (returns only as a new build if a scoring loop revives); the 99 tests
    keep riding the suite as a deliberate regression net over the trim/bleed lineage `canvas_core.print`
    inherited — archiving before H3 would remove that net before real pixels have ever validated the constants.
-   Recorded as **`adr_009_canvas_comic_disposition.md`** (`proposed`; §7.7 signature pending). *(was gate: H6)*
+   Recorded as **`adr_009_canvas_comic_disposition.md`** — **ratified 2026-08-09** (stanley, §7.7, at the H3
+   plan gate). The archive step stays sequenced behind H3. *(was gate: H6)*
 4. **RLHF routing** (III store vs leg-3 `interaction.responses`) — ✅ **RULED 2026-08-09** (H6 plan gate):
    **both sinks, with the boundary named** — Canvas owns the capture substrate (`responses[]`: total,
    append-only, provenance), III owns the signal schema (ADR-005 store: selective, interpreted). The gap was
@@ -154,8 +158,8 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    never emitted, so a reject-only pass produced **no signal at all**. Ruling: a reject routes to III as
    `rlhf_signal_type: reject` derived from `responses[]` (Schema-A structurally cannot express "no pick" and
    stays approval-only). The ISS-vs-III contradiction resolves as a **scope conflation**, no ownership moved.
-   Recorded as **`what/specs/spec_rlhf_seam.md`** (`proposed`); implementation **S-1..S-4 deliberately
-   unbuilt** until ratification. *(was gate: H6)*
+   Recorded as **`what/specs/spec_rlhf_seam.md`** — **ratified 2026-08-09** (stanley, §7.7, at the H3 plan
+   gate), which **released S-1..S-4** to be built. *(was gate: H6)*
 5. **`issue.rendered.canvas` authority** — rec.: derived artifact of the YAML source (producer stays authoritative;
    re-renders cheap). *(gate: H2 write-back design ack)*
 6. **HR pilot subject timing** — rec.: pilot on existing ComfyUI SS variant images (read-only consumption; records
