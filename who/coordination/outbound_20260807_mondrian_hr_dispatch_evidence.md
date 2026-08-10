@@ -6,7 +6,26 @@ from: Bearly.aDNA (Callisto)
 created: 2026-08-07
 updated: 2026-08-07
 last_edited_by: bearly_s030
-status: staged_awaiting_dispatch_go   # SO-9 — routes only on the operator's dispatch election at the s030 close gate
+status: actioned   # Canvas-side. Was: staged_awaiting_dispatch_go (sender's field at authoring; the memo did route).
+consumed_by: session_stanley_20260809_211323_halftone_h6_offline
+consumed_at: 2026-08-09
+disposition: |
+  ACTIONED 2026-08-09 (Halftone H6, O3). This memo discharged the evidence dependency that
+  `review_dispatch_contract v0` had been deferred behind since HR — so the stub bound the same session
+  it was consumed.
+
+  §1 — finding F-S030-1 ("a refused dispatch/verdict leaves zero trace in any store") is ADOPTED as
+  clause **D5** of the contract, credited to Callisto/bearly_s030 by name in the spec text, with their
+  reasoning preserved: it failed live in a single-machine loop, and a cross-machine hop has strictly
+  more places to fail between append and refuse. See `what/specs/spec_canvas_review_surface.md` §6.
+
+  §2 — the compose-path consumption is recorded as live external evidence for the Halftone AAR: the
+  invocation of record reproduces on their side (12 refs with `--ref-category portraits
+  --ref-category series_panels`, default categories reach 1), pair-gate held, zero LoRA tokens emitted.
+  That independently confirms the H5 exit criterion from outside this vault.
+
+  Their `bearly.yaml` `compressed_character_subset` to-do is closed by the s031 memo (bundle 0.1.1).
+  Reply memo STAGED (`staged_pending_GO`) — delivery is a per-send operator GO (Rule 10).
 replies_to: coord_2026_08_04_mondrian_to_callisto_h5_close_notify.md
 tags: [coordination, outbound, canvas, hr, g9, review_dispatch_contract, rlhf_evidence, s030]
 ---

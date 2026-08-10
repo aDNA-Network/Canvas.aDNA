@@ -78,9 +78,11 @@ reference-implementation forward-pointer.
   new state means; the write/reconcile path against the authoritative `.lattice.yaml` is governed by
   [[spec_roundtrip_protocol_v2|spec_roundtrip_protocol_v2.md]] (§7), not here.
 - **Canvas-as-primitive change** — no core-schema edit (Δ2 / LIP-0009); leg 3 rides `_reserved` only.
-- **The ISS gate runtime** — HTML rendering, RLHF schema, and the 4-tier round-trip belong to ISS
-  (`aDNA.aDNA`, [[adr_028_iss_architecture]]). Canvas owns the *grammar* an ISS gate may one day be authored on
-  (ADR-006 §2), not the gate engine.
+- **The ISS gate runtime** — HTML rendering, **the ISS gate's own RLHF schema**, and the 4-tier round-trip belong
+  to ISS (`aDNA.aDNA`, [[adr_028_iss_architecture]]). Canvas owns the *grammar* an ISS gate may one day be
+  authored on (ADR-006 §2), not the gate engine. *(Qualified 2026-08-09, Halftone H6 — [[spec_rlhf_seam]] §3: this
+  line and §9's table row named the **gate runtime's** capture schema, not the **evaluative signal schema** for
+  canvas review, which is III's under ADR-005. Two objects, one word; no ownership moved.)*
 
 ## 3. The interaction-surface model (abstract)
 
@@ -296,7 +298,8 @@ Armature** (P1 write runtime + P2 harness wiring & version cut).
 | Concern | Owner (not Canvas) | Citation |
 |---------|--------------------|----------|
 | **When** to surface an interaction on a canvas vs ISS / Terminal / web (cross-surface routing) | future **OIP** layer (`aDNA.aDNA`) | ADR-006 §3 — the load-bearing line |
-| HTML gate **rendering + capture + RLHF schema + 4-tier round-trip** | **ISS** (`aDNA.aDNA`) | ADR-006 §2; [[adr_028_iss_architecture]] |
+| HTML gate **rendering + capture + the gate's own RLHF schema + 4-tier round-trip** | **ISS** (`aDNA.aDNA`) | ADR-006 §2; [[adr_028_iss_architecture]] |
+| **Evaluative signal schema** for canvas review (ADR-005 learning-store shape) | **III.aDNA** | [[spec_rlhf_seam]] §1, §3 |
 | Web **publication** (canvas → deployed website) | **Astro.aDNA** | ADR-006 §2 |
 | **CLI/TUI** node orchestration | **Terminal.aDNA** | ADR-006 §2 |
 | **Federation transport** (cross-vault fetch of a referenced surface) | the **federation layer** | ADR-006 §1; [[spec_canvas_context_loading]] §2 |

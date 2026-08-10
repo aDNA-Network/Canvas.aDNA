@@ -33,8 +33,14 @@ had gone stale against the live store.)*
   ``approver_id`` is present.
 - ADR-005 §3 consumer-namespace: ``rlhf_consumer_namespace.canvasforge.
   image_generation.*`` nested-object projection of the full sel record.
-  Nested-object shape matches the M-V1-2-G-01 F3-migration precedent
-  already in the local store (4 entries; canonical post-G-02 close).
+  Nested-object shape matches the M-V1-2-G-01 F3-migration precedent.
+  *(Ground truth 2026-08-09, Halftone H6: the live store at
+  ``DEFAULT_LEARNING_STORE`` holds a ``_meta`` header line plus two III
+  learning-PATTERN entries — ``CANVAS-L-001``/``-002``, the
+  ``lens``/``pattern``/``graduated`` idiom — and zero RLHF signals so far.
+  The store is heterogeneous BY DESIGN; readers discriminate on the
+  consumer-namespace ``selection_id``, never on line position. See
+  ``what/specs/spec_rlhf_seam.md`` §2a.)*
 
 **Re-merge rationale** (CR7+SO7):
 ``lattice-labs/who/coordination/coord_2026_04_16_forge_split.md``.

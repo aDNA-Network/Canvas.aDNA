@@ -6,9 +6,15 @@ standard_version: "2.3.0"
 interaction_version: "1.0"
 status: ratified
 created: 2026-08-04
-updated: 2026-08-04
+updated: 2026-08-09
 last_edited_by: agent_mondrian
 phase: HR
+amendments:
+  - date: 2026-08-09
+    phase: H6
+    section: "§6 review_dispatch_contract v0"
+    summary: "Named stub → six-clause contract; D5 (refusal atomicity, F-S030-1) + D6 (venue boundary) folded in from Bearly s030/s031 evidence. Still contract-only. Ratification PENDING."
+    status: proposed
 campaign_id: campaign_canvas_halftone
 resolves: "gap G9 — the RLHF review surface (every layer existed; no assembled operator surface)"
 supersedes:
@@ -29,9 +35,10 @@ tags: [spec, canvas, review, rlhf, metabind, interaction, affordance, schema_a, 
 >
 > **Non-goals.** NOT a `canvas_std` change (the overlay is the ratified additive `_reserved.interaction`; the
 > firewall holds). NOT a capture runtime (ISS remains the sibling surface for flat rich-context gates, ADR-006;
-> surface-choice routing is the future OIP layer's call). NOT a dispatcher — **regeneration dispatch is a named
-> contract stub (§6)**, deferred pending Bearly P5 evidence (the Callisto seam, coord 2026-07-28 §2).
-> `enableJs: false` is preserved throughout — capture is frontmatter-only.
+> surface-choice routing is the future OIP layer's call). NOT a dispatcher — **regeneration dispatch is
+> contract-only (§6)**: as of the 2026-08-09 amendment the contract has *bound* (six clauses, Bearly evidence
+> discharged), but no dispatcher, HTTP client or render call ships. `enableJs: false` is preserved throughout —
+> capture is frontmatter-only.
 
 ## 1. Architecture
 
@@ -107,14 +114,48 @@ only be sight-certified live). Clean CV-FILE-PROPS-01 requires `.obsidian/app.js
 `"propertiesInDocument": "hidden"` (frontmatter IS the capture mechanism; authoring-guidance rule 5).
 Appending responses never perturbs `sync.sync_hash` (topology-only).
 
-## 6. `review_dispatch_contract v0` — NAMED STUB (the Callisto seam)
+## 6. `review_dispatch_contract v0` (the Callisto seam)
 
-Deferred pending **Bearly P5 evidence** (coord 2026-07-28 §2 / 2026-08-03 reply §2). When it binds, the
-contract MUST honor: the intent record derivable from collected state
-(`{surface, variant_id, prompt, prompt_edit, defect_tags, requested_by, at}`); a fresh generation under the
-SAME contract; the result minted as a **new node linked to its parent** (nothing overwritten — Bearly §4);
-spend under an operator gate. Until then `regenerate_requested` is an inert, collected intent flag. HR ships
-**no** dispatcher, no HTTP, no render call.
+> **Amended 2026-08-09 (Halftone H6) — the stub binds.** The evidence dependency this section was deferred
+> behind is **discharged**: Callisto's `bearly_s030` memo (`outbound_20260807_mondrian_hr_dispatch_evidence.md`)
+> delivered render-class RLHF loop traces plus finding **F-S030-1**, and `bearly_s031`
+> (`coord_2026_08_08_..._bundle_011_and_mode_l.md`) added a **second render venue** (ADR-007 mode L). Both are
+> folded in below as clauses **D5** and **D6**. This remains **contract-only**: no dispatcher, no HTTP, no
+> render call ships with it, and `regenerate_requested` stays an inert collected intent flag.
+
+A conforming dispatcher MUST honor all six clauses.
+
+| # | Clause | Source |
+|---|---|---|
+| **D1** | **Derivable intent.** The dispatch intent record is derivable from collected state alone — `{surface, variant_id, prompt, prompt_edit, defect_tags, requested_by, at}`. No out-of-band context. | HR original |
+| **D2** | **Same contract.** The regeneration runs under the SAME generation contract as the variant it descends from — same prompt assembly, same backend chain semantics. A regenerate is a *re-roll*, not a new brief. | HR original |
+| **D3** | **New node, linked to parent.** The result is minted as a **new node linked to its parent**. Nothing is overwritten — the rejected variant and its verdict remain in the record. | HR original; Bearly §4 |
+| **D4** | **Operator spend gate.** Spend passes an operator gate before dispatch, never after. | HR original |
+| **D5** | **Refusal atomicity.** A refused dispatch or verdict leaves **zero trace in any store.** Guards run *before* any append; a refusal is line-count-invariant across every sink. | **F-S030-1** — Callisto `bearly_s030`, credited |
+| **D6** | **Venue boundary.** A render venue may be a **third party's node on their own key**. The contract therefore composes with: operator-**pull** of verified per-batch bundles (not push), a **two-consent** spend gate (both the requesting and the hosting operator), and **arrival verification before any asset enters the canvas**. | Bearly V5 (mode G) + **ADR-007 mode L**, `bearly_s031` |
+
+### On D5 — why a clause earned by failure is worth more than one earned by design
+
+Bearly's verdict pipeline originally **appended the loop record and then refused** at the guard stage, leaving a
+phantom `approve` record behind a refusal. They found it, fixed it (guards before any append; refusals now
+line-count-invariant, machine-verified), and handed it over. It failed live in a **single-machine** loop — which
+is the cheap case. A cross-machine dispatch hop has strictly more places to fail between "append" and "refuse",
+so a contract that did not state D5 would be inviting the same defect at higher cost. Adopted verbatim in intent,
+credited to its finder.
+
+### On D6 — what a fourth-party venue does to the boundary
+
+Two venues now exist on the Bearly side: **mode G** (cloud, Luke's lane) and **mode L** (local inference on a
+third party's RTX 3090, operator-administered, per-render consent). Neither is Canvas's machine, and the second
+is not even the requesting operator's. D6 is the shape that survives both: pull-not-push, two-consent, and
+verify-on-arrival. Canvas ships no transport for this — D6 constrains what a conforming dispatcher may do, and
+the venue's own vault governs the venue.
+
+### Still out of scope at v0
+
+No dispatcher, no HTTP client, no render call, no transport. `regenerate_requested`, `pin_requested` and
+`escalate` remain inert intent flags collected into `responses[]`. Implementation is a later phase's work under
+a ratified contract.
 
 ## 7. Decisions log
 
@@ -122,9 +163,11 @@ spend under an operator gate. Until then `regenerate_requested` is an inert, col
 |---|---|---|---|
 | 1 | Rating axes | single overall `rating` in v1.0 | control-count sanity; `vr_scores` stays open for v1.1 axes |
 | 2 | Multi-tag capture | one response per tag on one `choice` affordance | append-only responses make multi legal without a new kind; I-3 validates each |
-| 3 | Reject-only routing | canvas responses only | Schema-A needs a pick; bridge charter is accept-only; H6 #4 owns the seam |
+| 3 | Reject-only routing | ~~canvas responses only~~ → **RULED at H6**: reject also routes to III as `rlhf_signal_type: reject`, derived from `responses[]`; Schema-A stays approval-only | [[spec_rlhf_seam]] §4 (2026-08-09). Behavior is **unchanged until S-1..S-4 land** under a ratified seam spec — the collector still writes no III signal on reject today |
 | 4 | Pilot corpus | the real dataset | roadmap §6 explicit; `{kind: ai}` marking keeps agent runs distinguishable |
 | 5 | Buttons vs toggles | pilot ships toggles for pin/escalate + one `updateMetadata` button (regenerate) | both JS-less; the render check resolves preference |
+| 6 | Dispatch contract binding (H6) | stub → **six clauses** (D1–D6); D5 refusal-atomicity + D6 venue-boundary adopted from Bearly evidence | the deferral condition ("pending Bearly P5 evidence") was met; keeping it a stub after the evidence landed would be deferral by inertia |
+| 7 | Build the dispatcher? (H6) | **no** — contract-only stands | D6's venue shape is still moving (mode L's kit transfer is deferred on the aDNALabs node-ready signal); a dispatcher built now would bind to a venue that has not yet run a batch |
 
 **Ratification (§7.7):**
 
@@ -134,3 +177,16 @@ spend under an operator gate. Until then `regenerate_requested` is an inert, col
 | Ratified by | stanley (operator) — plan approval = the signature (2026-08-04 GO-wave plan; Amendment-1 precedent) |
 | Date | 2026-08-04 |
 | Status | **accepted** |
+
+**Ratification — 2026-08-09 amendment (§6 D1–D6):**
+
+| Field | Value |
+|-------|-------|
+| Decision | `review_dispatch_contract v0` — the six-clause contract (D5 refusal atomicity · D6 venue boundary) |
+| Ratified by | *(pending — operator)* |
+| Date | *(pending)* |
+| Status | **proposed** |
+
+> *Why this amendment does not ride the plan approval as its signature (unlike v1.0): the 2026-08-09 plan
+> approved **writing** the clauses; D5/D6 did not exist as text when it was given. A signature cannot precede
+> the text it signs. Surfaced at the H6 gate.*

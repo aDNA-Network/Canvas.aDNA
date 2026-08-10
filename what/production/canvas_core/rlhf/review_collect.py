@@ -8,7 +8,11 @@ sidecar **frontmatter**; ``enableJs: false``); this collector then fans each ver
 2. **Schema-A** — a ``SelectionRecord`` per **approved** variant into the real corpus
    (``what/artifacts/image_gen_dataset/``; reject-only sessions write none — Schema-A structurally requires a
    pick, and the III bridge's charter is ``accept``-only; the rejection signal stays durable in
-   ``interaction.responses[]`` + the sidecars. The reject→III seam is H6 open decision #4);
+   ``interaction.responses[]`` + the sidecars. **The reject→III seam was RULED at H6 (2026-08-09):** a reject
+   SHALL route to III as ``rlhf_signal_type: reject`` derived from ``responses[]`` (not from Schema-A, which
+   cannot express "no pick"); Schema-A stays approval-only. See ``what/specs/spec_rlhf_seam.md`` §4.
+   **Not yet implemented** — that is follow-up S-1..S-3, deliberately held until the seam spec is ratified,
+   so the behavior described above is still exactly what this module does today);
 3. **III** — ``selection_to_iii_signal`` + ``accumulate`` into the live learning store.
 
 Idempotency is layered (spec §4.3): the sidecar ``collected_at`` ledger (primary; ``--force`` or clearing it

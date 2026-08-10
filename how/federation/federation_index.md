@@ -36,7 +36,7 @@ tags: [federation, index, wrappers, consumers, canvas_standard]
 | **ZenZachary.aDNA** | `canvas/` · `canvas_comic/` · `canvas_deck/` | ~1.2.0 | minor | 🔴 stale identity (`wrapper_for`/`substrate_pin` = CanvasForge v1.2) — refederation memo staged | 2026-08-04 |
 | **Astro.aDNA** *(← SiteForge)* | `canvasforge/` ×2 aliases | 1.1.0 @ `3783f57` | minor | 🔴 stale identity + dir-name — refederation memo staged | 2026-08-04 |
 | **SuperLeague.aDNA** | `canvasforge/` | genesis-planning | per-target | 🔴 stale body; engagement-scoped (archives at W4) — light memo staged | 2026-08-04 |
-| **Bearly.aDNA** | `canvas/` (EMPTY) | — | — | ⚪ seam designed at their P4 (`seam_canvas.md`); population at Bearly's pace | 2026-08-04 |
+| **Bearly.aDNA** | `canvas/` (EMPTY) | — | — | 🟢 **wrapper still empty, but the busiest live consumer we have** — consumes `canvas_std.validate` + the H5 `compose_input.py` path read-only via PYTHONPATH (their P5a precedent, zero writes into this vault). Five `comic_page` contracts (17/17) cite our compose invocation of record; bundle 0.1.1 closed the framing-lock gap. Supplied the **F-S030-1** clause (→ dispatch contract **D5**) + the **mode L** venue shape (→ **D6**). Wrapper population still at Bearly's pace — read-only consumption has not needed one | 2026-08-09 |
 | **Oration.aDNA** | **NONE** | — | — | 🔴 the G7 enabling condition — **adopt-a-wrapper memo staged** | 2026-08-04 |
 
 **Machine-ref compliance:** `federation_ref.source_vault` reads `Canvas.aDNA` in every populated wrapper — zero

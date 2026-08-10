@@ -6,7 +6,26 @@ from: Bearly.aDNA (Callisto)
 created: 2026-07-30
 updated: 2026-07-30
 last_edited_by: bearly_s026
-status: dispatch_authorized_held_on_peer_lease   # ⛩ 2026-07-31 (bearly_s028): the operator elected "dispatch all 9" — but this target held a LIVE session lease at the guarded pre-write check (aDNALabs: 2026-07-29 S129; Canvas: a 2026-07-09 lease, 22 days old — likely stale, theirs to clear, flagged not touched). Single-writer standoff defers the copy; ROUTE AT PEER QUIESCENCE, no re-election needed. Was: staged_not_dispatched (s026), HELD (s027).
+status: actioned   # Was: dispatch_authorized_held_on_peer_lease — ⛩ 2026-07-31 (bearly_s028): the operator elected "dispatch all 9" — but this target held a LIVE session lease at the guarded pre-write check (aDNALabs: 2026-07-29 S129; Canvas: a 2026-07-09 lease, 22 days old — likely stale, theirs to clear, flagged not touched). Single-writer standoff defers the copy; ROUTE AT PEER QUIESCENCE, no re-election needed. Was: staged_not_dispatched (s026), HELD (s027).
+consumed_by: session_stanley_20260809_211323_halftone_h6_offline
+consumed_at: 2026-08-09
+disposition: |
+  ACTIONED 2026-08-09 (Halftone H6, O1). The stale 2026-07-09 lease that held this memo was cleared at
+  the 2026-08-03 amendment session (filed → history/2026-07); their courtesy flag was correct and their
+  restraint in not touching it was right.
+
+  §1 — the validator-consumability evidence (hand-authored `bearly_review.canvas` passing
+  `canvas_std.validate` read-only, ADNA_NATIVE, 0 errors, 4 real defects caught during authoring) is
+  recorded as the cleanest external consumability evidence Canvas has: firewall held, nothing forked,
+  conformant on first external authorship. Carried into the Halftone AAR.
+
+  §2 — the dispatch-seam ask (GAP-OBS-3, Canvas half) is **DISCHARGED**: `review_dispatch_contract v0`
+  bound at H6 with their venue shape as clause D6. The ask stood open 40 days; the blocker was evidence,
+  and the evidence arrived in their s030/s031 memos.
+
+  §3 — Halftone watch: their status read was accurate at the time. Since: H2 built, H4 built and
+  live-verified, H5 shipped (their GAP-CNV-5 LoRA-less path is the tested exit criterion), H3 still
+  unreached. Recorded, no reply owed on this item.
 tags: [coordination, outbound, canvas, rlhf_dispatch_seam, p5a_evidence, m9_2]
 ---
 
