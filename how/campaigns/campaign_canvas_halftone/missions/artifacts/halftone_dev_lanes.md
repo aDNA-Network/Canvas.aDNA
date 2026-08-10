@@ -4,7 +4,7 @@ artifact_type: dev_lane_annex
 campaign_id: campaign_canvas_halftone
 title: "Halftone dev-lane annex — second developer (Luke Waltman, aDLabs Core Developer)"
 created: 2026-08-03
-updated: 2026-08-03
+updated: 2026-08-09
 last_edited_by: agent_mondrian
 status: ratified
 relates: ["aDNALabs coord 2026-07-24 (Berthier S105 — Second Baton)", campaign_core_dev_luke, adr_019_core_developer_luke]
@@ -48,16 +48,41 @@ tags: [artifact, dev_lanes, luke, comic_generator, halftone, second_baton]
 | H0–H1 | ✅ Mondrian (done) | — |
 | HV | Mondrian (executed 2026-08-03) | consumes: run `canvas-visual-check` + authoring guidance on everything he ships |
 | H2 (bridge offline) | **Mondrian** (architecture + manifest + write-back) | test/fixture assists via PR (fake-backend cases, manifest fixtures) |
-| H3 (first real page) | shared — **Luke leads the cloud lane** | `backends/gemini.py` under Mondrian review; his box IS the cloud lane (Intel Mac, no GPU); SPEND + eye gates stay operator's |
+| H3 (first real page) | ~~shared — **Luke leads the cloud lane**~~ → **Mondrian** (operator ruling 2026-08-09; see §3a) | ~~`backends/gemini.py` under Mondrian review~~ — reassigned; SPEND + eye gates stay operator's |
 | H4 (Vulcan seam) | **Mondrian** (cross-vault seam) | — (no GPU; ComfyUI path unavailable to him) |
 | H5 (VisualDNA compose) | **Mondrian** | optional: LoRA-less compose test cases via PR |
 | HR (RLHF surface) | **Mondrian** (interaction-runtime expertise) | — |
 | HF (federation) | **Mondrian** (cross-vault memos) | — |
 | H6 (authoring contract + close) | Mondrian (contract text + close) | **first-light author**: the M-SB-D2 one-page spec exercising `comic_authoring_contract.md` — converging with H3's proof page |
 
-**Net:** Luke's dedicated lane = **the cloud render path (H3) + the authoring-contract first light (H6/M-SB-D2)**,
-plus test/fixture PRs anywhere in `what/production/comic_*`. Mondrian keeps: bridge core, all seams (Vulcan /
-VisualDNA / federation), the firewall, all gates, all governance.
+**Net (as ratified 2026-08-03):** Luke's dedicated lane = **the cloud render path (H3) + the authoring-contract
+first light (H6/M-SB-D2)**, plus test/fixture PRs anywhere in `what/production/comic_*`. Mondrian keeps: bridge
+core, all seams (Vulcan / VisualDNA / federation), the firewall, all gates, all governance.
+
+## 3a. Amendment — H3 reassigned to Mondrian (2026-08-09)
+
+**Ruling.** At the H3 plan gate the operator opened the phase, opened the spend gate for the same session, and
+assigned the phase **in full to Mondrian — `backends/gemini.py` included**.
+
+**Why this is recorded rather than quietly done.** §3 above is a *ratified* artifact, and H3 was the larger half
+of Luke's only dedicated lane. Taking a ratified assignment silently would make the annex a description of what
+someone felt like doing. It is amended in the open, dated, with the original text struck through and legible.
+
+**State at the time of the ruling:** no `luke/*` branch existed and no H3 work had been started by anyone. The
+lane had been held since 2026-08-04 and the campaign could not close while it stayed open.
+
+**What this does NOT change:**
+
+- **Luke's remaining lane stands**: the H6/M-SB-D2 first-light spec (§4), plus test/fixture PRs anywhere in
+  `what/production/comic_*`.
+- **The review law is unchanged** (§2): anything Luke ships still lands via PR under Mondrian review.
+- **The gates stay the operator's**: spend and eye-gate were never in anyone's dev lane.
+- **§4's convergence is now one-directional**: H3's render subject is the mini-issue fallback, so an M-SB-D2
+  first light remains available as *its own* first light rather than as H3's subject. *(As of this amendment
+  no page has been rendered — the live run is blocked on Gemini billing credits, not on the lane.)*
+
+Amending an annex is a coordination act, so a memo to Berthier (who commissioned it at S105) is staged for a
+per-send GO: `who/coordination/coord_2026_08_09_mondrian_to_berthier_h3_lane_reassignment.md`.
 
 ## 4. First-light convergence (M-SB-D2 ↔ H3)
 
@@ -73,4 +98,13 @@ spec exists, Mondrian's mini-issue splash is the fallback subject (H3 does not b
 | Decision | Dev-lane annex v1 (flow · review law · lane split · first-light convergence) |
 | Ratified by | stanley (operator) — the per-send GO on the Berthier reply memo, given at the 2026-08-03 H2 plan approval |
 | Date | 2026-08-03 |
+| Status | **ratified** |
+
+**Amendment 1 — H3 lane reassignment (§3a):**
+
+| Field | Value |
+|-------|-------|
+| Decision | H3 owner `shared (Luke leads cloud lane)` -> `Mondrian`, in full |
+| Ratified by | stanley (operator) — the ruling given at the 2026-08-09 H3 plan gate |
+| Date | 2026-08-09 |
 | Status | **ratified** |
