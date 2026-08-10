@@ -139,7 +139,39 @@ Deliberately unbuilt while this spec was `proposed` — building against an unra
 | S-4 | Cross-vault: ADR-005 vocabulary confirmation with Argus before first emission — the signal shape is III's, not ours (§1 corollary) | coord memo to III.aDNA |
 | S-5 | Stale docstring: `iii_bridge.py` L230–231 cites "the 4 G-01 F3-migrated `C-NEW-*` entries"; the live store holds 2 `CANVAS-L-*` pattern entries | `iii_bridge.py` (fixed in this pass — see §6) |
 
+## 6a. Build status (S-1..S-4) — added 2026-08-09, H3
+
+Released by the ratification above and built the same session.
+
+| # | Status | Where |
+|---|--------|-------|
+| S-1 | ✅ **built** — `response_to_iii_signal()` + `fold_variant_responses()` + `is_reject()` | `canvas_core/rlhf/iii_bridge.py` |
+| S-2 | ✅ **built** — `response_id()` (`rej_YYYYMMDD_HHMMSS_<4hex>`); the dedup reader now accepts `selection_id` **or** `response_id` | `iii_bridge.py` |
+| S-3 | ✅ **built** — collector reject branch; `rejects` / `rejects_held` counts; §4.4 + decisions-log row 3 updated | `review_collect.py` |
+| S-4 | 🟡 **staged, and ENFORCED** — `coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md` (`staged_pending_GO`) | `who/coordination/` |
+
+**The S-4 gate is a mechanism, not a promise.** This spec required vocabulary confirmation *before
+first emission*, so `REJECT_VOCABULARY_CONFIRMED = False` in `iii_bridge.py` holds every reject
+signal out of the shared learning store: the signal is still built and counted (`rejects`), and
+held (`rejects_held`), and the rejection remains durable in `responses[]` regardless. Flip that one
+constant when Argus replies. Two tests assert the default holds — writing "we'll remember not to
+run it" into a spec is not the same as making it true.
+
+**The open question put to Argus** is `accepted`: we emit `true`, reading ADR-003 §4 as "this entry
+was admitted to the store" rather than "the reviewer accepted the image" (which lives in
+`rlhf_signal_type`). The two readings produce opposite training signal from the same line.
+
+Three consumer-namespace choices made Canvas-side (ADR-005 §3 rule 1 — ours to choose, but
+flagged): a **distinct trap** `image_generation_variant_reject` (folding rejects into the pick trap
+would let refusals accumulate toward "this register is working" under ADR-003 §3 graduation
+scoring) · **`response_id` not `selection_id`** (there is no `SelectionRecord` behind a reject, and
+naming one would be a lie the store cannot detect) · **`defect_tags` + `note` carried into the
+rationale**, with a bare reject saying explicitly that no reason was captured.
+
 ## 6. What this pass changed
+
+*(The H6 pass, 2026-08-09 — kept as written. Superseded on the same date by §6a, which records the
+H3 pass that built S-1..S-3 once the ratification released them.)*
 
 Documentation and one stale comment only. **No routing behavior changed**; a reject still writes no III signal
 until S-1..S-4 land under a ratified spec.

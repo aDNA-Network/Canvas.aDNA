@@ -366,3 +366,148 @@ class TestHelpers:
         assert " " not in p
         # Equivalence-class semantics (ADR-007 §3 footnote): no per-pick suffix.
         assert p == "image_gen_pick_r1_r3_implied_no_r11_on_cover"
+
+
+# ================================================================================================
+# S-1 / S-2 — the reject path (spec_rlhf_seam §4, ratified 2026-08-09)
+# ================================================================================================
+
+def _resp(aff, value, *, turn="t1", who="stanley", at="2026-08-09T12:00:00+00:00"):
+    return {"affordance": aff, "value": value, "turn": turn,
+            "participant": {"kind": "human", "id": who}, "at": at}
+
+
+REJECT_LOG = [
+    _resp("var_2.verdict", "reject"),
+    _resp("var_2.defect", "off-model"),
+    _resp("var_2.defect", "composition"),
+    _resp("var_2.note", "the face is wrong"),
+    _resp("var_1.verdict", "approve"),  # a different variant's row must not leak in
+]
+
+
+class TestFoldVariantResponses:
+    """The capture log scatters one judgement across several append-only rows."""
+
+    def test_gathers_only_the_named_variant(self):
+        view = iii_bridge.fold_variant_responses(REJECT_LOG, "var_2")
+        assert view["verdict"] == "reject"
+        assert view["note"] == "the face is wrong"
+
+    def test_multi_select_tags_accumulate(self):
+        # Each selected tag is its own response row (<vid>.defect, singular). Treating that
+        # affordance as if it carried a list is the obvious way to lose all but one tag.
+        view = iii_bridge.fold_variant_responses(REJECT_LOG, "var_2")
+        assert sorted(view["defect_tags"]) == ["composition", "off-model"]
+
+    def test_a_later_verdict_wins(self):
+        # The log is append-only: a changed mind is a NEW row, not an edit.
+        log = [*REJECT_LOG, _resp("var_2.verdict", "approve", at="2026-08-09T13:00:00+00:00")]
+        assert iii_bridge.fold_variant_responses(log, "var_2")["verdict"] == "approve"
+
+    def test_filters_by_participant_and_turn(self):
+        log = [*REJECT_LOG, _resp("var_2.verdict", "approve", who="someone_else")]
+        view = iii_bridge.fold_variant_responses(log, "var_2", participant_id="stanley")
+        assert view["verdict"] == "reject"
+        assert iii_bridge.fold_variant_responses(REJECT_LOG, "var_2", turn="t9") == {
+            "variant_id": "var_2", "defect_tags": []
+        }
+
+    def test_tolerates_malformed_rows(self):
+        view = iii_bridge.fold_variant_responses([None, {}, "x", *REJECT_LOG], "var_2")
+        assert view["verdict"] == "reject"
+
+
+class TestResponseToIiiSignal:
+    def _signal(self, log=None, **kw):
+        params = {
+            "variant_id": "var_2", "canvas_stem": "ss_variant_review", "session_id": "s1",
+            "register": "ss_character", "approver": "stanley", "turn": "t1",
+        }
+        params.update(kw)
+        return iii_bridge.response_to_iii_signal(log if log is not None else REJECT_LOG, **params)
+
+    def test_emits_the_constant_that_had_never_been_emitted(self):
+        # RLHF_SIGNAL_TYPE_REJECT was declared when this bridge was written and hard-coded away
+        # at the accept path. This is the assertion that it is finally reachable.
+        assert self._signal()["rlhf_signal_type"] == iii_bridge.RLHF_SIGNAL_TYPE_REJECT
+
+    def test_returns_none_for_an_approval(self):
+        # Ordinary outcome of asking, not an error: the collector walks every variant.
+        assert self._signal(variant_id="var_1") is None
+
+    def test_returns_none_when_the_variant_never_appears(self):
+        assert self._signal(variant_id="var_99") is None
+
+    def test_rationale_carries_the_tags_and_note(self):
+        # §4.5 — these are the CONTENT of the rejection; without them the signal says only "no".
+        example = self._signal()["example"]
+        assert "off-model" in example and "composition" in example
+        assert "the face is wrong" in example
+
+    def test_a_bare_reject_admits_it_has_no_reason(self):
+        signal = self._signal([_resp("var_2.verdict", "reject")])
+        assert "not captured" in signal["example"]
+
+    def test_derived_from_names_the_capture_substrate_not_schema_a(self):
+        ns = self._signal()["rlhf_consumer_namespace"]["canvasforge"]["image_generation"]
+        assert ns["derived_from"] == "interaction.responses"
+
+    def test_carries_response_id_and_never_a_fabricated_selection_id(self):
+        # A reject has no SelectionRecord. Writing its id into the selection_id slot would name a
+        # record that does not exist, and the store could not detect the lie.
+        ns = self._signal()["rlhf_consumer_namespace"]["canvasforge"]["image_generation"]
+        assert ns["response_id"].startswith("rej_")
+        assert "selection_id" not in ns
+
+    def test_uses_a_distinct_trap_from_the_pick_trap(self):
+        # ADR-003 §3 graduation scores on (trap, pattern) frequency — folding rejects into the
+        # pick trap would let refusals accumulate toward "this register is working".
+        assert self._signal()["trap"] == iii_bridge.TRAP_IMAGE_GENERATION_VARIANT_REJECT
+        assert self._signal()["trap"] != iii_bridge.TRAP_IMAGE_GENERATION_VARIANT_PICK
+
+    def test_is_deterministic_across_runs(self):
+        assert self._signal() == self._signal()
+
+    def test_id_changes_with_the_variant(self):
+        log = [*REJECT_LOG, _resp("var_3.verdict", "reject")]
+        a = self._signal(log)["id"]
+        b = self._signal(log, variant_id="var_3")["id"]
+        assert a != b
+
+
+class TestRejectAccumulation:
+    def test_accumulate_accepts_a_reject_and_dedups_it(self, tmp_path):
+        store = tmp_path / "store.jsonl"
+        signal = iii_bridge.response_to_iii_signal(
+            REJECT_LOG, variant_id="var_2", canvas_stem="c", session_id="s1",
+            register="ss_character", approver="stanley", turn="t1",
+        )
+        assert iii_bridge.accumulate(signal, store_path=store) is True
+        assert iii_bridge.accumulate(signal, store_path=store) is False  # S-2 idempotency
+        assert len(store.read_text().strip().splitlines()) == 1
+
+    def test_dedup_sees_both_key_families(self, tmp_path):
+        store = tmp_path / "store.jsonl"
+        reject = iii_bridge.response_to_iii_signal(
+            REJECT_LOG, variant_id="var_2", canvas_stem="c", session_id="s1",
+            register="ss_character", approver="stanley", turn="t1",
+        )
+        iii_bridge.accumulate(reject, store_path=store)
+        keys = iii_bridge._existing_selection_ids(store)
+        assert keys == {reject["rlhf_consumer_namespace"]["canvasforge"]["image_generation"]["response_id"]}
+
+    def test_a_signal_with_neither_key_is_refused(self, tmp_path):
+        with pytest.raises(ValueError, match="response_id"):
+            iii_bridge.accumulate({"id": "x"}, store_path=tmp_path / "store.jsonl")
+
+    def test_heterogeneous_store_lines_are_ignored_not_misread(self, tmp_path):
+        # spec_rlhf_seam §2a: the live store also holds a _meta header and CANVAS-L-* pattern
+        # entries. They carry neither key and must not corrupt the idempotency check.
+        store = tmp_path / "store.jsonl"
+        store.write_text(
+            '{"_meta": "header"}\n'
+            '{"id": "CANVAS-L-001", "pattern": "x"}\n'
+            'not json at all\n'
+        )
+        assert iii_bridge._existing_selection_ids(store) == set()

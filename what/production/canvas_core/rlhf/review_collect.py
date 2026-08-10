@@ -6,20 +6,24 @@ sidecar **frontmatter**; ``enableJs: false``); this collector then fans each ver
 1. **Canvas** — one ``apply_response`` per answered control (``canvas_context.interaction`` — the ratified
    append-only fold; the collector owns the single disk write-back the pure function doesn't do);
 2. **Schema-A** — a ``SelectionRecord`` per **approved** variant into the real corpus
-   (``what/artifacts/image_gen_dataset/``; reject-only sessions write none — Schema-A structurally requires a
-   pick, and the III bridge's charter is ``accept``-only; the rejection signal stays durable in
-   ``interaction.responses[]`` + the sidecars. **The reject→III seam was RULED at H6 (2026-08-09):** a reject
-   SHALL route to III as ``rlhf_signal_type: reject`` derived from ``responses[]`` (not from Schema-A, which
-   cannot express "no pick"); Schema-A stays approval-only. See ``what/specs/spec_rlhf_seam.md`` §4.
-   **Not yet implemented** — that is follow-up S-1..S-3, deliberately held until the seam spec is ratified,
-   so the behavior described above is still exactly what this module does today);
-3. **III** — ``selection_to_iii_signal`` + ``accumulate`` into the live learning store.
+   (``what/artifacts/image_gen_dataset/``). Reject-only sessions still write none, and that is correct:
+   Schema-A structurally requires a pick, so it stays **approval-only** — no schema change, no migration;
+3. **III** — both verdicts now reach the learning store, by two different routes:
+   - an **approve** via ``selection_to_iii_signal`` (keyed on its Schema-A ``selection_id``);
+   - a **reject** via ``response_to_iii_signal`` (S-1, keyed on a ``response_id`` derived from the canvas
+     ``responses[]`` themselves — there is no ``SelectionRecord`` behind a reject to borrow an id from).
+
+   Until S-1..S-3 landed (2026-08-09, on the ratification of ``what/specs/spec_rlhf_seam.md`` §4) a
+   reject-only pass produced **no III signal at all**: ``RLHF_SIGNAL_TYPE_REJECT`` had been declared since
+   the bridge was written and was never emitted. The rejection was durable in ``responses[]`` and invisible
+   to every learning consumer — which lost the stronger of the two signals, since "none of these is
+   acceptable" tells a generation pipeline more than "this one is best".
 
 Idempotency is layered (spec §4.3): the sidecar ``collected_at`` ledger (primary; ``--force`` or clearing it
 re-opens a variant) → the response dedup key ``(affordance, value, participant.id, turn)`` (an identical replay
-is a no-op even with a lost ledger) → the deterministic ``selection_id`` + existence check (no duplicate dataset
-records / audit lines) → ``accumulate``'s native ``selection_id`` dedup. A mid-run crash self-heals on re-run
-(per-variant writes are ordered canvas → dataset → III → ledger-last).
+is a no-op even with a lost ledger) → the deterministic ``selection_id`` / ``response_id`` + existence check (no
+duplicate dataset records / audit lines) → ``accumulate``'s native dedup on whichever key is present. A mid-run
+crash self-heals on re-run (per-variant writes are ordered canvas → dataset → III → ledger-last).
 
 Participant attribution is honest by construction: ``--participant-kind ai`` marks agent plumbing runs
 (``{kind: "ai"}``) — agent-simulated verdicts are never recorded as human signal.
@@ -39,7 +43,13 @@ from typing import Any
 import yaml
 
 from .backprop import write_selection
-from .iii_bridge import DEFAULT_LEARNING_STORE, accumulate, selection_to_iii_signal
+from .iii_bridge import (
+    DEFAULT_LEARNING_STORE,
+    REJECT_VOCABULARY_CONFIRMED,
+    accumulate,
+    response_to_iii_signal,
+    selection_to_iii_signal,
+)
 from .selection import SelectionRecord, VariantInfo
 
 _VAULT_ROOT = Path(__file__).resolve().parents[4]
@@ -153,6 +163,14 @@ def _selection_id(stamp_iso: str, canvas_stem: str, variant_id: str, approver: s
     return f"sel_{stamp}_{digest}"
 
 
+def _responses_of(doc: dict[str, Any]) -> list[dict[str, Any]]:
+    """The append-only capture log — the reject signal's only source (spec_rlhf_seam §4.3)."""
+    return (
+        doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {})
+        .get("interaction", {}).get("responses", [])
+    )
+
+
 def _first_verdict_at(doc: dict[str, Any], vid: str, participant_id: str, turn: str) -> str | None:
     """The earliest logged verdict-response ``at`` for this variant/participant/turn — makes the selection
     stamp (and so the selection_id) survive a LOST sidecar ledger: the canvas is the fallback clock."""
@@ -202,11 +220,22 @@ def collect(
     turn: str | None = None,
     dry_run: bool = False,
     force: bool = False,
+    emit_rejects: bool | None = None,
 ) -> dict[str, int]:
-    """Run one collection pass. Returns counts ``{variants, responses, selections, iii_lines, skipped}``."""
+    """Run one collection pass.
+
+    Returns counts ``{variants, responses, selections, rejects, rejects_held, iii_lines, skipped}``.
+
+    ``emit_rejects`` defaults to ``iii_bridge.REJECT_VOCABULARY_CONFIRMED`` — the S-4 gate. While
+    it is False the reject signal is still *built* (and counted under ``rejects``), but held back
+    from the learning store and counted under ``rejects_held``; the rejection itself is already
+    durable in ``responses[]``, so holding costs a re-run and nothing else.
+    """
     interaction = _ensure_canvas_context()
     if not approver:
         raise ValueError("an --approver is required (no silent default identity)")
+    if emit_rejects is None:
+        emit_rejects = REJECT_VOCABULARY_CONFIRMED
 
     doc = json.loads(canvas_path.read_text(encoding="utf-8"))
     block = doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {}).get("interaction")
@@ -225,7 +254,12 @@ def collect(
     participant = {"kind": participant_kind, "id": approver}
     now_iso = datetime.now(timezone.utc).isoformat()
 
-    counts = {"variants": 0, "responses": 0, "selections": 0, "iii_lines": 0, "skipped": 0}
+    counts = {
+        "variants": 0, "responses": 0, "selections": 0,
+        "rejects": 0,        # S-3: rejects produce an III signal and NO Schema-A record
+        "rejects_held": 0,   # S-4 gate: built but not emitted, pending Argus's vocabulary reply
+        "iii_lines": 0, "skipped": 0,
+    }
     for index, (path, fm, body) in enumerate(sidecars):
         if not fm.get("verdict"):
             counts["skipped"] += 1
@@ -277,13 +311,42 @@ def collect(
             elif not existing.exists():
                 counts["selections"] += 1  # dry-run: would write
 
-            # (c) III sink — accept-only by bridge charter; natively idempotent on selection_id.
+            # (c) III sink — the accept path; natively idempotent on selection_id.
             signal = selection_to_iii_signal(record, session_id=session_id)
             if dry_run:
                 if sid not in _existing_store_ids(store_path):
                     counts["iii_lines"] += 1
             elif accumulate(signal, store_path=store_path):
                 counts["iii_lines"] += 1
+        else:
+            # (b') REJECT path — S-1..S-3, spec_rlhf_seam §4 (ratified 2026-08-09). No Schema-A
+            # record (it structurally requires a pick), and the signal is derived from the canvas
+            # responses[] we just appended — not from a dataset record that does not exist.
+            reject_signal = response_to_iii_signal(
+                _responses_of(doc),
+                variant_id=str(fm["variant_id"]),
+                canvas_stem=canvas_path.stem,
+                session_id=session_id,
+                register=register,
+                approver=approver,
+                turn=turn,
+                prompt=str(fm.get("prompt") or ""),
+            )
+            if reject_signal is not None:
+                counts["rejects"] += 1
+                rid = reject_signal["rlhf_consumer_namespace"]["canvasforge"]["image_generation"][
+                    "response_id"
+                ]
+                # S-4 gate: the signal shape is III's, so nothing reaches the store until Argus
+                # confirms the `accepted` semantics. The rejection is already durable in
+                # responses[] either way — holding the III write loses nothing but a re-run.
+                if not emit_rejects:
+                    counts["rejects_held"] += 1
+                elif dry_run:
+                    if rid not in _existing_store_ids(store_path):
+                        counts["iii_lines"] += 1
+                elif accumulate(reject_signal, store_path=store_path):
+                    counts["iii_lines"] += 1
 
         # ledger last — a crash before this line re-runs clean (layers 2–4 dedup the replay).
         if not dry_run:
@@ -335,6 +398,7 @@ def _main(argv: list[str] | None = None) -> int:
     print(
         f"review-collect ({mode}): {counts['variants']} variant(s) collected · "
         f"responses appended: {counts['responses']} · selections: {counts['selections']} · "
+        f"rejects: {counts['rejects']} (held: {counts['rejects_held']}) · "
         f"iii lines: {counts['iii_lines']} · skipped: {counts['skipped']}"
     )
     return 0

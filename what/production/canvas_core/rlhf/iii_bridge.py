@@ -51,6 +51,7 @@ Created in M-V1-2-E-01 S1.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -78,6 +79,11 @@ RLHF_SIGNAL_TYPE_ACCEPT_WITH_MODIFICATION = "accept_with_modification"
 # a consumer-specific extension). Distinguished from the canvas-visual traps
 # loaded via the bridge_pack (CV-*).
 TRAP_IMAGE_GENERATION_VARIANT_PICK = "image_generation_variant_pick"
+
+# The reject counterpart (S-1, spec_rlhf_seam §4). A separate trap rather than a flag on the pick
+# trap: ADR-003 §3 graduation scores on ``(trap, pattern)`` frequency, and folding rejects into the
+# pick trap would let "this variant was refused" accumulate toward "this register is working".
+TRAP_IMAGE_GENERATION_VARIANT_REJECT = "image_generation_variant_reject"
 
 # Entry id prefix — C-CFE-* (CanvasForge Pillar E); distinguishes bridge-emitted
 # entries from G-01 F3-migrated entries (C-NEW-*) and from canonical entries
@@ -218,23 +224,215 @@ def selection_to_iii_signal(sel: SelectionRecord, *, session_id: str) -> dict[st
     return entry
 
 
+# ============================================================================================
+# S-1 / S-2 — the reject path (spec_rlhf_seam §4, ratified 2026-08-09)
+#
+# Why this exists: ``RLHF_SIGNAL_TYPE_REJECT`` was declared when this bridge was written and was
+# never emitted — line 190 below hard-codes ``accept``. Combined with Schema-A structurally
+# requiring a pick, a reject-only review pass produced no Schema-A record and therefore **no III
+# signal at all**. The rejection stayed durable in ``responses[]`` and invisible to every learning
+# consumer. "None of these six is acceptable" is a stronger preference signal than "this one is
+# best", and it was the one being dropped.
+#
+# The routing rule (§1): a reject signal derives from ``responses[]``, NOT from Schema-A. Schema-A
+# stays approval-only and unchanged — no schema edit, no migration.
+# ============================================================================================
+
+REJECT_VERDICTS = frozenset({"reject", "rejected", "no", "decline", "declined"})
+
+# S-4 GATE. spec_rlhf_seam §5 requires ADR-005 vocabulary confirmation with Argus (III.aDNA)
+# **before first emission** — the signal shape is III's, not ours (§1 corollary). Specifically:
+# whether ``accepted`` means "this entry was admitted to the store" (our reading, so ``true`` on a
+# reject) or "the reviewer accepted the image" (in which case a reject must carry ``false``). The
+# two readings produce opposite training signal from the same line.
+#
+# So the reject path is BUILT and TESTED but does not write to the shared store by default. This is
+# a guard rather than a note-to-self because "we'll remember not to run it" is not a mechanism.
+# Flip to True when the reply to
+# ``who/coordination/coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md`` lands.
+REJECT_VOCABULARY_CONFIRMED = False
+
+# The collector emits ONE response per selected defect tag on ``<vid>.defect`` (singular) — the
+# multi-select control fans out rather than logging a list (review-surface spec §2).
+DEFECT_AFFORDANCE_SUFFIX = "defect"
+
+
+def response_id(
+    canvas_stem: str, variant_id: str, approver: str, turn: str, at: str
+) -> str:
+    """Deterministic dedup key for a reject signal (S-2): ``rej_YYYYMMDD_HHMMSS_<4hex>``.
+
+    Mirrors ``review_collect._selection_id``'s shape so the two id families read alike in the
+    store, with a distinct prefix so they can never be confused. Derived entirely from the
+    response's own coordinates, which is what makes re-collecting the same verdict a no-op.
+    """
+    stamp = datetime.fromisoformat(at).strftime("%Y%m%d_%H%M%S")
+    digest = hashlib.sha256(
+        f"{canvas_stem}|{variant_id}|{approver}|{turn}".encode()
+    ).hexdigest()[:4]
+    return f"rej_{stamp}_{digest}"
+
+
+def fold_variant_responses(
+    responses: list[dict[str, Any]],
+    variant_id: str,
+    *,
+    participant_id: str | None = None,
+    turn: str | None = None,
+) -> dict[str, Any]:
+    """Gather the per-affordance ``responses[]`` entries for one variant into one verdict view.
+
+    The capture substrate logs one entry per *affordance* (``<vid>.verdict``, ``<vid>.rating``,
+    ``<vid>.defect_tags``, ``<vid>.note``), so a single human judgement is scattered across
+    several append-only rows. This folds them back into the judgement that was actually made.
+
+    Later entries win on scalar fields (the log is append-only, so a corrected verdict appears as
+    a *new* row rather than an edit); defect tags accumulate, since the control is multi-select and
+    the collector logs **one response per tag** (``<vid>.defect``, singular — spec §2). Reading
+    that affordance as if it carried a list is the obvious way to get this wrong.
+    """
+    view: dict[str, Any] = {"variant_id": variant_id, "defect_tags": []}
+    prefix = f"{variant_id}."
+    for entry in responses:
+        if not isinstance(entry, dict):
+            continue
+        aff = str(entry.get("affordance") or "")
+        if not aff.startswith(prefix):
+            continue
+        if turn is not None and entry.get("turn") != turn:
+            continue
+        if participant_id is not None and (
+            (entry.get("participant") or {}).get("id") != participant_id
+        ):
+            continue
+        field = aff[len(prefix):]
+        value = entry.get("value")
+        if field == DEFECT_AFFORDANCE_SUFFIX:
+            if value not in (None, "") and value not in view["defect_tags"]:
+                view["defect_tags"].append(value)
+        else:
+            view[field] = value
+        if entry.get("at") and (field == "verdict" or "at" not in view):
+            view["at"] = str(entry["at"]) if field == "verdict" else view.get("at", str(entry["at"]))
+    return view
+
+
+def is_reject(view: dict[str, Any]) -> bool:
+    return str(view.get("verdict") or "").strip().lower() in REJECT_VERDICTS
+
+
+def _reject_rationale(view: dict[str, Any]) -> str:
+    """The rationale field — ``defect_tags`` + ``note`` are the CONTENT of the rejection (§4.5).
+
+    Without them a reject signal says only "no", which is not learnable. With them it says what
+    was wrong, which is the whole reason the ruling routes rejects to III at all.
+    """
+    parts = ["verdict=reject"]
+    tags = view.get("defect_tags") or []
+    if tags:
+        parts.append(f"defects={list(tags)}")
+    if view.get("rating") not in (None, ""):
+        parts.append(f"rating={view['rating']}/5")
+    note = str(view.get("note") or "").strip()
+    if note:
+        parts.append(f"note={note[:200]!r}")
+    if not tags and not note:
+        parts.append("no defect tags or note given — rejection reason not captured")
+    return "; ".join(parts)
+
+
+def response_to_iii_signal(
+    responses: list[dict[str, Any]],
+    *,
+    variant_id: str,
+    canvas_stem: str,
+    session_id: str,
+    register: str,
+    approver: str,
+    turn: str,
+    prompt: str = "",
+) -> dict[str, Any] | None:
+    """``responses[]`` -> an ADR-005 reject signal, or None when this variant was not rejected.
+
+    Returning None rather than raising is deliberate: the collector walks every variant, and "this
+    one was approved" is an ordinary outcome of asking, not an error.
+    """
+    view = fold_variant_responses(responses, variant_id, participant_id=approver, turn=turn)
+    if not is_reject(view):
+        return None
+    at = _normalize_iso8601_utc(str(view.get("at") or datetime.now(timezone.utc).isoformat()))
+    rid = response_id(canvas_stem, variant_id, approver, turn, at)
+
+    entry: dict[str, Any] = {
+        "id": f"{ENTRY_ID_PREFIX}{rid}",
+        "trap": TRAP_IMAGE_GENERATION_VARIANT_REJECT,
+        "pattern": f"image_gen_reject_{_derive_pattern(register).removeprefix('image_gen_pick_')}",
+        "description": (
+            f"Operator rejected image variant {variant_id} for register {register}"
+        ),
+        "example": _truncate(_reject_rationale(view)),
+        "source_review": f"HR review surface {canvas_stem}",
+        "source_finding": rid,
+        "frequency": 1,
+        # NOTE (S-4, the open question for Argus): ``accepted`` is an ADR-003 §4 field meaning the
+        # correction-entry was accepted INTO the store — it is not the operator's verdict, which
+        # lives in ``rlhf_signal_type``. True here means "this is a valid learning entry", not
+        # "the image was accepted". If III reads it the other way, this is the field to change.
+        "accepted": True,
+        "created": at[:10],
+        "rlhf_signal_type": RLHF_SIGNAL_TYPE_REJECT,
+        "rlhf_session_id": session_id,
+        "rlhf_captured_at": at,
+        "rlhf_reviewer_persona": approver,
+    }
+    entry["rlhf_consumer_namespace"] = {
+        "canvasforge": {
+            "image_generation": {
+                "prompt": prompt,
+                "register": register,
+                "variant_id": variant_id,
+                "verdict": "reject",
+                "defect_tags": list(view.get("defect_tags") or []),
+                "note": str(view.get("note") or ""),
+                "rating": view.get("rating"),
+                # The dedup key. NOT ``selection_id``: there is no SelectionRecord behind a
+                # reject, and naming one would be a lie the store cannot detect.
+                "response_id": rid,
+                "derived_from": "interaction.responses",
+                "bridge_module": "canvas_core.rlhf.iii_bridge",
+            }
+        }
+    }
+    return entry
+
+
 def _consumer_namespace_selection_id(entry: dict[str, Any]) -> str | None:
-    """Extract selection_id from the nested consumer-namespace projection."""
-    return (
+    """Extract the dedup key from the nested consumer-namespace projection.
+
+    Two keys can carry it, and which one is present says what kind of signal this is:
+
+    - ``selection_id`` — an **accept**, keyed by its Schema-A ``SelectionRecord``.
+    - ``response_id``  — a **reject** (S-2), keyed by a deterministic id derived from the
+      ``responses[]`` entries themselves. A reject has no ``SelectionRecord`` to borrow an id from
+      (Schema-A structurally requires a pick), and writing its id into the ``selection_id`` slot
+      would name a record that does not exist. Separate key, same slot in the dedup logic.
+    """
+    ns = (
         entry.get("rlhf_consumer_namespace", {})
         .get("canvasforge", {})
         .get("image_generation", {})
-        .get("selection_id")
     )
+    return ns.get("selection_id") or ns.get("response_id")
 
 
 def _existing_selection_ids(store_path: Path) -> set[str]:
-    """Read jsonl and collect ``selection_id`` values already present.
+    """Read jsonl and collect the dedup keys already present (``selection_id`` OR ``response_id``).
 
-    Used by ``accumulate`` for idempotency (refuse to double-append). Lines
-    that fail to parse or carry no consumer-namespace ``selection_id`` are
-    silently skipped — pre-existing entries (e.g., the 4 G-01 F3-migrated
-    ``C-NEW-*`` entries) don't carry one and are correctly ignored.
+    Used by ``accumulate`` for idempotency (refuse to double-append). Lines that fail to parse or
+    carry neither key are silently skipped — the store is **heterogeneous by design**
+    (spec_rlhf_seam §2a): it also holds a ``_meta`` header and III learning-pattern entries
+    (``CANVAS-L-*``), which carry no consumer-namespace key and are correctly ignored rather than
+    corrupting the check.
     """
     if not store_path.exists():
         return set()
@@ -270,7 +468,8 @@ def accumulate(
     selection_id = _consumer_namespace_selection_id(signal)
     if not selection_id:
         raise ValueError(
-            "signal missing rlhf_consumer_namespace.canvasforge.image_generation.selection_id"
+            "signal missing rlhf_consumer_namespace.canvasforge.image_generation."
+            "{selection_id|response_id}"
         )
     existing = _existing_selection_ids(store_path)
     if selection_id in existing:
