@@ -75,60 +75,51 @@ class VisionClient(Protocol):
 
 
 class GeminiVisionAdapter:
-    """Gemini 2.5 Flash vision adapter (default).
+    """Gemini vision adapter (default), bound to the shared Google model layer.
 
-    Requires ``google-generativeai`` SDK.  Guarded — raises
-    RuntimeError if the SDK is not installed.
+    **Migrated 2026-08-10.** This was the fleet's last consumer of ``google.generativeai`` — the
+    retired standalone SDK — and it pinned ``gemini-2.5-flash`` as a literal, three generations
+    behind what the service now offers. Both problems were the same problem: a call site holding its
+    own model knowledge. Model resolution, credential lanes and pricing now come from
+    ``Home.aDNA/what/code/googleai/``.
+
+    There is no separate "vision model": Gemini models are natively multimodal, so a vision call is
+    a text call with image parts. ``model`` is a capability alias (``text.flash``), not an ID.
     """
 
-    model_id: str = "gemini-2.5-flash"
+    model_id: str = "text.flash"
 
-    def __init__(self, model: str = "gemini-2.5-flash", api_key: str | None = None):
+    def __init__(self, model: str = "text.flash", api_key: str | None = None):
         self.model_id = model
-        self._api_key = api_key
+        self._api_key = api_key  # accepted for back-compat; lane resolution is the shared layer's
 
     def analyze(self, request: VisionRequest) -> VisionResponse:
-        """Call Gemini vision API with screenshot images."""
+        """Call the vision model with screenshot images."""
         t0 = time.monotonic()
         try:
-            import google.generativeai as genai  # type: ignore[import-untyped]
-        except ImportError:
-            return VisionResponse(
-                success=False,
-                error="google-generativeai SDK not installed",
-                model_id=self.model_id,
-            )
+            googleai = _require_googleai()
+        except ImportError as exc:
+            return VisionResponse(success=False, error=str(exc), model_id=self.model_id)
 
         try:
-            if self._api_key:
-                genai.configure(api_key=self._api_key)
-
-            model = genai.GenerativeModel(self.model_id)
-
-            # Build multimodal content: images + prompt.
-            from PIL import Image  # type: ignore[import-untyped]
-
-            parts: list[Any] = []
-            for img_path in request.images:
-                parts.append(Image.open(img_path))
-            parts.append(request.prompt)
-
-            response = model.generate_content(parts)
-            raw = response.text
-
-            # Parse structured findings from JSON in response.
-            findings = _parse_findings_json(raw)
-            duration = time.monotonic() - t0
-
+            client = googleai.get_client()
+            result = client.generate_text(
+                request.prompt, model=self.model_id, images=list(request.images)
+            )
+            if not result.get("success"):
+                return VisionResponse(
+                    success=False, error=result.get("error", "unknown"),
+                    duration_s=time.monotonic() - t0, model_id=self.model_id,
+                )
+            raw = result["text"]
             return VisionResponse(
                 raw_text=raw,
-                parsed_findings=findings,
+                parsed_findings=_parse_findings_json(raw),
                 cost_usd=_estimate_gemini_cost(request, raw),
-                duration_s=duration,
-                model_id=self.model_id,
+                duration_s=time.monotonic() - t0,
+                model_id=result.get("model", self.model_id),
                 success=True,
             )
-
         except Exception as exc:
             _log.warning("Gemini vision call failed: %s", exc)
             return VisionResponse(
@@ -216,20 +207,61 @@ class ClaudeVisionAdapter:
 # Helpers
 # ---------------------------------------------------------------------------
 
-# Known adapter map for convenience.
+# Known adapter map. Google entries are CAPABILITY ALIASES resolved by the shared registry, not
+# model IDs — which is why a Google model can be superseded without touching this file. The legacy
+# `gemini-2.5-flash` literal is retained as a key so existing callers keep working; it resolves
+# through the same registry.
 VISION_ADAPTERS: dict[str, type] = {
-    "gemini-2.5-flash": GeminiVisionAdapter,
+    "text.flash": GeminiVisionAdapter,
+    "text.pro": GeminiVisionAdapter,
+    "text.lite": GeminiVisionAdapter,
+    "gemini-2.5-flash": GeminiVisionAdapter,   # legacy pin, still resolvable
     "claude-sonnet-vision": ClaudeVisionAdapter,
     "claude-opus-vision": ClaudeVisionAdapter,
 }
 
+DEFAULT_VISION_MODEL = "text.flash"
 
-def get_vision_client(model: str = "gemini-2.5-flash", **kwargs: Any) -> VisionClient:
-    """Construct a vision client by model name."""
+
+def get_vision_client(model: str = DEFAULT_VISION_MODEL, **kwargs: Any) -> VisionClient:
+    """Construct a vision client by capability alias (or a legacy model name)."""
     adapter_cls = VISION_ADAPTERS.get(model)
     if adapter_cls is None:
         raise ValueError(f"Unknown vision model: {model!r}. Known: {list(VISION_ADAPTERS)}")
     return adapter_cls(model=model, **kwargs)  # type: ignore[call-arg]
+
+
+def _require_googleai() -> Any:
+    """Reach the shared Google model layer (Home.aDNA, local-by-default, unpackaged).
+
+    Mirrors ``canvas_core/rlhf/review_collect.py::_ensure_canvas_context`` — the vault's established
+    way to reach an unpackaged sibling shelf — and fails with a message naming the dependency rather
+    than a bare ModuleNotFoundError.
+    """
+    import os
+    import sys
+    from importlib.util import find_spec
+    from pathlib import Path
+
+    if find_spec("googleai") is None:
+        override = os.environ.get("GOOGLEAI_PATH")
+        root = Path(override) if override else None
+        if root is None:
+            for parent in Path(__file__).resolve().parents:
+                candidate = parent / "Home.aDNA" / "what" / "code"
+                if (candidate / "googleai" / "__init__.py").exists():
+                    root = candidate
+                    break
+        if root is None or not (root / "googleai" / "__init__.py").exists():
+            raise ImportError(
+                "the shared Google model layer (Home.aDNA/what/code/googleai) was not found. "
+                "It is local-by-default, so a node without Home.aDNA does not have it. Set "
+                "GOOGLEAI_PATH, or use a non-Google vision adapter."
+            )
+        sys.path.append(str(root))  # append, never insert(0) — Home's shelf must not shadow
+    import googleai
+
+    return googleai
 
 
 def _parse_findings_json(raw_text: str) -> list[dict]:
