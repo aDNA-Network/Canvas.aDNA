@@ -59,6 +59,21 @@ Core specification documents that define the aDNA (Agentic DNA) knowledge archit
 
 **Token cost**: ~300 tokens (this AGENTS.md). Individual docs are 2,000-8,000 tokens each — load selectively.
 
+## Canvas-era docs (partial — see the note)
+
+> ⚠️ **The table above is inherited scaffold and predates this vault's own docs** (last touched 2026-03-19 by
+> `agent_init`). It lists none of the Canvas-authored documents actually in this directory —
+> `canvas_standard_explainer.md`, `canvas_authoring_guidance.md`, `canvas_producer_quickstart.md`,
+> `comic_prompt_contract.md`, `federation_walkthrough.md` and others. The two comic contracts are indexed here
+> because H6 authored one of them; **a full index refresh is an open follow-up**, deliberately not done
+> half-way in this pass.
+
+| Document | Audience | Purpose |
+|----------|----------|---------|
+| `comic_authoring_contract.md` | comic spec **authors** | The `ComicInput` schema you write: pages/panels, the character bible + pair-gated asset channel, aspect/DPI/colour policy, the build commands, the three checks. Contract-only (T3′ lock). **New at Halftone H6.** |
+| `comic_prompt_contract.md` | **render-side consumers** | Its sibling from the other side: the 6-layer prompt assembly, `prompt_layers` channels (incl. the separate negative), the dual-prompt wrapper, aspect ratios, the forward contract to the render bridge. |
+| `canvas_authoring_guidance.md` | anyone authoring a `.canvas` | The real Obsidian geometry numbers, the five authoring rules, the three checks in order, and the `--profile comic` rule for comic pages. |
+
 ## Reading Order (for federation & interop)
 
 For agents working on cross-instance lattice composition, the recommended reading order is:
