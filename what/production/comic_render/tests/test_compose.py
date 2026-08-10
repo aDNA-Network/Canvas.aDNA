@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 
 import pytest
-from canvas_core.print import BLEED_PX_H, BLEED_PX_W, PrintExporter
+from canvas_core.print import BLEED_PX_H, BLEED_PX_W, BLEED_WIDTH, PrintExporter
 
 from comic_render.compose import build_shim, run_compose
 from comic_render.dispatch import run_generate
@@ -90,11 +90,78 @@ def test_compose_requires_writeback(planned):
         run_compose(manifest, mpath)
 
 
-def test_spread_panels_deferred_to_h6(written):
-    manifest, mpath, _ = written
+def _spread_doc(manifest, mpath):
+    """The rendered canvas with the splash widened into a two-page spread."""
     rendered = rendered_canvas_path_for(mpath.parent / manifest.source_canvas)
     doc = json.loads(rendered.read_text())
     node = next(n for n in doc["nodes"] if n["id"] == SPLASH_ID)
     node["width"] = 1400  # wider than 1.5 bleed pages → a two-page spread
-    with pytest.raises(NotImplementedError, match="H6"):
-        build_shim(doc, manifest, vault_root=resolve_vault_root(rendered))
+    return doc, rendered
+
+
+def test_spread_panel_composes_at_h6(written):
+    """H6 inverts the H2 deferral: a spread builds instead of raising.
+
+    Was ``test_spread_panels_deferred_to_h6`` (asserted NotImplementedError).
+    """
+    manifest, mpath, _ = written
+    doc, rendered = _spread_doc(manifest, mpath)
+    shim = build_shim(doc, manifest, vault_root=resolve_vault_root(rendered))
+
+    panel = shim.get_panel(SPLASH_ID)
+    assert panel is not None
+    # Emitted at the COMBINED bleed width so the placement marks it is_spread.
+    assert panel.width == BLEED_WIDTH * 2
+    assert panel.bleed is True
+
+    exporter = PrintExporter(shim, mpath.parent / "unused", issue_name=manifest.comic_id)
+    placement = next(
+        p for s in exporter.build_page_specs() for p in s.panel_placements
+        if p.panel_id == SPLASH_ID
+    )
+    assert placement.is_spread is True
+    assert placement.width == BLEED_PX_W * 2
+    assert placement.height == BLEED_PX_H
+
+
+def test_spread_export_splits_into_two_page_halves(written, tmp_path):
+    """export_spread is REACHABLE from export_all (it never was before H6).
+
+    The pre-H6 bug this pins: export_all only ever called export_page, so a
+    spread exported as two independent pages that each fit the whole spread
+    image into one page's width — squashed, silently.
+    """
+    manifest, mpath, _ = written
+    doc, rendered = _spread_doc(manifest, mpath)
+    shim = build_shim(doc, manifest, vault_root=resolve_vault_root(rendered))
+
+    exporter = PrintExporter(shim, tmp_path / "pages", issue_name=manifest.comic_id, cmyk=False)
+    results = exporter.export_all()
+
+    # Page count is unchanged — a spread is still two printed pages.
+    assert len(results) == PAGE_COUNT
+    halves = [r for r in results if r.is_spread_half]
+    assert len(halves) == 2, "the spread must yield exactly two halves"
+    assert [h.page_number for h in halves] == [1, 2]
+    for h in halves:
+        assert (h.width, h.height) == (BLEED_PX_W, BLEED_PX_H)
+
+    report = (tmp_path / "pages" / "export_report.md").read_text()
+    assert "Spread halves" in report and "2" in report
+
+
+def test_spread_on_last_page_exports_rather_than_dropping(written, tmp_path):
+    """A spread with no partner page is a warning, not a lost page."""
+    manifest, mpath, _ = written
+    rendered = rendered_canvas_path_for(mpath.parent / manifest.source_canvas)
+    doc = json.loads(rendered.read_text())
+    last_panel_id = manifest.panels[-1].panel_id
+    node = next(n for n in doc["nodes"] if n["id"] == last_panel_id)
+    node["width"] = 1400
+    shim = build_shim(doc, manifest, vault_root=resolve_vault_root(rendered))
+
+    exporter = PrintExporter(shim, tmp_path / "pages", issue_name=manifest.comic_id, cmyk=False)
+    results = exporter.export_all()
+
+    assert len(results) == PAGE_COUNT  # nothing dropped
+    assert any("no following page" in w for r in results for w in r.warnings)

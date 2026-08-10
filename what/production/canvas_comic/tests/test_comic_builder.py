@@ -347,7 +347,12 @@ class TestPrintIntegration:
         p1 = cpb.add_page(1)
         cpb.standard_grid(p1)
         with tempfile.TemporaryDirectory() as tmpdir:
-            exporter = PrintExporter(cpb, tmpdir)
+            # cmyk=False is explicit since Halftone H6: the constructor now
+            # resolves the ICC colour policy up front and refuses CMYK it
+            # cannot produce reproducibly. This test is about duck typing, not
+            # colour — without this it would pass here (macOS has ColorSync
+            # profiles) and raise on a host that does not.
+            exporter = PrintExporter(cpb, tmpdir, cmyk=False)
             assert exporter is not None
 
     def test_panel_attributes_match_print_contract(self):

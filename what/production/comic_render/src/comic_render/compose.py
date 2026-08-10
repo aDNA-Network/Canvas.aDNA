@@ -107,10 +107,17 @@ def build_shim(
             image_path = str(resolved) if resolved.exists() else None
 
         if node.get("width", 0) > BLEED_WIDTH * 1.5:
-            raise NotImplementedError(
-                f"panel {spec.panel_id!r} is a two-page spread — spread compose lands at H6"
+            # Two-page spread (H6). Sized to the combined bleed target so
+            # PrintExporter._compute_panel_placement marks it is_spread and
+            # export_all routes the pair through export_spread (load once →
+            # fit to 2×bleed → split at centre), instead of fitting the whole
+            # spread image into each page separately.
+            panel = _ShimPanel(
+                id=spec.panel_id, x=0.0, y=0.0,
+                width=BLEED_WIDTH * 2, height=TRIM_UNITS_H + 2 * BLEED_MARGIN_UNITS,
+                image_path=image_path, bleed=True, span_rows=3, span_cols=2,
             )
-        if _is_full_page(node, page_node):
+        elif _is_full_page(node, page_node):
             panel = _ShimPanel(
                 id=spec.panel_id, x=0.0, y=0.0,
                 width=BLEED_WIDTH, height=TRIM_UNITS_H + 2 * BLEED_MARGIN_UNITS,
@@ -138,11 +145,20 @@ def run_compose(
     vault_root: str | Path | None = None,
     cmyk: bool = False,
     jpeg_quality: int = 95,
+    on_missing_profile: str = "error",
 ) -> dict[str, Any]:
     """Composite every page of the rendered canvas to ``runs/<comic_id>/pages/*.jpg``.
 
-    ``cmyk`` defaults off at H2 (deterministic offline RGB; ICC conversion is machine-dependent) —
-    the print-grade CMYK/DPI policy pass is H6 scope.
+    ``cmyk`` still defaults **off** — an offline fake-backend run wants deterministic RGB, and
+    the E2E golden depends on it. What changed at H6 is what happens when you DO ask for CMYK:
+    the ICC profiles are resolved once at construction and, under the default
+    ``on_missing_profile="error"``, their absence raises instead of silently degrading to
+    Pillow's machine-dependent soft conversion. Pass ``on_missing_profile="rgb"`` to export RGB
+    with the reason recorded in every ``ExportResult`` and in ``export_report.md``.
+
+    Two-page spreads compose here as of H6 (they raised ``NotImplementedError`` before): a
+    spread panel is emitted at the combined bleed width, and ``PrintExporter.export_all`` routes
+    the page pair through ``export_spread``.
     """
     manifest_path = Path(manifest_path)
     base = manifest_path.parent
@@ -157,7 +173,8 @@ def run_compose(
     out_dir = base / (manifest.panels[0].output_dir if manifest.panels else f"runs/{manifest.comic_id}")
     out_dir = out_dir / "pages"
     exporter = PrintExporter(
-        shim, out_dir, issue_name=manifest.comic_id, cmyk=cmyk, jpeg_quality=jpeg_quality
+        shim, out_dir, issue_name=manifest.comic_id, cmyk=cmyk,
+        jpeg_quality=jpeg_quality, on_missing_profile=on_missing_profile,
     )
     results = exporter.export_all()
     return {
@@ -168,10 +185,13 @@ def run_compose(
                 "path": r.path,
                 "width": r.width,
                 "height": r.height,
+                "cmyk_status": r.cmyk_status,
+                "is_spread_half": r.is_spread_half,
                 "warnings": list(r.warnings),
             }
             for r in results
         ],
         "output_dir": str(out_dir),
+        "cmyk_status": exporter.cmyk_status,
         "warnings": [w for r in results for w in r.warnings],
     }

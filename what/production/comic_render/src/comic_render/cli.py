@@ -68,7 +68,12 @@ def _build_parser() -> argparse.ArgumentParser:
     stage("validate", "stage-6 gate: conformance + degradation + file existence + DPI")
 
     s = stage("compose", "composite pages to print JPGs via canvas_core PrintExporter")
-    s.add_argument("--cmyk", action="store_true", help="convert pages to CMYK (H6 print pass)")
+    s.add_argument("--cmyk", action="store_true",
+                   help="ICC colour-managed CMYK separation (requires ICC profiles)")
+    s.add_argument("--on-missing-profile", choices=("error", "rgb"), default="error",
+                   help=("what to do when --cmyk is asked for but ICC profiles are absent: "
+                         "'error' (default) refuses; 'rgb' exports RGB and records the reason. "
+                         "There is deliberately no silent soft-convert."))
     s.add_argument("--quality", type=int, default=95, help="JPEG quality")
 
     s = stage("run", "run stages in order (plan → … → compose)")
@@ -81,6 +86,7 @@ def _build_parser() -> argparse.ArgumentParser:
     s.add_argument("--reason", default=DEFAULT_PICK_REASON)
     s.add_argument("--approver", default=DEFAULT_APPROVER)
     s.add_argument("--cmyk", action="store_true")
+    s.add_argument("--on-missing-profile", choices=("error", "rgb"), default="error")
     s.add_argument("--quality", type=int, default=95)
     s.add_argument("--force", action="store_true", help="force plan rebuild + write-back overwrite")
     return p
@@ -147,11 +153,14 @@ def _run_stage(name: str, args: argparse.Namespace) -> dict[str, Any]:
         result = run_compose(
             manifest, mpath,
             vault_root=args.vault_root, cmyk=args.cmyk, jpeg_quality=args.quality,
+            on_missing_profile=args.on_missing_profile,
         )
         return {
             "stage": "compose",
             "pages": len(result["pages"]),
             "output_dir": result["output_dir"],
+            "cmyk_status": result["cmyk_status"],
+            "spread_halves": sum(1 for p in result["pages"] if p["is_spread_half"]),
             "warnings": result["warnings"],
         }
     raise ValueError(f"unknown stage {name!r}")

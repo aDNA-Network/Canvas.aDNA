@@ -12,7 +12,12 @@ requires a comic-builder fixture and would partially overlap canvas_comic
 test scope. Pure substrate.
 """
 
-import sys, os
+import os
+import sys
+from pathlib import Path
+
+import pytest
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", ".."))
 
 from canvas_core.print import (
@@ -20,6 +25,7 @@ from canvas_core.print import (
     BLEED_PX_W,
     BLEED_WIDTH,
     DPI_WARNING_THRESHOLD,
+    MACOS_CMYK_PROFILE,
     PRINT_DPI,
     SAFE_PX_H,
     SAFE_PX_W,
@@ -208,3 +214,133 @@ class TestPrintExporterInstantiation:
         assert exporter.issue_name == "Smoke_Test"
         assert exporter.cmyk is False
         assert exporter.jpeg_quality == 80
+
+
+class TestCMYKPolicy:
+    """Colour policy (Halftone H6).
+
+    Before H6, ``_convert_to_cmyk`` caught every exception and fell through to
+    Pillow's ``img.convert("CMYK")``. That made the output bytes depend on
+    whether the host had ColorSync profiles, and nothing in the result, the
+    report or the logs said which path you got. These tests pin the fix:
+    the policy is resolved once, up front, and always named.
+    """
+
+    class _Stub:
+        pages: list = []
+
+        def get_panel(self, panel_id):  # pragma: no cover - never reached
+            return None
+
+    def _exporter(self, tmp_path, **kw):
+        from canvas_core.print import PrintExporter as PE
+        return PE(cpb=self._Stub(), output_dir=tmp_path / "out", **kw)
+
+    def test_cmyk_off_is_status_off(self, tmp_path):
+        from canvas_core.print import CMYK_STATUS_OFF
+        ex = self._exporter(tmp_path, cmyk=False)
+        assert ex.cmyk_status == CMYK_STATUS_OFF
+        assert ex._cmyk_transform is None
+
+    def test_missing_profile_raises_under_default_policy(self, tmp_path):
+        """The default refuses rather than shipping a machine-dependent guess."""
+        from canvas_core.print import CMYKProfileUnavailable
+        with pytest.raises(CMYKProfileUnavailable, match="cannot be produced reproducibly"):
+            self._exporter(
+                tmp_path, cmyk=True,
+                cmyk_profile=tmp_path / "nope.icc",
+                srgb_profile=tmp_path / "also-nope.icc",
+            )
+
+    def test_failure_is_at_construction_not_after_compositing(self, tmp_path):
+        """A colour policy that can only fail after 32 pages is not a policy."""
+        from canvas_core.print import CMYKProfileUnavailable
+        with pytest.raises(CMYKProfileUnavailable):
+            self._exporter(tmp_path, cmyk=True, cmyk_profile=tmp_path / "nope.icc")
+        assert not (tmp_path / "out").exists(), "nothing should have been written"
+
+    def test_rgb_policy_degrades_but_records_the_reason(self, tmp_path):
+        from canvas_core.print import CMYK_STATUS_RGB_FALLBACK
+        ex = self._exporter(
+            tmp_path, cmyk=True, on_missing_profile="rgb",
+            cmyk_profile=tmp_path / "nope.icc",
+            srgb_profile=tmp_path / "also-nope.icc",
+        )
+        assert ex.cmyk_status == CMYK_STATUS_RGB_FALLBACK
+        assert ex._cmyk_transform is None
+        warnings = ex._colour_warnings()
+        assert len(warnings) == 1
+        assert "CMYK requested but exported RGB" in warnings[0]
+        assert "nope.icc" in warnings[0]  # names WHICH profile was missing
+
+    def test_no_silent_soft_convert_remains(self, tmp_path):
+        """The RGB-fallback path must pass the image through, never convert()."""
+        from PIL import Image
+        ex = self._exporter(
+            tmp_path, cmyk=True, on_missing_profile="rgb",
+            cmyk_profile=tmp_path / "nope.icc",
+        )
+        img = Image.new("RGB", (4, 4), (10, 20, 30))
+        out = ex._convert_to_cmyk(img)
+        assert out.mode == "RGB", "a soft CMYK approximation must not be produced"
+        assert out is img
+
+    def test_bad_policy_value_is_rejected(self, tmp_path):
+        with pytest.raises(ValueError, match="on_missing_profile"):
+            self._exporter(tmp_path, cmyk=True, on_missing_profile="soft-convert")
+
+    @pytest.mark.skipif(
+        not Path(MACOS_CMYK_PROFILE).exists(),
+        reason="macOS ColorSync profiles not present on this host",
+    )
+    def test_icc_path_when_profiles_are_present(self, tmp_path):
+        """On a host WITH profiles: a real colour-managed separation."""
+        from PIL import Image
+
+        from canvas_core.print import CMYK_STATUS_ICC
+        ex = self._exporter(tmp_path, cmyk=True)
+        assert ex.cmyk_status == CMYK_STATUS_ICC
+        assert ex._cmyk_transform is not None
+        assert ex._colour_warnings() == []
+        out = ex._convert_to_cmyk(Image.new("RGB", (4, 4), (200, 40, 40)))
+        assert out.mode == "CMYK"
+
+
+class TestPageComposite:
+    """The first composite test in this module — it had none before H6."""
+
+    def test_composite_page_is_bleed_sized_and_uses_bg(self, tmp_path):
+        from canvas_core.print import PageExportSpec, PrintExporter as PE
+
+        class _Stub:
+            pages: list = []
+
+            def get_panel(self, panel_id):  # pragma: no cover
+                return None
+
+        ex = PE(cpb=_Stub(), output_dir=tmp_path / "out", cmyk=False)
+        spec = PageExportSpec(page_number=1, page_id="p1", bg_color="#112233")
+        img = ex._composite_page(spec)
+        assert img.size == (BLEED_PX_W, BLEED_PX_H)
+        assert img.mode == "RGB"
+        assert img.getpixel((0, 0)) == (0x11, 0x22, 0x33)
+
+    def test_export_page_writes_a_jpg_at_print_dpi(self, tmp_path):
+        from PIL import Image
+
+        from canvas_core.print import PageExportSpec, PrintExporter as PE
+
+        class _Stub:
+            pages: list = []
+
+            def get_panel(self, panel_id):  # pragma: no cover
+                return None
+
+        ex = PE(cpb=_Stub(), output_dir=tmp_path / "out", issue_name="issue", cmyk=False)
+        result = ex.export_page(PageExportSpec(page_number=3, page_id="p3"))
+        written = Path(result.path)
+        assert written.exists() and written.suffix == ".jpg"
+        assert (result.width, result.height) == (BLEED_PX_W, BLEED_PX_H)
+        assert result.cmyk is False and result.is_spread_half is False
+        with Image.open(written) as im:
+            assert im.info.get("dpi", (0, 0))[0] == PRINT_DPI

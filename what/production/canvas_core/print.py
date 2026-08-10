@@ -51,12 +51,49 @@ SAFE_PX_H = 3000  # 1000  × 0.01 × 300 = 3000
 STD_PANEL_PX_W = 941  # (637.5 - 10) / 2 × 0.01 × 300 = 941.25 → 941
 STD_PANEL_PX_H = 980  # (1000 - 20) / 3 × 0.01 × 300 = 980 → 980
 
-# DPI warning threshold — panels below this trigger a warning
+# --- DPI policy (declared at Halftone H6) ---
+# PRINT_DPI = 300 is the TARGET: every page is composited and saved at 300 DPI,
+# and the JPG carries that in its metadata. It is not a claim about the source.
+#
+# DPI_WARNING_THRESHOLD = 200 is the FLOOR below which a panel's source image is
+# too small for its printed size. "Effective DPI" is measured per panel as
+# source_px / target_px × 300 — i.e. what the source actually resolves to once
+# scaled into its placement, not what the file says.
+#
+# The policy is WARN, NEVER BLOCK, and the reason is R7: a 2048px cloud
+# generation on a full-bleed page lands at ~195 effective DPI — just under the
+# floor — and that is a perfectly reasonable proof page. Blocking would stop the
+# pipeline on its most common legitimate output. So a below-floor panel produces
+# a warning that names the panel and the number, carried on the ExportResult and
+# into export_report.md, and the operator decides whether to accept it, request a
+# larger generation, or route it through the ComfyUI upscale (the H4 refine
+# chain's RealESRGAN slot exists for exactly this).
+#
+# Spreads are measured against the COMBINED two-page target (export_spread) —
+# a source that clears the floor across one page can fall under it across two,
+# which is precisely when the shortfall matters.
 DPI_WARNING_THRESHOLD = 200
 
 # CMYK ICC profile path on macOS
 MACOS_CMYK_PROFILE = "/System/Library/ColorSync/Profiles/Generic CMYK Profile.icc"
 MACOS_SRGB_PROFILE = "/System/Library/ColorSync/Profiles/sRGB Profile.icc"
+
+# --- Colour policy (Halftone H6) ---
+# Before H6 a missing ICC profile fell through to Pillow's soft
+# ``img.convert("CMYK")`` inside a bare ``except: pass``. That is a
+# machine-dependent approximation: the same canvas produced different bytes on
+# a machine with ColorSync profiles than on one without, and NOTHING in the
+# result, the report, or the logs said which you got. A print separation that
+# silently changes with the host is the defect class the H4 live run punished.
+# The soft fallback is now gone; the policy is declared and recorded.
+CMYK_STATUS_ICC = "icc"                    # colour-managed separation, reproducible
+CMYK_STATUS_RGB_FALLBACK = "rgb-fallback"  # CMYK asked for, unavailable, RGB shipped + recorded
+CMYK_STATUS_OFF = "off"                    # RGB by request
+CMYK_FALLBACK_POLICIES = ("error", "rgb")
+
+
+class CMYKProfileUnavailable(RuntimeError):
+    """CMYK was requested but no ICC profile is available to do it reproducibly."""
 
 
 # ---------------------------------------------------------------------------
@@ -128,7 +165,9 @@ class ExportResult:
     width: int
     height: int
     file_size_bytes: int = 0
-    cmyk: bool = False
+    cmyk: bool = False  # True only when a colour-managed ICC separation was written
+    cmyk_status: str = CMYK_STATUS_OFF  # icc | rgb-fallback | off — what actually happened
+    is_spread_half: bool = False  # this page came out of a two-page spread split (H6)
     warnings: list[str] = field(default_factory=list)
 
 
@@ -158,13 +197,72 @@ class PrintExporter:
         issue_name: str = "ScienceStanley_Issue01",
         cmyk: bool = True,
         jpeg_quality: int = 95,
+        cmyk_profile: str | Path | None = None,
+        srgb_profile: str | Path | None = None,
+        on_missing_profile: str = "error",
     ) -> None:
         self.cpb = cpb
         self.output_dir = Path(output_dir)
         self.issue_name = issue_name
         self.cmyk = cmyk
         self.jpeg_quality = jpeg_quality
+        self.cmyk_profile = Path(cmyk_profile or MACOS_CMYK_PROFILE)
+        self.srgb_profile = Path(srgb_profile or MACOS_SRGB_PROFILE)
+        if on_missing_profile not in CMYK_FALLBACK_POLICIES:
+            raise ValueError(
+                f"on_missing_profile must be one of {CMYK_FALLBACK_POLICIES}, "
+                f"got {on_missing_profile!r}"
+            )
+        self.on_missing_profile = on_missing_profile
         self._results: list[ExportResult] = []
+        # Resolved ONCE, at construction — a colour policy that can only fail
+        # after compositing 32 pages is not a policy (H6). Raises here if the
+        # profiles are unavailable under the "error" policy.
+        self.cmyk_status, self._cmyk_transform = self._resolve_cmyk()
+
+    # --- Colour policy (Halftone H6) ---
+
+    def _resolve_cmyk(self) -> tuple[str, Any]:
+        """Decide the colour path up front and name it. Never machine-dependent.
+
+        Returns ``(status, transform)`` where status is one of
+        ``CMYK_STATUS_*``. Under ``on_missing_profile="error"`` an unavailable
+        ICC profile raises rather than silently degrading.
+        """
+        if not self.cmyk:
+            return CMYK_STATUS_OFF, None
+
+        missing = [str(p) for p in (self.srgb_profile, self.cmyk_profile) if not p.exists()]
+        reason: str | None = None
+        transform = None
+
+        if missing:
+            reason = "ICC profile(s) not found: " + ", ".join(missing)
+        else:
+            try:
+                transform = ImageCms.buildTransform(
+                    ImageCms.getOpenProfile(str(self.srgb_profile)),
+                    ImageCms.getOpenProfile(str(self.cmyk_profile)),
+                    "RGB",
+                    "CMYK",
+                    renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC,
+                )
+            except Exception as exc:  # noqa: BLE001 - any ICC failure is the same decision
+                reason = f"ICC transform could not be built: {exc}"
+
+        if reason is None:
+            return CMYK_STATUS_ICC, transform
+
+        if self.on_missing_profile == "error":
+            raise CMYKProfileUnavailable(
+                f"{reason}. CMYK was requested but cannot be produced reproducibly on this "
+                f"machine. Pass on_missing_profile='rgb' to export RGB with a recorded "
+                f"warning instead, or cmyk=False if RGB is what you want. "
+                f"(Pillow's soft convert('CMYK') is NOT used: it is a machine-dependent "
+                f"approximation that would ship as if it were a colour-managed separation.)"
+            )
+        self._cmyk_fallback_reason = reason
+        return CMYK_STATUS_RGB_FALLBACK, None
 
     @classmethod
     def from_pickle(
@@ -208,7 +306,7 @@ class PrintExporter:
         """Export a single page to a print-ready JPG."""
         img = self._composite_page(spec)
 
-        if self.cmyk:
+        if self.cmyk_status == CMYK_STATUS_ICC:
             img = self._convert_to_cmyk(img)
 
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -217,7 +315,7 @@ class PrintExporter:
 
         img.save(str(path), "JPEG", quality=self.jpeg_quality, dpi=(PRINT_DPI, PRINT_DPI))
 
-        warnings = []
+        warnings = self._colour_warnings()
         for placement in spec.panel_placements:
             min_eff_dpi = min(placement.effective_dpi_w, placement.effective_dpi_h)
             if min_eff_dpi > 0 and min_eff_dpi < DPI_WARNING_THRESHOLD:
@@ -233,7 +331,9 @@ class PrintExporter:
             width=img.size[0],
             height=img.size[1],
             file_size_bytes=path.stat().st_size if path.exists() else 0,
-            cmyk=self.cmyk,
+            # Reports what the file IS, not what was asked for.
+            cmyk=(self.cmyk_status == CMYK_STATUS_ICC),
+            cmyk_status=self.cmyk_status,
             warnings=warnings,
         )
         self._results.append(result)
@@ -268,14 +368,30 @@ class PrintExporter:
         target_w = BLEED_PX_W * 2
         target_h = BLEED_PX_H
 
+        spread_img_source_size = spread_img.size  # before fit — the real resolution
         spread_img = self._fit_image(spread_img, target_w, target_h)
 
         # Split at center
         left_img = spread_img.crop((0, 0, BLEED_PX_W, BLEED_PX_H))
         right_img = spread_img.crop((BLEED_PX_W, 0, target_w, BLEED_PX_H))
 
+        # Effective DPI is measured on the SOURCE image against the combined
+        # two-page target — a spread that is fine at one page's width can be
+        # under-resolved across two, and that is exactly when it matters.
+        src_w, src_h = spread_img_source_size
+        spread_warnings = list(self._colour_warnings())
+        eff_dpi = min(
+            effective_dpi(src_w, target_w, PRINT_DPI),
+            effective_dpi(src_h, target_h, PRINT_DPI),
+        )
+        if 0 < eff_dpi < DPI_WARNING_THRESHOLD:
+            spread_warnings.append(
+                f"Spread {spread_panel.id[:8]}: effective DPI {eff_dpi:.0f} < "
+                f"{DPI_WARNING_THRESHOLD} across the combined {target_w}×{target_h} spread"
+            )
+
         for page_spec, page_img in [(left_page, left_img), (right_page, right_img)]:
-            if self.cmyk:
+            if self.cmyk_status == CMYK_STATUS_ICC:
                 page_img = self._convert_to_cmyk(page_img)
 
             self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -290,20 +406,56 @@ class PrintExporter:
                 width=page_img.size[0],
                 height=page_img.size[1],
                 file_size_bytes=path.stat().st_size if path.exists() else 0,
-                cmyk=self.cmyk,
+                cmyk=(self.cmyk_status == CMYK_STATUS_ICC),
+                cmyk_status=self.cmyk_status,
+                is_spread_half=True,
+                warnings=list(spread_warnings),
             )
             self._results.append(result)
             results.append(result)
 
         return results
 
+    def _spread_panel_for(self, spec: PageExportSpec) -> Any | None:
+        """The spread panel on ``spec``, if any (placement marked ``is_spread``)."""
+        for placement in spec.panel_placements:
+            if placement.is_spread:
+                return self.cpb.get_panel(placement.panel_id)
+        return None
+
     def export_all(self) -> list[ExportResult]:
-        """Export all pages. Returns list of ExportResults."""
+        """Export all pages. Returns list of ExportResults.
+
+        Spread-aware since Halftone H6: a page carrying a two-page spread panel
+        is exported together with its right-hand partner through
+        ``export_spread`` (load once → fit to the combined target → split at
+        centre), consuming both specs. Before H6 this loop only ever called
+        ``export_page``, so ``export_spread`` was written, correct, and
+        **unreachable** — every spread silently exported as two independent
+        pages, each fitting the full spread image into one page's width.
+        """
         self._results = []
         specs = self.build_page_specs()
 
-        for spec in specs:
-            self.export_page(spec)
+        i = 0
+        while i < len(specs):
+            spec = specs[i]
+            spread_panel = self._spread_panel_for(spec)
+            if spread_panel is not None and i + 1 < len(specs):
+                self.export_spread(spec, specs[i + 1], spread_panel)
+                i += 2
+                continue
+            if spread_panel is not None:
+                # A spread with no right-hand page to land on: export the left
+                # half rather than dropping it, and say so.
+                result = self.export_page(spec)
+                result.warnings.append(
+                    f"Panel {spread_panel.id[:8]} is a two-page spread but page "
+                    f"{spec.page_number} has no following page — exported as a single page"
+                )
+            else:
+                self.export_page(spec)
+            i += 1
 
         self._write_export_report()
         return list(self._results)
@@ -374,38 +526,28 @@ class PrintExporter:
         top = (new_h - target_h) // 2
         return img.crop((left, top, left + target_w, top + target_h))
 
-    @staticmethod
-    def _convert_to_cmyk(img: Image.Image) -> Image.Image:
-        """Convert RGB image to CMYK using ICC profiles when available.
+    def _convert_to_cmyk(self, img: Image.Image) -> Image.Image:
+        """Apply the ICC transform resolved at construction.
 
-        Primary: ImageCms with macOS system ICC profiles.
-        Fallback: Pillow soft conversion.
+        There is deliberately **no soft fallback**: if we reach here without a
+        transform the policy already decided to ship RGB (and recorded why), so
+        the image passes through unchanged rather than being silently
+        approximated. See the colour-policy note at the module constants.
         """
+        if self._cmyk_transform is None:
+            return img
         if img.mode == "CMYK":
             return img
         if img.mode != "RGB":
             img = img.convert("RGB")
+        return ImageCms.applyTransform(img, self._cmyk_transform)
 
-        try:
-            srgb_path = Path(MACOS_SRGB_PROFILE)
-            cmyk_path = Path(MACOS_CMYK_PROFILE)
-
-            if srgb_path.exists() and cmyk_path.exists():
-                srgb_profile = ImageCms.getOpenProfile(str(srgb_path))
-                cmyk_profile = ImageCms.getOpenProfile(str(cmyk_path))
-                transform = ImageCms.buildTransform(
-                    srgb_profile,
-                    cmyk_profile,
-                    "RGB",
-                    "CMYK",
-                    renderingIntent=ImageCms.Intent.RELATIVE_COLORIMETRIC,
-                )
-                return ImageCms.applyTransform(img, transform)
-        except Exception:
-            pass
-
-        # Soft fallback
-        return img.convert("CMYK")
+    def _colour_warnings(self) -> list[str]:
+        """Per-page warning naming a degraded colour path, so it reaches the report."""
+        if self.cmyk_status != CMYK_STATUS_RGB_FALLBACK:
+            return []
+        reason = getattr(self, "_cmyk_fallback_reason", "ICC profiles unavailable")
+        return [f"CMYK requested but exported RGB — {reason}"]
 
     def _compute_panel_placement(self, panel: Any) -> PanelPlacement:
         """Convert canvas-unit panel coordinates to pixel placement."""
@@ -477,15 +619,31 @@ class PrintExporter:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         report_path = self.output_dir / "export_report.md"
 
+        colour_line = {
+            CMYK_STATUS_ICC: f"**colour-managed CMYK** via ICC (`{self.cmyk_profile.name}`)",
+            CMYK_STATUS_RGB_FALLBACK: (
+                "⚠️ **RGB — CMYK was requested and could not be produced**: "
+                + getattr(self, "_cmyk_fallback_reason", "ICC profiles unavailable")
+            ),
+            CMYK_STATUS_OFF: "RGB (by request)",
+        }[self.cmyk_status]
+
+        spread_halves = sum(1 for r in self._results if r.is_spread_half)
+
         lines = ["# Print Export Report\n\n"]
         lines.append(f"**Issue**: {self.issue_name}\n")
         lines.append(f"**Pages exported**: {len(self._results)}\n")
-        lines.append(f"**CMYK**: {self.cmyk}\n")
-        lines.append(f"**Target DPI**: {PRINT_DPI}\n\n")
+        lines.append(f"**Colour**: {colour_line}\n")
+        lines.append(f"**Target DPI**: {PRINT_DPI} "
+                     f"(warning below {DPI_WARNING_THRESHOLD} effective)\n")
+        if spread_halves:
+            lines.append(f"**Spread halves**: {spread_halves} "
+                         f"(exported via split, not as independent pages)\n")
+        lines.append("\n")
 
         lines.append("## Pages\n\n")
-        lines.append("| Page | File | Size (px) | File Size | CMYK | Warnings |\n")
-        lines.append("|------|------|-----------|-----------|------|----------|\n")
+        lines.append("| Page | File | Size (px) | File Size | Colour | Spread | Warnings |\n")
+        lines.append("|------|------|-----------|-----------|--------|--------|----------|\n")
 
         total_warnings = 0
         for r in self._results:
@@ -494,7 +652,8 @@ class PrintExporter:
             total_warnings += len(r.warnings)
             lines.append(
                 f"| {r.page_number} | {r.filename} | {r.width}×{r.height} "
-                f"| {size_mb:.1f} MB | {'Yes' if r.cmyk else 'No'} | {warn_str} |\n"
+                f"| {size_mb:.1f} MB | {r.cmyk_status} | {'half' if r.is_spread_half else '—'} "
+                f"| {warn_str} |\n"
             )
 
         lines.append(f"\n**Total warnings**: {total_warnings}\n")
