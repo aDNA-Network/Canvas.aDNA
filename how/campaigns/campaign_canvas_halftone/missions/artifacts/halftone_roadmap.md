@@ -106,7 +106,7 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
 | H5 | T2 | 1–2 · VisualDNA compose (bundles → ComicInput + manifest `characters[]`; **exit += LoRA-less compose exercised + tested**) | H2 (parallel-eligible) |
 | **HR** | G9 | 1–2 · review-surface spec + Meta Bind pilot over real images + collector; dispatch contract-stub only (§6) | HV (parallel-eligible; not blocked by H2/H3) |
 | **HF** | G8 | 1 · federation census + index + staged refederation memos (§7) — `executor_tier: sonnet` eligible | — (any order; deliveries per-send GO) |
-| H6 | T3′ + T4 + G | 1–2 · authoring contract · full-issue print E2E (geometry shim golden · CMYK · DPI policy) · RLHF seam doc (anchored by HR + Bearly evidence) · canvas_comic disposition · dev-lane ratification record · close | H3, HR |
+| H6 | T3′ + T4 + G | 1–2 · authoring contract · full-issue print E2E (geometry shim golden · CMYK · DPI policy) · RLHF seam doc (anchored by HR + Bearly evidence) · canvas_comic disposition · dev-lane ratification record · close | H3, HR — **offline half EXECUTED 2026-08-09** (`mission_h6_close`, partial): everything except the campaign close and anything needing real pixels. The HR dependency discharged when Callisto's s030 evidence landed; **the H3 dependency did not** — the close is still held. |
 
 **Minimum path to the first rendered page: H1 → H2 → H3** (2–3 sessions; HV done).
 
@@ -142,10 +142,20 @@ import torch/diffusers/local pipelines; PIL only via `canvas_core.print` composi
    which is Vulcan's and Anduril-gated; Canvas only needs to *load* a trained LoRA, which the refine graph's
    slot covers; rehoming would put training-shaped code on the Canvas shelf against the standing boundary).
    Nothing blocks on delivery — an unresolvable workflow degrades to the built-in graph. *(gate: H4)*
-3. **`canvas_comic` disposition** — rec.: reader-only freeze now, archive after H3; port `ComicReport` only if the
-   scoring loop revives. *(gate: H6)*
-4. **RLHF routing** (III store vs leg-3 `interaction.responses`) — the seam doc (H6) frames it; Schema-A capture
-   keeps data either way. *(gate: H6)*
+3. **`canvas_comic` disposition** — ✅ **RULED 2026-08-09** (H6 plan gate): **reader-only freeze now, archive
+   after H3**; `ComicReport` not ported (returns only as a new build if a scoring loop revives); the 99 tests
+   keep riding the suite as a deliberate regression net over the trim/bleed lineage `canvas_core.print`
+   inherited — archiving before H3 would remove that net before real pixels have ever validated the constants.
+   Recorded as **`adr_009_canvas_comic_disposition.md`** (`proposed`; §7.7 signature pending). *(was gate: H6)*
+4. **RLHF routing** (III store vs leg-3 `interaction.responses`) — ✅ **RULED 2026-08-09** (H6 plan gate):
+   **both sinks, with the boundary named** — Canvas owns the capture substrate (`responses[]`: total,
+   append-only, provenance), III owns the signal schema (ADR-005 store: selective, interpreted). The gap was
+   sharper than this row assumed: `RLHF_SIGNAL_TYPE_REJECT` has existed since the bridge was written and is
+   never emitted, so a reject-only pass produced **no signal at all**. Ruling: a reject routes to III as
+   `rlhf_signal_type: reject` derived from `responses[]` (Schema-A structurally cannot express "no pick" and
+   stays approval-only). The ISS-vs-III contradiction resolves as a **scope conflation**, no ownership moved.
+   Recorded as **`what/specs/spec_rlhf_seam.md`** (`proposed`); implementation **S-1..S-4 deliberately
+   unbuilt** until ratification. *(was gate: H6)*
 5. **`issue.rendered.canvas` authority** — rec.: derived artifact of the YAML source (producer stays authoritative;
    re-renders cheap). *(gate: H2 write-back design ack)*
 6. **HR pilot subject timing** — rec.: pilot on existing ComfyUI SS variant images (read-only consumption; records

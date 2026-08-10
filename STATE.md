@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-08-07
+updated: 2026-08-09
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260807_h4_live_verify_and_gate_items
+last_session: session_stanley_20260809_211323_halftone_h6_offline
 tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard, comfyui, refine]
 ---
 
@@ -12,6 +12,8 @@ tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, feder
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
+> **▶ 2026-08-09 — 🟢 H6 OFFLINE HALF EXECUTED: four defects, all of one family — code that was written, looked correct, and had never run the path it claimed (Mondrian, `session_stanley_20260809_211323_halftone_h6_offline`).** Operator opened the H6 lane at plan approval (= the gate, HV/H2/H4/H5 precedent) and ruled three things with it: **include print E2E** · **`canvas_comic` = reader-only freeze now** (open decision #3) · **RLHF routing = both sinks with a named boundary** (open decision #4). The trigger was housekeeping: **three Callisto memos had been sitting untracked in `who/coordination/` across sessions**, and the 2026-08-07 one **discharged the Bearly P5 evidence dependency** that HR's dispatch contract and H6's RLHF seam doc had been explicitly parked behind. The parked work was buildable the moment someone read the inbox. **Ground truth also corrected the H3 story: `GEMINI_API_KEY` is present on this node** (Keychain + exported env, name only) — H3 is held by **ruling**, not blocked by credential. **The four defects: (1) `export_spread` was UNREACHABLE** — a correct two-page-spread exporter has sat in `canvas_core/print.py` since the CanvasForge lineage, but `export_all` only ever called `export_page`, so every spread would have exported as two independent pages each fitting the whole 4124px image into one 2062px page, **squashed 2:1 and silent**; **(2) CMYK was MACHINE-DEPENDENT** — `_convert_to_cmyk` fell through a bare `except: pass` to Pillow's soft convert, so the same canvas produced different bytes depending on whether the host had ColorSync profiles, with nothing in the result, report or logs saying which; *this node has the profiles, which is exactly why it stayed invisible*; **(3) `RLHF_SIGNAL_TYPE_REJECT` was declared and never emitted** — combined with Schema-A structurally requiring a pick, a reject-only review pass produced **no signal at all**, and "none of these six is acceptable" is a stronger signal than "this one is best"; **(4) the visual-check gate always failed on comics** — all 24 findings came from exactly three knowledge-canvas *aesthetic* traps, none a defect. **Delivered:** `spec_rlhf_seam.md` (`proposed` — Canvas owns the capture substrate / III owns the signal schema; store heterogeneity normative; **ISS-vs-III resolved as a scope conflation**, two objects sharing one word, no ownership moved; decision #4 ruled; implementation **S-1..S-4 deliberately unbuilt** while the spec is unratified) · **`review_dispatch_contract v0` BOUND** (six clauses — **D5** refusal-atomicity adopted from Callisto's `F-S030-1` **credited by name**, **D6** venue boundary from ADR-007 mode L; **dispatcher deliberately NOT built** — the venue has not run a batch) · **`--profile knowledge-canvas|comic|all`** (comic **24→0** source, **21→3** rendered, and all 3 survivors are `CV-IMAGE-ASPECT-RATIO-01`, the trap that caught the real H2 drift — noise dropped, signal kept, with a test asserting no profile may ever drop a correctness trap) · **print E2E** (spread compose lands, the H6-deferred test **inverted not deleted**; colour policy resolved once at construction and always named; **DPI policy written down** — 300 target, 200 floor, warn-never-block because R7's ~195 is a legitimate proof page, spreads measured against the COMBINED target: verified live at 195 on one page vs **112** across two) · `comic_authoring_contract.md` (T3′; every command run before documenting — the first draft had the build flags wrong) · **`adr_009`** canvas_comic disposition. **The doctrine earned its keep a third time:** the first spread render passed *every* assertion — two 2062×3150 halves, correct page count — on **two flat green rectangles**, because the fake backend emits solid colour and a solid colour splits identically however you cut it; a structured source (gradient · centre seam · L/R markers · ruler ticks) proved the split, and **the markers being round** is the actual proof, since the pre-H6 double-fit would have squashed them. Suites: canvas_core 824→**841/3** · comic_render 92→**94/1** · producers **259** · `canvas_std` **115/10** · cert **11/11** · **firewall diff 0** · E2E `sync_hash c56c73c08428f621` byte-identical. **H6 is `status: partial` — the campaign close was NOT taken, because H3 has never run.**
+>
 > **▶ 2026-08-07 — 🟢 H4 LIVE-VERIFIED on L1 · Vulcan memo DELIVERED · parity push · tier default applied (Mondrian, `session_stanley_20260807_h4_live_verify_and_gate_items`).** The operator approved a recommendation set whose first item I proposed after checking ground truth rather than the campaign files: **`~/ComfyUI` is a real install on this node** (0.24.1, MPS, `sd_xl_base_1.0.safetensors` — the exact checkpoint the built-in graph defaults to), so H4's refine seam was testable **today, with no Anduril, no Gemini and zero spend**. "H4 is mocked until H3" was never true. **The live run found three defects the mocked suite could not**: **(L1, INHERITED — fleet-relevant)** `_poll_history` used `timeout_s`, a **30s HTTP-request** timeout, as the **generation** deadline — a 20-step SDXL img2img samples ~35s on MPS, so the adapter abandoned jobs the server went on to finish; present since M-3-05, so any other `ComfyForgeTier1Adapter` consumer had the same silent ceiling (fix: `generation_timeout_s` 600s, split); **(L2)** identical graphs hit ComfyUI's **result cache** → `success` + every node `execution_cached` + **empty outputs** → download found nothing, which H4's own deterministic seed made the *common* case (fix: `filename_prefix` derives from the output filename; the error now names the cache); **(L3)** `DEFAULT_UPSCALE_MODEL` was a guessed `RealESRGAN_x2.pth` vs the installed `x4plus`. **Four paths then verified green with the images LOOKED AT** (HV agent-confirmed-render doctrine): built-in graph → a correct cel-shaded lighthouse · **Vulcan's REAL `workflow_img2img.json`** patched by node class → a correct copper diving bell, **the convention holds against his actual file** · LoRA slot with a real weight → loads + conditions cleanly, rendering a generic bearded scientist **not Stanley**, an independent corroboration of his own **F-M04-B** · upscale `x4plus` → 1024²→**4096²**, over-solving roadmap **R7**. **The doctrine earned its keep again:** the first live result passed *every* automated assertion — success · correct dims · 383KB · differs-from-seed — on **a picture of nothing** (a flat purple field); only looking revealed it, and it diagnosed to the fake backend's solid-colour seed (img2img at denoise 0.4 preserves structure a solid colour hasn't got; at 1.0 the same call rendered the prompt correctly) — **not** a pipeline fault, documented in the README so nobody later reads mush as a broken seam. +5 regression tests → canvas_core **824/3** · comic_render **92/1** · firewall **0** · ruff clean. **Item 1 EXECUTED**: the Vulcan `comic_panel_refine` memo **delivered** (files-only, zero commits in his tree, Rule 10) — rewritten around the verified facts, so the ask shrank to "your existing workflow **plus** a LoRA slot and upscale", and it carries the inherited-timeout warning + the F-M04-B corroboration as courtesy. **Roadmap open decision #2 RULED: do not bundle the LoRA-training-completion ask** (his M04 already published *no production weight*; the blocker is F-M03-J hardware needing physical intervention — it would land back on the operator, not him). **Item 2**: wrapper follow-up #2 recommendation (leave the LoRA runner archived) rides that memo. **Item 3 EXECUTED**: parity push. **Inbound actioned**: Berthier/Operation Hearth `hm_m8` — `executor_tier_default: fable` applied to the halftone charter after independently auditing their slate read (accurate: 4 fable · 1 opus · 1 sonnet · h1 untyped); summon-only is right in front of H3's spend gate. **Still open: the HR review pass** (all six sidecar verdicts remain `null`).
 >
 > **▶ 2026-08-06 — 🟢 H4 EXECUTED (offline half): the Vulcan seam is REAL — `refine:comfy` is a working backend (Mondrian, `session_stanley_20260806_201701_halftone_h4_vulcan_seam`).** Operator opened the H4 lane at plan approval (= the gate, HV/H2/H5 precedent) after ruling out the two alternatives (H6-partial print pass · HR close-out); push posture = **batch at close**. The hybrid backend the operator locked in July is now wired end-to-end on the Canvas side, **with zero dependence on H3**: **substrate** — `canvas_core/comfyforge_adapter.py` gained `refine_image()` beside `generate_image()` (multipart `POST /upload/image` · built-in SDXL **img2img** graph `LoadImage→VAEEncode→KSampler@denoise<1.0` with the **negative in its own `CLIPTextEncode`**, never concatenated · optional `LoraLoader` + RealESRGAN upscale · **deterministic** refine seed, unlike generate's wall-clock one · named-template patching by node class that **degrades to the built-in graph** when `comic_panel_refine` is absent upstream — so a missing Vulcan workflow never blocks); **bridge** — NEW `comic_render/backends/comfy.py`, a thin manifest-shaped binding (the placement the boundary guard's own comment specifies: "the H4 seam is an HTTP adapter living in `canvas_core`"), registry flipped, `generate:comfy` **deliberately still raises** (ComfyUI is the *refine* engine; the cloud backend is the production substrate, ADR-003); **chain syntax** extended to `<stage>:<backend>[@denoise][/workflow]`, backward compatible; **`RefineClient` gained an additive `lora`** — `dispatch.run_refine` lifts H5's pair-gated `characters[]` entry and the binding injects the trigger token only when absent, **closing roadmap R3's "LoRA re-enters via the refine chain when trained"**. **Offline E2E chain proof**: 9 panels → 18 fake variants → **18 mocked-comfy refines** → 9 Schema-A selections → rendered canvas revalidates (`c56c73c08428f621` byte-identical) → **4 composited pages**. Suites: comic_render 73→**92/1skip** · canvas_core 800→**819/3** · producers **259** unchanged · `canvas_std` **115/10** · cert **11/11** · **firewall diff 0** · boundary guard green. `comic_render/tests/fixtures/comfy/` is **the contract with Vulcan** (diff a real capture against it and the delta is the integration work); live smoke behind `-m network`. **Wrapper follow-up #1 CLOSED** (`skills_used`/`workflows_used` → actual consumption + `workflows_requested` + endpoint override env); **#2 recommendation staged** (leave the archived LoRA-dispatch runner archived — it solved dispatch-side *training*, Vulcan's and Anduril-gated). **Vulcan `comic_panel_refine` memo STAGED** (`staged_pending_GO` — roadmap open decision #2 is the operator's at this gate). **Honest finding recorded (→ H6):** `canvas-visual-check` on the rendered mini-issue is *not* clean — but it wasn't before H4 either (source 24 findings → rendered 18; exactly one new, and it describes a full-page splash correctly filling its page). The trap pack's padding/density heuristics are calibrated for knowledge canvases; comic pages legitimately pack flush. **H4 remainder: the gemini→comfy chain proven LIVE — joins H3.**
@@ -34,34 +36,53 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — 🟢 **OPERATION HALFTONE** (live; phases H0–H6 + HV/HR/HF)
 
-**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · H4 ✅ (offline half) · HR 🟡 built (gate 2/3 closed — spec ratified ·
-render agent-confirmed) — H3 HELD for Luke's cloud lane** (spend params **PRE-RULED** 2026-08-04: Gemini
-pro-image class · 3 variants/panel · $5 cap · `GEMINI_API_KEY` via the Home broker · aspect = geometry-derived;
-the gate call itself stays open; **his lane is UNBLOCKED — the GO-wave parity push landed everything on
-origin**). Remaining build phases: **H3** (Luke's lane; implement the geometry-aspect ruling in `extract.py` at
-open — **and the H4 seam is now waiting for it: one live gemini→comfy run closes both**) → **H6** (authoring
-contract · print E2E · RLHF seam doc anchored on HR's spec + Bearly P5 evidence · `canvas_comic` disposition ·
-**the comic-domain visual-check profile question, H4 finding #4** · AAR/close). Read:
-`how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
-`missions/mission_{h4_vulcan_seam,h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
-`how/federation/federation_index.md` → `missions/artifacts/halftone_federation_census_20260804.md`.
+**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · H4 ✅ (offline half) · H6 ✅ (offline half, `partial`) ·
+HR 🟡 built (gate 2/3 closed — spec ratified · render agent-confirmed) — H3 HELD for Luke's cloud lane**
+(spend params **PRE-RULED** 2026-08-04: Gemini pro-image class · 3 variants/panel · $5 cap · `GEMINI_API_KEY`
+via the Home broker · aspect = geometry-derived; the gate call itself stays open; his lane is UNBLOCKED).
+
+**H3 is now the ONLY thing standing between Halftone and its close.** Everything else that could be built
+without real pixels is built. H3: `backends/gemini.py` + the geometry-aspect ruling in `extract.py` → live
+render → operator eye-gate → the fleet's first composited page. **One live
+`--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"` run closes H3 *and* H4's remainder** (the
+refine half is built, tested and live-verified against a real ComfyUI). Then H6 re-opens for the campaign
+AAR + close with the real-pixel evidence the offline pass could not produce.
+
+> ⚠️ **Correcting a standing assumption:** `GEMINI_API_KEY` **is present on this node** (Keychain entry +
+> exported env var; name only, value never read — checked 2026-08-09). H3 is held by the **2026-08-04 lane
+> ruling**, not blocked by a missing credential. If the operator would rather Mondrian take H3 than hold it
+> for Luke, nothing technical is in the way — only the spend gate and the lane call, both theirs.
+
+Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
+`missions/mission_{h6_close,h4_vulcan_seam,h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
+`what/specs/spec_rlhf_seam.md` → `how/federation/federation_index.md`.
 
 **Awaiting the operator (surface at next contact):**
 1. **HR gate leftover (1 of 3 — the last)**: **your real review pass** on
    `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (open in Obsidian — all 8 controls are
    live, in note view and inside the canvas embeds; set verdicts, save; then Mondrian runs
-   `review_collect --approver stanley` per the pilot README — idempotent, at leisure). *(Checked 2026-08-06:
-   all six sidecar verdicts still `null` — the pass hasn't happened yet.)*
-2. **Awaiting Vulcan's reply** (non-blocking, no action owed by us): the `comic_panel_refine` workflow
-   (his existing `workflow_img2img` + LoRA slot + upscale) · the endpoint question (Canvas suggests
-   L1-first, Anduril opportunistic, given F-M03-J) · his call on wrapper follow-up **#2** (Canvas
-   recommends leaving the archived LoRA-dispatch runner archived). **Nothing blocks** — an unresolvable
-   workflow degrades to the built-in graph, which is now live-verified.
-3. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
+   `review_collect --approver stanley` per the pilot README — idempotent, at leisure). *(Re-checked
+   2026-08-09: all six sidecar verdicts still `null` — the pass hasn't happened yet.)*
+2. **Three H6 ratifications pending your §7.7 signature** (all `proposed`, none blocking):
+   **`spec_rlhf_seam.md`** (the capture/signal boundary + the reject→III ruling — its implementation
+   S-1..S-4 is deliberately held until you sign, so signing is what unblocks it) ·
+   **`spec_canvas_review_surface` §6 amendment** (dispatch contract D1–D6; it does *not* ride the plan
+   approval as its signature, because the plan approved *writing* the clauses and a signature cannot precede
+   its text) · **`adr_009`** (`canvas_comic` freeze).
+3. **One staged memo awaiting a per-send GO**: `coord_2026_08_09_mondrian_to_callisto_dispatch_contract_bound.md`
+   (tells Callisto their `F-S030-1` became clause D5, credited).
+4. **Awaiting Vulcan's reply** (non-blocking, no action owed by us): the `comic_panel_refine` workflow ·
+   the endpoint question · his call on wrapper follow-up **#2**. **Nothing blocks** — an unresolvable
+   workflow degrades to the built-in graph, which is live-verified.
+5. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
 
-*(Resolved 2026-08-07: item 0 live verification — EXECUTED · Vulcan memo — **DELIVERED** · roadmap open
-decision **#2 RULED** [do not bundle the LoRA-training ask] · parity push — **EXECUTED** · Berthier's
-`executor_tier_default: fable` — **APPLIED**. Resolved 2026-08-06 at plan approval: H4 opened [lane chosen
+*(Resolved 2026-08-09 at plan approval: H6 offline lane opened · print E2E **in scope** · roadmap open
+decision **#3 RULED** [`canvas_comic` = reader-only freeze now, archive after H3 → `adr_009`] · open decision
+**#4 RULED** [RLHF routing = both sinks, boundary named, reject → III from `responses[]`] · three Callisto
+memos **ACTIONED** · dev-lane pointer corrected [the annex was ratified 2026-08-03 all along; the campaign
+CLAUDE.md row was the stale thing]. Resolved 2026-08-07: item 0 live verification — EXECUTED · Vulcan memo —
+**DELIVERED** · roadmap open decision **#2 RULED** [do not bundle the LoRA-training ask] · parity push —
+**EXECUTED** · Berthier's `executor_tier_default: fable` — **APPLIED**. Resolved 2026-08-06 at plan approval: H4 opened [lane chosen
 over H6-partial and HR close-out] · push posture = batch at close. Resolved 2026-08-04 at the GO wave: all
 six memo deliveries — EXECUTED · parity push — EXECUTED [Luke's H3 lane unblocked] ·
 `spec_canvas_review_surface` v1.0 — RATIFIED.)*
@@ -84,8 +105,35 @@ chain proof to 4 composited pages; comic_render **92/1**, canvas_core **819/3**;
 H3). **HR built, gate 2/3 closed** (spec **RATIFIED** [GO wave] ·
 render **agent-confirmed** [2026-08-04 `_174045`: two live catches — restricted mode + multiSelect
 block-only; all 8 controls live incl. inside canvas embeds]; remaining = the operator's
-review pass). Open: **H3** (Luke's cloud lane; params pre-ruled; lane UNBLOCKED since the parity push;
-one live run now closes H3 *and* H4's remainder) → H6 (close).
+review pass). **H6 offline half** (2026-08-09 — `status: partial`: RLHF seam spec · dispatch contract v0
+bound · comic visual-check profile · print E2E [spread compose reachable, CMYK deterministic, DPI policy] ·
+authoring contract · `adr_009`; canvas_core **841/3**, comic_render **94/1**). Open: **H3 — the only phase
+left before the close** (Luke's cloud lane; params pre-ruled; one live run closes H3 *and* H4's remainder)
+→ **H6 re-open** for the campaign AAR + close.
+
+## What's Done (session `_211323` — 2026-08-09, H6 the offline half)
+
+- **Gate rulings recorded**: H6 offline lane opened at plan approval; print E2E in scope; open decisions
+  **#3** (`canvas_comic` freeze) and **#4** (RLHF routing) **RULED**.
+- **O1 intake**: three Callisto memos landed as-delivered (byte-unchanged, own commit) then **actioned** with
+  disposition blocks; reply memo **staged** (`staged_pending_GO`); `federation_index` Bearly row corrected —
+  empty wrapper, but our busiest live consumer.
+- **O2** `what/specs/spec_rlhf_seam.md` (NEW, `proposed`) + `spec_interface_surface` §2 qualified + a stale
+  `iii_bridge` docstring corrected to ground truth (it claimed 4 store entries; the live store holds a
+  `_meta` line + 2 `CANVAS-L-*` pattern entries and **zero** RLHF signals).
+- **O3** `spec_canvas_review_surface` §6: stub → **six clauses D1–D6**; amendment `proposed`, and explicitly
+  **not** riding the plan approval as its signature.
+- **O4** `traps/cli.py` `--profile` (+8 tests incl. one asserting **no profile may ever drop a correctness
+  trap**); authoring-guidance note replaced advice with mechanism.
+- **O5** `print.py` + `compose.py`: spread compose reachable · colour policy resolved once and always named ·
+  DPI policy written down · `test_print.py`'s **first** CMYK and composite tests (+9).
+- **O6** `what/docs/comic_authoring_contract.md` (NEW) + a `what/docs/AGENTS.md` index row and an honest flag
+  that the index predates this vault's own docs.
+- **O7** `adr_009` · `mission_h6_close.md` (`partial`, with AAR) · campaign master/CLAUDE.md/roadmap/STATE.
+- **Verification**: canvas_core **841/3** · comic_render **94/1** · canvas_comic **99** · producers **259** ·
+  canvas_std **115/10** · cert **11/11** · **firewall diff 0** · ruff clean on changed files · E2E
+  `sync_hash c56c73c08428f621` byte-identical → 4 pages · `--cmyk` a real ICC separation · spread split
+  **confirmed by looking**, after it first passed every assertion on a picture of nothing.
 
 ## What's Done (session `_201701` — 2026-08-06, H4 the Vulcan seam)
 
@@ -144,22 +192,26 @@ one live run now closes H3 *and* H4's remainder) → H6 (close).
   re-accounting (drop/repoint archived CanvasForge → Argus) · `canvas_core→canvas_std` §C #29 + `CANVASFORGE_CODE`
   §C #39 shim ref-sweeps (grace 2027-06-13).
 - **Deferred by design:** H4's **live** gemini→comfy chain proof (joins H3 — the offline half is done) ·
-  HR dispatch-side (awaits Bearly P5 evidence) · Home harness graduation
+  ~~HR dispatch-side (awaits Bearly P5 evidence)~~ → **evidence LANDED 2026-08-07, contract BOUND 2026-08-09**
+  (`review_dispatch_contract v0`, six clauses; the *dispatcher* stays unbuilt by ruling, not by dependency) ·
+  reject→III implementation S-1..S-4 (held until `spec_rlhf_seam` is ratified) · `CV-COMIC-STYLE-01`
+  (needs H3 pixels to calibrate) · `what/docs/` index full refresh · Home harness graduation
   (`canvas_visual_loop` → `canvas_core`, adoption-path step 2 — rule at H2/HR) · `html_renderer` file-node preview
   fix (static trap covers it) · `canvas_core` console-script packaging.
 
 ## Next Steps
 
-1. **Operator**: the H4 gate items (Vulcan memo GO · wrapper follow-up #2) · the push GO · the HR review pass ·
-   the H3 gate call when Luke's lane is ready; registrar ack when it lands.
-2. **H3** (on gate, Luke's cloud lane): `backends/gemini.py` (credential via the Home broker, names-only) +
-   the geometry-derived aspect ruling in `extract.py` → live render the mini-issue splash → operator eye-gate
-   → the fleet's first real composited page. M-SB-D2 first-light spec is the preferred subject, Mondrian's
-   mini-issue the fallback. **One live `--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"` run
-   also closes H4's remainder** — the refine half is built, tested and waiting.
-3. **H6** (the last build phase): authoring contract · print E2E (spread compose · CMYK · DPI policy) · RLHF
-   seam doc (anchored on HR's ratified spec + Bearly P5 evidence) · **the comic-domain visual-check profile
-   question** (H4 finding #4) · `canvas_comic` disposition · campaign AAR + close.
+1. **Operator**: three §7.7 ratifications (`spec_rlhf_seam` · the dispatch-contract amendment · `adr_009`) ·
+   the Callisto memo GO · the push GO · the HR review pass · **the H3 gate call** (and, with it, whether H3
+   stays Luke's lane — the credential is present on this node either way); registrar ack when it lands.
+2. **H3** — now the only phase between Halftone and its close: `backends/gemini.py` (credential via the Home
+   broker, names-only) + the geometry-derived aspect ruling in `extract.py` → live render the mini-issue
+   splash → operator eye-gate → the fleet's first real composited page. M-SB-D2 first-light spec is the
+   preferred subject, Mondrian's mini-issue the fallback. **One live
+   `--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"` run also closes H4's remainder.**
+3. **H6 re-open** (after H3): campaign AAR + close · real-pixel DPI evidence · `CV-COMIC-STYLE-01`
+   calibration · the HR pilot's second consumer · `canvas_comic` archive (per `adr_009`) · S-1..S-4
+   reject→III implementation once the seam spec is signed.
 
 ## Notes
 
