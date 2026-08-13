@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-08-12
+updated: 2026-08-13
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260812_winddown
+last_session: session_stanley_20260813_eyegate_and_r5_canvas_slice
 tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard, comfyui, refine, first_light, rosetta_stone, googleai]
 ---
 
@@ -12,6 +12,8 @@ tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, feder
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
+> **▶ 2026-08-13 — 🟢 EYE-GATE PASSED · H3 CLOSED · the pages leave `/tmp` · Canvas clears the Imagen deadline (Mondrian, `session_stanley_20260813_eyegate_and_r5_canvas_slice`).** The operator ruled the **H3 eye-gate PASS** — the campaign close's only remaining dependency, so **H6 re-open is live**. Two apparent layout faults were re-checked and **withdrawn before the ruling** and are now recorded as *settled*: page 1's top band is inside the generated art (`1696×2528` r=0.671 into a `1989×3075` r=0.647 box leaves ~113 px, not the ~700 px observed) and page 2's empty lower third is the fixture's own layout (panels end at y=675 of 1025). **Compose rendered exactly what was drawn**; the weakness is **art direction**, which is `CV-COMIC-STYLE-01`'s job. **The evidence was one reboot from gone** — 166 MB of first-light output behind a $3.618 spend had been sitting in `/tmp/h3run` for three days; it is now at `what/artifacts/h3_first_light/` (**42 files SHA-256-verified byte-identical**, with a README naming the run parameters and each downstream consumer's stake). `what/artifacts/` is gitignored, so it is **durable on this node but never committed** — a distinction now written where a node-rebuilder will read it. **Then the deadline lane:** four days before `imagen-4.0-*` shuts down, Canvas still had three scripts calling `generate_images()` on a raw `genai.Client(api_key=…)` with the model ID *and* the price inlined — **and all three carried the same copy-pasted 20-line function**, which is the disease Rosetta exists to cure, so they collapse onto **one** bootstrap (`what/production/_googleai.py`) rather than getting three parallel edits. Model requested by **capability** (`image.pro`), price from the registry. **Two defects surfaced that were not on the work list. (1) `build_comic_parity.py` has been broken since PT-P5** — it put `what/code` on `sys.path` and imported `canvas_comic`/`canvas_core`, which moved to `what/production/` ~2 months ago; it failed at *import*, before ever reaching an image call, and nobody noticed. **(2) The RLHF corpus was naming a generator that was never called**: `VariantInfo.model` defaulted to `"imagen-4-ultra"` — a string that was never a real model ID — at `cost_usd=0.06`, in the dataclass *and* in `from_dict`'s fallback, so any variant recorded without an explicit model, and any on-disk record missing the key, silently acquired that attribution. Defaults now describe **absence** (`"unknown"`/`0.0`, reusing `review_collect.py`'s existing sentinel), guarded by a test that fails if a default ever names a model again — not by a comment. **The honest limit of the sweep:** the remaining `imagen-4` grep hits are comments, migration docstrings and one historical fixture; mutating those to make a grep read zero would be theatre, so they stay, and the criterion is recorded as *zero live call sites/defaults*, not zero mentions. **No spend** — verified statically plus the free probe (**"registry matches the live service"**). Suites: canvas_core 863→**867/3** · comic_render **143/2** · producers **259** · `canvas_std` **115/10** · **firewall diff 0** · ruff on changed files 23→**21** (2 removed, 0 added). ⚠️ **The fleet is still unassigned with 4 days left** and the migration memo has **never been delivered** — see Next Steps 1.
+>
 > **▶ 2026-08-10/11 — 🟢 H3 RENDERED · THE "BILLING BLOCKER" WAS A MISDIAGNOSIS · ONE GOOGLE LAYER FOR THE FLEET (Mondrian, Operation Rosetta Stone).** The banner below this one is **wrong**, and correcting it is the headline. It told the operator H3 was blocked on depleted Gemini credits and to top up. The `429` was real; **the conclusion was mine and it was false.** Canvas was reading `GEMINI_API_KEY` — Home credential **C05**, which Home's own credential inventory documents as depleted and *deliberately out of the render chain* — while **C63**, a **funded Vertex service account**, sat configured and working on the same node. One read of the broker's inventory would have caught it. **The same failure had already happened twice** (ScienceStanley 2026-07-18: a generator missed the Vertex branch and fell back to dead keys; Terminal: no Vertex branch at all, plus a price table listing `gemini-3-pro-image` at `$0.06` against a real `$0.134` — a 2.2× under-count on any budget guard). Root cause in all three: **model IDs, prices and credential lanes copy-pasted into five independent implementations that had drifted.** **Built:** `Home.aDNA/what/code/googleai/` — one place holding a Google model ID, one credential lane order, one price table. Resolve by **capability** (`image.pro`), never by literal; **retirement runs on the calendar** (`effective_status()` flips Imagen to retired on 2026-08-17 with no edit, and warns on every call inside 30 days); **surfaces are separate catalogues** (Vertex carries *no* Imagen at all, which is why moving to the Vertex lane sidesteps the deprecation entirely); **quota backoff built in**; **`probe.py` verifies the registry against the live service for free** — catalogue reads plus an invalid-ratio request rejected at validation, which is how the 14-entry aspect menu was obtained. **The drift check earned its keep before it was committed:** it caught that *I* had marked the Imagen family `retired` while the service was still serving it — which would have raised on working code seven days early. That produced the calendar-driven design. **Migrated:** Canvas (`comic_render/backends/gemini.py` → a thin binding; `critique/vision_client.py`, the fleet's **last** `google.generativeai` consumer) · `adna_lab`'s MCP server (the reference client four others were copied from) · Videos (uncommitted — Iris has in-flight work). **Then H3 ran**: 27 images, **$3.618** of the $5 cap, 4 composited pages, 0 warnings, `sync_hash` byte-identical. **A second finding en route:** the run made 5 images, hit `RESOURCE_EXHAUSTED`, and succeeded on retry moments later — **rate limits wear the same error string as spent credit**, so backoff went into the shared layer (the aDNA runners had independently hand-rolled the same 10/20/40/80s loop). **Honest gaps:** I marked "migrate Home + Canvas" complete when **Home's own `api_helpers.py` was never migrated** — it still imports `MODEL_MAP`/`KeyRotator` from the **archived** CanvasForge, the exact hazard I documented and left in place — nor `dual_prompt_ab_test.py`, nor Canvas's `parity_comic` + 2 demos. Tracked at `Home.aDNA/how/campaigns/campaign_rosetta_stone/` **R5**, with the 8 `aDNA.aDNA` runners, Terminal and ContextCommons. Suites: `googleai` **78** · `comic_render` **143/2** · `canvas_core` **863/3** · firewall diff **0**. `adr_010` `proposed`.
 >
 > **▶ 2026-08-09 (later) — ⚠️ SUPERSEDED IN ITS CONCLUSION (see the banner above; retained verbatim per SO-3/SO-7). H3 OPENED AND BUILT · "THE LIVE RUN IS BLOCKED ON BILLING" — *this diagnosis was wrong*; the wrong credential was being read while a funded lane sat unused (Mondrian, `session_stanley_20260809_h3_first_light`).** The operator opened H3 at plan approval, opened the **spend gate** in the same ruling, assigned the phase **in full to Mondrian** — and signed **all three pending §7.7 ratifications**. Then the account said no. **`429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted"`, account-wide** (reproduced on `gemini-3-pro-image`, `gemini-2.5-flash-image`, and a *text-only* `gemini-2.5-flash` call). **The credential is valid** — the aspect-menu probe returned a well-formed 400, which only happens after auth succeeds; this is a billing state, not an auth failure and not a rate limit. Resolution is a top-up at `ai.studio/projects` — **the operator's**, and then H3 is one command with spend already verified: **`gemini-3-pro-image` @ $0.134/image (2K) × 27 images = $3.62** against the $5 cap (4K would be $6.48, over cap — which is why the DPI shortfall routes to the refine-stage upscale, roadmap R7, rather than to more pixels). **Two findings came out of checking rather than trusting.** **(1) FLEET-RELEVANT — the reference image client is eight days from dead**: verified live, the entire `imagen-4.0-*` family is **deprecated with a shutdown date of 2026-08-17**, and `adna_lab.mcp.image.server.GeminiImageClient` — the fleet's reference for image generation, and this backend's own stated precedent — calls `generate_images` against exactly that family. Adapting it verbatim would have shipped H3 with a fortnight to live; `comic_render` targets the Gemini **native image** models via `generate_content` + `response_modalities=['Image']` instead (different call, config object and response shape). Flagged outward to Berthier for Luke. **(2) the real aspect menu is 14 entries, not the 5 assumed** — and it cost nothing to learn, because an invalid ratio is rejected at *validation*, before generation, and the 400 enumerates the valid set. That single fact changed the output: the mini-issue splash snaps to **2:3 (residual 0.030)** instead of **9:16 (0.140)**, so making the menu belong to the backend rather than hardcoding one paid for itself the first time it ran. **Built:** geometry-derived aspect (`aspect.py` + `extract.py`; the manifest gains `effective_aspect_ratio` + `aspect_snap_error` and **never overwrites the declared value**; every drifting panel prints by name) — the splash declares `3:4` and is drawn 0.647, and the wide panels *declare `16:9` correctly* while being drawn 9.6% off it, which is why the warn threshold keys on geometry rather than on labels agreeing; **`backends/gemini.py`** (refusals arrive as HTTP 200 with no image part — returning success there would write nothing and claim it worked; parts are modality-interleaved; SDK errors are returned not raised so one refused panel cannot abandon 26 others; credential env-name-only and asserted absent from every result); **S-1..S-4** under the ratification that released them — `RLHF_SIGNAL_TYPE_REJECT` had existed since the bridge was written with **no reachable code path**, so a reject-only review pass produced *no learning signal at all*; rejects now derive from `responses[]` keyed on a `response_id` (never a fabricated `selection_id` naming a record that does not exist) under a distinct trap, and **S-4 is enforced as a GUARD** (`REJECT_VOCABULARY_CONFIRMED = False` holds every reject out of the shared store until Argus rules on what `accepted` means — two tests assert the default holds, because "we'll remember not to run it" is not a mechanism). **Governance:** the dev-lane annex was **amended in the open** (§3a + Amendment 1, struck-through and dated) rather than silently overwritten — H3 was the larger half of Luke's only lane, and no `luke/*` branch had ever been created. Two tests **inverted, not deleted** (one had been asserting the bug). Suites: comic_render 94→**154/2** · canvas_core 841→**863/3** · boundary guard green · **firewall diff 0** · ruff clean. **The campaign close was NOT taken: no page has been rendered, and H3's whole point is a page.**
@@ -89,10 +91,12 @@ ratified `adr_009` authorizes once H3 closes — which it now has.
 and it needs ComfyUI started (verified **not running**, HTTP 000, on 2026-08-13).
 
 > ⚠️ **Fleet-relevant, verified live 2026-08-09:** the entire **`imagen-4.0-*` family retires
-> 2026-08-17**. Canvas is migrated; the fleet is not. Live sites remain in **aDNA.aDNA (8 runners)**,
-> **Home.aDNA (`api_helpers.py`, `dual_prompt_ab_test.py`)**, **Canvas (`parity_comic` + 2 demos)**,
-> **Terminal**, **ContextCommons**. Tracked at `Home.aDNA/how/campaigns/campaign_rosetta_stone/`
-> (phase **R5**, open). The shared layer that replaces them: `Home.aDNA/what/code/googleai/`.
+> 2026-08-17**. ✅ **Canvas is now fully clear (2026-08-13)** — `parity_comic` + both demos migrated;
+> see the R5 section below. **The fleet is not**, and with the deadline 4 days out **nobody is
+> assigned**: live sites remain in **aDNA.aDNA (8 runners)**, **Home.aDNA (`api_helpers.py`,
+> `dual_prompt_ab_test.py`)**, **Terminal**, **ContextCommons**, plus **5 stale worktree copies**.
+> Tracked at `Home.aDNA/how/campaigns/campaign_rosetta_stone/` (phase **R5**, open). The shared layer
+> that replaces them: `Home.aDNA/what/code/googleai/`.
 
 Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
 `missions/mission_{h3_first_light,h6_close,h4_vulcan_seam,h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
@@ -117,7 +121,7 @@ Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
    the endpoint question · his call on wrapper follow-up **#2**. **Nothing blocks** — an unresolvable
    workflow degrades to the built-in graph, which is live-verified.
 6. **`adr_010` (Home.aDNA)** — the Google model layer's rules; `proposed`, §7.7 signature pending.
-7. **Push** — Canvas is **14 commits ahead** of origin (Home + `adna-lab` also ahead). Operator-gated batch.
+7. **Push** — Canvas is **18 commits ahead** of origin (Home + `adna-lab` also ahead). Operator-gated batch.
 8. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
 
 *(✅ Resolved 2026-08-09 at the H3 gate: all three §7.7 ratifications **SIGNED** — `spec_rlhf_seam`
@@ -141,7 +145,7 @@ six memo deliveries — EXECUTED · parity push — EXECUTED [Luke's H3 lane unb
 
 ## Current Phase
 
-**Operation Halftone (live — one blocker: a Gemini billing top-up).** History: Cartography → Keystone (v2.0.x shipped) → Palette → Salon → Armature →
+**Operation Halftone (live — no blockers; next gate is H6 re-open, the campaign close).** History: Cartography → Keystone (v2.0.x shipped) → Palette → Salon → Armature →
 Lodestar → Beacon (v2.3.0; LIP queue drained) → **Halftone** (chartered 2026-07-09; **amended 2026-08-03** +HV/HR/HF).
 Done: H0 charter · H1 producer hardening (comic 87→100; `adr_008` + prompt contract) · **HV visual-fidelity rail**
 (CLI + 4 traps + calibration + doctrine adoption + reviewers 1.1.0 + guidance) · **H2 render bridge**
@@ -159,8 +163,9 @@ authoring contract · `adr_009`; canvas_core **841/3**, comic_render **94/1**). 
 geometry-derived aspect · `backends/gemini.py` · S-1..S-4 reject→III · dev-lane §3a; then **27 images,
 $3.618, 4 composited pages, 0 warnings** on the funded Vertex lane after Operation Rosetta Stone
 corrected the credential. The "blocked on billing" reading of 2026-08-09 was a misdiagnosis — see the
-top banner). Open: **the operator's eye-gate** → **H6 re-open** for the campaign AAR + close · and
-**H4's remainder** (the refine chain has still never run live).
+top banner). **Eye-gate ✅ PASSED 2026-08-13 — H3 fully closed.** Open: **H6 re-open** for the campaign
+AAR + close (unblocked; the eye-gate was its only dependency) · and **H4's remainder** (the refine
+chain has still never run live).
 
 ## What's Done (session `_h3_first_light` — 2026-08-09, H3 built; rendered 2026-08-10)
 
@@ -264,10 +269,11 @@ top banner). Open: **the operator's eye-gate** → **H6 re-open** for the campai
   unused on the same node. H3 rendered 2026-08-10 for $3.618. See the top banner.)*
 - **Awaiting the operator, not blocked:** the **H3 eye-gate** (the campaign close depends on it, and
   nothing else does).
-- 🟠 **Fleet deadline — `imagen-4.0-*` retires 2026-08-17.** Canvas's own remaining live sites:
-  `what/artifacts/parity_comic/build_comic_parity.py` · `demos/mvp_comic_demo.py` ·
-  `demos/mvp_imagen_fidelity.py`. Tracked fleet-wide at
-  `Home.aDNA/how/campaigns/campaign_rosetta_stone/` phase **R5**.
+- ✅ **Canvas's `imagen-4.0-*` exposure is CLOSED (2026-08-13).** All three sites migrated onto the
+  shared layer by capability (`image.pro`), not by literal ID. 🟠 **The fleet's is not** — see the
+  banner above; with 4 days left the remaining vaults are **unassigned and unaware** (the memo was
+  never delivered). That is now the loudest open item in this vault's outbox, and it is not Canvas's
+  to execute alone.
 - **Gated, not blocked — no reject signal may reach the III store** until Argus rules on ADR-005 `accepted`
   semantics (`spec_rlhf_seam` §5 S-4). Enforced by `REJECT_VOCABULARY_CONFIRMED = False`, not by memory.
   Rejections stay durable in `responses[]` meanwhile, so the hold costs a re-run and nothing else.
@@ -284,24 +290,58 @@ top banner). Open: **the operator's eye-gate** → **H6 re-open** for the campai
   (`canvas_visual_loop` → `canvas_core`, adoption-path step 2 — rule at H2/HR) · `html_renderer` file-node preview
   fix (static trap covers it) · `canvas_core` console-script packaging.
 
+## What's Done (session `_eyegate_and_r5_canvas_slice` — 2026-08-13)
+
+- **Eye-gate RULED: PASS** (O1) — H3 closed; **H6 re-open unblocked**. Recorded in the mission
+  (new §Eye-gate), campaign master, campaign CLAUDE.md and here. The two apparent layout faults are
+  written down as **settled** so no one re-derives them.
+- **H3 evidence preserved out of volatile `/tmp`** (O2) → `what/artifacts/h3_first_light/`, **42 files
+  SHA-256-verified byte-identical**, with a README carrying the run parameters and each downstream
+  consumer's stake. Gitignored: **durable on this node, never committed** — copy it off before any
+  node rebuild. `/tmp/h3run` is now reclaimable.
+- **Canvas's R5 slice CLOSED** (O3) — three scripts off `imagen-4.0-generate-001` onto
+  `Home.aDNA/what/code/googleai/`, requesting the **`image.pro` capability** rather than a literal ID.
+  All three had carried the **same copy-pasted 20-line function**, so they collapse onto **one**
+  bootstrap (`what/production/_googleai.py`) instead of getting three parallel edits.
+- **Two defects found that were not on the work list:**
+  1. **`build_comic_parity.py` had been broken since PT-P5** — it put `what/code` on `sys.path` and
+     imported `canvas_comic`/`canvas_core`, which moved to `what/production/` ~2 months ago. It failed
+     at *import*, before ever reaching an image call, and nobody noticed. Fixed; it imports again.
+  2. **The RLHF corpus was naming a generator that was never called.** `VariantInfo.model` defaulted
+     to `"imagen-4-ultra"` — a string that was never a real model ID — at `cost_usd=0.06`, in the
+     dataclass *and* in `from_dict`'s fallback. Any variant recorded without an explicit model, and
+     any on-disk record missing the key, silently acquired that attribution. Defaults now describe
+     **absence** (`"unknown"`/`0.0`, the sentinel `review_collect.py` already used), guarded by a test
+     that fails if any default ever names a model again.
+- **Verification, no spend**: canvas_core 863→**867/3** · comic_render **143/2** · producers **259** ·
+  `canvas_std` **115/10** · **firewall diff 0** · ruff on changed files 23→**21** (2 removed, 0 added).
+  All three scripts import; `image.pro` → `gemini-3-pro-image` @ **$0.134** on lane **C63**;
+  absent-Home fails with an actionable message. Free probe: **"registry matches the live service"**.
+
 ## Next Steps
 
-1. **🖼 Operator: the H3 eye-gate.** Pages at `/tmp/h3run/runs/science_stanley_mini/pages/` (page 1
-   first). The campaign close waits on this and on nothing else.
-2. **🟠 Finish the Rosetta migration before 2026-08-17** — the next session's standing mandate, starting
-   with Home's `api_helpers.py` (still importing from the *archived* CanvasForge). Roster + recipe:
-   `Home.aDNA/how/campaigns/campaign_rosetta_stone/` **R5**.
+1. **🟠 THE FLEET'S IMAGEN DEADLINE — 4 days, nobody assigned.** Canvas is clear; the fleet is not, and
+   the migration memo has **never been delivered**, so aDNA.aDNA (8 runners), Terminal, ContextCommons,
+   ScienceStanley and WilhelmAI are all **unaware**. Either **GO the memo**
+   (`who/coordination/coord_2026_08_10_rosetta_google_model_layer_migration.md`, `staged_pending_GO`)
+   or authorise central execution. Note the R5 roster **under-counts**: it misses the **10+ Home
+   consumers of `api_helpers.py`** (plus WilhelmAI and III.aDNA reaching in cross-vault) that break
+   when that shim moves, and `ScienceStanley/.../gen_imagen_t2i.py` is filed as historical but reads
+   as a live harness. Roster + recipe: `Home.aDNA/how/campaigns/campaign_rosetta_stone/` **R5**.
+2. **H6 re-open — the campaign close, now unblocked** (the eye-gate was its only dependency):
+   campaign AAR + close · **`CV-COMIC-STYLE-01` calibration**, which has been waiting on H3 pixels and
+   they now exist *and are durable* · real-pixel DPI evidence against the 300/200 policy (the export
+   reported **0 warnings**, so the 200 floor is cleared and the policy has real numbers) · the HR
+   pilot's second consumer (the H3 renders) · **`canvas_comic` archive**, authorised by the ratified
+   `adr_009` and sequenced behind H3 — which has now closed. *(Note for that archive: two of the three
+   scripts migrated this session import `canvas_comic`, so sequence them together.)*
 3. **H4's remainder**: one live `--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"` run.
-   The 2026-08-10 run was generate-only.
+   The 2026-08-10 run was generate-only. **ComfyUI is not running** (verified HTTP 000, 2026-08-13) —
+   start it first. Needs a **fresh spend authorisation**; the H3 gate covered one run, not a second.
 4. **Operator, non-blocking**: the HR review pass · `adr_010` §7.7 signature · four staged memo GOs
-   (Callisto · Argus · Berthier · the Rosetta migration memo) · the push GO (Canvas **14 ahead**) ·
-   registrar ack when it lands.
-5. **H6 re-open** (after the eye-gate): campaign AAR + close · real-pixel DPI evidence against the
-   300/200 policy — the H3 export reported **0 warnings**, so the 200 floor is cleared and the policy
-   now has real numbers · **`CV-COMIC-STYLE-01` calibration — it has been waiting on H3 pixels and they
-   now exist** · the HR pilot's second consumer (the H3 renders) · `canvas_comic` archive (authorized by
-   the ratified `adr_009`, sequenced behind H3 — now unblocked).
-6. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED` and re-run the collector (idempotent).
+   (Callisto · Argus · Berthier · **the Rosetta migration memo — see item 1, now time-critical**) ·
+   the push GO (Canvas **18 ahead**) · registrar ack when it lands.
+5. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED` and re-run the collector (idempotent).
 
 ## Notes
 
