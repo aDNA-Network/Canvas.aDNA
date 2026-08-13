@@ -3,13 +3,13 @@ type: mission
 mission_id: mission_h3_first_light
 campaign_id: campaign_canvas_halftone
 phase: H3
-status: partial                    # everything buildable is built; the live render is blocked on Gemini billing
+status: completed                  # rendered 2026-08-10: 27 images, $3.618, 4 pages. The 2026-08-09 'blocked on billing' call was a misdiagnosis — see §The "blocker".
 owner: stanley
 persona: Mondrian
 executor_tier: opus
 token_budget_estimated: "1 session — geometry-aspect in bridge core + 1 new backend + ~60 tests + S-1..S-4 + 2 staged memos + records"
 created: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-12
 last_edited_by: agent_mondrian
 relates: ["halftone_roadmap.md §1 (backends) + §2 H3 row + §4 open decision #1", "halftone_gap_register.md G1", "halftone_dev_lanes.md §3a", "what/specs/spec_rlhf_seam.md §5"]
 tags: [mission, halftone, h3, first_light, gemini, aspect, spend_gate, rlhf, reject, imagen_deprecation]
@@ -34,34 +34,64 @@ spend gate in the same ruling, **and** reassigned the phase in full to Mondrian 
 | O0 | Record the three ratifications (`spec_rlhf_seam` · dispatch-contract amendment · `adr_009`) | ✅ |
 | O1 | Geometry-derived aspect in bridge core (`extract.py` + `aspect.py` + manifest) | ✅ |
 | O2 | `backends/gemini.py` + registry flip + `cloud` extra + contract fixtures | ✅ |
-| O3 | SPEND GATE: verify model + pricing, then live dispatch | 🔴 **BLOCKED — billing** |
-| O4 | Operator eye-gate on the composited page | ⛔ blocked by O3 |
+| O3 | SPEND GATE: verify model + pricing, then live dispatch | ✅ **2026-08-10** — 27 images, $3.618, 4 pages |
+| O4 | Operator eye-gate on the composited page | 🟡 **presented 2026-08-10, not yet ruled** |
 | O5 | S-1..S-4 reject→III (released by O0's ratification) | ✅ |
-| O6 | H6 re-open + campaign close | ⛔ blocked by O3 |
+| O6 | H6 re-open + campaign close | ⛔ waits on the eye-gate (O4) |
 | O7 | Dev-lane amendment + staged memos + records | ✅ |
 
-## The blocker (O3)
+## The "blocker" (O3) — reported 2026-08-09, ⚠️ **MISDIAGNOSED**, resolved 2026-08-10
+
+**What this section said on 2026-08-09**, retained because a wrong call is worth keeping legible:
+
+> `429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted."` Account-wide, reproduced on
+> three models including a text-only call. The credential is valid. **This is a billing state.**
+> Resolution is a top-up at `ai.studio/projects`, which is the operator's.
+
+**Every observation there was true. The conclusion was wrong, and it was mine.**
+
+The `429` was real. But `GEMINI_API_KEY` — the variable this backend read — is Home credential
+**C05**, and `Home.aDNA/what/inventory/inventory_credentials.md` documents it as *credit-empty and
+deliberately out of the render chain*. Meanwhile **C63** (`SS_GEMINI_VERTEX_SA`), a **funded Vertex
+service account**, was configured and working on the same node — ScienceStanley had been rendering
+through it since 2026-08-03.
+
+**"Account-wide" was the reasoning error.** Reproducing the failure on three models proved only that
+all three requests used *the same dead credential*. It felt like breadth; it was one lane tested
+thrice. The check that would have settled it was reading the broker's own inventory — one tool call,
+in this vault's own workspace.
+
+**Cost of the error:** the operator was told to spend money that did not need spending, and H3 sat
+"blocked" for a day for no reason.
+
+**Resolved** 2026-08-10 by Operation Rosetta Stone
+(`Home.aDNA/how/campaigns/campaign_rosetta_stone/`), which put credential-lane resolution in one
+place so no call site chooses a credential again.
+
+## What actually ran (O3, 2026-08-10)
 
 ```
-429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted."
+comic-render plan|dispatch|select|write-back|validate|compose   # --chain "generate:gemini"
 ```
 
-**Account-wide**, reproduced on `gemini-3-pro-image`, `gemini-2.5-flash-image`, and a text-only
-`gemini-2.5-flash` call. **The credential is valid**: the aspect-menu probe returned a well-formed
-400, which only happens after auth succeeds. This is a billing state — not an auth failure, not a
-rate limit, and not anything in this package.
+| | |
+|---|---|
+| Images | **27** (9 panels × 3 variants) |
+| Spend | **$3.618** — exactly the pre-verified figure, inside the $5 cap |
+| Lane | **C63 `SS_GEMINI_VERTEX_SA`** (Vertex, `location=global`) |
+| Model | `gemini-3-pro-image` @ $0.134 (2K) |
+| Pages | **4** × 2062×3150, `export_report.md` **0 warnings** |
+| Round-trip | `sync_hash c56c73c08428f621` byte-identical; 16 nodes / 13 edges unchanged |
+| Validate | `ok=True`, `adna_native`, D-1/2/3 green, 9 files, 0 warnings |
 
-Resolution is a top-up at `ai.studio/projects`, which is the operator's. Once credits land, H3 is
-one command:
+**A second finding surfaced mid-run:** the batch produced 5 images, hit `RESOURCE_EXHAUSTED`, and
+succeeded on a retry moments later. That is a **rate limit wearing the same error string as spent
+credit** — the second time in two days that message misled. Exponential backoff went into the shared
+layer rather than here; the `aDNA.aDNA` runners turn out to have hand-rolled the same 10/20/40/80s
+loop independently, which is corroboration.
 
-```
-comic-render run --chain "generate:gemini,refine:comfy@0.4/comic_panel_refine" \
-                 --variants 3 --budget-cap 5 <canvas>
-```
-
-**Verified spend, ready for the gate**: `gemini-3-pro-image` at **$0.134/image (2K)** × 27 images
-(9 panels × 3 variants) = **$3.62**, inside the $5 cap. 4K would be $6.48 — over cap, which is why
-the DPI shortfall routes to the refine-stage upscale (roadmap R7) rather than to more pixels.
+**H4's remainder is still open**: the run was `generate:gemini` **only**. The
+`generate:gemini,refine:comfy@0.4/comic_panel_refine` chain has never run live.
 
 ## Findings
 
@@ -127,17 +157,35 @@ Tests inverted rather than deleted (H6 precedent): `test_registry_fake_available
 → `..._now_live`; `test_reject_only_session_appends_responses_only` → `..._now_emits_a_signal`
 (that one had been asserting the bug).
 
-## AAR
+## AAR *(rewritten 2026-08-12 — the 2026-08-09 version is superseded and quoted below)*
 
-- **Worked** — checking ground truth before writing code. The Imagen deprecation and the real aspect
-  menu were both found by asking the service instead of trusting the precedent and the docs; each
-  changed the design. The free-400 trick for enumerating valid values is reusable.
-- **Didn't** — the live render. Not for want of code: the account has no credits. It was also not
-  discoverable from anything in the vault, which is the argument for probing early rather than at
-  the end of the build.
-- **Finding** — the fleet's reference image client is 8 days from dead. That is bigger than this
-  mission and has been routed outward.
-- **Change** — spec constraints that say "before X" got a mechanism (`REJECT_VOCABULARY_CONFIRMED`)
-  rather than a note. Adopt that pattern for the next "must confirm before" clause.
-- **Follow-up** — top up credits → one command closes O3, O4, H4's remainder and unblocks O6. The
-  campaign close stays held until a real page exists and the operator has looked at it.
+- **Worked** — checking ground truth *against the service* before writing code. The Imagen
+  deprecation and the real 14-entry aspect menu were both found by asking the API instead of
+  trusting the precedent and the docs; each changed the design, and the free-400 trick for
+  enumerating valid values is reusable.
+- **Didn't** — **I diagnosed the blocker wrong and told the operator to spend money.** The `429` was
+  real; "the account is out of credits" was not. The backend read `GEMINI_API_KEY` (**C05** —
+  documented in this workspace as credit-empty and out of the render chain) while a **funded Vertex
+  service account (C63)** sat working on the same node. I then "confirmed" it account-wide by
+  retrying three models — which only re-tested the same dead credential. **Breadth of retries is not
+  breadth of evidence.**
+- **Finding** — the same error string means two different things. `RESOURCE_EXHAUSTED` was a dead
+  credential on 2026-08-09 and a **rate limit** on 2026-08-10, mid-run, after 5 successful images.
+  Neither is diagnosable from the message alone; both need the lane and a retry to tell apart.
+- **Change** — credential selection left the call sites entirely
+  (`Home.aDNA/what/code/googleai/credentials.py`), and a quota refusal now **names its lane and the
+  untried funded alternatives**. The class of error is closed, not just this instance. Separately:
+  spec constraints that say "before X" got a mechanism (`REJECT_VOCABULARY_CONFIRMED`) rather than a
+  note — adopt that for the next "must confirm before" clause.
+- **Follow-up** — the operator's **eye-gate** (presented, unruled) → **H6 re-open** for the campaign
+  AAR and close · **H4's remainder** (the refine chain has still never run live) ·
+  `CV-COMIC-STYLE-01` calibration, which now has the real pixels it was waiting for.
+
+> **Superseded 2026-08-09 AAR lines, kept verbatim (SO-3/SO-7):**
+> *"**Didn't** — the live render. Not for want of code: the account has no credits. It was also not
+> discoverable from anything in the vault, which is the argument for probing early rather than at
+> the end of the build."* · *"**Follow-up** — top up credits → one command closes O3, O4…"*
+>
+> Both are wrong in the same way, and the second clause of the first is wrong twice over: it **was**
+> discoverable from the vault. `Home.aDNA/what/inventory/inventory_credentials.md` names C05 as
+> depleted and C63 as the funded render credential. I did not read it.

@@ -1,18 +1,20 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-08-09
+updated: 2026-08-12
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260809_h3_first_light
-tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard, comfyui, refine]
+last_session: session_stanley_20260812_winddown
+tags: [state, governance, canvas, halftone, visual_fidelity, rlhf_surface, federation, standard, comfyui, refine, first_light, rosetta_stone, googleai]
 ---
 
 # Operational State
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
 
-> **▶ 2026-08-09 (later) — 🔴 H3 OPENED AND BUILT · THE LIVE RUN IS BLOCKED ON BILLING, NOT ON CODE (Mondrian, `session_stanley_20260809_h3_first_light`).** The operator opened H3 at plan approval, opened the **spend gate** in the same ruling, assigned the phase **in full to Mondrian** — and signed **all three pending §7.7 ratifications**. Then the account said no. **`429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted"`, account-wide** (reproduced on `gemini-3-pro-image`, `gemini-2.5-flash-image`, and a *text-only* `gemini-2.5-flash` call). **The credential is valid** — the aspect-menu probe returned a well-formed 400, which only happens after auth succeeds; this is a billing state, not an auth failure and not a rate limit. Resolution is a top-up at `ai.studio/projects` — **the operator's**, and then H3 is one command with spend already verified: **`gemini-3-pro-image` @ $0.134/image (2K) × 27 images = $3.62** against the $5 cap (4K would be $6.48, over cap — which is why the DPI shortfall routes to the refine-stage upscale, roadmap R7, rather than to more pixels). **Two findings came out of checking rather than trusting.** **(1) FLEET-RELEVANT — the reference image client is eight days from dead**: verified live, the entire `imagen-4.0-*` family is **deprecated with a shutdown date of 2026-08-17**, and `adna_lab.mcp.image.server.GeminiImageClient` — the fleet's reference for image generation, and this backend's own stated precedent — calls `generate_images` against exactly that family. Adapting it verbatim would have shipped H3 with a fortnight to live; `comic_render` targets the Gemini **native image** models via `generate_content` + `response_modalities=['Image']` instead (different call, config object and response shape). Flagged outward to Berthier for Luke. **(2) the real aspect menu is 14 entries, not the 5 assumed** — and it cost nothing to learn, because an invalid ratio is rejected at *validation*, before generation, and the 400 enumerates the valid set. That single fact changed the output: the mini-issue splash snaps to **2:3 (residual 0.030)** instead of **9:16 (0.140)**, so making the menu belong to the backend rather than hardcoding one paid for itself the first time it ran. **Built:** geometry-derived aspect (`aspect.py` + `extract.py`; the manifest gains `effective_aspect_ratio` + `aspect_snap_error` and **never overwrites the declared value**; every drifting panel prints by name) — the splash declares `3:4` and is drawn 0.647, and the wide panels *declare `16:9` correctly* while being drawn 9.6% off it, which is why the warn threshold keys on geometry rather than on labels agreeing; **`backends/gemini.py`** (refusals arrive as HTTP 200 with no image part — returning success there would write nothing and claim it worked; parts are modality-interleaved; SDK errors are returned not raised so one refused panel cannot abandon 26 others; credential env-name-only and asserted absent from every result); **S-1..S-4** under the ratification that released them — `RLHF_SIGNAL_TYPE_REJECT` had existed since the bridge was written with **no reachable code path**, so a reject-only review pass produced *no learning signal at all*; rejects now derive from `responses[]` keyed on a `response_id` (never a fabricated `selection_id` naming a record that does not exist) under a distinct trap, and **S-4 is enforced as a GUARD** (`REJECT_VOCABULARY_CONFIRMED = False` holds every reject out of the shared store until Argus rules on what `accepted` means — two tests assert the default holds, because "we'll remember not to run it" is not a mechanism). **Governance:** the dev-lane annex was **amended in the open** (§3a + Amendment 1, struck-through and dated) rather than silently overwritten — H3 was the larger half of Luke's only lane, and no `luke/*` branch had ever been created. Two tests **inverted, not deleted** (one had been asserting the bug). Suites: comic_render 94→**154/2** · canvas_core 841→**863/3** · boundary guard green · **firewall diff 0** · ruff clean. **The campaign close was NOT taken: no page has been rendered, and H3's whole point is a page.**
+> **▶ 2026-08-10/11 — 🟢 H3 RENDERED · THE "BILLING BLOCKER" WAS A MISDIAGNOSIS · ONE GOOGLE LAYER FOR THE FLEET (Mondrian, Operation Rosetta Stone).** The banner below this one is **wrong**, and correcting it is the headline. It told the operator H3 was blocked on depleted Gemini credits and to top up. The `429` was real; **the conclusion was mine and it was false.** Canvas was reading `GEMINI_API_KEY` — Home credential **C05**, which Home's own credential inventory documents as depleted and *deliberately out of the render chain* — while **C63**, a **funded Vertex service account**, sat configured and working on the same node. One read of the broker's inventory would have caught it. **The same failure had already happened twice** (ScienceStanley 2026-07-18: a generator missed the Vertex branch and fell back to dead keys; Terminal: no Vertex branch at all, plus a price table listing `gemini-3-pro-image` at `$0.06` against a real `$0.134` — a 2.2× under-count on any budget guard). Root cause in all three: **model IDs, prices and credential lanes copy-pasted into five independent implementations that had drifted.** **Built:** `Home.aDNA/what/code/googleai/` — one place holding a Google model ID, one credential lane order, one price table. Resolve by **capability** (`image.pro`), never by literal; **retirement runs on the calendar** (`effective_status()` flips Imagen to retired on 2026-08-17 with no edit, and warns on every call inside 30 days); **surfaces are separate catalogues** (Vertex carries *no* Imagen at all, which is why moving to the Vertex lane sidesteps the deprecation entirely); **quota backoff built in**; **`probe.py` verifies the registry against the live service for free** — catalogue reads plus an invalid-ratio request rejected at validation, which is how the 14-entry aspect menu was obtained. **The drift check earned its keep before it was committed:** it caught that *I* had marked the Imagen family `retired` while the service was still serving it — which would have raised on working code seven days early. That produced the calendar-driven design. **Migrated:** Canvas (`comic_render/backends/gemini.py` → a thin binding; `critique/vision_client.py`, the fleet's **last** `google.generativeai` consumer) · `adna_lab`'s MCP server (the reference client four others were copied from) · Videos (uncommitted — Iris has in-flight work). **Then H3 ran**: 27 images, **$3.618** of the $5 cap, 4 composited pages, 0 warnings, `sync_hash` byte-identical. **A second finding en route:** the run made 5 images, hit `RESOURCE_EXHAUSTED`, and succeeded on retry moments later — **rate limits wear the same error string as spent credit**, so backoff went into the shared layer (the aDNA runners had independently hand-rolled the same 10/20/40/80s loop). **Honest gaps:** I marked "migrate Home + Canvas" complete when **Home's own `api_helpers.py` was never migrated** — it still imports `MODEL_MAP`/`KeyRotator` from the **archived** CanvasForge, the exact hazard I documented and left in place — nor `dual_prompt_ab_test.py`, nor Canvas's `parity_comic` + 2 demos. Tracked at `Home.aDNA/how/campaigns/campaign_rosetta_stone/` **R5**, with the 8 `aDNA.aDNA` runners, Terminal and ContextCommons. Suites: `googleai` **78** · `comic_render` **143/2** · `canvas_core` **863/3** · firewall diff **0**. `adr_010` `proposed`.
+>
+> **▶ 2026-08-09 (later) — ⚠️ SUPERSEDED IN ITS CONCLUSION (see the banner above; retained verbatim per SO-3/SO-7). H3 OPENED AND BUILT · "THE LIVE RUN IS BLOCKED ON BILLING" — *this diagnosis was wrong*; the wrong credential was being read while a funded lane sat unused (Mondrian, `session_stanley_20260809_h3_first_light`).** The operator opened H3 at plan approval, opened the **spend gate** in the same ruling, assigned the phase **in full to Mondrian** — and signed **all three pending §7.7 ratifications**. Then the account said no. **`429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted"`, account-wide** (reproduced on `gemini-3-pro-image`, `gemini-2.5-flash-image`, and a *text-only* `gemini-2.5-flash` call). **The credential is valid** — the aspect-menu probe returned a well-formed 400, which only happens after auth succeeds; this is a billing state, not an auth failure and not a rate limit. Resolution is a top-up at `ai.studio/projects` — **the operator's**, and then H3 is one command with spend already verified: **`gemini-3-pro-image` @ $0.134/image (2K) × 27 images = $3.62** against the $5 cap (4K would be $6.48, over cap — which is why the DPI shortfall routes to the refine-stage upscale, roadmap R7, rather than to more pixels). **Two findings came out of checking rather than trusting.** **(1) FLEET-RELEVANT — the reference image client is eight days from dead**: verified live, the entire `imagen-4.0-*` family is **deprecated with a shutdown date of 2026-08-17**, and `adna_lab.mcp.image.server.GeminiImageClient` — the fleet's reference for image generation, and this backend's own stated precedent — calls `generate_images` against exactly that family. Adapting it verbatim would have shipped H3 with a fortnight to live; `comic_render` targets the Gemini **native image** models via `generate_content` + `response_modalities=['Image']` instead (different call, config object and response shape). Flagged outward to Berthier for Luke. **(2) the real aspect menu is 14 entries, not the 5 assumed** — and it cost nothing to learn, because an invalid ratio is rejected at *validation*, before generation, and the 400 enumerates the valid set. That single fact changed the output: the mini-issue splash snaps to **2:3 (residual 0.030)** instead of **9:16 (0.140)**, so making the menu belong to the backend rather than hardcoding one paid for itself the first time it ran. **Built:** geometry-derived aspect (`aspect.py` + `extract.py`; the manifest gains `effective_aspect_ratio` + `aspect_snap_error` and **never overwrites the declared value**; every drifting panel prints by name) — the splash declares `3:4` and is drawn 0.647, and the wide panels *declare `16:9` correctly* while being drawn 9.6% off it, which is why the warn threshold keys on geometry rather than on labels agreeing; **`backends/gemini.py`** (refusals arrive as HTTP 200 with no image part — returning success there would write nothing and claim it worked; parts are modality-interleaved; SDK errors are returned not raised so one refused panel cannot abandon 26 others; credential env-name-only and asserted absent from every result); **S-1..S-4** under the ratification that released them — `RLHF_SIGNAL_TYPE_REJECT` had existed since the bridge was written with **no reachable code path**, so a reject-only review pass produced *no learning signal at all*; rejects now derive from `responses[]` keyed on a `response_id` (never a fabricated `selection_id` naming a record that does not exist) under a distinct trap, and **S-4 is enforced as a GUARD** (`REJECT_VOCABULARY_CONFIRMED = False` holds every reject out of the shared store until Argus rules on what `accepted` means — two tests assert the default holds, because "we'll remember not to run it" is not a mechanism). **Governance:** the dev-lane annex was **amended in the open** (§3a + Amendment 1, struck-through and dated) rather than silently overwritten — H3 was the larger half of Luke's only lane, and no `luke/*` branch had ever been created. Two tests **inverted, not deleted** (one had been asserting the bug). Suites: comic_render 94→**154/2** · canvas_core 841→**863/3** · boundary guard green · **firewall diff 0** · ruff clean. **The campaign close was NOT taken: no page has been rendered, and H3's whole point is a page.**
 >
 > **▶ 2026-08-09 — 🟢 H6 OFFLINE HALF EXECUTED: four defects, all of one family — code that was written, looked correct, and had never run the path it claimed (Mondrian, `session_stanley_20260809_211323_halftone_h6_offline`).** Operator opened the H6 lane at plan approval (= the gate, HV/H2/H4/H5 precedent) and ruled three things with it: **include print E2E** · **`canvas_comic` = reader-only freeze now** (open decision #3) · **RLHF routing = both sinks with a named boundary** (open decision #4). The trigger was housekeeping: **three Callisto memos had been sitting untracked in `who/coordination/` across sessions**, and the 2026-08-07 one **discharged the Bearly P5 evidence dependency** that HR's dispatch contract and H6's RLHF seam doc had been explicitly parked behind. The parked work was buildable the moment someone read the inbox. **Ground truth also corrected the H3 story: `GEMINI_API_KEY` is present on this node** (Keychain + exported env, name only) — H3 is held by **ruling**, not blocked by credential. **The four defects: (1) `export_spread` was UNREACHABLE** — a correct two-page-spread exporter has sat in `canvas_core/print.py` since the CanvasForge lineage, but `export_all` only ever called `export_page`, so every spread would have exported as two independent pages each fitting the whole 4124px image into one 2062px page, **squashed 2:1 and silent**; **(2) CMYK was MACHINE-DEPENDENT** — `_convert_to_cmyk` fell through a bare `except: pass` to Pillow's soft convert, so the same canvas produced different bytes depending on whether the host had ColorSync profiles, with nothing in the result, report or logs saying which; *this node has the profiles, which is exactly why it stayed invisible*; **(3) `RLHF_SIGNAL_TYPE_REJECT` was declared and never emitted** — combined with Schema-A structurally requiring a pick, a reject-only review pass produced **no signal at all**, and "none of these six is acceptable" is a stronger signal than "this one is best"; **(4) the visual-check gate always failed on comics** — all 24 findings came from exactly three knowledge-canvas *aesthetic* traps, none a defect. **Delivered:** `spec_rlhf_seam.md` (`proposed` — Canvas owns the capture substrate / III owns the signal schema; store heterogeneity normative; **ISS-vs-III resolved as a scope conflation**, two objects sharing one word, no ownership moved; decision #4 ruled; implementation **S-1..S-4 deliberately unbuilt** while the spec is unratified) · **`review_dispatch_contract v0` BOUND** (six clauses — **D5** refusal-atomicity adopted from Callisto's `F-S030-1` **credited by name**, **D6** venue boundary from ADR-007 mode L; **dispatcher deliberately NOT built** — the venue has not run a batch) · **`--profile knowledge-canvas|comic|all`** (comic **24→0** source, **21→3** rendered, and all 3 survivors are `CV-IMAGE-ASPECT-RATIO-01`, the trap that caught the real H2 drift — noise dropped, signal kept, with a test asserting no profile may ever drop a correctness trap) · **print E2E** (spread compose lands, the H6-deferred test **inverted not deleted**; colour policy resolved once at construction and always named; **DPI policy written down** — 300 target, 200 floor, warn-never-block because R7's ~195 is a legitimate proof page, spreads measured against the COMBINED target: verified live at 195 on one page vs **112** across two) · `comic_authoring_contract.md` (T3′; every command run before documenting — the first draft had the build flags wrong) · **`adr_009`** canvas_comic disposition. **The doctrine earned its keep a third time:** the first spread render passed *every* assertion — two 2062×3150 halves, correct page count — on **two flat green rectangles**, because the fake backend emits solid colour and a solid colour splits identically however you cut it; a structured source (gradient · centre seam · L/R markers · ruler ticks) proved the split, and **the markers being round** is the actual proof, since the pre-H6 double-fit would have squashed them. Suites: canvas_core 824→**841/3** · comic_render 92→**94/1** · producers **259** · `canvas_std` **115/10** · cert **11/11** · **firewall diff 0** · E2E `sync_hash c56c73c08428f621` byte-identical. **H6 is `status: partial` — the campaign close was NOT taken, because H3 has never run.**
 >
@@ -36,48 +38,52 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > *(Closed campaign banners / build history relocated verbatim 2026-08-03 → [`how/state_archive_20260803.md`](how/state_archive_20260803.md) — nothing deleted, SO-3/SO-7. Second pass same day: the Keystone-era lower-half sections joined it when this file was rewritten Halftone-current.)*
 
-## ▶ Resume Here — 🔴 **OPERATION HALFTONE** — one blocker, and it is a billing top-up
+## ▶ Resume Here — 🟢 **OPERATION HALFTONE** — H3 RENDERED; the close waits on one eye-gate
 
-**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · H4 ✅ (offline half) · H6 ✅ (offline half, `partial`) ·
-HR 🟡 built (gate 2/3 closed) · H3 🔴 BUILT, CANNOT RUN**
+**H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · H6 ✅ (offline half, `partial`) · H4 ✅ (offline half) ·
+HR 🟡 built (gate 2/3 closed) · H3 ✅ RENDERED — awaiting the operator's eye-gate**
 
-### 🔴 THE ONE THING BLOCKING THE CAMPAIGN
+### 🖼 The fleet's first rendered comic page exists
 
-```
-429 RESOURCE_EXHAUSTED — "Your prepayment credits are depleted."
-```
+`/tmp/h3run/runs/science_stanley_mini/pages/` — **4 pages, 2062×3150, 0 warnings.**
+27 images · **$3.618** · lane **C63 `SS_GEMINI_VERTEX_SA`** (Vertex, funded) · `gemini-3-pro-image`.
+`sync_hash c56c73c08428f621` byte-identical source→rendered; 16 nodes / 13 edges unchanged.
 
-**Top up the Gemini account at `ai.studio/projects`.** That is the whole blocker. It is account-wide
-(reproduced on three models including a text-only call) and it is **not** a credential problem —
-`GEMINI_API_KEY` is present and valid; the aspect-menu probe returned a well-formed 400, which only
-happens after auth succeeds.
+> ⚠️ **CORRECTION — the 2026-08-09 banner below is wrong and is retained only as a dated record
+> (SO-3/SO-7).** It reports H3 blocked on depleted billing and tells the operator to top up credits.
+> **That was a misdiagnosis, authored here.** The `429` was real; the conclusion was not. Canvas was
+> reading `GEMINI_API_KEY` — Home credential **C05**, which `Home.aDNA/what/inventory/inventory_credentials.md`
+> documents as depleted and *deliberately out of the render chain* — while **C63**, a funded Vertex
+> service account, sat configured and working on the same node. One read of the broker's inventory
+> would have caught it. **No money was ever the problem.** Fixed 2026-08-10 by Operation Rosetta Stone.
 
-Once credits land, H3 is **one command**, and it closes H3 *and* H4's remainder together:
+**Next: the operator's eye-gate.** Page 1 was presented 2026-08-10 and has **not been ruled on**; the
+campaign close (H6 re-open) depends on it. What to look at, and the two things already checked:
 
-```
-comic-render run --chain "generate:gemini,refine:comfy@0.4/comic_panel_refine" \
-                 --variants 3 --budget-cap 5 what/production/comic_render/tests/fixtures/mini_issue.canvas
-```
+- The art is real and consistent across panels **with no LoRA** — an independent data point that
+  roadmap **R3**'s "accept likeness drift at v0" was conservative.
+- Two apparent layout faults were investigated and **withdrawn**: the band atop page 1 is *inside the
+  generated art* (image `1696×2528` r=0.671 into a `1989×3075` r=0.647 box leaves ~113px, not the
+  ~700px observed), and page 2's empty lower third is the **fixture's own layout** (its panels end at
+  675 of a 1025-tall page). **Compose rendered exactly what was drawn.** The weakness is art
+  direction, not geometry — which is what `CV-COMIC-STYLE-01` was deferred to calibrate, and it now
+  has real pixels to calibrate against.
 
-**Spend is pre-verified against your $5 cap:** `gemini-3-pro-image` @ **$0.134/image (2K) × 27 images
-(9 panels × 3 variants) = $3.62**. (4K = $6.48, over cap — so the DPI shortfall routes to the refine-stage
-upscale, roadmap R7, rather than to more pixels.)
+**Still open after the eye-gate: H4's remainder.** The live run was `generate:gemini` **only** — the
+`generate:gemini,refine:comfy@0.4/comic_panel_refine` chain has still never run live. One more run.
 
-Then: operator **eye-gate** → **H6 re-opens** for the campaign AAR + close with the real-pixel evidence
-the offline passes could not produce.
-
-> ⚠️ **Fleet-relevant, verified live 2026-08-09:** the entire **`imagen-4.0-*` family is deprecated with a
-> shutdown date of 2026-08-17**. `adna_lab.mcp.image.server.GeminiImageClient` — the fleet's reference image
-> client — targets exactly that family. Any vault generating images off that precedent has days, not months.
-> Canvas moved to `gemini-3-pro-image` via `generate_content` + `response_modalities=['Image']`; the working
-> shape is in `comic_render/backends/gemini.py` with a live API capture beside it at `tests/fixtures/gemini/`.
+> ⚠️ **Fleet-relevant, verified live 2026-08-09:** the entire **`imagen-4.0-*` family retires
+> 2026-08-17**. Canvas is migrated; the fleet is not. Live sites remain in **aDNA.aDNA (8 runners)**,
+> **Home.aDNA (`api_helpers.py`, `dual_prompt_ab_test.py`)**, **Canvas (`parity_comic` + 2 demos)**,
+> **Terminal**, **ContextCommons**. Tracked at `Home.aDNA/how/campaigns/campaign_rosetta_stone/`
+> (phase **R5**, open). The shared layer that replaces them: `Home.aDNA/what/code/googleai/`.
 
 Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
 `missions/mission_{h3_first_light,h6_close,h4_vulcan_seam,h5_visualdna_compose,hr_review_surface,hf_federation_hygiene}.md` →
 `what/specs/spec_rlhf_seam.md` → `how/federation/federation_index.md`.
 
 **Awaiting the operator (surface at next contact):**
-1. 🔴 **The Gemini top-up** — see above. Nothing else stands between Halftone and its close.
+1. 🖼 **The H3 eye-gate** — page 1 above. The campaign close waits on it, and nothing else does.
 2. **HR gate leftover (1 of 3 — the last)**: **your real review pass** on
    `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (open in Obsidian — all 8 controls are
    live, in note view and inside the canvas embeds; set verdicts, save; then Mondrian runs
@@ -94,7 +100,9 @@ Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
 5. **Awaiting Vulcan's reply** (non-blocking, no action owed by us): the `comic_panel_refine` workflow ·
    the endpoint question · his call on wrapper follow-up **#2**. **Nothing blocks** — an unresolvable
    workflow degrades to the built-in graph, which is live-verified.
-6. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
+6. **`adr_010` (Home.aDNA)** — the Google model layer's rules; `proposed`, §7.7 signature pending.
+7. **Push** — Canvas is **14 commits ahead** of origin (Home + `adna-lab` also ahead). Operator-gated batch.
+8. *(Standing, non-blocking)* **D3 Rosetta registrar ack** `#needs-human` (nudge memo available on request).
 
 *(✅ Resolved 2026-08-09 at the H3 gate: all three §7.7 ratifications **SIGNED** — `spec_rlhf_seam`
 [which released S-1..S-4, built the same session] · the dispatch-contract amendment D1–D6 · `adr_009`.
@@ -131,12 +139,14 @@ render **agent-confirmed** [2026-08-04 `_174045`: two live catches — restricte
 block-only; all 8 controls live incl. inside canvas embeds]; remaining = the operator's
 review pass). **H6 offline half** (2026-08-09 — `status: partial`: RLHF seam spec · dispatch contract v0
 bound · comic visual-check profile · print E2E [spread compose reachable, CMYK deterministic, DPI policy] ·
-authoring contract · `adr_009`; canvas_core **841/3**, comic_render **94/1**). **H3 built** (2026-08-09 — `mission_h3_first_light`, `partial`: geometry-derived aspect ·
-`backends/gemini.py` · S-1..S-4 reject→III · dev-lane §3a; comic_render **154/2**, canvas_core **863/3**)
-— **and blocked at the live run by depleted Gemini prepayment credits**, not by anything in the code.
-Open: **the top-up** → one chain command → **operator eye-gate** → **H6 re-open** for the campaign AAR + close.
+authoring contract · `adr_009`; canvas_core **841/3**, comic_render **94/1**). **H3 ✅ RENDERED** (built 2026-08-09, run 2026-08-10 — `mission_h3_first_light`, `completed`:
+geometry-derived aspect · `backends/gemini.py` · S-1..S-4 reject→III · dev-lane §3a; then **27 images,
+$3.618, 4 composited pages, 0 warnings** on the funded Vertex lane after Operation Rosetta Stone
+corrected the credential. The "blocked on billing" reading of 2026-08-09 was a misdiagnosis — see the
+top banner). Open: **the operator's eye-gate** → **H6 re-open** for the campaign AAR + close · and
+**H4's remainder** (the refine chain has still never run live).
 
-## What's Done (session `_h3_first_light` — 2026-08-09, H3 built and blocked)
+## What's Done (session `_h3_first_light` — 2026-08-09, H3 built; rendered 2026-08-10)
 
 - **Gate rulings recorded**: H3 opened · **spend gate opened** · H3 reassigned **in full to Mondrian**
   (dev-lane annex §3a + Amendment 1 — struck through and dated, never silently overwritten) · **three
@@ -147,8 +157,8 @@ Open: **the top-up** → one chain command → **operator eye-gate** → **H6 re
   declared value never overwritten, drift printed by name. **+31 tests.**
 - **O2** `backends/gemini.py` (NEW) + registry flip + `cloud` extra + `tests/fixtures/gemini/` live
   capture. **+29 tests.** The old gating test **inverted, not deleted**.
-- **O3 🔴 BLOCKED** — `429 RESOURCE_EXHAUSTED`, prepayment credits depleted, account-wide. Credential
-  valid. Model + pricing verified and ready: $3.62 of $5.
+- **O3** — reported blocked on 2026-08-09 (`429 RESOURCE_EXHAUSTED`); **that reading was wrong**. The
+  wrong credential was being selected. **EXECUTED 2026-08-10**: 27 images, **$3.618** of the $5 cap.
 - **O5** S-1..S-4: the reject path that had never been reachable, with the S-4 confirmation enforced as
   a code guard rather than an intention. **+22 tests.** A second test **inverted** — it had been
   asserting the bug.
@@ -233,11 +243,15 @@ Open: **the top-up** → one chain command → **operator eye-gate** → **H6 re
 
 ## Active Blockers
 
-- 🔴 **BLOCKING THE CAMPAIGN — Gemini prepayment credits are depleted** `#needs-human`. Account-wide
-  `429 RESOURCE_EXHAUSTED`; the credential is valid (a well-formed 400 from the aspect probe proves auth
-  succeeds). H3's live render, H4's remainder, the eye-gate and the campaign close all sit behind a top-up at
-  `ai.studio/projects`. Everything on the Canvas side is built, tested and one command from running; spend is
-  pre-verified at **$3.62 of the $5 cap**.
+- **None blocking.** *(The 2026-08-09 entry here claimed depleted Gemini credits were blocking the
+  campaign. It was a misdiagnosis — the wrong credential was being read while a funded Vertex lane sat
+  unused on the same node. H3 rendered 2026-08-10 for $3.618. See the top banner.)*
+- **Awaiting the operator, not blocked:** the **H3 eye-gate** (the campaign close depends on it, and
+  nothing else does).
+- 🟠 **Fleet deadline — `imagen-4.0-*` retires 2026-08-17.** Canvas's own remaining live sites:
+  `what/artifacts/parity_comic/build_comic_parity.py` · `demos/mvp_comic_demo.py` ·
+  `demos/mvp_imagen_fidelity.py`. Tracked fleet-wide at
+  `Home.aDNA/how/campaigns/campaign_rosetta_stone/` phase **R5**.
 - **Gated, not blocked — no reject signal may reach the III store** until Argus rules on ADR-005 `accepted`
   semantics (`spec_rlhf_seam` §5 S-4). Enforced by `REJECT_VOCABULARY_CONFIRMED = False`, not by memory.
   Rejections stay durable in `responses[]` meanwhile, so the hold costs a re-run and nothing else.
@@ -256,16 +270,22 @@ Open: **the top-up** → one chain command → **operator eye-gate** → **H6 re
 
 ## Next Steps
 
-1. **🔴 Operator: top up Gemini credits** (`ai.studio/projects`). Then Mondrian runs the single chain
-   command in Resume Here → the composited page → **your eye-gate**. That sequence closes H3, H4's
-   remainder, and unblocks the campaign close. Spend pre-verified at **$3.62 of the $5 cap**.
-2. **Operator, non-blocking**: the HR review pass · three staged memo GOs (Callisto · Argus · Berthier) ·
-   the push GO (origin is **11 commits behind**) · registrar ack when it lands.
-3. **H6 re-open** (after the eye-gate): campaign AAR + close · real-pixel DPI evidence against the
-   300/200 policy · `CV-COMIC-STYLE-01` calibration (has been waiting on H3 pixels) · the HR pilot's
-   second consumer · `canvas_comic` archive (now authorized — `adr_009` ratified — but still sequenced
-   behind H3).
-4. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED` and re-run the collector (idempotent).
+1. **🖼 Operator: the H3 eye-gate.** Pages at `/tmp/h3run/runs/science_stanley_mini/pages/` (page 1
+   first). The campaign close waits on this and on nothing else.
+2. **🟠 Finish the Rosetta migration before 2026-08-17** — the next session's standing mandate, starting
+   with Home's `api_helpers.py` (still importing from the *archived* CanvasForge). Roster + recipe:
+   `Home.aDNA/how/campaigns/campaign_rosetta_stone/` **R5**.
+3. **H4's remainder**: one live `--chain "generate:gemini,refine:comfy@0.4/comic_panel_refine"` run.
+   The 2026-08-10 run was generate-only.
+4. **Operator, non-blocking**: the HR review pass · `adr_010` §7.7 signature · four staged memo GOs
+   (Callisto · Argus · Berthier · the Rosetta migration memo) · the push GO (Canvas **14 ahead**) ·
+   registrar ack when it lands.
+5. **H6 re-open** (after the eye-gate): campaign AAR + close · real-pixel DPI evidence against the
+   300/200 policy — the H3 export reported **0 warnings**, so the 200 floor is cleared and the policy
+   now has real numbers · **`CV-COMIC-STYLE-01` calibration — it has been waiting on H3 pixels and they
+   now exist** · the HR pilot's second consumer (the H3 renders) · `canvas_comic` archive (authorized by
+   the ratified `adr_009`, sequenced behind H3 — now unblocked).
+6. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED` and re-run the collector (idempotent).
 
 ## Notes
 
