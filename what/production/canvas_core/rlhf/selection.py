@@ -31,8 +31,15 @@ class VariantInfo:
     """Metadata for one image variant."""
 
     image_path: str
-    model: str = "imagen-4-ultra"
-    cost_usd: float = 0.06
+    # These defaults describe ABSENCE, not a guess. Until 2026-08-13 they were "imagen-4-ultra"
+    # and 0.06 — a model name that was never a real ID (the real one is
+    # `imagen-4.0-ultra-generate-001`) at a price that stopped being right. Any variant recorded
+    # without an explicit model was therefore silently attributed to a fictional generator, and any
+    # on-disk record missing the key acquired that attribution on load. A training corpus that
+    # misnames its own generator is worse than one that admits it does not know.
+    # `"unknown"` is the sentinel `review_collect.py` already uses.
+    model: str = "unknown"
+    cost_usd: float = 0.0
     seed: int | None = None
 
 
@@ -100,8 +107,8 @@ class SelectionRecord:
         variants = [
             VariantInfo(
                 image_path=v["image_path"],
-                model=v.get("model", "imagen-4-ultra"),
-                cost_usd=v.get("cost_usd", 0.06),
+                model=v.get("model", "unknown"),
+                cost_usd=v.get("cost_usd", 0.0),
                 seed=v.get("seed"),
             )
             for v in data["variants"]

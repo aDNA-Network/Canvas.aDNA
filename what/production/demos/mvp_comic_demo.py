@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """M-5-06: MVP Comic Demo — 1 page + Michael dedication
 
-Generates a single comic page using ComicPageBuilder + Imagen 4,
-then a page-30 Michael dedication page. Verifies R11 gating and
-character invariance.
+Generates a single comic page using ComicPageBuilder + cloud image
+generation, then a page-30 Michael dedication page. Verifies R11 gating
+and character invariance.
 
 Charter spec:
   - 1 page + page-30 Michael dedication
@@ -15,11 +15,16 @@ Charter spec:
   - ≤ 180s/run
 
 Usage:
-    GOOGLE_API_KEY=<key> python mvp_comic_demo.py
+    python mvp_comic_demo.py
+
+Credentials are resolved by the shared Google model layer (Home.aDNA broker); no API key is
+read here and none should be.
+
+Migrated 2026-08-13 off `imagen-4.0-generate-001` (shutdown 2026-08-17) onto
+`Home.aDNA/what/code/googleai/`. Operation Rosetta Stone R5.
 """
 
 import json
-import os
 import sys
 import time
 from pathlib import Path
@@ -27,10 +32,15 @@ from pathlib import Path
 CODE_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CODE_ROOT))
 
+from _googleai import require_googleai
 from canvas_comic import ComicPageBuilder
 from canvas_comic.comic import ContextPack
 from canvas_core import run_all_traps
 from canvas_core.r11_gate import R11GateConfig, check_r11_gate
+
+# Requested by CAPABILITY, never by literal ID — the registry owns which model that resolves to.
+DEFAULT_MODEL = "image.pro"
+IMAGE_SIZE = "2K"
 
 ARTIFACT_DIR = CODE_ROOT.parent / "artifacts" / "mvp_comic"
 CANVAS_PATH = ARTIFACT_DIR / "mvp_comic_page.canvas"
@@ -62,26 +72,30 @@ def _make_demo_context_pack() -> ContextPack:
     return ContextPack(**kwargs)
 
 
-def generate_panel_image(prompt: str, output_path: Path, api_key: str) -> dict:
-    """Generate a panel image via Imagen 4."""
-    from google import genai
+def generate_panel_image(prompt: str, output_path: Path) -> dict:
+    """Generate a panel image via the shared Google model layer.
 
-    client = genai.Client(api_key=api_key)
+    Migrated 2026-08-13 (Operation Rosetta Stone R5) off the inlined
+    ``imagen-4.0-generate-001``, which shuts down 2026-08-17. The model is requested by
+    **capability** (``image.pro``) and the price comes from the registry, so neither is a literal
+    here that can drift out of agreement with reality.
+
+    Note for anyone reading the cost budget in this demo's charter: the layer's real price for
+    ``image.pro`` at 2K is **$0.134**, not the $0.04 this file used to assert.
+    """
+    googleai = require_googleai()
+
     start = time.time()
-    try:
-        response = client.models.generate_images(
-            model="imagen-4.0-generate-001",
-            prompt=prompt,
-            config=genai.types.GenerateImagesConfig(number_of_images=1),
-        )
-        elapsed = time.time() - start
-        if response.generated_images:
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            response.generated_images[0].image.save(str(output_path))
-            return {"success": True, "path": str(output_path), "elapsed": elapsed, "cost": 0.04}
-        return {"success": False, "error": "No images", "elapsed": elapsed}
-    except Exception as e:
-        return {"success": False, "error": str(e), "elapsed": time.time() - start}
+    result = googleai.get_client().generate_image(
+        prompt, str(output_path), model=DEFAULT_MODEL, image_size=IMAGE_SIZE
+    )
+    # Keep this demo's existing result-dict vocabulary ("path"/"elapsed"/"cost") so its callers and
+    # its JSON report do not change shape; the layer's own keys are richer but differently named.
+    result["elapsed"] = time.time() - start
+    if result.get("success"):
+        result["path"] = result["image_path"]
+        result["cost"] = result["cost_usd"]
+    return result
 
 
 def build_demo_page(cpb: ComicPageBuilder) -> tuple[str, list[str]]:
@@ -167,11 +181,6 @@ def run_demo():
     print("M-5-06: MVP Comic Demo")
     print("=" * 60)
 
-    api_key = os.environ.get("GOOGLE_API_KEY")
-    if not api_key:
-        print("ERROR: GOOGLE_API_KEY not set")
-        sys.exit(1)
-
     start = time.time()
     total_cost = 0.0
 
@@ -210,11 +219,11 @@ def run_demo():
         prompt_text = prompts[pid].text
         output_path = IMAGES_DIR / f"{filename}.png"
         print(f"  Generating {filename}...")
-        result = generate_panel_image(prompt_text, output_path, api_key)
+        result = generate_panel_image(prompt_text, output_path)
         if result["success"]:
             total_cost += result["cost"]
             cpb.resolve_panel(pid, result["path"])
-            print(f"    OK ({result['elapsed']:.1f}s, ${result['cost']:.2f})")
+            print(f"    OK ({result['elapsed']:.1f}s, ${result['cost']:.3f})")
         else:
             print(f"    FAILED: {result['error']}")
 

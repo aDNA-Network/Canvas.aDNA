@@ -1,19 +1,25 @@
 #!/usr/bin/env python3
-"""M-5-05: Image-Gen Fidelity Audit — Imagen Baseline Generation
+"""M-5-05: Image-Gen Fidelity Audit — cloud baseline generation
 
-Generates 3 test images via Gemini/Imagen 4 Ultra across Science Stanley's
-3 visual registers (Ghibli, Pixel, Transition). Records each as a
-SelectionRecord in the RLHF training corpus — the first real corpus entries.
+Generates 3 test images via the shared Google model layer across Science
+Stanley's 3 visual registers (Ghibli, Pixel, Transition). Records each as a
+SelectionRecord in the RLHF training corpus.
 
-Charter: A/B comparison Imagen vs ComfyForge. ComfyForge columns deferred
-(Anduril offline, LoRA not converged). This script produces the Imagen column.
+Charter: A/B comparison cloud vs ComfyForge. ComfyForge columns deferred
+(Anduril offline, LoRA not converged). This script produces the cloud column.
+
+Migrated 2026-08-13 off `imagen-4.0-generate-001` (shutdown 2026-08-17) onto
+`Home.aDNA/what/code/googleai/`, requesting the `image.pro` capability instead
+of a literal model ID. Operation Rosetta Stone R5.
 
 Usage:
-    GOOGLE_API_KEY=<key> python mvp_imagen_fidelity.py
+    python mvp_imagen_fidelity.py
+
+Credentials are resolved by the shared Google model layer (Home.aDNA broker, lane order
+C63 Vertex SA -> C62 -> C57 -> C04 -> C05); no API key is read here and none should be.
 """
 
 import json
-import os
 import sys
 import time
 from pathlib import Path
@@ -21,8 +27,14 @@ from pathlib import Path
 CODE_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(CODE_ROOT))
 
+from _googleai import require_googleai
 from canvas_core.rlhf.selection import SelectionRecord, VariantInfo
 from canvas_core.rlhf.backprop import write_selection
+
+# Requested by CAPABILITY, never by literal ID — the registry owns which model that resolves to,
+# so a model retirement is a registry edit rather than a sweep of every call site in the fleet.
+DEFAULT_MODEL = "image.pro"
+IMAGE_SIZE = "2K"
 
 # Output paths
 ARTIFACT_DIR = CODE_ROOT.parent / "artifacts" / "image_gen_fidelity" / "imagen"
@@ -57,45 +69,32 @@ REGISTER_PROMPTS = {
 }
 
 
-def generate_with_gemini(prompt: str, output_path: Path, api_key: str) -> dict:
-    """Generate a single image via Imagen 4 (google-genai SDK)."""
-    from google import genai
+def generate_with_gemini(prompt: str, output_path: Path) -> dict:
+    """Generate a single image via the shared Google model layer.
 
-    client = genai.Client(api_key=api_key)
+    Migrated 2026-08-13 (Operation Rosetta Stone R5). This used to inline
+    ``imagen-4.0-generate-001`` and a hardcoded ``$0.04``; that model family shuts down 2026-08-17.
+    The model is now requested **by capability** (``image.pro``) so the registry decides which ID
+    that is, and the price comes from the registry's table rather than from a literal here.
+
+    The layer writes the file itself and returns errors rather than raising, so there is no
+    ``try/except`` and no response unwrapping left to get wrong.
+    """
+    googleai = require_googleai()
 
     start = time.time()
-    try:
-        response = client.models.generate_images(
-            model="imagen-4.0-generate-001",
-            prompt=prompt,
-            config=genai.types.GenerateImagesConfig(number_of_images=1),
-        )
+    result = googleai.get_client().generate_image(
+        prompt, str(output_path), model=DEFAULT_MODEL, image_size=IMAGE_SIZE
+    )
+    result["elapsed_s"] = time.time() - start
 
-        elapsed = time.time() - start
+    if result.get("success"):
+        from PIL import Image as PILImage
 
-        if response.generated_images:
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            img = response.generated_images[0].image
-            img.save(str(output_path))
+        with PILImage.open(str(output_path)) as pil_img:
+            result["width"], result["height"] = pil_img.size
 
-            from PIL import Image as PILImage
-            pil_img = PILImage.open(str(output_path))
-
-            return {
-                "success": True,
-                "image_path": str(output_path),
-                "elapsed_s": elapsed,
-                "model": "imagen-4.0-generate-001",
-                "cost_usd": 0.04,
-                "width": pil_img.size[0],
-                "height": pil_img.size[1],
-            }
-
-        return {"success": False, "error": "No images returned", "elapsed_s": elapsed}
-
-    except Exception as e:
-        elapsed = time.time() - start
-        return {"success": False, "error": str(e), "elapsed_s": elapsed}
+    return result
 
 
 def run_fidelity_audit():
@@ -104,12 +103,6 @@ def run_fidelity_audit():
     print("M-5-05: Image-Gen Fidelity Audit — Imagen Baseline")
     print("=" * 60)
 
-    api_key = os.environ.get("GOOGLE_API_KEY")
-    if not api_key:
-        print("ERROR: GOOGLE_API_KEY not set")
-        print("Usage: GOOGLE_API_KEY=<key> python mvp_imagen_fidelity.py")
-        sys.exit(1)
-
     results = {}
     total_cost = 0.0
 
@@ -117,22 +110,28 @@ def run_fidelity_audit():
         print(f"\n[{register_name.upper()}] Generating...")
         output_path = ARTIFACT_DIR / f"stanley_{register_name}.png"
 
-        result = generate_with_gemini(config["prompt"], output_path, api_key)
+        result = generate_with_gemini(config["prompt"], output_path)
         results[register_name] = result
 
         if result["success"]:
-            total_cost += result.get("cost_usd", 0.06)
-            print(f"  OK: {output_path.name} ({result['elapsed_s']:.1f}s, ${result['cost_usd']:.2f})")
+            total_cost += result["cost_usd"]
+            print(f"  OK: {output_path.name} ({result['elapsed_s']:.1f}s, "
+                  f"${result['cost_usd']:.3f}, lane {result['lane']})")
 
-            # Write RLHF corpus entry
+            # Write RLHF corpus entry.
+            # `model` and `cost_usd` come from the RESULT, never from a default here. Until
+            # 2026-08-13 this recorded model="imagen-4-ultra" / cost=0.06 as fallbacks while the
+            # call actually used imagen-4.0-generate-001 at 0.04 — so the corpus could attribute a
+            # judgement to a model that was never invoked. A training corpus that misnames its own
+            # generator is worse than an empty one.
             try:
                 record = SelectionRecord(
                     prompt=config["prompt"],
                     register=config["register"],
                     variants=[VariantInfo(
-                        image_path=str(output_path),
-                        model=result.get("model", "imagen-4-ultra"),
-                        cost_usd=result.get("cost_usd", 0.06),
+                        image_path=result["image_path"],
+                        model=result["model"],
+                        cost_usd=result["cost_usd"],
                     )],
                     pick_index=0,
                     pick_reason=f"Single variant — Imagen baseline for {register_name} register",
@@ -149,11 +148,14 @@ def run_fidelity_audit():
     # Summary
     succeeded = sum(1 for r in results.values() if r.get("success"))
     print(f"\n{'=' * 60}")
-    print(f"IMAGEN BASELINE RESULTS")
+    print(f"IMAGE FIDELITY BASELINE RESULTS")
     print(f"{'=' * 60}")
     print(f"  Generated: {succeeded}/3 images")
-    print(f"  Total cost: ${total_cost:.2f}")
+    print(f"  Total cost: ${total_cost:.3f}")  # 3dp: image prices are sub-cent-sensitive ($0.134)
     print(f"  Output: {ARTIFACT_DIR}")
+    for name, r in results.items():
+        if not r.get("success"):
+            print(f"  FAILED [{name}]: {r.get('error', 'unknown')}")
 
     # Character invariance notes (qualitative — images must be viewed)
     if succeeded > 0:

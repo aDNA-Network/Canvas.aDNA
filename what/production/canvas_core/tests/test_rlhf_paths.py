@@ -37,7 +37,7 @@ def _make_valid_record(image_path: str = "what/artifacts/test/img.png") -> Selec
     return SelectionRecord(
         prompt="Test prompt",
         register="R3",
-        variants=[VariantInfo(image_path=image_path, model="imagen-4-ultra")],
+        variants=[VariantInfo(image_path=image_path, model="gemini-3-pro-image")],
         pick_index=0,
         pick_reason="Test pick",
         approver_id="test_user",
@@ -156,11 +156,14 @@ class TestMigratedRecordsLoad:
                 pytest.skip(f"{filename} not present in this checkout")
             with open(record_path) as f:
                 data = json.load(f)
+            # Mirrors SelectionRecord.from_dict's fallbacks — keep the two in step, or this test
+            # stops testing what production does. Both admit absence as "unknown"/0.0 since
+            # 2026-08-13; they used to invent "imagen-4-ultra"/0.06.
             variants = [
                 VariantInfo(
                     image_path=v["image_path"],
-                    model=v.get("model", "imagen-4-ultra"),
-                    cost_usd=v.get("cost_usd", 0.06),
+                    model=v.get("model", "unknown"),
+                    cost_usd=v.get("cost_usd", 0.0),
                     seed=v.get("seed"),
                 )
                 for v in data["variants"]
@@ -182,3 +185,60 @@ class TestMigratedRecordsLoad:
             assert errors == [], (
                 f"{filename} fails validation post-migration: {errors}"
             )
+
+
+# ---------------------------------------------------------------------------
+# Rosetta Stone R5 (2026-08-13): the corpus must not invent its own generator
+# ---------------------------------------------------------------------------
+
+
+class TestVariantDefaultsDescribeAbsence:
+    """`VariantInfo`'s defaults used to name a model that was never called.
+
+    Until 2026-08-13 they were ``model="imagen-4-ultra"`` / ``cost_usd=0.06``. That string was
+    never a real model ID (the real one is ``imagen-4.0-ultra-generate-001``) and the family it
+    gestures at shuts down 2026-08-17 — so an unlabelled variant was silently attributed to a
+    fictional, dying generator at a price nobody verified.
+    """
+
+    def test_unspecified_model_is_admitted_as_unknown(self):
+        v = VariantInfo(image_path="what/artifacts/test/v1.png")
+        assert v.model == "unknown"
+        assert v.cost_usd == 0.0
+
+    def test_no_default_names_a_model(self):
+        """A default must never be mistakable for a real generator.
+
+        This is the guard, not the comment above it: if someone re-introduces a plausible model
+        name as a default, this fails rather than quietly re-poisoning the corpus.
+        """
+        v = VariantInfo(image_path="what/artifacts/test/v1.png")
+        assert "imagen" not in v.model.lower()
+        assert "gemini" not in v.model.lower()
+
+    def test_deserialising_a_record_without_a_model_does_not_invent_one(self):
+        """The `from_dict` fallback carried the same fabricated default."""
+        record = SelectionRecord.from_dict({
+            "prompt": "p",
+            "register": "R3",
+            "variants": [{"image_path": "what/artifacts/test/v1.png"}],  # no model, no cost
+            "pick_index": 0,
+            "pick_reason": "r",
+            "approver_id": "a",
+        })
+        assert record.variants[0].model == "unknown"
+        assert record.variants[0].cost_usd == 0.0
+
+    def test_an_explicit_model_still_round_trips(self):
+        """Admitting absence must not erase what WAS recorded."""
+        record = SelectionRecord.from_dict({
+            "prompt": "p",
+            "register": "R3",
+            "variants": [{"image_path": "what/artifacts/test/v1.png",
+                          "model": "gemini-3-pro-image", "cost_usd": 0.134}],
+            "pick_index": 0,
+            "pick_reason": "r",
+            "approver_id": "a",
+        })
+        assert record.variants[0].model == "gemini-3-pro-image"
+        assert record.variants[0].cost_usd == 0.134
