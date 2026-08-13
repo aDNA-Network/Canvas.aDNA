@@ -38,16 +38,34 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > *(Closed campaign banners / build history relocated verbatim 2026-08-03 → [`how/state_archive_20260803.md`](how/state_archive_20260803.md) — nothing deleted, SO-3/SO-7. Second pass same day: the Keystone-era lower-half sections joined it when this file was rewritten Halftone-current.)*
 
-## ▶ Resume Here — 🟢 **OPERATION HALFTONE** — H3 RENDERED; the close waits on one eye-gate
+## ▶ Resume Here — 🟢 **OPERATION HALFTONE** — H3 CLOSED (eye-gate PASSED); **H6 re-open is the next gate**
 
 **H0 ✅ · H1 ✅ · HV ✅ · H2 ✅ · H5 ✅ · HF ✅ · H6 ✅ (offline half, `partial`) · H4 ✅ (offline half) ·
-HR 🟡 built (gate 2/3 closed) · H3 ✅ RENDERED — awaiting the operator's eye-gate**
+HR 🟡 built (gate 2/3 closed) · H3 ✅ **CLOSED** — rendered 2026-08-10, **eye-gate PASSED 2026-08-13****
 
-### 🖼 The fleet's first rendered comic page exists
+### 🖼 The fleet's first rendered comic pages exist — and are no longer in `/tmp`
 
-`/tmp/h3run/runs/science_stanley_mini/pages/` — **4 pages, 2062×3150, 0 warnings.**
-27 images · **$3.618** · lane **C63 `SS_GEMINI_VERTEX_SA`** (Vertex, funded) · `gemini-3-pro-image`.
-`sync_hash c56c73c08428f621` byte-identical source→rendered; 16 nodes / 13 edges unchanged.
+**`what/artifacts/h3_first_light/`** — **4 pages, 2062×3150, 0 warnings**, plus 27 raw variants and the
+9 Schema-A selections. 27 images · **$3.618** · lane **C63 `SS_GEMINI_VERTEX_SA`** (Vertex, funded) ·
+`gemini-3-pro-image`. `sync_hash c56c73c08428f621` byte-identical source→rendered; 16 nodes / 13 edges
+unchanged. Read that tree's `README.md` first — it carries the run parameters, the settled layout
+questions, and what each downstream consumer needs it for.
+
+> **Preserved 2026-08-13.** This had been sitting in `/tmp/h3run` since the run — 166 MB of first-light
+> evidence behind a $3.618 spend, one reboot from gone. 42 files copied, SHA-256 verified
+> byte-identical. `what/artifacts/` is gitignored, so it is **durable on this node but never
+> committed**: if the node is rebuilt, copy it off first. `/tmp/h3run` is now reclaimable.
+
+### ✅ The eye-gate PASSED (2026-08-13)
+
+Page 1 was presented 2026-08-10 and sat unruled for three days. **Ruled: PASS — close H3.** That was
+the campaign close's only remaining dependency, so **H6 re-open is live.**
+
+**Settled at the gate — do not re-investigate.** The flat band atop page 1 is *inside the generated
+art* (`1696×2528` r=0.671 into a `1989×3075` r=0.647 box leaves ~113 px, not the ~700 px observed), and
+page 2's empty lower third is *the fixture's own layout* (panels end at y=675 of a 1025-tall page).
+**Compose rendered exactly what was drawn.** The weakness is **art direction**, not geometry — which is
+what `CV-COMIC-STYLE-01` was deferred to calibrate, and it now has real pixels to calibrate against.
 
 > ⚠️ **CORRECTION — the 2026-08-09 banner below is wrong and is retained only as a dated record
 > (SO-3/SO-7).** It reports H3 blocked on depleted billing and tells the operator to top up credits.
@@ -57,20 +75,18 @@ HR 🟡 built (gate 2/3 closed) · H3 ✅ RENDERED — awaiting the operator's e
 > service account, sat configured and working on the same node. One read of the broker's inventory
 > would have caught it. **No money was ever the problem.** Fixed 2026-08-10 by Operation Rosetta Stone.
 
-**Next: the operator's eye-gate.** Page 1 was presented 2026-08-10 and has **not been ruled on**; the
-campaign close (H6 re-open) depends on it. What to look at, and the two things already checked:
+One thing the gate confirmed and worth carrying forward: the art is consistent across panels **with no
+LoRA** — an independent data point that roadmap **R3**'s "accept likeness drift at v0" was conservative.
 
-- The art is real and consistent across panels **with no LoRA** — an independent data point that
-  roadmap **R3**'s "accept likeness drift at v0" was conservative.
-- Two apparent layout faults were investigated and **withdrawn**: the band atop page 1 is *inside the
-  generated art* (image `1696×2528` r=0.671 into a `1989×3075` r=0.647 box leaves ~113px, not the
-  ~700px observed), and page 2's empty lower third is the **fixture's own layout** (its panels end at
-  675 of a 1025-tall page). **Compose rendered exactly what was drawn.** The weakness is art
-  direction, not geometry — which is what `CV-COMIC-STYLE-01` was deferred to calibrate, and it now
-  has real pixels to calibrate against.
+**▶ Next gate: H6 re-open.** It carries the campaign AAR + close · **`CV-COMIC-STYLE-01` calibration**
+(it has been waiting on H3 pixels; they now exist and are durable) · real-DPI evidence against the
+300/200 policy (the export reported **0 warnings**, so the 200 floor is cleared and the policy finally
+has real numbers) · the HR pilot's second consumer · and the **`canvas_comic` archive** that the
+ratified `adr_009` authorizes once H3 closes — which it now has.
 
-**Still open after the eye-gate: H4's remainder.** The live run was `generate:gemini` **only** — the
-`generate:gemini,refine:comfy@0.4/comic_panel_refine` chain has still never run live. One more run.
+**Also still open: H4's remainder.** The live run was `generate:gemini` **only** — the
+`generate:gemini,refine:comfy@0.4/comic_panel_refine` chain has still never run live. One more run,
+and it needs ComfyUI started (verified **not running**, HTTP 000, on 2026-08-13).
 
 > ⚠️ **Fleet-relevant, verified live 2026-08-09:** the entire **`imagen-4.0-*` family retires
 > 2026-08-17**. Canvas is migrated; the fleet is not. Live sites remain in **aDNA.aDNA (8 runners)**,
@@ -83,7 +99,7 @@ Read: `how/campaigns/campaign_canvas_halftone/` (master + CLAUDE.md) →
 `what/specs/spec_rlhf_seam.md` → `how/federation/federation_index.md`.
 
 **Awaiting the operator (surface at next contact):**
-1. 🖼 **The H3 eye-gate** — page 1 above. The campaign close waits on it, and nothing else does.
+1. ~~🖼 **The H3 eye-gate**~~ — ✅ **RULED 2026-08-13: PASS.** H3 is closed; H6 re-open is unblocked.
 2. **HR gate leftover (1 of 3 — the last)**: **your real review pass** on
    `what/artifacts/review_surface_pilot/ss_variant_review.canvas` (open in Obsidian — all 8 controls are
    live, in note view and inside the canvas embeds; set verdicts, save; then Mondrian runs

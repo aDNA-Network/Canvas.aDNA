@@ -35,9 +35,9 @@ spend gate in the same ruling, **and** reassigned the phase in full to Mondrian 
 | O1 | Geometry-derived aspect in bridge core (`extract.py` + `aspect.py` + manifest) | ✅ |
 | O2 | `backends/gemini.py` + registry flip + `cloud` extra + contract fixtures | ✅ |
 | O3 | SPEND GATE: verify model + pricing, then live dispatch | ✅ **2026-08-10** — 27 images, $3.618, 4 pages |
-| O4 | Operator eye-gate on the composited page | 🟡 **presented 2026-08-10, not yet ruled** |
+| O4 | Operator eye-gate on the composited page | ✅ **RULED 2026-08-13 — PASS, close H3** (see §Eye-gate) |
 | O5 | S-1..S-4 reject→III (released by O0's ratification) | ✅ |
-| O6 | H6 re-open + campaign close | ⛔ waits on the eye-gate (O4) |
+| O6 | H6 re-open + campaign close | 🟢 **unblocked 2026-08-13** — O4 was its only dependency |
 | O7 | Dev-lane amendment + staged memos + records | ✅ |
 
 ## The "blocker" (O3) — reported 2026-08-09, ⚠️ **MISDIAGNOSED**, resolved 2026-08-10
@@ -157,6 +157,27 @@ Tests inverted rather than deleted (H6 precedent): `test_registry_fake_available
 → `..._now_live`; `test_reject_only_session_appends_responses_only` → `..._now_emits_a_signal`
 (that one had been asserting the bug).
 
+## Eye-gate (O4) — ✅ **PASSED 2026-08-13**
+
+Page 1 was presented 2026-08-10 and sat unruled for three days. Ruled at the top of session
+`session_stanley_20260813_eyegate_and_r5_canvas_slice`: **PASS — close H3.** That was the campaign
+close's only remaining dependency, so **H6 re-open is live**.
+
+**Settled at the gate — do not re-investigate.** Two apparent layout faults were checked and
+withdrawn *before* the ruling:
+
+- The flat band across the top of page 1 is **inside the generated art**. The image is `1696×2528`
+  (r=0.671) in a `1989×3075` (r=0.647) box — ~113 px of letterbox, not the ~700 px observed.
+- Page 2's empty lower third is **the fixture's own layout**: its panels end at y=675 of a 1025-tall
+  page.
+
+**Compose rendered exactly what was drawn.** The weakness is **art direction**, not geometry — which
+is precisely what `CV-COMIC-STYLE-01` was deferred to calibrate, and it now has real pixels.
+
+**Evidence preserved the same session.** The run had been living in `/tmp/h3run` since 2026-08-10;
+it is now at `what/artifacts/h3_first_light/` (42 files, SHA-256 verified byte-identical; gitignored,
+so durable on this node but never committed). See that tree's `README.md`.
+
 ## AAR *(rewritten 2026-08-12 — the 2026-08-09 version is superseded and quoted below)*
 
 - **Worked** — checking ground truth *against the service* before writing code. The Imagen
@@ -177,9 +198,10 @@ Tests inverted rather than deleted (H6 precedent): `test_registry_fake_available
   untried funded alternatives**. The class of error is closed, not just this instance. Separately:
   spec constraints that say "before X" got a mechanism (`REJECT_VOCABULARY_CONFIRMED`) rather than a
   note — adopt that for the next "must confirm before" clause.
-- **Follow-up** — the operator's **eye-gate** (presented, unruled) → **H6 re-open** for the campaign
-  AAR and close · **H4's remainder** (the refine chain has still never run live) ·
-  `CV-COMIC-STYLE-01` calibration, which now has the real pixels it was waiting for.
+- **Follow-up** — ~~the operator's **eye-gate** (presented, unruled)~~ **✅ PASSED 2026-08-13** →
+  **H6 re-open** for the campaign AAR and close, now unblocked · **H4's remainder** (the refine chain
+  has still never run live) · `CV-COMIC-STYLE-01` calibration, which now has the real pixels it was
+  waiting for, preserved at `what/artifacts/h3_first_light/`.
 
 > **Superseded 2026-08-09 AAR lines, kept verbatim (SO-3/SO-7):**
 > *"**Didn't** — the live render. Not for want of code: the account has no credits. It was also not
