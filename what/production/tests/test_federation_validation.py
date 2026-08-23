@@ -46,26 +46,26 @@ CC_DECK = WORKSPACE / "ContextCommons.aDNA" / "presentationforge" / "what" / "la
 ALL_WRAPPERS = [SS_DECK, SS_COMIC, CC_DECK]
 DECK_WRAPPERS = [SS_DECK, CC_DECK]
 
-from canvas_presentation import PresentationBuilder, PRESENTATION_THEMES
-from canvas_comic import ComicPageBuilder, CHARACTER_STANLEY
-from canvas_comic.comic import ContextPack
-
-
-def _make_test_context_pack(tmp_path: Path) -> ContextPack:
-    """Create 5 sentinel files in ``tmp_path`` and return a ContextPack."""
-    fields = (
-        "storyboard_canvas",
-        "character_bible",
-        "color_theory",
-        "prompt_engineering",
-        "voice_foundations",
+# F-H6RE-2 (2026-08-22): the legacy consumer wrapper lattices this module validates were
+# RETIRED by their owning vaults (ScienceStanley's presentationforge/ + graphicnovelforge/
+# and ContextCommons' presentationforge/ no longer exist — superseded by the post-merge
+# `canvas*` wrapper generation; see how/federation/federation_index.md). The module's
+# subject is gone; it skips whole rather than failing on absent files. If a consumer
+# resurrects a legacy-format wrapper, delete this guard and the module resumes.
+_missing = [p for p in ALL_WRAPPERS if not p.exists()]
+if _missing:
+    pytest.skip(
+        "legacy consumer wrapper lattices retired by their vaults: "
+        + ", ".join(str(p.relative_to(WORKSPACE)) for p in _missing),
+        allow_module_level=True,
     )
-    kwargs: dict[str, Path] = {}
-    for f in fields:
-        p = tmp_path / f"{f}.md"
-        p.write_text(f"# Sentinel {f}\n")
-        kwargs[f] = p
-    return ContextPack(**kwargs)
+
+from canvas_presentation import PresentationBuilder, PRESENTATION_THEMES
+
+# canvas_comic archived at ADR-009 (2026-08-22) → what/production/_archive/canvas_comic/.
+# The three legacy-builder E2E tests (and the ContextPack helper) moved to
+# _archive/tests_excised_legacy_paths.py [C]; the lattice-YAML-only tests of the
+# SS comic wrapper remain below — they validate the wrapper file, not the engine.
 
 
 # ---------------------------------------------------------------------------
@@ -336,28 +336,12 @@ class TestSSDeckEndToEnd:
 # ===========================================================================
 
 class TestSSComicEndToEnd:
-    """SS comic wrapper produces a valid canvas via ComicPageBuilder."""
+    """SS comic wrapper lattice validation (YAML-only since the ADR-009 archive).
 
-    def test_build_1_page_comic(self):
-        cpb = ComicPageBuilder(name="ss_federation_test")
-        p1 = cpb.add_page(1, spread_number=1)
-        cpb.standard_grid(p1)
-        canvas = cpb.build()
-
-        assert "nodes" in canvas
-        assert "edges" in canvas
-        assert len(cpb.pages) == 1
-
-    def test_character_invariance_stanley(self, tmp_path):
-        ctx_pack = _make_test_context_pack(tmp_path)
-        cpb = ComicPageBuilder(name="ss_invariance_test")
-        p1 = cpb.add_page(1, spread_number=1)
-        panels = cpb.standard_grid(p1)
-        cpb.set_panel_content(panels[0], scene_description="Stanley in the lab", characters=["Stanley"])
-        prompt = cpb.generate_panel_prompt(panels[0], context_pack=ctx_pack)
-
-        assert "purple turtleneck" in prompt.text
-        assert "Wayfarer" in prompt.text  # Rayban Wayfarer frames
+    test_build_1_page_comic, test_character_invariance_stanley, and
+    test_comic_quality_scoring (legacy ComicPageBuilder E2E) moved to
+    _archive/tests_excised_legacy_paths.py [C] on 2026-08-22.
+    """
 
     def test_dual_worlds_act_assignment(self, ss_comic):
         """Wrapper declares Ghibli/Pixel/Transition register worlds."""
@@ -380,17 +364,6 @@ class TestSSComicEndToEnd:
         assert spec["bleed"]["width"] == 2062
         assert spec["bleed"]["height"] == 3150
         assert spec["trim"]["width"] == 1988
-
-    def test_comic_quality_scoring(self):
-        cpb = ComicPageBuilder(name="ss_scoring_test")
-        p1 = cpb.add_page(1, spread_number=1)
-        cpb.standard_grid(p1)
-        cpb.build()
-
-        report = cpb.review()
-        assert report.score >= 0
-        assert report.structural_score >= 0
-        assert report.content_score >= 0
 
 
 # ===========================================================================

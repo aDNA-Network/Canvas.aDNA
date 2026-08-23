@@ -23,38 +23,14 @@ import unittest
 from pathlib import Path
 from typing import Any
 
-# what/code on sys.path so canvas_core / canvas_presentation / canvas_comic
-# resolve as top-level packages (parents[2] from canvas_core/tests/).
+# what/production on sys.path so canvas_core / canvas_presentation resolve as
+# top-level packages (parents[2] from canvas_core/tests/). canvas_comic was
+# archived at ADR-009 (2026-08-22); its legacy panel-side tests moved to
+# what/production/_archive/tests_excised_legacy_paths.py.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from canvas_comic.comic import ComicPageBuilder, ContextPack  # noqa: E402
 from canvas_core.image_generation import ImagenWiring  # noqa: E402
 from canvas_presentation.presentation import PresentationBuilder  # noqa: E402
-
-
-def _make_sentinel_context_pack() -> ContextPack:
-    """Create 5 sentinel context files in a fresh tmp dir and return a ContextPack.
-
-    M-R2-02 added the F-38 ContextPack pre-flight to
-    :meth:`ComicPageBuilder.prepare_panel_generation`. The fixture helper
-    here pre-creates 5 throw-away markdown files so the pre-flight passes
-    in tests that don't otherwise care about the context content. The tmp
-    dir is left on disk (mkdtemp leak) — fine for short-lived test runs.
-    """
-    ctx_dir = Path(tempfile.mkdtemp(prefix="canvasforge_test_"))
-    fields = (
-        "storyboard_canvas",
-        "character_bible",
-        "color_theory",
-        "prompt_engineering",
-        "voice_foundations",
-    )
-    kwargs: dict[str, Path] = {}
-    for f in fields:
-        p = ctx_dir / f"{f}.md"
-        p.write_text("# sentinel\n")
-        kwargs[f] = p
-    return ContextPack(**kwargs)
 
 
 # ---------------------------------------------------------------------------
@@ -117,30 +93,6 @@ class FakeImageClient:
 # ---------------------------------------------------------------------------
 # Helpers — small builders for fixture state
 # ---------------------------------------------------------------------------
-
-
-def _make_comic_with_one_panel() -> tuple[ComicPageBuilder, str]:
-    """Build a one-page, one-panel comic and return (builder, panel_id)."""
-    comic = ComicPageBuilder(
-        name="test_issue",
-        context_pack=_make_sentinel_context_pack(),
-    )
-    page_id = comic.add_page(page_number=1)
-    panel_id = comic.add_panel(
-        page_id=page_id,
-        row=1,
-        col=1,
-        panel_type="action",
-    )
-    comic.set_panel_content(
-        panel_id=panel_id,
-        scene_description="Hero shot of test character standing in a sunlit lab.",
-        camera_angle="medium",
-        characters=["test_character"],
-        mood="hopeful",
-    )
-    comic.prepare_panel_generation(panel_id)
-    return comic, panel_id
 
 
 def _make_presentation_with_pending_image() -> tuple[PresentationBuilder, str]:
@@ -276,38 +228,9 @@ class TestGenerateVariants(unittest.TestCase):
 # ---------------------------------------------------------------------------
 
 
-class TestPanelSelectionCanvas(unittest.TestCase):
-    def setUp(self) -> None:
-        self.wiring = ImagenWiring()
-        self.tmp = Path(tempfile.mkdtemp())
-
-    def tearDown(self) -> None:
-        shutil.rmtree(self.tmp, ignore_errors=True)
-
-    def test_build_panel_selection_canvas_writes_file(self) -> None:
-        comic, panel_id = _make_comic_with_one_panel()
-        variant_paths = [
-            str(self.tmp / f"{panel_id}_v{i}.png") for i in (1, 2, 3)
-        ]
-        for p in variant_paths:
-            Path(p).write_bytes(FakeImageClient.PNG_BYTES)
-
-        out = self.wiring.selection_canvas_path(self.tmp, panel_id)
-        result = self.wiring.build_panel_selection_canvas(
-            comic_builder=comic,
-            panel_id=panel_id,
-            variant_paths=variant_paths,
-            output_path=out,
-        )
-        self.assertTrue(result.exists())
-        canvas = json.loads(result.read_text())
-        self.assertIn("nodes", canvas)
-        # Three file nodes pointing at our variant paths, plus a title node
-        # plus three group label nodes.
-        file_nodes = [n for n in canvas["nodes"] if n.get("type") == "file"]
-        self.assertEqual(len(file_nodes), 3)
-        for node in file_nodes:
-            self.assertIn(node["file"], variant_paths)
+# TestPanelSelectionCanvas removed at the ADR-009 archive (2026-08-22): its only
+# subject was the legacy panel-side path driven by canvas_comic.ComicPageBuilder.
+# Preserved at what/production/_archive/tests_excised_legacy_paths.py [A].
 
 
 class TestImageSelectionCanvas(unittest.TestCase):
@@ -370,33 +293,10 @@ class TestResolveSurvivors(unittest.TestCase):
         self.assertEqual(len(survivors), 1)
         self.assertEqual(survivors[0].name, f"{item_id}_v3.png")
 
-    def test_resolve_panel_with_one_survivor_succeeds(self) -> None:
-        comic, panel_id = _make_comic_with_one_panel()
-        paths = self._make_three_variants(panel_id)
-        paths[0].unlink()
-        paths[2].unlink()
-        # v2 survives
-
-        sidecar_dir = self.tmp / "sidecar"
-        result = self.wiring.resolve_panel_from_surviving_files(
-            comic_builder=comic,
-            panel_id=panel_id,
-            variant_dir=self.tmp,
-            sidecar_dir=sidecar_dir,
-            all_variant_paths=[str(p) for p in paths],
-        )
-        self.assertEqual(Path(result).name, f"{panel_id}_v2.png")
-        # Builder state — panel.image_path is set
-        panel_obj = comic._panels[panel_id]  # noqa: SLF001
-        self.assertEqual(Path(panel_obj.image_path).name, f"{panel_id}_v2.png")
-        # Sidecar JSON exists with the right shape
-        sidecar = self.wiring.sidecar_path(sidecar_dir, panel_id)
-        self.assertTrue(sidecar.exists())
-        record = json.loads(sidecar.read_text())
-        self.assertEqual(record["item_id"], panel_id)
-        self.assertEqual(record["kind"], "panel")
-        self.assertEqual(record["selected_index"], 2)
-        self.assertEqual(len(record["all_variants"]), 3)
+    # test_resolve_panel_with_one_survivor_succeeds, test_resolve_with_zero_survivors_raises,
+    # and test_resolve_with_multiple_survivors_raises removed at the ADR-009 archive
+    # (2026-08-22): legacy panel-side paths, canvas_comic-driven. Preserved at
+    # what/production/_archive/tests_excised_legacy_paths.py [A].
 
     def test_resolve_image_with_one_survivor_succeeds(self) -> None:
         pres, pending_id = _make_presentation_with_pending_image()
@@ -421,30 +321,6 @@ class TestResolveSurvivors(unittest.TestCase):
         self.assertEqual(node["type"], "file")
         self.assertIn(f"{pending_id}_v1.png", node["file"])
 
-    def test_resolve_with_zero_survivors_raises(self) -> None:
-        comic, panel_id = _make_comic_with_one_panel()
-        # No variants on disk
-        with self.assertRaises(RuntimeError) as ctx:
-            self.wiring.resolve_panel_from_surviving_files(
-                comic_builder=comic,
-                panel_id=panel_id,
-                variant_dir=self.tmp,
-            )
-        self.assertIn("no surviving variants", str(ctx.exception))
-
-    def test_resolve_with_multiple_survivors_raises(self) -> None:
-        comic, panel_id = _make_comic_with_one_panel()
-        self._make_three_variants(panel_id)
-        with self.assertRaises(RuntimeError) as ctx:
-            self.wiring.resolve_panel_from_surviving_files(
-                comic_builder=comic,
-                panel_id=panel_id,
-                variant_dir=self.tmp,
-            )
-        msg = str(ctx.exception)
-        self.assertIn("3 variants survive", msg)
-        self.assertIn(panel_id, msg)
-
 
 class TestResolveWithChoice(unittest.TestCase):
     """Explicit selection — preserves all variants on disk."""
@@ -462,32 +338,8 @@ class TestResolveWithChoice(unittest.TestCase):
             p.write_bytes(FakeImageClient.PNG_BYTES)
         return paths
 
-    def test_resolve_panel_with_choice_preserves_all_variants(self) -> None:
-        comic, panel_id = _make_comic_with_one_panel()
-        paths = self._three_variant_paths(panel_id)
-        chosen = paths[1]  # v2
-
-        sidecar_dir = self.tmp / "sidecar"
-        result = self.wiring.resolve_panel_with_choice(
-            comic_builder=comic,
-            panel_id=panel_id,
-            selected_path=chosen,
-            all_variant_paths=[str(p) for p in paths],
-            sidecar_dir=sidecar_dir,
-        )
-        # Builder updated to point at chosen variant
-        self.assertEqual(Path(result).name, f"{panel_id}_v2.png")
-        panel_obj = comic._panels[panel_id]  # noqa: SLF001
-        self.assertEqual(Path(panel_obj.image_path).name, f"{panel_id}_v2.png")
-        # All 3 variants still on disk — none deleted
-        for p in paths:
-            self.assertTrue(p.exists(), f"{p} was unexpectedly deleted")
-        # Sidecar records all variants and the index of the chosen one
-        sidecar = self.wiring.sidecar_path(sidecar_dir, panel_id)
-        self.assertTrue(sidecar.exists())
-        record = json.loads(sidecar.read_text())
-        self.assertEqual(record["selected_index"], 2)
-        self.assertEqual(len(record["all_variants"]), 3)
+    # test_resolve_panel_with_choice_preserves_all_variants removed at the ADR-009
+    # archive (2026-08-22) — preserved at _archive/tests_excised_legacy_paths.py [A].
 
     def test_resolve_image_with_choice_preserves_all_variants(self) -> None:
         pres, pending_id = _make_presentation_with_pending_image()

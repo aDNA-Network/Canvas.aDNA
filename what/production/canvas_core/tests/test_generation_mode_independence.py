@@ -24,9 +24,11 @@ from pathlib import Path
 
 import pytest
 
-CODE_ROOT = Path(__file__).resolve().parent.parent.parent  # what/code/
+CODE_ROOT = Path(__file__).resolve().parent.parent.parent  # what/production/
 PRESENTATION_DIR = CODE_ROOT / "canvas_presentation"
-COMIC_DIR = CODE_ROOT / "canvas_comic"
+# canvas_comic archived at ADR-009 (2026-08-22) → what/production/_archive/canvas_comic/.
+# Its side of the independence proofs moved to _archive/tests_excised_legacy_paths.py [B];
+# the presentation-side ratchets below stay as never-reintroduce guards.
 
 
 # ---------------------------------------------------------------------------
@@ -55,22 +57,9 @@ class TestSourceGrepRatchet:
                     violations.append(f"{path.relative_to(CODE_ROOT)}:{line_no} — {stripped}")
         assert violations == [], "canvas_presentation -> canvas_comic violations:\n" + "\n".join(violations)
 
-    def test_no_canvas_comic_imports_canvas_presentation(self):
-        """canvas_comic/ must not import canvas_presentation anywhere.
-
-        Extends the existing canvas_comic/tests/test_comic_builder.py:141-146
-        check (which only scans comic.py) to every canvas_comic/ module.
-        """
-        violations: list[str] = []
-        for path in COMIC_DIR.rglob("*.py"):
-            if "tests" in path.parts:
-                continue
-            source = path.read_text()
-            for line_no, line in enumerate(source.splitlines(), start=1):
-                stripped = line.lstrip()
-                if stripped.startswith("from canvas_presentation") or stripped.startswith("import canvas_presentation"):
-                    violations.append(f"{path.relative_to(CODE_ROOT)}:{line_no} — {stripped}")
-        assert violations == [], "canvas_comic -> canvas_presentation violations:\n" + "\n".join(violations)
+    # test_no_canvas_comic_imports_canvas_presentation removed at the ADR-009 archive
+    # (2026-08-22): its scan target moved to _archive/. The frozen module's own ratchet
+    # (canvas_comic/tests/test_comic_builder.py:141-146) rides with it, uncollected.
 
 
 # ---------------------------------------------------------------------------
@@ -112,17 +101,9 @@ class TestSubprocessImportGraph:
     packages, polluting our snapshot).
     """
 
-    def test_canvas_comic_does_not_load_canvas_presentation(self):
-        rc, stdout, stderr = _run_subprocess_import_check(
-            "canvas_comic.comic", "canvas_presentation"
-        )
-        assert rc == 0, f"subprocess failed: stderr={stderr}"
-        leaked_line = next((line for line in stdout.splitlines() if line.startswith("LEAKED:")), "")
-        leaked = leaked_line.removeprefix("LEAKED:").strip()
-        assert leaked == "", (
-            f"canvas_comic.comic import leaked canvas_presentation modules: {leaked}\n"
-            "ADR-001 substrate-neutrality + Modularity Claim 1 (charter:128) violated."
-        )
+    # test_canvas_comic_does_not_load_canvas_presentation removed at the ADR-009
+    # archive (2026-08-22) — subject archived; preserved in spirit at
+    # _archive/tests_excised_legacy_paths.py [B].
 
     def test_canvas_presentation_does_not_load_canvas_comic(self):
         rc, stdout, stderr = _run_subprocess_import_check(
@@ -146,31 +127,8 @@ class TestBuilderConstructionIndependence:
     """Verify ComicPageBuilder and PresentationBuilder can be instantiated
     independently without each other being available."""
 
-    def test_comic_builder_construction(self):
-        """ComicPageBuilder constructs without canvas_presentation."""
-        code = textwrap.dedent(
-            """
-            import sys
-            import canvas_comic.comic as cc
-            cpb = cc.ComicPageBuilder(name="independence_test")
-            page = cpb.add_page(1)
-            assert page is not None
-            leaked = sorted(k for k in sys.modules if k.startswith("canvas_presentation"))
-            print("LEAKED:" + ",".join(leaked))
-            """
-        )
-        result = subprocess.run(
-            [sys.executable, "-c", code],
-            capture_output=True,
-            text=True,
-            timeout=15,
-            cwd=str(CODE_ROOT),
-            env={**os.environ, "PYTHONPATH": str(CODE_ROOT)},
-        )
-        assert result.returncode == 0, f"subprocess failed: stderr={result.stderr}"
-        leaked_line = next((line for line in result.stdout.splitlines() if line.startswith("LEAKED:")), "")
-        leaked = leaked_line.removeprefix("LEAKED:").strip()
-        assert leaked == "", f"comic builder construction leaked: {leaked}"
+    # test_comic_builder_construction removed at the ADR-009 archive (2026-08-22) —
+    # preserved at _archive/tests_excised_legacy_paths.py [B].
 
     def test_presentation_builder_construction(self):
         """PresentationBuilder constructs without canvas_comic."""
