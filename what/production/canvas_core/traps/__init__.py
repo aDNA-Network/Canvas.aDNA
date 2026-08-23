@@ -114,13 +114,14 @@ TRAP_PACK_REGISTRY = {
     },
     "CV-COMIC-STYLE-01": {
         "scope": "comic-specific",
-        "status": "scaffolded",
+        "status": "implemented",
         "graduated": False,
         "cycles_fired": 0,
         "cycles_accepted": 0,
-        "module": None,
+        "module": "canvas_core.traps.cv_comic_style_01",
         "severity_default": "high",
-        "description": "Comic style lock drift (character/palette/rendering inconsistency)",
+        "description": "Comic style lock drift (character/palette/rendering inconsistency)"
+        " — implemented 2026-08-22, H3-calibrated (threshold 1.20, LOO consistent max 0.987)",
     },
     "CV-INSIDER-CONTEXT-01": {
         "scope": "substrate",
