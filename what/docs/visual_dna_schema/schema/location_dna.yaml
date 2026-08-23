@@ -1,0 +1,183 @@
+# REFERENCE-COPY NOTICE (2026-05-28)
+# This template file is a historical reference-copy.
+# The canonical template is now at:
+#   ~/aDNA/VisualDNA.aDNA/what/artifacts/visual_dna_schema/schema/location_dna.yaml
+# at framework version v1.0.0 (GA tagged at P1 schema_lock close 2026-05-28).
+# v0.2 OPTION A lora_refs placeholder form is deprecated at v1.0; use OPTION B list-form per ADR-003.
+# v1.0 adds 6th consumer (SiteForge; typically NOT_APPLICABLE for locations) + 9-state validation enum
+# + first-class `discarded` sub-block.
+# Consumer wrappers re-pin from ~0.1 to ~1.0 at framework P5 close.
+# See ~/aDNA/VisualDNA.aDNA/who/coordination/coord_2026_05_28_p1_schema_lock_closed.md for migration coord.
+
+# Location DNA template — visual_dna v0.2
+# Copy this file into your vault at <vault>/what/visual_dna/locations/<loc_id>.yaml
+# and fill in entity-specific values. See spec_v0.2.md for field semantics.
+#
+# Re-merge rationale (CR7+SO7): lattice-labs/who/coordination/coord_2026_04_16_forge_split.md
+# Empirical anchor for the location pattern: SS lab interior (pilot S3 deliverable);
+# source material is the cinematic-mode prompt fragments + palette block at
+# ScienceStanley.aDNA/what/visual_dna/characters/stanley/{stanley.yaml,prompt.md}.
+
+visual_dna:
+  # ── Top-level identity (all REQUIRED) ─────────────────────────────────────────
+  id: <vault_prefix>_location_<short_name>      # e.g., ss_location_lab_interior
+  display_name: "<Full display name>"
+  entity_type: location
+  version: "0.1.0"
+  status: draft                                  # draft | active_canonical_anchor | deprecated | archived
+  established_at: "YYYY-MM-DD"
+  source_pilot: "<originating campaign / mission identifier>"
+
+  # ── Canonical generation prompt ───────────────────────────────────────────────
+  # For locations, cinematic_subset is typically the primary mode.
+  text_prompt:
+    description: |
+      Wide-environmental prompt for this location. Cinematic-mode default;
+      can be composed with character DNA for inhabited shots.
+    cinematic_subset: |
+      # Recommended primary mode for locations.
+      <wide-environmental prompt text — foreground anchor objects + midground +
+       background atmosphere + lighting directive>
+    # full_prompt_inline: |                      # alternative inline form
+    portrait_subset: |                           # OPTIONAL — for tight detail shots
+      <detail-shot prompt text — single corner / single fixture>
+    notes: "Cinematic subset is primary; portrait subset for detail shots."
+
+  # ── Reference images grouped by purpose ───────────────────────────────────────
+  # Categories for locations: establishing (wide), detail (corners/fixtures),
+  # plus optional contextual (with character DNA composed in).
+  # CONSUMER USAGE:
+  #   - Gemini: PRIMARY — establishing for hero scenes, detail for vignettes
+  #   - ComfyForge: NOT_APPLICABLE typically (no location LoRA pipeline)
+  #   - VideoForge: scene-backdrop reference for video frames
+  #   - social_content: background composite for character-in-place posts
+  #   - metaverse: 3D scene derivative reference
+  reference_image_set:
+    establishing:
+      - path: "references/wide_establishing.png"
+        label: "Wide 16:9 establishing shot"
+        method: "<generation method; e.g., 'Imagen 4 Ultra text-to-image; 16:9'>"
+        iii_aggregate: 0.0
+        canonical: true                         # set true for the primary establishing reference
+    detail:
+      - path: "references/<corner_name>.png"
+        label: "<detail-shot label>"
+        method: "<generation method>"
+        iii_aggregate: 0.0
+      # ... repeat per detail corner (recommended: 3-5 corners covering desk, whiteboard,
+      #     window, bookshelf, equipment, etc.)
+    contextual:                                  # OPTIONAL — with character DNA composed in
+      - path: "references/inhabited_<character_id>.png"
+        label: "<character> in location"
+        method: "<character_dna + location_dna composed via composition_rules>"
+    discarded:                                   # RECOMMENDED if any references rejected
+      reason: "<operator-feedback rationale>"
+      items: []
+
+  # ── Palette anchors keyed by rendering mode ───────────────────────────────────
+  # Locations primarily declare cinematic_mode; portrait_mode optional for detail shots.
+  palette_anchors:
+    cinematic_mode:
+      # Major surface tones
+      <surface_1>_dominant: "#<hex>"            # e.g., desk_wood_dominant
+      <surface_1>_shadow: "#<hex>"
+      <surface_2>_dominant: "#<hex>"
+      # Lighting accents
+      <light_source_1>: "#<hex>"
+      <light_source_2>: "#<hex>"
+      # Atmosphere
+      room_blacks: "#<hex>"                     # dim ambient room shadow
+      lighting_directive: |
+        <prose lighting description — e.g., "warm-amber desk-lamp + cool-blue
+        monitor glow + warm-cool dual lighting for depth">
+    portrait_mode:                               # OPTIONAL — for tight detail shots
+      <detail_anchor_1>: "#<hex>"
+
+  # ── Composition templates ─────────────────────────────────────────────────────
+  # Recommended for locations: wide_establishing, detail_shot, contextual (with character)
+  composition_templates:
+    wide_establishing:
+      aspect: "16:9"
+      framing: |
+        Wide environmental; NO character present; foreground anchor objects +
+        midground primary surface + background atmosphere with DOF blur.
+      lighting: "<lighting directive>"
+      use_cases: ["scene establisher", "deck-section header", "chapter cover"]
+    detail_shot:
+      aspect: "1:1 or 4:3"
+      framing: |
+        Tight on a single corner or fixture; isolated; surfaces + textures
+        + lighting captured at close range.
+      use_cases: ["vignette", "transition shot", "asset library reference"]
+    contextual:                                  # composes with character DNA
+      aspect: "16:9"
+      framing: |
+        Wide environmental WITH character DNA injected; character at a
+        composition_template-appropriate position (desk, whiteboard, etc.).
+      use_cases: ["scene with character", "character-at-work shots"]
+
+  # ── Invariants ────────────────────────────────────────────────────────────────
+  # Locations: invariants typically capture lighting + clutter style + material palette.
+  invariants:
+    method: "string-match + visual-canon check"
+    required:
+      - name: "<lighting_signature>"            # e.g., warm_cool_dual_lighting
+        patterns: ["<canonical lighting phrase>"]
+      - name: "<clutter_signature>"             # e.g., lived_in_clutter
+        patterns: ["<canonical clutter phrase>"]
+      - name: "<material_palette_signature>"    # e.g., dark_wood_furniture
+        patterns: ["<canonical material phrase>"]
+      # ... add per signature feature
+
+  # ── Atmosphere signal (location analog of charm_signal) ──────────────────────
+  # Locations don't "charm" but they carry an atmosphere. Repurpose charm_signal here.
+  # Field name choice: 'atmosphere_signal' for clarity, but 'charm_signal' is also valid
+  # (consumers ignore the key name and read tells/anti_tells).
+  atmosphere_signal:
+    description: |
+      The mood / feeling the location should evoke regardless of camera angle
+      or time-of-day.
+    tells:
+      - "<atmosphere quality 1>"
+      - "<atmosphere quality 2>"
+    anti_tells:
+      - "<anti-atmosphere quality 1>"
+      - "<anti-atmosphere quality 2>"
+
+  # ── LoRA refs (NEW v0.2 field) ────────────────────────────────────────────────
+  # Locations typically don't need dedicated LoRAs (the pilot scopes location consumer
+  # integration as text-only). Placeholder is the canonical answer.
+  lora_refs:
+    placeholder: "no_location_lora_in_pilot_scope"
+
+  # ── Consumer compatibility (NEW v0.2 field) ──────────────────────────────────
+  consumer_compat:
+    gemini:
+      runtime: "CanvasForge.aDNA canonical via latlab.mcp.image.server.GeminiImageClient"
+      models: ["imagen-4-ultra"]
+      validation: PENDING
+    comfyforge:
+      runtime: "<n/a — no location LoRA pipeline in pilot scope>"
+      validation: NOT_APPLICABLE
+      notes: "Locations are text-only consumers in pilot scope."
+    videoforge:
+      runtime: "VideoForge.aDNA (Iris)"
+      consumer_pattern: "scene backdrop for frame composition; character DNA composes on top"
+      validation: PENDING
+    social_content:
+      runtime: "Python automation"
+      consumer_pattern: "background composite in character-in-place posts"
+      validation: PENDING
+    metaverse:
+      runtime: "<vault metaverse pipeline; TBD>"
+      consumer_pattern: "3D scene derivative reference; pixel-art-tile derivative"
+      validation: PENDING
+
+  # ── Federation pointer ────────────────────────────────────────────────────────
+  federation_ref:
+    framework: "VisualDNA.aDNA"
+    version: "~0.1"
+    pilot_source: "<originating campaign / mission identifier>"
+
+  # ── Re-merge rationale (CR7+SO7 REQUIRED) ────────────────────────────────────
+  re_merge_rationale: "lattice-labs/who/coordination/coord_2026_04_16_forge_split.md"

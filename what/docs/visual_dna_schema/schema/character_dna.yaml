@@ -1,0 +1,192 @@
+# REFERENCE-COPY NOTICE (2026-05-28)
+# This template file is a historical reference-copy.
+# The canonical template is now at:
+#   ~/aDNA/VisualDNA.aDNA/what/artifacts/visual_dna_schema/schema/character_dna.yaml
+# at framework version v1.0.0 (GA tagged at P1 schema_lock close 2026-05-28).
+# v0.2 OPTION A lora_refs placeholder form is deprecated at v1.0; use OPTION B list-form per ADR-003.
+# v1.0 adds 6th consumer (SiteForge) + 9-state validation enum + first-class `discarded` sub-block
+# + NEW v1.0 opt-in fields: text_prompt.compressed_character_subset + invariants.has_in_frame_name_badge.
+# Consumer wrappers re-pin from ~0.1 to ~1.0 at framework P5 close.
+# See ~/aDNA/VisualDNA.aDNA/who/coordination/coord_2026_05_28_p1_schema_lock_closed.md for migration coord.
+
+# Character DNA template — visual_dna v0.2
+# Copy this file into your vault at <vault>/what/visual_dna/characters/<char_id>/<char_id>.yaml
+# and fill in entity-specific values. See spec_v0.2.md for field semantics.
+#
+# Re-merge rationale (CR7+SO7): lattice-labs/who/coordination/coord_2026_04_16_forge_split.md
+# Empirical anchor for this template: ScienceStanley.aDNA/what/visual_dna/characters/stanley/stanley.yaml
+
+visual_dna:
+  # ── Top-level identity (all REQUIRED) ─────────────────────────────────────────
+  id: <vault_prefix>_character_<short_name>     # e.g., ss_character_stanley
+  display_name: "<Full display name (real-name in parens if persona)>"
+  entity_type: character
+  version: "0.1.0"                              # bundle version, not schema version
+  status: draft                                  # draft | active_canonical_anchor | deprecated | archived
+  established_at: "YYYY-MM-DD"                  # date bundle reached active status
+  source_pilot: "<originating campaign / mission identifier>"
+
+  # ── Canonical generation prompt ───────────────────────────────────────────────
+  # At least one of: full_prompt_path | full_prompt_inline | portrait_subset
+  text_prompt:
+    description: |
+      Author note: how to use this prompt (e.g., "use portrait_subset for icons;
+      use full_prompt for cinematic hero shots").
+    full_prompt_path: "prompt.md"               # OPTIONAL — relative path to full prompt file
+    # full_prompt_inline: |                     # alternative inline form
+    #   <full prompt text>
+    portrait_subset: |
+      # RECOMMENDED for characters. 1500-2500 chars target band (Compactness Critic).
+      # Drop [CINEMATIC] + [COMIC PANEL] + narrative_density blocks; keep identity.
+      <portrait-mode-only prompt text — face + costume + framing + simple background>
+    cinematic_subset: |                          # OPTIONAL — wide-environmental subset
+      <cinematic-mode prompt text — character + environment + lighting + props>
+    notes: "Extract portrait subset for icons; full prompt for cinematic hero shots."
+
+  # ── Reference images grouped by purpose ───────────────────────────────────────
+  # Categories are open-set. Characters typically use {portraits, scenes, expressions}.
+  # CONSUMER USAGE:
+  #   - Gemini: feeds expressions into image-edit; uses portraits for identity anchoring
+  #   - ComfyForge: feeds portraits into training_data_manifest for LoRA training
+  #   - VideoForge: uses portraits for frame-conditioning across frames
+  #   - social_content: samples random expression for post variety
+  #   - metaverse: uses portraits as PBR-texture reference for 3D-mesh derivative
+  reference_image_set:
+    portraits:
+      - path: "references/anchor_iconic_portrait.png"
+        label: "Canonical anchor (head-and-shoulders portrait)"
+        provenance: "<how it was generated; include MD5 if image-attached by operator>"
+        method: "<generation method>"           # e.g., "Imagen 4 Ultra text-to-image; 1:1"
+        stanley_election: "<date + context>"    # OPTIONAL — operator-pick provenance
+        iii_aggregate: 0.0                      # OPTIONAL — III aggregate VR (0-100)
+        canonical: true                         # exactly ONE portrait should set this true
+    scenes:
+      - path: "references/wide_cinematic.png"
+        label: "Wide cinematic 16:9"
+        method: "<generation method>"
+        iii_aggregate: 0.0
+    expressions:
+      - path: "references/expression_warm_laughing.png"
+        label: "<expression label>"
+        method: "<generation method>"
+        iii_aggregate: 0.0
+    discarded:                                   # RECOMMENDED — document rejected references
+      reason: "<operator-feedback rationale; e.g., 'diverged from canon'>"
+      items:
+        - "<filename>.png — <brief rejection note>"
+
+  # ── Palette anchors keyed by rendering mode ───────────────────────────────────
+  # Key names within a mode are AUTHOR-DEFINED (no schema enum lock).
+  # CONSUMER USAGE: each consumer walks the map and substitutes into prompt-construction templates.
+  palette_anchors:
+    portrait_mode:
+      background: "#<hex>"
+      skin_highlight: "#<hex>"
+      skin_shadow: "#<hex>"
+      hair_highlight: "#<hex>"
+      hair_shadow: "#<hex>"
+      eyes: "<color description or hex>"
+      outline: "#<hex>"
+      # ... additional author-defined keys
+    cinematic_mode:                              # OPTIONAL — for cinematic / environmental renders
+      lighting_directive: "<prose lighting description>"
+      # ... additional author-defined keys
+    # comic_panel_mode:                          # OPTIONAL author-defined modes
+    # social_card_mode:
+
+  # ── Composition templates ─────────────────────────────────────────────────────
+  # Recommended for characters: portrait_icon, portrait_closeup, wide_cinematic_establishing
+  # CONSUMER USAGE: consumers select template by name and substitute aspect + framing into prompt.
+  composition_templates:
+    portrait_icon:
+      aspect: "1:1"
+      framing: "head-and-shoulders bust; 3/4 turn; eyes meet viewer; gentle smile"
+      background: "<background directive>"
+      use_cases: ["avatar", "icon", "badge", "social profile"]
+    portrait_closeup:
+      aspect: "1:1"
+      framing: "tighter head + upper-shoulders only; key facial feature prominent"
+      use_cases: ["LinkedIn-style headshot", "favicon (with silhouette validation)"]
+    wide_cinematic_establishing:
+      aspect: "16:9"
+      framing: "wide environmental; character in habitat; foreground/midground/background depth"
+      lighting: "<lighting directive>"
+      use_cases: ["hero illustration", "deck cover", "blog header"]
+    # comic_panel:                               # OPTIONAL if character appears in comics
+    #   aspect: "4:3"
+    #   framing: "panel composition; speech-bubble negative space reserved top-left+top-right"
+    #   use_cases: ["graphic novel panel"]
+
+  # ── Invariants (canon-fidelity gates) ─────────────────────────────────────────
+  # CONSUMER USAGE: production gate runner enforces patterns at prompt-construction
+  # time and (optionally) at rendered-image VQA time.
+  invariants:
+    method: "string-match on prompt + visual-canon check"
+    required:
+      - name: "<invariant_name_snake_case>"
+        patterns: ["<must-appear string>", "<alternative phrasing>"]
+        anti_patterns: ["<must-NOT-appear string>"]
+        provenance: "<origin: 'canon-locked R1' | 'Stanley-Likeness Aligner v3' | etc.>"
+      # ... repeat per invariant
+
+  # ── Charm signal (character-only field) ───────────────────────────────────────
+  # The non-visual quality that makes the entity feel like itself.
+  # CONSUMER USAGE: VR-axis voices (notably Charm Calibrator persona) score against these.
+  charm_signal:
+    description: |
+      The quality that makes both real-life reference and canonical avatar
+      feel like the same person despite different costume.
+    tells:
+      - "<canonical charm quality 1>"
+      - "<canonical charm quality 2>"
+    anti_tells:
+      - "<anti-charm quality 1 — what BREAKS the charm>"
+      - "<anti-charm quality 2>"
+
+  # ── LoRA refs (NEW v0.2 field) ────────────────────────────────────────────────
+  # Populated when ComfyForge (or other LoRA pipeline) integration completes.
+  # Until then, use placeholder form.
+  lora_refs:
+    placeholder: "no_lora_yet"
+    # Once LoRAs exist, replace `placeholder` with a list:
+    # - path: "ComfyForge.aDNA/what/loras/<character_id>_v0.1.safetensors"
+    #   model_family: "sdxl"                      # sdxl | sd15 | flux
+    #   trigger_word: "<unique-token>"            # e.g., "scistanley"
+    #   recommended_weight: 0.6
+    #   training_data_manifest: "ComfyForge.aDNA/what/training_data/datasets/<dataset>.yaml"
+    #   trained_at: "<timestamp>"
+    #   version: "0.1"
+
+  # ── Consumer compatibility (NEW v0.2 field) ──────────────────────────────────
+  # One entry per supported consumer. validation: PENDING | VALIDATED | NOT_APPLICABLE
+  consumer_compat:
+    gemini:
+      runtime: "CanvasForge.aDNA canonical via latlab.mcp.image.server.GeminiImageClient"
+      models: ["imagen-4-ultra", "gemini-2.5-flash-image"]
+      validation: PENDING                       # flip to VALIDATED + add validated_at on success
+      # validated_at: "YYYY-MM-DD"
+    comfyforge:
+      runtime: "ComfyForge.aDNA local SDXL with LoRA"
+      training_datasets: []                      # populated when training dataset exists
+      validation: PENDING
+    videoforge:
+      runtime: "VideoForge.aDNA (Iris)"
+      consumer_pattern: "visual_dna character bundle → character-consistent frame composition"
+      validation: PENDING
+    social_content:
+      runtime: "Python automation (vault-specific)"
+      consumer_pattern: "topic + visual_dna → SS-character-in-context image"
+      validation: PENDING
+    metaverse:
+      runtime: "<vault metaverse pipeline; TBD>"
+      consumer_pattern: "visual_dna character bundle → 3D / avatar / pixel-art derivatives"
+      validation: PENDING
+
+  # ── Federation pointer ────────────────────────────────────────────────────────
+  federation_ref:
+    framework: "VisualDNA.aDNA"
+    version: "~0.1"                              # stub pin; framework spec lands post-pilot
+    pilot_source: "<originating campaign / mission identifier>"
+
+  # ── Re-merge rationale (CR7+SO7 REQUIRED) ────────────────────────────────────
+  re_merge_rationale: "lattice-labs/who/coordination/coord_2026_04_16_forge_split.md"

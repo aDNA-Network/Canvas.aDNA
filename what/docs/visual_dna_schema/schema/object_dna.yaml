@@ -1,0 +1,141 @@
+# REFERENCE-COPY NOTICE (2026-05-28)
+# This template file is a historical reference-copy.
+# The canonical template is now at:
+#   ~/aDNA/VisualDNA.aDNA/what/artifacts/visual_dna_schema/schema/object_dna.yaml
+# at framework version v1.0.0 (GA tagged at P1 schema_lock close 2026-05-28).
+# v0.2 OPTION A lora_refs placeholder form is deprecated at v1.0; use OPTION B list-form per ADR-003.
+# v1.0 adds 6th consumer (SiteForge; typically NOT_APPLICABLE for objects) + 9-state validation enum
+# + first-class `discarded` sub-block.
+# Consumer wrappers re-pin from ~0.1 to ~1.0 at framework P5 close.
+# See ~/aDNA/VisualDNA.aDNA/who/coordination/coord_2026_05_28_p1_schema_lock_closed.md for migration coord.
+
+# Object DNA template — visual_dna v0.2
+# Copy this file into your vault at <vault>/what/visual_dna/objects/<obj_id>.yaml
+# and fill in entity-specific values. See spec_v0.2.md for field semantics.
+#
+# Re-merge rationale (CR7+SO7): lattice-labs/who/coordination/coord_2026_04_16_forge_split.md
+#
+# Notes on object DNA shape:
+# - Objects are the SIMPLEST of the three entity types.
+# - Small reference set (often 1-3 images: isolated + contextual).
+# - Tight prompt (often 200-500 chars).
+# - No charm_signal (objects carry character via their host, not themselves).
+# - lora_refs typically `placeholder` (objects rarely warrant dedicated LoRAs).
+
+visual_dna:
+  # ── Top-level identity (all REQUIRED) ─────────────────────────────────────────
+  id: <vault_prefix>_object_<short_name>        # e.g., ss_object_coffee_mug
+  display_name: "<Full display name>"
+  entity_type: object
+  version: "0.1.0"
+  status: draft
+  established_at: "YYYY-MM-DD"
+  source_pilot: "<originating campaign / mission identifier>"
+
+  # ── Canonical generation prompt ───────────────────────────────────────────────
+  # Objects: full_prompt_inline is typically sufficient (no portrait/cinematic split needed).
+  text_prompt:
+    description: |
+      Object identification prompt. Used standalone for detail shots and
+      composed into host scenes via composition_rules.md (character+object pattern).
+    full_prompt_inline: |
+      <object identification prompt — material + form + size + color +
+       style discipline + foreground hints>
+
+  # ── Reference images grouped by purpose ───────────────────────────────────────
+  # Objects: typically {detail, contextual} — isolated + in-use.
+  # CONSUMER USAGE:
+  #   - Gemini: PRIMARY — generates the object in isolation or in scene
+  #   - ComfyForge: NOT_APPLICABLE typically
+  #   - VideoForge: NOT_APPLICABLE typically (objects appear via host scene)
+  #   - social_content: potential merchandise asset reference
+  #   - metaverse: 3D-asset derivative reference
+  reference_image_set:
+    detail:
+      - path: "references/isolated.png"
+        label: "Isolated on neutral background; close-up of identifying feature"
+        method: "<generation method>"
+        iii_aggregate: 0.0
+        canonical: true
+    contextual:                                  # OPTIONAL but RECOMMENDED
+      - path: "references/in_scene.png"
+        label: "<object in canonical context — e.g., on host character's desk>"
+        method: "<composition method — host scene + object insertion>"
+    discarded:                                   # OPTIONAL
+      reason: "<operator-feedback rationale>"
+      items: []
+
+  # ── Palette anchors keyed by rendering mode ───────────────────────────────────
+  # Objects typically declare ONLY portrait_mode (for detail isolation);
+  # objects in cinematic context inherit palette from their HOST location DNA.
+  palette_anchors:
+    portrait_mode:
+      <material_anchor_1>: "#<hex>"             # e.g., ceramic: "#ad9580"
+      <material_anchor_2>: "#<hex>"             # e.g., illustration: "#1f1414"
+      # Add author-defined keys per object identity.
+    # cinematic_mode: <inherited from host location_dna; do not declare here unless object-only-mode>
+
+  # ── Composition templates ─────────────────────────────────────────────────────
+  # Recommended for objects: detail_isolated, contextual
+  composition_templates:
+    detail_isolated:
+      aspect: "1:1"
+      framing: "Centered; isolated on neutral background; identifying feature prominent"
+      use_cases: ["asset library", "merchandise mockup", "transition shot"]
+    contextual:
+      aspect: "varies — inherits from host scene"
+      framing: "Embedded in scene; typically foreground anchor in cinematic_mode"
+      use_cases: ["foreground anchor in wide_cinematic", "character-using-object shot"]
+
+  # ── Invariants ────────────────────────────────────────────────────────────────
+  # Objects: invariants typically capture form + material + identifying mark.
+  invariants:
+    method: "string-match + visual check"
+    required:
+      - name: "<form_invariant>"                # e.g., ceramic_mug_with_bear_illustration
+        patterns: ["<canonical form phrase>"]
+        anti_patterns: ["<anti-form phrase>"]
+      - name: "<material_invariant>"            # e.g., cream_white_body
+        patterns: ["<canonical material phrase + hex>"]
+      - name: "<identifying_mark_invariant>"    # e.g., bear_illustration_on_side
+        patterns: ["<canonical mark phrase>"]
+
+  # ── Charm signal: typically OMITTED for objects ──────────────────────────────
+  # Objects don't carry charm themselves; they carry character via their host.
+  # If an object is iconic enough to warrant a personality block, repurpose
+  # charm_signal here — but the default is to leave it out.
+
+  # ── LoRA refs (NEW v0.2 field) ────────────────────────────────────────────────
+  # Objects typically don't warrant dedicated LoRAs.
+  lora_refs:
+    placeholder: "objects_typically_dont_need_loras"
+
+  # ── Consumer compatibility (NEW v0.2 field) ──────────────────────────────────
+  consumer_compat:
+    gemini:
+      runtime: "CanvasForge.aDNA canonical via latlab.mcp.image.server.GeminiImageClient"
+      models: ["imagen-4-ultra"]
+      validation: PENDING
+    comfyforge:
+      runtime: "<n/a typically>"
+      validation: NOT_APPLICABLE
+    videoforge:
+      runtime: "<n/a — objects appear via host scene composition>"
+      validation: NOT_APPLICABLE
+    social_content:
+      runtime: "Python automation"
+      consumer_pattern: "potential merchandise asset"
+      validation: PENDING
+    metaverse:
+      runtime: "<vault metaverse pipeline; TBD>"
+      consumer_pattern: "3D-asset derivative reference"
+      validation: PENDING
+
+  # ── Federation pointer ────────────────────────────────────────────────────────
+  federation_ref:
+    framework: "VisualDNA.aDNA"
+    version: "~0.1"
+    pilot_source: "<originating campaign / mission identifier>"
+
+  # ── Re-merge rationale (CR7+SO7 REQUIRED) ────────────────────────────────────
+  re_merge_rationale: "lattice-labs/who/coordination/coord_2026_04_16_forge_split.md"
