@@ -31,7 +31,7 @@ from canvas_core.style_mapping import load_style_config, resolve_style
 class TestComfyForgeConfig:
     def test_defaults(self):
         cfg = ComfyForgeConfig()
-        assert cfg.endpoint == "http://10.42.0.8:8188"
+        assert cfg.endpoint == "http://localhost:8188"
         assert cfg.timeout_s == 30
         assert cfg.failover_ms == 2000
         assert cfg.poll_interval_s == 2.0
@@ -73,7 +73,7 @@ class TestAspectRatioMap:
 class TestAdapterInstantiation:
     def test_default_config(self):
         adapter = ComfyForgeTier1Adapter()
-        assert adapter.config.endpoint == "http://10.42.0.8:8188"
+        assert adapter.config.endpoint == "http://localhost:8188"
 
     def test_custom_config(self):
         cfg = ComfyForgeConfig(endpoint="http://localhost:8188")

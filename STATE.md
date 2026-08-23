@@ -60,7 +60,7 @@ Unstall the vault (stale 2026-08-05 session unclosed; F-M03-J parked-by-ruling �
 ## Next Steps
 
 1. ~~**Session 2**: charter **Operation Blueprint**~~ — ✅ **EXECUTED 2026-08-22** (P0 closed; P1 at HOLD).
-2. **Session 3**: the **Vulcan session** in ComfyUI.aDNA (unstall · 3 asks · Second Genesis P5 close · restart charter draft).
+2. ~~**Session 3**: the **Vulcan session** in ComfyUI.aDNA~~ — ✅ **SUPERSEDED-AND-SATISFIED 2026-08-22 by a parallel operator-driven Vulcan session** (their commits `6b3e63e…c64e32c`): stale session closed + F-M03-J parked · 5 memos landed · M04 gate discharged with operator rulings · **`workflow_comic_panel_refine` AUTHORED upstream** · `campaign_rd_forge` chartered (M-RD1 deploy · M-RD2 Wan · M-RD3 retrain/video-LoRA · M-RD4 Z-Image · M-RD5 visualdna) · 5 replies `staged_for_delivery` in their outbox. **Canvas-side follow-through done this session:** Vulcan's Mondrian reply **collected at source** (Estafette precedent; their status flip is theirs) — wrapper updated (`workflows_requested` SATISFIED; endpoints re-ruled) and the **dead Anduril default dropped from `canvas_core`** (`ComfyForgeConfig.endpoint` → l1_local; tests updated, 50 + 18/1 green). **Note:** `campaign_rd_forge` has no canvas-emission phase — memo #14 (`spec_comfyui_canvas_emission`) sits in their inbox as the intake item proposing it; their next session rules it.
 3. **Operator items**: HR review pass · adr_010 §7.7 · push GO (~27 ahead) · registrar ack when it lands.
 4. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED`, re-run the collector.
 5. **Watch**: replies to the 2026-08-22 memo wave (Iris ack expected at their X0+; Hestia sweep kickoff; SS re-point apply).

@@ -1,7 +1,7 @@
 """ComfyForge Tier 1 adapter — direct HTTP API client for ComfyUI on Anduril.
 
 Implements the ImageClient Protocol for ComfyUI running on the Anduril
-RTX 3090 (Nebula mesh, 10.42.0.8:8188). Tier 1 is a style-transfer
+RTX 3090 (endpoint history: Anduril mesh default dropped 2026-08-22 — L1-first). Tier 1 is a style-transfer
 experimental path, NOT an alternative production backend (ADR 003).
 
 API pattern per coord note § Tier 1 contract:
@@ -90,7 +90,11 @@ def _node_sort_key(node_id: str) -> tuple[int, int | str]:
 class ComfyForgeConfig:
     """Configuration for the Tier 1 ComfyForge adapter."""
 
-    endpoint: str = "http://10.42.0.8:8188"
+    # L1-first per Vulcan's 2026-08-22 endpoint ruling: the old Anduril mesh default
+    # (10.42.0.8:8188) is a dead Nebula path on a parked box — dropped entirely. The
+    # opportunistic fast endpoint (adna_rd_l1) arrives via COMIC_RENDER_COMFY_ENDPOINT /
+    # explicit config when their M-RD1 deploy lands.
+    endpoint: str = "http://localhost:8188"
     timeout_s: int = 30                  # per-HTTP-request timeout (submit · upload · download)
     # Wall-clock budget for a generation to finish, polled via /history. MUST NOT be timeout_s:
     # sampling takes minutes where an HTTP round-trip takes milliseconds (see _poll_history).

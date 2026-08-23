@@ -40,10 +40,12 @@ federation_ref:
   workflows_used:
     - what/workflows/base/workflow_img2img.json    # the refine stage's structural reference
     - what/workflows/base/workflow_upscale.json    # roadmap R7 (full-bleed DPI headroom)
-  workflows_requested:                             # asked 2026-08-06; not yet upstream
-    - comic_panel_refine                           # img2img + separate negative + denoise + LoRA slot + upscale
-                                                   # contract shape: Canvas.aDNA/what/production/comic_render/tests/fixtures/comfy/comic_panel_refine.json
-                                                   # absent upstream ⇒ adapter falls back to its built-in graph (workflow_source: builtin)
+    - what/workflows/production/workflow_comic_panel_refine.json
+                                                   # ✅ AUTHORED upstream 2026-08-22 (Vulcan's answer memo, collected at source):
+                                                   # img2img + inert LoraLoader (strength 0.0 until a TRAINED weight) + RealESRGAN
+                                                   # x4plus leg + explicit VAELoader; node convention 3/4/5/7 kept — patch-by-class
+                                                   # works unchanged; shape-parity verified against our fixture; denoise 0.4 default.
+  workflows_requested: []                          # comic_panel_refine ask (2026-08-06) SATISFIED 2026-08-22
   contexts_used:
     - what/context/iii/comfyforge_generation_traps.yaml   # 9 generation traps — upstream filename (ComfyUI.aDNA-owned)
   adrs_inherited:
@@ -52,8 +54,11 @@ federation_ref:
     - what/decisions/adr_006_sdxl_flux_base_models.md
     - what/decisions/adr_007_kohya_lora_training.md
   server_endpoints:
-    l1_local: http://localhost:8188      # Canvas render support runs L1-local — the H4 refine default
-    l2_mesh: per ComfyUI.aDNA current node state   # LoRA training = Anduril (see upstream STATE)
+    l1_local: http://localhost:8188      # PRIMARY — Vulcan's 2026-08-22 ruling: L1-first confirmed
+    rd_node: pending campaign_rd_forge M-RD1       # opportunistic fast endpoint = adna_rd_l1 (10.43.0.28), NOT Anduril;
+                                                   # endpoint string arrives by memo when their deploy lands (office-LAN/mesh reach only)
+    # anduril (10.42.0.8:8188): DROPPED 2026-08-22 — dead Nebula path on a parked box (3090 absent
+    # from device tree, recovery unscheduled per operator S167). canvas_core default now l1_local.
     override_env: COMIC_RENDER_COMFY_ENDPOINT      # H4: the bridge resolves this, else l1_local
   secrets_dependency: none               # local inference; no API keys
   local_extensions: []
