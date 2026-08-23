@@ -2,7 +2,7 @@
 type: coordination
 subtype: lane_change_notice
 direction: outbound
-status: staged_pending_GO          # delivery is a per-send operator GO (Rule 10)
+status: sent                       # delivered 2026-08-22 (operator GO at plan approval)
 created: 2026-08-09
 updated: 2026-08-09
 last_edited_by: agent_mondrian
