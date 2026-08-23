@@ -38,7 +38,7 @@ Unstall the vault (stale 2026-08-05 session unclosed; F-M03-J parked-by-ruling �
 
 ## Current Phase
 
-**Between campaigns (by design).** History: Cartography → Keystone (v2.0.x) → Atelier → Palette → Salon → Armature → Lodestar → Beacon (v2.3.0) → **Halftone (chartered 2026-07-09 · COMPLETED 2026-08-22)** — the comic system is end-to-end real: hardened producer → render bridge → **27 real panels / $3.618 / 4 print-ready pages / eye-gate PASSED** → panel export under contract v1.0 (first consumer: Videos/Iris). Close records: `campaign_canvas_halftone/` master §Completion Summary + `missions/artifacts/halftone_campaign_aar_rollup.md`. **Next: Operation Blueprint** (chartered at Session 2's gate; scope above).
+**Operation Blueprint — CHARTERED 2026-08-22 (Session 2 executed same day: P0 closed — charter + `draft_pattern_diagrammatic_context` [staged → Rosetta, memo #9 delivered] + `spec_comfyui_canvas_emission` v0.1 [memo #14 delivered to Vulcan]; ▶ next gate = P1, HOLD).** History: Cartography → Keystone (v2.0.x) → Atelier → Palette → Salon → Armature → Lodestar → Beacon (v2.3.0) → **Halftone (chartered 2026-07-09 · COMPLETED 2026-08-22)** — the comic system is end-to-end real: hardened producer → render bridge → **27 real panels / $3.618 / 4 print-ready pages / eye-gate PASSED** → panel export under contract v1.0 (first consumer: Videos/Iris). Close records: `campaign_canvas_halftone/` master §Completion Summary + `missions/artifacts/halftone_campaign_aar_rollup.md`. **Next: Operation Blueprint** (chartered at Session 2's gate; scope above).
 
 **Carried from Halftone → Blueprint:** H4 live `generate:gemini,refine:comfy@0.4/comic_panel_refine` chain (needs ComfyUI standing + **fresh spend authorization** — the H3 gate covered one run) · RLHF pilot second consumer = the ComfyUI variant-selection board · legacy panel-side `ImagenWiring` deprecation candidates (no live caller since the archive; `comic_render` uses only `generate_variants`) · `comic_book_design/` resurrect-or-archive ruling (SS notified it's queued).
 
@@ -59,7 +59,7 @@ Unstall the vault (stale 2026-08-05 session unclosed; F-M03-J parked-by-ruling �
 
 ## Next Steps
 
-1. **Session 2**: charter **Operation Blueprint** (scope in Resume Here; P0 charter + mission stubs + risk register; stage the Rosetta P1 memo + the Vulcan P4 seam spec).
+1. ~~**Session 2**: charter **Operation Blueprint**~~ — ✅ **EXECUTED 2026-08-22** (P0 closed; P1 at HOLD).
 2. **Session 3**: the **Vulcan session** in ComfyUI.aDNA (unstall · 3 asks · Second Genesis P5 close · restart charter draft).
 3. **Operator items**: HR review pass · adr_010 §7.7 · push GO (~27 ahead) · registrar ack when it lands.
 4. **On Argus's reply**: flip `REJECT_VOCABULARY_CONFIRMED`, re-run the collector.
