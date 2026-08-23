@@ -6,13 +6,14 @@ phase: H6
 title: "H6 — authoring contract · print E2E · governance close (offline pass)"
 owner: stanley
 persona: Mondrian
-status: partial
+status: completed
 executor_tier: opus
 token_budget_estimated: ~180k
 created: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-22
 last_edited_by: agent_mondrian
 session: session_stanley_20260809_211323_halftone_h6_offline
+session_reopen: session_stanley_20260822_review_intake_halftone_close
 gate: "plan approval 2026-08-09 = the H6 gate (HV/H2/H4/H5 precedent)"
 relates: ["halftone_roadmap.md §4 #3 #4", "halftone_gap_register.md G6", "spec_canvas_review_surface.md §6", "lodestar_recommendations.md R4.2"]
 tags: [mission, halftone, h6, print, spread, cmyk, dpi, rlhf_seam, dispatch_contract, authoring_contract, visual_check_profile, canvas_comic]
@@ -123,3 +124,39 @@ nothing, now this).
 
 H3 (Luke's cloud lane; spend-gated; params pre-ruled) → then re-open H6 for the campaign AAR + close, with the
 real-pixel evidence this pass could not produce.
+
+---
+
+## Re-open (2026-08-22) — the real-pixel half, and the close
+
+H3 rendered 2026-08-10; eye-gate PASSED 2026-08-13. This re-open finished the items the offline
+pass explicitly left:
+
+| Item | Result |
+|---|---|
+| **`CV-COMIC-STYLE-01` calibration** | **Implemented + calibrated** on the 27 H3 panels (LOO chi-square to style centroid; consistent max 0.987 / mean 0.408; synthetic grayscale break 1.482; **threshold 1.20**). Registry `scaffolded → implemented`; 6 new tests; record: `missions/artifacts/cv_comic_style_01_calibration.md`. |
+| **Real-DPI evidence** | The H3 export report (`what/artifacts/h3_first_light/pages/export_report.md`) is the evidence: 4 pages at **2062×3150**, target 300 DPI, **0 warnings** against the 200 floor. The H6-declared policy held on first real use. |
+| **`canvas_comic` archive** (adr_009 decision 3–5) | **EXECUTED** → `what/production/_archive/canvas_comic/`. Importer census was stale — adr_009 said one live importer; measured **four** (**F-H6RE-1**); all four dispositioned (tripwire test split lattice-only/builder; two canvas_core test files pruned of legacy-path tests; demo archived; excised tests preserved verbatim at `_archive/tests_excised_legacy_paths.py`). Legacy panel-side `ImagenWiring` methods flagged as successor-campaign deprecation candidates. |
+| **F-H6RE-2** (found while verifying) | `tests/test_federation_validation.py` validated SS/CC **legacy wrapper lattices that no longer exist** (their vaults retired `presentationforge`/`graphicnovelforge` post-merge). Module now skip-guards with a dated record instead of failing on absent files. |
+| **Environment restoration** | The documented `adna-canvas-std` editable install (required by `canvas_core/core.py:40`) had drifted out of the runner env — restored (`pip install -e`, anaconda). The 2 subprocess independence tests pass again. |
+| **Suites at close** | canvas_core+presentation **922/5** · comic_render **143/2** · producers **259** (10/16/37/36/123/17/20) · canvas_std **115/10** · cert **11/11** · **firewall git-diff 0**. |
+| **RLHF pilot second consumer** | **Carried, not closed** — assigned to the successor campaign's ComfyUI canvas-seam phase (the ComfyUI variant-selection board is the designated second consumer). |
+| **Operator HR review pass** | **Standing operator item** — gate 3/3 on `ss_variant_review.canvas`; not an agent's to perform. |
+| **H4 live-chain remainder** | **Carried** to the successor campaign (needs ComfyUI standing + fresh spend authorization). |
+
+## AAR — re-open half (SO-5)
+
+- **Worked** — calibrating the trap against an *eye-gate-passed* corpus instead of an invented
+  threshold: "consistent" is defined by what a human already judged consistent, and the synthetic
+  grayscale break gave the other side of the bracket for free.
+- **Didn't** — the first centroid design let a gross outlier dilute its own baseline (a 4-panel
+  test caught it before any real use). Leave-one-out fixed it; the lesson is the H6 classic again:
+  run the check against a case that *should* fire before trusting silence.
+- **Finding** — two records were stale against measured reality: adr_009's importer census (1 vs 4)
+  and the federation-validation module's wrapper paths (retired by their owners). Both from the
+  same family the offline pass named: claims nobody had re-measured.
+- **Change** — archive execution now writes its measured census into the archive README at move
+  time, so the next disposition starts from ground truth.
+- **Follow-up** — successor campaign carries: H4 live chain (spend-gated) · RLHF second consumer
+  (ComfyUI board) · legacy panel-side `ImagenWiring` deprecation · `comic_book_design/` resurrect
+  ruling (SS notified it's queued).

@@ -3,7 +3,8 @@ campaign_id: campaign_canvas_halftone
 type: campaign
 title: "Operation Halftone — comic system: review → render bridge → end-to-end pipeline"
 owner: stanley
-status: active
+status: completed
+completed: 2026-08-22
 estimated_sessions: "8-13"
 phase_count: 10
 mission_count: 6
@@ -16,9 +17,9 @@ priority: high
 executor_tier_default: fable
 predecessor: campaign_canvas_beacon
 created: 2026-07-09
-updated: 2026-08-06
+updated: 2026-08-22
 last_edited_by: agent_mondrian
-status_history: "active (2026-07-09 — chartered from the operator-approved comic-system review; scope=full program T0–T4+G · backend=hybrid Gemini→ComfyUI-refine · T3=contract-only); amended (2026-08-03 — operator scope amendment: +HV visual-fidelity rail · +HR RLHF review surface · +HF federation index/memos; HV executed at plan approval); h5_hr_hf_opened (2026-08-04 — plan approval = their gates; H3 held for Luke's cloud lane, spend params pre-ruled); h4_opened (2026-08-06 — plan approval = the gate; offline/mocked half executed, the LIVE gemini→comfy chain proof deferred to H3); h3_opened (2026-08-09 — plan approval = the gate + the spend gate + the dev-lane §3a reassignment to Mondrian; three §7.7 ratifications signed; build complete); h3_rendered (2026-08-10 — the 'blocked on billing' call was a MISDIAGNOSIS [wrong credential read while a funded Vertex lane sat unused]; Operation Rosetta Stone corrected it and H3 RENDERED: 27 images, $3.618, 4 pages, 0 warnings. Eye-gate presented, unruled; campaign close still held on it)"
+status_history: "active (2026-07-09 — chartered from the operator-approved comic-system review; scope=full program T0–T4+G · backend=hybrid Gemini→ComfyUI-refine · T3=contract-only); amended (2026-08-03 — operator scope amendment: +HV visual-fidelity rail · +HR RLHF review surface · +HF federation index/memos; HV executed at plan approval); h5_hr_hf_opened (2026-08-04 — plan approval = their gates; H3 held for Luke's cloud lane, spend params pre-ruled); h4_opened (2026-08-06 — plan approval = the gate; offline/mocked half executed, the LIVE gemini→comfy chain proof deferred to H3); h3_opened (2026-08-09 — plan approval = the gate + the spend gate + the dev-lane §3a reassignment to Mondrian; three §7.7 ratifications signed; build complete); h3_rendered (2026-08-10 — the 'blocked on billing' call was a MISDIAGNOSIS [wrong credential read while a funded Vertex lane sat unused]; Operation Rosetta Stone corrected it and H3 RENDERED: 27 images, $3.618, 4 pages, 0 warnings. Eye-gate presented, unruled; campaign close still held on it); completed (2026-08-22 — eye-gate had PASSED 2026-08-13; H6 re-opened and closed: CV-COMIC-STYLE-01 implemented+H3-calibrated · real-DPI evidence cited · canvas_comic ARCHIVED per adr_009 [census corrected 1→4, F-H6RE-1] · campaign AAR rollup filed. Carried to successor: H4 live chain [spend-gated] · RLHF second consumer [ComfyUI board] · operator HR review pass [standing])"
 tags: [campaign, canvas, halftone, comic, producer, render, bridge, comfyui, gemini, visualdna, print, governance, visual_fidelity, rlhf_surface, metabind, federation]
 ---
 
@@ -117,3 +118,23 @@ staged refederation memos) — so what the pipeline ships is inspectable, review
 Chartered 2026-07-09 from the operator-approved comic-system review (plan approved 2026-07-09; decisions locked
 2026-07-07: full program · hybrid backend · T3 contract-only). Predecessor campaign: `campaign_canvas_beacon`
 (publish-hardening, completed 2026-07-02). Session: `…_135234_halftone_charter_h1`.
+
+## Completion Summary (2026-08-22)
+
+**Operation Halftone is COMPLETE.** All ten phases closed; the thesis — a full comic system on the
+canvas substrate, from hardened producer through a real render bridge to printed pages — is proven
+with pixels: **27 panels rendered for $3.618** (Gemini `image.pro`, lane C63 Vertex), **4 composited
+pages at 2062×3150 / 0 DPI warnings**, byte-identical source→rendered (`sync_hash c56c73c08428f621`),
+**eye-gate PASSED 2026-08-13** with art judged consistent *without* a LoRA (R3's v0 bar was
+conservative). The `canvas_std` firewall was never touched (git-diff 0 the entire campaign).
+
+Final suites: canvas_core+presentation **922/5** · comic_render **143/2** · producers **259** ·
+canvas_std **115/10** · cert **11/11**. `canvas_comic` archived per adr_009 (census corrected, F-H6RE-1);
+CV-COMIC-STYLE-01 implemented + H3-calibrated; panel export promoted to contract
+(`spec_panel_export_contract.md` v1.0, first consumer Videos/Iris).
+
+**Carried to the successor campaign (Operation Blueprint):** H4 live-chain proof (spend-gated,
+needs ComfyUI standing) · RLHF pilot second consumer (the ComfyUI variant-selection board) · legacy
+panel-side `ImagenWiring` deprecation · `comic_book_design/` resurrect-or-archive ruling.
+**Standing operator items:** HR gate 3/3 (the review pass on `ss_variant_review.canvas`) · adr_010
+§7.7 signature · push GO. AAR rollup: `missions/artifacts/halftone_campaign_aar_rollup.md`.
