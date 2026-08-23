@@ -2,7 +2,7 @@
 type: federation_index
 title: "Canvas.aDNA federation index — consumers of the Standard + Canvas's own consumed wrappers"
 created: 2026-08-04
-updated: 2026-08-04
+updated: 2026-08-22
 last_edited_by: agent_mondrian
 status: active
 standard_version: "2.3.0"
@@ -31,7 +31,7 @@ tags: [federation, index, wrappers, consumers, canvas_standard]
 | **WebForge.aDNA** *(← Websites)* | `canvas/` ×2 aliases | 1.1.0 @ `3783f57` | minor | 🟠 stale body (CanvasForge prose) + old pin | 2026-08-04 |
 | **ScienceStanley.aDNA** | `canvas_deck/` · `canvas_comic/` | ~1.0 | minor | ✅ M-PL2-reconciled 2026-07-18; ⚠ comic wrapper carries an archive-only `context_ref` (M-PL3 resurrect decision pending Canvas-side) | 2026-08-04 |
 | **ContextCommons.aDNA** | `canvas_deck/` | ~1.0 | minor | 🟠 stale body (live-CanvasForge cites) | 2026-08-04 |
-| **Videos.aDNA** *(← VideoForge)* | `canvas_deck/` ×2 aliases | ~1.0 | minor | 🟠 stale title/body; **this refit is the Videos shim's named retire-condition** | 2026-08-04 |
+| **Videos.aDNA** *(successor vault, re-genesis Operation Lumière 2026-08-16; predecessor + its `canvas_deck/` wrappers archived → `Archive.aDNA/VideosOld.aDNA`)* | `canvas/` — `stub_pending_execution` (instantiates at their X0+) | — | — | 🟢 seam re-founded: consumes `comic_render` per-panel PNGs **as-is** under `spec_panel_export_contract.md` v1.0 (2026-08-22); timeline/encode/1080×1920 Videos-owned; the old ~1.0 `canvas_deck/` rows retired with the predecessor | 2026-08-22 |
 | **Obsidian.aDNA** | `canvasforge/` (dir-rename → `canvas/` flagged post-their-P3) | provisional | minor | 🟢 target reconciled; pin verification due at their M09 | 2026-08-04 |
 | **ZenZachary.aDNA** | `canvas/` · `canvas_comic/` · `canvas_deck/` | ~1.2.0 | minor | 🔴 stale identity (`wrapper_for`/`substrate_pin` = CanvasForge v1.2) — refederation memo staged | 2026-08-04 |
 | **Astro.aDNA** *(← SiteForge)* | `canvasforge/` ×2 aliases | 1.1.0 @ `3783f57` | minor | 🔴 stale identity + dir-name — refederation memo staged | 2026-08-04 |
