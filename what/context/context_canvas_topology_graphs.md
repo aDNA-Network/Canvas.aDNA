@@ -3,11 +3,11 @@ type: context_guide
 topic: canvas
 subtopic: topology_graphs
 created: 2026-06-24
-updated: 2026-06-24
-sources: ["Operation Prytaneion Phase 2 (Home.aDNA topology-canvas exemplar)", "Home.aDNA/what/context/context_canvas_design_research.md", "arXiv 1209.4227", "USPTO 10424096", "Holten edge bundling", "Sugiyama layered drawing", "Wong/ColorBrewer", "Cleveland-McGill"]
-context_version: "1.0"
-token_estimate: ~3200
-last_edited_by: agent_hestia
+updated: 2026-08-22
+sources: ["Operation Prytaneion Phase 2 (Home.aDNA topology-canvas exemplar)", "Home.aDNA/what/context/context_canvas_design_research.md", "arXiv 1209.4227", "USPTO 10424096", "Holten edge bundling", "Sugiyama layered drawing", "Wong/ColorBrewer", "Cleveland-McGill", "Kobourov/Pupyrev/Saket GD 2014 [secondary]", "Huang et al. crossing angles [secondary]"]
+context_version: "1.1"
+token_estimate: ~3600
+last_edited_by: agent_mondrian
 tags: [context, canvas, graph, topology, node_link, edge_routing, prytaneion, contributed]
 ---
 
@@ -17,11 +17,13 @@ tags: [context, canvas, graph, topology, node_link, edge_routing, prytaneion, co
 
 ## Key Principles
 
-1. **Edge-crossing minimization is the dominant readability lever.** Crossing number, swing amplitude, and short-edge preference predict legibility more than any cosmetic choice. Fix crossings *first*.
+1. **Edge-crossing minimization is the dominant readability lever — on small-to-medium graphs, counted angle-aware.** Crossing number, swing amplitude, and short-edge preference predict legibility more than any cosmetic choice. Fix crossings *first*. **Two qualifications (Mondrian ruling 2026-08-22, on Hestia's `coord_2026_08_19` — both externally sourced `[secondary]`, primaries unread; verify before deriving further):**
+   - **Size/density bound.** The classical basis (Purchase's aesthetics studies) was calibrated on *small* graphs. Kobourov, Pupyrev & Saket (*Are Crossings Important for Drawing Large Graphs?*, GD 2014) find the crossing effect significant for small graphs and **not significant for large ones**. For large/dense graphs (order of hundreds of crossings on ~100 edges — the measured WebForge `/map/` instance was 220 crossings / 100 edges), crossing *count* stops being the dominant lever; placement structure, dimming, and drawing-less dominate instead. The worked examples in this file (≤94 nodes, 154→85 crossings) sit **inside** the calibrated range — the principle holds there as written.
+   - **Angle qualifier.** The crossing-angle literature (Huang et al.) finds a crossing's readability penalty is **effectively eliminated above ~70°**. A criterion that counts crossings while ignoring angles measures the wrong quantity: count (or weight) **sharp** crossings (the WebForge instance's real defect was 6.02% of crossings below 10°, not the 220 total). When scoring a canvas, prefer a sharp-crossing metric (< ~20–30°) over a raw count.
 2. **On a generated `.canvas`, the lever is node placement + edge dimming — NOT routing.** (The hard-won constraint; see Anti-Patterns.) Advanced Canvas styles loaded edges but **does not recompute pathfinding for edges authored outside its own UI.** Plan your readability budget around placement, not orthogonal routes.
 3. **Categorical = hue; ordinal/state = luminance.** One base hue per category (cap ~6–8, then add a second channel), state on a single-hue light→dark ramp. Never encode ordered state with rainbow hue (Cleveland–McGill: position > length > … > luminance > hue).
 4. **Enclosure beats proximity beats similarity (Gestalt).** A *manually-laned* canvas with bounded regions reads as grouped far better than a force layout — which is exactly why curated dependency graphs should be laid out, not simulated.
-5. **Size encodes topological importance.** Hubs/roots larger than leaves (degree/centrality → area).
+5. **Size encodes topological importance.** Hubs/roots larger than leaves (degree/centrality → area). **Open question (recorded 2026-08-22, not ruled):** at extreme degree skew (Home's round-3 instance: degree max/median = 27/3) enlarging the hub may stop helping and *extracting* it (drawing less — hub pulled out to its own panel/rail) may start. Whether there is a ratio past which extraction beats enlargement is unanswered; Home P5.4 is running ~100 cycles with hub extraction as wave 1's first test and will report either way. Until then: discrete size tiers (#6) remain doctrine, and hub extraction is a legitimate *additional* move at high skew, not a replacement.
 
 ## Recommendations (the 10 gap items)
 
