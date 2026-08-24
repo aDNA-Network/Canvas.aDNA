@@ -11,9 +11,9 @@ priority: high
 executor_tier_default: fable
 predecessor: campaign_canvas_halftone
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-08-24
 last_edited_by: agent_mondrian
-status_history: "active (2026-08-22 — chartered as Session 2 of the operator-approved 3-session plan [plan approval 2026-08-22 = the charter gate]; name 'Blueprint' is the operator's to amend)"
+status_history: "active (2026-08-22 — chartered as Session 2 of the operator-approved 3-session plan [plan approval 2026-08-22 = the charter gate]; name 'Blueprint' is the operator's to amend) · P1 Canvas-owned half shipped 2026-08-24 (mission_b1_doctrine completed complete-with-open-item; b1.5 open pending Rosetta) → ▶ P2 HOLD"
 tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federation, repin, comfyui, canvas_emission, interaction, rlhf_surface]
 ---
 
@@ -57,7 +57,7 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 | Phase | What | Gate |
 |---|---|---|
 | **P0** | Charter (this file) + the two charter artifacts: `artifacts/draft_pattern_diagrammatic_context.md` (staged → Rosetta, memo #9) · `what/specs/spec_comfyui_canvas_emission.md` (draft; memo #14 → Vulcan, feeds Session 3's restart-charter). | plan approval 2026-08-22 = the gate |
-| **P1** | **Doctrine** (mission `b1` at open): finalize the pattern with Rosetta (their vault, their adoption); rule the legacy-interop reconciliation (proposal: interop spec becomes the `lattice` profile's derived-view rule under the Standard; template examples regenerate conformant at the next template release); re-point `idea_diagram_missions_herb` (already co-assigned to Mondrian) from rendered-figures to canvas-companions; LIP-0010 assessment (default: none needed). | HOLD |
+| **P1** | **Doctrine** (`mission_b1_doctrine`): ✅ **Canvas-owned half SHIPPED 2026-08-24** — census/diagnosis **erratum v2** → Rosetta (the legacy is not bare: 196/196 carry the `view` quartet at the non-canonical `metadata._reserved`; migration **verified** 4/4 → `adna_native [OK]`) · **`adr_011`** rules the reconciliation (`proposed`, §7.7 pending) · **LIP-0010 assessment** — `authority` is normative-but-unvalidated (0/21); Option B recommended, **deferred** on Rosetta's ruling; **no schema change taken** · `--level adna_native` CLI defect fixed. `idea_diagram_missions_herb` re-point already offered inside the draft (Rule 10 — nothing further is Canvas's). | ✅ **complete-with-open-item** — **b1.5 (finalize with Rosetta) OPEN** |
 | **P2** | **Authoring rail + dogfood** (mission `b2`): `how/skills/skill_canvas_context_diagram.md` (conformance = `canvas-std validate` + the Amendment-1 visual gate; topology doctrine v1.1 applies); Canvas's own architecture canvases authored dual-channel; conversion-offer memos #10 (Operations — 5 excellent standard-blind C08 canvases) + #11 (ScienceStanley — 29 bare files, wrapper-level fix). | HOLD |
 | **P3** | **Federation re-pin wave** (mission `b3`): adopt VisualDNA lockstep-flip mechanics; rule `canvasforge/`→`canvas/` with Seshat (Obsidian spec §4 parked it); re-pin memos #12 to Astro · SuperLeague · ZenZachary · WebForge · Obsidian · Home — **verifying the "unanswered" 2026-08-04 memos at source first** (Estafette found fleet delivery defects; unanswered may mean undelivered); template-propagation memo #13 → Rosetta. | HOLD |
 | **P4** | **ComfyUI canvas seam** (mission `b4`): implement Canvas's side of `spec_comfyui_canvas_emission` — the review-surface builder consuming ComfyUI variant runs (**the HR pilot's second consumer**); the tuning-surface affordance binding; **the carried H4 live chain** (`generate:gemini,refine:comfy@0.4/comic_panel_refine`) — **gated on ComfyUI standing (Session 3 venue = `adna_rd_l1` or L1 local) AND a fresh operator spend authorization**. | HOLD + spend gate |
@@ -67,7 +67,8 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 
 - `what/code/canvas_std/` **untouched** unless a ratified LIP says otherwise; diff-0 verified at every gate.
 - Cross-vault = coord memos or read-only (Rule 10). The pattern is *offered* to Rosetta, never written into `aDNA.aDNA`; conversions are *offered* to Operations/SS, never performed in their trees.
-- Every canvas this campaign ships passes `canvas-std validate --level adna-native` + the agent-confirmed render.
+- Every canvas this campaign ships passes `canvas-std validate --level adna_native` + the agent-confirmed render.
+  *(The value is underscored — the CLI rejects `adna-native`; corrected at P1, `mission_b1_doctrine` b1.4.)*
 - Per-mission AAR (SO-5) · pushes operator-gated batches · missions created at phase-open, never pre-spawned past a HOLD.
 
 ## Risk register
@@ -85,7 +86,7 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 
 | Mission | Phase | Status |
 |---|---|---|
-| `mission_b1_doctrine` | P1 | planned |
+| `mission_b1_doctrine` | P1 | ✅ completed (2026-08-24) — complete-with-open-item (b1.5) |
 | `mission_b2_authoring_rail` | P2 | planned |
 | `mission_b3_repin_wave` | P3 | planned |
 | `mission_b4_comfyui_seam` | P4 | planned |
@@ -95,7 +96,9 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 Chartered from the 2026-08-22 three-vault review sweep (Canvas · ComfyUI · fleet), which found:
 dual-channel already ratified + running in Emacs.aDNA; 145 real `.canvas` files across 18 vaults
 with bimodal conformance (Operations 10 / ScienceStanley 29 / Regenesis 11 standard-blind); the
-2026-02 lattice-interop legacy never reconciled with the Standard; ComfyUI's four pre-declared
+2026-02 lattice-interop legacy never reconciled with the Standard *(P1 measurement refined this: the
+196 template files across 46 vaults are **not** bare — they carry the `view` quartet at the
+non-canonical `metadata._reserved`; erratum E1 in the draft, ruled in `adr_011`)*; ComfyUI's four pre-declared
 canvas attachment points (`canvas_json` media type · lattice↔canvas tooling · "contact sheet /
 Canvas surface" doctrine · the `lattice_variant_selection` scaffold). Plan:
 `~/.claude/plans/please-read-the-claude-md-serene-spark.md`. Predecessor close:

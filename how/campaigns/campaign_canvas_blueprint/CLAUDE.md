@@ -7,7 +7,7 @@
 | Campaign | `campaign_canvas_blueprint` |
 | Owner | stanley |
 | Status | 🟢 **active** (chartered 2026-08-22; plan approval = the charter gate) |
-| Current Phase | **P0 ✅ (charter + the two charter artifacts + memos #9/#14). ▶ NEXT GATE: P1 (doctrine)** — HOLD for the operator. P2–P5 sequential behind it (P4's build half may run parallel after P1 with operator ack; its live chain additionally spend-gated). |
+| Current Phase | **P0 ✅ · P1 ✅ complete-with-open-item (2026-08-24 — `adr_011` + LIP-0010 assessment + erratum v2 to Rosetta; `mission_b1_doctrine` closed). ▶ NEXT GATE: P2 (authoring rail + dogfood)** — HOLD for the operator. **b1.5 (finalize the pattern with Rosetta) is OPEN** — the phase does not advance on their silence. P3–P5 sequential behind P2 (P4's build half may run parallel with operator ack; its live chain additionally spend-gated). |
 | Persona | Mondrian (Canvas.aDNA) |
 | Predecessor | `campaign_canvas_halftone` (comic system; completed 2026-08-22) |
 
@@ -22,7 +22,7 @@
 
 - **`what/code/canvas_std/` is untouched unless a ratified LIP says otherwise** — verify `git diff --stat -- what/code/canvas_std/` empty at every gate. Default posture: 2.3.0 already suffices for diagrammatic context (Emacs is the existence proof).
 - **Offer, never write.** Doctrine goes to Rosetta as a staged draft; conversions go to Operations/SS as offers with worked examples. Zero writes into other vaults (Rule 10).
-- **Every shipped canvas** passes `canvas-std validate --level adna-native` + the agent-confirmed render (Amendment 1), and obeys `context_canvas_topology_graphs.md` v1.1 (angle-aware crossings; placement over routing).
+- **Every shipped canvas** passes `canvas-std validate --level adna_native` + the agent-confirmed render (Amendment 1), and obeys `context_canvas_topology_graphs.md` v1.1 (angle-aware crossings; placement over routing).
 - **Verify "unanswered" at source** before treating any 2026-08-04 memo as refused — the fleet's memo delivery was itself broken (Estafette).
 - **Carried from Halftone**: H4 live chain (spend-gated) · HR second consumer (= the P4 board) · `ImagenWiring` panel-path deprecation · `comic_book_design/` ruling (P5).
 
