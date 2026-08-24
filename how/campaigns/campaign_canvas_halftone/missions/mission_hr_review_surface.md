@@ -3,13 +3,14 @@ type: mission
 mission_id: mission_hr_review_surface
 campaign_id: campaign_canvas_halftone
 phase: HR
-status: built_gate_pending
+status: completed
 owner: stanley
 persona: Mondrian
 executor_tier: fable
 token_budget_estimated: "1 session slice (shared with H5/HF) — 1 spec + 2 new canvas_core modules + pilot artifacts + tests + 1-key app.json"
 created: 2026-08-04
-updated: 2026-08-04
+updated: 2026-08-23
+gate_closed: "3/3 on 2026-08-23 — the operator's real review pass (see §Gate 3/3 addendum)"
 last_edited_by: agent_mondrian
 relates: ["halftone_roadmap.md §6", "halftone_gap_register.md G9", "what/specs/spec_interface_surface.md", "Bearly.aDNA/what/specs/spec_bearly_rlhf_canvas.md (read-only precedent)", "coord_2026_07_28_callisto_to_mondrian_lorales_compose_and_dispatch_seam.md §2 (the dispatch seam)"]
 tags: [mission, halftone, hr, rlhf, review_surface, metabind, interaction, schema_a, iii_bridge]
@@ -47,7 +48,7 @@ Doc-shape anchor (verified): `_reserved` lives at `metadata.frontmatter._reserve
 | **O4** | Pilot generated + `.obsidian/app.json` `propertiesInDocument: "hidden"` (operator-consented in-plan) + `canvas-std validate` green + `canvas-visual-check` clean (or expected-only, documented) | ✅ |
 | **O5** | `canvas_core/rlhf/review_collect.py`: guarded bootstrap → `canvas_context.interaction.apply_response` (collector owns doc write-back) · `verdict == approve` → Schema-A record per approved variant (all 6 as variants[], F-36 vault-relative, deterministic `selection_id`) → **real corpus** `what/artifacts/image_gen_dataset/` · III `accumulate` to the live store · reject-only → responses only (bridge charter is accept-only; reject→III = H6 decision #4) · 4-layer idempotency · `--dry-run`/`--force`/`--turn` | ✅ |
 | **O6** | Tests: `test_review_canvas.py` + `test_review_collect.py` (tmp vault fixture w/ hidden-properties app.json; idempotent + ledger-loss replays; dry-run byte-identical; F-36 + I-3 green post-write; reject-only path; `{kind: ai}` participants only — never forged as human) | ✅ |
-| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy ✅ · full canvas_core suite + firewall 0 ✅ · **spec RATIFIED 2026-08-04** (GO-wave plan approval = the §7.7 signature) ✅ · **agent-confirmed Obsidian render EXECUTED 2026-08-04** (session `_174045` — full stack on real Obsidian 1.13.4: structure + interactive layer + widgets-inside-canvas-embeds; **two live failures caught + fixed by the gate item itself** — see §Gate progress) ✅ · remaining: the operator's real review pass (at leisure; collector idempotent) | 🟡 gate (2 of 3 items closed) |
+| **O7** | Live proof: `{kind: ai}` plumbing pass on a tmp copy ✅ · full canvas_core suite + firewall 0 ✅ · **spec RATIFIED 2026-08-04** (GO-wave plan approval = the §7.7 signature) ✅ · **agent-confirmed Obsidian render EXECUTED 2026-08-04** (session `_174045` — full stack on real Obsidian 1.13.4: structure + interactive layer + widgets-inside-canvas-embeds; **two live failures caught + fixed by the gate item itself** — see §Gate progress) ✅ · ~~remaining: the operator's real review pass~~ **EXECUTED 2026-08-23** (see §Gate 3/3 addendum) | ✅ gate 3/3 CLOSED |
 
 ## Verification (build side, run 2026-08-04 — all green)
 
@@ -114,3 +115,44 @@ control↔affordance table stands unchanged (the spec never pinned the multiSele
   P5 evidence (open decision #4: reject→III routing); (3) re-run the surface on the first H3 renders (the
   second consumer, roadmap decision #6); (4) Meta Bind input/button templates could graduate into
   `.obsidian` config once the pilot pattern settles.
+
+---
+
+## Gate 3/3 addendum — the operator's real pass (2026-08-23; post-campaign-close)
+
+The last gate item closed: the operator reviewed `ss_variant_review.canvas` live in Obsidian and
+**pinned var_1 / var_3 / var_4** as references. Verdict mapping was ruled in chat (recorded, not
+invented): **pinned = approve · unpinned (var_2/5/6) = skip**; Mondrian entered the verdicts into
+the sidecar frontmatter on that explicit ruling, `reviewer: stanley`. Collector run
+(`review_collect --approver stanley`): **6 collected · 9 responses appended · 3 Schema-A
+selections** (`image_gen_dataset/2026-08/sel_20260824_*`) **· 0 rejects · 3 III lines** into the
+live learning store (`image_generation_variant_pick`); re-run = no-op (6 skipped); all
+`collected_at` stamped. Canvas revalidates `adna_native [OK]`, D-1/2/3 green.
+
+**Two findings from the first real operator pass:**
+
+- **F-HR-1 — Obsidian's re-save silently degrades conformance.** Interacting with the canvas made
+  Obsidian rewrite the file, dropping the explicit `toEnd: "arrow"` from all six edges (arrow is
+  Obsidian's default, so its writer omits it; the Standard's C-4 requires it explicit). The canvas
+  went from `[OK]` to `[FAIL]` with zero visual change. Repaired mechanically (six keys restored),
+  but the class is real: **any operator interaction pass can un-conform a canvas.** Candidates:
+  a normalize-on-collect step in `review_collect`, or a `canvas-std` re-normalize verb — Blueprint
+  P2 (authoring rail) territory.
+- **F-HR-2 — "required" wasn't.** The operator's natural gesture was the pin toggle, not the
+  verdict dropdown; nothing on the surface enforced the required field, and a collect at that
+  point would have captured nothing. Spec v1.x feedback: either pin implies a default verdict, or
+  the surface needs a visible completeness indicator. (The chat-ruling fallback worked, with
+  attribution preserved — but the surface should not need it.)
+
+## AAR — gate-close half (SO-5)
+
+- **Worked:** the idempotency stack — dry-run predicted exactly what the write did, and the re-run
+  proved no-op on the first try.
+- **Didn't:** the surface let its one required field go unset through a full live operator pass (F-HR-2).
+- **Finding:** F-HR-1 — the viewer app itself is a round-trip participant; conformance can be lost
+  by *looking* at a canvas interactively.
+- **Change:** verdicts entered on an explicit operator chat ruling are a legitimate capture path
+  when attributed — recorded here as precedent, with the caveat that the surface should make it
+  unnecessary.
+- **Follow-up:** normalize-on-collect (F-HR-1) + verdict enforcement (F-HR-2) → Blueprint P2;
+  the ComfyUI board (P4) inherits both fixes as design inputs.
