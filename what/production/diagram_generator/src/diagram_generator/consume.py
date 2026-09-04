@@ -22,6 +22,7 @@ Edge-kind mapping (respect the A-5 acyclicity check — only ``sequence`` is acy
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from canvas_std import to_canvas
@@ -34,6 +35,7 @@ from diagram_generator.model import DiagramInput
 ADNA_VERSION = "2.0.0"
 ROOT_ID = "diagram_root"
 SRC_ID = "mermaid_src"
+TITLE_ID = "diagram_title"
 
 # Region flow per direction (panel_link PL_FLOW = none|vertical|horizontal|columns).
 _FLOW_FOR = {"TD": "vertical", "BT": "vertical", "LR": "horizontal", "RL": "horizontal"}
@@ -46,7 +48,8 @@ def _edge_kind(diagram_type: str) -> str:
 
 def build_diagram(d: DiagramInput) -> dict[str, Any]:
     """Map a ``DiagramInput`` to a v2.0.0 aDNA-Native diagram ``.canvas`` document (a plain dict)."""
-    boxes, group_box, src_box = layout.layout(d)
+    mermaid = mermaid_for(d)
+    boxes, group_box, src_box, title_box = layout.layout(d, mermaid)
 
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
@@ -57,13 +60,35 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
     nodes.append({"id": ROOT_ID, "type": "group", "label": d.title, **group_box.as_node()})
     component_types[ROOT_ID] = {"class": "panel", "semantic_type": "diagram", "degrades_to": "group"}
 
+    # The title slot: a markdown heading in the group's upper region. CV-HIERARCHY-01 reads heading
+    # markers on TEXT nodes — a group `label` alone does not satisfy it, which is why this node
+    # exists rather than relying on the label the group already carries.
+    #
+    # ⭐ `####` is not a style choice — it is the ONLY lead that satisfies both shipped traps.
+    # CV-HIERARCHY-01 requires a heading marker in the title slot; CV-LEAD-COST-01 flags `h1/h2/h3`
+    # leads and its docstring states the rule as "never use #/##/### to title a canvas text node".
+    # Measured across every lead form: h1/h2/h3 satisfy hierarchy and trip lead-cost; `**bold**`
+    # does the reverse; `#####`/`######` pass both only by falling OUT of the heading model
+    # (classified `plain`, cost 0.0) — i.e. they pass by not being headings, which is a green check
+    # for the wrong reason. `####` alone is a real heading to both instruments, at 42.6px against
+    # bold's 40.0px optimum. See F-P2-3 (mission_b2) for the underlying trap conflict.
+    nodes.append({"id": TITLE_ID, "type": "text", "text": f"#### {d.title}", **title_box.as_node()})
+    # `typography_run` / `title` follows deck_generator's precedent — `heading` is NOT in
+    # COMPONENT_CLASSES and fails A-3 (the taxonomy is the Standard's; a producer conforms to it
+    # rather than extending it, and rich vocabulary rides in `qualities`).
+    component_types[TITLE_ID] = {
+        "class": "typography_run",
+        "semantic_type": "title",
+        "degrades_to": "text",
+        "qualities": {"level": 1},
+    }
+
     # Interior nodes (one baseline text node per DiagramNode) + their shape component entries.
     build = build_nodes(d, boxes)
     nodes.extend(build.nodes)
     component_types.update(build.component_types)
 
     # The derived Mermaid source as a `code` node (degrades to text).
-    mermaid = mermaid_for(d)
     nodes.append({"id": SRC_ID, "type": "text", "text": f"```mermaid\n{mermaid}\n```", **src_box.as_node()})
     component_types[SRC_ID] = {
         "class": "code",
@@ -101,5 +126,15 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
         },
         "surfaces": [{"id": ROOT_ID, "role": "canonical"}],
     }
-    reserved["context_object"] = {"id": d.id, "version": d.version, "refs": list(d.refs)}
+    # Diagrammatic-context authority (Blueprint P2). Emitted only when the spec declares it, so
+    # existing diagram specs produce byte-identical output. `canvas_std` does not read this key —
+    # the enum check is producer-side in `model.AUTHORITY_MODELS` (F-B1-2 / LIP-0010 Option B deferred).
+    refs = list(d.refs)
+    if d.authority:
+        reserved["authority"] = d.authority
+    if d.prose:
+        # The prose channel as a vault citizen link (REQ-H05) — no invented sub-schema; the existing
+        # refs list is exactly the "what this canvas points at" surface.
+        refs.append(f"[[{Path(d.prose).stem}]]")
+    reserved["context_object"] = {"id": d.id, "version": d.version, "refs": refs}
     return doc

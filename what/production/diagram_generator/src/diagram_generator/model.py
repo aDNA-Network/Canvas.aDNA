@@ -28,6 +28,17 @@ DIRECTIONS: frozenset[str] = frozenset({"TD", "LR", "RL", "BT"})
 # Node shapes — Mermaid vocab (NOT the canvas VALID_SHAPES enum; carried only in _reserved qualities.shape).
 NODE_SHAPES: frozenset[str] = frozenset({"rect", "round", "diamond", "stadium", "circle"})
 
+# Authority models — the diagrammatic-context authority axis (Blueprint P1 draft pattern; adr_011 rules
+# the `view` row). Declared in `_reserved.authority`; `""` means undeclared, which stays legal here so
+# every pre-existing spec keeps building unchanged.
+#
+# ⚠ `canvas_std` does NOT know this key (F-B1-2, 2026-08-24): it is normative in the doctrine and
+# unvalidated by the Standard, so `authority: "veiw"` passes `canvas-std validate` silently. The
+# validated-enum fix is LIP-0010 Option B, deferred by design pending Rosetta's ruling on the pattern.
+# Until then this frozenset is the ONLY place a typo is caught — producer-side, which is why the check
+# lives here rather than being left to the validator that cannot perform it.
+AUTHORITY_MODELS: frozenset[str] = frozenset({"dual_channel", "generator", "view"})
+
 
 @dataclass(frozen=True)
 class DiagramNode:
@@ -72,8 +83,23 @@ class DiagramInput:
     edges: tuple[DiagramEdge, ...] = ()
     direction: str = "TD"
     refs: tuple[str, ...] = ()
+    # Diagrammatic-context fields (optional; both default off so existing specs are unaffected).
+    authority: str = ""       # "" | dual_channel | generator | view  -> _reserved.authority
+    prose: str = ""           # vault-relative path of the prose channel; appended to context_object.refs
 
     def __post_init__(self) -> None:
+        if self.authority and self.authority not in AUTHORITY_MODELS:
+            raise ValueError(
+                f"unknown authority {self.authority!r}; expected one of {sorted(AUTHORITY_MODELS)}"
+            )
+        if self.prose and self.authority != "dual_channel":
+            # A prose channel is what `dual_channel` MEANS. Declaring one under `generator`/`view`
+            # (or with no authority at all) is a spec error, not a harmless extra: it would emit a
+            # canvas asserting a sync obligation its declared authority does not carry.
+            raise ValueError(
+                f"prose channel declared with authority {self.authority or '(none)'!r}; "
+                "a prose pair requires authority: dual_channel"
+            )
         if self.diagram_type not in DIAGRAM_TYPES:
             raise ValueError(
                 f"unknown diagram_type {self.diagram_type!r}; expected one of {sorted(DIAGRAM_TYPES)}"
@@ -121,6 +147,8 @@ class DiagramInput:
             diagram_type=str(d["diagram_type"]),
             direction=str(d.get("direction", "TD")),
             refs=tuple(str(r) for r in d.get("refs", [])),
+            authority=str(d.get("authority", "")),
+            prose=str(d.get("prose", "")),
             nodes=nodes,
             edges=edges,
         )

@@ -19,9 +19,27 @@ NODE_H = 100
 GAP_X = 120  # horizontal spacing between cell origins
 GAP_Y = 140  # vertical spacing between cell origins
 PAD = 80  # padding inside the diagram_root group, around the graph
-LABEL_BAND = 56  # room under the group label
+LABEL_BAND = 56  # minimum room under the group label
+TITLE_GAP = 40  # clearance between the title node and rank 0 (overlap tolerance is 5px)
 SRC_W = 480  # width of the parked mermaid_src code node
 SRC_GAP = 120  # gap between the graph and the parked code node
+TITLE_H = 60  # minimum height of the `#### <title>` heading node (CV-HIERARCHY-01 title slot)
+H4_LEAD_COST = 42.6  # canvas_core.text_metrics.OBSIDIAN_LEAD_COST["h4"] — mirrored, not imported
+
+# --- Visual-gate constants (calibrated against canvas_core/traps, not guessed) -------------------
+# CV-TEXT-BOUNDS-01 measures with the Obsidian CSS model and passes when
+# `measure_obsidian_extent(text, w) <= OBSIDIAN_SAFE_FILL * height`. We do not import
+# canvas_core here (a producer must not depend on a sibling producer), so we over-estimate
+# deliberately and let the trap arbitrate — the numbers below were derived from two live trap
+# readings (666px/18 lines and 1171px/29 lines at w=480) and then rounded UP.
+SRC_LINE_H = 44        # px per rendered line at SRC_W (measured ~37-40; rounded up)
+SRC_WRAP_COLS = 46     # chars per line before wrapping at SRC_W (conservative; measured ~52)
+SAFE_FILL = 0.9        # trap's OBSIDIAN_SAFE_FILL — usable height is 90% of declared
+
+# CV-GROUP-PADDING-01 fires when the children's bounding box fills >90% of the container on
+# either axis. A FIXED pad cannot satisfy a ratio: it fired at 90.36% here purely because the
+# graph got wide, and would fire on any diagram past ~1440px. Padding must scale with content.
+GROUP_FILL_TARGET = 0.88  # aim below the 0.90 threshold, leaving headroom
 
 
 @dataclass
@@ -64,8 +82,37 @@ def _ranks(d: DiagramInput) -> dict[str, int]:
     return rank
 
 
-def layout(d: DiagramInput) -> tuple[dict[str, Box], Box, Box]:
-    """Return (per-node boxes keyed by id, the diagram_root group box, the mermaid_src code-node box)."""
+def src_height_for(mermaid: str) -> int:
+    """Height the ``mermaid_src`` node needs so CV-TEXT-BOUNDS-01 passes.
+
+    Wrap each source line at ``SRC_WRAP_COLS``, cost ``SRC_LINE_H`` per rendered line (plus the two
+    code-fence lines the consumer adds), then divide by ``SAFE_FILL`` because the trap only counts
+    90% of a node's declared height as usable. Deliberately over-estimates — a too-tall code node is
+    invisible to a reader; a too-short one silently truncates the source at ~14% shown, which is the
+    defect this replaces.
+    """
+    rendered = 2  # the ```mermaid fence open + close
+    for line in mermaid.splitlines():
+        rendered += max(1, -(-len(line) // SRC_WRAP_COLS))  # ceil-div
+    return int(rendered * SRC_LINE_H / SAFE_FILL)
+
+
+def title_height_for(title: str, width: int) -> int:
+    """Height the `#### <title>` node needs so CV-TEXT-BOUNDS-01 passes.
+
+    The `h4` lead costs 42.6px before a character renders, and a long title wraps. Charge the lead
+    plus a body line per wrapped row, then divide by SAFE_FILL (only 90% of declared height counts).
+    """
+    cols = max(20, int(width / 10))       # ~10px per char at heading weight (conservative)
+    rows = max(1, -(-len(title) // cols))  # ceil-div
+    return max(TITLE_H, int((H4_LEAD_COST + rows * SRC_LINE_H) / SAFE_FILL))
+
+
+def layout(d: DiagramInput, mermaid: str = "") -> tuple[dict[str, Box], Box, Box, Box]:
+    """Return (per-node boxes, the diagram_root group box, the mermaid_src box, the title box).
+
+    ``mermaid`` is the generated source; when supplied, the code node is sized to actually hold it.
+    """
     rank = _ranks(d)
     horizontal = d.direction in ("LR", "RL")
 
@@ -78,19 +125,6 @@ def layout(d: DiagramInput) -> tuple[dict[str, Box], Box, Box]:
     max_lane = max((len(v) for v in by_rank.values()), default=1)
     n_ranks = (max(by_rank) + 1) if by_rank else 1
 
-    for r in sorted(by_rank):
-        lane_ids = by_rank[r]
-        for lane, nid in enumerate(lane_ids):
-            if horizontal:
-                # rank advances along x (columns); lane spreads down y.
-                x = PAD + r * (NODE_W + GAP_X)
-                y = PAD + LABEL_BAND + lane * (NODE_H + GAP_Y)
-            else:
-                # rank advances down y (rows); lane spreads across x.
-                x = PAD + lane * (NODE_W + GAP_X)
-                y = PAD + LABEL_BAND + r * (NODE_H + GAP_Y)
-            boxes[nid] = Box(x, y, NODE_W, NODE_H)
-
     if horizontal:
         graph_w = n_ranks * NODE_W + (n_ranks - 1) * GAP_X
         graph_h = max_lane * NODE_H + (max_lane - 1) * GAP_Y
@@ -98,13 +132,44 @@ def layout(d: DiagramInput) -> tuple[dict[str, Box], Box, Box]:
         graph_w = max_lane * NODE_W + (max_lane - 1) * GAP_X
         graph_h = n_ranks * NODE_H + (n_ranks - 1) * GAP_Y
 
-    # Park the mermaid_src code node to the right of the graph, vertically centered-ish.
+    # The title is measured BEFORE the graph is placed, because the graph must start below it.
+    # A fixed LABEL_BAND cannot do this — a title that wraps grows past the band and overlaps
+    # rank 0 (CV-TEXT-BOUNDS-01/overlap, HIGH). The band is a floor, not the answer.
+    title_w = max(NODE_W, graph_w)
+    title_h = title_height_for(d.title, title_w)
+    band = max(LABEL_BAND, title_h + TITLE_GAP)
+
+    for r in sorted(by_rank):
+        lane_ids = by_rank[r]
+        for lane, nid in enumerate(lane_ids):
+            if horizontal:
+                # rank advances along x (columns); lane spreads down y.
+                x = PAD + r * (NODE_W + GAP_X)
+                y = PAD + band + lane * (NODE_H + GAP_Y)
+            else:
+                # rank advances down y (rows); lane spreads across x.
+                x = PAD + lane * (NODE_W + GAP_X)
+                y = PAD + band + r * (NODE_H + GAP_Y)
+            boxes[nid] = Box(x, y, NODE_W, NODE_H)
+
+    # The `# <title>` heading node, occupying the label band at the top-left of the group. It must
+    # land in the upper 40% of the group height for CV-HIERARCHY-01's title slot; anchoring it at
+    # y=PAD does that for every group taller than ~400px, which every diagram is.
+    title_box = Box(PAD, PAD, title_w, title_h)
+
+    # Park the mermaid_src code node to the right of the graph, sized to hold its own text.
     src_x = PAD + graph_w + SRC_GAP
-    src_y = PAD + LABEL_BAND
-    src_h = max(NODE_H, graph_h)
+    src_y = PAD + band
+    src_h = max(NODE_H, graph_h, src_height_for(mermaid) if mermaid else 0)
     src_box = Box(src_x, src_y, SRC_W, src_h)
 
-    group_w = src_x + SRC_W + PAD
-    group_h = PAD * 2 + LABEL_BAND + max(graph_h, src_h)
+    # Children's bounding box, which is what CV-GROUP-PADDING-01 measures against the container.
+    bb_w = (src_x + SRC_W) - PAD
+    bb_h = (PAD + band + max(graph_h, src_h)) - PAD
+
+    # Scale the container so the fill ratio clears the trap's 90% threshold on BOTH axes. A fixed
+    # PAD cannot do this: the ratio degrades as the graph grows, so padding has to grow with it.
+    group_w = max(bb_w + 2 * PAD, int(bb_w / GROUP_FILL_TARGET) + 1)
+    group_h = max(bb_h + 2 * PAD, int(bb_h / GROUP_FILL_TARGET) + 1)
     group_box = Box(0, 0, group_w, group_h)
-    return boxes, group_box, src_box
+    return boxes, group_box, src_box, title_box
