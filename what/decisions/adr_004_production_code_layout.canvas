@@ -1,0 +1,441 @@
+{
+  "nodes": [
+    {
+      "id": "diagram_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 1705,
+      "height": 2265,
+      "label": "ADR-004 · two-shelf production code layout"
+    },
+    {
+      "id": "diagram_title",
+      "type": "text",
+      "x": 80,
+      "y": 80,
+      "width": 900,
+      "height": 96,
+      "text": "#### ADR-004 · two-shelf production code layout"
+    },
+    {
+      "id": "vault",
+      "type": "text",
+      "x": 80,
+      "y": 216,
+      "width": 220,
+      "height": 100,
+      "text": "Canvas.aDNA"
+    },
+    {
+      "id": "shelf_std",
+      "type": "text",
+      "x": 80,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "SHELF A · what/code/ — the Standard"
+    },
+    {
+      "id": "shelf_pro",
+      "type": "text",
+      "x": 420,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "SHELF B · what/production/ — the engine"
+    },
+    {
+      "id": "canvas_std",
+      "type": "text",
+      "x": 80,
+      "y": 1176,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_std (lean, zero-dep)"
+    },
+    {
+      "id": "canvas_core",
+      "type": "text",
+      "x": 80,
+      "y": 936,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_core (~80 files)"
+    },
+    {
+      "id": "siblings",
+      "type": "text",
+      "x": 80,
+      "y": 696,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_comic · canvas_presentation"
+    },
+    {
+      "id": "locator",
+      "type": "text",
+      "x": 760,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "CANVAS_CORE_HOME (locator)"
+    },
+    {
+      "id": "alias",
+      "type": "text",
+      "x": 420,
+      "y": 216,
+      "width": 220,
+      "height": 100,
+      "text": "CANVASFORGE_CODE (deprecated alias)"
+    },
+    {
+      "id": "trap",
+      "type": "text",
+      "x": 420,
+      "y": 696,
+      "width": 220,
+      "height": 100,
+      "text": "TRAP · silent non-render"
+    },
+    {
+      "id": "install",
+      "type": "text",
+      "x": 420,
+      "y": 936,
+      "width": 220,
+      "height": 100,
+      "text": "install adna-canvas-std (preferred)"
+    },
+    {
+      "id": "fallback",
+      "type": "text",
+      "x": 760,
+      "y": 936,
+      "width": 220,
+      "height": 100,
+      "text": "2nd sys.path entry (fresh-node)"
+    },
+    {
+      "id": "mermaid_src",
+      "type": "text",
+      "x": 1100,
+      "y": 216,
+      "width": 480,
+      "height": 1857,
+      "text": "```mermaid\nflowchart TD\n    vault(\"Canvas.aDNA\")\n    shelf_std[\"SHELF A · what/code/ — the Standard\"]\n    shelf_pro[\"SHELF B · what/production/ — the engine\"]\n    canvas_std([\"canvas_std (lean, zero-dep)\"])\n    canvas_core[\"canvas_core (~80 files)\"]\n    siblings[\"canvas_comic · canvas_presentation\"]\n    locator[\"CANVAS_CORE_HOME (locator)\"]\n    alias[\"CANVASFORGE_CODE (deprecated alias)\"]\n    trap{\"TRAP · silent non-render\"}\n    install[\"install adna-canvas-std (preferred)\"]\n    fallback[\"2nd sys.path entry (fresh-node)\"]\n    vault --> shelf_std\n    vault --> shelf_pro\n    shelf_std --> canvas_std\n    shelf_pro --> canvas_core\n    shelf_pro --> siblings\n    canvas_core -->|hard import (core.py)| canvas_std\n    siblings -->|bare cross-import → co-locate| canvas_core\n    locator -->|places on sys.path| canvas_core\n    alias -->|DeprecationWarning| locator\n    locator -->|canvas_std NOT placed| trap\n    trap -->|resolution A| install\n    trap -->|resolution B| fallback\n    install --> canvas_std\n    fallback --> canvas_std\n```"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge0",
+      "fromNode": "vault",
+      "fromSide": "bottom",
+      "toNode": "shelf_std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge1",
+      "fromNode": "vault",
+      "fromSide": "bottom",
+      "toNode": "shelf_pro",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge2",
+      "fromNode": "shelf_std",
+      "fromSide": "bottom",
+      "toNode": "canvas_std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge3",
+      "fromNode": "shelf_pro",
+      "fromSide": "bottom",
+      "toNode": "canvas_core",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge4",
+      "fromNode": "shelf_pro",
+      "fromSide": "bottom",
+      "toNode": "siblings",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge5",
+      "fromNode": "canvas_core",
+      "fromSide": "bottom",
+      "toNode": "canvas_std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge6",
+      "fromNode": "siblings",
+      "fromSide": "bottom",
+      "toNode": "canvas_core",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge7",
+      "fromNode": "locator",
+      "fromSide": "bottom",
+      "toNode": "canvas_core",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge8",
+      "fromNode": "alias",
+      "fromSide": "bottom",
+      "toNode": "locator",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge9",
+      "fromNode": "locator",
+      "fromSide": "bottom",
+      "toNode": "trap",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge10",
+      "fromNode": "trap",
+      "fromSide": "bottom",
+      "toNode": "install",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge11",
+      "fromNode": "trap",
+      "fromSide": "bottom",
+      "toNode": "fallback",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge12",
+      "fromNode": "install",
+      "fromSide": "bottom",
+      "toNode": "canvas_std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge13",
+      "fromNode": "fallback",
+      "fromSide": "bottom",
+      "toNode": "canvas_std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "ea1b51e19189d2fd",
+          "source_name": "urn:adna:canvas:decision:adr_004",
+          "source_version": "1.0.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "diagram_root": {
+            "class": "panel",
+            "semantic_type": "diagram",
+            "degrades_to": "group"
+          },
+          "diagram_title": {
+            "class": "typography_run",
+            "semantic_type": "title",
+            "degrades_to": "text",
+            "qualities": {
+              "level": 1
+            }
+          },
+          "vault": {
+            "class": "shape",
+            "semantic_type": "event",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "round"
+            }
+          },
+          "shelf_std": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "shelf_pro": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "canvas_std": {
+            "class": "shape",
+            "semantic_type": "terminal",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "stadium"
+            }
+          },
+          "canvas_core": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "siblings": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "locator": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "alias": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "trap": {
+            "class": "shape",
+            "semantic_type": "decision",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "diamond"
+            }
+          },
+          "install": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "fallback": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "mermaid_src": {
+            "class": "code",
+            "semantic_type": "mermaid_source",
+            "degrades_to": "text",
+            "qualities": {
+              "language": "mermaid"
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "diagram"
+        },
+        "panel_link": {
+          "edges": {
+            "edge0": {
+              "kind": "dependency"
+            },
+            "edge1": {
+              "kind": "dependency"
+            },
+            "edge2": {
+              "kind": "dependency"
+            },
+            "edge3": {
+              "kind": "dependency"
+            },
+            "edge4": {
+              "kind": "dependency"
+            },
+            "edge5": {
+              "kind": "dependency"
+            },
+            "edge6": {
+              "kind": "dependency"
+            },
+            "edge7": {
+              "kind": "dependency"
+            },
+            "edge8": {
+              "kind": "dependency"
+            },
+            "edge9": {
+              "kind": "dependency"
+            },
+            "edge10": {
+              "kind": "dependency"
+            },
+            "edge11": {
+              "kind": "dependency"
+            },
+            "edge12": {
+              "kind": "dependency"
+            },
+            "edge13": {
+              "kind": "dependency"
+            }
+          },
+          "regions": {
+            "diagram_root": {
+              "flow": "vertical",
+              "pagination": "none",
+              "surface": "flowchart"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "diagram_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "authority": "dual_channel",
+        "context_object": {
+          "id": "urn:adna:canvas:decision:adr_004",
+          "version": "1.0.0",
+          "refs": [
+            "[[adr_001_canvasforge_relationship]]",
+            "[[adr_000_canvas_identity]]",
+            "[[adr_003_standard_governance]]",
+            "[[adr_004_production_code_layout]]"
+          ]
+        }
+      }
+    }
+  }
+}

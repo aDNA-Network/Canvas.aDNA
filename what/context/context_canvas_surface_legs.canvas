@@ -1,0 +1,487 @@
+{
+  "nodes": [
+    {
+      "id": "diagram_root",
+      "type": "group",
+      "x": 0,
+      "y": 0,
+      "width": 1705,
+      "height": 2044,
+      "label": "Canvas surface legs — the three-leg thesis and its runtimes"
+    },
+    {
+      "id": "diagram_title",
+      "type": "text",
+      "x": 80,
+      "y": 80,
+      "width": 900,
+      "height": 96,
+      "text": "#### Canvas surface legs — the three-leg thesis and its runtimes"
+    },
+    {
+      "id": "thesis",
+      "type": "text",
+      "x": 80,
+      "y": 216,
+      "width": 220,
+      "height": 100,
+      "text": "ADR-000 · three-leg thesis"
+    },
+    {
+      "id": "leg1",
+      "type": "text",
+      "x": 80,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "LEG 1 · output"
+    },
+    {
+      "id": "leg2",
+      "type": "text",
+      "x": 420,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "LEG 2 · context object"
+    },
+    {
+      "id": "leg3",
+      "type": "text",
+      "x": 760,
+      "y": 456,
+      "width": 220,
+      "height": 100,
+      "text": "LEG 3 · interface surface"
+    },
+    {
+      "id": "producers",
+      "type": "text",
+      "x": 80,
+      "y": 696,
+      "width": 220,
+      "height": 100,
+      "text": "7 producers → .canvas"
+    },
+    {
+      "id": "loader",
+      "type": "text",
+      "x": 80,
+      "y": 936,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_context loader · L1–L7"
+    },
+    {
+      "id": "surface",
+      "type": "text",
+      "x": 420,
+      "y": 696,
+      "width": 220,
+      "height": 100,
+      "text": "InteractionSurface · 5 primitives"
+    },
+    {
+      "id": "std",
+      "type": "text",
+      "x": 80,
+      "y": 1176,
+      "width": 220,
+      "height": 100,
+      "text": "canvas_std · immutable substrate"
+    },
+    {
+      "id": "adr007",
+      "type": "text",
+      "x": 420,
+      "y": 216,
+      "width": 220,
+      "height": 100,
+      "text": "adr_007 · bounded firewall touch"
+    },
+    {
+      "id": "reconcile",
+      "type": "text",
+      "x": 420,
+      "y": 936,
+      "width": 220,
+      "height": 100,
+      "text": "reconcile() · advisory reverse"
+    },
+    {
+      "id": "draft",
+      "type": "text",
+      "x": 420,
+      "y": 1176,
+      "width": 220,
+      "height": 100,
+      "text": "_draft + requires_review"
+    },
+    {
+      "id": "human",
+      "type": "text",
+      "x": 80,
+      "y": 1416,
+      "width": 220,
+      "height": 100,
+      "text": "explicit human promotion"
+    },
+    {
+      "id": "source",
+      "type": "text",
+      "x": 80,
+      "y": 1656,
+      "width": 220,
+      "height": 100,
+      "text": ".lattice.yaml · authoritative"
+    },
+    {
+      "id": "mermaid_src",
+      "type": "text",
+      "x": 1100,
+      "y": 216,
+      "width": 480,
+      "height": 1662,
+      "text": "```mermaid\nflowchart TD\n    thesis(\"ADR-000 · three-leg thesis\")\n    leg1[\"LEG 1 · output\"]\n    leg2[\"LEG 2 · context object\"]\n    leg3[\"LEG 3 · interface surface\"]\n    producers[\"7 producers → .canvas\"]\n    loader[\"canvas_context loader · L1–L7\"]\n    surface[\"InteractionSurface · 5 primitives\"]\n    std([\"canvas_std · immutable substrate\"])\n    adr007{\"adr_007 · bounded firewall touch\"}\n    reconcile[\"reconcile() · advisory reverse\"]\n    draft(\"_draft + requires_review\")\n    human{\"explicit human promotion\"}\n    source((\".lattice.yaml · authoritative\"))\n    thesis --> leg1\n    thesis --> leg2\n    thesis --> leg3\n    leg1 -->|Palette| producers\n    leg2 -->|Salon| loader\n    leg3 -->|Armature| surface\n    producers -->|installed dep| std\n    loader -->|read-only (pythonpath)| std\n    surface -->|has-a ContextGraph| loader\n    adr007 -->|the only authorized touch| std\n    surface -->|act| reconcile\n    reconcile --> draft\n    reconcile -->|READS ONLY — never writes| source\n    draft --> human\n    human -->|promotion (explicit)| source\n```"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge0",
+      "fromNode": "thesis",
+      "fromSide": "bottom",
+      "toNode": "leg1",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge1",
+      "fromNode": "thesis",
+      "fromSide": "bottom",
+      "toNode": "leg2",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge2",
+      "fromNode": "thesis",
+      "fromSide": "bottom",
+      "toNode": "leg3",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge3",
+      "fromNode": "leg1",
+      "fromSide": "bottom",
+      "toNode": "producers",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge4",
+      "fromNode": "leg2",
+      "fromSide": "bottom",
+      "toNode": "loader",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge5",
+      "fromNode": "leg3",
+      "fromSide": "bottom",
+      "toNode": "surface",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge6",
+      "fromNode": "producers",
+      "fromSide": "bottom",
+      "toNode": "std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge7",
+      "fromNode": "loader",
+      "fromSide": "bottom",
+      "toNode": "std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge8",
+      "fromNode": "surface",
+      "fromSide": "bottom",
+      "toNode": "loader",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge9",
+      "fromNode": "adr007",
+      "fromSide": "bottom",
+      "toNode": "std",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge10",
+      "fromNode": "surface",
+      "fromSide": "bottom",
+      "toNode": "reconcile",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge11",
+      "fromNode": "reconcile",
+      "fromSide": "bottom",
+      "toNode": "draft",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge12",
+      "fromNode": "reconcile",
+      "fromSide": "bottom",
+      "toNode": "source",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge13",
+      "fromNode": "draft",
+      "fromSide": "bottom",
+      "toNode": "human",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "edge14",
+      "fromNode": "human",
+      "fromSide": "bottom",
+      "toNode": "source",
+      "toSide": "top",
+      "toEnd": "arrow"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "sync": {
+          "sync_hash": "95bfbb929850e3b0",
+          "source_name": "urn:adna:canvas:context:surface_legs",
+          "source_version": "1.1.0"
+        },
+        "adna_version": "2.0.0",
+        "conformance_level": "adna_native",
+        "component_types": {
+          "diagram_root": {
+            "class": "panel",
+            "semantic_type": "diagram",
+            "degrades_to": "group"
+          },
+          "diagram_title": {
+            "class": "typography_run",
+            "semantic_type": "title",
+            "degrades_to": "text",
+            "qualities": {
+              "level": 1
+            }
+          },
+          "thesis": {
+            "class": "shape",
+            "semantic_type": "event",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "round"
+            }
+          },
+          "leg1": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "leg2": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "leg3": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "producers": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "loader": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "surface": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "std": {
+            "class": "shape",
+            "semantic_type": "terminal",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "stadium"
+            }
+          },
+          "adr007": {
+            "class": "shape",
+            "semantic_type": "decision",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "diamond"
+            }
+          },
+          "reconcile": {
+            "class": "shape",
+            "semantic_type": "process",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "rect"
+            }
+          },
+          "draft": {
+            "class": "shape",
+            "semantic_type": "event",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "round"
+            }
+          },
+          "human": {
+            "class": "shape",
+            "semantic_type": "decision",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "diamond"
+            }
+          },
+          "source": {
+            "class": "shape",
+            "semantic_type": "state",
+            "degrades_to": "text",
+            "qualities": {
+              "shape": "circle"
+            }
+          },
+          "mermaid_src": {
+            "class": "code",
+            "semantic_type": "mermaid_source",
+            "degrades_to": "text",
+            "qualities": {
+              "language": "mermaid"
+            }
+          }
+        },
+        "semantic_bindings": {
+          "profile": "diagram"
+        },
+        "panel_link": {
+          "edges": {
+            "edge0": {
+              "kind": "dependency"
+            },
+            "edge1": {
+              "kind": "dependency"
+            },
+            "edge2": {
+              "kind": "dependency"
+            },
+            "edge3": {
+              "kind": "dependency"
+            },
+            "edge4": {
+              "kind": "dependency"
+            },
+            "edge5": {
+              "kind": "dependency"
+            },
+            "edge6": {
+              "kind": "dependency"
+            },
+            "edge7": {
+              "kind": "dependency"
+            },
+            "edge8": {
+              "kind": "dependency"
+            },
+            "edge9": {
+              "kind": "dependency"
+            },
+            "edge10": {
+              "kind": "dependency"
+            },
+            "edge11": {
+              "kind": "dependency"
+            },
+            "edge12": {
+              "kind": "dependency"
+            },
+            "edge13": {
+              "kind": "dependency"
+            },
+            "edge14": {
+              "kind": "dependency"
+            }
+          },
+          "regions": {
+            "diagram_root": {
+              "flow": "vertical",
+              "pagination": "none",
+              "surface": "flowchart"
+            }
+          },
+          "surfaces": [
+            {
+              "id": "diagram_root",
+              "role": "canonical"
+            }
+          ]
+        },
+        "authority": "dual_channel",
+        "context_object": {
+          "id": "urn:adna:canvas:context:surface_legs",
+          "version": "1.1.0",
+          "refs": [
+            "[[adr_000_canvas_identity]]",
+            "[[adr_006_canvas_surface_boundary]]",
+            "[[adr_007_leg3_firewall_touch]]",
+            "[[spec_roundtrip_protocol_v2]]",
+            "[[context_canvas_surface_legs]]"
+          ]
+        }
+      }
+    }
+  }
+}

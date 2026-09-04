@@ -1,0 +1,69 @@
+# Canvas channel for `context_canvas_surface_legs.md` — the dual-channel pair.
+#
+# Prose owns MEANING (why each leg is proven, the principles, the anti-patterns).
+# This canvas owns STRUCTURE (which component reaches which, and in which direction).
+# The dual-channel law: both update in the SAME mission. Drift is a defect, caught at gate review.
+#
+# Build (see how/skills/skill_canvas_context_diagram.md):
+#   diagram-generator build context_canvas_surface_legs.diagram.yaml context_canvas_surface_legs.canvas
+title: "Canvas surface legs — the three-leg thesis and its runtimes"
+id: "urn:adna:canvas:context:surface_legs"
+# ⚠ A-7 requires SEMVER here, but the prose channel's `context_version` is a 2-field "1.1".
+# Mapping rule (see the skill): prose `context_version: X.Y` -> canvas `version: X.Y.0`.
+version: "1.1.0"
+diagram_type: flowchart
+direction: TD
+
+authority: dual_channel
+prose: what/context/context_canvas_surface_legs.md
+
+refs:
+  - "[[adr_000_canvas_identity]]"
+  - "[[adr_006_canvas_surface_boundary]]"
+  - "[[adr_007_leg3_firewall_touch]]"
+  - "[[spec_roundtrip_protocol_v2]]"
+
+nodes:
+  - { id: thesis,    label: "ADR-000 · three-leg thesis",           shape: round }
+
+  - { id: leg1,      label: "LEG 1 · output",                       shape: rect }
+  - { id: leg2,      label: "LEG 2 · context object",               shape: rect }
+  - { id: leg3,      label: "LEG 3 · interface surface",            shape: rect }
+
+  - { id: producers, label: "7 producers → .canvas",                shape: rect }
+  - { id: loader,    label: "canvas_context loader · L1–L7",        shape: rect }
+  - { id: surface,   label: "InteractionSurface · 5 primitives",    shape: rect }
+
+  - { id: std,       label: "canvas_std · immutable substrate",     shape: stadium }
+  - { id: adr007,    label: "adr_007 · bounded firewall touch",     shape: diamond }
+
+  - { id: reconcile, label: "reconcile() · advisory reverse",       shape: rect }
+  - { id: draft,     label: "_draft + requires_review",             shape: round }
+  - { id: human,     label: "explicit human promotion",             shape: diamond }
+  - { id: source,    label: ".lattice.yaml · authoritative",        shape: circle }
+
+edges:
+  # The thesis fans out into its three legs.
+  - { from: thesis, to: leg1 }
+  - { from: thesis, to: leg2 }
+  - { from: thesis, to: leg3 }
+
+  # Each leg's runtime.
+  - { from: leg1, to: producers, label: "Palette" }
+  - { from: leg2, to: loader,    label: "Salon" }
+  - { from: leg3, to: surface,   label: "Armature" }
+
+  # The one-way dependency law: every consumer imports the substrate, never the reverse.
+  - { from: producers, to: std, label: "installed dep" }
+  - { from: loader,    to: std, label: "read-only (pythonpath)" }
+  - { from: surface,   to: loader, label: "has-a ContextGraph" }
+
+  # The firewall: the ONLY authorized write into the substrate is a ratified, bounded ADR.
+  - { from: adr007, to: std, label: "the only authorized touch" }
+
+  # The governed write — the whole point is that it does NOT reach the source.
+  - { from: surface,   to: reconcile, label: "act" }
+  - { from: reconcile, to: draft }
+  - { from: reconcile, to: source,    label: "READS ONLY — never writes" }
+  - { from: draft,     to: human }
+  - { from: human,     to: source,    label: "promotion (explicit)" }

@@ -306,6 +306,7 @@ Reusable agent recipes and documented procedures in `how/skills/`. Skills have t
 | `skill_sqlite_persistence` | process | Multiple agents, sessions hard to query, learnings accumulating without validation signal |
 | `skill_orchestration_tiers` | process | Multi-file tasks, tier classification, agent spawning, model routing decisions |
 | `skill_canvas_producer_build` | agent | Building a new in-vault canvas producer (domain spec → aDNA-Native `.canvas`) on `canvas_std` |
+| `skill_canvas_context_diagram` | agent | Giving a prose artifact a conformant `.canvas` channel beside it (dual-channel diagrammatic context) |
 
 ---
 

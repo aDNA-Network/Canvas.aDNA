@@ -1,0 +1,62 @@
+# Canvas channel for `adr_004_production_code_layout.md` — the dual-channel pair.
+#
+# Prose owns MEANING (the rejected alternatives and WHY each was rejected — the part of an ADR a
+# diagram cannot carry). This canvas owns STRUCTURE: the two-shelf split, what depends on what, and
+# the §Decision-4 trap that the ADR's own three questions did not surface.
+#
+# Build (see how/skills/skill_canvas_context_diagram.md):
+#   diagram-generator build adr_004_production_code_layout.diagram.yaml adr_004_production_code_layout.canvas
+title: "ADR-004 · two-shelf production code layout"
+id: "urn:adna:canvas:decision:adr_004"
+version: "1.0.0"                   # A-7: semver required (the prose ADR carries no version field)
+diagram_type: flowchart
+direction: TD
+
+authority: dual_channel
+prose: what/decisions/adr_004_production_code_layout.md
+
+refs:
+  - "[[adr_001_canvasforge_relationship]]"
+  - "[[adr_000_canvas_identity]]"
+  - "[[adr_003_standard_governance]]"
+
+nodes:
+  - { id: vault,     label: "Canvas.aDNA",                            shape: round }
+
+  # The two shelves — the decision's load-bearing structure.
+  - { id: shelf_std, label: "SHELF A · what/code/ — the Standard",    shape: rect }
+  - { id: shelf_pro, label: "SHELF B · what/production/ — the engine", shape: rect }
+
+  - { id: canvas_std,  label: "canvas_std (lean, zero-dep)",          shape: stadium }
+  - { id: canvas_core, label: "canvas_core (~80 files)",              shape: rect }
+  - { id: siblings,    label: "canvas_comic · canvas_presentation",   shape: rect }
+
+  # §Decision 4 — the dependency-resolution rule the three questions missed.
+  - { id: locator,   label: "CANVAS_CORE_HOME (locator)",             shape: rect }
+  - { id: alias,     label: "CANVASFORGE_CODE (deprecated alias)",    shape: rect }
+  # Label kept short: node boxes are a uniform 220x100, so a long/multi-line label overflows
+  # (CV-TEXT-BOUNDS-01). The full statement of the trap lives in the prose channel, §Decision 4.
+  - { id: trap,      label: "TRAP · silent non-render",                shape: diamond }
+  - { id: install,   label: "install adna-canvas-std (preferred)",    shape: rect }
+  - { id: fallback,  label: "2nd sys.path entry (fresh-node)",        shape: rect }
+
+edges:
+  - { from: vault, to: shelf_std }
+  - { from: vault, to: shelf_pro }
+
+  - { from: shelf_std, to: canvas_std }
+  - { from: shelf_pro, to: canvas_core }
+  - { from: shelf_pro, to: siblings }
+
+  # The hard dependency that makes §Decision 4 necessary.
+  - { from: canvas_core, to: canvas_std, label: "hard import (core.py)" }
+  - { from: siblings,    to: canvas_core, label: "bare cross-import → co-locate" }
+
+  # The locator places only canvas_core on sys.path — hence the trap.
+  - { from: locator, to: canvas_core, label: "places on sys.path" }
+  - { from: alias,   to: locator,     label: "DeprecationWarning" }
+  - { from: locator, to: trap,        label: "canvas_std NOT placed" }
+  - { from: trap,    to: install,     label: "resolution A" }
+  - { from: trap,    to: fallback,    label: "resolution B" }
+  - { from: install, to: canvas_std }
+  - { from: fallback, to: canvas_std }

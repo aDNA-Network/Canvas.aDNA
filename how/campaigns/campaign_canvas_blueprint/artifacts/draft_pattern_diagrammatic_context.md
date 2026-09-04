@@ -8,7 +8,7 @@ created: 2026-08-22
 updated: 2026-08-24
 last_edited_by: agent_mondrian
 status: staged_for_rosetta
-errata: "E1 (2026-08-24, Blueprint P1) — legacy-corpus diagnosis corrected by measurement; see §Erratum E1. Count (196) unchanged."
+errata: "E1 (2026-08-24, Blueprint P1) — legacy-corpus diagnosis corrected by measurement; see §Erratum E1. Count (196) unchanged. · E2 (2026-09-04, Blueprint P2) — the authority axis mixes two questions, and the conformance floor was unachievable as written; both found by BUILDING the pattern. See §Erratum E2."
 empirical_anchor: Emacs.aDNA (REQ-Q01/REQ-O05/REQ-H05, ratified, running since 2025-07 at Standard 2.3.0)
 tags: [pattern, draft, canvas, diagrammatic_context, dual_channel, authority_model, upstream]
 ---
@@ -155,3 +155,74 @@ identity fields," lossless and mechanical — and the files are byte-identical f
 plus a release, not a 46-vault sweep. Delivered to Rosetta as
 `coord_2026_08_24_mondrian_to_rosetta_census_erratum.md`. Canvas's own ruling on the substance:
 `what/decisions/adr_011_legacy_canvas_interop_reconciliation.md`.
+
+---
+
+## Erratum E2 — two defects found by *building* the pattern (2026-09-04, Blueprint P2)
+
+E1 corrected a diagnosis by re-measuring. **E2 corrects the pattern itself by using it.** Canvas
+authored the first two dual-channel canvases in its own tree (`context_canvas_surface_legs`,
+`adr_004_production_code_layout`) and both defects surfaced within the first build.
+
+### E2.1 — the authority axis mixes two independent questions
+
+The axis as drafted presents `dual_channel` / `generator` / `view` as three peer values. Building
+one shows they are not peers. Two different questions are being answered by one field:
+
+| Question | Answers |
+|---|---|
+| **Who owns the meaning?** | prose (`dual_channel`) · an authoritative `.lattice.yaml` (`view`) |
+| **How is the artifact produced?** | hand-authored · machine-generated (`generator`) |
+
+Canvas's two dogfood canvases are **`dual_channel` and machine-generated simultaneously**: prose owns
+the meaning, and the `.canvas` is built by `diagram_generator` from a `.diagram.yaml` beside it. The
+drafted `generator` row's discipline — *"never hand-edit; regenerate"* — applies to them **exactly**,
+yet their authority is `dual_channel`, so a reader following the axis literally gets no instruction
+not to hand-edit them.
+
+⇒ **Proposed (Canvas does not rule this — it is the pattern's, and the pattern is Rosetta's):** keep
+the three values for compatibility, and state that *the no-hand-edit discipline attaches to
+**generation**, not to the `generator` value.* A `dual_channel` canvas with a machine source carries
+it too. If a cleaner separation is wanted later, the honest shape is two fields
+(`authority` + `production`) — **but that is a schema change and this draft's whole posture is that
+2.3.0 suffices**, so it is named and not proposed.
+
+### E2.2 — the conformance floor was unachievable, by anyone, for 13 months
+
+The draft's §Conformance floor requires a canvas to pass "the visual gate (agent-confirmed render —
+Amendment 1)" alongside `canvas-std validate`. Measured at P2: **the machine visual gate
+(`canvas-visual-check --strict`) could not be passed by any canvas containing a titled group.**
+
+Two shipped traps in the same profile impose mutually unsatisfiable requirements:
+
+- `CV-HIERARCHY-01/title_slot_missing` requires a **markdown heading marker** on a text node in the
+  group's upper 40%.
+- `CV-LEAD-COST-01/heading_lead` flags `h1`/`h2`/`h3` leads, its docstring stating the rule as
+  *"never use `#`/`##`/`###` to title a canvas text node."*
+
+Every lead form was measured against both. `h1`/`h2`/`h3` satisfy hierarchy and trip lead-cost;
+`**bold**` does the reverse; `#####`/`######` pass both **only by classifying as `plain`** — i.e. by
+not being headings at all, which is a green check for the wrong reason. **`####` (h4) alone**
+satisfies both as a real heading, at 42.6px against bold's 40.0px optimum.
+
+Corroboration that this was latent rather than theoretical: `diagram_generator`'s **own shipped
+example** had been failing three traps since Atelier (2026-06-21) with its Mermaid source node at
+**~14% shown**, and `deck_generator`'s example carries 19 findings including 4 `heading_lead`. The
+gate is declared mandatory in `skill_canvas_producer_build.md` §6 and was evidently not being run —
+the trap corpus grew (14 traps now) and the shipped examples were never re-gated against it.
+
+⇒ **Effect on the pattern:** the conformance floor is *correct* and is now **achievable** — Canvas
+fixed `diagram_generator` (title slot · content-sized code node · content-scaled group padding ·
+title/rank overlap) and all three canvases now pass `--strict` clean. But a floor that no artifact
+could clear went unnoticed for 13 months **because nobody built against it.** A pattern proposing a
+conformance floor should ship with at least one artifact that demonstrably clears it; this draft did
+not, until now.
+
+⚠ **And the human half of that floor is NOT met here.** The agent-confirmed render (Amendment 1) was
+attempted and abandoned: Obsidian is a desktop app, so `screencapture` takes the whole screen, and
+the second attempt recorded a third party's private messages. Both dogfood canvases are
+`visual_gate: pending`. The machine check is **not** a substitute and is not reported as one. A
+window-scoped capture (Home.aDNA's `canvas_visual_loop.py`) is the missing tooling.
+
+**Canvas-side records:** `mission_b2_authoring_rail` findings F-P2-3 · the rail
+`how/skills/skill_canvas_context_diagram.md` · the two worked examples named above.
