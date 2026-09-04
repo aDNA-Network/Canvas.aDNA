@@ -91,7 +91,8 @@ class ComfyForgeConfig:
     """Configuration for the Tier 1 ComfyForge adapter."""
 
     # L1-first per Vulcan's 2026-08-22 endpoint ruling: the old Anduril mesh default
-    # (10.42.0.8:8188) is a dead Nebula path on a parked box — dropped entirely. The
+    # (a parked box's overlay address, held mesh-only per adr_012) is a dead Nebula path — dropped
+    # entirely. The
     # opportunistic fast endpoint (adna_rd_l1) arrives via COMIC_RENDER_COMFY_ENDPOINT /
     # explicit config when their M-RD1 deploy lands.
     endpoint: str = "http://localhost:8188"

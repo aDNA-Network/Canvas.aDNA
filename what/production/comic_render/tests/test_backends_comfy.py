@@ -98,8 +98,11 @@ def test_endpoint_defaults_to_the_wrapper_declared_l1_local(monkeypatch):
 
 
 def test_endpoint_env_var_overrides(monkeypatch):
-    monkeypatch.setenv(ENDPOINT_ENV, "http://10.42.0.8:8188")
-    assert ComfyRefineClient().endpoint == "http://10.42.0.8:8188"
+    # RFC 5737 TEST-NET-2 — a documentation address, deliberately not any real node. The prior
+    # literal was a live overlay address held mesh-only (adr_012); the assertion only needs an
+    # arbitrary string to prove passthrough, so a reserved one is strictly better here.
+    monkeypatch.setenv(ENDPOINT_ENV, "http://198.51.100.7:8188")
+    assert ComfyRefineClient().endpoint == "http://198.51.100.7:8188"
 
 
 def test_registry_returns_a_protocol_conformant_client():

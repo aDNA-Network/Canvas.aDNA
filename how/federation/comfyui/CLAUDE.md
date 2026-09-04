@@ -55,10 +55,14 @@ federation_ref:
     - what/decisions/adr_007_kohya_lora_training.md
   server_endpoints:
     l1_local: http://localhost:8188      # PRIMARY — Vulcan's 2026-08-22 ruling: L1-first confirmed
-    rd_node: pending campaign_rd_forge M-RD1       # opportunistic fast endpoint = adna_rd_l1 (10.43.0.28), NOT Anduril;
+    rd_node: pending campaign_rd_forge M-RD1       # opportunistic fast endpoint = adna_rd_l1 <forge-overlay-addr>, NOT Anduril;
                                                    # endpoint string arrives by memo when their deploy lands (office-LAN/mesh reach only)
-    # anduril (10.42.0.8:8188): DROPPED 2026-08-22 — dead Nebula path on a parked box (3090 absent
+    # anduril <parked-box-addr>:8188: DROPPED 2026-08-22 — dead Nebula path on a parked box (3090 absent
     # from device tree, recovery unscheduled per operator S167). canvas_core default now l1_local.
+    # ⛔ Overlay addresses are held mesh-only, NOT in this public repo (Forgejo.aDNA publication
+    # boundary 2026-08-20; ADR-016 D2.4 — a boundary declared by the graph that owns the fact binds
+    # every graph that quotes it). Literals live at ComfyUI.aDNA's wrapper + the node's Home.aDNA
+    # inventory; resolve them there, never by re-inlining here. Ruling: adr_012.
     override_env: COMIC_RENDER_COMFY_ENDPOINT      # H4: the bridge resolves this, else l1_local
   secrets_dependency: none               # local inference; no API keys
   local_extensions: []
