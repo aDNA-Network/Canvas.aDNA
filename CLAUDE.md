@@ -161,7 +161,10 @@ ADRs live in `what/decisions/`. *(Authored by agents, owned by humans — ratifi
 Credentials are brokered by **Home.aDNA** (Hestia) on Keychain-primary + 1Password-backup — **never inlined**. Reach a secret by
 **name → environment variable** (`GITHUB_TOKEN`, `CODEBERG_TOKEN`, …); the value **never transits the conversation** (ADR-007).
 This vault records credential **names only**. Node-level **agentic sudo** (non-TTY `sudo`) follows the canonical
-`aDNA.aDNA/how/skills/skill_agentic_sudo.md`.
+`aDNA.aDNA/how/skills/skill_agentic_sudo.md`. Image-generation lanes (names only): the Google set resolves in
+`Home.aDNA/what/code/googleai/credentials.py` (C63 Vertex primary); the OpenAI set in
+`Home.aDNA/what/code/openaiapi/credentials.py` (`SS_OPENAI_API_KEY` future → `OPENAI_API_KEY` C07,
+Keychain-staged 2026-09-07, Operation Polyglot) — backends never read credentials themselves (ADR-008 Amendment 1, proposed).
 
 ### Operator Decision Surfacing (AskUserQuestion)
 

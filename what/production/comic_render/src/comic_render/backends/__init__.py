@@ -18,6 +18,7 @@ from comic_render.backends.base import ImageClient, RefineClient
 from comic_render.backends.comfy import ComfyRefineClient
 from comic_render.backends.fake import FakeImageClient, FakeRefineClient
 from comic_render.backends.gemini import GeminiImageClient
+from comic_render.backends.openai import OpenAIImageClient
 
 
 def _generate_only_elsewhere(backend: str, reason: str):
@@ -29,6 +30,9 @@ def _generate_only_elsewhere(backend: str, reason: str):
 GENERATE_BACKENDS: dict[str, Any] = {
     "fake": FakeImageClient,
     "gemini": GeminiImageClient,
+    # ADR-008 §1 Amendment 1 (proposed): the alternate paid cloud lane. Gemini stays the
+    # substrate-wide default; 'openai' is selected explicitly, never fallen back to.
+    "openai": OpenAIImageClient,
     "comfy": _generate_only_elsewhere(
         "comfy",
         "ComfyUI is the refine stage of the chain (ADR-003: the cloud backend is the production "

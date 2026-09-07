@@ -113,3 +113,32 @@ historical record; this document is what the Halftone render bridge (H2–H4) ci
 `what/docs/comic_prompt_contract.md` (the handable prompt contract) · `how/campaigns/campaign_canvas_halftone/`
 (charter + gap register + roadmap) · `adr_004_production_code_layout.md` (two-shelf firewall) ·
 `Archive.aDNA/CanvasForge.aDNA/what/decisions/adr_00{3,5,8}*.md` (full originals, reader-only).
+
+---
+
+## Amendment 1 (2026-09-07, Operation Polyglot) — a second paid cloud GENERATE lane: `openai` — **status: proposed**
+
+> Agents author, operators ratify (§7.7). This amendment is **proposed**; the backend ships
+> registered but doctrine-subordinate until the block below is signed.
+
+**What changes.** `GENERATE_BACKENDS` gains **`openai`** (`backends/openai.py`) — a thin
+binding to the new shared layer `Home.aDNA/what/code/openaiapi/` (sibling of `googleai/`,
+same discipline: model IDs / prices / size menus / credential lanes live in the layer;
+⛔ no credential read in the backend — the three-times-shipped bug stays dead). Default
+model `image.pro` → `gpt-image-2` ($0.03/1K · $0.05/2K · $0.08/4K, probe-verify pending);
+lane order `SS_OPENAI_API_KEY` (future) → `OPENAI_API_KEY` (Home C07, Keychain-staged
+2026-09-07).
+
+**What does NOT change.** §1 stands: **Gemini/Imagen remains the substrate-wide GENERATE
+default and ComfyUI remains the refine stage.** `openai` is an *explicitly selected
+alternate* (`backend_preference` / `--chain 'generate:openai'`), never a silent fallback —
+provider order is a doctrine ruling, not a retry policy. First named consumer: the
+ScienceStanley OpenAI image lane (operator GO 2026-09-06, $10 initial cap; SS's own
+paid-image fence governs SS-side use).
+
+**Aspect honesty.** The OpenAI size grid supports `1:1 / 3:2 / 2:3` only; the backend
+declares exactly that via `SUPPORTED_ASPECTS`, so `extract.plan` cannot approve a shape
+the API refuses (narrower than the package default, deliberately).
+
+**Ratification block** — decision: adopt `openai` as alternate GENERATE lane ·
+ratified-by: ____ · date: ____ · status: **proposed**.
