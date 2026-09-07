@@ -121,6 +121,12 @@ check is not a substitute and will not be reported as one.
   bare*, not *the repo is unlicensed*, and those diverge exactly where a repo ships packages.
   Reported to Hopper for their remediation lane.
 
+> ⛩ **CORRECTED 2026-09-07 — F-P2-2's rule survives; its two supporting claims do not. See F-P2-7.**
+> The peers' instrument *had* an enumerating column (`b_class`) and they quoted the confirming one —
+> so "neither *could* see it" is wrong; "neither *reported* it" is right. And **our own census was a
+> literal-census, not a class-census**: a true RFC1918 enumeration at the same baseline reads
+> **13 occurrences / 8 files / 4 literals**, against the 10/9/2 reported below.
+
 - **F-P2-2 (2026-09-04) — an external instrument confirms a hypothesis; only an internal one
   enumerates.** Two peers independently measured 2 occurrences of the R&D forge overlay address over
   2 files. An inside census **confirmed their number exactly** *and* found a **second RFC1918 literal
@@ -129,6 +135,13 @@ check is not a substitute and will not be reported as one.
   the peers' file list been treated as the work order, remediation would have been **4× short while
   reporting completion**, and their instruments would have confirmed us clean. Ruled at
   [[adr_012_publication_boundary_remedy]].
+
+> ⛩ **CORRECTED 2026-09-06 — see F-P2-6. Two claims in F-P2-3 below were wrong and are struck in
+> place rather than rewritten.** *"for 13 months"* → the conflict was live **~1 month**
+> (`cv_lead_cost_01.py` added **2026-08-03**; `cv_hierarchy_01.py` **2026-06-22**; the two cannot
+> conflict before the later of them). The generator's example had been failing **~2.5 months**, not
+> 13. *"by anyone"* → **too strong**: comic-profile canvases clear the gate, and always could.
+> The `####` measurement and the repair are unaffected.
 
 - **F-P2-3 (2026-09-04) — the visual gate was unsatisfiable, by anyone, for 13 months.** Two shipped
   traps in the same profile contradict: `CV-HIERARCHY-01/title_slot_missing` **requires** a markdown
@@ -143,12 +156,97 @@ check is not a substitute and will not be reported as one.
   and was not being run — the trap corpus grew to 14 while shipped examples were never re-gated.
   ⚠ **Open, not fixed here:** `deck_generator`'s 19 findings (2 HIGH) and any other producer's
   examples. Only `diagram_generator` was repaired. A producer-wide re-gate is a follow-up.
+  *(Scope corrected 2026-09-06 → F-P2-6: **5** producers / **6** files, not six producers.)*
 
 - **F-P2-4 (2026-09-04) — a fixed constant cannot satisfy a ratio.** `CV-GROUP-PADDING-01` fires
   when children fill >90% of the container. `PAD = 80` was fixed while content width grows, so the
   trap fires on any diagram past ~1440px — it fired here at 90.36%, i.e. *barely*, which is what made
   it look like a one-off rather than a scaling defect. Fixed by scaling the container to a fill
   target. Generalisable: **a threshold expressed as a ratio needs a fix expressed as a ratio.**
+
+- **F-P2-6 (2026-09-06) — the producer-wide census, measured properly; and two of my own P2 claims
+  were wrong.** Re-measuring before recommending a re-gate corrected the mission's own record.
+
+  **(a) I ran the wrong profile.** `traps/cli.py` takes `--profile` (`knowledge-canvas` default ·
+  `comic` · `all`). I ran the default against everything. Under its own profile
+  `comic_generator`'s example is **0 findings [OK]**, as is the `comic_render` fixture — all 24
+  findings including **all 6 CRITICAL** were profile mismatch. **Halftone had already measured and
+  dispositioned exactly these**, and the CLI says so in a comment: *"None is a defect. A gate that
+  always fails is not a gate."* ⇒ I reported a solved problem as an open one, and did it by
+  skipping a flag the tool documents. **The lesson is narrower and more useful than "read the
+  docs": a gate result is only meaningful with its profile stated.** A bare "[FAIL]" is not a
+  measurement.
+
+  **(b) "13 months" was wrong by ~12×.** Dated from git above. The figure came from the draft
+  pattern's own legitimate line — *"Emacs.aDNA — 13 months of the exact pattern"* — read in the
+  same document and carried into an unrelated claim. It reached `STATE.md`, the campaign master,
+  this mission, the draft's §E2 and the E2 memo, and four of those were pushed. ⚠ **This is the
+  precise failure the E2 memo is *about*** — a figure that reads plausibly, survives review, and is
+  false. Caught only because the recommendation required re-deriving it.
+
+  **Corrected census** (right profile per domain, `--strict`, 2026-09-06):
+
+  | Producer | Findings | HIGH |
+  |---|---|---|
+  | `document_generator` (2 examples) | 26 + 26 | 5 + 5 |
+  | `deck_generator` | 19 | 2 |
+  | `brief_consumer` | 17 | 1 |
+  | `post_generator` (2) | 2 + 4 | 0 |
+  | `letter_generator` | 5 | 0 |
+  | `diagram_generator` · `comic_generator` · `comic_render` | **0 [OK]** | — |
+
+  **6 files · 5 producers · 99 findings · 13 HIGH · 0 CRITICAL** (was reported as "six producers,
+  incl. CRITICAL").
+
+  **89 of 99 (90%) are the four classes already solved once here:** `CV-TEXT-BOUNDS-01/overflow` 55 ·
+  `CV-LEAD-COST-01/heading_lead` 20 · `CV-GROUP-PADDING-01/aggregate_fill` 10 ·
+  `CV-HIERARCHY-01/title_slot_missing` 4. The remaining 10 are **new classes**:
+  `CV-GROUP-LABEL-01/label_truncates` (7 HIGH — group labels too long for their width) and
+  `CV-FILE-PROPS-01/file_missing` (3 HIGH — shipped examples referencing PNGs that do not exist and
+  are **not** gitignored; now that Canvas is MIT and publicly clonable, an external user gets three
+  broken examples).
+
+  **(c) A producer MAY depend on `canvas_core`.** `layout.py`'s comment asserted otherwise; the
+  vault's own `comic_render/compose.py` does `from canvas_core.print import …`, and `adr_004` sites
+  `canvas_core` as the shared **engine shelf**, not a sibling producer. Corrected in place.
+  ⇒ The re-gate should be **one shared `canvas_core/layout_fit.py`** over the existing
+  `text_metrics` functions the traps themselves call — so producers and traps share one measurement
+  and my conservative guesses (`SRC_LINE_H = 44`, mirrored `H4_LEAD_COST`) are replaced by exact
+  ones — not five hand-repairs that would produce five slightly different answers.
+
+- **F-P2-7 (2026-09-07) — we charged the peers with a blindness we then committed ourselves, one
+  level down.** Hopper's reply corrected F-P2-2's diagnosis and the reconciliation they left to us
+  corrected our own numbers.
+
+  **(a) Their instrument was not blind.** `census_public_carriers.sh` greps three predicates —
+  `a_host` (a literal), `a_addr` (literal+port) and **`b_class`** (the whole RFC1918 class, lifted
+  from the deny pattern). `b_class` *is* the inside-enumeration F-P2-2 claimed only we could do.
+  They built it, ran it, and published the confirming column: *"a missing capability is a gap; a
+  capability you have and do not read is a habit."*
+
+  **(b) ⛔ And our census was a literal-census wearing an enumeration's name.** We grepped for the
+  two strings already found in one file and reported the result as a class measurement. A real
+  RFC1918 enumeration at the same baseline (`4acee98`): **13 occurrences / 8 files / 4 literals**,
+  against the **10 / 9 / 2** reported. The two missed are a Nebula lighthouse host and a `/24`
+  subnet notation — **4 occurrences in `how/skills/skill_l1_upgrade.md`**, which is *live authored
+  content*, the category `adr_012` §Decision 3 claimed to have remediated **in full**.
+
+  ⚖ `skill_l1_upgrade.md` is **template-inherited** (2026-03-21; arrived at Canvas genesis
+  2026-06-06), so those literals sit in every vault forked from the template. Fixing our copy fixes
+  one vault of many — the durable fix is upstream, the same shape as the 196-file legacy in
+  `adr_011`. **Left as an open operator item; not remediated unilaterally.**
+
+  **(c) Their `--depth 1` clone means every figure their census has produced describes *tips*,
+  never history** — and had never said so. Their correction, not ours, and a larger one than the
+  column.
+
+  ⇒ **The rule that survives all of this, sharper than F-P2-2's version and no longer flattering:**
+  *an outside measurement validates a hypothesis; an inside measurement that greps for known strings
+  is not an enumeration either.* Hopper ratified the same clause from the other direction (ADR-011
+  A8 §5 — *a coverage claim states its population, or it is not a coverage claim*), after their own
+  instance of it: a `grep -rl … | head` that silently truncated at 10 and reported **9** where the
+  population was **22**. **Practice: state the population on the face of the number — tip or
+  history · class or literal · tracked or working-tree.**
 
 ## AAR
 
@@ -174,8 +272,18 @@ has built against can be unsatisfiable and still read as reasonable to every rev
 padding to a fill ratio, and offsets rank 0 below the title. The rail records `####` as doctrine with
 the reason, and records that the human visual gate has no safe automated path on a shared workstation.
 
-**Follow-up.** *(a)* Re-gate the other six producers' shipped examples — `deck_generator` alone has
-19 findings incl. 2 HIGH. *(b)* Port a window-scoped capture (Home.aDNA `canvas_visual_loop.py`) so
-Amendment 1 has a safe path. *(c)* Deliver E2 to Rosetta when their lease clears. *(d)* F-HR-1
+**Follow-up.** *(a)* Re-gate **5 producers / 6 files** (99 findings, 13 HIGH, 0 CRITICAL — F-P2-6,
+corrected 2026-09-06 from "six producers"); do it as **one shared `canvas_core/layout_fit.py`**, not
+five hand-repairs, and retrofit `diagram_generator` onto it. *(b)* Port a window-scoped capture
+(Home.aDNA `canvas_visual_loop.py`) so Amendment 1 has a safe path. *(c)* Deliver E2 to Rosetta when
+their lease clears — **done 2026-09-06, after correcting two overstatements in it**. *(d)* F-HR-1
 normalize-on-collect is still carried, untouched. *(e)* Conversion memos #10/#11 — the deferred half
-of P2.
+of P2; **sequence them after (a)**, since offering conversions while our own shelf fails the gate
+repeats the credibility problem the dogfood just fixed. *(f)* Restore or remove the 3 missing example
+PNGs (HIGH, and now publicly clonable).
+
+**AAR addendum (2026-09-06).** The mission's own AAR said *"Worked: building the pattern instead of
+re-reading it."* Two days later the same discipline applied to the mission's **output** found two
+false claims in it, one pushed publicly. ⇒ The generalisation is stronger than the original: *the
+check that catches you is re-deriving a number, not re-reading the sentence containing it.* Both
+errors survived my own review, the commit message, and the SITREP.

@@ -187,11 +187,31 @@ it too. If a cleaner separation is wanted later, the honest shape is two fields
 (`authority` + `production`) — **but that is a schema change and this draft's whole posture is that
 2.3.0 suffices**, so it is named and not proposed.
 
-### E2.2 — the conformance floor was unachievable, by anyone, for 13 months
+### E2.2 — the conformance floor was unachievable for a whole class of canvas
+
+> ⛩ **Corrected 2026-09-06, before this erratum was delivered.** The heading and two sentences below
+> originally read *"unachievable, by anyone, for 13 months"* and *"could not be passed by any canvas
+> containing a titled group."* **Both were overstatements, in an erratum whose thesis is that
+> plausible claims survive review.**
+> - **Duration:** the two traps cannot conflict before the later of them exists —
+>   `cv_hierarchy_01.py` **2026-06-22**, `cv_lead_cost_01.py` **2026-08-03**. The conflict was live
+>   **~1 month**, not 13. The "13 months" came from this document's own Evidence line about
+>   Emacs (§Evidence, still correct there) and was carried into an unrelated claim.
+> - **Scope:** *"by anyone"* is wrong. The trap corpus has a **profile mechanism**
+>   (`knowledge-canvas` · `comic` · `all`), and comic-profile canvases cleared the gate throughout.
+>   The true claim is **"any `knowledge-canvas`-profile canvas with a titled group."**
+>
+> ⭐ **And the profile mechanism changes the recommendation.** `_KNOWLEDGE_CANVAS_AESTHETICS` already
+> expresses *"this aesthetic check does not apply in this domain"* — which is what the conflict
+> actually needs. **`####` is a workaround, not the fix.** The durable resolution is a trap-level or
+> profile-level reconciliation owned by the trap corpus, and this erratum should not be read as
+> proposing `####` as doctrine for the fleet.
 
 The draft's §Conformance floor requires a canvas to pass "the visual gate (agent-confirmed render —
 Amendment 1)" alongside `canvas-std validate`. Measured at P2: **the machine visual gate
-(`canvas-visual-check --strict`) could not be passed by any canvas containing a titled group.**
+(`canvas-visual-check --strict`) could not be passed by any **`knowledge-canvas`-profile** canvas
+containing a titled group.** *(Scope corrected 2026-09-06 — see the note above; comic-profile
+canvases were never affected.)*
 
 Two shipped traps in the same profile impose mutually unsatisfiable requirements:
 
@@ -214,7 +234,7 @@ the trap corpus grew (14 traps now) and the shipped examples were never re-gated
 ⇒ **Effect on the pattern:** the conformance floor is *correct* and is now **achievable** — Canvas
 fixed `diagram_generator` (title slot · content-sized code node · content-scaled group padding ·
 title/rank overlap) and all three canvases now pass `--strict` clean. But a floor that no artifact
-could clear went unnoticed for 13 months **because nobody built against it.** A pattern proposing a
+could clear went unnoticed **because nobody built against it.** A pattern proposing a
 conformance floor should ship with at least one artifact that demonstrably clears it; this draft did
 not, until now.
 

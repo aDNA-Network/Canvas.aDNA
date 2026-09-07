@@ -24,14 +24,24 @@ TITLE_GAP = 40  # clearance between the title node and rank 0 (overlap tolerance
 SRC_W = 480  # width of the parked mermaid_src code node
 SRC_GAP = 120  # gap between the graph and the parked code node
 TITLE_H = 60  # minimum height of the `#### <title>` heading node (CV-HIERARCHY-01 title slot)
-H4_LEAD_COST = 42.6  # canvas_core.text_metrics.OBSIDIAN_LEAD_COST["h4"] — mirrored, not imported
+H4_LEAD_COST = 42.6  # mirrors canvas_core.text_metrics.OBSIDIAN_LEAD_COST["h4"] — see the note below;
+                     # the mirror is interim, not a dependency rule (corrected 2026-09-06)
 
 # --- Visual-gate constants (calibrated against canvas_core/traps, not guessed) -------------------
 # CV-TEXT-BOUNDS-01 measures with the Obsidian CSS model and passes when
-# `measure_obsidian_extent(text, w) <= OBSIDIAN_SAFE_FILL * height`. We do not import
-# canvas_core here (a producer must not depend on a sibling producer), so we over-estimate
-# deliberately and let the trap arbitrate — the numbers below were derived from two live trap
-# readings (666px/18 lines and 1171px/29 lines at w=480) and then rounded UP.
+# `measure_obsidian_extent(text, w) <= OBSIDIAN_SAFE_FILL * height`.
+#
+# ⛩ CORRECTED 2026-09-06. This block previously justified the constants below with "a producer must
+# not depend on a sibling producer". That constraint is NOT this vault's rule and the vault's own
+# code contradicts it: `comic_render/compose.py` does `from canvas_core.print import ...`, and
+# adr_004 sites `canvas_core` as the shared ENGINE SHELF (what/production/), not a sibling producer.
+# So importing `canvas_core.text_metrics` here was legal all along.
+#
+# The constants therefore stand only as an INTERIM: they are over-estimates derived from two live
+# trap readings (666px/18 lines and 1171px/29 lines at w=480) and rounded up, and they pass — but
+# they are a mirror of a measurement rather than the measurement. The producer-wide re-gate
+# (F-P2-6) should replace them with a shared `canvas_core/layout_fit.py` over the same
+# `text_metrics` functions the traps call, so producer and trap share one source of truth.
 SRC_LINE_H = 44        # px per rendered line at SRC_W (measured ~37-40; rounded up)
 SRC_WRAP_COLS = 46     # chars per line before wrapping at SRC_W (conservative; measured ~52)
 SAFE_FILL = 0.9        # trap's OBSIDIAN_SAFE_FILL — usable height is 90% of declared
