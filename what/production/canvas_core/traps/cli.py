@@ -44,6 +44,10 @@ trap (CV-FILE-PROPS-01) skips and a note is printed.
   traps (group padding · hierarchy/title-slot · node density) that a composed
   comic page fails *by design*, and admits ``comic-specific`` traps.
   Added at Halftone H6 from H4 finding #4.
+- ``deck`` — the same aesthetic drop for the same reason (a 16:9 slide is meant
+  to be well-filled and carries its title in the deck's title slide, not in a
+  heading node per slide), plus the ``deck-specific`` and presentation-metadata
+  traps a deck genuinely has. Added at Blueprint P2c (2026-09-07).
 - ``all`` — the full pack. ``--all-traps`` is the deprecated alias.
 
 Every profile keeps the **correctness** traps — text bounds, image aspect
@@ -88,6 +92,45 @@ from canvas_core.traps.runner import run_all_traps  # noqa: E402
 _SEVERITY_ORDER = ["critical", "high", "medium", "low"]
 _FAIL_SEVERITIES = {"critical", "high"}
 
+
+def _advisory_trap_ids() -> set[str]:
+    """Traps that REPORT but do not GATE: **tried, and never once accepted.**
+
+    ⛩ Blueprint P2c (2026-09-07, operator ruling). The registry already tracks whether a trap has
+    earned its authority — ``graduated`` plus the III loop's ``cycles_fired``/``cycles_accepted``
+    counters — and this CLI ignored all three, letting an ungraduated trap fail a build at HIGH.
+
+    Surfaced by ``CV-AUDIENCE-01``: ``graduated: False``, **2 cycles fired, 0 accepted**, its own
+    docstring scheduling a *"calibration cycle in successor v1.1"*, and — because it is
+    ``deck-specific`` scope and no deck profile existed until today — **it had never run against a
+    real deck**. On its first honest run it flagged 5 of 6 slides, because a 19-word title slide
+    beside a 64-word content slide is ordinary deck design, not an audience-fit defect.
+
+    The alternative was to tune ``THRESHOLD_CV`` until the one artifact we needed to pass passed,
+    which is the F-P2-6 anti-pattern exactly. This rule is general and lives with the registry
+    metadata instead: **a finding from a trap that has been tried and never once accepted is a
+    hypothesis, not a verdict.** Findings are still printed and still appear in ``--json``, tagged
+    ``advisory``; they simply do not set the exit code. A trap leaves this set the first time one
+    of its findings is accepted.
+
+    ⚠ **The predicate is deliberately narrow, and the reason is F-P2-13.** The obvious rule —
+    *"not graduated and nothing accepted"* — was written first and audited before being trusted: it
+    captures **13 of the 14 live traps**, including ``CV-TEXT-BOUNDS-01``, which fired 55 times in
+    this very session and caught the Oration M-R5 incident. It would have silenced the gate
+    entirely while reading like a governance improvement. The cause is that
+    ``cycles_fired``/``cycles_accepted`` were **never maintained** — every trap but one still reads
+    ``fired=0``. So ``fired == 0`` means *"no record either way"*, **not** *"never useful"*, and
+    only ``fired > 0 and accepted == 0`` is evidence of anything. Those counters are not a
+    trustworthy substrate for a gating rule; this uses the one signal in them that is not
+    ambiguous, and no more.
+    """
+    return {
+        trap_id for trap_id, meta in TRAP_PACK_REGISTRY.items()
+        if not meta.get("graduated", False)
+        and meta.get("cycles_fired", 0) > 0
+        and meta.get("cycles_accepted", 0) == 0
+    }
+
 # Presentation-workflow traps excluded from the default (visual-fidelity)
 # profile: they presume deck metadata a hand-authored vault canvas never has.
 _PRESENTATION_ONLY = {"CV-DIMENSION-VISIBILITY-01"}
@@ -101,6 +144,22 @@ _PRESENTATION_ONLY = {"CV-DIMENSION-VISIBILITY-01"}
 # Halftone H4 finding #4 measured it: the mini-issue draws 24 findings at
 # source and 18 rendered, and every one of them comes from exactly these three
 # traps. None is a defect. A gate that always fails is not a gate.
+#
+# ⊕ The same reasoning extends to a **deck** (Blueprint P2c, 2026-09-07). A
+# slide is a composed presentation surface, not a board a human scans: a
+# 1280x720 16:9 frame is *meant* to be well-filled, its title lives in the
+# deck's own title slide and its group label rather than in a heading node
+# inside every slide, and its node count per slide is fixed by the slide type.
+# Measured on `deck_generator/examples/canvas_standard_deck.canvas`: 19 findings
+# under `knowledge-canvas`, **11 under `deck`** (2 HIGH -> 1 HIGH) — the 8
+# dropped are 7 `CV-GROUP-PADDING-01/aggregate_fill` and 1
+# `CV-HIERARCHY-01/title_slot_missing`, none of them a defect. The 11 that
+# remain are real and were repaired, not profiled away.
+#
+# Ruled deliberately *before* repairing the deck: sizing a slide to satisfy a
+# scan-board aesthetic would have been the F-P2-6 error in the opposite
+# direction — there, a solved problem was reported as open by running the wrong
+# profile; here, a non-problem would have been "fixed" by the same mistake.
 _KNOWLEDGE_CANVAS_AESTHETICS = {
     "CV-GROUP-PADDING-01",
     "CV-HIERARCHY-01",
@@ -108,7 +167,7 @@ _KNOWLEDGE_CANVAS_AESTHETICS = {
 }
 
 DEFAULT_PROFILE = "knowledge-canvas"
-PROFILES = ("knowledge-canvas", "comic", "all")
+PROFILES = ("knowledge-canvas", "comic", "deck", "all")
 
 
 def _scoped(scope: str) -> set[str]:
@@ -132,6 +191,14 @@ def _profile_skips(profile: str = DEFAULT_PROFILE) -> set[str]:
     if profile == "comic":
         skips |= _KNOWLEDGE_CANVAS_AESTHETICS
         skips -= _scoped("comic-specific")  # admit the comic-domain traps
+    elif profile == "deck":
+        # Same aesthetic drop as `comic`, same reason (see the block above);
+        # a deck additionally admits its own `deck-specific` traps and the
+        # presentation-metadata trap, both of which a deck genuinely has.
+        skips |= _KNOWLEDGE_CANVAS_AESTHETICS
+        skips |= _scoped("comic-specific")
+        skips -= _scoped("deck-specific")
+        skips -= set(_PRESENTATION_ONLY)
     else:
         skips |= _scoped("comic-specific")
     return skips
@@ -229,11 +296,13 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--profile", choices=PROFILES, default=None,
         help=(
-            f"trap set to run (default: {DEFAULT_PROFILE}). 'comic' drops the "
-            "knowledge-canvas aesthetic traps (padding/hierarchy/density) that "
-            "a composed comic page fails by design, and admits comic-domain "
-            "traps; correctness traps run under every profile. 'all' runs the "
-            "full pack."
+            f"trap set to run (default: {DEFAULT_PROFILE}). 'comic' and 'deck' "
+            "each drop the knowledge-canvas aesthetic traps "
+            "(padding/hierarchy/density) that a composed comic page — or a "
+            "16:9 slide — fails by design, and admit their own domain traps; "
+            "correctness traps run under every profile. 'all' runs the full "
+            "pack. STATE THE PROFILE when reporting a result: a bare [FAIL] is "
+            "not a measurement (F-P2-6)."
         ),
     )
     parser.add_argument(
@@ -249,6 +318,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     fail_severities = _FAIL_SEVERITIES | ({"medium"} if args.strict else set())
+    advisory = _advisory_trap_ids()
     skips = _profile_skips(profile)
     n_traps = sum(
         1 for trap_id, meta in TRAP_PACK_REGISTRY.items()
@@ -275,7 +345,11 @@ def main(argv: list[str] | None = None) -> int:
         counts = {sev: 0 for sev in _SEVERITY_ORDER}
         for f in findings:
             counts[f.severity] = counts.get(f.severity, 0) + 1
-        failed = any(f.severity in fail_severities for f in findings)
+        # An ungraduated trap reports but does not gate — see _advisory_trap_ids.
+        failed = any(
+            f.severity in fail_severities and f.trap_id not in advisory
+            for f in findings
+        )
         worst_exit = max(worst_exit, 1 if failed else 0)
 
         reports.append({
@@ -283,7 +357,9 @@ def main(argv: list[str] | None = None) -> int:
             "vault_root": root,
             "profile": profile,
             "traps_run": n_traps,
-            "findings": [_finding_dict(f) for f in findings],
+            "findings": [
+                {**_finding_dict(f), "advisory": f.trap_id in advisory} for f in findings
+            ],
             "counts": counts,
             "ok": not failed,
         })
@@ -298,9 +374,12 @@ def main(argv: list[str] | None = None) -> int:
                     if f.severity != sev:
                         continue
                     ids = ",".join(f.node_ids[:4]) + ("…" if len(f.node_ids) > 4 else "")
-                    print(f"  [{sev.upper():>8}] {f.trap_id}/{f.condition} {ids}: {f.message}")
+                    tag = " (advisory)" if f.trap_id in advisory else ""
+                    print(f"  [{sev.upper():>8}]{tag} {f.trap_id}/{f.condition} {ids}: {f.message}")
             summary = " / ".join(f"{counts[s]} {s}" for s in _SEVERITY_ORDER if counts[s])
+            n_adv = sum(1 for f in findings if f.trap_id in advisory)
             print(f"  {len(findings)} finding(s)" + (f" ({summary})" if summary else "")
+                  + (f", {n_adv} advisory (ungraduated trap — reports, does not gate)" if n_adv else "")
                   + f" [{'FAIL' if failed else 'OK'}]")
             if not failed:
                 print("  Visual fit passes. Schema conformance is a separate check "

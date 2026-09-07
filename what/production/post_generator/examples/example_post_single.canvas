@@ -6,16 +6,25 @@
       "x": 0,
       "y": 0,
       "width": 600,
-      "height": 198,
+      "height": 336,
       "label": "Single post — Canvas.aDNA"
+    },
+    {
+      "id": "post_title",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 504,
+      "height": 58,
+      "text": "#### Single post — Canvas.aDNA"
     },
     {
       "id": "post0",
       "type": "text",
       "x": 48,
-      "y": 48,
+      "y": 138,
       "width": 504,
-      "height": 102,
+      "height": 150,
       "text": "A canvas reduces any 2D output — deck, comic, letter, post — to a disciplined grid of typed components. Fork, don't drift: it degrades to a plain Obsidian canvas.",
       "isStartNode": true
     }
@@ -25,7 +34,7 @@
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "da37e898dcfb8cef",
+          "sync_hash": "b88f5c664606b5a9",
           "source_name": "urn:adna:canvas:post:single",
           "source_version": "0.1.0"
         },
@@ -42,6 +51,11 @@
               "aspect": "16:9",
               "thread": false
             }
+          },
+          "post_title": {
+            "class": "typography_run",
+            "semantic_type": "title",
+            "degrades_to": "text"
           },
           "post0": {
             "class": "text",

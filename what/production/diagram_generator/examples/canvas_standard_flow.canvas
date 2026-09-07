@@ -6,7 +6,7 @@
       "x": 0,
       "y": 0,
       "width": 3251,
-      "height": 1127,
+      "height": 1000,
       "label": "How diagram-generator builds a canvas"
     },
     {
@@ -15,14 +15,14 @@
       "x": 80,
       "y": 80,
       "width": 2260,
-      "height": 96,
+      "height": 60,
       "text": "#### How diagram-generator builds a canvas"
     },
     {
       "id": "spec",
       "type": "text",
       "x": 80,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "Diagram spec (YAML)"
@@ -31,7 +31,7 @@
       "id": "model",
       "type": "text",
       "x": 420,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "DiagramInput model"
@@ -40,7 +40,7 @@
       "id": "source",
       "type": "text",
       "x": 760,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "canvas_std source contract"
@@ -49,7 +49,7 @@
       "id": "tocanvas",
       "type": "text",
       "x": 1100,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "to_canvas()"
@@ -58,7 +58,7 @@
       "id": "enrich",
       "type": "text",
       "x": 1440,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "enrich _reserved -> aDNA-Native"
@@ -67,7 +67,7 @@
       "id": "review",
       "type": "text",
       "x": 1780,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "iii/ review (E5.1)"
@@ -76,7 +76,7 @@
       "id": "out",
       "type": "text",
       "x": 2120,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "v2.0.0 .canvas"
@@ -85,9 +85,9 @@
       "id": "mermaid_src",
       "type": "text",
       "x": 2460,
-      "y": 216,
+      "y": 180,
       "width": 480,
-      "height": 831,
+      "height": 740,
       "text": "```mermaid\nflowchart TD\n    spec(\"Diagram spec (YAML)\")\n    model[\"DiagramInput model\"]\n    source[\"canvas_std source contract\"]\n    tocanvas([\"to_canvas()\"])\n    enrich[\"enrich _reserved -> aDNA-Native\"]\n    review{\"iii/ review (E5.1)\"}\n    out((\"v2.0.0 .canvas\"))\n    spec -->|load_diagram| model\n    model --> source\n    source --> tocanvas\n    tocanvas --> enrich\n    enrich --> review\n    review -->|0 High/Med| out\n    review -->|findings (feedback cycle)| spec\n```"
     }
   ],

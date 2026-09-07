@@ -20,6 +20,11 @@ dependencies = ["adna-canvas-std", "pyyaml>=6"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]
+# Environment dep of the UNPACKAGED canvas_core import surface (its __init__ eagerly pulls
+# canvas_core.print, which hard-requires PIL). A producer usually imports only canvas_core.layout_fit
+# — pure arithmetic — but Python runs the package __init__ first.
+env = ["pillow>=10"]
+
 
 [project.scripts]
 # TODO(clone): rename both sides to <producer> = "<package>.__main__:main"
@@ -30,7 +35,7 @@ packages = ["src/__producer__"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", ".."]  # ".." reaches the unpackaged canvas_core engine shelf
 
 [tool.ruff]
 line-length = 100

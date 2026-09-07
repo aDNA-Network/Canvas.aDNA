@@ -53,7 +53,7 @@ pages:
           reserved block yields a plain baseline canvas — the degradation contract every aDNA canvas must satisfy.
         blocks:
           - type: figure
-            image: "assets/canvas_grammar.png"
+            image: "what/specs/diagrams/canvas_grammar.png"
             caption: "Figure 1. The two-layer model: a baseline JSON-Canvas DAG with an additive _reserved overlay."
         sources:
           - label: "Round-trip protocol v2 (in-vault spec)"
@@ -74,6 +74,19 @@ pages:
               errors = validate(doc, ConformanceLevel.ADNA_NATIVE)
               report = validate_suite(doc, ConformanceLevel.ADNA_NATIVE)
               assert errors == [] and report.ok
+        sources:
+          - label: "adna-canvas-std reference implementation (in-vault)"
+            url: "https://canvas.adna.dev/code/canvas-std"
+
+      # Split out of "Conformance in practice" at Blueprint P2c (2026-09-07): the combined section
+      # measured 1104px against a 912px US-Letter content column, and pagination is section-ATOMIC
+      # (the documented CANVAS-L-002 residual), so it overflowed its own page. See the sibling note
+      # in grant_proposal.yaml.
+      - heading: "The baseline the Standard forks"
+        body: >-
+          Every aDNA-Native canvas degrades to a valid JSON Canvas document. The fork is additive: aDNA semantics live
+          in a namespaced reserved block that baseline tooling ignores, so the same file opens in plain Obsidian.
+        blocks:
           - type: figure
             image: "https://jsoncanvas.org/assets/jsoncanvas-card.png"
             caption: "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
@@ -84,9 +97,6 @@ pages:
               origin: captured
               intent_class: social_card
               caption_form: claim_form
-        sources:
-          - label: "adna-canvas-std reference implementation (in-vault)"
-            url: "https://canvas.adna.dev/code/canvas-std"
 
       - heading: "Governance"
         body: >-

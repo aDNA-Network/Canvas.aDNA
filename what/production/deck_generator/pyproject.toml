@@ -20,6 +20,12 @@ dependencies = ["adna-canvas-std", "pyyaml>=6"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]
+# Environment dep of the UNPACKAGED canvas_core import surface (its __init__ eagerly pulls
+# canvas_core.print, which hard-requires PIL). This producer imports only canvas_core.layout_fit —
+# ~200 lines of pure arithmetic — but Python runs the package __init__ first. Same declaration
+# comic_render carries; see the P2c follow-up on making the engine shelf's re-exports lazy.
+env = ["pillow>=10"]
+
 
 [project.scripts]
 deck-generator = "deck_generator.__main__:main"
@@ -29,7 +35,7 @@ packages = ["src/deck_generator"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
+pythonpath = ["src", ".."]  # ".." reaches the unpackaged canvas_core engine shelf (comic_render precedent)
 
 [tool.ruff]
 line-length = 100

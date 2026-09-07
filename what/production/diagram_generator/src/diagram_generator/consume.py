@@ -25,6 +25,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from canvas_core.layout_fit import heading
 from canvas_std import to_canvas
 
 from diagram_generator import layout
@@ -72,7 +73,7 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
     # (classified `plain`, cost 0.0) — i.e. they pass by not being headings, which is a green check
     # for the wrong reason. `####` alone is a real heading to both instruments, at 42.6px against
     # bold's 40.0px optimum. See F-P2-3 (mission_b2) for the underlying trap conflict.
-    nodes.append({"id": TITLE_ID, "type": "text", "text": f"#### {d.title}", **title_box.as_node()})
+    nodes.append({"id": TITLE_ID, "type": "text", "text": heading(d.title), **title_box.as_node()})
     # `typography_run` / `title` follows deck_generator's precedent — `heading` is NOT in
     # COMPONENT_CLASSES and fails A-3 (the taxonomy is the Standard's; a producer conforms to it
     # rather than extending it, and rich vocabulary rides in `qualities`).

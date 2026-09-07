@@ -40,14 +40,23 @@ margin-top both apply in full. At the fleet defaults (`--font-text-size: 16px`, 
 | `#` | 56.7px | |
 | `##` | **98.9px** | the Oration killer: in a 320×110 node, 11px remained for body |
 | `###` | 74.8px | |
-| `####` | 42.6px | |
-| `**bold**` | **40.0px** | reads as a title; saves 2+ body lines vs `##` |
+| `####` | **42.6px** | ✅ **the recommended lead** — cheap *and* a real heading |
+| `**bold**` | 40.0px | 2.6px cheaper, but **not a heading** — trips CV-HIERARCHY-01 |
 | plain | 0px | |
 
 ## The five rules
 
-1. **Never `#`/`##`/`###` to title a canvas text node.** Use a `**bold**` lead (40.0px vs 98.9px).
-   *(Trap: CV-LEAD-COST-01.)*
+1. **Never `#`/`##`/`###` to title a canvas text node.** Use a `#### ` lead (42.6px vs 98.9px).
+   *(Traps: CV-LEAD-COST-01 + CV-HIERARCHY-01.)*
+
+   > ⛩ **Corrected 2026-09-07 (F-P2-9).** This rule read *"use a `**bold**` lead (40.0px vs 98.9px)"*,
+   > and so did CV-LEAD-COST-01's own fix hint. Following it produces a canvas that **fails a
+   > sibling trap in the same pack**: `**bold**` has no markdown heading marker, so
+   > `CV-HIERARCHY-01/title_slot_missing` fires on the group containing it. Measured across every
+   > lead form: `h1/h2/h3` pass hierarchy and trip lead-cost · `**bold**` does the reverse ·
+   > `#####`/`######` pass both only by classifying as `plain` — a green check for the wrong reason ·
+   > **`####` alone passes both honestly.** The 2.6px is not worth the sibling failure. Producers get
+   > this for free through `canvas_core.layout_fit.heading()`.
 2. **Fit the text to the box**: `chars ≤ (W − 48) × (0.90·H − P) / 208`, where `P` is the lead cost above
    (the 208 ≈ 8.1px/char × 25.6px line). When in doubt, run the checker — it reports the **required height** per
    failing node. *(Trap: CV-TEXT-BOUNDS-01, Obsidian-calibrated.)*

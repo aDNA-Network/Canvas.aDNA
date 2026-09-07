@@ -11,7 +11,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from deck_generator.layout import Box, content_rect, est_text_height
+from canvas_core.layout_fit import fit_image_box
+
+from deck_generator.layout import Box, content_rect, est_text_height, heading_height, heading_text
 
 
 @dataclass
@@ -58,12 +60,14 @@ def _title(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     nodes, comps, edges = [], {}, []
     tid = f"{sid}_title"
-    ty, th = c.y + c.h // 3, 160
-    nodes.append(_text(tid, f"# {slide.title}", Box(c.x, ty, c.w, th)))
+    th = heading_height(slide.title, width=c.w, min_h=160)
+    ty = c.y + c.h // 3
+    nodes.append(_text(tid, heading_text(slide.title), Box(c.x, ty, c.w, th)))
     comps[tid] = _comp("typography_run", "text", semantic="title")
     if slide.subtitle:
         stid = f"{sid}_subtitle"
-        nodes.append(_text(stid, slide.subtitle, Box(c.x, ty + th + 24, c.w, 96)))
+        nodes.append(_text(stid, slide.subtitle, Box(c.x, ty + th + 24, c.w,
+                                                    est_text_height(slide.subtitle, width=c.w, min_h=96))))
         comps[stid] = _comp("text", "text", semantic="subtitle")
         edges.append((tid, stid))
     return SlideBuild(nodes, comps, edges)
@@ -72,7 +76,8 @@ def _title(slide, sid, box) -> SlideBuild:
 def _section(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     hid = f"{sid}_heading"
-    node = _text(hid, f"# {slide.title}", Box(c.x, c.y + c.h // 2 - 80, c.w, 160))
+    sh = heading_height(slide.title, width=c.w, min_h=160)
+    node = _text(hid, heading_text(slide.title), Box(c.x, c.y + c.h // 2 - sh // 2, c.w, sh))
     return SlideBuild([node], {hid: _comp("typography_run", "text", semantic="section")})
 
 
@@ -80,12 +85,13 @@ def _content(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     nodes, comps, edges = [], {}, []
     hid = f"{sid}_heading"
-    nodes.append(_text(hid, f"## {slide.title}", Box(c.x, c.y, c.w, 90)))
+    hh = heading_height(slide.title, width=c.w, min_h=90)
+    nodes.append(_text(hid, heading_text(slide.title), Box(c.x, c.y, c.w, hh)))
     comps[hid] = _comp("typography_run", "text", semantic="heading")
-    prev, y = hid, c.y + 110
+    prev, y = hid, c.y + hh + 20
     if slide.body:
         bid = f"{sid}_body"
-        bh = est_text_height(slide.body, wrap=70)
+        bh = est_text_height(slide.body, width=c.w)
         nodes.append(_text(bid, slide.body, Box(c.x, y, c.w, bh)))
         comps[bid] = _comp("text", "text")
         edges.append((prev, bid))
@@ -93,7 +99,7 @@ def _content(slide, sid, box) -> SlideBuild:
     if slide.bullets:
         lid = f"{sid}_bullets"
         text = "\n".join(f"- {b}" for b in slide.bullets)
-        lh = est_text_height(text, wrap=70)
+        lh = est_text_height(text, width=c.w)
         nodes.append(_text(lid, text, Box(c.x, y, c.w, lh)))
         comps[lid] = _comp("text", "text", semantic="list")
         edges.append((prev, lid))
@@ -104,12 +110,17 @@ def _image(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     nodes, comps, edges = [], {}, []
     hid = f"{sid}_heading"
-    nodes.append(_text(hid, f"## {slide.title}", Box(c.x, c.y, c.w, 80)))
+    hh = heading_height(slide.title, width=c.w, min_h=80)
+    nodes.append(_text(hid, heading_text(slide.title), Box(c.x, c.y, c.w, hh)))
     comps[hid] = _comp("typography_run", "text", semantic="heading")
     iid = f"{sid}_image"
-    cap_h = 56 if slide.caption else 0
-    img_h = c.h - 100 - (cap_h + 16 if cap_h else 0)
-    img_box = Box(c.x, c.y + 100, c.w, img_h)
+    cap_h = est_text_height(slide.caption, width=c.w, min_h=56) if slide.caption else 0
+    avail_h = c.h - (hh + 20) - (cap_h + 16 if cap_h else 0)
+    # A slide's height is FIXED (16:9 is the format), so an asset taller than the space left must
+    # narrow rather than squash — fit both axes and centre (CV-IMAGE-ASPECT-RATIO-01). Falls back to
+    # filling the column for a remote or unresolvable image.
+    img_w, img_h = fit_image_box(slide.image, c.w, avail_h) or (c.w, avail_h)
+    img_box = Box(c.x + (c.w - img_w) // 2, c.y + hh + 20, img_w, img_h)
     if slide.image.startswith(("http://", "https://")):
         nodes.append({"id": iid, "type": "link", "url": slide.image, **img_box.as_node()})
         comps[iid] = _comp("image", "link", semantic="figure", qualities={"substrate": "external"})
@@ -129,12 +140,13 @@ def _table(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     nodes, comps, edges = [], {}, []
     hid = f"{sid}_heading"
-    nodes.append(_text(hid, f"## {slide.title}", Box(c.x, c.y, c.w, 80)))
+    hh = heading_height(slide.title, width=c.w, min_h=80)
+    nodes.append(_text(hid, heading_text(slide.title), Box(c.x, c.y, c.w, hh)))
     comps[hid] = _comp("typography_run", "text", semantic="heading")
     md, n_rows, n_cols = _render_table(slide.table)
     tid = f"{sid}_table"
-    th = est_text_height(md, wrap=200, line_h=30, min_h=120)
-    nodes.append(_text(tid, md, Box(c.x, c.y + 100, c.w, th)))
+    th = est_text_height(md, width=c.w, min_h=120)
+    nodes.append(_text(tid, md, Box(c.x, c.y + hh + 20, c.w, th)))
     comps[tid] = _comp("table", "text", qualities={"row_count": n_rows, "col_count": n_cols})
     edges.append((hid, tid))
     return SlideBuild(nodes, comps, edges)
@@ -144,11 +156,15 @@ def _quote(slide, sid, box) -> SlideBuild:
     c = content_rect(box)
     nodes, comps, edges = [], {}, []
     qid = f"{sid}_quote"
-    nodes.append(_text(qid, f"> {slide.body or slide.title}", Box(c.x, c.y + c.h // 3, c.w, 200)))
+    quoted = f"> {slide.body or slide.title}"
+    qh = est_text_height(quoted, width=c.w, min_h=200)
+    nodes.append(_text(qid, quoted, Box(c.x, c.y + c.h // 3, c.w, qh)))
     comps[qid] = _comp("text", "text", semantic="quote")
     if slide.attribution:
         aid = f"{sid}_attribution"
-        nodes.append(_text(aid, f"— {slide.attribution}", Box(c.x, c.y + c.h // 3 + 220, c.w, 60)))
+        attr = f"— {slide.attribution}"
+        nodes.append(_text(aid, attr, Box(c.x, c.y + c.h // 3 + qh + 20, c.w,
+                                          est_text_height(attr, width=c.w, min_h=60))))
         comps[aid] = _comp("text", "text", semantic="attribution")
         edges.append((qid, aid))
     return SlideBuild(nodes, comps, edges)

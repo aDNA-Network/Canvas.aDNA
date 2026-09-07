@@ -29,6 +29,7 @@ from letter_generator.model import Letter
 
 ADNA_VERSION = "2.0.0"
 ROOT_ID = "letter_root"
+TITLE_ID = "letter_title"
 PROFILE = "document"          # producer-side profile name (bare; NEVER registered in canvas_std.schema)
 SURFACE = "print_page"        # open, producer-defined surface vocabulary (AT-2)
 READING_ORDER = "reading_order"
@@ -61,8 +62,7 @@ def _blocks(letter: Letter) -> list[tuple[str, str, str]]:
 def build_letter(letter: Letter) -> dict[str, Any]:
     """Map a ``Letter`` to a v2.0.0 aDNA-Native one-page-letter ``.canvas`` document (a plain dict)."""
     blocks = _blocks(letter)
-    line_counts = [text.count("\n") + 1 for _, _, text in blocks]
-    boxes, root_box = layout.stack(line_counts)
+    boxes, root_box, title_box = layout.stack([text for _, _, text in blocks], letter.title)
 
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
@@ -72,6 +72,14 @@ def build_letter(letter: Letter) -> dict[str, Any]:
     # 1) The single canonical surface: a group enclosing the whole letter.
     nodes.append({"id": ROOT_ID, "type": "group", "label": letter.title, **root_box.as_node()})
     component_types[ROOT_ID] = {"class": "panel", "semantic_type": PROFILE, "degrades_to": "group"}
+
+    # A `#### <title>` band in the group's upper 40% — CV-HIERARCHY-01's title slot (P2c). The group
+    # LABEL is not a substitute: it hard-ellipsises and gets worse as you zoom out.
+    if title_box is not None:
+        nodes.append({"id": TITLE_ID, "type": "text", "text": layout.title_text(letter.title),
+                      **title_box.as_node()})
+        component_types[TITLE_ID] = {"class": "typography_run", "semantic_type": "title",
+                                     "degrades_to": "text"}
 
     # Interior baseline text nodes — one per block, in reading order.
     for (nid, semantic_type, text), box in zip(blocks, boxes):

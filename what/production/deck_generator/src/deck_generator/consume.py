@@ -34,7 +34,7 @@ def build_deck(deck: DeckInput) -> dict[str, Any]:
     panel_link_edges: dict[str, dict[str, str]] = {}
     regions: dict[str, dict[str, Any]] = {}
 
-    deck_box = layout.deck_box(len(deck.slides))
+    deck_box = layout.deck_box(len(deck.slides), deck.title)
     nodes.append({"id": DECK_ID, "type": "group", "label": deck.title, **deck_box.as_node()})
     component_types[DECK_ID] = {"class": "panel", "semantic_type": "deck", "degrades_to": "group"}
 
@@ -74,6 +74,15 @@ def build_deck(deck: DeckInput) -> dict[str, Any]:
     reserved["conformance_level"] = "adna_native"
     reserved["component_types"] = component_types
     reserved["semantic_bindings"] = {"profile": "deck"}
+    # A deck genuinely HAS an aspect ratio, and CV-DIMENSION-VISIBILITY-01 — admitted by the `deck`
+    # trap profile (P2c) and suppressed under `knowledge-canvas` — asks it to be declared rather
+    # than left implicit in the 1280x720 slide box. Additive; degrades cleanly (baseline tooling
+    # ignores _reserved).
+    reserved["slide_dimensions"] = {
+        "aspect_ratio": layout.ASPECT_RATIO,
+        "width": layout.SLIDE_W,
+        "height": layout.SLIDE_H,
+    }
     reserved["panel_link"] = {
         "edges": panel_link_edges,
         "regions": regions,

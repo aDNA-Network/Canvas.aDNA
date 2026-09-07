@@ -21,6 +21,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from canvas_core.layout_fit import fit_group_label
 from canvas_std import to_canvas
 
 from document_generator import blocks, layout
@@ -105,6 +106,20 @@ def _visual_binding(vc) -> dict[str, Any]:
     return d
 
 
+MARKER_W = 240  # nominal width of a zero-content marker group; a floor, not the answer
+
+
+def _marker_w(label: str) -> int:
+    """Width a marker group needs so its label does not hard-ellipsise (CV-GROUP-LABEL-01).
+
+    These groups carry no content — their label *is* the node. At the nominal 240px, ``surface:
+    funder_portal`` (22 chars against a 10-char budget) rendered as ``surface: f…``, which is the
+    one failure mode a zero-content marker cannot survive (P2c).
+    """
+    _, min_w = fit_group_label(label, MARKER_W)
+    return max(MARKER_W, min_w)
+
+
 def _emit_contract(genre, nodes, component_types, regions, gutter_x) -> list[dict[str, Any]]:
     """Append the contract-derived marker nodes (derived surfaces + the surface_subclass region) to the source,
     register their ``component_types`` + ``regions``, and return the ``panel_link.surfaces`` list.
@@ -124,8 +139,9 @@ def _emit_contract(genre, nodes, component_types, regions, gutter_x) -> list[dic
                 surfaces[0]["aspect_ratio"] = s.aspect_ratio
         else:
             mid = f"surface_{s.surface}"
-            nodes.append({"id": mid, "type": "group", "label": f"surface: {s.surface}",
-                          "x": gutter_x, "y": gy, "width": 240, "height": 48})
+            mlabel = f"surface: {s.surface}"
+            nodes.append({"id": mid, "type": "group", "label": mlabel,
+                          "x": gutter_x, "y": gy, "width": _marker_w(mlabel), "height": 48})
             component_types[mid] = {"class": "region", "degrades_to": "group",
                                     "qualities": {"role": "derived_surface", "surface": s.surface}}
             regions[mid] = {"flow": "none", "pagination": "none", "surface": s.surface}
@@ -138,8 +154,9 @@ def _emit_contract(genre, nodes, component_types, regions, gutter_x) -> list[dic
         surfaces[0]["round_trip"] = fc.round_trip_surface                                            # F5 on the canonical
     if vc.is_set():  # X12 — exercise the `region` class for the surface sub-class
         rid = "rgn_subclass"
-        nodes.append({"id": rid, "type": "group", "label": f"subclass: {vc.cross.surface_subclass}",
-                      "x": gutter_x, "y": gy, "width": 240, "height": 48})
+        rlabel = f"subclass: {vc.cross.surface_subclass}"
+        nodes.append({"id": rid, "type": "group", "label": rlabel,
+                      "x": gutter_x, "y": gy, "width": _marker_w(rlabel), "height": 48})
         component_types[rid] = {"class": "region", "degrades_to": "group",
                                 "qualities": {"surface_subclass": vc.cross.surface_subclass}}
         regions[rid] = {"flow": "vertical", "pagination": "paged",
@@ -163,7 +180,7 @@ def build_document(document: Document) -> dict[str, Any]:
     regions: dict[str, dict[str, Any]] = {}
     heading_ids: list[str] = []
 
-    doc_box = layout.doc_box(n_pages)
+    doc_box = layout.doc_box(n_pages, document.title)
     nodes.append({"id": DOC_ID, "type": "group", "label": document.title, **doc_box.as_node()})
     component_types[DOC_ID] = {"class": "panel", "semantic_type": "document", "degrades_to": "group"}
     # The document-level region carries the actual word count as a `words` extent (the page regions carry `pages`).
@@ -173,7 +190,7 @@ def build_document(document: Document) -> dict[str, Any]:
     page_ids: list[str] = []
     for g, fragment in enumerate(fragments):
         pid = f"page{g}"
-        pbox = layout.page_box(g)
+        pbox = layout.page_box(g, doc_box.w)
         nodes.append({"id": pid, "type": "group", "label": f"Page {g + 1}", **pbox.as_node()})
         component_types[pid] = {"class": "panel", "semantic_type": "page", "degrades_to": "group"}
         regions[pid] = {"flow": "vertical", "pagination": "paged",

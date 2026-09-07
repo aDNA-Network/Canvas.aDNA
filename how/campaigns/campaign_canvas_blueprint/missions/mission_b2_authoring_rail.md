@@ -195,8 +195,20 @@ check is not a substitute and will not be reported as one.
   | `letter_generator` | 5 | 0 |
   | `diagram_generator` · `comic_generator` · `comic_render` | **0 [OK]** | — |
 
-  **6 files · 5 producers · 99 findings · 13 HIGH · 0 CRITICAL** (was reported as "six producers,
-  incl. CRITICAL").
+  ~~**6 files**~~ **7 files · 5 producers · 99 findings · 13 HIGH · 0 CRITICAL** (was reported as
+  "six producers, incl. CRITICAL").
+
+  > ⛩ **Struck 2026-09-07 (F-P2-8).** The file count is wrong by one: the table immediately above
+  > lists document ×2, deck ×1, brief ×1, post ×2, letter ×1 = **7**. Findings, HIGH, CRITICAL and
+  > the producer count are all correct. Worth more than its size — *this* is the record that
+  > established **state the population on the face of the number**, ratified by Hopper as their
+  > ADR-011 A8 §5 after six instances in one week across four desks. This is instance seven, inside
+  > the record itself, and it survived the correction pass that produced F-P2-7 two days later.
+  > ⇒ The practice is necessary and **not sufficient**: stating a population does not verify it.
+  > What caught this was re-deriving the table row by row before acting on it.
+  >
+  > A second scope note the census did not make: it was measuring `examples/` only. The golden
+  > `document_generator/tests/golden/document_small.canvas` was failing too, at 10 medium.
 
   **89 of 99 (90%) are the four classes already solved once here:** `CV-TEXT-BOUNDS-01/overflow` 55 ·
   `CV-LEAD-COST-01/heading_lead` 20 · `CV-GROUP-PADDING-01/aggregate_fill` 10 ·

@@ -28,7 +28,11 @@ class TestHeadingLead:
         assert findings[0].condition == "heading_lead"
         assert findings[0].severity == "medium"
         assert "98.9" in findings[0].message
-        assert "bold" in findings[0].message
+        # F-P2-9: the hint must name `####`, not `**bold**` — bold carries no
+        # heading marker and trips CV-HIERARCHY-01's title slot.
+        assert "####" in findings[0].message
+        assert "42.6" in findings[0].message
+        assert "bold" not in findings[0].message
 
     def test_h3_lead_fires(self):
         canvas = _canvas([_text_node("t1", "### Sub-stage\nBody.")])
@@ -41,11 +45,16 @@ class TestHeadingLead:
         assert len(check(canvas)) == 1
 
     def test_bold_lead_clean(self):
-        """The recommended pattern: a **bold** lead does not fire."""
+        """A **bold** lead does not fire *this* trap — but it is no longer the
+        recommended fix: it has no heading marker, so it trips CV-HIERARCHY-01
+        (F-P2-9). See ``test_plain_and_h4_clean`` for the pattern we now name."""
         canvas = _canvas([_text_node("t1", "**Stage One**\nBody text here.")])
         assert check(canvas) == []
 
     def test_plain_and_h4_clean(self):
+        """`####` is the recommended lead: cheap here, and a real heading to
+        CV-HIERARCHY-01. Round-tripped against both traps in
+        ``test_layout_fit.py::test_heading_clears_both_traps_together``."""
         canvas = _canvas([
             _text_node("t1", "Plain body text."),
             _text_node("t2", "#### Minor heading\nBody."),

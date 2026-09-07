@@ -13,16 +13,28 @@ def _seq_edges(doc):
     return {eid: e for eid, e in _pl(doc)["edges"].items() if e["kind"] == "sequence"}
 
 
+def _copy_nodes(doc):
+    """The post-copy nodes, selected by SEMANTIC ROLE rather than by id prefix.
+
+    Was ``id.startswith("post") and id != ROOT_ID``. That prefix heuristic silently included the
+    ``post_title`` heading card P2c added (CV-HIERARCHY-01's title slot) and read it as a second
+    post — a test asserting a domain fact through a naming coincidence. ``component_types`` is
+    where the role actually lives.
+    """
+    ct = doc["metadata"]["frontmatter"]["_reserved"]["component_types"]
+    return [n for n in doc["nodes"] if ct.get(n["id"], {}).get("semantic_type") == "post_copy"]
+
+
 def test_single_post_has_no_sequence_edges(single_post):
     doc = build_post(single_post)
-    post_nodes = [n for n in doc["nodes"] if n["id"].startswith("post") and n["id"] != ROOT_ID]
+    post_nodes = _copy_nodes(doc)
     assert len(post_nodes) == 1
     assert _seq_edges(doc) == {}
 
 
 def test_thread_is_sequence_chained_and_acyclic(thread):
     doc = build_post(thread)
-    post_nodes = [n for n in doc["nodes"] if n["id"].startswith("post") and n["id"] != ROOT_ID]
+    post_nodes = _copy_nodes(doc)
     assert len(post_nodes) == len(thread.panels)
     seq = _seq_edges(doc)
     assert len(seq) == len(thread.panels) - 1  # a linear chain

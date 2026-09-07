@@ -5,14 +5,14 @@
       "type": "group",
       "x": 0,
       "y": 0,
-      "width": 976,
-      "height": 4736,
+      "width": 1232,
+      "height": 7747,
       "label": "Adaptive aDNA Harness for the Undiagnosed — R01 Proposal"
     },
     {
       "id": "page0",
       "type": "group",
-      "x": 80,
+      "x": 208,
       "y": 144,
       "width": 816,
       "height": 1056,
@@ -22,36 +22,36 @@
     {
       "id": "page0_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 280,
       "y": 216,
       "width": 672,
-      "height": 48,
-      "text": "## Specific Aims",
+      "height": 50,
+      "text": "#### Specific Aims",
       "color": "5"
     },
     {
       "id": "page0_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 284,
+      "x": 280,
+      "y": 286,
       "width": 672,
-      "height": 140,
+      "height": 260,
       "text": "Undiagnosed rare disease imposes a multi-year diagnostic odyssey on patients and families. We propose an agentic aDNA harness that converts heterogeneous clinical, genomic, and phenotypic context into a governed, federated reasoning graph. The aims below are order-locked to the funder template and bypass figure placement (content-not-placement), per the grant format contract."
     },
     {
       "id": "page0_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 444,
+      "x": 280,
+      "y": 566,
       "width": 672,
-      "height": 164,
+      "height": 240,
       "text": "- Aim 1 — Construct a federated patient-context graph from EHR, variant calls, and HPO terms.\n- Aim 2 — Deploy a governed reasoning lattice that proposes ranked differential diagnoses with provenance.\n- Aim 3 — Validate against a held-out undiagnosed cohort with clinician-in-the-loop adjudication."
     },
     {
       "id": "page0_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 628,
+      "x": 280,
+      "y": 826,
       "width": 672,
       "height": 40,
       "url": "https://example.org/wilhelm/undiagnosed"
@@ -59,7 +59,7 @@
     {
       "id": "page1",
       "type": "group",
-      "x": 80,
+      "x": 208,
       "y": 1296,
       "width": 816,
       "height": 1056,
@@ -68,45 +68,45 @@
     {
       "id": "page1_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 280,
       "y": 1368,
       "width": 672,
-      "height": 48,
-      "text": "## Background and Significance",
+      "height": 50,
+      "text": "#### Background and Significance",
       "color": "5"
     },
     {
       "id": "page1_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 1436,
+      "x": 280,
+      "y": 1438,
       "width": 672,
-      "height": 116,
+      "height": 260,
       "text": "The mean diagnostic odyssey exceeds five years and a dozen specialists. Existing pipelines silo genomic and phenotypic evidence, and few preserve the provenance a clinician needs to trust a machine-proposed diagnosis. A context-native harness that keeps every claim accountable to its evidence directly addresses this gap."
     },
     {
       "id": "page1_s0_b0",
       "type": "file",
-      "x": 152,
-      "y": 1572,
+      "x": 280,
+      "y": 1718,
       "width": 672,
-      "height": 320,
-      "file": "assets/diagnostic_odyssey.png"
+      "height": 266,
+      "file": "what/specs/diagrams/diagnostic_odyssey.png"
     },
     {
       "id": "page1_s0_b0_cap",
       "type": "text",
-      "x": 152,
-      "y": 1912,
+      "x": 280,
+      "y": 2004,
       "width": 672,
-      "height": 44,
+      "height": 90,
       "text": "Figure 1. The diagnostic odyssey timeline and the points an agentic harness shortens it."
     },
     {
       "id": "page1_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 1976,
+      "x": 280,
+      "y": 2114,
       "width": 672,
       "height": 40,
       "url": "https://example.org/odyssey-meta"
@@ -114,7 +114,7 @@
     {
       "id": "page2",
       "type": "group",
-      "x": 80,
+      "x": 208,
       "y": 2448,
       "width": 816,
       "height": 1056,
@@ -123,53 +123,35 @@
     {
       "id": "page2_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 280,
       "y": 2520,
       "width": 672,
-      "height": 48,
-      "text": "## Research Strategy",
+      "height": 50,
+      "text": "#### Research Strategy",
       "color": "5"
     },
     {
       "id": "page2_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 2588,
+      "x": 280,
+      "y": 2590,
       "width": 672,
-      "height": 116,
+      "height": 260,
       "text": "The harness composes three modules into a reasoning lattice. Evidence ingestion normalizes inputs to typed context objects; the reasoning lattice ranks differentials; the adjudication surface keeps a clinician in the loop. Each module is FAIR-annotated and federated, so the same lattice runs across partner sites."
     },
     {
       "id": "page2_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 2724,
+      "x": 280,
+      "y": 2870,
       "width": 672,
-      "height": 154,
+      "height": 210,
       "text": "| Module | Input | Output |\n| --- | --- | --- |\n| Ingestion | EHR + VCF + HPO | typed context objects |\n| Reasoning lattice | context objects | ranked differentials + provenance |\n| Adjudication | differentials | clinician-confirmed diagnosis |"
-    },
-    {
-      "id": "page2_s0_b1",
-      "type": "link",
-      "x": 152,
-      "y": 2898,
-      "width": 672,
-      "height": 320,
-      "url": "https://example.org/architecture.png"
-    },
-    {
-      "id": "page2_s0_b1_cap",
-      "type": "text",
-      "x": 152,
-      "y": 3238,
-      "width": 672,
-      "height": 44,
-      "text": "Figure 2. System architecture: ingestion, reasoning lattice, and the clinician adjudication surface."
     },
     {
       "id": "page3",
       "type": "group",
-      "x": 80,
+      "x": 208,
       "y": 3600,
       "width": 816,
       "height": 1056,
@@ -178,74 +160,129 @@
     {
       "id": "page3_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 280,
       "y": 3672,
       "width": 672,
-      "height": 48,
-      "text": "## Innovation",
+      "height": 50,
+      "text": "#### Research Strategy — Architecture",
       "color": "5"
     },
     {
       "id": "page3_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 3740,
+      "x": 280,
+      "y": 3742,
       "width": 672,
-      "height": 92,
-      "text": "Unlike prior decision-support tools, the harness is context-native: every differential carries the subgraph of evidence that produced it, and the round-trip contract lets a clinician edit the graph and regenerate."
+      "height": 150,
+      "text": "The architecture below shows the three modules in composition: evidence flows left to right, and every ranked differential carries the provenance subgraph that produced it back to the adjudication surface."
     },
     {
       "id": "page3_s0_b0",
-      "type": "text",
-      "x": 152,
-      "y": 3852,
+      "type": "link",
+      "x": 280,
+      "y": 3912,
       "width": 672,
-      "height": 116,
-      "text": "```yaml\nlattice: rare_dx_v1\nexecution_mode: hybrid\nmodules: [ingestion, reasoning_lattice, adjudication]\nfair: { license: MIT, provenance: \"federated partner sites\" }\n```"
+      "height": 320,
+      "url": "https://example.org/architecture.png"
     },
     {
-      "id": "page3_s1_head",
+      "id": "page3_s0_b0_cap",
       "type": "text",
-      "x": 152,
-      "y": 4012,
+      "x": 280,
+      "y": 4252,
       "width": 672,
-      "height": 48,
-      "text": "## Budget Justification",
+      "height": 90,
+      "text": "Figure 2. System architecture: ingestion, reasoning lattice, and the clinician adjudication surface."
+    },
+    {
+      "id": "page4",
+      "type": "group",
+      "x": 208,
+      "y": 4752,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 5"
+    },
+    {
+      "id": "page4_s0_head",
+      "type": "text",
+      "x": 280,
+      "y": 4824,
+      "width": 672,
+      "height": 50,
+      "text": "#### Innovation",
       "color": "5"
     },
     {
-      "id": "page3_s1_body",
+      "id": "page4_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 4080,
+      "x": 280,
+      "y": 4894,
       "width": 672,
-      "height": 92,
+      "height": 150,
+      "text": "Unlike prior decision-support tools, the harness is context-native: every differential carries the subgraph of evidence that produced it, and the round-trip contract lets a clinician edit the graph and regenerate."
+    },
+    {
+      "id": "page4_s0_b0",
+      "type": "text",
+      "x": 280,
+      "y": 5064,
+      "width": 672,
+      "height": 260,
+      "text": "```yaml\nlattice: rare_dx_v1\nexecution_mode: hybrid\nmodules: [ingestion, reasoning_lattice, adjudication]\nfair: { license: MIT, provenance: \"federated partner sites\" }\n```"
+    },
+    {
+      "id": "page5",
+      "type": "group",
+      "x": 208,
+      "y": 5904,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 6"
+    },
+    {
+      "id": "page5_s0_head",
+      "type": "text",
+      "x": 280,
+      "y": 5976,
+      "width": 672,
+      "height": 50,
+      "text": "#### Budget Justification",
+      "color": "5"
+    },
+    {
+      "id": "page5_s0_body",
+      "type": "text",
+      "x": 280,
+      "y": 6046,
+      "width": 672,
+      "height": 150,
       "text": "The budget supports two ML engineers, one clinical informaticist, and federated compute. Form-fill line items are produced as content fields for the funder portal; placement is the portal's responsibility."
     },
     {
-      "id": "page3_s1_b0",
+      "id": "page5_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 4192,
+      "x": 280,
+      "y": 6216,
       "width": 672,
-      "height": 92,
+      "height": 120,
       "text": "- Personnel — 2.0 FTE engineering, 0.5 FTE clinical informatics.\n- Compute — federated L2 cluster time for cohort-scale reasoning.\n- Dissemination — open-source release and partner-site onboarding."
     },
     {
       "id": "surface_funder_portal",
       "type": "group",
-      "x": 1036,
+      "x": 1292,
       "y": 80,
-      "width": 240,
+      "width": 484,
       "height": 48,
       "label": "surface: funder_portal"
     },
     {
       "id": "rgn_subclass",
       "type": "group",
-      "x": 1036,
+      "x": 1292,
       "y": 144,
-      "width": 240,
+      "width": 440,
       "height": 48,
       "label": "subclass: print_page"
     }
@@ -324,22 +361,6 @@
       "toEnd": "arrow"
     },
     {
-      "id": "page2_ro_2",
-      "fromNode": "page2_s0_b0",
-      "fromSide": "bottom",
-      "toNode": "page2_s0_b1",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page2_ro_3",
-      "fromNode": "page2_s0_b1",
-      "fromSide": "bottom",
-      "toNode": "page2_s0_b1_cap",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
       "id": "page3_ro_0",
       "fromNode": "page3_s0_head",
       "fromSide": "bottom",
@@ -359,23 +380,39 @@
       "id": "page3_ro_2",
       "fromNode": "page3_s0_b0",
       "fromSide": "bottom",
-      "toNode": "page3_s1_head",
+      "toNode": "page3_s0_b0_cap",
       "toSide": "top",
       "toEnd": "arrow"
     },
     {
-      "id": "page3_ro_3",
-      "fromNode": "page3_s1_head",
+      "id": "page4_ro_0",
+      "fromNode": "page4_s0_head",
       "fromSide": "bottom",
-      "toNode": "page3_s1_body",
+      "toNode": "page4_s0_body",
       "toSide": "top",
       "toEnd": "arrow"
     },
     {
-      "id": "page3_ro_4",
-      "fromNode": "page3_s1_body",
+      "id": "page4_ro_1",
+      "fromNode": "page4_s0_body",
       "fromSide": "bottom",
-      "toNode": "page3_s1_b0",
+      "toNode": "page4_s0_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page5_ro_0",
+      "fromNode": "page5_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page5_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page5_ro_1",
+      "fromNode": "page5_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page5_s0_b0",
       "toSide": "top",
       "toEnd": "arrow"
     },
@@ -402,13 +439,29 @@
       "toNode": "page3",
       "toSide": "top",
       "toEnd": "arrow"
+    },
+    {
+      "id": "seq_3",
+      "fromNode": "page3",
+      "fromSide": "bottom",
+      "toNode": "page4",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "seq_4",
+      "fromNode": "page4",
+      "fromSide": "bottom",
+      "toNode": "page5",
+      "toSide": "top",
+      "toEnd": "arrow"
     }
   ],
   "metadata": {
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "2d899db7413e7572",
+          "sync_hash": "0a89a883b0a4ea51",
           "source_name": "urn:adna:canvas:grant:adna-harness-r01",
           "source_version": "0.1.0"
         },
@@ -506,20 +559,6 @@
               "col_count": 3
             }
           },
-          "page2_s0_b1": {
-            "class": "image",
-            "degrades_to": "link",
-            "semantic_type": "figure",
-            "qualities": {
-              "substrate": "external",
-              "origin": "captured",
-              "intent_class": "illustration"
-            }
-          },
-          "page2_s0_b1_cap": {
-            "class": "caption",
-            "degrades_to": "text"
-          },
           "page3": {
             "class": "panel",
             "semantic_type": "page",
@@ -535,22 +574,55 @@
             "degrades_to": "text"
           },
           "page3_s0_b0": {
+            "class": "image",
+            "degrades_to": "link",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "external",
+              "origin": "captured",
+              "intent_class": "illustration"
+            }
+          },
+          "page3_s0_b0_cap": {
+            "class": "caption",
+            "degrades_to": "text"
+          },
+          "page4": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page4_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page4_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page4_s0_b0": {
             "class": "code",
             "degrades_to": "text",
             "qualities": {
               "lang": "yaml"
             }
           },
-          "page3_s1_head": {
+          "page5": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page5_s0_head": {
             "class": "typography_run",
             "degrades_to": "text",
             "semantic_type": "heading"
           },
-          "page3_s1_body": {
+          "page5_s0_body": {
             "class": "text",
             "degrades_to": "text"
           },
-          "page3_s1_b0": {
+          "page5_s0_b0": {
             "class": "text",
             "degrades_to": "text",
             "semantic_type": "list"
@@ -683,12 +755,6 @@
             "page2_ro_1": {
               "kind": "reading_order"
             },
-            "page2_ro_2": {
-              "kind": "reading_order"
-            },
-            "page2_ro_3": {
-              "kind": "reading_order"
-            },
             "page3_ro_0": {
               "kind": "reading_order"
             },
@@ -698,10 +764,16 @@
             "page3_ro_2": {
               "kind": "reading_order"
             },
-            "page3_ro_3": {
+            "page4_ro_0": {
               "kind": "reading_order"
             },
-            "page3_ro_4": {
+            "page4_ro_1": {
+              "kind": "reading_order"
+            },
+            "page5_ro_0": {
+              "kind": "reading_order"
+            },
+            "page5_ro_1": {
               "kind": "reading_order"
             },
             "seq_0": {
@@ -712,6 +784,12 @@
             },
             "seq_2": {
               "kind": "sequence"
+            },
+            "seq_3": {
+              "kind": "sequence"
+            },
+            "seq_4": {
+              "kind": "sequence"
             }
           },
           "regions": {
@@ -720,7 +798,7 @@
               "pagination": "paged",
               "extent": {
                 "unit": "words",
-                "max": 304
+                "max": 338
               },
               "surface": "print_page"
             },
@@ -752,6 +830,24 @@
               "surface": "print_page"
             },
             "page3": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            },
+            "page4": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            },
+            "page5": {
               "flow": "vertical",
               "pagination": "paged",
               "extent": {

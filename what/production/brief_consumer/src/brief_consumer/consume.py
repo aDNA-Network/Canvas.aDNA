@@ -37,11 +37,11 @@ def build_brief(brief: BriefInput) -> dict[str, Any]:
     for i, sec in enumerate(brief.sections):
         head_id, body_id = f"sec{i}_head", f"sec{i}_body"
 
-        payloads[head_id] = {"type": "text", "text": f"## {sec.heading}"}
+        payloads[head_id] = {"type": "text", "text": layout.heading_text(sec.heading)}
         component_types[head_id] = {"class": "typography_run", "semantic_type": "heading", "degrades_to": "text"}
         heading_ids.append(head_id)
         reading_chain.append(head_id)
-        blocks.append((head_id, layout.HEADING_H, layout.GAP))
+        blocks.append((head_id, layout.heading_height(sec.heading), layout.GAP))
 
         payloads[body_id] = {"type": "text", "text": sec.body}
         component_types[body_id] = {"class": "text", "degrades_to": "text"}
@@ -61,7 +61,7 @@ def build_brief(brief: BriefInput) -> dict[str, Any]:
             blocks.append((sid, layout.SOURCE_H, layout.SECTION_GAP if last else layout.GAP))
             ref_pairs.append((body_id, sid))
 
-    page_box, boxes = layout.stack(blocks)
+    page_box, boxes = layout.stack(blocks, brief.title)
 
     # --- source contract (spec_roundtrip_protocol_v2 §; roundtrip.py docstring) ---
     nodes: list[dict[str, Any]] = [

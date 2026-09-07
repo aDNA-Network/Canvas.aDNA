@@ -6,16 +6,25 @@
       "x": 0,
       "y": 0,
       "width": 600,
-      "height": 732,
+      "height": 852,
       "label": "Thread — the canvas grammar"
+    },
+    {
+      "id": "post_title",
+      "type": "text",
+      "x": 48,
+      "y": 48,
+      "width": 504,
+      "height": 58,
+      "text": "#### Thread — the canvas grammar"
     },
     {
       "id": "post0",
       "type": "text",
       "x": 48,
-      "y": 48,
+      "y": 138,
       "width": 504,
-      "height": 80,
+      "height": 90,
       "text": "1/ A canvas is a near-universal output primitive: positioned, typed components on a surface.",
       "isStartNode": true
     },
@@ -23,16 +32,16 @@
       "id": "post1",
       "type": "text",
       "x": 48,
-      "y": 160,
+      "y": 260,
       "width": 504,
-      "height": 80,
+      "height": 90,
       "text": "2/ Decks, comics, documents, diagrams, letters, posts — all reduce to the same producer pipeline."
     },
     {
       "id": "img1",
       "type": "text",
       "x": 48,
-      "y": 252,
+      "y": 362,
       "width": 504,
       "height": 320,
       "text": "a grid of primary-color panels in a Mondrian style"
@@ -41,9 +50,9 @@
       "id": "post2",
       "type": "text",
       "x": 48,
-      "y": 604,
+      "y": 714,
       "width": 504,
-      "height": 80,
+      "height": 90,
       "text": "3/ aDNA-native canvases degrade to plain Obsidian canvases. Fork, don't drift."
     }
   ],
@@ -77,7 +86,7 @@
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "58b3dff598e2b026",
+          "sync_hash": "bf66a43f1c726d8c",
           "source_name": "urn:adna:canvas:post:thread",
           "source_version": "0.1.0"
         },
@@ -94,6 +103,11 @@
               "aspect": "1.91:1",
               "thread": true
             }
+          },
+          "post_title": {
+            "class": "typography_run",
+            "semantic_type": "title",
+            "degrades_to": "text"
           },
           "post0": {
             "class": "text",

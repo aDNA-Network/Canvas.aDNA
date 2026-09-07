@@ -5,14 +5,14 @@
       "type": "group",
       "x": 0,
       "y": 0,
-      "width": 976,
-      "height": 5888,
+      "width": 1540,
+      "height": 7747,
       "label": "The aDNA Canvas Standard v2.0.0 — a grammar for two-dimensional output"
     },
     {
       "id": "page0",
       "type": "group",
-      "x": 80,
+      "x": 362,
       "y": 144,
       "width": 816,
       "height": 1056,
@@ -22,36 +22,36 @@
     {
       "id": "page0_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 434,
       "y": 216,
       "width": 672,
-      "height": 48,
-      "text": "## Abstract",
+      "height": 50,
+      "text": "#### Abstract",
       "color": "5"
     },
     {
       "id": "page0_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 284,
+      "x": 434,
+      "y": 286,
       "width": 672,
-      "height": 164,
+      "height": 320,
       "text": "A canvas — a possibly-linked set of panels carrying positioned text, typography, image, video, shape, embed, and link components — is a near-universal output primitive and a first-class context object. The aDNA Canvas Standard v2.0.0 is an agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas: aDNA-native extensions live additively in a namespaced reserved block, so a valid aDNA canvas always degrades to a valid Obsidian canvas."
     },
     {
       "id": "page0_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 468,
+      "x": 434,
+      "y": 626,
       "width": 672,
-      "height": 72,
+      "height": 90,
       "text": "> Reduce any two-dimensional output to a rigorous grammar of typed components positioned on a canvas."
     },
     {
       "id": "page0_s0_b0_attr",
       "type": "text",
-      "x": 152,
-      "y": 560,
+      "x": 434,
+      "y": 736,
       "width": 672,
       "height": 40,
       "text": "— Mondrian (Canvas.aDNA operating doctrine)"
@@ -59,7 +59,7 @@
     {
       "id": "page1",
       "type": "group",
-      "x": 80,
+      "x": 362,
       "y": 1296,
       "width": 816,
       "height": 1056,
@@ -68,36 +68,36 @@
     {
       "id": "page1_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 434,
       "y": 1368,
       "width": 672,
-      "height": 48,
-      "text": "## The component grammar",
+      "height": 50,
+      "text": "#### The component grammar",
       "color": "5"
     },
     {
       "id": "page1_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 1436,
+      "x": 434,
+      "y": 1438,
       "width": 672,
-      "height": 92,
+      "height": 150,
       "text": "The Standard defines a closed component taxonomy and three nested conformance levels. Each level is a strict superset of the one below it, so conformance is monotone: aDNA-Native implies Extended implies Core."
     },
     {
       "id": "page1_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 1548,
+      "x": 434,
+      "y": 1608,
       "width": 672,
-      "height": 154,
+      "height": 270,
       "text": "| Level | Adds | Baseline |\n| --- | --- | --- |\n| Core | KEEP floor of node/edge fields | JSON Canvas 1.0 |\n| Extended | styleAttributes, isStartNode, edge styling | Advanced Canvas v5.6.6 |\n| aDNA-Native | the _reserved block (components, panel/link, context) | Extended + _reserved |"
     },
     {
       "id": "page1_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 1722,
+      "x": 434,
+      "y": 1898,
       "width": 672,
       "height": 40,
       "url": "https://jsoncanvas.org/spec/1.0/"
@@ -105,8 +105,8 @@
     {
       "id": "page1_s0_src1",
       "type": "link",
-      "x": 152,
-      "y": 1782,
+      "x": 434,
+      "y": 1958,
       "width": 672,
       "height": 40,
       "url": "https://github.com/Developer-Mike/obsidian-advanced-canvas"
@@ -114,7 +114,7 @@
     {
       "id": "page2",
       "type": "group",
-      "x": 80,
+      "x": 362,
       "y": 2448,
       "width": 816,
       "height": 1056,
@@ -123,45 +123,45 @@
     {
       "id": "page2_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 434,
       "y": 2520,
       "width": 672,
-      "height": 48,
-      "text": "## Round-trip and degradation",
+      "height": 50,
+      "text": "#### Round-trip and degradation",
       "color": "5"
     },
     {
       "id": "page2_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 2588,
+      "x": 434,
+      "y": 2590,
       "width": 672,
-      "height": 116,
+      "height": 260,
       "text": "The source contract (topology + semantics) is authoritative; the view (positions + visual styling) is the authority on layout. The forward conversion is deterministic; the reverse is advisory. Stripping the reserved block yields a plain baseline canvas — the degradation contract every aDNA canvas must satisfy."
     },
     {
       "id": "page2_s0_b0",
       "type": "file",
-      "x": 152,
-      "y": 2724,
+      "x": 434,
+      "y": 2870,
       "width": 672,
-      "height": 320,
-      "file": "assets/canvas_grammar.png"
+      "height": 322,
+      "file": "what/specs/diagrams/canvas_grammar.png"
     },
     {
       "id": "page2_s0_b0_cap",
       "type": "text",
-      "x": 152,
-      "y": 3064,
+      "x": 434,
+      "y": 3212,
       "width": 672,
-      "height": 44,
+      "height": 90,
       "text": "Figure 1. The two-layer model: a baseline JSON-Canvas DAG with an additive _reserved overlay."
     },
     {
       "id": "page2_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 3128,
+      "x": 434,
+      "y": 3322,
       "width": 672,
       "height": 40,
       "url": "https://canvas.adna.dev/specs/roundtrip-protocol-v2"
@@ -169,7 +169,7 @@
     {
       "id": "page3",
       "type": "group",
-      "x": 80,
+      "x": 362,
       "y": 3600,
       "width": 816,
       "height": 1056,
@@ -178,54 +178,36 @@
     {
       "id": "page3_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 434,
       "y": 3672,
       "width": 672,
-      "height": 48,
-      "text": "## Conformance in practice",
+      "height": 50,
+      "text": "#### Conformance in practice",
       "color": "5"
     },
     {
       "id": "page3_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 3740,
+      "x": 434,
+      "y": 3742,
       "width": 672,
-      "height": 116,
+      "height": 200,
       "text": "The reference library canvas_std (published as adna-canvas-std, zero-dependency) validates a document at a declared level, computes a stable sync hash over the topology, and reports the three degradation checks. A consumer never reimplements these — it calls them."
     },
     {
       "id": "page3_s0_b0",
       "type": "text",
-      "x": 152,
-      "y": 3876,
+      "x": 434,
+      "y": 3962,
       "width": 672,
-      "height": 138,
+      "height": 260,
       "text": "```python\nfrom canvas_std import ConformanceLevel, validate, validate_suite\n\nerrors = validate(doc, ConformanceLevel.ADNA_NATIVE)\nreport = validate_suite(doc, ConformanceLevel.ADNA_NATIVE)\nassert errors == [] and report.ok\n```"
-    },
-    {
-      "id": "page3_s0_b1",
-      "type": "link",
-      "x": 152,
-      "y": 4034,
-      "width": 672,
-      "height": 320,
-      "url": "https://jsoncanvas.org/assets/jsoncanvas-card.png"
-    },
-    {
-      "id": "page3_s0_b1_cap",
-      "type": "text",
-      "x": 152,
-      "y": 4374,
-      "width": 672,
-      "height": 44,
-      "text": "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
     },
     {
       "id": "page3_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 4438,
+      "x": 434,
+      "y": 4242,
       "width": 672,
       "height": 40,
       "url": "https://canvas.adna.dev/code/canvas-std"
@@ -233,7 +215,7 @@
     {
       "id": "page4",
       "type": "group",
-      "x": 80,
+      "x": 362,
       "y": 4752,
       "width": 816,
       "height": 1056,
@@ -242,36 +224,82 @@
     {
       "id": "page4_s0_head",
       "type": "text",
-      "x": 152,
+      "x": 434,
       "y": 4824,
       "width": 672,
-      "height": 48,
-      "text": "## Governance",
+      "height": 50,
+      "text": "#### The baseline the Standard forks",
       "color": "5"
     },
     {
       "id": "page4_s0_body",
       "type": "text",
-      "x": 152,
-      "y": 4892,
+      "x": 434,
+      "y": 4894,
       "width": 672,
-      "height": 92,
-      "text": "The Standard evolves under a LIP-style process on a semantic-version line. Normative changes require a formal proposal; editorial errata may be handled at maintainer discretion. The round-trippable-to-baseline guarantee is never traded away."
+      "height": 150,
+      "text": "Every aDNA-Native canvas degrades to a valid JSON Canvas document. The fork is additive: aDNA semantics live in a namespaced reserved block that baseline tooling ignores, so the same file opens in plain Obsidian."
     },
     {
       "id": "page4_s0_b0",
-      "type": "text",
-      "x": 152,
-      "y": 5004,
+      "type": "link",
+      "x": 434,
+      "y": 5064,
       "width": 672,
-      "height": 92,
+      "height": 320,
+      "url": "https://jsoncanvas.org/assets/jsoncanvas-card.png"
+    },
+    {
+      "id": "page4_s0_b0_cap",
+      "type": "text",
+      "x": 434,
+      "y": 5404,
+      "width": 672,
+      "height": 90,
+      "text": "Figure 2. JSON Canvas, the open baseline the Standard forks (external reference)."
+    },
+    {
+      "id": "page5",
+      "type": "group",
+      "x": 362,
+      "y": 5904,
+      "width": 816,
+      "height": 1056,
+      "label": "Page 6"
+    },
+    {
+      "id": "page5_s0_head",
+      "type": "text",
+      "x": 434,
+      "y": 5976,
+      "width": 672,
+      "height": 50,
+      "text": "#### Governance",
+      "color": "5"
+    },
+    {
+      "id": "page5_s0_body",
+      "type": "text",
+      "x": 434,
+      "y": 6046,
+      "width": 672,
+      "height": 200,
+      "text": "The Standard evolves under a LIP-style process on a semantic-version line. Normative changes require a formal proposal; editorial errata may be handled at maintainer discretion. The round-trippable-to-baseline guarantee is never traded away."
+    },
+    {
+      "id": "page5_s0_b0",
+      "type": "text",
+      "x": 434,
+      "y": 6266,
+      "width": 672,
+      "height": 120,
       "text": "- MAJOR — a breaking change to the component model or round-trip contract\n- MINOR — additive, backward-compatible reserved-block extensions\n- PATCH — editorial and errata fixes"
     },
     {
-      "id": "page4_s0_src0",
+      "id": "page5_s0_src0",
       "type": "link",
-      "x": 152,
-      "y": 5116,
+      "x": 434,
+      "y": 6406,
       "width": 672,
       "height": 40,
       "url": "https://canvas.adna.dev/decisions/adr-003"
@@ -279,18 +307,18 @@
     {
       "id": "surface_html",
       "type": "group",
-      "x": 1036,
+      "x": 1600,
       "y": 80,
-      "width": 240,
+      "width": 286,
       "height": 48,
       "label": "surface: html"
     },
     {
       "id": "rgn_subclass",
       "type": "group",
-      "x": 1036,
+      "x": 1600,
       "y": 144,
-      "width": 240,
+      "width": 440,
       "height": 48,
       "label": "subclass: print_page"
     }
@@ -401,22 +429,6 @@
       "toEnd": "arrow"
     },
     {
-      "id": "page3_ro_2",
-      "fromNode": "page3_s0_b0",
-      "fromSide": "bottom",
-      "toNode": "page3_s0_b1",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
-      "id": "page3_ro_3",
-      "fromNode": "page3_s0_b1",
-      "fromSide": "bottom",
-      "toNode": "page3_s0_b1_cap",
-      "toSide": "top",
-      "toEnd": "arrow"
-    },
-    {
       "id": "page3_adj_0",
       "fromNode": "page3_s0_body",
       "fromSide": "right",
@@ -441,10 +453,34 @@
       "toEnd": "arrow"
     },
     {
-      "id": "page4_adj_0",
-      "fromNode": "page4_s0_body",
+      "id": "page4_ro_2",
+      "fromNode": "page4_s0_b0",
+      "fromSide": "bottom",
+      "toNode": "page4_s0_b0_cap",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page5_ro_0",
+      "fromNode": "page5_s0_head",
+      "fromSide": "bottom",
+      "toNode": "page5_s0_body",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page5_ro_1",
+      "fromNode": "page5_s0_body",
+      "fromSide": "bottom",
+      "toNode": "page5_s0_b0",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "page5_adj_0",
+      "fromNode": "page5_s0_body",
       "fromSide": "right",
-      "toNode": "page4_s0_src0",
+      "toNode": "page5_s0_src0",
       "toSide": "left",
       "toEnd": "arrow"
     },
@@ -479,13 +515,21 @@
       "toNode": "page4",
       "toSide": "top",
       "toEnd": "arrow"
+    },
+    {
+      "id": "seq_4",
+      "fromNode": "page4",
+      "fromSide": "bottom",
+      "toNode": "page5",
+      "toSide": "top",
+      "toEnd": "arrow"
     }
   ],
   "metadata": {
     "frontmatter": {
       "_reserved": {
         "sync": {
-          "sync_hash": "0604aedc167eb191",
+          "sync_hash": "770d1ccb4c38edc3",
           "source_name": "urn:adna:canvas:whitepaper:canvas-standard",
           "source_version": "0.1.0"
         },
@@ -626,23 +670,6 @@
               "lang": "python"
             }
           },
-          "page3_s0_b1": {
-            "class": "image",
-            "degrades_to": "link",
-            "semantic_type": "figure",
-            "qualities": {
-              "substrate": "external",
-              "origin": "captured",
-              "intent_class": "social_card"
-            }
-          },
-          "page3_s0_b1_cap": {
-            "class": "caption",
-            "degrades_to": "text",
-            "qualities": {
-              "caption_form": "claim_form"
-            }
-          },
           "page3_s0_src0": {
             "class": "link",
             "degrades_to": "link",
@@ -666,11 +693,42 @@
             "degrades_to": "text"
           },
           "page4_s0_b0": {
+            "class": "image",
+            "degrades_to": "link",
+            "semantic_type": "figure",
+            "qualities": {
+              "substrate": "external",
+              "origin": "captured",
+              "intent_class": "social_card"
+            }
+          },
+          "page4_s0_b0_cap": {
+            "class": "caption",
+            "degrades_to": "text",
+            "qualities": {
+              "caption_form": "claim_form"
+            }
+          },
+          "page5": {
+            "class": "panel",
+            "semantic_type": "page",
+            "degrades_to": "group"
+          },
+          "page5_s0_head": {
+            "class": "typography_run",
+            "degrades_to": "text",
+            "semantic_type": "heading"
+          },
+          "page5_s0_body": {
+            "class": "text",
+            "degrades_to": "text"
+          },
+          "page5_s0_b0": {
             "class": "text",
             "degrades_to": "text",
             "semantic_type": "list"
           },
-          "page4_s0_src0": {
+          "page5_s0_src0": {
             "class": "link",
             "degrades_to": "link",
             "semantic_type": "citation",
@@ -802,12 +860,6 @@
             "page3_ro_1": {
               "kind": "reading_order"
             },
-            "page3_ro_2": {
-              "kind": "reading_order"
-            },
-            "page3_ro_3": {
-              "kind": "reading_order"
-            },
             "page3_adj_0": {
               "kind": "adjacency"
             },
@@ -817,7 +869,16 @@
             "page4_ro_1": {
               "kind": "reading_order"
             },
-            "page4_adj_0": {
+            "page4_ro_2": {
+              "kind": "reading_order"
+            },
+            "page5_ro_0": {
+              "kind": "reading_order"
+            },
+            "page5_ro_1": {
+              "kind": "reading_order"
+            },
+            "page5_adj_0": {
               "kind": "adjacency"
             },
             "seq_0": {
@@ -831,6 +892,9 @@
             },
             "seq_3": {
               "kind": "sequence"
+            },
+            "seq_4": {
+              "kind": "sequence"
             }
           },
           "regions": {
@@ -839,7 +903,7 @@
               "pagination": "paged",
               "extent": {
                 "unit": "words",
-                "max": 291
+                "max": 330
               },
               "surface": "print_page"
             },
@@ -880,6 +944,15 @@
               "surface": "print_page"
             },
             "page4": {
+              "flow": "vertical",
+              "pagination": "paged",
+              "extent": {
+                "unit": "pages",
+                "max": 1
+              },
+              "surface": "print_page"
+            },
+            "page5": {
               "flow": "vertical",
               "pagination": "paged",
               "extent": {

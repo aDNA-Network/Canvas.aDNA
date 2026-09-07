@@ -36,9 +36,18 @@ def test_no_emitted_page_overflows_content_height():
         assert used <= layout.CONTENT_H or any(sf.oversized for sf in pf.fragments)
 
 
-def test_non_overflowing_doc_byte_identical_to_e41_golden():
-    # The strongest regression guard: reflow + conditional emission must leave a non-overflowing, no-genre document
-    # byte-identical to the E4.1 layout (the golden was captured from pre-E4.2 code).
+def test_non_overflowing_doc_byte_identical_to_golden():
+    # The strongest regression guard: reflow + conditional emission must leave a non-overflowing,
+    # no-genre document byte-identical to the golden.
+    #
+    # ⛩ Golden REBASELINED at Blueprint P2c (2026-09-07), and renamed off "e41". It was captured
+    # from pre-E4.2 code and pinned the E4.1 *geometry*, which P2c deliberately changes: heights now
+    # come from canvas_core.layout_fit (what CV-TEXT-BOUNDS-01 measures) instead of a per-producer
+    # character-count guess, and section headings emit `####` instead of `##`. What this test
+    # guards is unchanged — that reflow and genre emission stay ADDITIVE — but its baseline is now
+    # P2c-era, not E4.1-era. Regenerate deliberately and never to make a red test green:
+    #     python -m document_generator build tests/golden/document_small.yaml \
+    #         tests/golden/document_small.canvas
     built = build_document(load_document(GOLDEN / "document_small.yaml"))
     golden = json.loads((GOLDEN / "document_small.canvas").read_text())
     assert built == golden

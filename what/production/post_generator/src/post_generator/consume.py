@@ -27,6 +27,7 @@ from post_generator.model import Post, profile_for
 
 ADNA_VERSION = "2.0.0"
 ROOT_ID = "post_root"
+TITLE_ID = "post_title"
 PROFILE = "post"
 SURFACE = "social_post"
 
@@ -34,7 +35,7 @@ SURFACE = "social_post"
 def build_post(post: Post) -> dict[str, Any]:
     """Map a ``Post`` to a v2.0.0 aDNA-Native social-post ``.canvas`` document (a plain dict)."""
     prof = profile_for(post.platform)
-    boxes, root_box = layout.stack(post.panels)
+    boxes, root_box, title_box = layout.stack(post.panels, post.title)
 
     nodes: list[dict[str, Any]] = []
     edges: list[dict[str, Any]] = []
@@ -54,6 +55,14 @@ def build_post(post: Post) -> dict[str, Any]:
             "thread": post.is_thread,
         },
     }
+
+    # A `#### <title>` card in the group's upper 40% — CV-HIERARCHY-01's title slot (P2c). The group
+    # LABEL is not a substitute: it hard-ellipsises and gets worse as you zoom out.
+    if title_box is not None:
+        nodes.append({"id": TITLE_ID, "type": "text", "text": layout.title_text(post.title),
+                      **title_box.as_node()})
+        component_types[TITLE_ID] = {"class": "typography_run", "semantic_type": "title",
+                                     "degrades_to": "text"}
 
     post_ids: list[str] = []
     for i, (panel, (post_box, img_box)) in enumerate(zip(post.panels, boxes)):

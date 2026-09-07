@@ -59,6 +59,34 @@ def _children_text(group: dict, nodes: list[dict]) -> str:
     return " ".join(parts)
 
 
+def _slide_groups(groups: list[dict]) -> list[dict]:
+    """The groups that are actually **slides** — i.e. not an enclosing frame.
+
+    ⛩ Added at Blueprint P2c (2026-09-07), F-P2-12. ``check`` sampled *every* group, so a deck's
+    enclosing ``deck_root`` was counted as a slide whose text is the union of all the others'. It
+    is therefore an outlier **by construction** on any deck with more than one slide, and it drags
+    μ and σ up, which can mask a genuine outlier among the real slides. Both directions are wrong.
+
+    A group that contains another group is a frame, not a slide. Containment is by bounding box —
+    the same geometric test the rest of this module uses — so this stays substrate-neutral and
+    needs no producer metadata.
+    """
+    out: list[dict] = []
+    for g in groups:
+        gx1, gy1, gx2, gy2 = bounding_box(g)
+        encloses_a_group = False
+        for other in groups:
+            if other is g:
+                continue
+            ox1, oy1, ox2, oy2 = bounding_box(other)
+            if gx1 <= ox1 and gy1 <= oy1 and ox2 <= gx2 and oy2 <= gy2:
+                encloses_a_group = True
+                break
+        if not encloses_a_group:
+            out.append(g)
+    return out
+
+
 def check(
     canvas_data: dict,
     *,
@@ -77,7 +105,7 @@ def check(
         List of :class:`TrapFinding` instances (may be empty).
     """
     nodes = canvas_data.get("nodes", [])
-    groups = [n for n in nodes if n.get("type") == "group"]
+    groups = _slide_groups([n for n in nodes if n.get("type") == "group"])
 
     if len(groups) < MIN_GROUPS:
         return []

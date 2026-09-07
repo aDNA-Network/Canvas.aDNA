@@ -36,7 +36,7 @@ pages:
           A context-native harness that keeps every claim accountable to its evidence directly addresses this gap.
         blocks:
           - type: figure
-            image: "assets/diagnostic_odyssey.png"
+            image: "what/specs/diagrams/diagnostic_odyssey.png"
             caption: "Figure 1. The diagnostic odyssey timeline and the points an agentic harness shortens it."
             asset:
               producer_tool: matplotlib
@@ -61,6 +61,19 @@ pages:
                 - ["Ingestion", "EHR + VCF + HPO", "typed context objects"]
                 - ["Reasoning lattice", "context objects", "ranked differentials + provenance"]
                 - ["Adjudication", "differentials", "clinician-confirmed diagnosis"]
+
+      # Split out of "Research Strategy" at Blueprint P2c (2026-09-07). Pagination is
+      # section-ATOMIC (layout.paginate): a section taller than one US-Letter content column
+      # (912px) gets its own page and is allowed to overflow it — the documented CANVAS-L-002
+      # residual. The combined section measured 1054px once heights became honest, so it
+      # overflowed its own page by 142px and drew a CRITICAL edge_violation. The example now
+      # respects the producer's real limit instead of hiding it behind an under-estimate.
+      - heading: "Research Strategy — Architecture"
+        section_kind: "Research Strategy"
+        body: >-
+          The architecture below shows the three modules in composition: evidence flows left to right, and every
+          ranked differential carries the provenance subgraph that produced it back to the adjudication surface.
+        blocks:
           - type: figure
             image: "https://example.org/architecture.png"
             caption: "Figure 2. System architecture: ingestion, reasoning lattice, and the clinician adjudication surface."

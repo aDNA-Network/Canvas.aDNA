@@ -72,13 +72,25 @@ worked example to `examples/`.
 ### 5. venv + run
 ```sh
 python3 -m venv .venv
-.venv/bin/pip install -e ../../code/canvas_std && .venv/bin/pip install pyyaml
-PYTHONPATH=src .venv/bin/python -m pytest tests -q          # all green
+.venv/bin/pip install -e ../../code/canvas_std && .venv/bin/pip install pyyaml "pillow>=10"
+PYTHONPATH=src:.. .venv/bin/python -m pytest tests -q       # all green
 .venv/bin/ruff check src tests                              # clean
 .venv/bin/<name>_generator build examples/<x>.yaml examples/<x>.canvas
 .venv/bin/canvas-std validate examples/<x>.canvas           # -> "adna_native [OK]"
-python3 ../canvas_core/traps/cli.py examples/<x>.canvas --strict   # canvas-visual-check -> [OK]
+# canvas-visual-check. --profile is NOT optional: knowledge-canvas (default) · deck · comic · all
+python3 ../canvas_core/traps/cli.py examples/<x>.canvas --strict --profile <domain>   # -> [OK]
 ```
+
+> ⛩ **State the profile. A bare `[FAIL]` is not a measurement** (F-P2-6, 2026-09-06). This block used to show the
+> command **without `--profile`**, and a re-gate run that way reported a solved problem as an open one: under the
+> default `knowledge-canvas` profile a composed comic page draws 24 findings including 6 CRITICAL, *all* of them
+> profile mismatch that Halftone had already measured and dispositioned. The inverse costs more — the `deck` profile
+> did not exist until 2026-09-07, so `CV-AUDIENCE-01` had **never run against a real deck** and a HIGH sat unseen the
+> whole time (F-P2-10). Running the wrong profile does not bias a result in one direction; it decouples it from the
+> domain in both. Pick the profile that matches what you built, and say which one you ran.
+>
+> `PYTHONPATH=src:..` — the `..` reaches the unpackaged `canvas_core` engine shelf, which `layout.py` imports for
+> `layout_fit` (below). `pillow` is that import surface's environment dep.
 
 > **`canvas-std [OK]` is schema, not sight** (HV, 2026-08-03). Schema conformance says nothing about whether the
 > canvas *reads* — a validated canvas has shipped unreadable (Oration M-R5). Two further gates are mandatory:
@@ -91,8 +103,16 @@ python3 ../canvas_core/traps/cli.py examples/<x>.canvas --strict   # canvas-visu
 ### 6. Firewall + quality gate
 - **Firewall (load-bearing):** `git diff --stat -- what/code/canvas_std/` MUST be empty. A producer never edits the
   Standard — if you think you must, file a LIP (`adr_003`).
-- **Visual gate (HV):** `canvas-visual-check examples/<x>.canvas --strict` clean **+ an agent-confirmed Obsidian
-  render** of the example — the agent reads the screenshot and judges it; validation output is never a substitute.
+- **Visual gate (HV):** `canvas-visual-check examples/<x>.canvas --strict --profile <domain>` clean **+ an
+  agent-confirmed Obsidian render** of the example — the agent reads the screenshot and judges it; validation output is
+  never a substitute. **Re-run this gate whenever the trap pack grows**, not only when you change the producer: the
+  pack went to 14 traps while shipped examples were never re-gated, and `diagram_generator`'s own example failed three
+  of them for ~2.5 months at ~14% of its source text visible (F-P2-3).
+- **Size through `canvas_core.layout_fit`, never a local estimate.** `fit_text_height` · `heading` / `fit_lead` ·
+  `fit_group_size` · `fit_group_label` · `fit_image_box` — see `_scaffold/src/__producer__/layout.py`. Producers that
+  rolled their own `est_text_height(wrap=…, line_h=…)` drew **99 findings over 7 example files, 89 of them (90%) from
+  four classes**, every one of them a producer measuring with a different model than the trap (F-P2-6). A finding from
+  an ungraduated trap is printed as `(advisory)` and does **not** gate — read it, don't ignore it.
 - **Quality:** route the example through the `iii/` wrapper (target 0 High / 0 Med); ship an `iii_quality_contract.md`
   (a contract, not an engine — the producer emits the metadata a review needs and does not score itself, C8).
 

@@ -26,7 +26,7 @@
       "y": 402,
       "width": 1168,
       "height": 160,
-      "text": "# The aDNA Canvas Standard"
+      "text": "#### The aDNA Canvas Standard"
     },
     {
       "id": "slide0_subtitle",
@@ -53,7 +53,7 @@
       "y": 200,
       "width": 1168,
       "height": 90,
-      "text": "## What it is"
+      "text": "#### What it is"
     },
     {
       "id": "slide1_body",
@@ -61,16 +61,16 @@
       "x": 1512,
       "y": 310,
       "width": 1168,
-      "height": 114,
+      "height": 90,
       "text": "An agentic-context-native fork of Obsidian Advanced Canvas / JSON Canvas — a canvas as a universal output primitive, a context object, and an interface surface."
     },
     {
       "id": "slide1_bullets",
       "type": "text",
       "x": 1512,
-      "y": 448,
+      "y": 424,
       "width": 1168,
-      "height": 174,
+      "height": 120,
       "text": "- Positioned, typed components: text, typography, image, video, shape, embed, link.\n- A canvas is a first-class context object an agent can read, write, and round-trip.\n- Owned by Canvas.aDNA (Mondrian) as the standard-bearer Platform."
     },
     {
@@ -89,14 +89,14 @@
       "y": 200,
       "width": 1168,
       "height": 80,
-      "text": "## Reduce to the grammar"
+      "text": "#### Reduce to the grammar"
     },
     {
       "id": "slide2_image",
       "type": "file",
-      "x": 2888,
+      "x": 3017,
       "y": 300,
-      "width": 1168,
+      "width": 909,
       "height": 436,
       "file": "what/specs/diagrams/canvas_grammar.png"
     },
@@ -125,7 +125,7 @@
       "y": 200,
       "width": 1168,
       "height": 80,
-      "text": "## Conformance levels (monotone)"
+      "text": "#### Conformance levels (monotone)"
     },
     {
       "id": "slide3_table",
@@ -133,7 +133,7 @@
       "x": 4264,
       "y": 300,
       "width": 1168,
-      "height": 174,
+      "height": 210,
       "text": "| Level | Adds | Checked by |\n| --- | --- | --- |\n| Core | baseline JSON Canvas nodes + edges | C-* checks |\n| Extended | styleAttributes, isStartNode, edge styling | E-* checks |\n| aDNA-Native | the _reserved block (component model, panel/link, context object) | A-* checks |"
     },
     {
@@ -152,7 +152,7 @@
       "y": 200,
       "width": 1168,
       "height": 90,
-      "text": "## Fork, don't drift"
+      "text": "#### Fork, don't drift"
     },
     {
       "id": "slide4_body",
@@ -160,7 +160,7 @@
       "x": 5640,
       "y": 310,
       "width": 1168,
-      "height": 114,
+      "height": 90,
       "text": "A valid aDNA canvas degrades to a valid Obsidian canvas. aDNA-native semantics live additively in the namespaced _reserved block; strip it and a vanilla reader sees a plain JSON-Canvas file."
     },
     {
@@ -419,6 +419,11 @@
         },
         "semantic_bindings": {
           "profile": "deck"
+        },
+        "slide_dimensions": {
+          "aspect_ratio": "16:9",
+          "width": 1280,
+          "height": 720
         },
         "panel_link": {
           "edges": {

@@ -11,6 +11,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
+from canvas_core.layout_fit import fit_group_size, fit_text_height, heading
+
 from diagram_generator.model import DiagramInput
 
 # Cell + node geometry, integer points.
@@ -24,32 +26,19 @@ TITLE_GAP = 40  # clearance between the title node and rank 0 (overlap tolerance
 SRC_W = 480  # width of the parked mermaid_src code node
 SRC_GAP = 120  # gap between the graph and the parked code node
 TITLE_H = 60  # minimum height of the `#### <title>` heading node (CV-HIERARCHY-01 title slot)
-H4_LEAD_COST = 42.6  # mirrors canvas_core.text_metrics.OBSIDIAN_LEAD_COST["h4"] — see the note below;
-                     # the mirror is interim, not a dependency rule (corrected 2026-09-06)
 
-# --- Visual-gate constants (calibrated against canvas_core/traps, not guessed) -------------------
-# CV-TEXT-BOUNDS-01 measures with the Obsidian CSS model and passes when
-# `measure_obsidian_extent(text, w) <= OBSIDIAN_SAFE_FILL * height`.
+# --- Visual-gate fitting (delegated, not mirrored) -----------------------------------------------
+# ⛩ RETROFITTED 2026-09-07 (Blueprint P2c). P2 left four constants here — SRC_LINE_H=44,
+# SRC_WRAP_COLS=46, SAFE_FILL=0.9, H4_LEAD_COST=42.6 — derived by rounding up two live trap readings
+# and flagged in this very comment as an INTERIM: "a mirror of a measurement rather than the
+# measurement". They are gone. Height now comes from `canvas_core.layout_fit.fit_text_height`, which
+# delegates to the same `text_metrics.obsidian_required_node_height` CV-TEXT-BOUNDS-01 prints in its
+# own fix hint, and container sizing from `fit_group_size`, which carries the ratio-scaling rule this
+# module discovered (F-P2-4: a threshold expressed as a ratio needs a fix expressed as a ratio).
 #
-# ⛩ CORRECTED 2026-09-06. This block previously justified the constants below with "a producer must
-# not depend on a sibling producer". That constraint is NOT this vault's rule and the vault's own
-# code contradicts it: `comic_render/compose.py` does `from canvas_core.print import ...`, and
-# adr_004 sites `canvas_core` as the shared ENGINE SHELF (what/production/), not a sibling producer.
-# So importing `canvas_core.text_metrics` here was legal all along.
-#
-# The constants therefore stand only as an INTERIM: they are over-estimates derived from two live
-# trap readings (666px/18 lines and 1171px/29 lines at w=480) and rounded up, and they pass — but
-# they are a mirror of a measurement rather than the measurement. The producer-wide re-gate
-# (F-P2-6) should replace them with a shared `canvas_core/layout_fit.py` over the same
-# `text_metrics` functions the traps call, so producer and trap share one source of truth.
-SRC_LINE_H = 44        # px per rendered line at SRC_W (measured ~37-40; rounded up)
-SRC_WRAP_COLS = 46     # chars per line before wrapping at SRC_W (conservative; measured ~52)
-SAFE_FILL = 0.9        # trap's OBSIDIAN_SAFE_FILL — usable height is 90% of declared
-
-# CV-GROUP-PADDING-01 fires when the children's bounding box fills >90% of the container on
-# either axis. A FIXED pad cannot satisfy a ratio: it fired at 90.36% here purely because the
-# graph got wide, and would fire on any diagram past ~1440px. Padding must scale with content.
-GROUP_FILL_TARGET = 0.88  # aim below the 0.90 threshold, leaving headroom
+# The producer-wide census found this producer's four repaired classes accounted for 89 of the other
+# producers' 99 findings — five hand-repairs would have produced five slightly different answers.
+# One measurement, shared by producer and trap, is the whole point.
 
 
 @dataclass
@@ -95,27 +84,21 @@ def _ranks(d: DiagramInput) -> dict[str, int]:
 def src_height_for(mermaid: str) -> int:
     """Height the ``mermaid_src`` node needs so CV-TEXT-BOUNDS-01 passes.
 
-    Wrap each source line at ``SRC_WRAP_COLS``, cost ``SRC_LINE_H`` per rendered line (plus the two
-    code-fence lines the consumer adds), then divide by ``SAFE_FILL`` because the trap only counts
-    90% of a node's declared height as usable. Deliberately over-estimates — a too-tall code node is
-    invisible to a reader; a too-short one silently truncates the source at ~14% shown, which is the
-    defect this replaces.
+    Measured, not estimated: the consumer wraps the source in a ```mermaid fence, so measure the
+    fenced text at ``SRC_W`` through the shared fitter. A too-short node silently truncates the
+    source at ~14% shown — the defect this replaces (F-P2-3).
     """
-    rendered = 2  # the ```mermaid fence open + close
-    for line in mermaid.splitlines():
-        rendered += max(1, -(-len(line) // SRC_WRAP_COLS))  # ceil-div
-    return int(rendered * SRC_LINE_H / SAFE_FILL)
+    fenced = f"```mermaid\n{mermaid}\n```"
+    return fit_text_height(fenced, SRC_W, min_height=NODE_H)
 
 
 def title_height_for(title: str, width: int) -> int:
     """Height the `#### <title>` node needs so CV-TEXT-BOUNDS-01 passes.
 
-    The `h4` lead costs 42.6px before a character renders, and a long title wraps. Charge the lead
-    plus a body line per wrapped row, then divide by SAFE_FILL (only 90% of declared height counts).
+    Measures the rendered heading — the ``h4`` lead cost and any wrap — through the shared fitter,
+    so the number matches what the trap will compute rather than approximating it.
     """
-    cols = max(20, int(width / 10))       # ~10px per char at heading weight (conservative)
-    rows = max(1, -(-len(title) // cols))  # ceil-div
-    return max(TITLE_H, int((H4_LEAD_COST + rows * SRC_LINE_H) / SAFE_FILL))
+    return fit_text_height(heading(title), width, min_height=TITLE_H)
 
 
 def layout(d: DiagramInput, mermaid: str = "") -> tuple[dict[str, Box], Box, Box, Box]:
@@ -179,7 +162,6 @@ def layout(d: DiagramInput, mermaid: str = "") -> tuple[dict[str, Box], Box, Box
 
     # Scale the container so the fill ratio clears the trap's 90% threshold on BOTH axes. A fixed
     # PAD cannot do this: the ratio degrades as the graph grows, so padding has to grow with it.
-    group_w = max(bb_w + 2 * PAD, int(bb_w / GROUP_FILL_TARGET) + 1)
-    group_h = max(bb_h + 2 * PAD, int(bb_h / GROUP_FILL_TARGET) + 1)
+    group_w, group_h = fit_group_size(bb_w, bb_h, PAD)
     group_box = Box(0, 0, group_w, group_h)
     return boxes, group_box, src_box, title_box

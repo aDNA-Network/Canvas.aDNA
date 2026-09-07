@@ -18,17 +18,20 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from document_generator.layout import (
-    ATTR_H,
-    CAP_H,
-    FIG_H,
     GAP,
-    HEAD_H,
     SECTION_GAP,
     SRC_H,
     Box,
     PageFragment,
+    attribution_height,
+    caption_height,
+    code_text,
     content_rect,
     est_text_height,
+    figure_height,
+    figure_width,
+    heading_height,
+    heading_text,
     render_table,
 )
 from document_generator.model import AssetVisual
@@ -83,7 +86,9 @@ def _emit_block(pb: PageBuild, blk, bid: str, c: Box, y: int, default_asset: Ass
     """Emit one block's node(s) at vertical cursor ``y``; return the new cursor."""
     if blk.type == "figure":
         av = blk.asset or default_asset                # per-figure override, else the genre default
-        fbox = Box(c.x, y, c.w, FIG_H)
+        fig_h = figure_height(blk.image)               # mirrors layout.block_height
+        fig_w = figure_width(blk.image)                # narrows (and centres) if the page binds
+        fbox = Box(c.x + (c.w - fig_w) // 2, y, fig_w, fig_h)
         if blk.image.startswith(("http://", "https://")):
             pb.nodes.append({"id": bid, "type": "link", "url": blk.image, **fbox.as_node()})
             quals = {"substrate": "external", **_asset_quals(av)}
@@ -93,41 +98,45 @@ def _emit_block(pb: PageBuild, blk, bid: str, c: Box, y: int, default_asset: Ass
             quals = {"substrate": "raster", **_asset_quals(av)}
             pb.component_types[bid] = _comp("image", "file", semantic="figure", qualities=quals)
         pb.reading.append(bid)
-        y += FIG_H + GAP
+        y += fig_h + GAP
         if blk.caption:
             cid = f"{bid}_cap"
-            pb.nodes.append(_text(cid, blk.caption, Box(c.x, y, c.w, CAP_H)))
+            cap_h = caption_height(blk.caption)
+            pb.nodes.append(_text(cid, blk.caption, Box(c.x, y, c.w, cap_h)))
             cap_q = {"caption_form": av.caption_form} if av.caption_form != "descriptive" else None  # V6
             pb.component_types[cid] = _comp("caption", "text", qualities=cap_q)
             pb.reading.append(cid)
-            y += CAP_H + GAP
+            y += cap_h + GAP
         return y
     if blk.type == "table":
         md, n_rows, n_cols = render_table(blk.table)
-        th = est_text_height(md, wrap=200, line_h=26, pad=24, min_h=100)
+        th = est_text_height(md, min_h=100)
         pb.nodes.append(_text(bid, md, Box(c.x, y, c.w, th)))
         pb.component_types[bid] = _comp("table", "text", qualities={"row_count": n_rows, "col_count": n_cols})
         pb.reading.append(bid)
         return y + th + GAP
     if blk.type == "code":
-        fenced = f"```{blk.lang}\n{blk.code}\n```" if blk.lang else f"```\n{blk.code}\n```"
-        ch = est_text_height(blk.code, wrap=100, line_h=22, pad=28, min_h=80)
+        # Measure what is EMITTED (the fenced text), not the bare source: the fence lines render.
+        fenced = code_text(blk)
+        ch = est_text_height(fenced, min_h=80)
         pb.nodes.append(_text(bid, fenced, Box(c.x, y, c.w, ch)))
         pb.component_types[bid] = _comp("code", "text", qualities={"lang": blk.lang} if blk.lang else None)
         pb.reading.append(bid)
         return y + ch + GAP
     if blk.type == "quote":
-        qh = est_text_height(blk.text, min_h=72)
-        pb.nodes.append(_text(bid, f"> {blk.text}", Box(c.x, y, c.w, qh)))
+        quoted = f"> {blk.text}"
+        qh = est_text_height(quoted, min_h=72)
+        pb.nodes.append(_text(bid, quoted, Box(c.x, y, c.w, qh)))
         pb.component_types[bid] = _comp("text", "text", semantic="quote")
         pb.reading.append(bid)
         y += qh + GAP
         if blk.attribution:
             aid = f"{bid}_attr"
-            pb.nodes.append(_text(aid, f"— {blk.attribution}", Box(c.x, y, c.w, ATTR_H)))
+            attr_h = attribution_height(blk.attribution)
+            pb.nodes.append(_text(aid, f"— {blk.attribution}", Box(c.x, y, c.w, attr_h)))
             pb.component_types[aid] = _comp("text", "text", semantic="attribution")
             pb.reading.append(aid)
-            y += ATTR_H + GAP
+            y += attr_h + GAP
         return y
     if blk.type == "list":
         text = "\n".join(f"- {it}" for it in blk.items)
@@ -153,11 +162,12 @@ def build_page(fragment: PageFragment, pid: str, box: Box, default_asset: AssetV
         sec = sf.section
         hid = f"{pid}_s{li}_head"
         head_q = {"layout_note": "oversized_overflow"} if sf.oversized else None  # CANVAS-L-002 residual, traced not silent
-        pb.nodes.append(_text(hid, f"## {sec.heading}", Box(c.x, y, c.w, HEAD_H)))
+        head_total = heading_height(sec.heading)   # incl. the trailing GAP — mirrors layout.py
+        pb.nodes.append(_text(hid, heading_text(sec.heading), Box(c.x, y, c.w, head_total - GAP)))
         pb.component_types[hid] = _comp("typography_run", "text", semantic="heading", qualities=head_q)
         pb.reading.append(hid)
         pb.headings.append(hid)
-        y += HEAD_H + GAP
+        y += head_total
         anchor = hid  # adjacency origin for citations (the body if present, else the heading)
 
         if sec.body:

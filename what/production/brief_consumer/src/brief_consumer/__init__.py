@@ -6,8 +6,30 @@ the installed ``adna-canvas-std``) and never modifies it. ``build_brief`` is the
 
 from __future__ import annotations
 
-from brief_consumer.consume import build_brief
-from brief_consumer.model import BriefInput, Section, Source, load_brief
+
+def _ensure_canvas_core() -> None:
+    """Guarded self-bootstrap for the unpackaged ``canvas_core`` (``comic_render`` precedent).
+
+    ``canvas_core`` is a bare directory-package on the production shelf (no pyproject) — importable
+    only with ``what/production/`` on ``sys.path``. Under pytest the pyproject ``pythonpath``
+    covers it; under the console script (or a direct ``python -m``) this inserts the shelf root,
+    resolved from this file's real location (editable installs preserve it).
+    """
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    if importlib.util.find_spec("canvas_core") is not None:
+        return
+    shelf = Path(__file__).resolve().parents[3]  # src/<pkg> → src → <producer> → production
+    if (shelf / "canvas_core" / "__init__.py").exists() and str(shelf) not in sys.path:
+        sys.path.insert(0, str(shelf))
+
+
+_ensure_canvas_core()
+
+from brief_consumer.consume import build_brief  # noqa: E402
+from brief_consumer.model import BriefInput, Section, Source, load_brief  # noqa: E402
 
 __version__ = "0.1.0"
 STANDARD_VERSION = "2.0.0"  # the aDNA Canvas Standard version this consumer targets
