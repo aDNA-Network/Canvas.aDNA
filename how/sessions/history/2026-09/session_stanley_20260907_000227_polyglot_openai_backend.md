@@ -3,7 +3,7 @@ type: session
 session_id: session_stanley_20260907_000227_polyglot_openai_backend
 created: 2026-09-07
 updated: 2026-09-07
-status: active
+status: completed
 campaign: none — Operation Polyglot (cross-vault; charter at aDNA.aDNA/how/campaigns/campaign_agent_harness_cohort/)
 objective: "Add OpenAI as second cloud GENERATE backend behind the ImageClient protocol: ADR-008 amendment draft (proposed), credential-routing snippet into CLAUDE.md, backends/openai.py + registry row + tests."
 executor_tier: fable
@@ -24,3 +24,10 @@ Files this session may write in Canvas.aDNA — nothing else:
 - this session file
 
 Probed `how/sessions/active/` empty + git clean at 2026-09-07 00:02 PDT. Commits path-scoped, never `git add -A`.
+
+## SITREP (close, 2026-09-07)
+
+Completed per the lease; nothing outside the declared file set was touched. Cross-vault
+summary + operator-owed list: the Operation Polyglot final report (this sitting) and
+`aDNA.aDNA/how/campaigns/campaign_agent_harness_cohort/artifacts/agent_harness_cohort_manifest.md`.
+**Next Session Prompt**: read the cohort manifest, then this vault's newest STATE entry dated 2026-09-07.
