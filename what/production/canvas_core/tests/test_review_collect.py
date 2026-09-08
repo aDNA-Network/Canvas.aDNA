@@ -76,6 +76,10 @@ def test_three_sink_fan_out(vault, tmp_path):
     assert counts == {
         "variants": 2, "responses": 7, "selections": 1,
         "rejects": 1, "rejects_held": 0, "iii_lines": 2, "skipped": 0,
+        # F-HR-1 (2026-09-08): the counts dict gained two conformance fields. Both are zero on a
+        # healthy surface — asserted rather than omitted, so a normalization that started firing
+        # here (i.e. our own builder emitting non-conformant edges) would fail this test loudly.
+        "edges_normalized": 0, "edges_unresolved": 0,
     }
 
     doc = json.loads(paths.canvas.read_text(encoding="utf-8"))
@@ -182,6 +186,7 @@ def test_reject_only_session_now_emits_a_signal(vault, tmp_path):
     assert counts == {
         "variants": 1, "responses": 3, "selections": 0,
         "rejects": 1, "rejects_held": 0, "iii_lines": 1, "skipped": 1,
+        "edges_normalized": 0, "edges_unresolved": 0,   # F-HR-1 fields, zero on a healthy surface
     }
 
     # Schema-A stays approval-only — unchanged by the ruling, and that is the point.
@@ -311,3 +316,126 @@ def test_accepted_is_the_reviewers_verdict_not_store_admission(vault, tmp_path):
         by_type[iii_bridge.RLHF_SIGNAL_TYPE_REJECT]["trap"]
         != by_type[iii_bridge.RLHF_SIGNAL_TYPE_ACCEPT]["trap"]
     )
+
+
+# ================================================================================================
+# F-HR-1 — normalize-on-collect (Blueprint P3, 2026-09-08)
+#
+# The defect this closes is not hypothetical and is not ours alone. A review surface is handed to a
+# human in Obsidian; Obsidian's re-save rewrites the `edges` block WITHOUT the explicit `toEnd`
+# keys; the canvas still renders perfectly and now fails C-4. Measured 2026-09-08 across 106
+# authored canvases in 18 peer vaults: 464 such errors, 95% of all conformance errors once one
+# float-coordinate outlier vault is excluded. In a peer's history the signature has a named commit
+# (f00bf04, 2026-07-22, "canvas: layout adjustments … in Obsidian") that stripped every explicit
+# toEnd in one file in one act.
+#
+# The re-save is reproduced HERE as a fixture mutation. No peer's file is copied into this repo:
+# Canvas.aDNA is public and the vault where it was first measured gitignores its copy (adr_012).
+# ================================================================================================
+
+def _obsidian_resave(canvas_path: Path) -> int:
+    """Drop every explicit top-level ``toEnd``, as an Obsidian re-save does. Returns how many went."""
+    doc = json.loads(canvas_path.read_text(encoding="utf-8"))
+    dropped = 0
+    for edge in doc.get("edges", []):
+        if "toEnd" in edge:
+            del edge["toEnd"]
+            dropped += 1
+    canvas_path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return dropped
+
+
+def _core_errors(canvas_path: Path) -> list[str]:
+    from canvas_std.conformance import ConformanceLevel, validate_suite
+
+    doc = json.loads(canvas_path.read_text(encoding="utf-8"))
+    return [f["id"] for f in validate_suite(doc, ConformanceLevel.CORE).failed]
+
+
+def test_the_resave_really_does_un_conform_the_surface(vault, tmp_path):
+    """The premise, asserted rather than assumed: without the fix, C-4 appears from a pure re-save."""
+    _root, paths = _build(vault)
+    assert _core_errors(paths.canvas) == [], "the surface should start conformant"
+    dropped = _obsidian_resave(paths.canvas)
+    assert dropped > 0, "fixture must have explicit toEnd keys to drop, or it proves nothing"
+    assert set(_core_errors(paths.canvas)) == {"C-4"}
+
+
+def test_collect_repairs_the_resave_in_the_write_back(vault, tmp_path):
+    """The fix: collecting a verdict restores conformance in the same act that records it."""
+    root, paths = _reviewed(vault, tmp_path)
+    dropped = _obsidian_resave(paths.canvas)
+    counts = _collect(root, paths, tmp_path)
+    assert counts["edges_normalized"] == dropped
+    assert _core_errors(paths.canvas) == []
+    # and the verdicts still landed — the repair is not instead of the collection
+    assert counts["variants"] == 2 and counts["responses"] > 0
+
+
+def test_normalization_is_reported_but_not_persisted_when_nothing_is_collected(vault, tmp_path):
+    """⚠ The idempotency property is load-bearing: a pass with nothing to collect writes nothing.
+
+    An un-conformed surface with no pending verdicts is REPORTED, not silently rewritten. Per
+    Berthier's Operations ruling (2026-09-07), a hand-maintained canvas wants its normalize pass
+    before publish, not as a side effect of somebody else's read.
+    """
+    root, paths = _build(vault)  # no verdicts set
+    dropped = _obsidian_resave(paths.canvas)
+    before = paths.canvas.read_bytes()
+    counts = _collect(root, paths, tmp_path)
+    assert counts["variants"] == 0
+    assert counts["edges_normalized"] == dropped     # seen and said
+    assert paths.canvas.read_bytes() == before       # and not written
+    assert set(_core_errors(paths.canvas)) == {"C-4"}
+
+
+def test_rerun_after_repair_is_still_a_no_op(vault, tmp_path):
+    """The repair converges: it happens once, and the second pass changes nothing on disk."""
+    root, paths = _reviewed(vault, tmp_path)
+    _obsidian_resave(paths.canvas)
+    _collect(root, paths, tmp_path)
+    after_first = paths.canvas.read_bytes()
+    counts = _collect(root, paths, tmp_path)
+    assert counts["edges_normalized"] == 0
+    assert paths.canvas.read_bytes() == after_first
+
+
+def test_deliberate_undirected_edge_survives_normalization(vault, tmp_path):
+    """``toEnd: "none"`` is already explicit — a normalizer that "fixed" it would change meaning."""
+    root, paths = _reviewed(vault, tmp_path)
+    doc = json.loads(paths.canvas.read_text(encoding="utf-8"))
+    assert doc.get("edges"), "fixture needs at least one edge"
+    doc["edges"][0]["toEnd"] = "none"
+    paths.canvas.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    _collect(root, paths, tmp_path)
+    out = json.loads(paths.canvas.read_text(encoding="utf-8"))
+    assert out["edges"][0]["toEnd"] == "none"
+
+
+def test_no_normalize_opt_out_leaves_the_surface_alone(vault, tmp_path):
+    """--no-normalize is an audit mode: it must not quietly repair what it is measuring."""
+    root, paths = _reviewed(vault, tmp_path)
+    _obsidian_resave(paths.canvas)
+    counts = _collect(root, paths, tmp_path, normalize=False)
+    assert counts["edges_normalized"] == 0
+    assert set(_core_errors(paths.canvas)) == {"C-4"}
+
+
+def test_dangling_edges_are_reported_and_never_repaired(vault, tmp_path):
+    """⛔ The one class the collector must NOT touch.
+
+    The single genuinely-unresolved edge found across 106 peer canvases took a history walk in
+    another vault to rule on (its target had never existed as a node in any committed revision).
+    No normalizer could have known that, which is exactly why this one reports and stops.
+    """
+    root, paths = _reviewed(vault, tmp_path)
+    doc = json.loads(paths.canvas.read_text(encoding="utf-8"))
+    doc["edges"].append({
+        "id": "dangler", "fromNode": doc["nodes"][0]["id"], "toNode": "node_that_never_existed",
+        "fromSide": "right", "toSide": "left", "toEnd": "arrow",
+    })
+    paths.canvas.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    counts = _collect(root, paths, tmp_path)
+    assert counts["edges_unresolved"] == 1
+    out = json.loads(paths.canvas.read_text(encoding="utf-8"))
+    assert any(e["id"] == "dangler" for e in out["edges"]), "the edge must survive — reported, not removed"

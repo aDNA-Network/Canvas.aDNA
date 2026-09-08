@@ -74,6 +74,17 @@ def _ensure_canvas_context() -> Any:
     return interaction
 
 
+def _conform() -> Any:
+    """The C-4/C-3 pass (``canvas_core.conform``), imported lazily to match ``_ensure_canvas_context``.
+
+    Same package, so no path bootstrap is needed; the indirection exists so the two collaborators this
+    module reaches for are found in the same place when reading it.
+    """
+    from canvas_core import conform  # noqa: PLC0415
+
+    return conform
+
+
 # ============================================================================================================
 # Sidecar IO.
 # ============================================================================================================
@@ -221,10 +232,37 @@ def collect(
     dry_run: bool = False,
     force: bool = False,
     emit_rejects: bool | None = None,
+    normalize: bool = True,
 ) -> dict[str, int]:
     """Run one collection pass.
 
-    Returns counts ``{variants, responses, selections, rejects, rejects_held, iii_lines, skipped}``.
+    Returns counts ``{variants, responses, selections, rejects, rejects_held, iii_lines, skipped,
+    edges_normalized, edges_unresolved}``.
+
+    ``normalize`` (default True) closes **F-HR-1**, the *normalize-on-collect* half. A review surface
+    is handed to a human in Obsidian, and Obsidian's re-save rewrites the ``edges`` block **without the
+    explicit ``toEnd`` keys** — so a canvas this vault emitted conformant comes back C-4-failing, still
+    rendering perfectly, with nothing to notice. The collector then reads that document, folds responses
+    into it, and writes it back: *without this, the collector is the step that makes the damage durable.*
+    Normalizing between the read and the fold means the write-back **restores** conformance in the same
+    act that records the verdict.
+
+    Measured 2026-09-08 across 106 authored canvases in 18 peer vaults: **464 C-4 errors**, 95% of all
+    conformance errors once one float-coordinate outlier vault is excluded, and the signature has a named
+    commit in a peer's history (`f00bf04`, 2026-07-22, "canvas: layout adjustments … in Obsidian" —
+    one commit stripped every explicit ``toEnd`` in a file).
+
+    ⚠ **Idempotency is preserved deliberately.** The normalized document is persisted **only when the
+    collector was already going to write** (i.e. a verdict was folded). A pass with nothing to collect
+    stays a true no-op on disk — that property is load-bearing and tested. An un-conformed canvas with
+    nothing to collect is therefore *reported* (``edges_normalized``) and **not** silently rewritten;
+    per Berthier's Operations ruling (2026-09-07), a hand-maintained canvas wants its normalize pass
+    **before publish**, not as a side effect of somebody else's read.
+
+    ⛔ ``unresolved_edges`` is **reported, never repaired** (``edges_unresolved``). Whether a dangling
+    edge should be deleted, re-pointed, or kept as evidence needs to know what the diagram is *for* —
+    the one such edge found fleet-wide took a history walk in another vault to rule on, which no
+    normalizer could have done.
 
     ``emit_rejects`` defaults to ``iii_bridge.REJECT_VOCABULARY_CONFIRMED`` — the S-4 gate. While
     it is False the reject signal is still *built* (and counted under ``rejects``), but held back
@@ -238,6 +276,16 @@ def collect(
         emit_rejects = REJECT_VOCABULARY_CONFIRMED
 
     doc = json.loads(canvas_path.read_text(encoding="utf-8"))
+
+    # F-HR-1 — normalize between the read and the fold, so the write-back below repairs the
+    # Obsidian re-save rather than cementing it. No-op on meaning (an absent toEnd already renders
+    # as an arrow); a deliberate `toEnd: "none"` is left alone.
+    edges_normalized = 0
+    if normalize:
+        doc, edges_normalized = _conform().normalize_edges(doc)
+    # Reported, never repaired — see the docstring.
+    edges_unresolved = len(_conform().unresolved_edges(doc))
+
     block = doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {}).get("interaction")
     if not isinstance(block, dict):
         raise ValueError(f"{canvas_path}: no _reserved.interaction overlay — not a review surface")
@@ -259,6 +307,11 @@ def collect(
         "rejects": 0,        # S-3: rejects produce an III signal and NO Schema-A record
         "rejects_held": 0,   # S-4 gate: built but not emitted, pending Argus's vocabulary reply
         "iii_lines": 0, "skipped": 0,
+        # F-HR-1 visibility. `edges_normalized` is what the Obsidian re-save had dropped; it is
+        # reported whether or not the run ends up persisting (see the docstring's idempotency note),
+        # so "nothing to collect" never hides "and the surface is un-conformed".
+        "edges_normalized": edges_normalized,
+        "edges_unresolved": edges_unresolved,
     }
     for index, (path, fm, body) in enumerate(sidecars):
         if not fm.get("verdict"):
@@ -380,6 +433,9 @@ def _main(argv: list[str] | None = None) -> int:
     ap.add_argument("--turn", default=None, help="override the surface turn (re-review = t2, t3, …)")
     ap.add_argument("--dry-run", action="store_true", help="report what would be written; write nothing")
     ap.add_argument("--force", action="store_true", help="re-collect variants whose ledger is already set")
+    ap.add_argument("--no-normalize", action="store_true",
+                    help="skip the F-HR-1 C-4 pass — audit only; the surface then keeps whatever "
+                         "Obsidian's re-save left behind")
     args = ap.parse_args(argv)
     counts = collect(
         args.canvas,
@@ -393,6 +449,7 @@ def _main(argv: list[str] | None = None) -> int:
         turn=args.turn,
         dry_run=args.dry_run,
         force=args.force,
+        normalize=not args.no_normalize,
     )
     mode = "DRY-RUN — nothing written" if args.dry_run else "written"
     print(
@@ -401,6 +458,20 @@ def _main(argv: list[str] | None = None) -> int:
         f"rejects: {counts['rejects']} (held: {counts['rejects_held']}) · "
         f"iii lines: {counts['iii_lines']} · skipped: {counts['skipped']}"
     )
+    if counts["edges_normalized"]:
+        persisted = counts["variants"] > 0 and not args.dry_run
+        print(
+            f"  F-HR-1: {counts['edges_normalized']} edge(s) were missing an explicit toEnd "
+            f"(the Obsidian re-save signature) — "
+            + ("repaired in the write-back." if persisted else
+               "NOT persisted: nothing was collected, so this run stays a no-op on disk. "
+               "Run the conform pass before publishing.")
+        )
+    if counts["edges_unresolved"]:
+        print(
+            f"  ⚠ {counts['edges_unresolved']} edge endpoint(s) do not resolve to a node. "
+            "Reported, never repaired — deleting vs re-pointing needs to know what the diagram is for."
+        )
     return 0
 
 

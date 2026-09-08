@@ -85,8 +85,8 @@ The second population has never been enumerated. It is where the *unguarded* sur
 |---|---|---|
 | b3.1 | Intake the overnight memo; strike memo #10's false premise in our own records | ✅ done — `6ef9e2d` + `mission_b2b` addendum |
 | b3.2 | Collect Oration's reply at source; act on the correction and the two findings | ✅ done — collected byte-unchanged; §2.1a written; F-P3-5/6/7 below |
-| b3.3 | The measured census — both populations, every figure traceable to a command | pending |
-| b3.4 | F-HR-1 fleet measurement + build the collector/pre-publish wiring | pending |
+| b3.3 | The measured census — both populations, every figure traceable to a command | ✅ done — `artifacts/p3_federation_census_20260908.md` |
+| b3.4 | F-HR-1 fleet measurement + build the collector/pre-publish wiring | ✅ done — +7 tests, `canvas_core` 951→**958/3** |
 | b3.5 | Correct `federation_index.md` to the measurement (WGS row · Oration flip · pins) | pending |
 | b3.6 | Memos #12 per drifted consumer + #13 → Rosetta; Seshat rename ask | pending |
 | b3.7 | Gates · records · AAR | pending |
@@ -134,6 +134,50 @@ out to be already-satisfied — and neither vault could have known.**
   enum is too short"; they withdrew it when their premise dissolved and reported the withdrawal instead of
   silently substituting a better finding. The withdrawn finding was correct anyway, for a reason neither
   desk had.)*
+
+## S3 — F-HR-1: the half that was never built
+
+P2b shipped `normalize_edges` and scoped the wiring. This builds it, in the one place the defect is
+actually made durable.
+
+**The mechanism, stated exactly.** A review surface is emitted conformant → a human opens it in
+Obsidian → Obsidian's re-save rewrites the `edges` block **without** the explicit `toEnd` keys → the
+canvas still renders perfectly and now fails C-4 → **the collector reads that document, folds the
+verdicts in, and writes it back.** Without the fix, *the collector is the step that makes the damage
+permanent.* Normalizing between the read and the fold means the write-back **repairs** in the same act
+that records the verdict.
+
+**Wired** into `canvas_core/rlhf/review_collect.py::collect` (`normalize=True` default, `--no-normalize`
+audit opt-out). Counts gained `edges_normalized` + `edges_unresolved`; the CLI prints both.
+
+⚠ **Two design constraints, both from a peer's ruling, both tested.**
+
+1. **Idempotency is preserved, deliberately.** The normalized doc is persisted **only when the
+   collector was already going to write**. A pass with nothing to collect stays a true no-op on disk —
+   that property is load-bearing and pinned by `test_rerun_is_a_no_op`. An un-conformed surface with no
+   pending verdicts is therefore **reported and not silently rewritten**. This follows Berthier's
+   answer to our own Q2 (2026-09-07): their projection is hand-maintained with **no regenerator**, so
+   the normalize pass wants to run **before publish**, not as a side effect of somebody else's read.
+   ⇒ *We asked where the hook belongs; the consumer's answer changed where we put it.*
+2. ⛔ **`unresolved_edges` reports and never repairs** — pinned by a test asserting the dangling edge
+   **survives** the pass. Vindicated at fleet scale this session: exactly **one** genuinely unresolved
+   edge exists across 106 peer canvases, and ruling on it took a **history walk in another vault**
+   (`git log --all -S` proving the target never existed as a node in any committed revision). No
+   normalizer could have known that. Berthier: *"your tool was right to refuse it."*
+
+**The defect reproduced in fixtures, never in copies** (`_obsidian_resave()` mutates the test fixture):
+Canvas.aDNA is public, and the vault where this was first measured gitignores its copy (`adr_012`).
+A test asserts the **premise** first — that a pure re-save really does produce C-4 and nothing else —
+so the fix is not tested against an assumption.
+
+**Verified live**, not only in fixtures: a dry run against the real HR pilot surface
+(`what/artifacts/review_surface_pilot/ss_variant_review.canvas`) reports `0 normalized` (it was repaired
+at HR gate 3/3 and has stayed conformant), `skipped: 6`, and **md5 unchanged** — reproducing STATE's
+recorded pilot result exactly.
+
+`canvas_core` **958/3** (was 951/3; +7). Two pre-existing tests asserted the counts dict by exact
+equality and were **updated to name the two new fields rather than loosened** — on a healthy surface
+both are 0, so the assertion now also catches our own builder emitting non-conformant edges.
 
 ## Standing constraints
 
