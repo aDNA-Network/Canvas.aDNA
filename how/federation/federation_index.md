@@ -144,6 +144,11 @@ ever reported to them). Operations already has the finding, carded their side as
    `ZenZachary.aDNA/canvasforge/` ×1. ⚠ The `lattice-labs` pair is the instructive one: **the shim resolves
    and the file underneath is gone**, so any check that stops at the symlink reports green over a dead
    reference.
+8. **`spec_federation_contract` §2.1a** *(shipped this session)* — `conformance_target` vs `declared` vs
+   `level_reached`, on Kennedy's Finding 1, which had cost Oration a reversed ruling. A document **may**
+   self-declare `extended` with a one-key `_reserved` block; the enum in §2.1 was also too short and is
+   corrected. Consumers filling in `conformance_target` at re-pin should read it first.
+
 ## 4. P3 memo wave — delivery record (2026-09-08)
 
 Each recipient's quiescence was **re-probed at act time**, not trusted from an earlier probe (five other
@@ -166,9 +171,3 @@ recipient's to make. No recipient tree was otherwise modified.
 ⚠ **Two rows in §1 briefly claimed delivery before the act** and were corrected before commit. A record that
 runs ahead of the thing it records is the failure mode this whole phase exists to fix.
 
-### Standing drift ledger, continued (items 6–8 opened at P3)
-
-8. **`spec_federation_contract` §2.1a** *(shipped this session)* — `conformance_target` vs `declared` vs
-   `level_reached`, on Kennedy's Finding 1, which had cost Oration a reversed ruling. A document **may**
-   self-declare `extended` with a one-key `_reserved` block; the enum in §2.1 was also too short and is
-   corrected. Consumers filling in `conformance_target` at re-pin should read it first.

@@ -6,9 +6,11 @@ phase: P3
 title: "The federation re-pin wave — measuring a surface that had been asserted"
 owner: stanley
 persona: mondrian
-status: in_progress
+status: completed
 created: 2026-09-08
 updated: 2026-09-08
+completed: 2026-09-08
+completion_note: "complete-with-open-item — the census, the index correction, the F-HR-1 wiring and 8 of 9 memos all landed; memo #13 to Rosetta is STAGED (their lease was live and they publish no drop-box), Seshat's rename ruling is outstanding (ack_required), and the Amendment-1 render is carried a fourth time."
 last_edited_by: agent_mondrian
 executor_tier: opus
 token_budget_estimated: ~140k
@@ -87,9 +89,9 @@ The second population has never been enumerated. It is where the *unguarded* sur
 | b3.2 | Collect Oration's reply at source; act on the correction and the two findings | ✅ done — collected byte-unchanged; §2.1a written; F-P3-5/6/7 below |
 | b3.3 | The measured census — both populations, every figure traceable to a command | ✅ done — `artifacts/p3_federation_census_20260908.md` |
 | b3.4 | F-HR-1 fleet measurement + build the collector/pre-publish wiring | ✅ done — +7 tests, `canvas_core` 951→**958/3** |
-| b3.5 | Correct `federation_index.md` to the measurement (WGS row · Oration flip · pins) | pending |
-| b3.6 | Memos #12 per drifted consumer + #13 → Rosetta; Seshat rename ask | pending |
-| b3.7 | Gates · records · AAR | pending |
+| b3.5 | Correct `federation_index.md` to the measurement (WGS row · Oration flip · pins) | ✅ done — + new **§1b** and ledger items 6–8 |
+| b3.6 | Memos #12 per drifted consumer + #13 → Rosetta; Seshat rename ask | ✅ **8 of 9 delivered**; #13 (Rosetta) **staged** — live lease, no drop-box |
+| b3.7 | Gates · records · AAR | ✅ done |
 
 ## S1 — what the 34-day-old reply contained
 
@@ -190,3 +192,66 @@ both are 0, so the assertion now also catches our own builder emitting non-confo
 - **Defect signatures reproduce in fixtures, never in copies** — Canvas is public (`adr_012`).
 - **State the population on the face of the number** — tip or history · class or literal · tracked or
   working-tree. Out-of-scope sets are *named*, not quietly excluded.
+
+---
+
+## Gates (2026-09-08)
+
+| Gate | Result |
+|---|---|
+| `canvas_std` firewall | **diff 0** — no schema change; no LIP in scope |
+| `canvas_std` | **115 / 10 skipped** |
+| certification | **11 / 11 fixtures agree** |
+| `canvas_core` | **958 / 3** (was 951/3 — **+7**, the F-HR-1 wiring) |
+| producers (7) | **267** — 10 · 16 · 37 · 44 · 123 · 17 · 20 |
+| `comic_render` | **154 / 2** |
+| peer-vault writes | **zero** — no `.canvas` outside this vault modified today; memos left untracked |
+| census re-derived at close | **11 of 11 published figures reproduce exactly** |
+
+**No canvas was authored this session** — a census, a spec section, a collector hook and nine memos.
+So no per-canvas visual gate applies, and the Amendment-1 render remains **carried, not met** (P2 → P2b →
+P2c → P3): still no safe window-scoped capture path on this node.
+
+## AAR
+
+**Worked.** Re-deriving before writing, again — and this time it was the *charter itself* that failed the
+check. Four of the phase's findings existed before a line of work was done, simply because opening the
+directories a plan cites is cheaper than trusting them. The single highest-value act of the session cost
+about ninety seconds: `find VisualDNA.aDNA -iname "*lockstep*"` → empty.
+
+**Didn't.** I wrote *"memo #12 delivered 2026-09-08"* into two index rows **before sending anything**, and
+caught it only on re-reading my own diff. That is the identical failure this phase exists to correct — a
+record running ahead of the thing it records — committed by the agent writing the correction. It was also
+nearly a third: I almost published *"21 dangling edges fleet-wide, a 21× increase on P2b"*, a figure
+literally derived from our own validator's output and false as a class claim, because `C-3` is a **bucket**
+of four edge defects and 20 of the 21 were invalid `"center"` side values in one file. Both were caught by
+asking *what does this number actually count* — neither by any gate.
+
+**Finding.** The federation surface was being **measured on the wrong axis**. Membership of the index meant
+*"holds a wrapper"*, so the ten vaults emitting canvases with no seam at all — the least supervised in the
+fleet — were invisible to it **by construction**, and a peer had to tell us (*"the clean tree is clean by
+low traffic, not by construction"*). A registry defines its own blind spot in its membership rule, and no
+amount of diligently maintaining it will surface what it was built not to see.
+
+**Change.** F-HR-1 closed where the damage was actually made durable — the collector was the step
+persisting the Obsidian re-save, and it now repairs in the same act that records the verdict, with
+idempotency preserved and the hook placed **before publish** for hand-maintained consumers on Berthier's
+ruling rather than our own preference. `federation_index` corrected in both directions with §1b added.
+`spec_federation_contract` §2.1a written on a consumer's finding that had cost them a reversed ruling.
+Eight memos delivered, one honestly staged.
+
+**Follow-up.** *(a)* **#13 to Rosetta is staged** — re-probe their lease next session; the same condition
+refused E2 for two days at P2 and cleared on the third. *(b)* **`ack_required: true` from Seshat** — the
+`canvasforge/` rename ruling is the only outstanding ask of this wave. *(c)* The **bold-lead-as-title**
+question is ours and unruled: Kennedy framed it as guidance-vs-trap rather than a canvas defect, and
+`CV-HIERARCHY-01` still does not accept a bold lead as a title. *(d)* **LAVentureGraph's two duplicate node
+ids** — reported, theirs to rule on; worth a follow-up read because a duplicate entity id in an entity graph
+outlives the canvas it was found in. *(e)* Amendment-1 render, carried a fourth time. *(f)* `b1.5` remains
+open on Rosetta; **four** artifacts now sit with them, of which one is deliberately withheld.
+
+⭐ **The finding that outlives this mission.** An uncollected reply is not a neutral backlog item — Kennedy's
+sat 34 days and contained, in its closing paragraph, the exact defect we independently rediscovered and
+fixed as F-P2-9 a month later at full cost. Two of their three findings were *already true when written*,
+one of them shipped the day before, built partly from their own contributed tool. **Nobody in this exchange
+was wrong about anything. The channel was.** That is the argument for the drop-box, made in arrears and paid
+for in a session.
