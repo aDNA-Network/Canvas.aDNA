@@ -5,11 +5,11 @@ title: "aDNA Canvas federation contract — how producers consume the Standard"
 standard_version: "2.3.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-08-03
+updated: 2026-09-08
 last_edited_by: agent_mondrian
 phase: P3
 conforms_to: "SiteForge.aDNA/what/artifacts/sf_forge_pattern_spec.md"
-tags: [spec, canvas, federation, forge-pattern, genesis, p3]
+tags: [spec, canvas, federation, forge-pattern, genesis, p3, conformance_target, declared_vs_reached, kennedy_finding_1]
 ---
 
 # aDNA Canvas Federation Contract
@@ -38,7 +38,7 @@ federation_ref:
   source_impl:        what/code/canvas_std/                        # reference validator/converters (Option P)
   version:            "2.3.0"
   version_policy:     minor                                        # minor | locked  (§3)
-  conformance_target: extended | adna_native                      # the level this producer commits to emit
+  conformance_target: core | extended | adna_native               # the level this producer commits to emit (§2.1a)
   specs_used:                                                      # the spec modules consumed
     - what/specs/spec_component_model.md
     - what/specs/spec_panel_link_semantics.md
@@ -48,6 +48,52 @@ federation_ref:
   profiles_used:      [ lattice, deck, … ]                         # semantic_bindings profiles (spec_component_model §4)
   local_extensions:   [ ]                                          # producer-specific overlays (never edits to Standard)
 ```
+
+2.1a. **`conformance_target` (a producer commitment) vs `declared` (a document property) — read this before
+filling in the field above.** *(Added 2026-09-08, Blueprint P3, on Kennedy's Finding 1 —
+`coord_2026_08_04_kennedy_to_mondrian_wrapper_adopted.md`. The finding cost Oration a **reversed ruling**:
+planning read `declared=core` as the artifact's *capability*, concluded that declaring `extended` would be a
+false claim, and told the operator so. Verification reversed it. The answer was four words further along the
+same line of output they had already read.)*
+
+`canvas-std validate` prints two adjacent values that mean **different things**, and they are easy to conflate:
+
+| Printed | Means | Source |
+|---|---|---|
+| `declared=` | the level this document **says it is** | `metadata.frontmatter._reserved.conformance_level`, **defaulting to `core` when absent** |
+| `level_reached=` | the highest level whose checks the document **actually passes** (monotone) | computed from the content |
+
+Three consequences a producer MUST understand:
+
+1. **`declared=core` is not a capability claim.** It is very often just *"this document carries no `_reserved`
+   block"*. A canvas can — and routinely does — print `declared=core level_reached=extended [OK]`, which means
+   *it satisfies Extended and simply never said so*. Do not read the first value as a ceiling on the second.
+2. ⭐ **A document MAY self-declare `extended` without adopting the aDNA-Native layer.** The
+   `_reserved.conformance_level` key is read at **every** level and its enum is
+   `["core", "extended", "adna_native"]`; the A-1..A-6 aDNA-Native checks run **only** when the declared level
+   *is* `adna_native`. So a `_reserved` block containing **nothing but** `conformance_level: "extended"` is
+   valid, sufficient, and yields `declared=extended level_reached=extended [OK]`. **Verified 2026-09-08** on a
+   minimal document, both with and without the block:
+   ```
+   _reserved = {"conformance_level": "extended"}  →  declared=extended  level_reached=extended  [OK]
+   (byte-identical, no _reserved)                 →  declared=core      level_reached=extended  [OK]
+   --level adna_native, same doc                  →  [FAIL] A-2 adna_version · A-2 conformance_level · A-6 sync
+   ```
+   ⇒ The `_reserved` carrier and aDNA-Native *semantics* are **not** welded together, contrary to the natural
+   reading of `spec_context_object`. An Extended producer that wants its documents to say so can do it today,
+   with one key, and stays Extended.
+3. **`conformance_target` is the producer's commitment, not a document assertion**, and the two are checked in
+   different places: the wrapper field is read by humans and by the §4 stage-3 gate; `declared` is read by the
+   tool. Where a producer commits to `extended`, stage 3 SHOULD assert **the committed level appears in the
+   output** — `exit 0` alone does not distinguish *"passed at the level I promised"* from *"passed at core and
+   silently never attempted more"*. Oration's `CANVAS-SCHEMA` predicate does exactly this and is the reference
+   implementation of the check.
+
+⛩ **The enum in §2.1 was also wrong** and is corrected above: it read `extended | adna_native`, excluding
+`core`, while a large share of real conformant producers legitimately emit at core. *(Kennedy's originally
+intended finding was precisely "the §2.1 enum is too short"; they withdrew it when their premise turned out to
+be false, and reported the withdrawal rather than silently substituting a better finding. The withdrawn finding
+was right anyway — for a reason neither of us had.)*
 
 2.2. **graft vs reference** (sf_forge decision tree): a `.lattice.yaml` or the spec set is **referenced** via
 `federation_ref` (never copied). A non-lattice context file the producer's agent must *read* at session time is a
