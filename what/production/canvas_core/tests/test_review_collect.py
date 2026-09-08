@@ -44,8 +44,11 @@ def _fm(sidecar: Path) -> dict:
 
 
 def _collect(root, paths, tmp_path, **kw):
-    # emit_rejects=True by default HERE (not in production): these tests exercise the reject path,
-    # and the S-4 gate that holds it back in the live default is asserted separately below.
+    # emit_rejects=True explicitly, so these tests stay pinned to the behaviour they assert rather
+    # than to whatever the module default happens to be.
+    # ⛩ 2026-09-07: this used to read "(not in production)" — true only until the S-4 gate was
+    # ruled. Argus ruled reading (b) and the production default is now True as well, so the
+    # parenthetical was stale, not wrong-at-the-time. The override stays for explicitness.
     kw.setdefault("emit_rejects", True)
     return review_collect.collect(
         paths.canvas,
@@ -234,13 +237,18 @@ def test_default_learning_store_repointed_to_live_name():
     assert iii_bridge.DEFAULT_LEARNING_STORE.exists()  # the live store (3+ lines) resolves via the iii symlink
 
 
-def test_s4_gate_holds_rejects_out_of_the_store_by_default(vault, tmp_path):
-    """spec_rlhf_seam §5 S-4: ADR-005 vocabulary confirmation with Argus comes BEFORE first
-    emission — the signal shape is III's, not ours.
+def test_s4_gate_emits_rejects_by_default_after_the_ruling(vault, tmp_path):
+    """⛩ INVERTED 2026-09-07, not deleted — this test asserted the OPPOSITE until the S-4 ruling.
 
-    So the default must actually hold, not merely be documented as intended. The signal is still
-    built and counted (proving the path works), the rejection stays durable in responses[], and
-    nothing reaches the shared learning store until the constant is flipped.
+    As written 2026-08-09 it asserted ``rejects_held == 1``, ``iii_lines == 0`` and that no store
+    file was created, because spec_rlhf_seam §5 S-4 required ADR-005 vocabulary confirmation with
+    Argus **before first emission** — the signal shape is III's, not ours. That default had to
+    actually hold rather than merely be documented as intended, so it was asserted.
+
+    Argus ruled on 2026-09-07 (reading (b), ``accepted`` = the reviewer's verdict) and said "emit
+    when ready". The gate opened, so the assertion inverts: the reject now reaches the store. The
+    invariant that did NOT change is the last one — the capture substrate never depended on the
+    gate, which is why holding the III write lost nothing while it was closed.
     """
     _root, paths = _build(vault)
     _set_fm(paths.sidecars["var_2"], verdict="reject", note="off model")
@@ -252,11 +260,11 @@ def test_s4_gate_holds_rejects_out_of_the_store_by_default(vault, tmp_path):
         store_path=tmp_path / "store.jsonl",
     )
     assert counts["rejects"] == 1            # built
-    assert counts["rejects_held"] == 1       # and held
-    assert counts["iii_lines"] == 0
-    assert not (tmp_path / "store.jsonl").exists()
+    assert counts["rejects_held"] == 0       # and no longer held
+    assert counts["iii_lines"] == 1
+    assert (tmp_path / "store.jsonl").exists()
 
-    # The capture substrate is unaffected — holding the III write loses nothing.
+    # The capture substrate is unaffected — it never was gate-dependent.
     doc = json.loads(paths.canvas.read_text(encoding="utf-8"))
     verdicts = [
         r["value"] for r in doc["metadata"]["frontmatter"]["_reserved"]["interaction"]["responses"]
@@ -268,3 +276,38 @@ def test_s4_gate_holds_rejects_out_of_the_store_by_default(vault, tmp_path):
 def test_s4_gate_default_tracks_the_bridge_constant(vault):
     """The gate is one constant, flipped in one place when Argus replies."""
     assert review_collect.REJECT_VOCABULARY_CONFIRMED is iii_bridge.REJECT_VOCABULARY_CONFIRMED
+
+
+def test_accepted_is_the_reviewers_verdict_not_store_admission(vault, tmp_path):
+    """The S-4 ruling, pinned by a test rather than by a comment (Argus 2026-09-07, reading (b)).
+
+    ``accepted`` is the reviewer's verdict: ``False`` on a reject, ``True`` on a pick. Both halves
+    are asserted in one place, because the whole content of the ruling is the *asymmetry* — a
+    future reader finding one ``True`` and one ``False`` would otherwise be tempted to harmonise
+    them, which would re-introduce exactly the bug ADR-003 §3's graduation gate is scored against
+    (refusals accumulating toward "this register is working").
+    """
+    _root, paths = _build(vault)
+    # One of each verdict in a single pass, so both entries land in the same store and the
+    # asymmetry is visible in one file rather than inferred across two runs.
+    _set_fm(paths.sidecars["var_1"], verdict="approve", rating=4, note="keep it")
+    _set_fm(paths.sidecars["var_2"], verdict="reject", note="off model")
+    store = tmp_path / "store.jsonl"
+    review_collect.collect(
+        paths.canvas,
+        approver="test_agent",
+        participant_kind="ai",
+        dataset_root=tmp_path / "dataset",
+        store_path=store,
+    )
+    entries = [json.loads(line) for line in store.read_text().splitlines() if line.strip()]
+    by_type = {e["rlhf_signal_type"]: e for e in entries}
+
+    assert by_type[iii_bridge.RLHF_SIGNAL_TYPE_REJECT]["accepted"] is False
+    assert by_type[iii_bridge.RLHF_SIGNAL_TYPE_ACCEPT]["accepted"] is True
+    # The two channels stay orthogonal: rlhf_signal_type = what the signal IS; accepted = what the
+    # reviewer RULED. Neither is derivable from the other.
+    assert (
+        by_type[iii_bridge.RLHF_SIGNAL_TYPE_REJECT]["trap"]
+        != by_type[iii_bridge.RLHF_SIGNAL_TYPE_ACCEPT]["trap"]
+    )

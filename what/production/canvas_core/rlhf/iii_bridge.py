@@ -190,6 +190,12 @@ def selection_to_iii_signal(sel: SelectionRecord, *, session_id: str) -> dict[st
         "source_review": f"M-V1-VAL-01 image_gen_dataset {sel.selection_id}",
         "source_finding": sel.selection_id,
         "frequency": 1,
+        # ``accepted`` = the REVIEWER'S VERDICT (Argus ruling, 2026-09-07 — reading (b);
+        # ``coord_2026_09_07_argus_to_mondrian_accepted_semantics_ruling.md``). ``True`` is correct
+        # HERE and only here: a Schema-A record exists because the operator picked a variant, so the
+        # reviewer genuinely did accept. The reject path deliberately writes ``False`` — see the S-4
+        # block below. **That asymmetry is the whole content of the ruling; it is not an
+        # inconsistency to tidy up.**
         "accepted": True,
         "created": _normalize_iso8601_utc(sel.timestamp)[:10],
         # ADR-005 §2 required-min RLHF fields
@@ -240,17 +246,32 @@ def selection_to_iii_signal(sel: SelectionRecord, *, session_id: str) -> dict[st
 
 REJECT_VERDICTS = frozenset({"reject", "rejected", "no", "decline", "declined"})
 
-# S-4 GATE. spec_rlhf_seam §5 requires ADR-005 vocabulary confirmation with Argus (III.aDNA)
-# **before first emission** — the signal shape is III's, not ours (§1 corollary). Specifically:
-# whether ``accepted`` means "this entry was admitted to the store" (our reading, so ``true`` on a
-# reject) or "the reviewer accepted the image" (in which case a reject must carry ``false``). The
-# two readings produce opposite training signal from the same line.
+# S-4 GATE — ✅ RULED AND OPEN as of 2026-09-07. History kept, not rewritten:
 #
-# So the reject path is BUILT and TESTED but does not write to the shared store by default. This is
-# a guard rather than a note-to-self because "we'll remember not to run it" is not a mechanism.
-# Flip to True when the reply to
-# ``who/coordination/coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md`` lands.
-REJECT_VOCABULARY_CONFIRMED = False
+#   [2026-08-09 — the question, as asked] spec_rlhf_seam §5 requires ADR-005 vocabulary
+#   confirmation with Argus (III.aDNA) **before first emission** — the signal shape is III's, not
+#   ours (§1 corollary). Specifically: whether ``accepted`` means "this entry was admitted to the
+#   store" (our reading, so ``true`` on a reject) or "the reviewer accepted the image" (in which
+#   case a reject must carry ``false``). The two readings produce opposite training signal from the
+#   same line. So the reject path is BUILT and TESTED but does not write to the shared store by
+#   default. This is a guard rather than a note-to-self because "we'll remember not to run it" is
+#   not a mechanism.
+#
+#   [2026-09-07 — the ruling] Argus ruled **(b): ``accepted`` = the reviewer's verdict.** Rationale,
+#   theirs: ADR-003 §3's graduation gate computes acceptance ≥80% over this field; under reading (a)
+#   every stored entry is vacuously ``accepted: true`` and the gate measures *store admission*
+#   rather than *operator judgment* — refusals would accumulate toward "this register is working",
+#   which is precisely what the distinct-trap choice was made to avoid. Verdict semantics keep the
+#   channels orthogonal: ``rlhf_signal_type`` = what the signal *is*; ``accepted`` = what the
+#   reviewer *ruled*. Our three consumer-namespace choices were blessed as made — no change to the
+#   distinct reject trap, the ``response_id`` dedup key, or the explicit no-rationale marking.
+#   Memo: ``who/coordination/coord_2026_09_07_argus_to_mondrian_accepted_semantics_ruling.md``
+#   (in reply to ``coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md``).
+#
+# ⚠ Flipping this constant ARMS the path; it does not emit anything by itself. At the flip the HR
+# pilot held 0 rejects, so nothing was emitted that day. The intended first emitter is the P4
+# ComfyUI variant-selection board (the pilot's second consumer).
+REJECT_VOCABULARY_CONFIRMED = True
 
 # The collector emits ONE response per selected defect tag on ``<vid>.defect`` (singular) — the
 # multi-select control fans out rather than logging a list (review-surface spec §2).
@@ -374,11 +395,13 @@ def response_to_iii_signal(
         "source_review": f"HR review surface {canvas_stem}",
         "source_finding": rid,
         "frequency": 1,
-        # NOTE (S-4, the open question for Argus): ``accepted`` is an ADR-003 §4 field meaning the
-        # correction-entry was accepted INTO the store — it is not the operator's verdict, which
-        # lives in ``rlhf_signal_type``. True here means "this is a valid learning entry", not
-        # "the image was accepted". If III reads it the other way, this is the field to change.
-        "accepted": True,
+        # ⛩ THE FIELD THE S-4 RULING CHANGED (Argus, 2026-09-07 — reading (b)). This read ``True``
+        # from H3 until the ruling, on the reading that ``accepted`` meant "admitted to the store".
+        # It does not: it is the reviewer's verdict, so a reject carries ``False``. Under the old
+        # value ADR-003 §3's ≥80% graduation gate would have scored every refusal as evidence the
+        # register was working — the exact inversion the distinct reject trap exists to prevent.
+        # The pick path at ``selection_to_iii_signal`` still writes ``True``, correctly.
+        "accepted": False,
         "created": at[:10],
         "rlhf_signal_type": RLHF_SIGNAL_TYPE_REJECT,
         "rlhf_session_id": session_id,

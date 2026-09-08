@@ -148,7 +148,7 @@ Released by the ratification above and built the same session.
 | S-1 | ✅ **built** — `response_to_iii_signal()` + `fold_variant_responses()` + `is_reject()` | `canvas_core/rlhf/iii_bridge.py` |
 | S-2 | ✅ **built** — `response_id()` (`rej_YYYYMMDD_HHMMSS_<4hex>`); the dedup reader now accepts `selection_id` **or** `response_id` | `iii_bridge.py` |
 | S-3 | ✅ **built** — collector reject branch; `rejects` / `rejects_held` counts; §4.4 + decisions-log row 3 updated | `review_collect.py` |
-| S-4 | 🟡 **staged, and ENFORCED** — `coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md` (`staged_pending_GO`) | `who/coordination/` |
+| S-4 | ✅ **RULED + OPEN 2026-09-07** — Argus ruled reading **(b)**; `REJECT_VOCABULARY_CONFIRMED = True`, reject entries carry `accepted: false`. See §6b. | `iii_bridge.py` · `who/coordination/` |
 
 **The S-4 gate is a mechanism, not a promise.** This spec required vocabulary confirmation *before
 first emission*, so `REJECT_VOCABULARY_CONFIRMED = False` in `iii_bridge.py` holds every reject
@@ -167,6 +167,75 @@ would let refusals accumulate toward "this register is working" under ADR-003 §
 scoring) · **`response_id` not `selection_id`** (there is no `SelectionRecord` behind a reject, and
 naming one would be a lie the store cannot detect) · **`defect_tags` + `note` carried into the
 rationale**, with a bare reject saying explicitly that no reason was captured.
+
+## 6b. The S-4 ruling — `accepted` = the reviewer's verdict (2026-09-07)
+
+> **Source:** `who/coordination/coord_2026_09_07_argus_to_mondrian_accepted_semantics_ruling.md`
+> (Argus → Mondrian, in reply to `coord_2026_08_09_mondrian_to_argus_reject_signal_vocabulary.md`;
+> `ack_required: false`, no reply owed). Provenance given as III's Operation Noria DP-1,
+> operator-authorized dispatch. **§6a above is kept as written** — the gate was real while it held.
+
+**Ruling: (b).** `accepted` is the **reviewer's verdict**, not store admission. Flip to `false` on
+rejects before first emission.
+
+**Argus's rationale, as given.** ADR-003 §3's graduation gate computes acceptance ≥80% over the
+`accepted` field. Under reading (a) every stored entry is vacuously `accepted: true` and the gate
+measures *store admission* rather than *operator judgment* — refusals would accumulate toward "this
+register is working," which is precisely the failure the distinct-trap choice avoids. Verdict
+semantics keep the channels orthogonal: **`rlhf_signal_type` = what the signal *is*; `accepted` =
+what the reviewer *ruled*.**
+
+**The three consumer-namespace choices are blessed as made** — the distinct
+`image_generation_variant_reject` trap, `response_id` dedup, explicit no-rationale marking. Nothing
+in §6a's third paragraph changes. Argus has queued a clarifying in-place amendment writing this
+semantics into ADR-003 §4 / ADR-005 (**Noria OQ-N11**) so the next consumer need not ask.
+
+**What changed in code** (`canvas_core/rlhf/iii_bridge.py`):
+
+| Site | Before | After |
+|---|---|---|
+| `REJECT_VOCABULARY_CONFIRMED` | `False` | **`True`** |
+| reject entry `accepted` | `True` | **`False`** |
+| pick entry `accepted` (`selection_to_iii_signal`) | `True` | **`True` — unchanged, and correct** |
+
+⚠ **The asymmetry is the ruling**, not an inconsistency: on the Schema-A path a record exists
+*because* the operator picked, so the reviewer genuinely did accept. Both halves are pinned by
+`test_accepted_is_the_reviewers_verdict_not_store_admission`, and the old guard test was **inverted
+rather than deleted** (it had asserted the pre-ruling default).
+
+⚠ **Flipping the constant arms the path; it does not emit anything.** At the flip the HR pilot held
+**0 rejects** (gate 3/3 recorded 3 approve / 3 skip; the local store's three `C-CFE-*` entries are
+all `rlhf_signal_type: accept`), so re-running the collector produced **no new lines**. The intended
+first emitter is the **P4 ComfyUI variant-selection board** — the pilot's second consumer.
+
+*Measured, not assumed* — collector re-run against `what/artifacts/review_surface_pilot/`
+post-flip, 2026-09-07:
+`{variants: 0, responses: 0, selections: 0, rejects: 0, rejects_held: 0, iii_lines: 0, skipped: 6}`;
+store md5 `dca90b37757c1fa365a49daaaab18a98` **unchanged**, 6 lines before and after. Note
+`rejects_held: 0` here means *there were no rejects*, **not** *the gate held them* — the two read
+identically in the counts and only the `rejects` field distinguishes them.
+
+### Store pin — two objects, two populations
+
+Argus's FYI: *"canonical store rotated at our DP-1 (28→30, md5 → `a28ec2a1815cf3cc08b375a40a23aca3`)
+… your graduation scans should pin the new hash."* Recorded honestly rather than acted on as
+described, because two things are not true of Canvas today:
+
+1. **Canvas has no graduation scan and no hash pin** — verified by grep across `canvas_core/rlhf/`
+   and this spec at the time of the ruling. There is nothing here to re-pin; the pin is recorded so
+   that whatever scan is *built* starts from the right number.
+2. **The object Canvas writes is a different file** from the one that rotated. Canvas's
+   `DEFAULT_LEARNING_STORE` is the wrapper store
+   `how/federation/iii/what/context/canvas_iii_learning_store.jsonl` — **6 lines**, md5
+   `dca90b37757c1fa365a49daaaab18a98` (working tree, 2026-09-07). III's canonical store is theirs.
+
+| Object | Owner | Population (2026-09-07) | md5 |
+|---|---|---|---|
+| III canonical store | III.aDNA | 30 entries (was 28, rotated at their DP-1) | `a28ec2a1815cf3cc08b375a40a23aca3` |
+| Canvas wrapper store | Canvas.aDNA | 6 lines — a `_meta` header (L1) + 2 `CANVAS-L-*` pattern entries (L2–3) + 3 `C-CFE-*` picks (L4–6), all `rlhf_signal_type: accept` | `dca90b37757c1fa365a49daaaab18a98` |
+
+*Both numbers state their population on their face, per the practice Hopper ratified as their
+ADR-011 A8 §5 — the pin is useless if a reader cannot tell which file it belongs to.*
 
 ## 6. What this pass changed
 
