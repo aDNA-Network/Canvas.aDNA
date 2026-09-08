@@ -144,6 +144,30 @@ ever reported to them). Operations already has the finding, carded their side as
    `ZenZachary.aDNA/canvasforge/` ×1. ⚠ The `lattice-labs` pair is the instructive one: **the shim resolves
    and the file underneath is gone**, so any check that stops at the symlink reports green over a dead
    reference.
+## 4. P3 memo wave — delivery record (2026-09-08)
+
+Each recipient's quiescence was **re-probed at act time**, not trusted from an earlier probe (five other
+vaults were being written by concurrent operator sessions during this one). Every memo copied byte-unchanged,
+**md5-verified at source and destination**, and **left untracked** — the read-receipt commit is the
+recipient's to make. No recipient tree was otherwise modified.
+
+| # | To | Vault | Carries | Status |
+|---|---|---|---|---|
+| — | Kennedy | Oration | the 34-day-uncollected reply answered; both their findings verified as already-true; §2.1a shipped on their Finding 1; G7 **not** booked end-to-end, per their request | ✅ delivered |
+| #12 | Seshat | Obsidian | the dead sibling precedent (F-P3-9) + pin measured at **2.0.0** where we had recorded green. **`ack_required: true`** — one rename ruling | ✅ delivered |
+| #12 | Pygmalion | ZenZachary **+** VisualDNA | `wrapper_for: CanvasForge.aDNA` ×3 + the visual-DNA schema pointer aimed at an archive; and F-P3-4 (`skill_lockstep_flip` never built — **our** charter defect, reported because it names their vault) | ✅ delivered ×2 |
+| #12 | — | Astro | most drifted wrapper: identity + pin + dir-name + 3 dead paths incl. `node.aDNA` | ✅ delivered |
+| #12 | Vitruvius | WebForge | the **identical** dead-path set to Astro's, same edit date ⇒ a common ancestor's error, not two careless vaults | ✅ delivered (their drop-box) |
+| #12 | Janus | SuperLeague | 204 of 224 errors clear mechanically; the other 20 need a ruling. Explicitly **not** a tidy-up list for an engagement archiving at W4 | ✅ delivered |
+| §1b | Persephone | Regenesis | 11/11 failing, 85 errors, one class, all mechanical. Explicitly **not** a wrapper ask | ✅ delivered |
+| §1b | Cartographer | LAVentureGraph | 1175 → **2** by rounding floats — and the 2 survivors are **duplicate node ids** (one of them the empty string) in an entity graph. Never previously contacted | ✅ delivered |
+| **#13** | **Rosetta** | aDNA.aDNA | F-P3-8 (six pin spellings) + §2.1a + the template set at **200/47** | ⛔ **STAGED** — their lease was live at act time and they publish no drop-box; the same condition that refused E2 for two days at P2. Re-probe next session. |
+
+⚠ **Two rows in §1 briefly claimed delivery before the act** and were corrected before commit. A record that
+runs ahead of the thing it records is the failure mode this whole phase exists to fix.
+
+### Standing drift ledger, continued (items 6–8 opened at P3)
+
 8. **`spec_federation_contract` §2.1a** *(shipped this session)* — `conformance_target` vs `declared` vs
    `level_reached`, on Kennedy's Finding 1, which had cost Oration a reversed ruling. A document **may**
    self-declare `extended` with a one-key `_reserved` block; the enum in §2.1 was also too short and is
