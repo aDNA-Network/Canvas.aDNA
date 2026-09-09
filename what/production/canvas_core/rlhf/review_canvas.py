@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import struct
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -32,6 +31,11 @@ from typing import Any
 # Bootstrap the canvas_core import surface when invoked as `python -m canvas_core.rlhf.review_canvas` from
 # `what/production/` (the shelf convention — mirrors iii_bridge/_main usage; canvas_core is unpackaged).
 from canvas_core.core import CanvasBuilder  # noqa: E402
+from canvas_core.rlhf.image_probe import (  # noqa: E402
+    node_size,
+    png_dimensions,
+    reduced_aspect,
+)
 from canvas_std import ConformanceLevel, validate_suite  # noqa: E402
 
 _VAULT_ROOT = Path(__file__).resolve().parents[4]
@@ -75,29 +79,20 @@ class VariantEntry:
     height: int
 
 
-def _png_dimensions(path: Path) -> tuple[int, int]:
-    """Read PNG IHDR width/height (pure Python — no PIL on this shelf outside canvas_core.print)."""
-    with path.open("rb") as fh:
-        header = fh.read(26)
-    if len(header) < 26 or header[:8] != b"\x89PNG\r\n\x1a\n" or header[12:16] != b"IHDR":
-        raise ValueError(f"{path}: not a PNG (cannot size the review node)")
-    width, height = struct.unpack(">II", header[16:24])
-    return int(width), int(height)
-
-
-def _reduced_aspect(width: int, height: int) -> tuple[int, int]:
-    from math import gcd
-
-    g = gcd(width, height) or 1
-    return width // g, height // g
+# The three image helpers below moved to `canvas_core.rlhf.image_probe` at Blueprint P4 so the
+# variant-selection board could share them (P2c: a measurement two surfaces need lives in one
+# place). Behaviour is unchanged for every image this pilot handles, with one deliberate fix
+# carried into the shared version: `_node_size` used `max(1, min(...))`, which returns a node
+# LARGER than the fit box whenever no integer multiple of the reduced ratio fits. Unreachable here
+# (~1024px square variants), reachable immediately for print-size ComfyUI output.
+_png_dimensions = png_dimensions
+_reduced_aspect = reduced_aspect
 
 
 def _node_size(width: int, height: int) -> tuple[int, int]:
     """Largest integer node size at the image's EXACT aspect that fits the fit-box (CV-IMAGE-ASPECT-RATIO-01:
     exact ratio kills drift; maximizing within the box keeps slot fill above the 20% floor)."""
-    rw, rh = _reduced_aspect(width, height)
-    k = max(1, min(_IMG_MAX_W // rw, _IMG_MAX_H // rh))
-    return rw * k, rh * k
+    return node_size(width, height, _IMG_MAX_W, _IMG_MAX_H)
 
 
 def load_variants(manifest_path: Path, *, vault_root: Path) -> list[VariantEntry]:

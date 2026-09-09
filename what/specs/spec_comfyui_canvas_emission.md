@@ -2,12 +2,12 @@
 type: specification
 spec_id: comfyui_canvas_emission
 title: "ComfyUI Canvas Emission — variant-selection boards + tuning surfaces as aDNA-Native canvases"
-version: "0.1"
+version: "0.2"
 status: draft
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-09-08
 last_edited_by: agent_mondrian
-authored_in: "Operation Blueprint P0 (charter artifact; P4 implements Canvas's side)"
+authored_in: "Operation Blueprint P0 (charter artifact); Canvas's side implemented at P4 (2026-09-08)"
 counterpart: "ComfyUI.aDNA (Vulcan) — restart-campaign canvas-emission phase implements the driver side"
 depends_on:
   - what/specs/spec_canvas_review_surface.md (v1.0, ratified — the affordance grammar this reuses)
@@ -90,6 +90,31 @@ One JSON file per generation run, beside the variants:
 ```
 
 Additive evolution only in 0.x; consumers ignore unknown keys.
+
+### §3a Executable fixtures — the contract, in a form that can be run against (added v0.2)
+
+Canvas's consumer shipped first, so the manifest interface is pinned by **fixtures rather than
+prose**. An emitter that satisfies these satisfies the seam:
+`what/production/canvas_core/tests/fixtures/run_manifests/`
+
+| Fixture | Asserts |
+|---|---|
+| `well_formed.json` | the happy path — 2 slots, 3 + 2 variants, full provenance floor |
+| `partially_failed.json` | a variant whose image never landed is **excluded and named**; a slot that loses all of them is reported, not vanished |
+| `unknown_keys.json` | keys from a newer emitter are **ignored and reported**, never fatal |
+| `missing_provenance.json` | a floor gap is `<absent>`, **never back-filled from a sibling variant** |
+| `print_size.json` | a 2062×3150 page sizes into its cell instead of overflowing it |
+
+Three behaviours worth stating outright, because each was a defect before it was a rule:
+
+1. **`path` is relative to the manifest** (the manifest travels with its pixels) — but a canvas
+   file node is resolved against the **vault root**, so the consumer converts. An emitter need not
+   care; a *different* consumer must.
+2. **The filesystem outranks the run record.** A variant is reviewable iff its image exists. A
+   half-failed batch still produces a board of what landed.
+3. **Absence is explicit.** `"model"` missing ≠ `"model": "unknown"`. The `SelectionRecord` this
+   board feeds outlives the board, and a variant attributed to the wrong model poisons the corpus
+   quietly.
 
 ## §4 Sequencing
 

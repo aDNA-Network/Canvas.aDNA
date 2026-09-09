@@ -1,0 +1,22 @@
+{
+  "run_id": "run_printsize_20260908",
+  "created": "2026-09-08T19:20:00Z",
+  "driver": "comic_render",
+  "slots": [
+    {
+      "slot_id": "page_01",
+      "variants": [
+        {
+          "variant_id": "page_01_v1",
+          "path": "images/print_panel.png",
+          "workflow": "workflow_comic_panel_refine.json",
+          "model": "gemini-2.5-flash-image",
+          "seed": 20260908,
+          "denoise": 0.4,
+          "lora_refs": [],
+          "source_backend": "gemini"
+        }
+      ]
+    }
+  ]
+}

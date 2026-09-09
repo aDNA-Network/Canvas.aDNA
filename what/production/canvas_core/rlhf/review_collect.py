@@ -106,19 +106,76 @@ def _write_ledger(path: Path, fm: dict[str, Any], body: str) -> None:
     path.write_text("---\n" + fm_text + "---" + body, encoding="utf-8")
 
 
+#: Sidecar kinds this collector understands.
+#:
+#: ``review_sidecar`` — the Halftone HR shape: **one sidecar per variant**, carrying a
+#: ``verdict`` of approve/reject/skip. ``selection_sidecar`` — the Blueprint P4 shape
+#: (`spec_comfyui_canvas_emission` §1.1): **one sidecar per slot**, carrying a ``pick`` naming one
+#: of the slot's variants, because a variant-selection board's question is *"which of these?"* and
+#: the choice affordance **is** ComfyUI's SO-5 human gate.
+#:
+#: They are two capture shapes over one pipeline, not two pipelines. Everything downstream —
+#: layered idempotency, Schema-A, the III routing, the S-4 reject gate — is variant-keyed and runs
+#: unchanged; :func:`decisions_of` is the whole of the translation.
+SIDECAR_TYPES = ("review_sidecar", "selection_sidecar")
+
+
 def load_sidecars(sidecar_dir: Path) -> list[tuple[Path, dict[str, Any], str]]:
-    """All review sidecars in the directory, ordered by ``variant_id`` (orphans without one error loudly)."""
+    """All review sidecars in the directory, ordered by key (orphans without one error loudly)."""
     out: list[tuple[Path, dict[str, Any], str]] = []
     for p in sorted(sidecar_dir.glob("*.md")):
         fm, body = split_sidecar(p.read_text(encoding="utf-8"))
-        if fm.get("type") != "review_sidecar":
+        kind = fm.get("type")
+        if kind not in SIDECAR_TYPES:
             continue
-        if not fm.get("variant_id"):
+        if kind == "selection_sidecar":
+            if not fm.get("slot_id"):
+                raise ValueError(f"{p}: selection_sidecar without a slot_id (orphan — refusing to guess)")
+            if not fm.get("options"):
+                raise ValueError(
+                    f"{p}: selection_sidecar without options[] — a choice with no candidates cannot "
+                    "be recorded as one"
+                )
+        elif not fm.get("variant_id"):
             raise ValueError(f"{p}: review_sidecar without a variant_id (orphan — refusing to guess)")
         out.append((p, fm, body))
     if not out:
         raise ValueError(f"{sidecar_dir}: no review sidecars found")
-    return sorted(out, key=lambda t: str(t[1]["variant_id"]))
+    return sorted(out, key=lambda t: _sidecar_key(t[1]))
+
+
+def _sidecar_key(fm: dict[str, Any]) -> str:
+    return str(fm.get("variant_id") or fm.get("slot_id") or "")
+
+
+def affordance_prefix(fm: dict[str, Any]) -> str:
+    """The affordance-id prefix this sidecar's responses are keyed on.
+
+    Per-variant sidecars key on the variant (``var_1.verdict``); slot sidecars key on the slot
+    (``panel_01.pick``), matching the affordance the board declares in ``_reserved.interaction``.
+    """
+    return _sidecar_key(fm)
+
+
+def decisions_of(fm: dict[str, Any]) -> list[tuple[str, str]]:
+    """The ``(decision, variant_id)`` pairs one sidecar asserts — ``[]`` when it is unanswered.
+
+    A per-variant sidecar asserts at most one. A slot sidecar can assert several: its ``pick`` is
+    an approve of the named variant, and each id in ``rejected[]`` is a reject of that variant.
+    Both shapes reduce to the same variant-keyed pairs the sinks already consume, so a pick reaches
+    Schema-A as a real ``SelectionRecord`` and a reject reaches the S-4 gate as a real reject —
+    neither is synthesised from the other.
+    """
+    if fm.get("type") == "selection_sidecar":
+        pairs: list[tuple[str, str]] = []
+        pick = fm.get("pick")
+        if pick:
+            pairs.append(("approve", str(pick)))
+        for rejected in fm.get("rejected") or []:
+            pairs.append(("reject", str(rejected)))
+        return pairs
+    verdict = fm.get("verdict")
+    return [(str(verdict).lower(), str(fm["variant_id"]))] if verdict else []
 
 
 # ============================================================================================================
@@ -127,11 +184,24 @@ def load_sidecars(sidecar_dir: Path) -> list[tuple[Path, dict[str, Any], str]]:
 
 def planned_responses(fm: dict[str, Any]) -> list[tuple[str, Any]]:
     """The ordered ``(affordance_id, value)`` acts one sidecar's frontmatter implies. Empty/None = unanswered."""
-    vid = str(fm["variant_id"])
+    vid = affordance_prefix(fm)
     acts: list[tuple[str, Any]] = []
-    verdict = fm.get("verdict")
-    if verdict:
-        acts.append((f"{vid}.verdict", str(verdict)))
+    if fm.get("type") == "selection_sidecar":
+        pick = fm.get("pick")
+        if pick:
+            acts.append((f"{vid}.pick", str(pick)))
+        # A rejection is keyed on the VARIANT, not the slot. `fold_variant_responses` gathers a
+        # variant's judgement by the `<variant_id>.` prefix and `is_reject` reads `verdict`, so a
+        # slot-keyed `<slot_id>.reject` would append cleanly to the canvas and then be **invisible
+        # to the III reject path** — a rejection that looks recorded and reaches no sink. The
+        # approve channel is the slot's pick; this is the reject channel, and it speaks the
+        # vocabulary `spec_rlhf_seam` §4.3 already defines.
+        for rejected in fm.get("rejected") or []:
+            acts.append((f"{rejected}.verdict", "reject"))
+    else:
+        verdict = fm.get("verdict")
+        if verdict:
+            acts.append((f"{vid}.verdict", str(verdict)))
     rating = fm.get("rating")
     if rating not in (None, ""):
         acts.append((f"{vid}.rating", str(rating)))
@@ -182,17 +252,31 @@ def _responses_of(doc: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
-def _first_verdict_at(doc: dict[str, Any], vid: str, participant_id: str, turn: str) -> str | None:
+def _first_verdict_at(
+    doc: dict[str, Any],
+    vid: str,
+    participant_id: str,
+    turn: str,
+    *,
+    affordance: str | None = None,
+) -> str | None:
     """The earliest logged verdict-response ``at`` for this variant/participant/turn — makes the selection
-    stamp (and so the selection_id) survive a LOST sidecar ledger: the canvas is the fallback clock."""
+    stamp (and so the selection_id) survive a LOST sidecar ledger: the canvas is the fallback clock.
+
+    ``affordance`` overrides the default ``<vid>.verdict`` for surfaces that key their decision on
+    a different affordance — a variant-selection board records ``<slot_id>.pick``, so without the
+    override the fallback clock would silently find nothing and the stamp would drift to *now*
+    on a ledger loss, changing the deterministic ``selection_id``.
+    """
     responses = (
         doc.get("metadata", {}).get("frontmatter", {}).get("_reserved", {})
         .get("interaction", {}).get("responses", [])
     )
+    wanted = affordance or f"{vid}.verdict"
     for r in responses:
         if (
             isinstance(r, dict)
-            and r.get("affordance") == f"{vid}.verdict"
+            and r.get("affordance") == wanted
             and r.get("turn") == turn
             and (r.get("participant") or {}).get("id") == participant_id
             and r.get("at")
@@ -202,7 +286,14 @@ def _first_verdict_at(doc: dict[str, Any], vid: str, participant_id: str, turn: 
 
 
 def _pick_reason(fm: dict[str, Any]) -> str:
-    parts = ["HR review-surface pilot: verdict=approve"]
+    # The provenance sentence a SelectionRecord carries forever. It must name the surface the
+    # judgement actually came from — a board pick recorded as "HR review-surface pilot" would
+    # misattribute the corpus's second consumer to its first.
+    parts = (
+        [f"variant-selection board (slot {fm.get('slot_id')}): pick={fm.get('pick')}"]
+        if fm.get("type") == "selection_sidecar"
+        else ["HR review-surface pilot: verdict=approve"]
+    )
     if fm.get("rating") not in (None, ""):
         parts.append(f"rating={fm['rating']}/5")
     tags = fm.get("defect_tags") or []
@@ -295,10 +386,27 @@ def collect(
 
     sidecar_dir = sidecar_dir or canvas_path.parent / "sidecars"
     sidecars = load_sidecars(sidecar_dir)
-    all_variants = [
-        VariantInfo(image_path=str(fm.get("image_path", "")), model=str(fm.get("model", "") or "unknown"))
-        for _, fm, _ in sidecars
-    ]
+    # Schema-A's candidate set. A per-variant sidecar contributes itself; a slot sidecar
+    # contributes each of its options, so `variants` names what the operator actually chose
+    # *between* rather than one row per capture surface.
+    variant_ids: list[str] = []
+    all_variants: list[VariantInfo] = []
+    for _, fm, _ in sidecars:
+        if fm.get("type") == "selection_sidecar":
+            images = fm.get("option_images") or {}
+            models = fm.get("option_models") or {}
+            for option in fm["options"]:
+                variant_ids.append(str(option))
+                all_variants.append(VariantInfo(
+                    image_path=str(images.get(option, "")),
+                    model=str(models.get(option) or "unknown"),
+                ))
+        else:
+            variant_ids.append(str(fm["variant_id"]))
+            all_variants.append(VariantInfo(
+                image_path=str(fm.get("image_path", "")),
+                model=str(fm.get("model", "") or "unknown"),
+            ))
     participant = {"kind": participant_kind, "id": approver}
     now_iso = datetime.now(timezone.utc).isoformat()
 
@@ -314,13 +422,18 @@ def collect(
         "edges_unresolved": edges_unresolved,
     }
     for index, (path, fm, body) in enumerate(sidecars):
-        if not fm.get("verdict"):
+        decisions = decisions_of(fm)
+        if not decisions:
             counts["skipped"] += 1
             continue
         if fm.get("collected_at") and not force:
             counts["skipped"] += 1
             continue
         counts["variants"] += 1
+        is_selection = fm.get("type") == "selection_sidecar"
+        decision_affordance = (
+            f"{affordance_prefix(fm)}.pick" if is_selection else None
+        )
 
         # (a) canvas sink — append-only acts via the ratified fold; collector owns the disk write.
         for aff, value in planned_responses(fm):
@@ -333,51 +446,55 @@ def collect(
         if not dry_run:
             canvas_path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
-        # (b) Schema-A sink — approvals only; one record per approved variant (multi-approve legal).
         sid: str | None = None
-        if str(fm.get("verdict")).lower() == "approve":
-            vid = str(fm["variant_id"])
-            stamp = str(
-                fm.get("collected_at")
-                or _first_verdict_at(doc, vid, approver, turn)
-                or now_iso
-            )
-            sid = _selection_id(stamp, canvas_path.stem, str(fm["variant_id"]), approver, turn)
-            record = SelectionRecord(
-                prompt=str(fm.get("prompt") or f"{register} {fm['variant_id']}"),
-                register=register,
-                variants=list(all_variants),
-                pick_index=index,
-                pick_reason=_pick_reason(fm),
-                approver_id=approver,
-                selection_id=sid,
-                timestamp=stamp,
-            )
-            rating = fm.get("rating")
-            if rating not in (None, ""):
-                record.vr_scores = {"overall": float(rating)}
-            month = record.timestamp[:7]
-            existing = dataset_root / month / f"{sid}.json"
-            if not existing.exists() and not dry_run:
-                write_selection(record, dataset_root=dataset_root)
-                counts["selections"] += 1
-            elif not existing.exists():
-                counts["selections"] += 1  # dry-run: would write
+        for decision, decided_variant in decisions:
+            # (b) Schema-A sink — approvals only; one record per approved variant (multi-approve legal).
+            if decision == "approve":
+                stamp = str(
+                    fm.get("collected_at")
+                    or _first_verdict_at(doc, decided_variant, approver, turn,
+                                         affordance=decision_affordance)
+                    or now_iso
+                )
+                sid = _selection_id(stamp, canvas_path.stem, decided_variant, approver, turn)
+                record = SelectionRecord(
+                    prompt=str(fm.get("prompt") or f"{register} {decided_variant}"),
+                    register=register,
+                    variants=list(all_variants),
+                    pick_index=(
+                        variant_ids.index(decided_variant)
+                        if decided_variant in variant_ids else index
+                    ),
+                    pick_reason=_pick_reason(fm),
+                    approver_id=approver,
+                    selection_id=sid,
+                    timestamp=stamp,
+                )
+                rating = fm.get("rating")
+                if rating not in (None, ""):
+                    record.vr_scores = {"overall": float(rating)}
+                month = record.timestamp[:7]
+                existing = dataset_root / month / f"{sid}.json"
+                if not existing.exists() and not dry_run:
+                    write_selection(record, dataset_root=dataset_root)
+                    counts["selections"] += 1
+                elif not existing.exists():
+                    counts["selections"] += 1  # dry-run: would write
 
-            # (c) III sink — the accept path; natively idempotent on selection_id.
-            signal = selection_to_iii_signal(record, session_id=session_id)
-            if dry_run:
-                if sid not in _existing_store_ids(store_path):
+                # (c) III sink — the accept path; natively idempotent on selection_id.
+                signal = selection_to_iii_signal(record, session_id=session_id)
+                if dry_run:
+                    if sid not in _existing_store_ids(store_path):
+                        counts["iii_lines"] += 1
+                elif accumulate(signal, store_path=store_path):
                     counts["iii_lines"] += 1
-            elif accumulate(signal, store_path=store_path):
-                counts["iii_lines"] += 1
-        else:
+                continue
             # (b') REJECT path — S-1..S-3, spec_rlhf_seam §4 (ratified 2026-08-09). No Schema-A
             # record (it structurally requires a pick), and the signal is derived from the canvas
             # responses[] we just appended — not from a dataset record that does not exist.
             reject_signal = response_to_iii_signal(
                 _responses_of(doc),
-                variant_id=str(fm["variant_id"]),
+                variant_id=decided_variant,
                 canvas_stem=canvas_path.stem,
                 session_id=session_id,
                 register=register,

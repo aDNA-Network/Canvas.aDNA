@@ -1,0 +1,27 @@
+{
+  "run_id": "run_future_20260908",
+  "created": "2026-09-08T19:10:00Z",
+  "driver": "comfyui",
+  "scheduler_profile": "karras-v3",
+  "cost_usd": 0.42,
+  "slots": [
+    {
+      "slot_id": "panel_01",
+      "aesthetic_target": 7.5,
+      "variants": [
+        {
+          "variant_id": "panel_01_v1",
+          "path": "images/slot_a_v1.png",
+          "workflow": "workflow_comic_panel_refine.json",
+          "model": "sdxl_base_1.0",
+          "seed": 20260908,
+          "denoise": 0.4,
+          "lora_refs": [],
+          "source_backend": "comfy",
+          "clip_skip": 2,
+          "refiner": "x"
+        }
+      ]
+    }
+  ]
+}

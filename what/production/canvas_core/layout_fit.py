@@ -355,3 +355,53 @@ def fit_image_box(
     # Height binds: scale the width down by the same ratio rather than squashing the asset.
     scale = float(max_height) / float(natural_h)
     return max(1, int(round(max_width * scale))), int(max_height)
+
+
+def fit_exact_aspect_box(
+    src_width: int,
+    src_height: int,
+    max_width: float,
+    max_height: float,
+) -> tuple[int, int]:
+    """Largest **integer** box inside ``max_width x max_height`` at the image's EXACT aspect.
+
+    The sibling :func:`fit_image_box` fits both axes and then *rounds*, which leaves a sub-pixel
+    residue — fine against ``CV-IMAGE-ASPECT-RATIO-01``'s 5% drift threshold, and not free. This
+    variant reduces the source dimensions by their GCD and emits an integer multiple of that
+    reduced ratio, so the declared box's aspect equals the asset's aspect **exactly**, with zero
+    drift by construction rather than by tolerance.
+
+    Use this when the caller already knows the source pixel dimensions (a probed PNG, a manifest
+    row) and wants exactness; use :func:`fit_image_box` when the caller has a path and a budget
+    and wants the largest fit.
+
+    Extracted at Blueprint P4 from ``rlhf/review_canvas.py``'s private ``_node_size``, which had
+    been the only implementation since Halftone HR. The variant-selection board needed the same
+    guarantee, and P2c's rule is that a measurement two surfaces share lives here rather than
+    being reimplemented per surface.
+
+    **The budget is never exceeded.** The extracted original read
+    ``k = max(1, min(max_w // rw, max_h // rh))``, which returns one whole ratio unit when no
+    integer multiple fits — a node *larger than its own fit box*. It never fired in the HR pilot
+    because those variants were ~1024px square and reduce small. It fires immediately on real
+    production output: a 2062×3150 print panel (Halftone's actual page size) is coprime enough to
+    reduce to 1031×1575, so the inherited helper would have emitted a 1031×1575 node into a
+    640×460 slot. When no integer multiple fits, this falls back to a proportional fit and accepts
+    sub-pixel rounding — **exactness is the goal, staying inside the box is the constraint**, and
+    where they conflict the constraint wins.
+    """
+    if src_width <= 0 or src_height <= 0:
+        raise ValueError(f"source dimensions must be positive, got {src_width}x{src_height}")
+    if max_width <= 0 or max_height <= 0:
+        raise ValueError(f"fit box must be positive, got {max_width}x{max_height}")
+    from math import gcd
+
+    divisor = gcd(int(src_width), int(src_height)) or 1
+    ratio_w, ratio_h = int(src_width) // divisor, int(src_height) // divisor
+    scale = min(int(max_width) // ratio_w, int(max_height) // ratio_h)
+    if scale >= 1:
+        return ratio_w * scale, ratio_h * scale
+
+    # No integer multiple of the reduced ratio fits — scale proportionally instead.
+    factor = min(float(max_width) / ratio_w, float(max_height) / ratio_h)
+    return max(1, int(ratio_w * factor)), max(1, int(ratio_h * factor))
