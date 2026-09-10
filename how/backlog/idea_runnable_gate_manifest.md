@@ -3,8 +3,10 @@ type: backlog
 idea_id: idea_runnable_gate_manifest
 title: "Make the gate set runnable — a prose gate list in STATE.md cannot notice a suite that quietly left it"
 created: 2026-09-09
-updated: 2026-09-09
-status: open
+updated: 2026-09-10
+status: completed
+completed: 2026-09-10
+shipped_as: how/gates/gate_manifest.py
 priority: medium
 origin: "Blueprint P5 close — F-P5-3, found by running canvas_context for the first time in three phases"
 executor_tier: sonnet
@@ -84,3 +86,46 @@ Two traps found while measuring this, worth encoding:
 The generic form — *a phase-gate list should be executable, and should fail on omission rather than
 on disagreement alone* — is not Canvas-specific. Every vault that publishes a gate line in `STATE.md`
 has this exposure. Worth an `idea_upstream_` sibling if the local version proves out.
+
+---
+
+## ✅ SHIPPED 2026-09-10 — `how/gates/gate_manifest.py`
+
+Built in `session_stanley_20260910_runnable_gate_manifest`. Contract + rationale:
+[`how/gates/AGENTS.md`](../gates/AGENTS.md).
+
+**All four requirements above are met**, and requirement 3 (fail on omission) was verified by
+*derivation* rather than by reading the message: a throwaway `what/production/_probe/tests/` package
+produced **exit 3 naming the surface**, a perturbed expectation produced **2**, a broken interpreter
+path produced **4**, green produced **0**. The firewall's cwd-independence was regression-tested by
+breaching `canvas_std` and running from a deep subdirectory — correctly `FAIL`, correctly clean after
+restore. Both named traps are encoded in the script: producers are enumerated by name (`brief_consumer`),
+and the script never `chdir()`s.
+
+### ⛩ F-GM-1 — what it found on its first run, and the correction it forces on this file's premise
+
+**`what/production/canvas_presentation/` — 57 passed / 2 skipped, real library code, and it had never
+appeared in a published `STATE.md` gate line.**
+
+This file's framing said the problem was suites *leaving* the list. That is `canvas_context`'s story.
+`canvas_presentation` is a different and harder case: **it never arrived.** Its one appearance anywhere
+was a single *commit message* at `53a0213` (2026-08-22) reporting `core+pres 916/5` — and the skip
+arithmetic reconciles exactly (core 3 + pres 2 = 5), so that run genuinely included both, while
+`STATE.md`'s line tracked `canvas_core` alone throughout (863/3 → 937/3 → 1035/3).
+
+It was **green the whole time**, so nothing was broken. The exposure was never a red suite; it was an
+**unwatched** one. And no reviewer re-reading the gate line could have caught it, because there was no
+absence to notice — only enumeration against the disk finds this class.
+
+⇒ ***A registry that is only ever read cannot report what was never written into it.***
+
+This is the P3 `federation_index` finding one layer down — *a registry defines its own blind spot in
+its membership rule* — and it argues the discovery pass, not the manifest, is the load-bearing half.
+
+### One design requirement this file did not anticipate
+
+"Fail if a test package on disk is not in the manifest" would have gone red on day one:
+`what/production/_scaffold/` (inert clone template, its own README excludes it) and
+`what/production/tests/` (skip-guarded at adr_009, F-H6RE-2) are **legitimate** non-gates. A check that
+is red for good reasons gets disabled. So `EXCLUSIONS` requires a **non-empty stated reason** per entry
+plus a path-existence check, and the exclusion registry is validated as strictly as the gate registry.

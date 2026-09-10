@@ -1,0 +1,419 @@
+#!/usr/bin/env python3
+"""Runnable gate manifest for Canvas.aDNA — the gate set, executable.
+
+Fixes F-P5-3. The gate set used to be a sentence in ``STATE.md`` that a human retyped each close.
+``canvas_context`` was in that sentence at Armature, silently fell out, and sat red for two days
+across three phase closes that each published an all-green gate line — none of them lying.
+
+    A skipped test prints ``s``. A suite nobody invoked prints nothing at all,
+    and the gate line beside it reads exactly as green.
+
+So this script's central job is not to run tests. It is to make **omission an error**. Every
+test-bearing directory in the vault must be either a declared gate or an declared exclusion with a
+stated reason; anything else is a hard failure (exit 3). Without that check this file would be a
+prose list written in Python, with the same failure mode it replaces.
+
+Usage
+-----
+    python3 how/gates/gate_manifest.py              # run everything, print the table
+    python3 how/gates/gate_manifest.py --markdown   # also emit the STATE.md gate line
+    python3 how/gates/gate_manifest.py --discover-only   # omission check alone; runs no tests
+
+Exit codes are distinct on purpose — *disagreement* and *omission* are different bugs:
+
+    0  all gates green, no undeclared surfaces
+    1  a suite failed
+    2  a suite's counts disagree with the manifest
+    3  an undeclared test-bearing surface exists  <-- the point of this file
+    4  a runner-environment precondition failed
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+
+# ---------------------------------------------------------------------------
+# Vault root is derived from THIS FILE, never from the cwd.
+#
+# Trap, hit live at P5: a `cd` into a package for a per-package run persists across shell
+# invocations, so a later `git diff --stat -- what/code/canvas_std/` from the wrong directory
+# returns empty — which is indistinguishable from "firewall diff 0". Every path below is absolute
+# and every subprocess gets an explicit cwd=. This script never chdir()s.
+# ---------------------------------------------------------------------------
+VAULT = Path(__file__).resolve().parent.parent.parent
+PRODUCTION = VAULT / "what" / "production"
+CODE = VAULT / "what" / "code"
+
+PYTEST = Path("/opt/anaconda3/bin/pytest")
+PYTHON = Path("/opt/anaconda3/bin/python")
+
+# PYTHONPATH per STATE.md §Verified Ground Truth (runner environment).
+PYTHONPATH = os.pathsep.join([str(PRODUCTION), str(CODE / "canvas_context" / "src")])
+
+EXIT_OK, EXIT_FAILURE, EXIT_DISAGREEMENT, EXIT_OMISSION, EXIT_PRECONDITION = 0, 1, 2, 3, 4
+
+
+# ---------------------------------------------------------------------------
+# Registry 1 — GATES. Every suite, by name, with the counts it is expected to produce.
+#
+# Trap, hit live at P5: the seventh producer package is named `brief_consumer`, NOT
+# `brief_generator`. A glob over `*_generator` silently returns 257 and looks right. Producers are
+# therefore enumerated by name here and must never be globbed.
+# ---------------------------------------------------------------------------
+@dataclass
+class Gate:
+    """One gate. ``expect`` is (passed, skipped); None means "not a counted pytest gate"."""
+
+    gate_id: str
+    kind: str  # "pytest" | "certify" | "gitdiff"
+    path: Path
+    expect: tuple[int, int] | None = None
+    group: str = ""
+    note: str = ""
+    # Populated at run time:
+    actual: tuple[int, int] | None = field(default=None, compare=False)
+    status: str = field(default="", compare=False)
+    detail: str = field(default="", compare=False)
+
+
+PRODUCER_PACKAGES = [
+    "brief_consumer",  # <-- NOT brief_generator. Never glob this list.
+    "comic_generator",
+    "deck_generator",
+    "diagram_generator",
+    "document_generator",
+    "letter_generator",
+    "post_generator",
+]
+
+GATES: list[Gate] = [
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (115, 10)),
+    Gate("certification", "certify", CODE / "canvas_std", (11, 0),
+         note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
+    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1035, 3)),
+    Gate("canvas_presentation", "pytest", PRODUCTION / "canvas_presentation", (57, 2),
+         note="added 2026-09-10 — was never in a STATE gate line; found by this file's own "
+              "discovery check on its first run"),
+    Gate("canvas_context", "pytest", CODE / "canvas_context", (58, 0),
+         note="the leg-2 proof; the suite whose two-day red spell motivated this manifest"),
+    *[Gate(p, "pytest", PRODUCTION / p, None, group="producers") for p in PRODUCER_PACKAGES],
+    Gate("comic_render", "pytest", PRODUCTION / "comic_render", (154, 2)),
+    Gate("firewall", "gitdiff", CODE / "canvas_std", None,
+         note="canvas_std must be byte-clean in the working tree; production never edits it"),
+]
+
+# Producer expectations are per-package, so a single package drifting cannot hide inside the total.
+PRODUCER_EXPECT: dict[str, tuple[int, int]] = {
+    "brief_consumer": (10, 0),
+    "comic_generator": (123, 0),
+    "deck_generator": (16, 0),
+    "diagram_generator": (44, 0),
+    "document_generator": (37, 0),
+    "letter_generator": (17, 0),
+    "post_generator": (20, 0),
+}
+for _g in GATES:
+    if _g.group == "producers":
+        _g.expect = PRODUCER_EXPECT[_g.gate_id]
+
+
+# ---------------------------------------------------------------------------
+# Registry 2 — EXCLUSIONS. A test-bearing directory that is deliberately not a gate.
+#
+# Every entry MUST carry a non-empty reason. A check that goes red for good reasons gets disabled,
+# so "fail on anything unlisted" is not enough on its own — the escape hatch has to exist and has
+# to be documented in the same place as the rule.
+# ---------------------------------------------------------------------------
+EXCLUSIONS: dict[str, str] = {
+    "what/production/_scaffold": (
+        "Inert copy-me clone template, not a producer. Its own README states it is excluded from "
+        "the cross-producer sweep; its 11 tests exercise the skeleton, not shipped behaviour."
+    ),
+    "what/production/tests": (
+        "Legacy federation-validation module, skip-guarded at adr_009 (F-H6RE-2): SS and CC retired "
+        "the wrapper surfaces it validates. Kept under SO-7 archive-never-delete."
+    ),
+    "what/production/_archive": (
+        "SO-7 archive. Never collected — `norecursedirs = _archive` in what/production/pytest.ini."
+    ),
+}
+
+
+# ---------------------------------------------------------------------------
+# Preconditions. The editable install has silently drifted out of the runner env once before
+# (Halftone), which looks like a mass test failure rather than an environment fault. Check first,
+# and fail with a distinct code so the two are never confused.
+# ---------------------------------------------------------------------------
+def check_preconditions() -> list[str]:
+    problems: list[str] = []
+
+    if not PYTEST.is_file():
+        problems.append(f"anaconda pytest not found at {PYTEST}")
+    if not PYTHON.is_file():
+        problems.append(f"anaconda python not found at {PYTHON}")
+
+    if PYTHON.is_file():
+        probe = subprocess.run(
+            [str(PYTHON), "-c", "import canvas_std; print(canvas_std.__file__)"],
+            capture_output=True, text=True, cwd=str(VAULT),
+        )
+        if probe.returncode != 0:
+            problems.append(
+                "`adna-canvas-std` is not importable — the editable install has drifted. "
+                "Fix: pip install -e what/code/canvas_std"
+            )
+        else:
+            resolved = Path(probe.stdout.strip())
+            expected_root = CODE / "canvas_std" / "src"
+            if expected_root not in resolved.parents:
+                problems.append(
+                    f"`canvas_std` resolves to {resolved}, not the in-vault editable source under "
+                    f"{expected_root}. A stale site-packages copy would certify the wrong code."
+                )
+
+    for required in (PRODUCTION, CODE, VAULT / ".git"):
+        if not required.exists():
+            problems.append(f"expected path missing: {required}")
+
+    return problems
+
+
+# ---------------------------------------------------------------------------
+# Registry 3 — DISCOVERY. The whole point.
+# ---------------------------------------------------------------------------
+def discover_test_surfaces() -> list[Path]:
+    """Every directory in the vault that holds tests, found on disk rather than recalled."""
+    found: set[Path] = set()
+    for parent in (PRODUCTION, CODE):
+        if not parent.is_dir():
+            continue
+        for child in sorted(parent.iterdir()):
+            if not child.is_dir():
+                continue
+            if (child / "tests").is_dir() and _has_tests(child / "tests"):
+                found.add(child)
+    # A bare tests/ directory directly under a parent (what/production/tests/) is a surface too.
+    for parent in (PRODUCTION, CODE):
+        if (parent / "tests").is_dir() and _has_tests(parent / "tests"):
+            found.add(parent / "tests")
+    return sorted(found)
+
+
+def _has_tests(tests_dir: Path) -> bool:
+    return any(tests_dir.rglob("test_*.py"))
+
+
+def declared_surfaces() -> dict[Path, str]:
+    """Path -> how it is accounted for ('gate:<id>' or 'excluded')."""
+    declared: dict[Path, str] = {}
+    for gate in GATES:
+        if gate.kind == "pytest":
+            declared[gate.path.resolve()] = f"gate:{gate.gate_id}"
+    for rel in EXCLUSIONS:
+        declared[(VAULT / rel).resolve()] = "excluded"
+    return declared
+
+
+def run_discovery() -> tuple[list[Path], list[str]]:
+    """Return (undeclared surfaces, problems with the EXCLUSIONS registry itself)."""
+    declared = declared_surfaces()
+    undeclared = [p for p in discover_test_surfaces() if p.resolve() not in declared]
+
+    problems: list[str] = []
+    for rel, reason in EXCLUSIONS.items():
+        if not reason.strip():
+            problems.append(f"exclusion {rel!r} carries no reason — every exclusion must justify itself")
+        if not (VAULT / rel).exists():
+            problems.append(f"exclusion {rel!r} names a path that does not exist — stale registry entry")
+    return undeclared, problems
+
+
+# ---------------------------------------------------------------------------
+# Runners
+# ---------------------------------------------------------------------------
+_SUMMARY = re.compile(r"(\d+)\s+(passed|failed|skipped|error|errors)")
+
+
+def _parse_pytest(output: str) -> tuple[int, int, int, int]:
+    """(passed, skipped, failed, errors) from pytest's summary line."""
+    for line in reversed([ln for ln in output.splitlines() if ln.strip()]):
+        if "passed" in line or "failed" in line or "error" in line or "no tests ran" in line:
+            counts = {"passed": 0, "skipped": 0, "failed": 0, "error": 0, "errors": 0}
+            for n, word in _SUMMARY.findall(line):
+                counts[word] = int(n)
+            return (counts["passed"], counts["skipped"], counts["failed"],
+                    counts["error"] + counts["errors"])
+    return (0, 0, 0, 0)
+
+
+def _env() -> dict[str, str]:
+    env = dict(os.environ)
+    env["PYTHONPATH"] = PYTHONPATH
+    return env
+
+
+def run_gate(gate: Gate) -> None:
+    if gate.kind == "pytest":
+        proc = subprocess.run([str(PYTEST), "-q"], capture_output=True, text=True,
+                              cwd=str(gate.path), env=_env())
+        passed, skipped, failed, errors = _parse_pytest(proc.stdout + proc.stderr)
+        gate.actual = (passed, skipped)
+        if failed or errors or proc.returncode not in (0, 5):
+            gate.status = "FAIL"
+            gate.detail = f"{failed} failed, {errors} errors (exit {proc.returncode})"
+            return
+
+    elif gate.kind == "certify":
+        proc = subprocess.run([str(PYTHON), "certify.py", "--json"], capture_output=True,
+                              text=True, cwd=str(gate.path), env=_env())
+        if proc.returncode != 0:
+            gate.status = "FAIL"
+            gate.detail = f"certify.py exit {proc.returncode}"
+            gate.actual = (0, 0)
+            return
+        report = json.loads(proc.stdout)
+        gate.actual = (report["passed"], 0)
+        gate.detail = f"standard v{report['standard_version']}"
+        if not report["certified"]:
+            gate.status = "FAIL"
+            gate.detail = f"not certified: {report['passed']}/{report['total']}"
+            return
+
+    elif gate.kind == "gitdiff":
+        # Absolute pathspec + explicit cwd=VAULT. See the cwd trap at the top of this file.
+        proc = subprocess.run(
+            ["git", "-C", str(VAULT), "diff", "--stat", "--", str(gate.path)],
+            capture_output=True, text=True, cwd=str(VAULT),
+        )
+        lines = [ln for ln in proc.stdout.splitlines() if ln.strip()]
+        gate.actual = (len(lines), 0)
+        if lines:
+            gate.status = "FAIL"
+            gate.detail = f"{len(lines)} dirty line(s) in canvas_std — the firewall is breached"
+            return
+        gate.detail = "diff 0"
+
+    if gate.expect is not None and gate.actual != gate.expect:
+        gate.status = "DISAGREE"
+        gate.detail = f"expected {gate.expect[0]}/{gate.expect[1]}, got {gate.actual[0]}/{gate.actual[1]}"
+    elif not gate.status:
+        gate.status = "OK"
+
+
+# ---------------------------------------------------------------------------
+# Reporting
+# ---------------------------------------------------------------------------
+def markdown_gate_line() -> str:
+    producers = [g for g in GATES if g.group == "producers"]
+    total = sum((g.actual or (0, 0))[0] for g in producers)
+    parts: list[str] = []
+    emitted_producers = False
+    for gate in GATES:
+        if gate.group == "producers":
+            # Collapse the group into one entry, in the position the group occupies in GATES.
+            if not emitted_producers:
+                parts.append(f"producers **{total} across {len(producers)} packages**")
+                emitted_producers = True
+            continue
+        got = gate.actual or (0, 0)
+        if gate.gate_id == "certification":
+            parts.append(f"certification **{got[0]}/11**")
+        elif gate.gate_id == "firewall":
+            parts.append("firewall diff **0**")
+        else:
+            shown = f"{got[0]}/{got[1]}" if got[1] else f"{got[0]}"
+            parts.append(f"`{gate.gate_id}` **{shown}**")
+    return " · ".join(parts)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description="Run the Canvas.aDNA gate set and fail on omission.")
+    ap.add_argument("--markdown", action="store_true", help="emit the STATE.md gate line")
+    ap.add_argument("--discover-only", action="store_true", help="omission check only; run no tests")
+    args = ap.parse_args()
+
+    print(f"gate manifest — vault {VAULT}")
+    print()
+
+    problems = check_preconditions()
+    if problems:
+        print("PRECONDITION FAILURE — the runner environment is wrong, so no result below would mean anything:")
+        for p in problems:
+            print(f"  · {p}")
+        return EXIT_PRECONDITION
+    print("preconditions OK — anaconda pytest, adna-canvas-std editable in-vault, paths present")
+
+    undeclared, registry_problems = run_discovery()
+    if registry_problems:
+        print("\nEXCLUSION REGISTRY PROBLEM:")
+        for p in registry_problems:
+            print(f"  · {p}")
+        return EXIT_OMISSION
+    if undeclared:
+        print("\nOMISSION — test-bearing surfaces exist that this manifest does not account for.")
+        print("This is the failure this file exists to produce. Add each to GATES, or to EXCLUSIONS")
+        print("with a stated reason. Do not delete the check.")
+        for p in undeclared:
+            print(f"  · {p.relative_to(VAULT)}")
+        return EXIT_OMISSION
+    # Partition the surfaces actually found, rather than subtracting the size of a registry that
+    # may name paths carrying no discoverable tests (what/production/_archive is one — it holds
+    # tests only at grandchild depth, so discovery never sees it). Reporting `found - len(registry)`
+    # would print a gated-count nobody derived, which is the exact defect class this file serves.
+    surfaces = discover_test_surfaces()
+    declared = declared_surfaces()
+    gated = [p for p in surfaces if declared.get(p.resolve(), "").startswith("gate:")]
+    excluded_seen = [p for p in surfaces if declared.get(p.resolve()) == "excluded"]
+    print(f"discovery OK — {len(surfaces)} test-bearing surfaces, all declared "
+          f"({len(gated)} gated, {len(excluded_seen)} excluded with reasons)")
+
+    if args.discover_only:
+        return EXIT_OK
+
+    print()
+    for gate in GATES:
+        run_gate(gate)
+
+    width = max(len(g.gate_id) for g in GATES)
+    print(f"{'gate'.ljust(width)}  {'expected':>10}  {'actual':>10}  status")
+    print("-" * (width + 34))
+    for gate in GATES:
+        exp = f"{gate.expect[0]}/{gate.expect[1]}" if gate.expect else "—"
+        got = f"{gate.actual[0]}/{gate.actual[1]}" if gate.actual else "—"
+        mark = {"OK": "ok", "FAIL": "FAIL", "DISAGREE": "DISAGREE"}[gate.status]
+        print(f"{gate.gate_id.ljust(width)}  {exp:>10}  {got:>10}  {mark}"
+              + (f"  — {gate.detail}" if gate.detail and gate.status != "OK" else ""))
+
+    producers = [g for g in GATES if g.group == "producers"]
+    print("-" * (width + 34))
+    print(f"{'producers total'.ljust(width)}  {'267/7 pkg':>10}  "
+          f"{str(sum((g.actual or (0,0))[0] for g in producers)) + '/' + str(len(producers)) + ' pkg':>10}")
+
+    failed = [g for g in GATES if g.status == "FAIL"]
+    disagreed = [g for g in GATES if g.status == "DISAGREE"]
+
+    if args.markdown:
+        print("\n--- STATE.md gate line (generated — paste, do not retype) ---")
+        print(markdown_gate_line())
+
+    if failed:
+        print(f"\nSUITE FAILURE: {', '.join(g.gate_id for g in failed)}")
+        return EXIT_FAILURE
+    if disagreed:
+        print(f"\nCOUNT DISAGREEMENT: {', '.join(g.gate_id for g in disagreed)}")
+        print("A disagreement is a finding to investigate, NOT a number to edit into this file.")
+        print("Editing the expectation to match the observation is the defect this vault keeps finding.")
+        return EXIT_DISAGREEMENT
+
+    print("\nALL GATES GREEN — and every test-bearing surface on disk is accounted for.")
+    return EXIT_OK
+
+
+if __name__ == "__main__":
+    sys.exit(main())
