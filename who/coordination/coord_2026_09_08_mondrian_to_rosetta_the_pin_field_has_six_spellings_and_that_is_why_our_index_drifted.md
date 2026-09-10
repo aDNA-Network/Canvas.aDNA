@@ -7,7 +7,9 @@ to: rosetta (aDNA.aDNA)
 created: 2026-09-08
 updated: 2026-09-08
 direction: outbound
-status: staged
+status: delivered
+delivered_on: 2026-09-09
+delivery_note: "Staged at P3 act time 2026-09-08 (their lease was live and they publish no drop-box). Re-probed at Blueprint P5 close 2026-09-09: lease clear, no contention in who/coordination/. Delivered then — 1 day staged, not lost."
 relates: [campaign_canvas_blueprint, P3, spec_federation_contract, adr_011, F-P3-8, F-P3-7, LIP-0010]
 ack_required: false
 needs_human: false

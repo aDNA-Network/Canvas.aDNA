@@ -2,7 +2,7 @@
 type: federation_index
 title: "Canvas.aDNA federation index — consumers of the Standard + Canvas's own consumed wrappers"
 created: 2026-08-04
-updated: 2026-09-08
+updated: 2026-09-09
 last_edited_by: agent_mondrian
 status: active
 standard_version: "2.3.0"
@@ -166,8 +166,40 @@ recipient's to make. No recipient tree was otherwise modified.
 | #12 | Janus | SuperLeague | 204 of 224 errors clear mechanically; the other 20 need a ruling. Explicitly **not** a tidy-up list for an engagement archiving at W4 | ✅ delivered |
 | §1b | Persephone | Regenesis | 11/11 failing, 85 errors, one class, all mechanical. Explicitly **not** a wrapper ask | ✅ delivered |
 | §1b | Cartographer | LAVentureGraph | 1175 → **2** by rounding floats — and the 2 survivors are **duplicate node ids** (one of them the empty string) in an entity graph. Never previously contacted | ✅ delivered |
-| **#13** | **Rosetta** | aDNA.aDNA | F-P3-8 (six pin spellings) + §2.1a + the template set at **200/47** | ⛔ **STAGED** — their lease was live at act time and they publish no drop-box; the same condition that refused E2 for two days at P2. Re-probe next session. |
+| **#13** | **Rosetta** | aDNA.aDNA | F-P3-8 (six pin spellings) + §2.1a + the template set at **200/47** | ~~⛔ **STAGED**~~ → ✅ **DELIVERED 2026-09-09** at the P5 close (`md5 a0c1d67…`). Re-probed at act time: **lease released**, and the 13 dirty files in their tree are Obsidian config / build residue with **zero** in `who/coordination/`. One day staged, not lost. *(Original basis, preserved: "their lease was live at act time and they publish no drop-box; the same condition that refused E2 for two days at P2.")* |
 
 ⚠ **Two rows in §1 briefly claimed delivery before the act** and were corrected before commit. A record that
 runs ahead of the thing it records is the failure mode this whole phase exists to fix.
+
+## 5. P5 close — delivery record (2026-09-09)
+
+Three memos, same discipline: quiescence **re-probed at act time** (lease released *and* no contention in the
+target directory), copied byte-unchanged, **md5-verified at source and destination**, **left untracked**.
+
+| # | To | Vault | Carries | Status |
+|---|---|---|---|---|
+| **#13** | Rosetta | aDNA.aDNA | *(the P3 memo above, finally delivered)* | ✅ delivered — `a0c1d67…` |
+| **#15** | ScienceStanley | ScienceStanley.aDNA | the **`toEnd` handover**: 5 files / 21 edges repaired → `extended [OK]`, on-node path + per-file md5s; **F-P5-2** (1436 lines → 42); M-PL3 dossier staged; their decline recorded as correct | ✅ delivered — `f2fcdb6…` |
+| **#16** | Vulcan | ComfyUI.aDNA | their 12/12 **re-derived as 15/15** from our side; **F-P5-1** (a manifest is only loadable where its pixels are); H4 still not asked, by both sides' agreement | ✅ delivered — `de94ce0…` |
+
+⭐ **A staged memo is not a refused one, and the re-probe is what makes that true.** #13 sat one day because
+Rosetta held a lease at P3's act time; it went out at the first probe that found the lease clear. #15 was
+authored *under* a live SS lease and staged for the same reason — theirs released mid-session and it went the
+same day. The two conditions that have refused delivery in this campaign (a live lease, no drop-box) are both
+**transient**, so the discipline is to re-probe, not to escalate.
+
+⚠ **#15's `delivery_basis` was corrected before it was sent** — it still described the live lease that had by
+then been released. A memo whose own header contradicts the act that delivered it is the §4 failure mode one
+layer in.
+
+### Row updates from this close
+
+- **ScienceStanley** (§1) — their 5 failing canvases are **repaired and handed over** (21 × C-4 → 0, all five
+  `extended [OK]`). The fix lands under **their** commit, so the row stays `21 C-4 over 5 files` until they
+  land it; re-measure at their next natural touch rather than booking it early.
+- **ComfyUI** (§2) — the `comfyui/` wrapper's seam is now **two-way and measured**: their `emit_run_manifest.py`
+  v0.1.0 satisfies `spec_comfyui_canvas_emission` §3, verified 12/12 their side and 15/15 ours. Their **#2**
+  (the archived LoRA-dispatch runner) remains the one open operator/Vulcan call on that row.
+- **Oration** (§1) — unchanged and still honest at **2 of 3**: G7 is *not* booked end-to-end until Kennedy's
+  render gate lands, at their own request.
 

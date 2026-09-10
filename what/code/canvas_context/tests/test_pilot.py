@@ -1,12 +1,24 @@
 """The leg-2 proof (spec_canvas_context_loading §9.1).
 
-Loads a real producer ``.canvas`` (a ``document_generator`` whitepaper, 32 nodes / 23 edges, aDNA-Native) as a
-navigable context graph **without rendering** and walks its document order. When this passes with ``canvas_std``
-untouched, leg 2 — *canvas as a first-class context object* — is proven.
+Loads a real producer ``.canvas`` (a ``document_generator`` whitepaper, aDNA-Native) as a navigable context
+graph **without rendering** and walks its document order. When this passes with ``canvas_std`` untouched,
+leg 2 — *canvas as a first-class context object* — is proven.
+
+⚠ **The fixture is generated, so its size is not a fact about the loader** (F-P5-3, Blueprint P5). This test
+pinned the whitepaper's literal node/edge/panel counts (32/23/8) from Salon. Blueprint P2c legitimately
+regenerated the example — section-atomic pagination split it 5 pages → 6, taking it to 35/25/9 — and the
+assertions went stale the same day. Nobody noticed for two days across three phase closes, because
+``canvas_context`` had quietly dropped out of the standing gate set and every one of those closes reported
+green without running it.
+
+So the structural counts below are now **derived from the file**: they assert what is actually a claim about
+the loader — that it exposes *every* node and edge, losing nothing — and they survive the next regeneration.
+The document order stays a literal, because that one *is* the leg-2 claim and a change to it should fail.
 """
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -28,13 +40,17 @@ def test_pilot_loads_producer_canvas_as_context_without_rendering():
     # conformance (L1/L6) — validated at its declared level; the producer's real sync_hash is current
     assert g.conformance() == {"declared": "adna_native", "reached": "adna_native", "stale": False}
 
-    # baseline topology (L2)
-    assert len(g.components()) == 32
-    assert len(g.relations()) == 23
-    assert len(g.panels()) == 8
+    # baseline topology (L2) — derived from the file, so a regenerated example cannot rot this
+    # into a false red (or, worse, a false green). The claim is that the loader is lossless.
+    doc = json.loads(WHITEPAPER.read_text(encoding="utf-8"))
+    assert len(g.components()) == len(doc["nodes"])
+    assert len(g.relations()) == len(doc["edges"])
+    assert len(g.panels()) == sum(1 for n in doc["nodes"] if n.get("type") == "group")
 
     # *** the core leg-2 capability: document order recovered WITHOUT rendering (L7 / §6.1) ***
-    assert g.reading_order() == ["page0", "page1", "page2", "page3", "page4"]
+    # Literal on purpose — this is the leg-2 claim itself, not a property of the fixture's size.
+    # (P2c's pagination split took this from 5 pages to 6; a further change should fail here.)
+    assert g.reading_order() == ["page0", "page1", "page2", "page3", "page4", "page5"]
 
     # references exposed (L5) — all four are in-vault wikilinks, none transported
     refs = g.refs()

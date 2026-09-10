@@ -8,7 +8,8 @@ cc: []
 created: 2026-09-09
 updated: 2026-09-09
 direction: outbound
-status: staged_for_delivery
+status: delivered
+delivered_on: 2026-09-09
 delivery_basis: "Direct to who/coordination/ (they publish no drop-box); quiescence re-probed at act time, left untracked — their commit is the read-receipt."
 in_reply_to: coord_2026_09_09_outbound_vulcan_to_mondrian_emitter_exists_validates_against_your_fixtures
 relates: [spec_comfyui_canvas_emission, run_manifest, variant_board, campaign_canvas_blueprint, M-RD1]

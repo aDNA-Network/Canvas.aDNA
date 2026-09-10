@@ -3,17 +3,19 @@ campaign_id: campaign_canvas_blueprint
 type: campaign
 title: "Operation Blueprint — canvas as the fleet's diagrammatic-context substrate + the ComfyUI canvas seam"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "6-10"
+actual_sessions: 9
+completed: 2026-09-09
 phase_count: 6
 mission_count: "4 planned (created at phase-open)"
 priority: high
 executor_tier_default: fable
 predecessor: campaign_canvas_halftone
 created: 2026-08-22
-updated: 2026-09-08
+updated: 2026-09-09
 last_edited_by: agent_mondrian
-status_history: "active (2026-08-22 — chartered as Session 2 of the operator-approved 3-session plan [plan approval 2026-08-22 = the charter gate]; name 'Blueprint' is the operator's to amend) · P1 Canvas-owned half shipped 2026-08-24 (mission_b1_doctrine completed complete-with-open-item; b1.5 open pending Rosetta) · P2 rail + dogfood shipped 2026-09-04 (complete-with-open-item; #10/#11 deferred) · P2c producer re-gate added 2026-09-07 as a dated scope amendment (plan approval = the gate) · P2c producer re-gate shipped 2026-09-07 (13 authored surfaces gate clean; layout_fit; deck profile; advisory-trap rule) · P2b conversion offers shipped 2026-09-07 (census re-derived 5→10 and 29→33; one defect class across both vaults = F-HR-1; `conform.py`; memos #10/#11 delivered; `_reserved` tier held on b1.5) · P3 federation re-pin wave shipped 2026-09-08 (census re-derived: 15 wrapper vaults not 14, 10 wrapper-less emitters never enumerated, 6 pin spellings; F-HR-1 collector wiring built; index corrected in both directions; 8 of 9 memos delivered) · P4 build half shipped 2026-09-08 (run_manifest + variant_board + tuning_surface on fixture manifests; the capture instrument ported and the 4x-carried Amendment-1 render gate MET for the first time; live chain still spend-gated) → ▶ P5, HOLD"
+status_history: "active (2026-08-22 — chartered as Session 2 of the operator-approved 3-session plan [plan approval 2026-08-22 = the charter gate]; name 'Blueprint' is the operator's to amend) · P1 Canvas-owned half shipped 2026-08-24 (mission_b1_doctrine completed complete-with-open-item; b1.5 open pending Rosetta) · P2 rail + dogfood shipped 2026-09-04 (complete-with-open-item; #10/#11 deferred) · P2c producer re-gate added 2026-09-07 as a dated scope amendment (plan approval = the gate) · P2c producer re-gate shipped 2026-09-07 (13 authored surfaces gate clean; layout_fit; deck profile; advisory-trap rule) · P2b conversion offers shipped 2026-09-07 (census re-derived 5→10 and 29→33; one defect class across both vaults = F-HR-1; `conform.py`; memos #10/#11 delivered; `_reserved` tier held on b1.5) · P3 federation re-pin wave shipped 2026-09-08 (census re-derived: 15 wrapper vaults not 14, 10 wrapper-less emitters never enumerated, 6 pin spellings; F-HR-1 collector wiring built; index corrected in both directions; 8 of 9 memos delivered) · P4 build half shipped 2026-09-08 (run_manifest + variant_board + tuning_surface on fixture manifests; the capture instrument ported and the 4x-carried Amendment-1 render gate MET for the first time; live chain still spend-gated) · P5 CLOSED 2026-09-09 (Vulcan's emitter intaken + re-derived 15/15; the SS toEnd deliverable discharged at 42 lines not 1436; ImagenWiring premise struck and M-PL3 staged-not-ruled; canvas_context found red for two days behind a gate list it had left) → ✅ COMPLETED"
 tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federation, repin, comfyui, canvas_emission, interaction, rlhf_surface]
 ---
 
@@ -63,7 +65,7 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 | **P2b** | **Conversion offers** (mission `b2b`) — the deferred half of P2, opened 2026-09-07 once P2c had made our own shelf pass the gate the offers ask others to adopt. **The census re-derived and both figures were wrong:** Operations **10** files not 5 (two copies; the *projection* is the failing one, and it is gitignored by its owner), ScienceStanley **33** not 29 **in three classes** — of which **9 are Canvas's own output** from the `canvas_comic` producer we archived (F-P2b-3). **40 of the 41 conformance errors across both vaults are one class** (C-4, missing explicit `toEnd`) — the **F-HR-1** Obsidian-re-save signature Canvas diagnosed in its own vault on 2026-08-23 and had carried as internal housekeeping ever since (F-P2b-2). Shipped `canvas_core/conform.py` (+13 tests): `normalize_edges` clears 40/41 mechanically (7 of 8 files → `extended [OK]`), `unresolved_edges` **reports and never repairs** the one real defect (a C-3 dangling edge live in a shipped teaching package). Memos #10/#11 delivered with worked measurements, both vaults read-only throughout. ⛔ The `_reserved` tier of both offers is **held**: no `authority` value fits a hand-authored canvas (F-P2b-5 — I nearly shipped `view`, which is wrong and which `canvas_std` accepts silently). | ✅ **complete-with-open-item** — `_reserved` tier held on `b1.5`; F-HR-1 collector wiring scoped, not built |
 | **P3** | **Federation re-pin wave** (mission `b3`): ✅ **SHIPPED 2026-09-08** — and the charter row below was wrong in three of its four clauses, which the phase found by re-deriving rather than reading. **"5 stale"** → **9** materially stale of 15; **"3 misnamed"** ✅ held (the only figure that did); **"memos to 6 vaults"** → the real ask was larger and differently shaped; **"adopt VisualDNA lockstep-flip mechanics"** → ⛔ **`skill_lockstep_flip` was never built** (VisualDNA P4 authored 3 of 8 skills and is still a stub) — **operator-ruled: dropped as a dead referent**, replaced by our own `spec_federation_contract` §3, ours since Keystone. Unstated by the charter and found by measurement: a **15th consumer** (WGS, adopted 2026-08-10, never indexed) · the **G7 gap already closed five weeks earlier** (Oration adopted the day we asked; their reply sat `staged_unsent` in their outbox for 34 days and contained the finding we later rediscovered as F-P2-9 at full cost) · **10 wrapper-less canvas emitters / 49 files** never enumerated, the population the index was structurally unable to see · **six spellings of the pin field**, the structural reason the index drifted silently. Delivered: **8 of 9 memos** (#13 → Rosetta **staged**, live lease, no drop-box). Also shipped: `spec_federation_contract` **§2.1a** (on Kennedy's finding, which had cost them a reversed ruling) and the **F-HR-1 collector wiring** (`canvas_core` 951→958/3). | ✅ **complete-with-open-item** — #13 staged; Seshat's rename ruling `ack_required`; Amendment-1 render carried a 4th time |
 | **P4** | **ComfyUI canvas seam** (mission `b4`): ✅ **BUILD HALF SHIPPED 2026-09-08** — `run_manifest.py` (spec §3, five executable fixtures that now *are* the contract ComfyUI's emitter must satisfy) · `variant_board.py` (§1.1, one `choice` **per slot** = Vulcan's SO-5 gate with a substrate; the HR pilot's second consumer and the first surface that can emit through the S-4 gate) · `tuning_surface.py` (§1.2, `input` knobs + one `re_render` action producing a **D1 request record**, with a test that fails if any transport is ever imported). Collector extended for `selection_sidecar` — the plan's *"no new collector needed"* was wrong, and a slot-keyed reject would have appended cleanly to the canvas and reached **no sink**. ⭐ **Objective 0 was the finding**: the Amendment-1 render, carried unmet **four times**, was blocked by a claim that was false when written (**F-P4-1** — a constraint on *whole-screen* capture inherited as a constraint on *capture*). Home's window-scoped instrument, whose own docstring named **this vault** as its D-A destination since 2026-06-02, ported in and credited. Sight then paid for itself immediately: **F-P4-3** (both dogfood canvases render their mermaid channel as raw source behind an un-actioned trust prompt — both machine checks green) and **F-P4-2** (Obsidian **culls node text below a zoom threshold**, so a pin-sharp 3128×1896 capture can contain no readable text at all). ⛩ **F-P4-4** — and a false positive found by sight, "fixed" twice, each fix making the board worse, caught only by re-rendering after the fix. ⛔ **The H4 live chain did NOT run** — spend deliberately not requested (their emitter does not exist; the fixtures prove more than one hand-written manifest would). | ✅ **complete-with-open-item** — live chain still spend-gated; mermaid trust grant is the operator's |
-| **P5** | Close: AAR rollup · federation_index refresh · STATE close · carried-tail disposition (`ImagenWiring` panel-path deprecation · `comic_book_design/` ruling). | HOLD |
+| **P5** | **Close** — ✅ **2026-09-09.** Discharged the two items that arrived in front of the gate: Vulcan's emitter memo intaken byte-unchanged and their **12/12 re-derived as 15/15** from our side (⛩ **F-P5-1** — a manifest is only loadable where its pixels are: the *durable* copy does not load and the *loading* copy is gitignored), and the **ScienceStanley `toEnd` deliverable** owed since 09-08 (their figures **reproduce exactly** — 20/5/21, all C-4; all five → `extended [OK]`; `unresolved_edges` ran and found 0). ⛩ **F-P5-2** — that handover's first version was **1436 changed lines**: `normalize_edges` is mechanical, `json.dumps(indent=2)` is not, and they land it under their own commit; rewritten as a textual insertion, **42 lines**, asserted equal to the library function's own output. Carried tails re-derived rather than executed: the **`ImagenWiring` premise was false in both clauses** (live caller *does* exist; the real dead surface is **10 methods**, larger than claimed) → backlog with the measurement; **M-PL3 dossier STAGED, not ruled** (SS's joint sitting). ⛩ **F-P5-3** — the close ran `canvas_context` and found it **red since 09-07**: a legitimate P2c example regeneration (5→6 pages) staled four literal assertions, and **three consecutive closes reported green because the suite had quietly left the gate set.** Repaired, counts now derived from the file; a runnable gate manifest filed. | ✅ **COMPLETE** — campaign closed |
 
 ## Firewall & discipline
 
@@ -93,7 +95,42 @@ tags: [campaign, canvas, blueprint, diagrammatic_context, dual_channel, federati
 | `mission_b2c_producer_regate` | P2c | ✅ completed (2026-09-07) — complete-with-open-item (Amendment-1 render carried; CV-AUDIENCE-01 calibration deferred) |
 | `mission_b2b_conversion_offers` | P2b | ✅ completed (2026-09-07) — complete-with-open-item (`_reserved` tier held on `b1.5`; F-HR-1 collector wiring scoped) |
 | `mission_b3_repin_wave` | P3 | ✅ completed (2026-09-08) — complete-with-open-item (#13 staged; Seshat ack; render carried) |
-| `mission_b4_comfyui_seam` | P4 | ✅ completed (2026-09-08) — complete-with-open-item (**build half**; live chain held at the spend gate; mermaid trust grant is the operator's) |
+| `mission_b4_comfyui_seam` | P4 | ✅ completed (2026-09-08) — complete-with-open-item (**build half**; live chain held at the spend gate; mermaid trust grant is the operator's). **P5 addendum 2026-09-09**: ComfyUI's emitter shipped and was re-derived 15/15; follow-up (b) resolved on their side, the live chain still awaits their M-RD1 venue manifest. |
+| *(P5 close — no mission)* | P5 | The close was a session, not a mission: two owed deliverables, two tail re-derivations, the records. AAR rollup: `missions/artifacts/blueprint_campaign_aar_rollup.md`. |
+
+## Completion Summary (2026-09-09)
+
+**Closed complete.** 7 phases, 6 missions, 9 sessions, 2026-08-22 → 2026-09-09. Full AAR rollup:
+[`missions/artifacts/blueprint_campaign_aar_rollup.md`](missions/artifacts/blueprint_campaign_aar_rollup.md).
+
+**All three goals met, and the third met from both sides.** (1) The dual-channel pattern is authored,
+dogfooded and gated — though its *ratification* still sits with Rosetta (`b1.5`). (2) The federation
+surface is measured rather than assumed, corrected **in both directions**, and now enumerates the
+population it was structurally unable to see. (3) ComfyUI emits canvas objects: our consumer shipped
+at P4 against five fixtures, **their emitter shipped the next day off those fixtures**, and the seam
+was measured from both ends — 12/12 their side, 15/15 re-derived ours.
+
+**What the campaign was actually about.** It set out to fix a federation problem and spent most of
+its budget on an epistemic one. **Nine findings, one family**: a stated fact nobody re-derived — six
+census figures, an index row, a dependency on an artifact that was never built, a blocker sentence
+that was false when written and cost four phases, and a gate line that was true of the six suites it
+listed while a seventh sat red. ⇒ ***state the population on the face of the number; re-reading never
+catches these, only re-deriving does.*** Hopper ratified the generic form as their ADR-011 A8 §5.
+
+**Firewall held for seven phases**: `git diff --stat -- what/code/canvas_std/` = **0** at every gate.
+The charter's locked "no schema change" default was never broken; LIP-0010 was assessed, recommended
+and **deferred**.
+
+**Gates at close** — `canvas_std` **115/10** · certification **11/11** · `canvas_core` **1035/3** ·
+`canvas_context` **58** *(restored this session — see F-P5-3)* · producers **267** across 7 packages ·
+`comic_render` **154/2** · firewall diff **0** · zero writes into any peer vault beyond two intended
+untracked memos.
+
+**Carried past the close, with no successor campaign** (operator ruling at the P5 gate): every tail
+is a named `STATE.md` watch item or a `how/backlog/` idea with an owner and an unblock condition. The
+two genuinely blocked ones are external — `b1.5` with Rosetta (three artifacts, unanswered since
+2026-08-22) and the H4 live chain (joint with Vulcan when their M-RD1 lands; **spend never
+requested**, deliberately, through the whole campaign).
 
 ## Provenance
 

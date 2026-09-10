@@ -273,3 +273,46 @@ evidentially empty.*** "Did the instrument run?" and "can the gate be judged fro
 are different questions, and only the second one is the gate. The first capture of the session was
 window-scoped, correctly framed, pin-sharp at 3128×1896 — and contained no readable text anywhere,
 because Obsidian had never drawn any. A green run is not evidence; a *readable* one is.
+
+---
+
+## Addendum, 2026-09-09 (Blueprint P5 close) — the other half of the seam exists, and we measured it
+
+**Follow-up (b) resolved on one side, and it moved faster than the mission predicted.** ComfyUI
+delivered an untracked memo to `who/coordination/` the day after this mission closed
+(`coord_2026_09_09_outbound_vulcan_to_mondrian_emitter_exists_validates_against_your_fixtures`,
+intaken byte-unchanged at `677b65b`, `ack_required: false`).
+
+**Their emitter shipped, and this mission's sequencing is why.** `emit_run_manifest.py` v0.1.0 was
+keyed to their **M-RD1** milestone. Reading the five fixtures made it venue-independent, their
+operator ruled it forward at the next plan gate, and it shipped the same sitting. The plan's claim
+— *"building the consumer first turns §3 from a paragraph into five fixtures an emitter can run
+against"* — was load-bearing rather than rhetorical.
+
+**We re-derived their 12/12 rather than repeating it**, because it is a claim about *our* code and
+this campaign's defining finding is that stated facts do not verify themselves. An independent
+script (our loader, their manifest; no import of their emitter, no run of their validator):
+
+**15/15** — their 12 plus three checks they did not run: the committed record is byte-identical to
+the live manifest (`332b27fed1a7`); **every path resolved and every PNG was genuinely probed** (20 ×
+real `(1024, 1024)`, zero zero-dims — the check exists because P4 shipped traps that *skipped while
+printing `0 findings [OK]`*); and on-disk md5 == recorded md5 for all 20, verified from our side
+too. `ComfyUI.aDNA` `git status -uall` was **0 entries** after every run.
+
+⛩ **F-P5-1 — a manifest is only loadable where its pixels are.** Loading their **committed** copy
+from `campaign_rd_forge/artifacts/` raises `ManifestError: no slot has a variant image on disk (25
+skipped)` — 20 variants excluded-and-named plus 5 emptied slots reported-not-vanished, which is
+`partially_failed.json`'s contract behaving exactly right. Not a defect. But it means the **durable**
+half of the seam's evidence does not load, and the half that loads (beside the pixels, under a
+gitignored `.local_dataplane/`) is not durable. ⇒ ***the version-controlled record of a run cannot
+be re-derived by anyone who does not already hold the gitignored pixels.*** Our own `adr_010` makes
+the identical trade deliberately, so this is a shared property of how both vaults store heavy
+artifacts, not their fault. Raised to them as an observation for their v1.0 provenance story
+(memo #16), with two cheap options and **no spec change proposed**.
+
+**Follow-up (b) still stands on the live chain**: their emitter exists; their **M-RD1 venue
+manifest** does not. Both vaults independently restated the same boundary — the ask is joint when it
+lands. Spend was never requested and Blueprint closed without requesting it.
+
+Follow-ups *(a)* mermaid trust, *(c)* the two loop measurements for Home, and *(d)* `b1.5` + memo #13
+carry past the close as named STATE watch items.
