@@ -3,7 +3,7 @@ type: session
 session_id: session_stanley_20260910_runnable_gate_manifest
 created: 2026-09-10
 updated: 2026-09-10
-status: active
+status: completed
 tier: 2
 persona: mondrian
 operator: stanley
