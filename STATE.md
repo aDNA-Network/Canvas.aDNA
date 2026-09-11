@@ -1,11 +1,11 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-09-10
+updated: 2026-09-11
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260910_runnable_gate_manifest
-tags: [state, governance, canvas, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
+last_session: session_stanley_20260911_plumbline_p0_p3
+tags: [state, governance, canvas, plumbline, authority_axis, production_axis, b1_5_ruled, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
 ---
 
 # Operational State
@@ -20,7 +20,18 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > *(Closed campaign banners / build history: [`how/state_archive_20260803.md`](how/state_archive_20260803.md) [Keystone→Beacon] · [`how/state_archive_20260822.md`](how/state_archive_20260822.md) [Halftone] · [`how/state_archive_20260909.md`](how/state_archive_20260909.md) [**Blueprint P1–P4 + Polyglot**, relocated verbatim at this close] — nothing deleted, SO-3/SO-7.)*
 
-## ▶ Resume Here — **no active campaign.** Operation Blueprint ✅ CLOSED 2026-09-09
+## ▶ Resume Here — 🟢 **OPERATION PLUMBLINE ACTIVE** (chartered 2026-09-11). Blueprint ✅ CLOSED 2026-09-09
+
+> **🟢 ACTIVE — [Operation Plumbline](how/campaigns/campaign_canvas_plumbline/campaign_canvas_plumbline.md)**,
+> chartered 2026-09-11 at the plan gate, **reversing P5's "no successor chartered" ruling on new evidence**.
+> Rosetta's reply cleared `b1.5` — **and the clearing made Canvas its own blocker**: the ruled `production`
+> axis is unknown to every tool we ship. Five phases: **P0** record ✅ · **P1** rule the under-coverage
+> question then conform the producers · **P2** LIP-0010 → a v2.4.0 proposal (**firewall untouched**, operator
+> ruling) · **P3** memos #17/#18 + two hardenings · **P4** close. ⚠ **P1 opens with a question that is
+> deliberately unanswered**: the split fixes E2's *double*-coverage, but P2b's evidence was *under*-coverage,
+> and the ruled `authority` axis has two values that **both presuppose something else owns the meaning**.
+> A hand-authored primary artifact owns its own. **Ruled from the pattern's text, never assumed** — and if it
+> still under-covers, that is an erratum owed back, not a placeholder.
 
 Blueprint ran **2026-08-22 → 2026-09-09**: 7 phases, 6 missions, 9 sessions, closed **complete**.
 Records: [`campaign_canvas_blueprint.md`](how/campaigns/campaign_canvas_blueprint/campaign_canvas_blueprint.md)
@@ -42,7 +53,7 @@ watch item or a backlog idea with an owner and an unblock condition.
 
 | # | Item | Lands as | Unblocks when |
 |---|---|---|---|
-| 1 | **`b1.5` — the `authority` axis** (memo #9 2026-08-22 · erratum v2 08-24 · **E2** 09-07; all delivered, **none answered**) | watch · `#needs-human` | **Rosetta rules.** Blocks: LIP-0010's conversion trigger · the `_reserved` tier of both P2b offers · SS's live-batch consumer. Verified at source: no delivery defect. The phase never advanced on their silence and neither should this. |
+| 1 | **`b1.5` — the `authority` axis.** ⛩ **RULED 2026-09-11 — ADOPTED, with the axis SPLIT.** All four memos answered in one reply (#9 · erratum v2 · E2 · #13). The ruled shape: **`authority`** {`dual_channel`, `view`} = *who owns the meaning* · **`production`** {`hand_authored`, `generated`} = *how it is made* — **E2's larger fix**, which E2 named and declined to propose. | ✅ **cleared → Operation Plumbline** | ⭐ **The blocker cleared and made Canvas its own blocker.** The ruled `production` axis is **unknown to every tool we ship**; `conform.py:50` still pins the superseded 3-value set and *requires* a field the pattern rules optional; **2 of our 4 carriers declare `generator`**, no longer an `authority` value. ⚠ **Two inversions caught by re-deriving**: (i) the ruling **inverted** LIP-0010's trigger rather than firing it (both conjuncts broken) — so on the memo's own evidence *nothing* cleared; (ii) §3's *"NOT YET AUTHORED"* was **true at 00:55Z and false when read** — the pattern exists at `67ad713`, the commit right after the `860c59e` the memo pins as *"superseded when: our next commit."* ⇒ ***a memo is a measurement with a timestamp.*** |
 | 2 | **H4 live chain** (`generate:gemini,refine:comfy@0.4/comic_panel_refine`) | watch | **ComfyUI's M-RD1 lands a venue manifest**, then a **joint** operator ask with Vulcan. Their emitter now exists (measured 15/15) — the remaining dependency is theirs, not ours. ⛔ **Do not request spend before there is a real manifest to spend it on.** |
 | 3 | **Mermaid trust grant** (F-P4-3) | watch · **operator item** | one click in your own vault. Both dogfood canvases are sight-certified on geometry/typography/layout; the **diagram channel renders as raw source** to any first-open viewer until someone clicks Allow. An agent should not make a trust decision on your behalf. |
 | 4 | **M-PL3 joint sitting** — `comic_book_design/` + the comic nine | dossier **staged** + watch | **SS flags us.** [`m_pl3_dossier.md`](how/campaigns/campaign_canvas_blueprint/artifacts/m_pl3_dossier.md) is ready: 14 files / ~2619 lines measured, four options with costs, **decision deliberately open**. No urgency from either side. |
@@ -51,7 +62,7 @@ watch item or a backlog idea with an owner and an unblock condition.
 | 7 | **`ImagenWiring` selection-surface deprecation** — 10 methods, 0 call sites, **measured** | [backlog idea](how/backlog/idea_imagenwiring_selection_surface_deprecation.md) | a **fleet consumer sweep** (it is a public `canvas_core` export). ⛩ The old premise — *"no live caller"* — was **false**; struck at source. |
 | 8 | ~~**Runnable gate manifest** (F-P5-3)~~ | ✅ **SHIPPED 2026-09-10** | `how/gates/gate_manifest.py` + [`AGENTS.md`](how/gates/AGENTS.md). Fails on omission (exit 3), verified by derivation. Found an eighth suite on first run (**F-GM-1**, `canvas_presentation`). **Upstream candidate remains open** — mention at a natural pause, file only if the operator approves. |
 | 9 | **`skill_l1_upgrade.md` RFC1918 disposition** | watch · operator/Rosetta | **template-inherited**, so the literals sit in every forked vault; remediating our copy fixes one of many and the durable fix is upstream. Not remediated unilaterally. |
-| 10 | **SS live-batch review surface** — a *named* second consumer of the P4 board form | watch | **item 1 rules.** Then flag SS; they asked to be flagged rather than left to ask. |
+| 10 | **SS live-batch review surface** — a *named* second consumer of the P4 board form | watch → **Plumbline P3** | ⛩ **Item 1 ruled 2026-09-11 and it CLEARED.** Memo #15 promised *"flagged when it clears, not left to ask"* — the flag is Plumbline **P3, memo #17**, and it carries the honest caveat that Canvas's own tooling enforced the superseded axis until P1. ⚠ **Two obligations were welded in this row and only one was ever item 1's**: the *promise* (ours, now dischargeable) and the *conversion* (needs P1's under-coverage ruling first — SS's boards are hand-authored primary artifacts, the population where all three old values were wrong). |
 | 11 | **D3 Rosetta registrar ack** *(standing, pre-Blueprint)* | watch · `#needs-human` | on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified. |
 
 ### Operator items awaiting signature (§7.7 — agents author, operators ratify)
@@ -64,8 +75,10 @@ watch item or a backlog idea with an owner and an unblock condition.
 
 ## Current Phase
 
-**None — between campaigns.** Canvas Standard **v2.3.0**; the reference implementation, 7 producers, the
-`canvas_context` loader, the interaction runtime and the ComfyUI seam are all shipped and green.
+🟢 **Operation Plumbline — P0 complete, P1 next.** Canvas Standard **v2.3.0** (a v2.4.0 proposal is
+authored at P2 and **not landed** — firewall diff-0 by operator ruling). The reference implementation,
+7 producers, the `canvas_context` loader, the interaction runtime and the ComfyUI seam are all shipped
+and green — **and two of the producers enforce a doctrine axis that was superseded on 2026-09-11.**
 
 **History:** Cartography → Keystone (v2.0.x) → Atelier → Palette → Salon → Armature → Lodestar → Beacon
 (v2.3.0) → **Halftone** (the comic system end-to-end real: 27 panels / $3.618 / 4 print-ready pages / eye
@@ -94,10 +107,16 @@ aDNA Labs** at root, ending 74 days public-and-unlicensed.
 
 - **None blocking.** Everything open is either an operator item or an external reply — see §Resume Here's
   carried-tail table, where each has a named owner and an unblock condition.
-- ⚠ **Two are worth not losing in a table**: `b1.5` has sat with **Rosetta since 2026-08-22** with three
-  delivered, unanswered artifacts (verified at source — *not* a delivery defect), and it gates four
-  downstream things; and the **mermaid trust grant** is one click that turns both dogfood canvases from
-  "diagram channel unverified" to fully certified.
+- ~~⚠ `b1.5` has sat with **Rosetta since 2026-08-22** with three delivered, unanswered artifacts~~
+  ✅ **ANSWERED 2026-09-11** — all four memos in one reply. ⭐ **They measured the cause and it is worth
+  carrying into our own practice, not just noting**: their reply-owed sweep filtered on
+  **`ack_required: true`**, and every Canvas memo sets it `false` — correctly, by our lights, because we
+  were not demanding a courtesy. So the sweep reported *nothing owed to Canvas*, four times, while memo
+  #13 sat in their tree saying *"still awaits your ruling."* ⇒ ***`ack_required` states the sender's
+  expectation; it cannot state whether a question was asked.*** **This is a finding about us**: our
+  outbound default is `false`, and it is now known to be invisible to at least one peer's sweep.
+- ⚠ **Still worth not losing in a table**: the **mermaid trust grant** is one click that turns both
+  dogfood canvases from "diagram channel unverified" to fully certified.
 - ~~**Gated — no reject signal may reach the III store**~~ ✅ **RESOLVED 2026-09-07.** Argus ruled `accepted`
   = **the reviewer's verdict** (reading b); gate open (`REJECT_VOCABULARY_CONFIRMED = True`). ⚠ **Open ≠
   flowing**: the flip *armed* the path and emitted nothing (0 rejects in the pilot, measured). First emitter
@@ -143,5 +162,5 @@ something new. In rough order of what is actually actionable *by us*:
 - ⚠ **`C-3` is a bucket id, not a defect** (P3): 20 of 21 fleet occurrences were invalid `"center"` side values in one file; exactly **one** was a genuinely dangling edge. Counting the id and naming it after its most alarming member would have been a **21× overstatement literally derived from our own validator's output**. `unresolved_edges` isolates the real class — the two tools do not disagree, one counts a bucket.
 - ⚠ **`gitignore` is a claim about one repository's index, not about existence in version control** (Berthier's correction, 2026-09-07). A nested repo makes those readings come apart, and no measurement of the outer repo can distinguish them — you have to look for a second `.git`.
 - **`_reserved` off the canonical path is worse than absent** (F-B1-1, 2026-08-24): a block at `metadata._reserved` carries semantics no tool reads while reporting a green `[OK]` at `core`. 196 files fleet-wide have been in that state since 2026-02. Canonical path: `metadata.frontmatter._reserved`.
-- **`authority` is doctrine-enforced, not machine-enforced** (F-B1-2): `canvas_std` does not know the key — 0 of 21 in-vault `adna_native` canvases carry it, and an invented value passes silently. LIP-0010 holds the fix, deferred by design.
+- ⛩ **`authority` is unvalidated by `canvas_std` and validated by exactly two producers** (F-B1-2, **amended 2026-09-11 — the earlier wording was over-broad and the figure was stale**). `canvas_std` does not know the key and an invented value passes silently; but `canvas_core/conform.py:50` and `diagram_generator/model.py:40` each hold a closed frozenset and reject a typo, one of them under a test named `test_misspelled_authority_is_rejected_here_because_the_validator_cannot`. The original measurement was **`canvas_std`-scoped**; `skill_canvas_context_diagram.md:67` still carries the qualifier and this line's compression dropped it. ⇒ ***a claim restated without its population loses the qualifier that made it true*** — Blueprint's own family, inside our own summary of it. **Re-derived 2026-09-11: `4 of 25`** carry the key (56 physical `.canvas`, 30 tracked / 26 untracked under gitignored `what/artifacts/`), superseding `0 of 21`. ⚠ **The complement is still exactly 21**, so the stale row re-derives as a true number — grepping "21" finds 21 and reads as reproduced. It did not reproduce.
 - The metaverse consumer pattern carries a dated §5.2 2D-consumer note (SS ruling A1-a); the 3D derivative classes stand for future 3D consumers.

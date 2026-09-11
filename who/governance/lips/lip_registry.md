@@ -1,9 +1,9 @@
 ---
 type: registry
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-09-11
 last_edited_by: agent_mondrian
-tags: [lip, governance, registry, canvas]
+tags: [lip, governance, registry, canvas, authority_axis, production_axis, plumbline]
 icon: list
 ---
 
@@ -30,7 +30,7 @@ numbers.
 | [[lip_0001_lip_process\|LIP-0001]] | LIP Purpose and Guidelines (Canvas-local working copy) | Process | Accepted | — | Stanley Bishop | 2026-03-07 |
 | [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Final | v2.3.0 | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0009_canvas_as_primitive\|LIP-0009]] | Canvas as a First-Class aDNA Primitive (evaluation) | Standard | Final (Option V) | — (no core change) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
-| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — Standard-change assessment (`authority` validation) | Standard | Draft (assessment; Option B deferred) | — (no change taken) | Stanley Bishop (Mondrian-drafted) | 2026-08-24 |
+| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal) | Standard | Draft (Option B superseded in its cells; trigger fired 2026-09-11) | — (no change taken; firewall diff-0) | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
 
 ## Status (Canvas-stewarded)
 
@@ -48,9 +48,13 @@ numbers.
 > **LIP-0008** is **Final** — the A-5 relaxation landed in **Canvas Standard v2.3.0** (Operation Beacon B4.2; suite
 > 115/10, certification 11/11). **LIP-0009** is Final on **Option V** (keep canvas as a view; elevation deferred, no
 > re-open — D2). **LIP-0010** is an **assessment** opened at Blueprint P1 (2026-08-24): it found that `authority` is
-> normative in the proposed diagrammatic-context doctrine but **unvalidated** by `canvas_std` (0 of 21 in-vault
-> `adna_native` canvases carry the key). Recommendation **Option B** — an optional validated enum, additive, v2.4.0 —
-> **deferred** and gated on Rosetta ratifying `pattern_diagrammatic_context`. **No change taken; firewall at diff-0.**
+> normative in the proposed diagrammatic-context doctrine but **unvalidated** by `canvas_std` (~~0 of 21 in-vault
+> `adna_native` canvases carry the key~~ — ⛩ **re-derived 2026-09-11: `4 of 25`**; the 08-24 figure is stale, and
+> ⚠ its **complement is still exactly 21**, so it re-derives as a true number and reads as reproduced when it is not).
+> Recommendation **Option B** — an optional validated enum, additive, v2.4.0 — was **deferred** and gated on Rosetta
+> ratifying `pattern_diagrammatic_context`. ⛩ **They ratified 2026-09-11 and SPLIT the axis**, so Option B is
+> **superseded in its cells and retained in its mechanism**: the shape survives, the three-value set does not.
+> **No change taken; firewall at diff-0.**
 
 ---
 *LIP Registry — Canvas.aDNA · established Operation Beacon B4, 2026-07-02 · predecessor: `Archive.aDNA/lattice-labs/how/governance/lips/lip_registry.md`*
