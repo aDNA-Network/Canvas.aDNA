@@ -192,28 +192,76 @@ def check_preconditions() -> list[str]:
         if not required.exists():
             problems.append(f"expected path missing: {required}")
 
+    # No declared gate may resolve outside this vault. `run_gate` executes pytest with `cwd=` at the
+    # gate path, so a gate pointed through a shim into a peer vault would run their suite and write
+    # `.pytest_cache/` into their tree. This vault's standing conduct with peers is read-only
+    # throughout (memo #10, memo #15) — and an agent adding a shim to GATES to clear an exit-3
+    # omission is exactly how that would happen by accident, not by malice.
+    # Deliberately EXIT_PRECONDITION, not EXIT_OMISSION: a foreign gate path is an environment
+    # fault, and this file's contract is that distinct bugs never share an exit code.
+    for gate in GATES:
+        resolved = gate.path.resolve()
+        if resolved != VAULT and VAULT not in resolved.parents:
+            problems.append(
+                f"gate {gate.gate_id!r} resolves to {resolved}, outside {VAULT}. run_gate() would "
+                "execute pytest with cwd= inside another vault and write .pytest_cache there. "
+                "Peer trees are read-only."
+            )
+
     return problems
 
 
 # ---------------------------------------------------------------------------
 # Registry 3 — DISCOVERY. The whole point.
 # ---------------------------------------------------------------------------
-def discover_test_surfaces() -> list[Path]:
-    """Every directory in the vault that holds tests, found on disk rather than recalled."""
+def discover_test_surfaces() -> tuple[list[Path], list[Path]]:
+    """Every directory in the vault that holds tests, found on disk rather than recalled.
+
+    Returns ``(surfaces, shims_skipped)``.
+
+    ⚠ **``find -P``, not ``find -L`` — this walk does not follow symlinks.** Rosetta (aDNA.aDNA,
+    2026-09-11) measured the cost of the other choice: a census of the template corpus run as
+    ``ls */what/lattices/examples/*.canvas`` reads **254 files across 62 vaults** where the physical
+    truth is **282 across 69**, because 14 root-level back-compat shims are followed by the glob —
+    so live vaults are counted twice under two names and archived vaults reappear inside the live set.
+
+        A shim is a second true name for one object, and a glob cannot tell a name from a thing.
+
+    **This vault carries the same shape at its own root.** ``./git`` and ``./iii`` are symlinks into
+    ``how/federation/``, so ``ls */CLAUDE.md`` reports **two** federation wrappers where there are
+    **three** — and names both of the two by their *second* name, while missing ``comfyui/``, which
+    has no shim at all.
+
+    The omission *verdict* was already safe (:func:`run_discovery` compares ``.resolve()`` on both
+    sides, so a shim canonicalises onto its target). What was not safe is the **population line**,
+    which counted names rather than things, in the one file whose whole thesis is *enumerate the
+    territory, don't re-read the map*. Nothing under ``what/production`` or ``what/code`` is a symlink
+    today (measured 2026-09-11) — which is exactly when this is cheap to close.
+    """
     found: set[Path] = set()
+    shims: list[Path] = []
     for parent in (PRODUCTION, CODE):
         if not parent.is_dir():
             continue
         for child in sorted(parent.iterdir()):
+            if child.is_symlink():
+                # Skipped, never silently: an unreported skip is this file's own founding finding
+                # one layer down — a check that is not run leaves no trace.
+                shims.append(child)
+                continue
             if not child.is_dir():
                 continue
             if (child / "tests").is_dir() and _has_tests(child / "tests"):
                 found.add(child)
     # A bare tests/ directory directly under a parent (what/production/tests/) is a surface too.
     for parent in (PRODUCTION, CODE):
-        if (parent / "tests").is_dir() and _has_tests(parent / "tests"):
-            found.add(parent / "tests")
-    return sorted(found)
+        tests = parent / "tests"
+        if tests.is_symlink():
+            shims.append(tests)
+            continue
+        if tests.is_dir() and _has_tests(tests):
+            found.add(tests)
+    return sorted(found), shims
 
 
 def _has_tests(tests_dir: Path) -> bool:
@@ -231,10 +279,11 @@ def declared_surfaces() -> dict[Path, str]:
     return declared
 
 
-def run_discovery() -> tuple[list[Path], list[str]]:
-    """Return (undeclared surfaces, problems with the EXCLUSIONS registry itself)."""
+def run_discovery() -> tuple[list[Path], list[str], list[Path], int]:
+    """Return (undeclared surfaces, EXCLUSIONS-registry problems, shims skipped, surfaces found)."""
     declared = declared_surfaces()
-    undeclared = [p for p in discover_test_surfaces() if p.resolve() not in declared]
+    surfaces, shims = discover_test_surfaces()
+    undeclared = [p for p in surfaces if p.resolve() not in declared]
 
     problems: list[str] = []
     for rel, reason in EXCLUSIONS.items():
@@ -242,7 +291,7 @@ def run_discovery() -> tuple[list[Path], list[str]]:
             problems.append(f"exclusion {rel!r} carries no reason — every exclusion must justify itself")
         if not (VAULT / rel).exists():
             problems.append(f"exclusion {rel!r} names a path that does not exist — stale registry entry")
-    return undeclared, problems
+    return undeclared, problems, shims, len(surfaces)
 
 
 # ---------------------------------------------------------------------------
@@ -413,7 +462,7 @@ def main() -> int:
         return EXIT_PRECONDITION
     print("preconditions OK — anaconda pytest, adna-canvas-std editable in-vault, paths present")
 
-    undeclared, registry_problems = run_discovery()
+    undeclared, registry_problems, shims, _found = run_discovery()
     if registry_problems:
         print("\nEXCLUSION REGISTRY PROBLEM:")
         for p in registry_problems:
@@ -430,12 +479,18 @@ def main() -> int:
     # may name paths carrying no discoverable tests (what/production/_archive is one — it holds
     # tests only at grandchild depth, so discovery never sees it). Reporting `found - len(registry)`
     # would print a gated-count nobody derived, which is the exact defect class this file serves.
-    surfaces = discover_test_surfaces()
+    surfaces, _ = discover_test_surfaces()
     declared = declared_surfaces()
     gated = [p for p in surfaces if declared.get(p.resolve(), "").startswith("gate:")]
     excluded_seen = [p for p in surfaces if declared.get(p.resolve()) == "excluded"]
-    print(f"discovery OK — {len(surfaces)} test-bearing surfaces, all declared "
-          f"({len(gated)} gated, {len(excluded_seen)} excluded with reasons)")
+    # "physical" is load-bearing, not decoration: this count is of THINGS, not of names. A symlink
+    # shim under either parent would inflate it while leaving every verdict correct — Rosetta's
+    # 254-vs-282 finding, which this vault already instantiates at its own root (./git, ./iii).
+    print(f"discovery OK — {len(surfaces)} test-bearing surfaces (physical), all declared "
+          f"({len(gated)} gated, {len(excluded_seen)} excluded with reasons; "
+          f"{len(shims)} symlink shim(s) skipped)")
+    for shim in shims:
+        print(f"  · shim skipped: {shim.relative_to(VAULT)} -> {shim.resolve()}")
 
     if args.discover_only:
         return EXIT_OK

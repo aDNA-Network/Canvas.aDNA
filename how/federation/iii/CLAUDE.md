@@ -8,7 +8,14 @@ mission_origin: Canvas.aDNA Operation Cartography — P3 (mission_p3_conformance
 activated_by: Canvas.aDNA Operation Keystone — E5.1 (mission_e5_1_iii_wiring)
 last_reviewed_at: III.aDNA campaign_m_network_primitive DP-4 (2026-07-04; v0.5.0 → v0.6.0)
 status: active
-substrate_pin: "III.aDNA v0.6.0"
+# ⛩ `substrate_pin: "III.aDNA v0.6.0"` REMOVED 2026-09-11 (Plumbline P3). It was a second
+# pin-shaped field beside `federation_ref.version` below — the failure Rosetta flagged in their own
+# git wrapper on 2026-09-11, and that Videos' practice (via Callisto) avoids: wrappers POINT, they
+# never RESTATE, so a pin cannot be stale in two places at once. The two values AGREED at removal
+# (both 0.6.0), so this is structural, not a correction. `wrapper_for: III.aDNA` above already
+# carries the vault name — verified before deleting, not assumed.
+# ⚠ The `v0_6_pinned` tag below is a third restatement of the same fact and is deliberately LEFT:
+#    tags are a search surface, not a pin consumers read, and removing it is a separate call.
 pinned_at: 2026-07-04
 tags: [federation, iii, consumer_wrapper, canvas, active, v0_6_pinned, genesis]
 ---
