@@ -3,12 +3,12 @@ type: session
 session_id: session_stanley_20260911_plumbline_p0_p3
 created: 2026-09-11
 updated: 2026-09-11
-status: active
+status: completed
 tier: 2
 persona: mondrian
 operator: stanley
 campaign: campaign_canvas_plumbline
-phase: "P0 → P3"
+phase: "P0 → P4 (all)"
 executor_tier: opus
 last_edited_by: agent_mondrian
 tags: [session, canvas, plumbline, authority_axis, production_axis, b1_5, lip_0010, intake, rosetta, conform, diagram_generator]
@@ -94,8 +94,80 @@ published *inside a correction whose entire subject is stale figures*. The true 
   memo #11's `21 of 21` (normalize_edges).
 - Campaign chartered: `campaign_canvas_plumbline`.
 
-*(P1–P4 appended as they run.)*
+### P1 — the ruling, the producers, and the drift it exposed
+
+- **Ruled first** ([`p1_under_coverage_ruling.md`](../../campaigns/campaign_canvas_plumbline/artifacts/p1_under_coverage_ruling.md)):
+  the P2b population is **out of the pattern's scope**, so omission is correct. Quoted basis, not inference.
+- `conform.py` + `diagram_generator` + `variant_board` + `tuning_surface` conformed; 4 carriers migrated;
+  the two `.diagram.yaml` sources moved in the same diff (the law I was adopting binds here first). **+10 tests.**
+- ⛩ **F-PL-6** — regeneration exposed **2 of 2** dual-channel pairs stale since 09-07, through five
+  all-green gate lines. Verified pre-existing by rebuilding from the **unmodified committed** sources.
+  Fixed as **gate #9**, `dual_channel_freshness`, proved in both directions.
+- ⛩ **F-PL-7** — the P2b blocker's proximate cause was a required keyword argument in our own module.
+
+### P2 — LIP-0010 converts
+
+Assessment → **Standard proposal, Option D, v2.4.0**; Option B superseded-in-cells; trigger rewritten as
+a **file at a path** and *run*; `canvas_std` **diff 0**, verified by the `firewall` gate from the vault root.
+⚠ Self-caught: I wrote *"gate #14"* into the LIP when the manifest publishes gates **by name**. Corrected.
+
+### P3 — promises and traps
+
+- **#17 → Berthier DELIVERED** (md5 `8445c920…` both ends; their tree +1, untracked; drop-box probed **at act time**).
+- **#18 → SS STAGED** — two live leases, no drop-box. **Not refused; transient.** *(→ delivered at P4, below.)*
+- Shim trap closed (counterfactual proved: old code printed `15 … (13 gated)` with a correct verdict);
+  foreign-gate precondition guard (exit 4); `AGENTS.md` §What discovery cannot see; `iii/` pin de-duplicated.
+- `idea_memo_number_registry` filed, not built.
+
+### P4 — close
+
+**#18 → SS DELIVERED.** The close re-probe found **0 active leases** where P3 found 2, so it went —
+md5 `c3f8f527…` both ends, their tree +1, untracked. ⚠ Its `delivery_basis` was **rewritten before
+sending** to record that the basis *changed* during the session, rather than quietly overwritten:
+memo #15 shipped with a stale one and that is the defect being avoided.
+⭐ ***A staged memo is not a refused one, and the re-probe is what makes that true*** — P5's finding,
+paying out inside a single sitting.
+
+`adr_011` upstream-disposition note (**status untouched** — upstream acceptance is not §7.7 ratification;
+and the split does **not** unseat the `view` row, checked rather than assumed). AAR, STATE, campaign completed.
 
 ## SITREP
 
-*(completed at session close)*
+**Completed** — Operation Plumbline, chartered and closed in one sitting. 5 phases, 6 commits, 9 gates green.
+
+**Gate line** (pasted from `--markdown`):
+> `canvas_std` **115/10** · certification **11/11** · `canvas_core` **1040/3** · `canvas_presentation` **57/2** · `canvas_context` **58** · producers **272 across 7 packages** · `comic_render` **154/2** · firewall diff **0** · dual-channel freshness **2/2**
+
+**In progress** — none.
+
+**Next up**
+1. ⛩ **LIP-0010 §7.7 signature** (operator). The firewall does not move without it.
+2. ~~Memo #18 → SS~~ ✅ **delivered at close.**
+3. `adr_010` · `adr_011` · `adr_012` signatures; mermaid trust grant.
+4. **Mention at a natural pause, do not file**: the gate manifest's upstream case is now stronger — the
+   shim trap is a **second, externally-sourced** trap on the same tool.
+
+**Blockers** — none. The only thing open is an operator signature.
+
+**Files touched** — `STATE.md` · `who/governance/lips/{lip_0010…, lip_registry}.md` ·
+`what/production/canvas_core/{conform.py, tests/test_conform.py, rlhf/{variant_board,tuning_surface}.py}` ·
+`what/production/diagram_generator/{src/diagram_generator/{model,consume}.py, tests/test_authority.py}` ·
+`what/{context/context_canvas_surface_legs, decisions/adr_004_production_code_layout}.{diagram.yaml,canvas}` ·
+`how/gates/{gate_manifest.py, AGENTS.md}` · `how/federation/iii/CLAUDE.md` ·
+`what/decisions/adr_011_…md` · `how/campaigns/campaign_canvas_plumbline/**` ·
+`how/backlog/idea_memo_number_registry.md` · 2 outbound memos (1 delivered, 1 staged).
+
+**Next Session Prompt**
+
+> Operation Plumbline closed 2026-09-11; Canvas is between campaigns. Two things are owed. **Both outbound memos were delivered** (#17 Berthier, #18 SS — the latter
+> staged at P3 on two live peer leases and delivered at P4 when the re-probe found them clear), so
+> **nothing is owed to any peer**. **LIP-0010 is now a
+> Standard proposal for v2.4.0** (Option D: `authority` {dual_channel, view} + `production` {hand_authored,
+> generated}, both optional, **two keys or neither**) and needs the operator's §7.7 signature before any
+> `canvas_std` touch — the firewall is at diff-0 and must stay there until then. Run
+> `python3 how/gates/gate_manifest.py --markdown` at cold start (**nine** gates now; #9 is
+> `dual_channel_freshness`) and **paste** the line, never retype it. Carried tail otherwise unchanged in
+> `STATE.md` §Resume Here. ⚠ Two habits this session had to re-learn the hard way: re-derive every figure
+> *including the corrections* (a broken `git ls-files` nearly published `0 tracked` inside a correction about
+> stale figures), and evaluate a peer memo's `pins:` block rather than believing its prose — one claim in the
+> inbound ruling was already false when we read it, and the memo carried the pin that proved it.

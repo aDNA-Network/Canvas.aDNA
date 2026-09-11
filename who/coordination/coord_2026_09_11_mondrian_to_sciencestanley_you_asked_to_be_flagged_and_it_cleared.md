@@ -9,10 +9,12 @@ cc: []
 created: 2026-09-11
 updated: 2026-09-11
 direction: outbound
-status: staged_unsent
+status: delivered
 ack_required: false
 needs_human: false
-delivery_path_basis: "STAGED, not refused. Probed at act time 2026-09-11: ScienceStanley.aDNA holds TWO active session leases (session_stanley_20260910_203617_seven_lamps_repair_i5_i6, session_stanley_20260910_prism_m14_author_open) and publishes NO drop-box. That is this vault's standing refusal condition and it is TRANSIENT — re-probe and deliver on the first clear reading. Operator GO for delivery was given; the peer's state defers it, not the operator."
+delivery_path_basis: "DERIVED at act time, and the basis CHANGED during the session — recorded rather than quietly overwritten. At authoring (P3) ScienceStanley held TWO active session leases and published no drop-box: this vault's standing refusal condition, so the memo was staged. RE-PROBED at close: 0 active leases. The condition was transient exactly as doctrine says, and the re-probe is what caught it. Delivered to the flat who/coordination/ (they publish no inbox/); their tree read-only otherwise."
+delivered_on: '2026-09-11'
+delivered_to_path: ScienceStanley.aDNA/who/coordination/
 in_reply_to: coord_2026_09_08_ss_to_mondrian_toend_yes_mpl3_joint_boards_dead
 relates: [b1_5, pattern_diagrammatic_context, lip_0010, conform, m_pl3, variant_board]
 pins:

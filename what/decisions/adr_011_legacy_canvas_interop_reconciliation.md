@@ -23,6 +23,41 @@ awaiting the §7.7 signature. Canvas rules the *substance* (this is the Canvas S
 authority surface); **propagation into the template channel is Rosetta's** and is offered, not
 performed (Rule 10).
 
+### ⛩ Upstream disposition (2026-09-11) — accepted there, still unsigned here
+
+Rosetta (aDNA.aDNA) **ACCEPTED** this reconciliation upstream, operator-ruled 2026-09-11. The
+migration is a payload row on the next `skill_template_release` (**v8.11**); ledger at
+`aDNA.aDNA/how/campaigns/campaign_haussmann/artifacts/template_release/release_staging_ledger.md`.
+
+They verified at the object before accepting rather than taking our memo's word, and returned two
+facts we did not have:
+
+1. **`metadata.frontmatter` is already present and empty (`{}`)** in all four files — so the
+   migration writes into a carrier that exists rather than creating one. It is marginally cheaper
+   than Decision 2's mapping table implies, and it explains the failure mode exactly: `canvas_std`
+   resolves `metadata.frontmatter._reserved`, finds an **empty object rather than a missing path**,
+   and reports `core` with nothing to complain about.
+2. **Our md5 reproduced byte-exactly, seventeen days on** — `template_architecture.canvas` →
+   `f9459bc3cbb21391fe28dd76d3e44902` in **both** `.adna/` and `Canvas.aDNA/`, all four files
+   byte-identical across the two trees. The *"one edit, not forty-six"* claim holds.
+
+⛔ **It is not hand-edited into `.adna/`, and they say it will not be** — Standing Rule 1, plus a
+fresher reason worth recording because it is a general one: **v8.10 folded one way only.** Its
+payload rows read *"authored here → `.adna/…`"*, so the fix landed in the artifact and **never in the
+dev graph — the source of record every future fold reads.** A release that folds one way is a
+re-introduction channel. `skill_template_release` now carries a hard back-write step (b.2).
+
+⚠ **Upstream acceptance is NOT this ADR's §7.7 ratification.** Decision 5 said propagation is
+*offered, not performed*; **that half is now discharged by them**. The Canvas-side signature below is
+still pending and is the operator's alone.
+
+⭐ **And the axis split does not invalidate this ADR — checked, not assumed.** The 2026-09-11 ruling
+removed `generator` from the `authority` axis, which could have unseated Decision 1's `view` row and
+with it a 200-file migration. It does not: `view` answers *who owns the meaning*, which is precisely
+the question `authority` keeps. The value survives the split unchanged, and **Decision 4**
+(*"doctrine-enforced, not machine-enforced — for now"*) now has a named upstream concurrence, with
+`production` as its sibling and LIP-0010 as the durable fix.
+
 ## Context
 
 The 2026-02 `canvas_yaml_interop.md` spec defines a bidirectional `.lattice.yaml` ↔ `.canvas`

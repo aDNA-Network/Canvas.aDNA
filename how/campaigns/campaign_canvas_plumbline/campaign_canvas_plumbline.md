@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_plumbline
 type: campaign
 title: "Operation Plumbline — the authority axis splits in two, and Canvas conforms to the doctrine it asked for"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "1-3"
 phase_count: 5
 mission_count: "created at phase-open"
@@ -12,8 +12,10 @@ executor_tier_default: opus
 predecessor: campaign_canvas_blueprint
 created: 2026-09-11
 updated: 2026-09-11
+completed: 2026-09-11
+actual_sessions: 1
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-11 — chartered at the plan gate, reversing the P5 'no successor chartered' ruling on new evidence: Rosetta's 2026-09-11 reply cleared b1.5, and the clearing made Canvas its own blocker)"
+status_history: "active (2026-09-11 — chartered at the plan gate, reversing the P5 'no successor chartered' ruling on new evidence: Rosetta's 2026-09-11 reply cleared b1.5, and the clearing made Canvas its own blocker) · P0 record corrected + chartered · P1 under-coverage RULED from the pattern text, producers conformed, F-PL-6 found both dual-channel pairs stale for four days -> gate #9 · P2 LIP-0010 converted to a v2.4.0 Standard proposal (firewall diff-0) · P3 memo #17 delivered, #18 staged then delivered on the close re-probe, shim trap + foreign-gate guard closed, iii pin de-duplicated · P4 CLOSED 2026-09-11 -> ✅ COMPLETED"
 tags: [campaign, canvas, plumbline, authority_axis, production_axis, b1_5, lip_0010, pattern_diagrammatic_context, conform, diagram_generator, rosetta, berthier, sciencestanley]
 ---
 
@@ -96,7 +98,11 @@ The measurement was `canvas_std`-scoped; `STATE.md`'s compression of it dropped 
    I will come back"*) and to SS (*"flagged when it clears, not left to ask"*).
 4. **Correct the record** wherever the ruling, or our own re-derivation, made a published figure false.
 
-## The question P1 must rule before any value is written
+## ✅ RULED at P1 — the question the charter refused to assume
+
+> **Answer: the population was never in scope, so there is nothing to under-cover.** `pattern_diagrammatic_context` governs *"two channels side by side"*, and its anti-pattern is scoped to *"a `.canvas` **beside a document**"*. A hand-authored **primary** artifact owns its own meaning, so the `authority` question does not arise — and the pattern explicitly declines to call an undeclared canvas nonconformant. ⇒ ***an axis cannot under-cover a population it does not cover***; **omission is the correct answer**. Full basis with quotations: [`p1_under_coverage_ruling.md`](artifacts/p1_under_coverage_ruling.md). The question as posed at the charter gate is preserved below.
+
+### The question as posed
 
 ⚠ **The split fixes E2's finding. Nothing in the ruling says it fixes P2b's, and they are different
 defects.**
@@ -123,11 +129,11 @@ Each gate is a **human gate** (Standing Order 1). P0–P3 are intended for one s
 
 | Phase | Scope | Gate deliverable | Status |
 |---|---|---|---|
-| **P0** | **Intake + the corrected record.** Standalone read-receipt commit; re-derive the censuses; correct the five live stale sites; charter. | The record is true, and the campaign exists. | 🟢 **in progress** |
-| **P1** | **Rule the under-coverage question, then conform the producers.** `conform.py` + `diagram_generator` learn both axes; migrate our 4 canonical carriers. | Canvas can emit the shape it asked for; producers green. | ⬜ |
-| **P2** | **LIP-0010 converts** to a v2.4.0 Standard proposal — Option B superseded-in-cells, Option D specified. **Firewall untouched.** | A ratifiable proposal; `canvas_std` diff 0. | ⬜ |
-| **P3** | **Memos #17 (SS) + #18 (Berthier) delivered**; `gate_manifest` shim hardening; `iii/` pin de-dup. | Both promises discharged; two latent traps closed. | ⬜ |
-| **P4** | **Close.** `adr_011` upstream note; gate run pasted; AAR; STATE; push. | Campaign completed. | ⬜ |
+| **P0** | **Intake + the corrected record.** Standalone read-receipt commit; re-derive the censuses; correct the five live stale sites; charter. | The record is true, and the campaign exists. | ✅ **complete** |
+| **P1** | **Rule the under-coverage question, then conform the producers.** `conform.py` + `diagram_generator` learn both axes; migrate our 4 canonical carriers. | Canvas can emit the shape it asked for; producers green. | ✅ **complete** |
+| **P2** | **LIP-0010 converts** to a v2.4.0 Standard proposal — Option B superseded-in-cells, Option D specified. **Firewall untouched.** | A ratifiable proposal; `canvas_std` diff 0. | ✅ **complete** |
+| **P3** | **Memos #17 (SS) + #18 (Berthier) delivered**; `gate_manifest` shim hardening; `iii/` pin de-dup. | Both promises discharged; two latent traps closed. | ✅ **complete** |
+| **P4** | **Close.** `adr_011` upstream note; gate run pasted; AAR; STATE; push. | Campaign completed. | ✅ **complete** |
 
 ## Operator rulings taken at the charter gate (2026-09-11)
 
@@ -160,3 +166,26 @@ Each gate is a **human gate** (Standing Order 1). P0–P3 are intended for one s
 - Charter gate: the operator-approved plan, 2026-09-11.
 - Intake: `eb12e16` (read-receipt, byte-unchanged; md5 `42f7a2b081908bec6cff1fdd4f413d30`).
 - Predecessor: [`campaign_canvas_blueprint`](../campaign_canvas_blueprint/campaign_canvas_blueprint.md) §Completion Summary.
+
+---
+
+## Completion Summary (2026-09-11)
+
+**Chartered and closed the same day.** 5 phases · 1 session · 6 commits · 9 gates green.
+
+| Phase | Shipped |
+|---|---|
+| **P0** | Intake `eb12e16` (byte-unchanged, md5 verified, standalone). Censuses re-derived (**56** physical `.canvas`, 30/26 tracked; **4 of 25** carry `authority`). Five live stale sites struck **in situ**; four historical copies deliberately untouched. Campaign chartered. |
+| **P1** | The under-coverage question **ruled from the pattern's text**. `conform.py` + `diagram_generator` learn both axes (`authority` now **optional**, `production` added, `generator` rejected with a migration hint); `variant_board` + `tuning_surface` re-emit; 4 carriers migrated; sources moved in the same diff. **+10 tests.** ⛩ **F-PL-6** found and fixed as **gate #9**. |
+| **P2** | **LIP-0010 converts** — assessment → **Standard proposal, Option D, v2.4.0**. Option B superseded-in-cells/retained-in-mechanism. Firewall touch named file-by-file. §7.7 block added. **`canvas_std` diff 0.** |
+| **P3** | **#17 → Berthier DELIVERED** (md5 both ends, their tree +1 untracked, probed at act time). **#18 → SS** staged, then **DELIVERED at close** when the re-probe found their leases clear. Shim trap + foreign-gate guard closed; `AGENTS.md` §What discovery cannot see; `iii/` pin de-duplicated. `idea_memo_number_registry` filed. |
+| **P4** | `adr_011` upstream-disposition note (status untouched). AAR. STATE rewritten. Campaign completed. |
+
+**Gate line at close** — pasted from `--markdown`, never retyped:
+
+> `canvas_std` **115/10** · certification **11/11** · `canvas_core` **1040/3** · `canvas_presentation` **57/2** · `canvas_context` **58** · producers **272 across 7 packages** · `comic_render` **154/2** · firewall diff **0** · dual-channel freshness **2/2**
+
+**AAR:** [`plumbline_campaign_aar.md`](missions/artifacts/plumbline_campaign_aar.md)
+
+⛔ **Carried, and owed by the operator:** LIP-0010's **§7.7 signature** — the firewall does not move without it.
+✅ **Owed by us: nothing.** #18 was staged at P3 and **delivered at close** — the re-probe found 0 leases where P3 found 2. ⭐ ***A staged memo is not a refused one, and the re-probe is what makes that true.***
