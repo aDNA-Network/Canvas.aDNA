@@ -30,7 +30,7 @@ numbers.
 | [[lip_0001_lip_process\|LIP-0001]] | LIP Purpose and Guidelines (Canvas-local working copy) | Process | Accepted | — | Stanley Bishop | 2026-03-07 |
 | [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Final | v2.3.0 | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0009_canvas_as_primitive\|LIP-0009]] | Canvas as a First-Class aDNA Primitive (evaluation) | Standard | Final (Option V) | — (no core change) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
-| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal) | Standard | Draft (Option B superseded in its cells; trigger fired 2026-09-11) | — (no change taken; firewall diff-0) | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
+| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal) | Standard | Draft — **Standard proposal**, Option D, §7.7 pending | v2.4.0 (proposed; not taken) | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
 
 ## Status (Canvas-stewarded)
 
@@ -54,7 +54,9 @@ numbers.
 > Recommendation **Option B** — an optional validated enum, additive, v2.4.0 — was **deferred** and gated on Rosetta
 > ratifying `pattern_diagrammatic_context`. ⛩ **They ratified 2026-09-11 and SPLIT the axis**, so Option B is
 > **superseded in its cells and retained in its mechanism**: the shape survives, the three-value set does not.
-> **No change taken; firewall at diff-0.**
+> ⛩ **Converted to a Standard proposal 2026-09-11** (Plumbline P2): **Option D** — `authority`
+> {`dual_channel`, `view`} + `production` {`hand_authored`, `generated`}, both optional, validated only if
+> present, **two keys or neither**, additive, **v2.4.0**. **No change taken; firewall at diff-0** pending §7.7.
 
 ---
 *LIP Registry — Canvas.aDNA · established Operation Beacon B4, 2026-07-02 · predecessor: `Archive.aDNA/lattice-labs/how/governance/lips/lip_registry.md`*

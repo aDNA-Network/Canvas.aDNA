@@ -1,25 +1,83 @@
 ---
 type: lip
 lip_number: "LIP-0010"
-title: "Diagrammatic context — does the doctrine need a Standard change? (assessment)"
+title: "Diagrammatic context — the `authority` / `production` axis split (assessment → Standard proposal, v2.4.0)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
 status: draft
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-09-11
 requires: []
 replaces: []
 last_edited_by: agent_mondrian
-resolution: "recommendation: Option B, DEFERRED — gated on Rosetta's adoption ruling on pattern_diagrammatic_context. No change taken now."
-related: ["adr_011_legacy_canvas_interop_reconciliation", "draft_pattern_diagrammatic_context"]
-tags: [lip, assessment, canvas, canvas_standard, diagrammatic_context, authority, blueprint, p1]
+resolution: "Option D RECOMMENDED (two optional validated keys, additive, v2.4.0) — supersedes Option B, whose MECHANISM survives and whose CELLS do not. The 2026-08-24 trigger was INVERTED, not fired; the rewritten trigger is a file at a path and it has already fired. Still draft; NO change taken — canvas_std at diff-0 pending §7.7."
+related: ["adr_011_legacy_canvas_interop_reconciliation", "pattern_diagrammatic_context", "p1_under_coverage_ruling"]
+tags: [lip, assessment, proposal, canvas, canvas_standard, diagrammatic_context, authority, production, axis_split, blueprint, p1, plumbline, p2]
 ---
 
-# LIP-0010: Diagrammatic context — Standard-change assessment
+# LIP-0010: Diagrammatic context — the `authority` / `production` axis split
 
-> An **assessment**, in the LIP-0009 mould: it asks whether a doctrine needs a schema change, and its
-> "implementation" may legitimately be the status quo. Produced at Operation Blueprint P1
-> (`mission_b1_doctrine`, 2026-08-24). **No change is taken here** — `what/code/canvas_std/` is at
-> diff-0 and stays there unless a ratified LIP says otherwise (campaign standing order).
+> **Opened as an assessment** in the LIP-0009 mould (Operation Blueprint P1, `mission_b1_doctrine`,
+> 2026-08-24): it asked whether a doctrine needs a schema change, and its "implementation" could
+> legitimately have been the status quo.
+>
+> ⛩ **Converted to a Standard proposal at Operation Plumbline P2, 2026-09-11**, when the doctrine it
+> was waiting on was ruled. **Still `draft`, and still no change taken** — `what/code/canvas_std/` is
+> at diff-0 and stays there until an operator signs (§7.7). *Doctrine settles, then the machine
+> enforces it* was this LIP's own ordering argument; it applies to the conversion too.
+
+---
+
+## §0 · Two inversions, and neither was visible without re-deriving
+
+**This section is first because reading the ruling produces a wrong plan twice over.**
+
+### Inversion 1 — the trigger was inverted, not fired
+
+The 2026-08-24 trigger below is a **conjunction**:
+
+> *"Rosetta ratifies `pattern_diagrammatic_context` **with `authority` still normative** **and** the
+> **three-row set stable**."*
+
+The ruling of 2026-09-11 breaks **both** conjuncts. §3 amendment 1 **splits** the axis (*"we are not
+adopting a three-value enum that answers one-and-a-half of them"*); §3 amendment 2 rules `authority`
+**doctrine-enforced, not machine-enforced** — *"until your LIP-0010 rules."*
+
+⭐ **The two conditions were written pointing at each other.** Our trigger waited on their ruling;
+their ruling defers the enforcement clause to ours. Neither desk was stalling — the cycle is
+structural, and it is broken only by **an artifact existing**. That is why the rewritten trigger names
+a file rather than a decision.
+
+### Inversion 2 — the memo was stale in that exact claim, and carried the proof
+
+The ruling states `pattern_diagrammatic_context.md` is **NOT YET AUTHORED** (24 patterns in
+`aDNA.aDNA/what/patterns/`, not among them) and pointedly declines the word *"routed"*: *"you will
+know it exists when it exists."*
+
+Evaluated from our own tree at intake: **26** patterns, and **the file is among them** — authored at
+`67ad713`, **the commit immediately after `860c59e`, the head the memo itself pins** as *"superseded
+when: our next commit."*
+
+> ⇒ ***A memo is a measurement with a timestamp.*** True at 00:55Z, false when read. Believing the
+> sentence instead of evaluating the pin would have left this LIP deferred against a blocker that had
+> already dissolved — and the pin that disproved it was in the same document.
+
+### What the ruling actually settled
+
+| Axis | The question it answers | Values |
+|---|---|---|
+| **`authority`** | *Who owns the meaning?* | `dual_channel` · `view` |
+| **`production`** | *How is the picture made?* | `hand_authored` · `generated` |
+
+⭐ This is **E2's larger fix** — the two-field shape Canvas *named and explicitly declined to propose*
+on the reasoning that it was a schema change. The ruling answers that objection directly, and the
+answer is the load-bearing sentence for everything below:
+
+> *"The split therefore costs no schema change, which is what makes it adoptable today: adding a
+> sibling key to a key nothing validates changes nothing a validator sees. Canvas declined to propose
+> the two-field shape on the reasonable reading that it was a schema change; **it is one only once
+> LIP-0010 makes either key binding, and at that point both become binding together.**"*
+
+**So this LIP is exactly where the schema change lives, and it is now a two-key change or none.**
 
 ## The question
 
@@ -97,26 +155,101 @@ mandatory that the ecosystem has never emitted. Not proportionate.
 > in opposite directions and still agree with each other.*** Option C stays ❌ **rejected** — the
 > ruling makes it moot anyway: the pattern explicitly declines to mandate the field.
 
-## Recommendation — Option B, deferred
+**Option D — two optional validated keys (additive, minor bump → v2.4.0).** ⛩ ✅ **RECOMMENDED
+2026-09-11**, superseding Option B.
 
-Take **no change now**, and open Option B as a real LIP **only if Rosetta adopts
-`pattern_diagrammatic_context`**.
+The shape Option B established, applied to the axes the doctrine actually ruled:
 
-The reasoning is ordering, not reluctance. `authority` is load-bearing *because the pattern says so*,
-and the pattern is a staged draft in another vault's queue — unruled. Validating an enum for a
-doctrine that may be amended (or declined) would harden the wrong thing first: if Rosetta renames a
-row, narrows the set, or rules `authority` advisory, a shipped enum becomes a migration. Doctrine
-settles, then the machine enforces it.
+| Key | Placement | Validated against | Required? |
+|---|---|---|---|
+| `authority` | `metadata.frontmatter._reserved` | `{dual_channel, view}` | **no** — only if present |
+| `production` | `metadata.frontmatter._reserved` | `{hand_authored, generated}` | **no** — only if present |
 
-This keeps the charter's default intact (**no schema change at P1**) without pretending the gap is
-absent — the charter's default is *preserved by evidence*, not merely by assertion.
+**Backward-compatible, measured rather than asserted** `[D] 2026-09-11`: **25** in-vault `adna_native`
+canvases, of which **4** carry `authority`. After the Plumbline P1 migration all 4 carry values inside
+the proposed sets, so **25 of 25 keep passing untouched**. ⚠ Before that migration **2 of the 4**
+carried `generator` — a *production* value in an *authority* field — which is precisely the state this
+LIP exists to make unrepresentable, and precisely what a validated Option B would have blessed.
 
-**Trigger to open Option B as a proposal:** Rosetta ratifies `pattern_diagrammatic_context` with
-`authority` still normative and the three-row set stable. At that point LIP-0010 converts from
-assessment to Standard proposal, cuts v2.4.0, and the enum lands additively.
+**Precedent for the shape:** `AFFORDANCE_KINDS` in `reserved.py` — a closed enum on an optional block.
 
-**If Rosetta declines the pattern:** no change is needed at all, and this assessment closes Final on
-Option A.
+**The firewall touch, named concretely so the §7.7 signature is informed rather than blanket:**
+
+| # | File | Change |
+|---|---|---|
+| 1 | `canvas_std/src/canvas_std/reserved.py` | two frozensets beside `AFFORDANCE_KINDS`; two `if "<key>" in reserved:` membership checks in the conditional block; both names appended to `RESERVED_KEYS` |
+| 2 | `canvas_std/src/canvas_std/data/adna_canvas_v2.schema.json` | two `{"enum": [...]}` properties under `$defs.reserved`; `x-standard-version` → `2.4.0` |
+| 3 | conformance suite | new A-8 cases: absent (pass) · valid (pass) · misspelled (fail) · `generator`-as-authority (fail, the migration case) |
+| 4 | `CHANGELOG` + `spec_conformance_suite` | the A-8 row |
+
+⛔ **Two keys or neither.** The ruling is explicit that they *"become binding together"*. Validating
+`authority` alone would re-create the original defect in the Standard itself: a canvas could then be
+*validly* `dual_channel` while silently omitting the only field that says *do not hand-edit me*.
+
+⭐ **What ratifying this buys, stated as the thing that is currently untrue.** Today the enum is
+enforced in **exactly two places, both ours** — `canvas_core/conform.py` and
+`diagram_generator/model.py`. Every other producer in the fleet, and every hand-authored canvas in
+**15+ vaults**, can write `authority: "veiw"` and receive a green `[OK]`. This LIP is the difference
+between a doctrine two of our own modules happen to police and one the Standard knows.
+
+*Cost:* a firewall touch, therefore a real LIP through its own §7.7 gate. **Not taken here.**
+
+---
+
+## Recommendation — Option D, and the reason this is a conversion rather than a fresh LIP
+
+~~Take **no change now**, and open Option B as a real LIP **only if Rosetta adopts
+`pattern_diagrammatic_context`**.~~ ⛩ **That condition has been met, in a shape that superseded the
+option it was protecting** — which is the deferral working exactly as designed rather than failing.
+
+The original reasoning, preserved because it is the argument that was vindicated:
+
+> The reasoning is ordering, not reluctance. `authority` is load-bearing *because the pattern says so*,
+> and the pattern is a staged draft in another vault's queue — unruled. Validating an enum for a
+> doctrine that may be amended (or declined) would harden the wrong thing first: **if Rosetta renames a
+> row, narrows the set, or rules `authority` advisory, a shipped enum becomes a migration.** Doctrine
+> settles, then the machine enforces it.
+
+⭐ **All three of those hypotheticals happened.** The set was narrowed (`generator` removed), a row was
+effectively renamed onto a new axis, and `authority` *was* ruled advisory-until-this-LIP. Had Option B
+shipped in August, the Standard would now carry a validated enum that **blesses the exact conflation
+the doctrine has since ruled out**, and unwinding it would be a major bump.
+
+> ⇒ ***The deferral's value is only visible in the counterfactual, which is why deferrals are hard to
+> defend at the time and easy to justify afterwards. It was right for the reason it gave.***
+
+### ⛩ Trigger — REWRITTEN 2026-09-11, and deliberately a file rather than a ruling
+
+> **Open Option D as a Standard proposal when:**
+> `aDNA.aDNA/what/patterns/pattern_diagrammatic_context.md` **exists on disk** and names its split
+> field set. Verified by listing that directory from this tree — **never** by reading a memo that says
+> it was authored.
+
+**Why the change of kind.** The 2026-08-24 trigger was a claim about *someone else's decision*,
+evaluable only by them. It mis-predicted the decision's shape and fired in a form that inverted it —
+and the document announcing the ruling was **already wrong** about whether the artifact existed.
+
+> ⇒ ***A trigger you cannot evaluate from your own tree is a trigger someone else has to remember for
+> you.***
+
+**First evaluation, run rather than described** `[D] 2026-09-11`:
+
+```
+$ ls ~/aDNA/aDNA.aDNA/what/patterns/ | wc -l
+26
+$ ls ~/aDNA/aDNA.aDNA/what/patterns/ | grep diagrammatic
+pattern_diagrammatic_context.md
+```
+
+**✅ The trigger has fired.** This LIP is a Standard proposal as of 2026-09-11.
+
+*(Rosetta's own §3 models the standard adopted here: "this sentence is deliberately not the word
+'routed'" — six routing claims verified in the prose that routed them. This trigger is written so it
+cannot become a seventh.)*
+
+~~**If Rosetta declines the pattern:** no change is needed at all, and this assessment closes Final on
+Option A.~~ — **They did not decline.** They adopted-with-a-split, so the Option-A close is off the
+table and this LIP stays open pending §7.7.
 
 ## What this assessment does *not* need
 
@@ -124,7 +257,17 @@ Everything else the doctrine asks for is already in the Standard at **2.3.0** �
 implementation, not by inspection:
 
 - **Dual-channel pairing** — a prose/`.canvas` pair needs no schema support; sync discipline is a
-  mission-process rule (Emacs REQ-Q01), enforced at gate review.
+  mission-process rule (Emacs REQ-Q01), ~~enforced at gate review~~.
+  > ⛩ **The struck clause was false, and we were the counterexample** (F-PL-6, 2026-09-11). It was
+  > *not* enforced at gate review: both of this vault's dual-channel canvases went stale on
+  > 2026-09-07 when the P2c re-gate changed the layout engine, and stayed stale through **P2c, P3,
+  > P4, P5 and the campaign close — five all-green gate lines.** The visual gate checks a canvas *as
+  > it stands*; nothing compared a generated artifact to a regeneration of it. ⇒ ***a generated
+  > artifact that nobody regenerates is a claim nobody re-derived.***
+  > **This does not change the conclusion** — the remedy is a *gate*, not a schema key, and it
+  > shipped the same day as `dual_channel_freshness` (gate #9, which rebuilds every `.diagram.yaml`
+  > and compares). But "no schema support needed" was being carried by a clause that was untrue, and
+  > a right answer resting on a wrong premise is worth one line to fix.
 - **`view` authority semantics** — already expressible; ADR-011's migration reaches
   `adna_native [OK]` with degradation D-1/2/3 intact, on 2.3.0 unmodified.
 - **`generator` provenance** — `sync.source_name` / `source_version` / `sync_hash` already carry it.
@@ -136,5 +279,28 @@ implementation, not by inspection:
 
 ## Status
 
-**draft** — an assessment pending the ordering trigger above. Carries no §7.7 ratification because it
-proposes no change; if it converts to a Standard proposal, that proposal gates on its own signature.
+**draft — and as of 2026-09-11 the reason it is draft has changed, which is itself the finding.**
+
+It was draft *pending a ruling*. The ruling arrived and **replaced the condition rather than
+satisfying it** — inverting this LIP's own trigger (§0). It is now draft *pending an operator
+signature*, having converted from an assessment that proposed nothing into a **Standard proposal for
+v2.4.0** that proposes a four-file firewall touch.
+
+**No change taken.** `what/code/canvas_std/` is at **git-diff 0**, verified by the `firewall` gate of
+the runnable manifest in this session's run and **not asserted** — run from the vault root, because a
+persisted `cd` makes that check return empty, i.e. indistinguishable from clean.
+
+### Ratification (§7.7) — required before any firewall touch
+
+| Field | Value |
+|-------|-------|
+| Decision | **Option D** — `authority` ∈ {`dual_channel`, `view`} and `production` ∈ {`hand_authored`, `generated`}, both **optional**, both validated **only if present**, on `metadata.frontmatter._reserved`; additive; minor bump **v2.4.0**; **two keys or neither** |
+| Ratified by | _(pending)_ |
+| Date | _(pending)_ |
+| Status | **proposed** |
+
+⚠ **What signing does and does not do.** It authorises the four-file touch in Option D's table and a
+v2.4.0 cut. It does **not** mandate either key on any canvas: the ruled pattern declines that, and so
+does this LIP. A canvas carrying neither key stays conformant — which is the correct answer for a
+hand-authored **primary** artifact, whose meaning nothing else owns
+([P1 ruling](../../../how/campaigns/campaign_canvas_plumbline/artifacts/p1_under_coverage_ruling.md)).
