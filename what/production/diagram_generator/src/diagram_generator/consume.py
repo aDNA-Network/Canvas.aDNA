@@ -127,12 +127,16 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
         },
         "surfaces": [{"id": ROOT_ID, "role": "canonical"}],
     }
-    # Diagrammatic-context authority (Blueprint P2). Emitted only when the spec declares it, so
-    # existing diagram specs produce byte-identical output. `canvas_std` does not read this key —
-    # the enum check is producer-side in `model.AUTHORITY_MODELS` (F-B1-2 / LIP-0010 Option B deferred).
+    # Diagrammatic-context axes (Blueprint P2; SPLIT into two at Plumbline P1, 2026-09-11). Each is
+    # emitted only when the spec declares it, so existing diagram specs produce byte-identical output
+    # and an undeclared axis stays *absent* rather than empty. `canvas_std` reads neither key — the
+    # enum checks are producer-side in `model.AUTHORITY_MODELS` / `model.PRODUCTION_MODES` (F-B1-2;
+    # LIP-0010 now a v2.4.0 proposal pending §7.7).
     refs = list(d.refs)
     if d.authority:
         reserved["authority"] = d.authority
+    if d.production:
+        reserved["production"] = d.production
     if d.prose:
         # The prose channel as a vault citizen link (REQ-H05) — no invented sub-schema; the existing
         # refs list is exactly the "what this canvas points at" surface.

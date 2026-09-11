@@ -5,8 +5,8 @@
       "type": "group",
       "x": 0,
       "y": 0,
-      "width": 1705,
-      "height": 2265,
+      "width": 1706,
+      "height": 1547,
       "label": "ADR-004 · two-shelf production code layout"
     },
     {
@@ -15,14 +15,14 @@
       "x": 80,
       "y": 80,
       "width": 900,
-      "height": 96,
+      "height": 60,
       "text": "#### ADR-004 · two-shelf production code layout"
     },
     {
       "id": "vault",
       "type": "text",
       "x": 80,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "Canvas.aDNA"
@@ -31,7 +31,7 @@
       "id": "shelf_std",
       "type": "text",
       "x": 80,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "SHELF A · what/code/ — the Standard"
@@ -40,7 +40,7 @@
       "id": "shelf_pro",
       "type": "text",
       "x": 420,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "SHELF B · what/production/ — the engine"
@@ -49,7 +49,7 @@
       "id": "canvas_std",
       "type": "text",
       "x": 80,
-      "y": 1176,
+      "y": 1140,
       "width": 220,
       "height": 100,
       "text": "canvas_std (lean, zero-dep)"
@@ -58,7 +58,7 @@
       "id": "canvas_core",
       "type": "text",
       "x": 80,
-      "y": 936,
+      "y": 900,
       "width": 220,
       "height": 100,
       "text": "canvas_core (~80 files)"
@@ -67,7 +67,7 @@
       "id": "siblings",
       "type": "text",
       "x": 80,
-      "y": 696,
+      "y": 660,
       "width": 220,
       "height": 100,
       "text": "canvas_comic · canvas_presentation"
@@ -76,7 +76,7 @@
       "id": "locator",
       "type": "text",
       "x": 760,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "CANVAS_CORE_HOME (locator)"
@@ -85,7 +85,7 @@
       "id": "alias",
       "type": "text",
       "x": 420,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "CANVASFORGE_CODE (deprecated alias)"
@@ -94,7 +94,7 @@
       "id": "trap",
       "type": "text",
       "x": 420,
-      "y": 696,
+      "y": 660,
       "width": 220,
       "height": 100,
       "text": "TRAP · silent non-render"
@@ -103,7 +103,7 @@
       "id": "install",
       "type": "text",
       "x": 420,
-      "y": 936,
+      "y": 900,
       "width": 220,
       "height": 100,
       "text": "install adna-canvas-std (preferred)"
@@ -112,7 +112,7 @@
       "id": "fallback",
       "type": "text",
       "x": 760,
-      "y": 936,
+      "y": 900,
       "width": 220,
       "height": 100,
       "text": "2nd sys.path entry (fresh-node)"
@@ -121,9 +121,9 @@
       "id": "mermaid_src",
       "type": "text",
       "x": 1100,
-      "y": 216,
+      "y": 180,
       "width": 480,
-      "height": 1857,
+      "height": 1260,
       "text": "```mermaid\nflowchart TD\n    vault(\"Canvas.aDNA\")\n    shelf_std[\"SHELF A · what/code/ — the Standard\"]\n    shelf_pro[\"SHELF B · what/production/ — the engine\"]\n    canvas_std([\"canvas_std (lean, zero-dep)\"])\n    canvas_core[\"canvas_core (~80 files)\"]\n    siblings[\"canvas_comic · canvas_presentation\"]\n    locator[\"CANVAS_CORE_HOME (locator)\"]\n    alias[\"CANVASFORGE_CODE (deprecated alias)\"]\n    trap{\"TRAP · silent non-render\"}\n    install[\"install adna-canvas-std (preferred)\"]\n    fallback[\"2nd sys.path entry (fresh-node)\"]\n    vault --> shelf_std\n    vault --> shelf_pro\n    shelf_std --> canvas_std\n    shelf_pro --> canvas_core\n    shelf_pro --> siblings\n    canvas_core -->|hard import (core.py)| canvas_std\n    siblings -->|bare cross-import → co-locate| canvas_core\n    locator -->|places on sys.path| canvas_core\n    alias -->|DeprecationWarning| locator\n    locator -->|canvas_std NOT placed| trap\n    trap -->|resolution A| install\n    trap -->|resolution B| fallback\n    install --> canvas_std\n    fallback --> canvas_std\n```"
     }
   ],
@@ -425,6 +425,7 @@
           ]
         },
         "authority": "dual_channel",
+        "production": "generated",
         "context_object": {
           "id": "urn:adna:canvas:decision:adr_004",
           "version": "1.0.0",

@@ -5,8 +5,8 @@
       "type": "group",
       "x": 0,
       "y": 0,
-      "width": 1705,
-      "height": 2044,
+      "width": 1706,
+      "height": 1865,
       "label": "Canvas surface legs — the three-leg thesis and its runtimes"
     },
     {
@@ -15,14 +15,14 @@
       "x": 80,
       "y": 80,
       "width": 900,
-      "height": 96,
+      "height": 60,
       "text": "#### Canvas surface legs — the three-leg thesis and its runtimes"
     },
     {
       "id": "thesis",
       "type": "text",
       "x": 80,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "ADR-000 · three-leg thesis"
@@ -31,7 +31,7 @@
       "id": "leg1",
       "type": "text",
       "x": 80,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "LEG 1 · output"
@@ -40,7 +40,7 @@
       "id": "leg2",
       "type": "text",
       "x": 420,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "LEG 2 · context object"
@@ -49,7 +49,7 @@
       "id": "leg3",
       "type": "text",
       "x": 760,
-      "y": 456,
+      "y": 420,
       "width": 220,
       "height": 100,
       "text": "LEG 3 · interface surface"
@@ -58,7 +58,7 @@
       "id": "producers",
       "type": "text",
       "x": 80,
-      "y": 696,
+      "y": 660,
       "width": 220,
       "height": 100,
       "text": "7 producers → .canvas"
@@ -67,7 +67,7 @@
       "id": "loader",
       "type": "text",
       "x": 80,
-      "y": 936,
+      "y": 900,
       "width": 220,
       "height": 100,
       "text": "canvas_context loader · L1–L7"
@@ -76,7 +76,7 @@
       "id": "surface",
       "type": "text",
       "x": 420,
-      "y": 696,
+      "y": 660,
       "width": 220,
       "height": 100,
       "text": "InteractionSurface · 5 primitives"
@@ -85,7 +85,7 @@
       "id": "std",
       "type": "text",
       "x": 80,
-      "y": 1176,
+      "y": 1140,
       "width": 220,
       "height": 100,
       "text": "canvas_std · immutable substrate"
@@ -94,7 +94,7 @@
       "id": "adr007",
       "type": "text",
       "x": 420,
-      "y": 216,
+      "y": 180,
       "width": 220,
       "height": 100,
       "text": "adr_007 · bounded firewall touch"
@@ -103,7 +103,7 @@
       "id": "reconcile",
       "type": "text",
       "x": 420,
-      "y": 936,
+      "y": 900,
       "width": 220,
       "height": 100,
       "text": "reconcile() · advisory reverse"
@@ -112,7 +112,7 @@
       "id": "draft",
       "type": "text",
       "x": 420,
-      "y": 1176,
+      "y": 1140,
       "width": 220,
       "height": 100,
       "text": "_draft + requires_review"
@@ -121,7 +121,7 @@
       "id": "human",
       "type": "text",
       "x": 80,
-      "y": 1416,
+      "y": 1380,
       "width": 220,
       "height": 100,
       "text": "explicit human promotion"
@@ -130,7 +130,7 @@
       "id": "source",
       "type": "text",
       "x": 80,
-      "y": 1656,
+      "y": 1620,
       "width": 220,
       "height": 100,
       "text": ".lattice.yaml · authoritative"
@@ -139,9 +139,9 @@
       "id": "mermaid_src",
       "type": "text",
       "x": 1100,
-      "y": 216,
+      "y": 180,
       "width": 480,
-      "height": 1662,
+      "height": 1540,
       "text": "```mermaid\nflowchart TD\n    thesis(\"ADR-000 · three-leg thesis\")\n    leg1[\"LEG 1 · output\"]\n    leg2[\"LEG 2 · context object\"]\n    leg3[\"LEG 3 · interface surface\"]\n    producers[\"7 producers → .canvas\"]\n    loader[\"canvas_context loader · L1–L7\"]\n    surface[\"InteractionSurface · 5 primitives\"]\n    std([\"canvas_std · immutable substrate\"])\n    adr007{\"adr_007 · bounded firewall touch\"}\n    reconcile[\"reconcile() · advisory reverse\"]\n    draft(\"_draft + requires_review\")\n    human{\"explicit human promotion\"}\n    source((\".lattice.yaml · authoritative\"))\n    thesis --> leg1\n    thesis --> leg2\n    thesis --> leg3\n    leg1 -->|Palette| producers\n    leg2 -->|Salon| loader\n    leg3 -->|Armature| surface\n    producers -->|installed dep| std\n    loader -->|read-only (pythonpath)| std\n    surface -->|has-a ContextGraph| loader\n    adr007 -->|the only authorized touch| std\n    surface -->|act| reconcile\n    reconcile --> draft\n    reconcile -->|READS ONLY — never writes| source\n    draft --> human\n    human -->|promotion (explicit)| source\n```"
     }
   ],
@@ -470,6 +470,7 @@
           ]
         },
         "authority": "dual_channel",
+        "production": "generated",
         "context_object": {
           "id": "urn:adna:canvas:context:surface_legs",
           "version": "1.1.0",

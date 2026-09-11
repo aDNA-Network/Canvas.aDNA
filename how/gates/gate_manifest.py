@@ -35,6 +35,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -71,7 +72,7 @@ class Gate:
     """One gate. ``expect`` is (passed, skipped); None means "not a counted pytest gate"."""
 
     gate_id: str
-    kind: str  # "pytest" | "certify" | "gitdiff"
+    kind: str  # "pytest" | "certify" | "gitdiff" | "freshness"
     path: Path
     expect: tuple[int, int] | None = None
     group: str = ""
@@ -96,7 +97,12 @@ GATES: list[Gate] = [
     Gate("canvas_std", "pytest", CODE / "canvas_std", (115, 10)),
     Gate("certification", "certify", CODE / "canvas_std", (11, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
-    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1035, 3)),
+    # 1035 -> 1040 at Plumbline P1 (2026-09-11): +5 in test_conform.py for the authority/production
+    # split. Investigated before editing, per this file's own rule — the delta was DERIVED by running
+    # the suite at HEAD (1035) and at the working tree (1040) and reconciling against the 5 test
+    # functions added, not inferred from the direction of the change. (⚠ I first assumed 6 and the
+    # arithmetic refused to close; test_conform was 13 before, not 12.)
+    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1040, 3)),
     Gate("canvas_presentation", "pytest", PRODUCTION / "canvas_presentation", (57, 2),
          note="added 2026-09-10 — was never in a STATE gate line; found by this file's own "
               "discovery check on its first run"),
@@ -106,6 +112,10 @@ GATES: list[Gate] = [
     Gate("comic_render", "pytest", PRODUCTION / "comic_render", (154, 2)),
     Gate("firewall", "gitdiff", CODE / "canvas_std", None,
          note="canvas_std must be byte-clean in the working tree; production never edits it"),
+    Gate("dual_channel_freshness", "freshness", VAULT, None,
+         note="added 2026-09-11 (F-PL-6): every `*.diagram.yaml` is rebuilt and compared to the "
+              "`.canvas` beside it. Both pairs in the vault had been stale for four days, across "
+              "four phase closes, each publishing an all-green gate line"),
 ]
 
 # Producer expectations are per-package, so a single package drifting cannot hide inside the total.
@@ -113,7 +123,8 @@ PRODUCER_EXPECT: dict[str, tuple[int, int]] = {
     "brief_consumer": (10, 0),
     "comic_generator": (123, 0),
     "deck_generator": (16, 0),
-    "diagram_generator": (44, 0),
+    "diagram_generator": (49, 0),  # 44 -> 49 at Plumbline P1: +5 for the production axis + the
+                                   # removed `generator` authority cell (test_authority.py).
     "document_generator": (37, 0),
     "letter_generator": (17, 0),
     "post_generator": (20, 0),
@@ -299,6 +310,57 @@ def run_gate(gate: Gate) -> None:
             return
         gate.detail = "diff 0"
 
+    elif gate.kind == "freshness":
+        # F-PL-6. `pattern_diagrammatic_context`'s central law is that **drift between the two
+        # channels is a defect, not a chore**. Nothing enforced it: the visual gate checks a canvas
+        # as it stands, and no check compared a generated artifact against a regeneration of it.
+        # Canvas's own two dual-channel canvases — the pair the ruled pattern cites BY NAME as its
+        # motivating example — went stale on 2026-09-07 when the P2c re-gate changed the layout
+        # engine, and stayed stale through P2c, P3, P4, P5 and the campaign close.
+        #
+        #   => a generated artifact that nobody regenerates is a claim nobody re-derived.
+        #
+        # The check is the regeneration itself, because that is the only thing that can answer it.
+        # Rebuilds run into a temp dir: this gate never writes into the vault.
+        # ⚠ `src` must be PREPENDED, not appended. `what/production/diagram_generator` is the
+        # *project* directory (src/, tests/, pyproject.toml) and shadows the real package at
+        # `src/diagram_generator`, so a bare `-m diagram_generator` resolves to the wrong object and
+        # dies with "is a package and cannot be directly executed". Found by this gate failing loudly
+        # on its first run — which is the behaviour that was wanted.
+        gen_env = _env()
+        gen_env["PYTHONPATH"] = os.pathsep.join(
+            [str(PRODUCTION / "diagram_generator" / "src"), gen_env["PYTHONPATH"]]
+        )
+        stale: list[str] = []
+        checked = 0
+        with tempfile.TemporaryDirectory() as tmp:
+            for src in sorted(VAULT.rglob("*.diagram.yaml")):
+                if ".git" in src.parts or "_archive" in src.parts or src.is_symlink():
+                    continue
+                current = src.with_name(src.name.replace(".diagram.yaml", ".canvas"))
+                if not current.exists():
+                    stale.append(f"{src.relative_to(VAULT)} has no .canvas beside it")
+                    continue
+                checked += 1
+                rebuilt = Path(tmp) / f"{checked}.canvas"
+                proc = subprocess.run(
+                    [str(PYTHON), "-m", "diagram_generator", "build", str(src), str(rebuilt)],
+                    capture_output=True, text=True,
+                    cwd=str(PRODUCTION / "diagram_generator"), env=gen_env,
+                )
+                if proc.returncode != 0:
+                    stale.append(f"{src.relative_to(VAULT)} failed to rebuild (exit {proc.returncode})")
+                    continue
+                # Compare parsed documents, not bytes: key order and whitespace are not the claim.
+                if json.loads(rebuilt.read_text()) != json.loads(current.read_text()):
+                    stale.append(f"{current.relative_to(VAULT)} differs from a rebuild of its own source")
+        gate.actual = (checked, 0)
+        if stale:
+            gate.status = "FAIL"
+            gate.detail = f"{len(stale)} of {checked} stale — " + "; ".join(stale)
+            return
+        gate.detail = f"{checked} pair(s) fresh"
+
     if gate.expect is not None and gate.actual != gate.expect:
         gate.status = "DISAGREE"
         gate.detail = f"expected {gate.expect[0]}/{gate.expect[1]}, got {gate.actual[0]}/{gate.actual[1]}"
@@ -326,6 +388,8 @@ def markdown_gate_line() -> str:
             parts.append(f"certification **{got[0]}/11**")
         elif gate.gate_id == "firewall":
             parts.append("firewall diff **0**")
+        elif gate.gate_id == "dual_channel_freshness":
+            parts.append(f"dual-channel freshness **{got[0]}/{got[0]}**")
         else:
             shown = f"{got[0]}/{got[1]}" if got[1] else f"{got[0]}"
             parts.append(f"`{gate.gate_id}` **{shown}**")

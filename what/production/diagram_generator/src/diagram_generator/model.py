@@ -28,16 +28,23 @@ DIRECTIONS: frozenset[str] = frozenset({"TD", "LR", "RL", "BT"})
 # Node shapes — Mermaid vocab (NOT the canvas VALID_SHAPES enum; carried only in _reserved qualities.shape).
 NODE_SHAPES: frozenset[str] = frozenset({"rect", "round", "diamond", "stadium", "circle"})
 
-# Authority models — the diagrammatic-context authority axis (Blueprint P1 draft pattern; adr_011 rules
-# the `view` row). Declared in `_reserved.authority`; `""` means undeclared, which stays legal here so
-# every pre-existing spec keeps building unchanged.
+# The diagrammatic-context axes. Declared in `_reserved.authority` / `_reserved.production`; `""`
+# means undeclared on either, which stays legal so every pre-existing spec keeps building unchanged.
 #
-# ⚠ `canvas_std` does NOT know this key (F-B1-2, 2026-08-24): it is normative in the doctrine and
-# unvalidated by the Standard, so `authority: "veiw"` passes `canvas-std validate` silently. The
-# validated-enum fix is LIP-0010 Option B, deferred by design pending Rosetta's ruling on the pattern.
-# Until then this frozenset is the ONLY place a typo is caught — producer-side, which is why the check
-# lives here rather than being left to the validator that cannot perform it.
-AUTHORITY_MODELS: frozenset[str] = frozenset({"dual_channel", "generator", "view"})
+# ⛩ SPLIT 2026-09-11 (aDNA.aDNA HAUSSMANN R1, `pattern_diagrammatic_context`), on Canvas's own offer
+# as amended by our erratum E2. `generator` was REMOVED from the authority axis — it never answered
+# "who owns the meaning", it answered "how is the picture made". The two questions now have a field
+# each. ⭐ The "never hand-edit; regenerate" discipline attaches to `production: generated` and to NO
+# authority value, which is the whole reason the axes are split: this very producer's own two output
+# canvases are `dual_channel` AND machine-generated at once, so under the old single enum a reader
+# following the table literally received no instruction not to hand-edit them.
+#
+# ⚠ `canvas_std` STILL does not know either key (F-B1-2, 2026-08-24, re-verified 2026-09-11), so
+# `authority: "veiw"` passes `canvas-std validate` silently. These two frozensets and
+# `canvas_core.conform` are the ONLY places a typo is caught anywhere. LIP-0010 holds the durable
+# fix; its cells are now fixed by the ruled pattern, and it is a v2.4.0 proposal pending §7.7.
+AUTHORITY_MODELS: frozenset[str] = frozenset({"dual_channel", "view"})
+PRODUCTION_MODES: frozenset[str] = frozenset({"hand_authored", "generated"})
 
 
 @dataclass(frozen=True)
@@ -83,19 +90,30 @@ class DiagramInput:
     edges: tuple[DiagramEdge, ...] = ()
     direction: str = "TD"
     refs: tuple[str, ...] = ()
-    # Diagrammatic-context fields (optional; both default off so existing specs are unaffected).
-    authority: str = ""       # "" | dual_channel | generator | view  -> _reserved.authority
+    # Diagrammatic-context fields (optional; all default off so existing specs are unaffected).
+    authority: str = ""       # "" | dual_channel | view          -> _reserved.authority
+    production: str = ""      # "" | hand_authored | generated    -> _reserved.production
     prose: str = ""           # vault-relative path of the prose channel; appended to context_object.refs
 
     def __post_init__(self) -> None:
         if self.authority and self.authority not in AUTHORITY_MODELS:
+            hint = (
+                " — `generator` was REMOVED from this axis on 2026-09-11; it answers *how is the "
+                "picture made*, so declare production: generated instead"
+                if self.authority == "generator"
+                else ""
+            )
             raise ValueError(
-                f"unknown authority {self.authority!r}; expected one of {sorted(AUTHORITY_MODELS)}"
+                f"unknown authority {self.authority!r}; expected one of {sorted(AUTHORITY_MODELS)}{hint}"
+            )
+        if self.production and self.production not in PRODUCTION_MODES:
+            raise ValueError(
+                f"unknown production {self.production!r}; expected one of {sorted(PRODUCTION_MODES)}"
             )
         if self.prose and self.authority != "dual_channel":
-            # A prose channel is what `dual_channel` MEANS. Declaring one under `generator`/`view`
-            # (or with no authority at all) is a spec error, not a harmless extra: it would emit a
-            # canvas asserting a sync obligation its declared authority does not carry.
+            # A prose channel is what `dual_channel` MEANS. Declaring one under `view` (or with no
+            # authority at all) is a spec error, not a harmless extra: it would emit a canvas
+            # asserting a sync obligation its declared authority does not carry.
             raise ValueError(
                 f"prose channel declared with authority {self.authority or '(none)'!r}; "
                 "a prose pair requires authority: dual_channel"
@@ -148,6 +166,7 @@ class DiagramInput:
             direction=str(d.get("direction", "TD")),
             refs=tuple(str(r) for r in d.get("refs", [])),
             authority=str(d.get("authority", "")),
+            production=str(d.get("production", "")),
             prose=str(d.get("prose", "")),
             nodes=nodes,
             edges=edges,

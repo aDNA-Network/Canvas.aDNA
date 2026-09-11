@@ -13,6 +13,7 @@ diagram_type: flowchart
 direction: TD
 
 authority: dual_channel
+production: generated   # the canvas is built by diagram_generator from this file; never hand-edit the .canvas
 prose: what/decisions/adr_004_production_code_layout.md
 
 refs:

@@ -6,7 +6,7 @@ Two operations, deliberately separated by how much judgement they need:
 Function                         What it does                           Judgement required
 ===============================  =====================================  ===================
 :func:`normalize_edges`          adds the explicit ``toEnd`` C-4 wants   **none** — mechanical
-:func:`uplift_to_adna_native`    writes ``metadata.frontmatter._reserved``  a source name + an authority
+:func:`uplift_to_adna_native`    writes ``metadata.frontmatter._reserved``  a source name; axis keys optional
 :func:`unresolved_edges`         *reports* C-3 dangling refs             **all of it** — never repaired here
 ===============================  =====================================  ===================
 
@@ -41,13 +41,28 @@ __all__ = [
     "unresolved_edges",
     "uplift_to_adna_native",
     "VALID_AUTHORITIES",
+    "VALID_PRODUCTION",
 ]
 
-#: The authority axis as the producers enforce it (`skill_canvas_context_diagram` §1). ``canvas_std``
-#: does **not** validate this key — F-B1-2: an invented value passes silently — so the check here is,
-#: with the producer-side one, the only enforcement that exists anywhere. LIP-0010 holds the durable
-#: fix and is deferred by design.
-VALID_AUTHORITIES = frozenset({"dual_channel", "generator", "view"})
+#: The **authority** axis — *who owns the meaning?* Both values name an **other** channel that owns it,
+#: because that relationship is what `pattern_diagrammatic_context` is about: ``dual_channel`` (the
+#: prose owns it) and ``view`` (an authoritative ``.lattice.yaml`` owns it).
+#:
+#: ⛩ **Ruled 2026-09-11** (aDNA.aDNA HAUSSMANN R1, on Canvas's offer as amended by our own erratum E2).
+#: ``generator`` was **removed** — it never answered this question. It answers *how is the picture
+#: made*, which is now :data:`VALID_PRODUCTION`. Under the old single enum our own first two
+#: dual-channel canvases were ``dual_channel`` **and** machine-generated at once, so a reader following
+#: the table literally received no instruction not to hand-edit them.
+#:
+#: ⚠ ``canvas_std`` still does **not** validate either key (F-B1-2: an invented value passes silently),
+#: so the checks here and in ``diagram_generator.model`` remain the only enforcement anywhere.
+#: LIP-0010 holds the durable fix; its cells are now fixed by the ruled pattern.
+VALID_AUTHORITIES = frozenset({"dual_channel", "view"})
+
+#: The **production** axis — *how is the picture made?* ``generated`` carries the "never hand-edit;
+#: regenerate" discipline. ⭐ That discipline attaches **here and not to any authority value** — which
+#: is the whole reason the axes are split.
+VALID_PRODUCTION = frozenset({"hand_authored", "generated"})
 
 _DEFAULT_TO_END = "arrow"
 
@@ -97,7 +112,8 @@ def uplift_to_adna_native(
     doc: dict[str, Any],
     *,
     source_name: str,
-    authority: str,
+    authority: str | None = None,
+    production: str | None = None,
     adna_version: str = "2.3.0",
     context_object: dict[str, Any] | None = None,
     extra_reserved: dict[str, Any] | None = None,
@@ -114,13 +130,35 @@ def uplift_to_adna_native(
     *at* ``core`` — strictly worse than having no block at all (F-B1-1; 196 fleet files have been in
     that state since 2026-02). This function only ever writes the canonical path.
 
-    ``authority`` is required and checked against :data:`VALID_AUTHORITIES`, because ``canvas_std``
-    will not check it for you (F-B1-2).
+    ⛩ **``authority`` is OPTIONAL as of 2026-09-11, and that is a doctrine change, not a relaxation.**
+    It was a *required* argument here because Canvas's own draft pattern said *"none is retired: a
+    canvas with no declared authority is nonconformant diagrammatic context."* The ruled pattern
+    **declines that mandate** — mandating a field no validator checks would be "a conformance claim
+    with nothing behind it" — so requiring it here would now be this function inventing a rule the
+    doctrine refused to make.
+
+    ⭐ **And omission is frequently the *correct* answer, not a gap.** ``authority`` asks *who owns the
+    meaning*, and both values name an **other** channel that owns it. A hand-authored **primary**
+    artifact — a teaching diagram, a review board — owns its own meaning, has no prose twin and no
+    ``.lattice.yaml``, and is **outside the scope of ``pattern_diagrammatic_context`` entirely**
+    (which governs a `.canvas` *beside a document*). For that population the honest block is
+    ``production="hand_authored"`` with ``authority`` omitted. Passing a value to make a number go
+    green is the defect this signature used to force.
+
+    Both keys are validated **only if present**, against :data:`VALID_AUTHORITIES` and
+    :data:`VALID_PRODUCTION`, because ``canvas_std`` will not check either for you (F-B1-2).
     """
-    if authority not in VALID_AUTHORITIES:
+    if authority is not None and authority not in VALID_AUTHORITIES:
         raise ValueError(
             f"authority {authority!r} not in {sorted(VALID_AUTHORITIES)} — "
-            "canvas_std does not validate this key (F-B1-2), so it is checked here or nowhere"
+            "canvas_std does not validate this key (F-B1-2), so it is checked here or nowhere. "
+            "Note `generator` was REMOVED from this axis on 2026-09-11: it answers *how is the "
+            "picture made*, so pass production='generated' instead."
+        )
+    if production is not None and production not in VALID_PRODUCTION:
+        raise ValueError(
+            f"production {production!r} not in {sorted(VALID_PRODUCTION)} — "
+            "canvas_std does not validate this key either, so it is checked here or nowhere"
         )
     # A-7 requires a non-empty string id. `canvas_std` does catch this one, but it catches it at
     # validation time, i.e. after the block has been written into someone's file — cheaper to refuse
@@ -133,7 +171,11 @@ def uplift_to_adna_native(
     reserved: dict[str, Any] = {
         "adna_version": adna_version,
         "conformance_level": "adna_native",
-        "authority": authority,
+        # Both axis keys are emitted only when declared. An absent key is a *statement that the
+        # question does not arise*; a key written with a placeholder is a false answer that every
+        # tool we ship will accept in silence.
+        **({"authority": authority} if authority is not None else {}),
+        **({"production": production} if production is not None else {}),
         "sync": {
             "source_name": source_name,
             "sync_hash": compute_sync_hash(doc),

@@ -465,7 +465,11 @@ def build_variant_board(
     builder._reserved.update({
         "adna_version": "2.0.0",
         "conformance_level": "adna_native",
-        "authority": "generator",
+        # ⛩ 2026-09-11 (HAUSSMANN R1 / Plumbline P1): `generator` was removed from the AUTHORITY
+        # axis — it answers *how is the picture made*, not *who owns the meaning*. A board built
+        # from a run manifest has no prose twin and no `.lattice.yaml`, so it owns its own
+        # meaning and the authority question does not arise: the key is ABSENT, not a placeholder.
+        "production": "generated",
         "sync": {"sync_hash": builder.compute_sync_hash()},
         "component_types": component_types,
         "interaction": {

@@ -152,3 +152,75 @@ def test_uplift_refuses_a_context_object_without_an_id():
         conform.uplift_to_adna_native(
             _obsidian_resaved(), source_name="s", authority="view", context_object={"refs": []}
         )
+
+
+# ---------------------------------------------------------------------------------------------
+# The 2026-09-11 axis split (aDNA.aDNA HAUSSMANN R1 / Operation Plumbline P1).
+# `authority` answers *who owns the meaning*; `production` answers *how is the picture made*.
+# ---------------------------------------------------------------------------------------------
+
+
+def test_generator_is_no_longer_an_authority_value():
+    """The removed cell. It never answered "who owns the meaning" — it answered the other question.
+
+    This is the one change that can break a caller, so it is pinned: a caller who passes the old
+    third value gets a `ValueError` naming the replacement, not a silently-written wrong key.
+    """
+    with pytest.raises(ValueError, match="production='generated'"):
+        conform.uplift_to_adna_native(_obsidian_resaved(), source_name="s", authority="generator")
+
+
+def test_production_is_checked_here_because_canvas_std_will_not():
+    """F-B1-2 applies to the new key exactly as it applied to the old one."""
+    with pytest.raises(ValueError, match="production"):
+        conform.uplift_to_adna_native(
+            _obsidian_resaved(), source_name="s", production="hand-authored"  # hyphen, not underscore
+        )
+
+
+def test_dual_channel_and_generated_can_finally_both_be_said():
+    """E2's defect, now expressible.
+
+    Canvas's own first two dual-channel canvases are `dual_channel` AND machine-generated at once.
+    Under the single three-value enum they declared `dual_channel`, so a reader following the table
+    literally received no instruction not to hand-edit them. Both facts now fit in the block.
+    """
+    doc = conform.uplift_to_adna_native(
+        _obsidian_resaved(), source_name="s", authority="dual_channel", production="generated"
+    )
+    reserved = doc["metadata"]["frontmatter"]["_reserved"]
+    assert reserved["authority"] == "dual_channel"
+    assert reserved["production"] == "generated"
+
+
+def test_a_hand_authored_primary_artifact_needs_no_authority_at_all():
+    """P2b's population — and the reason the offer was blocked for four days on the wrong cause.
+
+    A hand-authored teaching diagram or review board has no prose twin and no `.lattice.yaml`: it
+    owns its own meaning, so the authority question does not arise. It is outside the scope of
+    `pattern_diagrammatic_context`, which governs a `.canvas` *beside a document*. The ruled pattern
+    declines to call an undeclared canvas nonconformant, so this must reach `adna_native` with the
+    key absent — **absent, not empty, not a placeholder.**
+    """
+    doc = _obsidian_resaved()
+    conform.normalize_edges(doc)
+    conform.uplift_to_adna_native(doc, source_name="c08_teaching_diagram", production="hand_authored")
+    reserved = doc["metadata"]["frontmatter"]["_reserved"]
+    assert "authority" not in reserved
+    assert reserved["production"] == "hand_authored"
+    assert validate(doc, level=ConformanceLevel.ADNA_NATIVE) == []
+
+
+def test_both_axis_keys_may_be_omitted_entirely():
+    """Backward compatibility for every caller that predates the split, stated as a test.
+
+    `authority` was a *required* argument until 2026-09-11 because Canvas's own draft said a canvas
+    without one was nonconformant. The ruling declined that mandate; requiring it here would be this
+    function inventing a rule the doctrine refused to make.
+    """
+    doc = _obsidian_resaved()
+    conform.normalize_edges(doc)
+    conform.uplift_to_adna_native(doc, source_name="s")
+    reserved = doc["metadata"]["frontmatter"]["_reserved"]
+    assert "authority" not in reserved and "production" not in reserved
+    assert validate(doc, level=ConformanceLevel.ADNA_NATIVE) == []

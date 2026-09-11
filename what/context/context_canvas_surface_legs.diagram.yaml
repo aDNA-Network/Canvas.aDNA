@@ -15,6 +15,7 @@ diagram_type: flowchart
 direction: TD
 
 authority: dual_channel
+production: generated   # the canvas is built by diagram_generator from this file; never hand-edit the .canvas
 prose: what/context/context_canvas_surface_legs.md
 
 refs:
