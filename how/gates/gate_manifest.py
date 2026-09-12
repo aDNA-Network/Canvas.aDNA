@@ -347,17 +347,34 @@ def run_gate(gate: Gate) -> None:
 
     elif gate.kind == "gitdiff":
         # Absolute pathspec + explicit cwd=VAULT. See the cwd trap at the top of this file.
+        #
+        # ⛩ F-GL-2 (2026-09-11, Gridline P1): this was `git diff --stat`, which reports the
+        # **unstaged** difference only. `git add`-ing a canvas_std edit made this gate print `diff 0`
+        # while the tree differed from HEAD — *indistinguishable from clean*, which is the exact
+        # sentence the cwd trap at the top of this file is about. It had never fired because no
+        # campaign before Gridline ever staged a canvas_std change; the firewall's own gate could not
+        # see the one operation a firewall touch necessarily performs.
+        #
+        # `git status --porcelain` is the predicate that answers the question actually being asked —
+        # "is canvas_std byte-identical to HEAD?" — because it covers all THREE breach classes:
+        # unstaged (` M`), staged (`M `), and **untracked** (`??`). The old check could not see the
+        # third one at all: a new file added under canvas_std was a firewall breach that reported
+        # `diff 0` forever, staged or not.
         proc = subprocess.run(
-            ["git", "-C", str(VAULT), "diff", "--stat", "--", str(gate.path)],
+            ["git", "-C", str(VAULT), "status", "--porcelain", "--", str(gate.path)],
             capture_output=True, text=True, cwd=str(VAULT),
         )
         lines = [ln for ln in proc.stdout.splitlines() if ln.strip()]
         gate.actual = (len(lines), 0)
         if lines:
             gate.status = "FAIL"
-            gate.detail = f"{len(lines)} dirty line(s) in canvas_std — the firewall is breached"
+            # Name the classes present, so a breach report distinguishes "edited" from "added" —
+            # a bare count sent the reader back to the shell to find out which.
+            classes = sorted({ln[:2].strip() or "??" for ln in lines})
+            gate.detail = (f"{len(lines)} dirty path(s) in canvas_std [{' '.join(classes)}] "
+                           "— the firewall is breached")
             return
-        gate.detail = "diff 0"
+        gate.detail = "clean vs HEAD (staged + unstaged + untracked)"
 
     elif gate.kind == "freshness":
         # F-PL-6. `pattern_diagrammatic_context`'s central law is that **drift between the two
@@ -511,8 +528,17 @@ def main() -> int:
 
     producers = [g for g in GATES if g.group == "producers"]
     print("-" * (width + 34))
-    print(f"{'producers total'.ljust(width)}  {'267/7 pkg':>10}  "
-          f"{str(sum((g.actual or (0,0))[0] for g in producers)) + '/' + str(len(producers)) + ' pkg':>10}")
+    # ⛩ F-GL-4 (2026-09-11, Gridline P1): the expected cell was the string literal `'267/7 pkg'`,
+    # printed beside a derived actual of 272 — stale since Plumbline P1 bumped diagram_generator
+    # 44 -> 49 and updated PRODUCER_EXPECT but not this line. The manifest therefore displayed a
+    # disagreement with itself, in its own summary row, and reported ALL GATES GREEN — correctly,
+    # because the per-package gates are what carry the verdict and every one of them agreed.
+    # ⇒ a hand-typed total beside derived parts is a claim nobody re-derives. Now summed from
+    # PRODUCER_EXPECT, so it cannot go stale: it is the same numbers the gates are checked against.
+    exp_total = sum(PRODUCER_EXPECT[g.gate_id][0] for g in producers)
+    got_total = sum((g.actual or (0, 0))[0] for g in producers)
+    print(f"{'producers total'.ljust(width)}  {f'{exp_total}/{len(producers)} pkg':>10}  "
+          f"{f'{got_total}/{len(producers)} pkg':>10}")
 
     failed = [g for g in GATES if g.status == "FAIL"]
     disagreed = [g for g in GATES if g.status == "DISAGREE"]

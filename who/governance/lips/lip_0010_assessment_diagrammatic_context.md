@@ -3,13 +3,13 @@ type: lip
 lip_number: "LIP-0010"
 title: "Diagrammatic context — the `authority` / `production` axis split (assessment → Standard proposal, v2.4.0)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
-status: draft
+status: accepted
 created: 2026-08-24
 updated: 2026-09-11
 requires: []
 replaces: []
 last_edited_by: agent_mondrian
-resolution: "Option D RECOMMENDED (two optional validated keys, additive, v2.4.0) — supersedes Option B, whose MECHANISM survives and whose CELLS do not. The 2026-08-24 trigger was INVERTED, not fired; the rewritten trigger is a file at a path and it has already fired. Still draft; NO change taken — canvas_std at diff-0 pending §7.7."
+resolution: "Option D ACCEPTED 2026-09-11 (§7.7 signed by the operator at the Operation Gridline plan gate) — two optional validated keys, additive, v2.4.0; supersedes Option B, whose MECHANISM survives and whose CELLS do not. The 2026-08-24 trigger was INVERTED, not fired; the rewritten trigger is a file at a path and it has already fired. Implementation runs as campaign_canvas_gridline P1-P4; `implemented` on the firewall commit, `final` on the v2.4.0 cut. ⛩ The signature does NOT cover F-GL-1 (`RESERVED_KEYS` has no consumer, and `interaction` was never in it) — that is a P1 gate question, outside Option D's table."
 related: ["adr_011_legacy_canvas_interop_reconciliation", "pattern_diagrammatic_context", "p1_under_coverage_ruling"]
 tags: [lip, assessment, proposal, canvas, canvas_standard, diagrammatic_context, authority, production, axis_split, blueprint, p1, plumbline, p2]
 ---
@@ -295,9 +295,27 @@ persisted `cd` makes that check return empty, i.e. indistinguishable from clean.
 | Field | Value |
 |-------|-------|
 | Decision | **Option D** — `authority` ∈ {`dual_channel`, `view`} and `production` ∈ {`hand_authored`, `generated`}, both **optional**, both validated **only if present**, on `metadata.frontmatter._reserved`; additive; minor bump **v2.4.0**; **two keys or neither** |
-| Ratified by | _(pending)_ |
-| Date | _(pending)_ |
-| Status | **proposed** |
+| Ratified by | **Stanley Bishop (operator)** — at the Operation Gridline plan gate |
+| Date | **2026-09-11** |
+| Status | **accepted** |
+
+⛩ **Signed 2026-09-11.** The signature authorizes the four-file touch in Option D's table **and nothing
+wider** — the `adr_007` discipline: the firewall lifts for the phase that was authorized (Gridline P1)
+and returns to diff-0 on commit. Execution campaign: `how/campaigns/campaign_canvas_gridline/`.
+
+⛩ **One thing the signature cannot bless, because it was discovered after the table was written**
+(F-GL-1, 2026-09-11). Item 1 of Option D says *"both names appended to `RESERVED_KEYS`."* That tuple —
+`reserved.py:21` — **has no consumer**: it is referenced nowhere in `src/`, `tests/`, or
+`what/production/`. The append is therefore correct *and* inert, and the evidence that this is a real
+defect rather than a stylistic one is a second absence nobody noticed: **`interaction`**, shipped and
+validated at **v2.2.0**, is in neither `RESERVED_KEYS` nor the schema's `$defs.reserved.properties`.
+
+> ⇒ ***a specification with no consumer is indistinguishable from no specification*** — the pin-field
+> ruling's own generalisation, found this time inside the firewall.
+
+The append is performed as ratified. Whether `RESERVED_KEYS` should **gain** a consumer, and whether
+`interaction` should be back-filled, are changes **outside this table** and are put to the operator at
+the Gridline P1 exit gate rather than taken under this signature.
 
 ⚠ **What signing does and does not do.** It authorises the four-file touch in Option D's table and a
 v2.4.0 cut. It does **not** mandate either key on any canvas: the ruled pattern declines that, and so
