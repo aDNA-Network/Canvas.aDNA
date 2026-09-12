@@ -35,6 +35,7 @@ from __future__ import annotations
 from typing import Any
 
 from canvas_std import compute_sync_hash
+from canvas_std.reserved import AUTHORITY_VALUES, PRODUCTION_VALUES
 
 __all__ = [
     "normalize_edges",
@@ -54,15 +55,18 @@ __all__ = [
 #: dual-channel canvases were ``dual_channel`` **and** machine-generated at once, so a reader following
 #: the table literally received no instruction not to hand-edit them.
 #:
-#: ⚠ ``canvas_std`` still does **not** validate either key (F-B1-2: an invented value passes silently),
-#: so the checks here and in ``diagram_generator.model`` remain the only enforcement anywhere.
-#: LIP-0010 holds the durable fix; its cells are now fixed by the ruled pattern.
-VALID_AUTHORITIES = frozenset({"dual_channel", "view"})
-
-#: The **production** axis — *how is the picture made?* ``generated`` carries the "never hand-edit;
-#: regenerate" discipline. ⭐ That discipline attaches **here and not to any authority value** — which
-#: is the whole reason the axes are split.
-VALID_PRODUCTION = frozenset({"hand_authored", "generated"})
+#: ⛩ **DE-DUPLICATED 2026-09-11 (Gridline).** These were two locally-declared frozensets, and the
+#: comment here used to read *"``canvas_std`` still does not validate either key (F-B1-2), so the checks
+#: here and in ``diagram_generator.model`` remain the only enforcement anywhere."* **That is now false**:
+#: LIP-0010 was ratified and `canvas_std` validates both keys as **A-8** at Standard **v2.4.0**. So the
+#: values are no longer restated here — they are **imported from the Standard's own implementation**, and
+#: this module keeps only the *early* raise (refusing to build beats failing after the block is in
+#: someone's file). ⇒ ***one definition, two enforcement points, no drift possible*** — the Armature
+#: precedent, where a consumer became a thin delegate rather than a second source of truth.
+#:
+#: The public names are retained (they are in ``__all__``) so no consumer import breaks.
+VALID_AUTHORITIES = AUTHORITY_VALUES
+VALID_PRODUCTION = PRODUCTION_VALUES
 
 _DEFAULT_TO_END = "arrow"
 
@@ -146,19 +150,38 @@ def uplift_to_adna_native(
     green is the defect this signature used to force.
 
     Both keys are validated **only if present**, against :data:`VALID_AUTHORITIES` and
-    :data:`VALID_PRODUCTION`, because ``canvas_std`` will not check either for you (F-B1-2).
+    :data:`VALID_PRODUCTION` — which are now the Standard's own sets, imported rather than restated.
+
+    ⛩ **This paragraph used to end** *"because ``canvas_std`` will not check either for you
+    (F-B1-2)"*. **That expired on 2026-09-11**: LIP-0010 was ratified and both keys are validated as
+    **A-8** at Standard **v2.4.0**. The checks stay because they fire **earlier** — refusing to build
+    beats failing after the block is in someone's file — not because they are the only ones left.
+
+    ⛔ One rule is **asymmetric** and is enforced here too: passing ``authority`` without
+    ``production`` raises, because the Standard rejects that pair. ``production`` alone does not — it
+    is the correct block for an artifact no other channel owns.
     """
     if authority is not None and authority not in VALID_AUTHORITIES:
         raise ValueError(
-            f"authority {authority!r} not in {sorted(VALID_AUTHORITIES)} — "
-            "canvas_std does not validate this key (F-B1-2), so it is checked here or nowhere. "
-            "Note `generator` was REMOVED from this axis on 2026-09-11: it answers *how is the "
-            "picture made*, so pass production='generated' instead."
+            f"authority {authority!r} not in {sorted(VALID_AUTHORITIES)} — refused at build time "
+            "because a canvas is cheaper to not-write than to fix in someone's file; `canvas_std` "
+            "also rejects it now (A-8, v2.4.0). Note `generator` was REMOVED from this axis on "
+            "2026-09-11: it answers *how is the picture made*, so pass production='generated' instead."
         )
     if production is not None and production not in VALID_PRODUCTION:
         raise ValueError(
-            f"production {production!r} not in {sorted(VALID_PRODUCTION)} — "
-            "canvas_std does not validate this key either, so it is checked here or nowhere"
+            f"production {production!r} not in {sorted(VALID_PRODUCTION)} — refused at build time; "
+            "`canvas_std` also rejects it now (A-8, v2.4.0)"
+        )
+    if authority is not None and production is None:
+        # ⛩ A-8's asymmetry (Standard v2.4.0, Gridline P1). Emitting `authority` without `production`
+        # would build a canvas `canvas-std validate` refuses. The converse stays allowed and is
+        # documented above as the *correct* block for an artifact no other channel owns.
+        raise ValueError(
+            f"authority {authority!r} passed without production — A-8 (Standard v2.4.0) requires "
+            "`production` whenever `authority` is present: naming another channel as the owner of "
+            "this canvas's meaning while leaving unsaid how it is made omits the field that carries "
+            "'never hand-edit; regenerate'. Pass production='generated' or 'hand_authored'."
         )
     # A-7 requires a non-empty string id. `canvas_std` does catch this one, but it catches it at
     # validation time, i.e. after the block has been written into someone's file — cheaper to refuse

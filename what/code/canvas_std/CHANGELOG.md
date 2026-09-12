@@ -6,12 +6,71 @@ All notable changes to the reference implementation and the **aDNA Canvas Standa
 
 - **Standard version** (`STANDARD_VERSION`) — heads each release entry below. History:
   **2.0.0** (Keystone) → **2.0.1** (LIP-queue errata B1/B2/B3) → **2.0.2** (Atelier errata AT-1/AT-2) →
-  **[2.1.0 — superseded]** → **2.2.0** (Armature — the leg-3 interaction layer) → **2.3.0** (Beacon B4 — LIP-0008 A-5 relaxation).
+  **[2.1.0 — superseded]** → **2.2.0** (Armature — the leg-3 interaction layer) → **2.3.0** (Beacon B4 — LIP-0008 A-5 relaxation)
+  → **2.4.0** (Gridline P1 — LIP-0010 Option D, the `authority`/`production` axis split).
   **2.1.0 was never cut:** LIP-0008 (A-5 "derived surface = pure metadata" relaxation) originally targeted 2.1.0, but
   the Standard jumped 2.0.2 → 2.2.0 at Armature before LIP-0008 reached Final, so the relaxation landed as **2.3.0**
   (Operation Beacon Phase B4) and 2.1.0 is recorded as **superseded** (see `what/decisions/lip_queue_disposition.md`).
 - **Package version** (`__version__`, currently `0.1.0`) — the pip package; advances on its own cadence. The
   `## [0.1.0]` entry below is the **package** skeleton (Keystone E0.1), not a Standard release.
+
+## [2.4.0] — 2026-09-11 (Operation Gridline P1 — LIP-0010 Option D: the `authority`/`production` axis split)
+
+The gated `canvas_std` firewall touch of Operation Gridline Phase P1 — bounded to the single purpose the ratified
+LIP-0010 authorizes (**A-8**, the two diagrammatic-context axes). Full-regression-green at the exit. The third
+deliberate edit to `canvas_std` since Keystone (after Armature 2.2.0 and Beacon 2.3.0), and the **first structural
+change to the JSON Schema** — every prior release was validator-level.
+
+**What this fixes, stated as the thing that was true the day before.** The axis enum was enforced in exactly two
+places, **both of them ours** — `canvas_core/conform.py` and `diagram_generator/model.py` — and both said so in
+their own error text: *"canvas_std does not validate this key (F-B1-2), so it is checked here or nowhere."* Every
+other producer in the fleet, and every hand-authored canvas across 15+ wrapper vaults, could write
+`authority: "veiw"` and receive a green `[OK]`.
+
+### Added (A-8 — spec_conformance_suite A-8; LIP-0010 Option D; `pattern_diagrammatic_context`, ruled 2026-09-11)
+- `reserved.py`: **`AUTHORITY_VALUES`** = {`dual_channel`, `view`} (*who owns the meaning*) + **`PRODUCTION_VALUES`**
+  = {`hand_authored`, `generated`} (*how is the picture made*), and **`_validate_axes(reserved)`** dispatched
+  unconditionally from `validate_reserved`. Three rules: membership if present · neither key required · **two keys
+  or neither**. The third is why the validator is called unconditionally — *exactly one key present* is a fault a
+  `if "authority" in reserved` guard cannot see. ⛔ Validating `authority` alone would re-create the original defect
+  **inside the Standard**: a canvas could be *validly* `dual_channel` while omitting the only field that says *do
+  not hand-edit me*. The `generator`-as-authority case carries a migration hint naming the key its value moved to —
+  2 of Canvas's own 4 carriers were in that state before Plumbline P1.
+- `data/adna_canvas_v2.schema.json`: two `enum` properties under `$defs.reserved`. **`$id` retained, and the
+  `$comment`'s reason rewritten rather than version-bumped** — it used to read *"the structural schema is unchanged
+  across 2.0.0–2.3.0"*, which v2.4.0 makes false. The URL is kept because the change is purely **additive** and
+  `$defs.reserved` sets no `additionalProperties: false`, so every document valid under 2.0.0–2.3.0 stays valid.
+  The A-8 co-requirement stays a validator rule: JSON Schema could express it with a `dependentRequired` pair, at
+  the cost of a second enforcement point to keep in sync by hand.
+- `tests/test_axes.py` (**20 tests**) + `tests/fixtures/adna_axes.canvas` + a `manifest.json` entry. The golden is
+  `dual_channel` **and** `generated` at once — the state the superseded three-value enum could not express, and the
+  reason the axis was split. Covers all **four** axis combinations (they are independent), absence (the majority
+  case: 21 of 25 in-vault aDNA-Native canvases), both misspellings, `generator`-as-authority, both single-key
+  cases, a single-key-**and**-misspelled case asserting **two** errors rather than a short-circuit, D-1 degradation,
+  and both schema halves.
+- **Suite: 142 passed / 10 skipped** (from 115/10). Reconciled by derivation, not inferred: **+20** `test_axes` ·
+  **+1** `test_conformance` (one parametrized case per fixture, 12→13) · **+6** `test_fixtures` (six checks per
+  fixture, 66→72) = **+27**. Certification corpus **CERTIFIED 12/12**. `ruff` clean.
+
+### ⛩ Found while doing this, and not fixed under this signature (F-GL-1)
+`RESERVED_KEYS` — the tuple Option D item 1 required the two names be appended to — **has no consumer**. At the
+time of the append it was referenced nowhere in `src/`, nowhere in `tests/`, nowhere in `what/production/`. The
+append is therefore correct *and inert*, and the evidence that this is a defect rather than a style preference is a
+second absence nobody noticed for three months: **`interaction`**, shipped and validated at **v2.2.0**, is in
+neither `RESERVED_KEYS` nor `$defs.reserved.properties`. ⇒ ***a specification with no consumer is
+indistinguishable from no specification.*** A test in `test_axes.py` is now the tuple's only reader, deliberately
+and with a comment saying so. Disposition is an operator gate question at the Gridline P1 exit — **outside** the
+four-file table the §7.7 signature covers.
+
+### Standard release v2.4.0 CUT 2026-09-11 (operator-authorized at the LIP-0010 §7.7 gate)
+- Bumped `2.3.0 → 2.4.0` mirroring the prior cuts: `STANDARD_VERSION` (`__init__.py`), schema `title` +
+  `x-standard-version` (**kept `$id`**, see above), `conformance.py` (×3), `test_smoke.py` (×2),
+  `test_conformance.py` (×1), `README.md`. **Four in-package `2.3.0` literals deliberately NOT touched** — they are
+  dated claims about *which version introduced LIP-0008*, not live pins: `reserved.py` surfaces comment,
+  `test_anchors.py` section header, the `adna_derived_surface` manifest note, and the README's history clause.
+  The vault-side spec/federation sweep is Gridline P2.
+- Fixtures' `_reserved.adna_version` stays `2.0.0` — a 2.0.0-authored canvas remains valid under the 2.4.0
+  validator (the addition only widens what can be *said*, and requires nothing).
 
 ## [2.3.0] — 2026-07-02 (Operation Beacon B4 — LIP-0008 A-5 relaxation: derived surfaces as pure metadata)
 

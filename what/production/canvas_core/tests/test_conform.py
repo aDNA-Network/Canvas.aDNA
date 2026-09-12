@@ -102,14 +102,16 @@ def test_unresolved_edges_empty_on_a_sound_canvas():
 def test_uplift_writes_the_canonical_path_not_the_legacy_one():
     """F-B1-1: a block at `metadata._reserved` reads green at `core` while no tool can see it."""
     doc = conform.uplift_to_adna_native(
-        _obsidian_resaved(), source_name="c08_dispatch_package_anatomy", authority="view"
+        _obsidian_resaved(), source_name="c08_dispatch_package_anatomy",
+        authority="view", production="generated",
     )
     assert "_reserved" in doc["metadata"]["frontmatter"]
     assert "_reserved" not in doc["metadata"]
 
 
 def test_uplift_recomputes_a_16_hex_sync_hash():
-    doc = conform.uplift_to_adna_native(_obsidian_resaved(), source_name="src", authority="view")
+    doc = conform.uplift_to_adna_native(_obsidian_resaved(), source_name="src",
+                                       authority="view", production="generated")
     sync = doc["metadata"]["frontmatter"]["_reserved"]["sync"]
     assert len(sync["sync_hash"]) == 16
     assert all(c in "0123456789abcdef" for c in sync["sync_hash"])
@@ -117,7 +119,8 @@ def test_uplift_recomputes_a_16_hex_sync_hash():
 
 
 def test_uplift_rejects_an_authority_canvas_std_would_accept_silently():
-    """F-B1-2: `canvas_std` does not know this key, so an invented value passes validation."""
+    """F-B1-2 (historical): `canvas_std` did not know this key until v2.4.0, so an invented value passed
+    validation. It is A-8 now — this test pins that the producer still refuses EARLIER."""
     with pytest.raises(ValueError, match="authority"):
         conform.uplift_to_adna_native(_obsidian_resaved(), source_name="s", authority="veiw")
 
@@ -126,7 +129,7 @@ def test_uplift_changes_no_node_or_edge():
     doc = _obsidian_resaved()
     nodes_before = [dict(n) for n in doc["nodes"]]
     edges_before = [dict(e) for e in doc["edges"]]
-    conform.uplift_to_adna_native(doc, source_name="s", authority="view")
+    conform.uplift_to_adna_native(doc, source_name="s", authority="view", production="generated")
     assert doc["nodes"] == nodes_before
     assert doc["edges"] == edges_before
 
@@ -139,6 +142,7 @@ def test_full_repair_reaches_adna_native():
         doc,
         source_name="c08_dispatch_package_anatomy",
         authority="view",
+        production="generated",
         context_object={"id": "urn:adna:canvas:ops:c08_dispatch_package_anatomy",
                         "version": "1.0.0", "refs": []},
     )
@@ -150,7 +154,8 @@ def test_uplift_refuses_a_context_object_without_an_id():
     """A-7 wants a non-empty id; refusing at build time beats failing after it is in someone's file."""
     with pytest.raises(ValueError, match="context_object"):
         conform.uplift_to_adna_native(
-            _obsidian_resaved(), source_name="s", authority="view", context_object={"refs": []}
+            _obsidian_resaved(), source_name="s", authority="view", production="generated",
+            context_object={"refs": []}
         )
 
 
@@ -171,7 +176,7 @@ def test_generator_is_no_longer_an_authority_value():
 
 
 def test_production_is_checked_here_because_canvas_std_will_not():
-    """F-B1-2 applies to the new key exactly as it applied to the old one."""
+    """As for `authority`: validated by A-8 since v2.4.0, and still refused earlier here."""
     with pytest.raises(ValueError, match="production"):
         conform.uplift_to_adna_native(
             _obsidian_resaved(), source_name="s", production="hand-authored"  # hyphen, not underscore

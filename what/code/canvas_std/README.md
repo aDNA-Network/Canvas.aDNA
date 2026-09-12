@@ -1,13 +1,14 @@
 # adna-canvas-std
 
-Reference implementation of the **aDNA Canvas Standard v2.3.0** — the runnable tooling Canvas.aDNA ships as the
+Reference implementation of the **aDNA Canvas Standard v2.4.0** — the runnable tooling Canvas.aDNA ships as the
 standard-bearer Platform (Option P): **validators · round-trip converters · conformance harness**.
 
-> **Status: complete + current to Standard v2.3.0.** The reference implementation is functional — schema floor,
-> validators, round-trip converters, `_reserved` validators (incl. the v2.2.0 `interaction` layer + the v2.3.0
-> LIP-0008 A-5 relaxation), and the conformance harness + `canvas-std` CLI are all live; no stubs remain. `pytest`
-> **115 passed / 10 skipped**, `ruff` clean; the certification corpus is **CERTIFIED 11/11**. Validated against all
-> in-vault consumers (no regression). See `CHANGELOG.md` for the build log.
+> **Status: complete + current to Standard v2.4.0.** The reference implementation is functional — schema floor,
+> validators, round-trip converters, `_reserved` validators (incl. the v2.2.0 `interaction` layer, the v2.3.0
+> LIP-0008 A-5 relaxation, and the v2.4.0 LIP-0010 `authority`/`production` axes), and the conformance harness +
+> `canvas-std` CLI are all live; no stubs remain. `pytest` **142 passed / 10 skipped**, `ruff` clean; the
+> certification corpus is **CERTIFIED 12/12**. Validated against all in-vault consumers (no regression).
+> See `CHANGELOG.md` for the build log.
 
 ## What it is
 

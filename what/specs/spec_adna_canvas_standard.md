@@ -130,7 +130,24 @@ _reserved:
   panel_link:          { … }     # spec_panel_link_semantics.md (D5)
   brand_style_pack_ref: <federation_ref>   # producer-resolved (VisualDNA)
   context_object:      { … }     # spec_context_object.md (D7)
+  interaction:         { … }     # spec_interface_surface.md §3.3 — v2.2.0; BACK-FILLED here 2026-09-11
+  authority:           dual_channel | view                # v2.4.0, A-8, LIP-0010 — who owns the meaning
+  production:          hand_authored | generated          # v2.4.0, A-8, LIP-0010 — how it is made
 ```
+> **`authority` + `production` (v2.4.0)** are **optional**, each validated only if present, with one **asymmetric**
+> cross-key rule: `authority` **requires** `production`; `production` **alone is legal**. See
+> [[spec_conformance_suite]] A-8 for the rule and why the symmetric version was wrong. The *"never hand-edit;
+> regenerate"* discipline attaches to `production: generated` and to **no** value on the authority axis.
+>
+> ⛩ **`interaction` was missing from this list from v2.2.0 to 2026-09-11, and so were its two siblings** (F-GL-1).
+> It has been validated by `canvas_std.validate_interaction` since **v2.2.0**, yet it appeared in **none** of the
+> three hand-maintained copies of this namespace: this block, the JSON Schema's `$defs.reserved.properties`, and
+> `canvas_std.reserved.RESERVED_KEYS` — the last of which had **no consumer at all**. Nothing read any of the three,
+> so nothing could notice. ⇒ ***a specification with no consumer is indistinguishable from no specification.***
+> Back-filled in all three by operator ruling at the Gridline P1 exit gate. **No canvas's validity changed** —
+> `$defs.reserved` is open and §7.3 already requires unknown keys be preserved, which is exactly why the drift was
+> invisible. The durable fix (give the tuple a consumer) is filed as `idea_reserved_keys_has_no_consumer`.
+
 7.3. Unknown `_reserved` keys **MUST** be preserved by any tool that rewrites a canvas (forward-compat).
 
 ## 8. Required `_lattice_meta` group

@@ -165,11 +165,42 @@ The shape Option B established, applied to the axes the doctrine actually ruled:
 | `authority` | `metadata.frontmatter._reserved` | `{dual_channel, view}` | **no** — only if present |
 | `production` | `metadata.frontmatter._reserved` | `{hand_authored, generated}` | **no** — only if present |
 
-**Backward-compatible, measured rather than asserted** `[D] 2026-09-11`: **25** in-vault `adna_native`
+~~**Backward-compatible, measured rather than asserted** `[D] 2026-09-11`: **25** in-vault `adna_native`
 canvases, of which **4** carry `authority`. After the Plumbline P1 migration all 4 carry values inside
-the proposed sets, so **25 of 25 keep passing untouched**. ⚠ Before that migration **2 of the 4**
-carried `generator` — a *production* value in an *authority* field — which is precisely the state this
-LIP exists to make unrepresentable, and precisely what a validated Option B would have blessed.
+the proposed sets, so **25 of 25 keep passing untouched**.~~
+
+⛩ **CORRECTED AT IMPLEMENTATION, 2026-09-11 (F-GL-6) — the struck claim was false, and it was the
+backward-compatibility claim, i.e. the one that made the change look safe to sign.** Measured by
+running the 2.4.0 validator over every in-vault `adna_native` canvas at **its own declared level**:
+**2 of the 4 carriers still declared `authority: "generator"` with no `production`**, and under A-8
+each produced two errors. The true pre-implementation figure was **23 of 25**, not 25 of 25.
+
+⚠ **Two compounding causes, both this vault's own named families:**
+
+1. **Population.** The two stragglers are **untracked**, under the gitignored `what/artifacts/` shelf
+   (`adr_010`). The migration reached the tracked carriers. ⇒ ***state the population on the face of
+   the number: tracked or working-tree*** — Blueprint's finding, and the claim above stated neither.
+2. ⭐ **The disproof was already written down, four lines from the claim.** Plumbline P1's own census
+   table — pasted into `session_stanley_20260911_plumbline_p0_p3.md` — prints both rows explicitly as
+   `canonical generator — UNTRACKED`. Nobody re-read their own output against the sentence they then
+   wrote. ⇒ ***a measurement pasted into the record is not a measurement anybody consulted.***
+
+**Resolved, not merely recorded.** Both are **generated** artifacts, so they were **regenerated**, not
+hand-edited — the discipline `production: generated` exists to carry. Their emitters (`variant_board`,
+`tuning_surface`) were already fixed at Plumbline P1 and now emit `production: generated` with
+`authority` **absent**; regeneration was reproducible because the source run manifest is a *tracked*
+test fixture (`canvas_core/tests/fixtures/run_manifests/well_formed.json`), and structure was verified
+unchanged across the rebuild (22 nodes · 10 edges · identical `sync_hash` · 21 affordances). Post-fix
+census `[D] 2026-09-11`: **26 `adna_native` canvases (20 tracked / 6 untracked), A-8 failures = 0**; the
+single remaining red is `adna_orphan_anchor.canvas`, a **deliberate A-5 negative fixture**
+(`expected_valid: false`), unrelated to A-8.
+
+⚠ Note the first attempt at this sweep reported **"0 failures"** — because it called
+`validate_suite(doc)` and the `declared` parameter **defaults to `CORE`**, so it asked whether each
+canvas met the *weakest* level and got a true answer to the wrong question. The shipped `canvas-std`
+CLI does this correctly (it reads the doc's own `_reserved.conformance_level`). ⇒ ***a green from the
+wrong predicate is the same shape as a green from a check that never ran*** — and it was caught only
+because the sweep also printed the carriers it had just declared healthy.
 
 **Precedent for the shape:** `AFFORDANCE_KINDS` in `reserved.py` — a closed enum on an optional block.
 
@@ -179,12 +210,38 @@ LIP exists to make unrepresentable, and precisely what a validated Option B woul
 |---|---|---|
 | 1 | `canvas_std/src/canvas_std/reserved.py` | two frozensets beside `AFFORDANCE_KINDS`; two `if "<key>" in reserved:` membership checks in the conditional block; both names appended to `RESERVED_KEYS` |
 | 2 | `canvas_std/src/canvas_std/data/adna_canvas_v2.schema.json` | two `{"enum": [...]}` properties under `$defs.reserved`; `x-standard-version` → `2.4.0` |
-| 3 | conformance suite | new A-8 cases: absent (pass) · valid (pass) · misspelled (fail) · `generator`-as-authority (fail, the migration case) |
+| 3 | conformance suite | new A-8 cases: absent (pass) · valid (pass) · **`production` alone (pass — amendment A1)** · misspelled (fail) · `generator`-as-authority (fail, the migration case) · **`authority` alone (fail)** |
 | 4 | `CHANGELOG` + `spec_conformance_suite` | the A-8 row |
 
-⛔ **Two keys or neither.** The ruling is explicit that they *"become binding together"*. Validating
+~~⛔ **Two keys or neither.** The ruling is explicit that they *"become binding together"*. Validating
 `authority` alone would re-create the original defect in the Standard itself: a canvas could then be
-*validly* `dual_channel` while silently omitting the only field that says *do not hand-edit me*.
+*validly* `dual_channel` while silently omitting the only field that says *do not hand-edit me*.~~
+
+⛩ **AMENDED at implementation — the rule ships ASYMMETRIC** (F-GL-5; operator ruling 2026-09-11 at the
+Gridline P1 exit gate): **`authority` REQUIRES `production`; `production` alone is conformant.**
+
+**The misreading.** *"Both become binding together"* is a claim about **validation scope** — *if you
+validate either key you must validate both* — which is the ruling's argument for separating the fields
+at all. It is not a per-document co-presence requirement. **This LIP states it correctly four lines
+above** (§"So this LIP is exactly where the schema change lives, and it is now **a two-key change or
+none**") and then slides into the document-level reading in the table. ⇒ ***two readings of one
+sentence, four lines apart, and the wrong one reached the ratification table.***
+
+⭐ **And the symmetric rule was self-defeating — our own code is the proof.** `variant_board.py` and
+`tuning_surface.py`, both fixed at **Plumbline P1 with a written reason**, emit `production: generated`
+and deliberately **omit** `authority`: *"a board built from a run manifest has no prose twin and no
+`.lattice.yaml`, so it owns its own meaning and the authority question does not arise: the key is
+ABSENT, not a placeholder."* Under "two keys or neither" their output is **nonconformant and cannot be
+made conformant by regeneration** — the only remedy would be to invent an authority value, which
+`conform.py`'s own docstring names as *"passing a value to make a number go green… the defect this
+signature used to force."*
+
+> ⇒ ***A co-requirement read symmetrically forced back the defect it was written to prevent.***
+
+**What the asymmetry keeps** is the entire worry the struck clause was for: nothing may claim
+`dual_channel` — *another channel owns my meaning* — while leaving unsaid whether it is generated.
+`production` alone states complete information; `authority` alone does not. Row 3 of the firewall table
+therefore gains the `production`-alone case, and row 4's spec text states the asymmetry and its reason.
 
 ⭐ **What ratifying this buys, stated as the thing that is currently untrue.** Today the enum is
 enforced in **exactly two places, both ours** — `canvas_core/conform.py` and
@@ -294,10 +351,24 @@ persisted `cd` makes that check return empty, i.e. indistinguishable from clean.
 
 | Field | Value |
 |-------|-------|
-| Decision | **Option D** — `authority` ∈ {`dual_channel`, `view`} and `production` ∈ {`hand_authored`, `generated`}, both **optional**, both validated **only if present**, on `metadata.frontmatter._reserved`; additive; minor bump **v2.4.0**; **two keys or neither** |
+| Decision | **Option D** — `authority` ∈ {`dual_channel`, `view`} and `production` ∈ {`hand_authored`, `generated`}, both **optional**, both validated **only if present**, on `metadata.frontmatter._reserved`; additive; minor bump **v2.4.0**; ~~two keys or neither~~ ⛩ **`authority` requires `production`; `production` alone conformant** (amended at implementation — see below) |
 | Ratified by | **Stanley Bishop (operator)** — at the Operation Gridline plan gate |
 | Date | **2026-09-11** |
-| Status | **accepted** |
+| Status | **accepted** (⛩ **amended same day**, at the Gridline P1 exit gate — both amendments operator-ruled, neither taken by the implementing agent) |
+
+### ⛩ Amendments taken after the signature, at the P1 exit gate — both operator-ruled
+
+Recorded here rather than folded silently into the prose above, because a ratified decision that
+changes must show **what** changed, **who** ruled it, and **why** the original was wrong.
+
+| # | What changed | Why | Ruled |
+|---|---|---|---|
+| **A1** | `two keys or neither` → **`authority` requires `production`** (asymmetric) | The symmetric rule rested on reading *"both become binding together"* as per-document co-presence when it is about **validation scope** — and it made this vault's own `variant_board`/`tuning_surface` output nonconformant **and unfixable by regeneration** (F-GL-5) | operator, 2026-09-11, P1 exit |
+| **A2** | `interaction` **back-filled** into `RESERVED_KEYS`, `$defs.reserved.properties` and spec §7.2 | Validated since **v2.2.0** yet absent from **all three** hand-maintained copies of the namespace, because nothing read any of them — `RESERVED_KEYS` had no consumer at all (F-GL-1). A documentation correction: no canvas's validity changes | operator, 2026-09-11, P1 exit |
+
+⚠ **A2 is a fifth change beyond this table's four files** and is named as such. The durable fix for the
+class — giving `RESERVED_KEYS` a consumer — was **declined here** and filed as
+`how/backlog/idea_reserved_keys_has_no_consumer.md`.
 
 ⛩ **Signed 2026-09-11.** The signature authorizes the four-file touch in Option D's table **and nothing
 wider** — the `adr_007` discipline: the firewall lifts for the phase that was authorized (Gridline P1)

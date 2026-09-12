@@ -17,6 +17,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from canvas_std.reserved import AUTHORITY_VALUES, PRODUCTION_VALUES
+
 # The five diagram types ported from CanvasForge's MermaidGenerator (the rest are P5/engine concerns).
 DIAGRAM_TYPES: frozenset[str] = frozenset(
     {"flowchart", "sequence", "class_diagram", "state_diagram", "gantt"}
@@ -39,12 +41,15 @@ NODE_SHAPES: frozenset[str] = frozenset({"rect", "round", "diamond", "stadium", 
 # canvases are `dual_channel` AND machine-generated at once, so under the old single enum a reader
 # following the table literally received no instruction not to hand-edit them.
 #
-# ⚠ `canvas_std` STILL does not know either key (F-B1-2, 2026-08-24, re-verified 2026-09-11), so
-# `authority: "veiw"` passes `canvas-std validate` silently. These two frozensets and
-# `canvas_core.conform` are the ONLY places a typo is caught anywhere. LIP-0010 holds the durable
-# fix; its cells are now fixed by the ruled pattern, and it is a v2.4.0 proposal pending §7.7.
-AUTHORITY_MODELS: frozenset[str] = frozenset({"dual_channel", "view"})
-PRODUCTION_MODES: frozenset[str] = frozenset({"hand_authored", "generated"})
+# ⛩ DE-DUPLICATED 2026-09-11 (Gridline). This comment used to read: *"`canvas_std` STILL does not know
+# either key (F-B1-2), so `authority: "veiw"` passes `canvas-std validate` silently. These two
+# frozensets and `canvas_core.conform` are the ONLY places a typo is caught anywhere."* **All of that
+# is now false** — LIP-0010 was ratified and `canvas_std` validates both keys as **A-8** at Standard
+# **v2.4.0**. The values are therefore imported from the Standard rather than restated here; this
+# module keeps only the *early* raise, which still earns its place (a spec error caught at
+# `__post_init__` never reaches a file). ⇒ one definition, two enforcement points, no drift possible.
+AUTHORITY_MODELS: frozenset[str] = AUTHORITY_VALUES
+PRODUCTION_MODES: frozenset[str] = PRODUCTION_VALUES
 
 
 @dataclass(frozen=True)
@@ -117,6 +122,21 @@ class DiagramInput:
             raise ValueError(
                 f"prose channel declared with authority {self.authority or '(none)'!r}; "
                 "a prose pair requires authority: dual_channel"
+            )
+        # ⛩ A-8, Standard v2.4.0 (Gridline P1) — LAST of the axis checks, deliberately. A spec that is
+        # both contradictory (prose under `view`) and incomplete (no `production`) should hear about
+        # the contradiction first: it is the more specific fault and fixing it may change what
+        # `production` should say. The Standard now REJECTS `authority` without `production`, so
+        # emitting that pair would build a canvas `canvas-std validate` refuses — and refusing here
+        # beats failing after it is in someone's file, this module's standing discipline. The converse
+        # is deliberately allowed: `production` alone is correct for a diagram no other channel owns.
+        if self.authority and not self.production:
+            raise ValueError(
+                f"authority {self.authority!r} declared without production — A-8 (Standard v2.4.0) "
+                "requires `production` whenever `authority` is present: declaring that another "
+                "channel owns this diagram's meaning while leaving unsaid how it is made omits the "
+                "field carrying 'never hand-edit; regenerate'. Add production: generated "
+                "(diagram_generator output always is)."
             )
         if self.diagram_type not in DIAGRAM_TYPES:
             raise ValueError(

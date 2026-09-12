@@ -18,12 +18,23 @@ authority value at all.
 Both keys are **optional**: a spec declaring neither produces exactly the output it produced before
 either feature existed, which is the property the first test pins.
 
-⚠ The load-bearing caveat, restated where it will actually be read: `canvas_std` knows NEITHER key
-(F-B1-2, re-verified 2026-09-11). `validate(doc, ADNA_NATIVE)` passes whether they are absent,
-correct, or misspelled — so the enum checks tested here are producer-side and are, with
-`canvas_core.conform`, the *only* enforcement anywhere.
-`test_misspelled_authority_is_rejected_here_because_the_validator_cannot` exists to keep that true;
-if LIP-0010 is ratified it becomes redundant rather than wrong.
+⛩ **The load-bearing caveat this docstring used to carry has EXPIRED, exactly as it predicted.** It
+read: *"`canvas_std` knows NEITHER key (F-B1-2)… the enum checks tested here are producer-side and are,
+with `canvas_core.conform`, the only enforcement anywhere… if LIP-0010 is ratified
+[`test_misspelled_authority_is_rejected_here_because_the_validator_cannot`] becomes redundant rather
+than wrong."*
+
+**LIP-0010 was ratified 2026-09-11 and both keys are now validated by `canvas_std` as A-8 (Standard
+v2.4.0).** So:
+
+- The frozensets here are **no longer a second source of truth** — `AUTHORITY_MODELS` / `PRODUCTION_MODES`
+  are imported from `canvas_std.reserved`, pinned by
+  `test_the_axis_values_are_the_standards_own_sets_not_a_local_copy`.
+- The misspelling test is now **redundant rather than wrong**, as forecast, and is kept deliberately:
+  it pins that the producer still fails **early**, at `__post_init__`, instead of emitting a canvas for
+  the validator to reject later. Its *name* is now a historical artifact — the validator can.
+- A-8 is **asymmetric**: `authority` requires `production`; `production` alone is legal. The producer
+  enforces the same asymmetry, because the Standard would otherwise reject what it emits.
 """
 
 from __future__ import annotations
@@ -55,7 +66,7 @@ def test_undeclared_axes_change_nothing(diagram: DiagramInput):
 
 @pytest.mark.parametrize("model", sorted(AUTHORITY_MODELS))
 def test_each_authority_model_round_trips_and_still_validates(diagram: DiagramInput, model: str):
-    doc = build_diagram(dataclasses.replace(diagram, authority=model))
+    doc = build_diagram(dataclasses.replace(diagram, authority=model, production="generated"))
     assert _reserved(doc)["authority"] == model
     # Additive: the key does not disturb aDNA-Native conformance.
     assert validate(doc, ConformanceLevel.ADNA_NATIVE) == []
@@ -72,6 +83,7 @@ def test_prose_channel_appends_a_wikilink_ref(diagram: DiagramInput):
         dataclasses.replace(
             diagram,
             authority="dual_channel",
+            production="generated",
             prose="what/context/context_canvas_surface_legs.md",
         )
     )
@@ -111,7 +123,7 @@ def test_each_production_mode_round_trips_and_still_validates(diagram: DiagramIn
 
 
 def test_misspelled_production_is_rejected_here_too(diagram: DiagramInput):
-    """F-B1-2 applies to the new key exactly as it applied to the old one — and for the same reason."""
+    """As for `authority`: A-8 validates it since v2.4.0; this pins the earlier producer-side refusal."""
     with pytest.raises(ValueError, match="unknown production"):
         dataclasses.replace(diagram, production="hand-authored")  # hyphen, not underscore
 
@@ -159,10 +171,46 @@ def test_authority_survives_the_yaml_surface(tmp_path):
             "id": "urn:adna:canvas:diagram:t",
             "diagram_type": "flowchart",
             "authority": "dual_channel",
+            "production": "generated",
             "prose": "what/docs/x.md",
             "nodes": [{"id": "a"}, {"id": "b"}],
             "edges": [{"from": "a", "to": "b"}],
         }
     )
     assert d.authority == "dual_channel"
+    assert d.production == "generated"
     assert _reserved(build_diagram(d))["authority"] == "dual_channel"
+
+
+# --- A-8's asymmetry, enforced at the spec surface (Standard v2.4.0, Gridline P1) ------------------
+def test_authority_without_production_is_refused_at_build_time(diagram: DiagramInput):
+    """⛩ The Standard rejects this pair as A-8, so the producer must not be able to emit it.
+
+    Caught the day A-8 landed: four call sites in this vault's own tests declared `authority` with no
+    `production`, and the new validator turned them red. That is the LIP's promised value arriving —
+    the Standard finding under-specification two of our modules had been happy to write.
+    """
+    with pytest.raises(ValueError, match="requires `production` whenever `authority` is present"):
+        dataclasses.replace(diagram, authority="view")
+
+
+def test_production_without_authority_is_allowed(diagram: DiagramInput):
+    """⭐ The converse is legal, and that asymmetry is the corrected form of the rule (F-GL-5).
+
+    A diagram no other channel owns declares only how it is made. A symmetric "two keys or neither"
+    would have forced an invented authority value here — the defect `conform.py` names as "passing a
+    value to make a number go green".
+    """
+    doc = build_diagram(dataclasses.replace(diagram, production="hand_authored"))
+    assert "authority" not in _reserved(doc)
+    assert _reserved(doc)["production"] == "hand_authored"
+    assert validate(doc, ConformanceLevel.ADNA_NATIVE) == []
+
+
+def test_the_axis_values_are_the_standards_own_sets_not_a_local_copy():
+    """⛩ De-duplicated 2026-09-11: these were locally-declared frozensets while `canvas_std` knew
+    neither key. It knows both now (A-8), so a second copy here could only drift from it."""
+    from canvas_std.reserved import AUTHORITY_VALUES, PRODUCTION_VALUES
+
+    assert AUTHORITY_MODELS is AUTHORITY_VALUES
+    assert PRODUCTION_MODES is PRODUCTION_VALUES

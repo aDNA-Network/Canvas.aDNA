@@ -60,6 +60,41 @@ A Core-valid document **MUST** be a valid JSON Canvas 1.0 file (the degradation 
 | A-5 | `_reserved.panel_link` valid per [[spec_panel_link_semantics]] §6 (region/edge + id-bearing surface ids resolve; `sequence` acyclic; exactly one `canonical` surface whose id resolves; a `role: derived` surface MAY omit its id — pure metadata, LIP-0008; no orphaned anchors). |
 | A-6 | `_reserved.sync` present; `sync_hash` matches `compute_sync_hash(source)` **or** the canvas is flagged stale ([[spec_roundtrip_protocol_v2]] §3). |
 | A-7 | `_reserved.context_object` (if present) valid per [[spec_context_object]] §4 (stable `id`; semver `version`; well-formed `refs`). |
+| A-8 | `_reserved.authority` ∈ {`dual_channel`, `view`} and `_reserved.production` ∈ {`hand_authored`, `generated`} — the diagrammatic-context axes (LIP-0010 Option D, **cut into Standard v2.4.0** at Operation Gridline P1). Both **optional**, each validated **only if present**; one **asymmetric** cross-key rule: `authority` **requires** `production`, while `production` **alone is conformant**. |
+
+> **A-8 in one line each.** `authority` answers *who owns the meaning?* (both values name an **other** channel that
+> owns it); `production` answers *how is the picture made?* — and the **"never hand-edit; regenerate" discipline
+> attaches to `production: generated`, to no value on the authority axis**. That split is the whole reason there are
+> two keys: Canvas's own first two dual-channel canvases were `dual_channel` **and** machine-generated at once, and
+> under the superseded three-value enum they could declare only the former. `generator` is **not** an `authority`
+> value — it never answered that question.
+>
+> **Why the cross-key rule is normative, and why it is ASYMMETRIC.** `authority` with no `production` would let a
+> canvas be *validly* `dual_channel` — *another channel owns my meaning* — while silently omitting the only field
+> that says *do not hand-edit me*. That is the defect the axis split exists to remove, so that direction is a
+> failure. The converse is **not**: `production` alone states complete information, and for an artifact no other
+> channel owns it is the **correct** block.
+>
+> ⛩ **This row shipped symmetric ("two keys or neither") for the length of one phase, and that was a misreading
+> corrected at the Gridline P1 exit gate** (F-GL-5, operator ruling 2026-09-11). LIP-0010's table cited the ruling's
+> *"both become binding together"* — but that sentence is about **validation scope** (*if you validate either key you
+> must validate both*, the argument for separating the fields at all), and LIP-0010 states it correctly four lines
+> earlier as *"a two-key change or none"* before sliding into a per-document requirement.
+> ⭐ **The symmetric rule was self-defeating, and this vault's own code is the proof**: `variant_board.py` and
+> `tuning_surface.py` emit `production: generated` and deliberately omit `authority`, with a written reason (*a board
+> built from a run manifest has no prose twin and no `.lattice.yaml`, so the authority question does not arise: the
+> key is ABSENT, not a placeholder*). Under the symmetric rule their output was nonconformant **and could not be made
+> conformant by regeneration** — only by inventing an authority value, which `conform.py` names as *"passing a value
+> to make a number go green… the defect this signature used to force."* ⇒ ***a co-requirement read symmetrically
+> forced back the defect it was written to prevent.***
+>
+> Source: [`pattern_diagrammatic_context`](../../aDNA.aDNA/what/patterns/pattern_diagrammatic_context.md) (aDNA.aDNA,
+> ruled 2026-09-11, `status: draft` at 2 adoptions).
+>
+> ⚠ **A-8 requires nothing of a canvas that declares neither key**, and that is the correct answer rather than a
+> concession: a **hand-authored primary artifact** — whose meaning nothing else owns — is out of the pattern's scope
+> entirely ([`p1_under_coverage_ruling`](../../how/campaigns/campaign_canvas_plumbline/artifacts/p1_under_coverage_ruling.md),
+> Plumbline P1). At the v2.4.0 cut, **21 of 25** in-vault aDNA-Native canvases carried neither key and all 25 pass.
 
 ### 4.1 Interaction-surface checks (I-*) — aDNA-Native (`_reserved.interaction`, optional)
 

@@ -130,7 +130,7 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
     # Diagrammatic-context axes (Blueprint P2; SPLIT into two at Plumbline P1, 2026-09-11). Each is
     # emitted only when the spec declares it, so existing diagram specs produce byte-identical output
     # and an undeclared axis stays *absent* rather than empty. `canvas_std` reads neither key — the
-    # enum checks are producer-side in `model.AUTHORITY_MODELS` / `model.PRODUCTION_MODES` (F-B1-2;
+    # enum checks are producer-side in `model.AUTHORITY_MODELS` / `model.PRODUCTION_MODES` (pre-v2.4.0 this was the ONLY enforcement, F-B1-2; A-8 now validates both keys too —
     # LIP-0010 now a v2.4.0 proposal pending §7.7).
     refs = list(d.refs)
     if d.authority:

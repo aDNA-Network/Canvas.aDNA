@@ -81,6 +81,9 @@ class Gate:
     actual: tuple[int, int] | None = field(default=None, compare=False)
     status: str = field(default="", compare=False)
     detail: str = field(default="", compare=False)
+    # Gate-specific facts the reporter needs and must not re-derive by hand (F-GL-7): e.g. the
+    # certification corpus total, which used to be a literal `11` inside the gate-line generator.
+    meta: dict = field(default_factory=dict, compare=False)
 
 
 PRODUCER_PACKAGES = [
@@ -94,8 +97,14 @@ PRODUCER_PACKAGES = [
 ]
 
 GATES: list[Gate] = [
-    Gate("canvas_std", "pytest", CODE / "canvas_std", (115, 10)),
-    Gate("certification", "certify", CODE / "canvas_std", (11, 0),
+    # 115 -> 146 at Gridline P1 (2026-09-11): the A-8 firewall touch. DERIVED, not inferred —
+    # per-file collection at HEAD vs the working tree reconciles as +20 `test_axes.py` · +1
+    # `test_conformance` (one parametrized case per fixture, 12->13) · +6 `test_fixtures` (six checks
+    # per fixture, 66->72) = +27, then -1/+5 when the symmetric co-requirement was corrected to
+    # asymmetric (F-GL-5). Arithmetic closed before this number was written.
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (146, 10)),
+    # 11 -> 12: the A-8 golden `adna_axes.canvas` joined the corpus at Gridline P1.
+    Gate("certification", "certify", CODE / "canvas_std", (12, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
     # 1035 -> 1040 at Plumbline P1 (2026-09-11): +5 in test_conform.py for the authority/production
     # split. Investigated before editing, per this file's own rule — the delta was DERIVED by running
@@ -123,8 +132,12 @@ PRODUCER_EXPECT: dict[str, tuple[int, int]] = {
     "brief_consumer": (10, 0),
     "comic_generator": (123, 0),
     "deck_generator": (16, 0),
-    "diagram_generator": (49, 0),  # 44 -> 49 at Plumbline P1: +5 for the production axis + the
+    "diagram_generator": (52, 0),  # 44 -> 49 at Plumbline P1: +5 for the production axis + the
                                    # removed `generator` authority cell (test_authority.py).
+                                   # 49 -> 52 at Gridline P1: +3 for A-8's asymmetry at the spec
+                                   # surface (authority-without-production refused; production-alone
+                                   # allowed) + the de-duplication pin that the axis sets ARE
+                                   # canvas_std's objects rather than a local copy.
     "document_generator": (37, 0),
     "letter_generator": (17, 0),
     "post_generator": (20, 0),
@@ -339,6 +352,7 @@ def run_gate(gate: Gate) -> None:
             return
         report = json.loads(proc.stdout)
         gate.actual = (report["passed"], 0)
+        gate.meta["total"] = report["total"]  # F-GL-7: the reporter must not hard-code this
         gate.detail = f"standard v{report['standard_version']}"
         if not report["certified"]:
             gate.status = "FAIL"
@@ -421,6 +435,10 @@ def run_gate(gate: Gate) -> None:
                 if json.loads(rebuilt.read_text()) != json.loads(current.read_text()):
                     stale.append(f"{current.relative_to(VAULT)} differs from a rebuild of its own source")
         gate.actual = (checked, 0)
+        # F-GL-7: the reporter needs fresh-vs-checked and must not infer it. `actual` is (checked, 0),
+        # so a gate line reading `got[0]/got[0]` renders X/X and is green-shaped even when stale.
+        gate.meta["checked"] = checked
+        gate.meta["stale"] = len(stale)
         if stale:
             gate.status = "FAIL"
             gate.detail = f"{len(stale)} of {checked} stale — " + "; ".join(stale)
@@ -438,6 +456,29 @@ def run_gate(gate: Gate) -> None:
 # Reporting
 # ---------------------------------------------------------------------------
 def markdown_gate_line() -> str:
+    """Render the STATE.md gate line from what the run OBSERVED — never from a literal.
+
+    ⛩ **F-GL-7 (2026-09-11, Gridline P1): this function hard-coded green for all three non-pytest
+    gates**, which are precisely the gates whose failure matters most:
+
+    - ``"firewall diff **0**"`` was a **constant string**. It printed a clean firewall *while the
+      firewall gate was FAILING*, during an authorized breach — and this is the one string a phase
+      close **pastes** into `STATE.md`. The file's own contract is *"a close pastes generated output"*,
+      so a hard-coded green here does not merely mislead the author, it **publishes** the wrong fact
+      under the authority of having been generated.
+    - ``certification **{passed}/11``** hard-coded the corpus total. The corpus reached 12 at this
+      phase, so the line read **``12/11``**; had the corpus *shrunk* it would have read ``10/11`` and
+      looked like a failure that had not happened.
+    - ``dual-channel freshness **{n}/{n}**`` printed X/X unconditionally, so *one of two* pairs going
+      stale would have rendered as ``1/1`` — green, in the gate built because two pairs went stale.
+
+    ⇒ ***the report is part of the check.*** A gate that observes correctly and reports a literal has
+    only moved the unverified claim one layer out — which is the family this whole file exists to end
+    (F-GM-1, F-PL-6), found three times inside it in one sitting.
+
+    Every gate now renders from ``gate.actual``/``gate.meta``, and any non-OK gate renders as an
+    explicit ``⛔ <status>`` so the line **cannot be pasted as green while red**.
+    """
     producers = [g for g in GATES if g.group == "producers"]
     total = sum((g.actual or (0, 0))[0] for g in producers)
     parts: list[str] = []
@@ -446,19 +487,27 @@ def markdown_gate_line() -> str:
         if gate.group == "producers":
             # Collapse the group into one entry, in the position the group occupies in GATES.
             if not emitted_producers:
-                parts.append(f"producers **{total} across {len(producers)} packages**")
+                producer_note = "" if all(g.status == "OK" for g in producers) else " ⛔"
+                parts.append(f"producers **{total} across {len(producers)} packages**{producer_note}")
                 emitted_producers = True
             continue
         got = gate.actual or (0, 0)
         if gate.gate_id == "certification":
-            parts.append(f"certification **{got[0]}/11**")
+            corpus_total = gate.meta.get("total", got[0])
+            body = f"certification **{got[0]}/{corpus_total}**"
         elif gate.gate_id == "firewall":
-            parts.append("firewall diff **0**")
+            # Derived, not asserted: the count is dirty paths, so 0 is the only clean value.
+            body = ("firewall diff **0**" if gate.status == "OK"
+                    else f"firewall **{got[0]} dirty path(s)**")
         elif gate.gate_id == "dual_channel_freshness":
-            parts.append(f"dual-channel freshness **{got[0]}/{got[0]}**")
+            # `actual` is (checked, 0) — the fresh count is checked minus stale, from meta.
+            checked = gate.meta.get("checked", got[0])
+            body = f"dual-channel freshness **{checked - gate.meta.get('stale', 0)}/{checked}**"
         else:
             shown = f"{got[0]}/{got[1]}" if got[1] else f"{got[0]}"
-            parts.append(f"`{gate.gate_id}` **{shown}**")
+            body = f"`{gate.gate_id}` **{shown}**"
+        # A red gate is named red in the line itself. Nothing here may render as green on a FAIL.
+        parts.append(body if gate.status == "OK" else f"{body} ⛔ {gate.status}")
     return " · ".join(parts)
 
 

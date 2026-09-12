@@ -27,7 +27,24 @@ RESERVED_KEYS: tuple[str, ...] = (
     "brand_style_pack_ref",
     "panel_link",
     "context_object",
+    "interaction",  # v2.2.0 (Armature) — BACK-FILLED 2026-09-11, see F-GL-1 below
+    "authority",    # v2.4.0, LIP-0010 Option D
+    "production",   # v2.4.0, LIP-0010 Option D
 )
+# ⛩ F-GL-1 (2026-09-11, Gridline P1) — WHY `interaction` CARRIES A BACK-FILL NOTE.
+# `RESERVED_KEYS` had **no consumer**: when the two v2.4.0 names were appended per LIP-0010 Option D
+# item 1, this tuple was referenced nowhere in `src/`, nowhere in `tests/`, nowhere in
+# `what/production/`. So the ratified append was correct *and inert* — and the proof that an inert
+# list drifts was sitting in it: **`interaction`**, shipped and validated by `validate_interaction`
+# at Standard **v2.2.0**, was missing from this tuple, from the JSON Schema's
+# `$defs.reserved.properties`, and from `spec_adna_canvas_standard` §7.2 — **all three**
+# hand-maintained copies of one namespace, for three months, because nothing read any of them.
+# ⇒ a specification with no consumer is indistinguishable from no specification.
+# Back-filled in all three by operator ruling at the P1 exit gate (a documentation correction: no
+# canvas starts or stops validating, since `$defs.reserved` stays open and §7.3 already requires
+# unknown keys be preserved). The durable fix — giving this tuple a real consumer — is filed as
+# `how/backlog/idea_reserved_keys_has_no_consumer.md` and deliberately NOT built here.
+# One test in `test_axes.py` currently reads this tuple; it is the only reader in the package.
 
 # Component taxonomy (spec_component_model §2) and the baseline degradation types.
 COMPONENT_CLASSES: frozenset[str] = frozenset(
@@ -61,6 +78,26 @@ _HEX16 = re.compile(r"^[0-9a-f]{16}$")
 # Leg-3 interaction layer (spec_interface_surface §3.3/§9.1; wired into the harness at Armature P2 per adr_007).
 # The four affordance kinds partition what a participant can do at a point — a *closed* enum (IX3).
 AFFORDANCE_KINDS: tuple[str, ...] = ("input", "choice", "annotation", "action")
+
+# Diagrammatic-context axes (v2.4.0; LIP-0010 Option D, on `pattern_diagrammatic_context` as ruled by
+# aDNA.aDNA 2026-09-11). TWO axes, because one field was answering two questions:
+#
+#   authority  — *who owns the meaning?*   Both values name an OTHER channel that owns it.
+#   production — *how is the picture made?* `generated` carries "never hand-edit; regenerate".
+#
+# ⭐ The regenerate discipline attaches to `production`, to **no value on the authority axis** — which
+# is the whole reason the axes are split. Canvas's own first two dual-channel canvases were
+# `dual_channel` AND machine-generated at once; under the superseded three-value enum they could only
+# declare the former, so a reader following the table literally received no instruction not to
+# hand-edit them. `generator` was REMOVED from the authority axis: it never answered that question.
+#
+# Both keys are OPTIONAL and validated only if present (A-8). A canvas carrying neither stays
+# conformant — the correct answer for a *primary* artifact whose meaning nothing else owns
+# (`p1_under_coverage_ruling`, Plumbline P1). The one cross-key rule is ASYMMETRIC: `authority`
+# requires `production`, and `production` alone is legal. See `_validate_axes` for why symmetric was
+# wrong (F-GL-5) — it made this vault's own emitters unable to emit a conformant canvas.
+AUTHORITY_VALUES: frozenset[str] = frozenset({"dual_channel", "view"})
+PRODUCTION_VALUES: frozenset[str] = frozenset({"hand_authored", "generated"})
 # interaction_version is semver-shaped; "1.0" (2-part) and "1.0.0" (3-part) both accepted (spec §3.1). Deliberately
 # distinct from _SEMVER (3-part, for adna_version / context_object.version) — the interaction layer is 2-part-tolerant.
 _INTERACTION_SEMVER = re.compile(r"^\d+\.\d+(\.\d+)?$")
@@ -101,9 +138,70 @@ def validate_reserved(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str
     if "context_object" in reserved:
         errors += _validate_context_object(reserved["context_object"])
 
+    # A-8 (v2.4.0) — the diagrammatic-context axes. Always called: the check is partly about ABSENCE
+    # (exactly one key present is an error), which a `if "authority" in reserved` guard cannot see.
+    errors += _validate_axes(reserved)
+
     # A-5 anchor layer (spec_panel_link_semantics §5.3/§6) — naming/orphan declaration + reference resolution.
     # Spans semantic_bindings + panel_link + component_types, so it takes the whole reserved block.
     errors += validate_anchors(reserved, node_ids)
+    return errors
+
+
+def _validate_axes(reserved: dict[str, Any]) -> list[str]:
+    """A-8 (v2.4.0) — the ``authority`` / ``production`` axes per LIP-0010 Option D.
+
+    Three rules, and the third is **asymmetric** — which is the correction below:
+
+    1. Either key, **if present**, must be a member of its closed set.
+    2. Neither key is required — a canvas carrying neither is conformant.
+    3. ``authority`` **requires** ``production``. ``production`` **alone is legal.**
+
+    ⛩ **Rule 3 shipped asymmetric after a ratified symmetric version was found to be a misreading**
+    (F-GL-5, operator ruling 2026-09-11 at the Gridline P1 exit gate). LIP-0010's table said *"two keys
+    or neither"*, citing the ruling's *"both become binding together."* That sentence is about
+    **validation scope** — *if you validate either key you must validate both*, which is the argument
+    for separating the fields at all — and the LIP says so correctly four lines earlier (*"a two-key
+    change or none"*) before sliding into a per-document requirement.
+
+    The symmetric rule was not merely over-strict, it was **self-defeating**: ``variant_board.py`` and
+    ``tuning_surface.py`` — fixed at Plumbline P1, with a written reason — emit ``production:
+    generated`` and deliberately **omit** ``authority``, because a board built from a run manifest has
+    no prose twin and no ``.lattice.yaml``, so *"the authority question does not arise: the key is
+    ABSENT, not a placeholder."* Under the symmetric rule their output is nonconformant and cannot be
+    made conformant by regeneration — only by inventing an authority value, which is exactly
+    ``conform.py``'s *"passing a value to make a number go green is the defect this signature used to
+    force."* ⇒ ***a co-requirement read symmetrically forced back the defect it was written to prevent.***
+
+    What the asymmetry keeps is the LIP's real worry, undiminished: nothing may claim ``dual_channel``
+    — i.e. *another channel owns my meaning* — while leaving unsaid whether it is generated, since that
+    is the field carrying *do not hand-edit me*. ``production`` alone states complete information;
+    ``authority`` alone does not.
+    """
+    errors: list[str] = []
+
+    if "authority" in reserved and "production" not in reserved:
+        errors.append(
+            "A-8: 'authority' is present without 'production' — `authority` REQUIRES `production` "
+            "(LIP-0010 Option D as corrected 2026-09-11). Declaring that another channel owns this "
+            "canvas's meaning while leaving unsaid how it is made omits the field that carries "
+            "'never hand-edit; regenerate'. (The converse is legal: `production` alone is the correct "
+            "block for an artifact no other channel owns.)"
+        )
+
+    for key, allowed in (("authority", AUTHORITY_VALUES), ("production", PRODUCTION_VALUES)):
+        if key not in reserved:
+            continue
+        value = reserved[key]
+        if value not in allowed:
+            hint = ""
+            # The migration case, named because it is the state 2 of Canvas's own 4 carriers were in
+            # before Plumbline P1 and the one a reader is most likely to reproduce from a stale table.
+            if key == "authority" and value == "generator":
+                hint = (" — `generator` was REMOVED from the authority axis on 2026-09-11: it answers "
+                        "*how is the picture made*, so it belongs to `production` as 'generated'")
+            errors.append(f"A-8: {key} {value!r} not in {sorted(allowed)}{hint}")
+
     return errors
 
 
