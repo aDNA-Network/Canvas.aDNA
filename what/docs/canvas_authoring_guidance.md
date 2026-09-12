@@ -2,7 +2,7 @@
 type: doc
 doc_id: canvas_authoring_guidance
 title: "Canvas authoring guidance — the numbers that make a canvas readable in Obsidian"
-standard_version: "2.3.0"
+standard_version: "2.4.0"
 status: active
 created: 2026-08-03
 updated: 2026-08-03

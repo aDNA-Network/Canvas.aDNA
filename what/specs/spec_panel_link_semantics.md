@@ -2,7 +2,7 @@
 type: spec
 spec_id: spec_panel_link_semantics
 title: "aDNA Canvas panel/link semantics (D5) — flow, pagination, reading-order for non-DAG outputs"
-standard_version: "2.3.0"
+standard_version: "2.4.0"
 status: ratified
 created: 2026-06-12
 updated: 2026-06-23

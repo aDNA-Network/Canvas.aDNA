@@ -3,7 +3,7 @@ type: lip
 lip_number: "LIP-0010"
 title: "Diagrammatic context — the `authority` / `production` axis split (assessment → Standard proposal, v2.4.0)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
-status: accepted
+status: final
 created: 2026-08-24
 updated: 2026-09-11
 requires: []
@@ -21,9 +21,16 @@ tags: [lip, assessment, proposal, canvas, canvas_standard, diagrammatic_context,
 > legitimately have been the status quo.
 >
 > ⛩ **Converted to a Standard proposal at Operation Plumbline P2, 2026-09-11**, when the doctrine it
-> was waiting on was ruled. **Still `draft`, and still no change taken** — `what/code/canvas_std/` is
-> at diff-0 and stays there until an operator signs (§7.7). *Doctrine settles, then the machine
-> enforces it* was this LIP's own ordering argument; it applies to the conversion too.
+> was waiting on was ruled. ~~Still `draft`, and still no change taken — `what/code/canvas_std/` is at
+> diff-0 and stays there until an operator signs (§7.7).~~
+>
+> ⛩ **SIGNED, IMPLEMENTED AND CUT 2026-09-11** (Operation Gridline P0/P1). `canvas_std` moved for the
+> first time since Armature, and is back at diff-0 with **A-8** in it: suite **146/10**, certification
+> **12/12**, Standard **v2.4.0**. *Doctrine settles, then the machine enforces it* was this LIP's own
+> ordering argument — 18 days for the doctrine with a peer vault, one sitting for the machine once it
+> was settled. ⚠ Read §7.7's **erratum table** before this document's older prose: two cells of what
+> was ratified were corrected at the P1 exit gate, and the struck text is preserved rather than
+> replaced because *what was believed when* is the point.
 
 ---
 
@@ -336,7 +343,17 @@ implementation, not by inspection:
 
 ## Status
 
-**draft — and as of 2026-09-11 the reason it is draft has changed, which is itself the finding.**
+~~**draft — and as of 2026-09-11 the reason it is draft has changed, which is itself the finding.**~~
+⛩ **FINAL 2026-09-11.** Draft → **accepted** (§7.7 signed at the Operation Gridline plan gate) →
+**implemented** (the four-file firewall touch, Gridline P1, commit `c1c56b9`) → **final** (Standard
+**v2.4.0** cut the same phase). Three status transitions in one day, which the LIP process permits and
+which is worth naming rather than glossing: the *doctrine* took 18 days with a peer vault, and the
+*implementation* took one sitting once the doctrine was settled. ⭐ That ratio is the LIP's own ordering
+argument — *doctrine settles, then the machine enforces it* — measured rather than asserted.
+
+**Two amendments were taken between `accepted` and `final`**, both operator-ruled at the P1 exit gate
+(the erratum table under §7.7): **A1** corrected the co-requirement from symmetric to asymmetric, and
+**A2** back-filled `interaction` into the namespace record. Neither was taken by the implementing agent.
 
 It was draft *pending a ruling*. The ruling arrived and **replaced the condition rather than
 satisfying it** — inverting this LIP's own trigger (§0). It is now draft *pending an operator
@@ -354,7 +371,7 @@ persisted `cd` makes that check return empty, i.e. indistinguishable from clean.
 | Decision | **Option D** — `authority` ∈ {`dual_channel`, `view`} and `production` ∈ {`hand_authored`, `generated`}, both **optional**, both validated **only if present**, on `metadata.frontmatter._reserved`; additive; minor bump **v2.4.0**; ~~two keys or neither~~ ⛩ **`authority` requires `production`; `production` alone conformant** (amended at implementation — see below) |
 | Ratified by | **Stanley Bishop (operator)** — at the Operation Gridline plan gate |
 | Date | **2026-09-11** |
-| Status | **accepted** (⛩ **amended same day**, at the Gridline P1 exit gate — both amendments operator-ruled, neither taken by the implementing agent) |
+| Status | **final** — implemented at Gridline P1 and cut as **Standard v2.4.0** 2026-09-11 (⛩ **amended same day**, at the Gridline P1 exit gate — both amendments operator-ruled, neither taken by the implementing agent) |
 
 ### ⛩ Amendments taken after the signature, at the P1 exit gate — both operator-ruled
 

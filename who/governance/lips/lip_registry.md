@@ -30,17 +30,17 @@ numbers.
 | [[lip_0001_lip_process\|LIP-0001]] | LIP Purpose and Guidelines (Canvas-local working copy) | Process | Accepted | — | Stanley Bishop | 2026-03-07 |
 | [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Final | v2.3.0 | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0009_canvas_as_primitive\|LIP-0009]] | Canvas as a First-Class aDNA Primitive (evaluation) | Standard | Final (Option V) | — (no core change) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
-| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal) | Standard | **Accepted** — Option D, §7.7 signed 2026-09-11; implementing as Gridline P1–P4 | v2.4.0 (**authorized, not yet cut**) | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
+| [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal → **A-8**) | Standard | **Final** — Option D, §7.7 signed + implemented + cut 2026-09-11 (Gridline P1); **2 operator errata** (A1 asymmetric rule · A2 `interaction` back-fill) | **v2.4.0 (CUT)** | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
 
 ## Status (Canvas-stewarded)
 
 | Status | Count |
 |--------|-------|
-| Draft | 1 |
+| Draft | 0 |
 | Review | 0 |
 | Accepted | 1 |
 | Implemented | 0 |
-| Final | 2 |
+| Final | 3 |
 | Rejected | 0 |
 | Withdrawn | 0 |
 | **Total** | **4** |
@@ -57,11 +57,18 @@ numbers.
 > ⛩ **Converted to a Standard proposal 2026-09-11** (Plumbline P2): **Option D** — `authority`
 > {`dual_channel`, `view`} + `production` {`hand_authored`, `generated`}, both optional, validated only if
 > present, **two keys or neither**, additive, **v2.4.0**. ~~No change taken; firewall at diff-0 pending §7.7.~~
-> ⛩ **§7.7 SIGNED 2026-09-11** at the Operation Gridline plan gate → **Accepted**. Implementation runs as
-> `campaign_canvas_gridline` P1–P4; the LIP reaches `implemented` on the firewall commit and `final` on the
-> v2.4.0 cut. ⚠ **The signature is bounded to Option D's four-file table** — it does not mandate either key on
-> any canvas, and it does not cover **F-GL-1** (`RESERVED_KEYS` turns out to have **no consumer**, and
-> `interaction` has never been in it either), which is a separate P1 gate question.
+> ⛩ **§7.7 SIGNED 2026-09-11** at the Operation Gridline plan gate, then **implemented and CUT the same
+> phase → FINAL**: `canvas_std` v2.4.0 validates both keys as **A-8** (suite 146/10, certification 12/12).
+> ⚠ The signature was bounded to Option D's four-file table, and **two operator errata were ruled at the P1
+> exit gate** rather than taken by the implementing agent: **A1** — the ratified *"two keys or neither"* was a
+> misreading of *"both become binding together"* (a claim about **validation scope**) and was **self-defeating**,
+> since this vault's own `variant_board`/`tuning_surface` deliberately emit `production` alone; the rule ships
+> **asymmetric** (`authority` requires `production`). **A2** — `interaction` was missing from all **three**
+> hand-maintained copies of the `_reserved` namespace since v2.2.0, because nothing read any of them; back-filled.
+> ⛩ And the LIP's **backward-compatibility claim was false** when signed (F-GL-6): *"25 of 25 keep passing"*
+> measured **23 of 25** — two untracked canvases still declared `authority: generator`, and **Plumbline P1's own
+> census printed both rows** four lines from where the claim was written. Fixed by regeneration; A-8 failures now **0**.
+> ⇒ ***the number a decision rests on is the one most worth re-deriving before you sign it.***
 
 ---
 *LIP Registry — Canvas.aDNA · established Operation Beacon B4, 2026-07-02 · predecessor: `Archive.aDNA/lattice-labs/how/governance/lips/lip_registry.md`*

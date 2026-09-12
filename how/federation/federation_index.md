@@ -5,7 +5,7 @@ created: 2026-08-04
 updated: 2026-09-09
 last_edited_by: agent_mondrian
 status: active
-standard_version: "2.3.0"
+standard_version: "2.4.0"
 source_census: how/campaigns/campaign_canvas_blueprint/artifacts/p3_federation_census_20260908.md
 superseded_census: how/campaigns/campaign_canvas_halftone/missions/artifacts/halftone_federation_census_20260804.md
 tags: [federation, index, wrappers, consumers, canvas_standard]
@@ -115,8 +115,16 @@ ever reported to them). Operations already has the finding, carded their side as
 
 1. **Home runtime path** (§1) — flagged to Hestia in the refederation wave's courtesy notes; the import should
    land on `Canvas.aDNA/what/production/canvas_core` (post-pt09 home), not the archive shim.
-2. **Network trio pin 2.2.0 → 2.3.0** — minor-policy auto-adopt is legal (§3); a one-line pin bump + re-run of
-   stage 3 suffices; fold into the next Network session.
+2. **Network trio pin 2.2.0 → ~~2.3.0~~ 2.4.0** — minor-policy auto-adopt is legal (§3); a one-line pin bump +
+   re-run of stage 3 suffices; fold into the next Network session.
+   ⛩ *Updated 2026-09-11 (Gridline P2):* the target moved because **the Standard did** — v2.4.0 cut at
+   Gridline P1 (LIP-0010 Option D, A-8). This item is **why a ledger row should name a policy rather than a
+   number**: it has now been stale twice, and both times for the same structural reason — *the row recorded a
+   destination that a later release moved*. The **instruction** ("adopt the current minor") never changed.
+   ⚠ **No peer row in §2 was touched by this campaign's sweep**, deliberately: those cells record *measured*
+   peer declarations (Emacs `2.3.0`, Oration `2.3.0`, both 2026-09-08) and editing them to match our release
+   would fabricate peer state. A peer's pin moves when **they** adopt — which, under minor policy, they may do
+   without asking us. Re-measure at the next wave; do not infer.
 3. **ScienceStanley comic `context_ref`** — archive-only target; the resurrect-vs-repoint decision is
    Canvas-side (M-PL3 flag stands).
 4. **Obsidian dir-rename** (`canvasforge/` → `canvas/`) — post-their-P3, per their ADR-010 note.

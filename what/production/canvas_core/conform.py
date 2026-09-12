@@ -118,6 +118,13 @@ def uplift_to_adna_native(
     source_name: str,
     authority: str | None = None,
     production: str | None = None,
+    # ⛩ NOT bumped to 2.4.0 at the Gridline cut, deliberately. `adna_version` states which Standard
+    # version a canvas was authored against, not which is newest — the Beacon precedent keeps
+    # 2.0.0-authored fixtures valid for exactly this reason. ⚠ And the vault is ALREADY inconsistent
+    # here: five emitters stamp three different values (`variant_board`/`tuning_surface`/
+    # `review_canvas` write "2.0.0", `diagram_generator` writes its own ADNA_VERSION constant, this
+    # writes "2.3.0"). Bumping one of the five would make it four values, not one. Recorded as a
+    # finding for a separate ruling rather than half-fixed here.
     adna_version: str = "2.3.0",
     context_object: dict[str, Any] | None = None,
     extra_reserved: dict[str, Any] | None = None,

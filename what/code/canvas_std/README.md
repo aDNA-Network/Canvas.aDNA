@@ -27,14 +27,14 @@ package is its reference tooling. The normative specs live in the vault at `Canv
 
 ```bash
 pip install -e ".[dev]"
-make test     # pytest (115 passed / 10 skipped)
+make test     # pytest (146 passed / 10 skipped)
 make lint     # ruff
 ```
 
 ## Versioning
 
 `__version__` is the **package** version (`0.1.0`). `STANDARD_VERSION` is the **Standard** version this
-package implements (`"2.3.0"`). They are intentionally distinct (a P2 finding).
+package implements (`"2.4.0"`). They are intentionally distinct (a P2 finding).
 
 ## Provenance
 
