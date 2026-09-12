@@ -9,10 +9,10 @@ cc: []
 created: 2026-09-11
 updated: 2026-09-11
 direction: outbound
-status: staged
+status: staged_held_on_peer_lease   # operator GO GIVEN 2026-09-11; held by the act-time probe, not by refusal
 delivered_on: null
 delivered_to_path: aDNA.aDNA/who/coordination/inbox/
-delivery_path_basis: "DERIVED at authoring, to be RE-PROBED at the act. `aDNA.aDNA/who/coordination/inbox/` exists; no lease in their `how/sessions/active/` (their 09-11 haussmann session file is deleted-but-uncommitted, i.e. released); their HEAD `d6ae1b6`. ⚠ Their working tree carries uncommitted changes, so this file is left UNTRACKED on delivery and never committed into their repo (workspace Rule 10)."
+delivery_path_basis: "⛩ REWRITTEN AT THE ACT, because the basis CHANGED — recorded rather than quietly overwritten (the P5 lesson: memo #15 shipped with a stale basis). AT AUTHORING: inbox/ present, NO lease (their 09-11 haussmann file deleted-but-uncommitted = released), HEAD `d6ae1b6` -> deliverable. AT THE ACT (operator GO given): inbox/ still present, but they hold a LIVE LEASE — `how/sessions/active/session_stanley_20260912_050048_haussmann_docs_sweep.md` — and HEAD moved to `e43fe8c`. A live peer lease is this vault's standing refusal condition, so delivery is HELD and the memo stays STAGED. ⭐ The re-probe is exactly what makes a staged memo not a refused one, and it earned its keep here: the GO was given on the authoring-time basis, and the act-time basis is different. Both conditions this vault refuses on are TRANSIENT — re-probe next session; do not escalate."
 ack_required: true
 needs_human: false
 answers: [coord_2026_09_11_rosetta_to_mondrian_the_pattern_exists_now_and_it_ships_draft_because_the_census_says_two]
