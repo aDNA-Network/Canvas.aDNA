@@ -3,7 +3,7 @@ type: session
 session_id: session_stanley_20260911_gridline_p0
 created: 2026-09-11
 updated: 2026-09-11
-status: active
+status: completed
 tier: 2
 persona: mondrian
 operator: stanley
@@ -83,3 +83,66 @@ Writes this session: `who/governance/lips/lip_0010_*` (§7.7 + status) · `lip_r
 - **P0.2** §7.7 ratification block written; LIP `draft → accepted`.
 - **P0.3** campaign chartered.
 - **P0.4** baseline gate line captured by running the manifest (never retyped).
+
+- **P1** firewall touch + two operator rulings (F-GL-5 asymmetric · F-GL-1 back-fill) + F-GL-7.
+- **P2–P4** classified pin sweep · LIP-0010 → Final · memo #19 staged.
+- **P5** AAR · STATE · campaign `completed`.
+
+## SITREP
+
+### Completed
+
+- **aDNA Canvas Standard v2.4.0 CUT.** A-8 validates `authority` {`dual_channel`, `view`} +
+  `production` {`hand_authored`, `generated`}; `authority` requires `production`, `production` alone is
+  conformant. Four-file firewall touch per the ratified table + a fifth by ruling (`interaction`).
+- **LIP-0010 → Final**, with two dated operator errata rather than in-place edits.
+- **8 pre-existing commits pushed** (`22a101b..036e156`), gitleaks clean twice.
+- **Three defects fixed in the gate manifest itself**, all found by *running* it: the firewall predicate
+  (F-GL-2), the producers total (F-GL-4), and the gate-line generator hardcoding green (F-GL-7).
+- **Producers de-duplicated** into `canvas_std.reserved` delegates; six now-false "canvas_std does not
+  validate this key" claims corrected where they were written.
+- **Two stale carriers regenerated** (not hand-edited); A-8 census failures **0** across 26 canvases.
+- `idea_reserved_keys_has_no_consumer` filed. AAR written. Campaign `completed`.
+
+### In progress
+
+Nothing. Every phase closed.
+
+### Next up
+
+1. **Memo #19 → Rosetta: delivery GO.** Staged at
+   `who/coordination/coord_2026_09_11_mondrian_to_rosetta_a8_ships_and_your_invitation_was_needed_the_sentence_got_misread.md`,
+   `ack_required: true`. Re-probe their lease + drop-box **at act time**, deliver untracked, md5-verify.
+2. **Push GO** for this session's 4 commits.
+3. Backlog, ours whenever: `idea_reserved_keys_has_no_consumer` · `idea_imagenwiring_selection_surface_deprecation` · `idea_memo_number_registry`.
+4. **Needs a ruling before anything moves**: `adna_version` has **three values across five emitters**.
+
+### Blockers
+
+None. `#needs-human` only on the standing D3 registrar ack.
+
+### Files touched
+
+`what/code/canvas_std/**` (reserved.py · schema · CHANGELOG · README · `__init__` · conformance ·
+tests incl. new `test_axes.py` + `adna_axes.canvas` + manifest) · `what/production/{canvas_core,
+diagram_generator}/**` · `what/specs/**` (11 frontmatters + core spec + conformance suite + README) ·
+`how/gates/gate_manifest.py` · `how/federation/federation_index.md` · `who/governance/lips/{lip_0010,
+lip_registry}` · `how/backlog/idea_reserved_keys_has_no_consumer.md` · `how/campaigns/
+campaign_canvas_gridline/**` · `STATE.md` · one staged memo · two regenerated `what/artifacts/` canvases.
+
+## Next Session Prompt
+
+Canvas.aDNA (Mondrian). Operation Gridline closed 2026-09-11: **Standard v2.4.0 is cut** — A-8
+validates the `authority`/`production` axes, `authority` requires `production`, `production` alone is
+legal; LIP-0010 is **Final** with two dated operator errata in its §7.7 block. Nine gates green
+(`python3 how/gates/gate_manifest.py --markdown` — **always run it, never retype the line**; three
+defects in that file were fixed this session and the worst of them printed a clean firewall while the
+firewall was failing). **Two things are owed and both need your GO**: memo #19 to Rosetta is *staged*
+at `who/coordination/coord_2026_09_11_mondrian_to_rosetta_a8_ships…md` with `ack_required: true` (it
+takes up their explicit `draft` invitation and reports that one sentence of
+`pattern_diagrammatic_context` supports two readings, the reachable one being wrong) — re-probe their
+lease and drop-box **at act time** before delivering, and leave the file untracked; and this session's
+**4 commits are unpushed**. Open and ours whenever: `idea_reserved_keys_has_no_consumer` (filed this
+session — the tuple has no reader), `idea_imagenwiring_selection_surface_deprecation` (needs a fleet
+consumer sweep), `idea_memo_number_registry`. One thing needs a ruling before any code moves:
+**`adna_version` carries three different values across five emitters** — do not bump one of the five.

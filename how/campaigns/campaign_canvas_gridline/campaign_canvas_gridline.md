@@ -3,7 +3,7 @@ campaign_id: campaign_canvas_gridline
 type: campaign
 title: "Operation Gridline — the Standard learns both axes, and the producers stop being the only thing that knows"
 owner: stanley
-status: active
+status: completed
 estimated_sessions: "1-3"
 phase_count: 6
 mission_count: "created at phase-open"
@@ -12,8 +12,10 @@ executor_tier_default: opus
 predecessor: campaign_canvas_plumbline
 created: 2026-09-11
 updated: 2026-09-11
+completed: 2026-09-11
+actual_sessions: 1
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-11 — chartered at the plan gate, on the §7.7 signature that Plumbline left as its single live item) · P0 push discharged (8 commits, 22a101b..036e156), §7.7 signed, two gate-manifest defects found by RUNNING the baseline"
+status_history: "active (2026-09-11 — chartered at the plan gate, on the §7.7 signature that Plumbline left as its single live item) · P0 push discharged (8 commits, 22a101b..036e156), §7.7 signed, two gate-manifest defects found by RUNNING the baseline · P1 the firewall touch + TWO operator rulings that both changed the artifact (F-GL-5 asymmetric rule · F-GL-1 interaction back-fill), A-8 turned four of our own call sites red, producers de-duplicated into canvas_std delegates, F-GL-7 found the gate-line generator hardcoding green · P2-P4 classified pin sweep (peer rows deliberately untouched), LIP-0010 -> FINAL, v2.4.0 CUT · P5 CLOSED 2026-09-11 -> ✅ COMPLETED"
 tags: [campaign, canvas, gridline, lip_0010, standard_v240, firewall, authority_axis, production_axis, reserved_keys, gate_manifest, a8]
 ---
 
@@ -126,3 +128,25 @@ true by measurement; it is now known to be true by construction.
    as the thing the signature explicitly cannot bless.
 3. **Baseline gate line captured by running the manifest**, not copied: nine gates, all green, exit 0.
    That run is what produced F-GL-4 — the baseline was not ceremony.
+
+### P1 — complete 2026-09-11 (the firewall touch)
+
+The touch, then the two rulings it produced. Details in the [AAR](missions/artifacts/gridline_campaign_aar.md)
+and the §7.7 erratum table in `lip_0010`. **A-8 immediately turned four of our own call sites red** —
+`canvas_core` and `diagram_generator` both emitted `authority` with no `production` — which is the LIP's
+promised value arriving within the hour. Both producers now refuse it at build time and import the axis
+sets from `canvas_std.reserved` (the Armature thin-delegate precedent). **F-GL-7** found
+`markdown_gate_line()` hardcoding green for all three non-pytest gates.
+
+### P2–P4 — complete 2026-09-11 (the classified sweep · governance · the seam)
+
+32 files carried a `2.3.0` literal; each classified as live pin or dated historical claim before any
+edit. ⛔ **Peer rows in `federation_index` §2 deliberately untouched** — they record *measured* peer
+declarations and editing them would fabricate peer state. LIP-0010 `accepted → implemented → final`.
+**Memo #19 → Rosetta authored and STAGED** with `ack_required: true` (their finding, our corrected
+default), taking up their explicit `draft` invitation.
+
+### P5 — CLOSED 2026-09-11
+
+AAR written · STATE rewritten current with the gate line **pasted** from `--markdown` · campaign
+`completed`. **Live: the memo #19 delivery GO and a push GO for 4 commits.**
