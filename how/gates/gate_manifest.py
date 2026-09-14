@@ -72,11 +72,21 @@ class Gate:
     """One gate. ``expect`` is (passed, skipped); None means "not a counted pytest gate"."""
 
     gate_id: str
-    kind: str  # "pytest" | "certify" | "gitdiff" | "freshness"
+    kind: str  # "pytest" | "certify" | "gitdiff" | "freshness" | "census"
     path: Path
     expect: tuple[int, int] | None = None
     group: str = ""
     note: str = ""
+    # ⛩ F-DT-5 (2026-09-13, Datum P2). Number of skips that may LEGITIMATELY vary with the operator's
+    # environment rather than with the code. Defaults to 0, so every other gate stays exactly as
+    # strict as it was: a test silently becoming a skip is a real regression (*a check that cannot run
+    # is not a check that passes*) and must not be waved through.
+    #
+    # Where it is non-zero, the assertion changes shape rather than loosening: the TOTAL
+    # (passed + skipped) must still match exactly — nothing may appear or vanish — and `skipped` must
+    # land in [expect[1], expect[1] + env_skips]. What stops being pinned is only the SPLIT.
+    env_skips: int = 0
+    env_reason: str = ""
     # Populated at run time:
     actual: tuple[int, int] | None = field(default=None, compare=False)
     status: str = field(default="", compare=False)
@@ -102,7 +112,12 @@ GATES: list[Gate] = [
     # `test_conformance` (one parametrized case per fixture, 12->13) · +6 `test_fixtures` (six checks
     # per fixture, 66->72) = +27, then -1/+5 when the symmetric co-requirement was corrected to
     # asymmetric (F-GL-5). Arithmetic closed before this number was written.
-    Gate("canvas_std", "pytest", CODE / "canvas_std", (146, 10)),
+    # 146 -> 151 at Datum P2 (2026-09-13): the RESERVED_KEYS-consumer firewall touch, authorized by
+    # operator ruling as the fourth deliberate canvas_std touch since Keystone. DERIVED, not inferred —
+    # this morning's P0 baseline measured HEAD at 146/10 with the file absent, the working tree measures
+    # 151/10, and the delta reconciles exactly against the 5 test functions in
+    # `tests/test_registry_consistency.py`. Skips unchanged at 10, as expected: none of the five skip.
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (151, 10)),
     # 11 -> 12: the A-8 golden `adna_axes.canvas` joined the corpus at Gridline P1.
     Gate("certification", "certify", CODE / "canvas_std", (12, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
@@ -111,7 +126,24 @@ GATES: list[Gate] = [
     # the suite at HEAD (1035) and at the working tree (1040) and reconciling against the 5 test
     # functions added, not inferred from the direction of the change. (⚠ I first assumed 6 and the
     # arithmetic refused to close; test_conform was 13 before, not 12.)
-    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1040, 3)),
+    # ⛩ F-DT-5 (2026-09-13, Datum P2) — THIS PIN WAS A CLAIM ABOUT THE OPERATOR'S DESKTOP.
+    # `(1040, 3)` holds only while Obsidian is OPEN on this vault:
+    # `test_visual_capture.py::test_live_window_probe_is_title_pinned` passes when `vc.find_window()`
+    # resolves and `pytest.skip`s when it does not. With Obsidian closed, the SAME unchanged tree
+    # measures `(1039, 4)` and this gate reported DISAGREE — a real disagreement about nothing.
+    #
+    # ⛔ NOT fixed by re-pinning to (1039, 4): that just re-pins to the other desktop state and the
+    # gate breaks again the next time Obsidian is open. The invariant that actually holds is the
+    # TOTAL — 1043 in both regimes — so that is what is asserted, with ONE skip declared as
+    # environment-conditioned. Nothing may appear or vanish; only the split may move.
+    #
+    # ⚠ And it means the Datum P0 baseline, reported that morning as "all green, reproduced exactly",
+    # was green PARTLY BY COINCIDENCE OF DESKTOP STATE. Had Obsidian been closed at 08:00 this would
+    # have been a P0 finding. ⇒ a pinned passed/skipped split is a claim about the runner, not about
+    # the code — the sibling of this file's declared runner-environment preconditions, except that
+    # those are declared and checked and this one was neither.
+    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1040, 3), env_skips=1,
+         env_reason="test_live_window_probe_is_title_pinned skips unless Obsidian is open on this vault"),
     Gate("canvas_presentation", "pytest", PRODUCTION / "canvas_presentation", (57, 2),
          note="added 2026-09-10 — was never in a STATE gate line; found by this file's own "
               "discovery check on its first run"),
@@ -121,6 +153,12 @@ GATES: list[Gate] = [
     Gate("comic_render", "pytest", PRODUCTION / "comic_render", (154, 2)),
     Gate("firewall", "gitdiff", CODE / "canvas_std", None,
          note="canvas_std must be byte-clean in the working tree; production never edits it"),
+    Gate("registry_census", "census", VAULT, None,
+         note="added 2026-09-13 (Datum P2, F-GL-1): the three hand-maintained copies of the "
+              "`_reserved` namespace — RESERVED_KEYS, the JSON Schema's $defs.reserved.properties, "
+              "and spec §7.2 — must agree, and every key a validator dispatches on must be in all "
+              "of them. The spec leg is why this is a VAULT gate and not only a package test: the "
+              "spec is a vault artifact the package must not depend on"),
     Gate("dual_channel_freshness", "freshness", VAULT, None,
          note="added 2026-09-11 (F-PL-6): every `*.diagram.yaml` is rebuilt and compared to the "
               "`.canvas` beside it. Both pairs in the vault had been stale for four days, across "
@@ -390,6 +428,51 @@ def run_gate(gate: Gate) -> None:
             return
         gate.detail = "clean vs HEAD (staged + unstaged + untracked)"
 
+    elif gate.kind == "census":
+        # F-GL-1. `RESERVED_KEYS` had no consumer, so LIP-0010's ratified append to it was correct and
+        # INERT — and the proof that an inert list rots was already inside it: `interaction`, shipped
+        # and validated since v2.2.0, was missing from all three hand-maintained copies of the
+        # namespace for three months, because nothing read any of them.
+        #
+        #   => a specification with no consumer is indistinguishable from no specification.
+        #
+        # `test_registry_consistency.py` (Datum P2) covers the two copies INSIDE the package, so a fork
+        # or a `pip install adna-canvas-std` inherits that much. This gate covers the third — spec §7.2
+        # — which is a vault artifact the package correctly must not depend on. Two scopes, one
+        # invariant; the duplication is named at both sites rather than left silent (F-DT-3).
+        #
+        # Exit codes are the census's own: 0 clean · 1 drift · 4 precondition.
+        proc = subprocess.run(
+            [str(PYTHON), str(Path(__file__).resolve().parent / "registry_census.py")],
+            capture_output=True, text=True, cwd=str(VAULT), env=_env(),
+        )
+        # Derive the population from the tool's own output; do NOT restate it here. A literal in this
+        # branch is exactly F-GL-7 — a gate observing correctly and reporting a constant.
+        report = json.loads(subprocess.run(
+            [str(PYTHON), str(Path(__file__).resolve().parent / "registry_census.py"), "--json"],
+            capture_output=True, text=True, cwd=str(VAULT), env=_env(),
+        ).stdout or "{}")
+        ns = report.get("reserved_namespace", {})
+        agree = bool(ns.get("all_agree"))
+        n_keys = len(ns.get("python_RESERVED_KEYS", []))
+        gate.actual = (n_keys if agree else 0, 0)
+        gate.meta["keys"] = n_keys
+        gate.meta["registries"] = len(report.get("python_registries", []))
+        gate.meta["dynamic_sites"] = len(report.get("dispatch_dynamic_sites", []))
+        if proc.returncode == EXIT_PRECONDITION:
+            gate.status = "FAIL"
+            gate.detail = f"census precondition fault: {proc.stderr.strip()[:120]}"
+            return
+        if proc.returncode != 0 or not agree:
+            gate.status = "FAIL"
+            bad = {k: v for k, v in ns.items() if k.startswith("in_") and v}
+            gate.detail = (f"the _reserved namespace copies disagree: {bad or 'see census output'}"
+                           + (f"; dispatched-but-undeclared {report['dispatched_but_undeclared']}"
+                              if report.get("dispatched_but_undeclared") else ""))
+            return
+        gate.detail = (f"{n_keys} keys agree across RESERVED_KEYS + schema + spec §7.2; "
+                       f"{gate.meta['registries']} vocabulary registries enumerated")
+
     elif gate.kind == "freshness":
         # F-PL-6. `pattern_diagrammatic_context`'s central law is that **drift between the two
         # channels is a defect, not a chore**. Nothing enforced it: the visual gate checks a canvas
@@ -446,6 +529,26 @@ def run_gate(gate: Gate) -> None:
         gate.detail = f"{checked} pair(s) fresh"
 
     if gate.expect is not None and gate.actual != gate.expect:
+        if gate.env_skips:
+            # F-DT-5: the split may move with the environment; the TOTAL may not, and the skip count
+            # may not exceed the declared allowance. Anything else is still a disagreement.
+            exp_total = gate.expect[0] + gate.expect[1]
+            got_total = gate.actual[0] + gate.actual[1]
+            lo, hi = gate.expect[1], gate.expect[1] + gate.env_skips
+            if got_total == exp_total and lo <= gate.actual[1] <= hi:
+                # ⚠ status must be set explicitly here: the tail of this function is what normally
+                # assigns "OK", and this branch returns before reaching it. The first version omitted
+                # it and the reporter raised `KeyError: ''` — loudly, which is the point. A reporter
+                # that defaulted an unknown status to green would have been F-GL-7 for the fourth time.
+                gate.status = "OK"
+                gate.detail = (f"{gate.actual[0]}/{gate.actual[1]} — total {got_total} holds; "
+                               f"{gate.actual[1] - lo} of {gate.env_skips} env-conditioned skip(s) "
+                               f"active ({gate.env_reason})")
+                return
+            gate.status = "DISAGREE"
+            gate.detail = (f"expected total {exp_total} with skips in [{lo},{hi}], "
+                           f"got {gate.actual[0]}/{gate.actual[1]} (total {got_total})")
+            return
         gate.status = "DISAGREE"
         gate.detail = f"expected {gate.expect[0]}/{gate.expect[1]}, got {gate.actual[0]}/{gate.actual[1]}"
     elif not gate.status:
@@ -499,6 +602,12 @@ def markdown_gate_line() -> str:
             # Derived, not asserted: the count is dirty paths, so 0 is the only clean value.
             body = ("firewall diff **0**" if gate.status == "OK"
                     else f"firewall **{got[0]} dirty path(s)**")
+        elif gate.gate_id == "registry_census":
+            # Derived from meta, never a literal (F-GL-7). `n/n` here is the number of _reserved keys
+            # agreeing across all three copies over the number declared — on a disagreement `actual`
+            # is (0, 0), so this renders `0/11` and the ⛔ suffix below fires. It cannot read green.
+            keys = gate.meta.get("keys", 0)
+            body = f"registry census **{got[0]}/{keys}** keys"
         elif gate.gate_id == "dual_channel_freshness":
             # `actual` is (checked, 0) — the fresh count is checked minus stale, from meta.
             checked = gate.meta.get("checked", got[0])
