@@ -465,10 +465,22 @@ def run_gate(gate: Gate) -> None:
             return
         if proc.returncode != 0 or not agree:
             gate.status = "FAIL"
+            # ⚠ Name the ACTUAL fault class. The first version reported "the _reserved namespace copies
+            # disagree" unconditionally — so a drifted schema TWIN (`VALID_SIDES` vs `edge.fromSide`,
+            # namespace untouched and agreeing 11/11) was reported as a namespace disagreement, sending
+            # the reader to the wrong three files. Caught by deriving the failure rather than reading
+            # the code. ⇒ *the report is part of the check* — this campaign's own subject, in the gate
+            # this campaign added, within the hour.
+            causes: list[str] = []
             bad = {k: v for k, v in ns.items() if k.startswith("in_") and v}
-            gate.detail = (f"the _reserved namespace copies disagree: {bad or 'see census output'}"
-                           + (f"; dispatched-but-undeclared {report['dispatched_but_undeclared']}"
-                              if report.get("dispatched_but_undeclared") else ""))
+            if bad:
+                causes.append(f"_reserved namespace copies disagree: {bad}")
+            if report.get("dispatched_but_undeclared"):
+                causes.append(f"dispatched but undeclared: {report['dispatched_but_undeclared']}")
+            drifted = [p["name"] for p in report.get("pairings", []) if p.get("state") == "DRIFT?"]
+            if drifted:
+                causes.append(f"vocabulary drifted from its schema twin: {drifted}")
+            gate.detail = "; ".join(causes) or "census exit != 0 — see its output"
             return
         gate.detail = (f"{n_keys} keys agree across RESERVED_KEYS + schema + spec §7.2; "
                        f"{gate.meta['registries']} vocabulary registries enumerated")
