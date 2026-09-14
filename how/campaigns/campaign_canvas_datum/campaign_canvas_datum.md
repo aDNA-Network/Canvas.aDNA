@@ -117,4 +117,49 @@ whole campaign makes about registries.
 
 ## Findings
 
-*(numbered F-DT-n, appended as they are found)*
+Full detail + the derivation record: [`artifacts/p1_registry_correspondence.md`](artifacts/p1_registry_correspondence.md).
+
+⛩ **F-DT-1 · the dispatch detector had two blind spots, and only one can be closed.** The first
+version reported **9** dispatched keys; the true static count is **10**. It matched `ast.In` but not
+`ast.NotIn`, so it read the first half of `if "authority" in reserved and "production" not in reserved`
+and was blind to the second. **Fixed.** The second blind spot is permanent: `_validate_axes` iterates a
+literal tuple and then subscripts `reserved[key]` with a **variable**, which no static walk can
+resolve. ⇒ ***a detector's population is defined by its own membership rule*** — Blueprint P3's
+`federation_index` finding, reproduced **inside the tool written to measure that family**, within an
+hour of writing it. Reported as a `dynamic` site count printed beside the key list, so the number is
+never read as complete.
+
+⛩ **F-DT-2 · content-pairing reported coincidence as drift, three times out of three.** Unrelated
+vocabularies collide on generic tokens (`none`, `text`, `right`) because natural vocabularies reuse
+words — `PL_FLOW` vs `toEnd` share `none` and nothing else. Drift has a different shape: a copy sharing
+most of its **union**. Floor set at **Jaccard ≥ 0.5**, stated *before* testing and then verified both
+ways — coincidence tops out at **0.25**, a one-member perturbation of `VALID_SIDES` scores **0.75**.
+⚠ Recorded as an observation about *this corpus*, not a guarantee.
+
+⛩ **F-DT-3 · two constants hold an identical vocabulary and nothing links them.** `BASELINE_TYPES`
+(`reserved.py:54`) and `VALID_NODE_TYPES` (`schema.py:18`) are both `{text, file, group, link}`. **Both
+correct**, in two modules, with no link — so if the baseline gains a node type, one can move and the
+other cannot notice. The campaign's target in its purest form: not a drift, but **the precondition for
+one**. ⛔ Not merged and not proposed for merging — whether these are one vocabulary or two that
+coincide is a *semantic* question a set comparison cannot answer. **Carried to the P3 gate with the
+measurement attached.**
+
+⚠ **F-DT-4 · a verification harness that cannot run its subject still prints a verdict.** Derivation
+check D1 was written as `CENSUS="python3 …"` then `$CENSUS`, which in **zsh** does not word-split — the
+whole string became one command name and returned **127**. The `||` branch printed *"1 = drift
+reported, correct"* beside it. The check tested **nothing** and said it passed. Re-run without the
+variable, it passed properly. ⇒ F-P2-11's family (*a check that cannot run is not a check that passes*)
+occurring **inside the derivation step whose whole purpose was to prove the tool works**. Sibling of
+P0's `${PIPESTATUS[0]}`-in-zsh slip four hours earlier: **two bash-isms in one session, both returning
+a falsy value that reads as success.**
+
+## P1 result
+
+| | |
+|---|---|
+| Population | **26** Python vocabulary constants (the charter said 25 — re-derivation caught it) · 14 schema enums |
+| **SCHEMA-TWIN** | **12**, all agreeing exactly |
+| **VALIDATOR-ONLY** | **14** — the campaign's real surface |
+| `_reserved` three-way | **11 = 11 = 11, all three agree** — the Gridline back-fill held, and this is the first time it was *checked* rather than believed |
+| `$defs.reserved` open | ✅ §7.3 forward-compat structurally intact |
+| Tool | `how/gates/registry_census.py`, exit 0, **no firewall touch** |
