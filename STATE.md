@@ -1,10 +1,10 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-09-11
+updated: 2026-09-13
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20260911_gridline_p0
+last_session: session_stanley_20260913_datum_p0
 tags: [state, governance, canvas, gridline, standard_v240, a8, lip_0010_final, reserved_keys, gate_reporting, plumbline, authority_axis, production_axis, b1_5_ruled, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
 ---
 
@@ -24,16 +24,33 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > *(Closed campaign banners / build history: [`how/state_archive_20260803.md`](how/state_archive_20260803.md) [Keystone→Beacon] · [`how/state_archive_20260822.md`](how/state_archive_20260822.md) [Halftone] · [`how/state_archive_20260909.md`](how/state_archive_20260909.md) [**Blueprint P1–P4 + Polyglot**, relocated verbatim at this close] — nothing deleted, SO-3/SO-7.)*
 
-## ▶ Resume Here — **no active campaign.** Gridline ✅ CLOSED 2026-09-11 · Plumbline ✅ CLOSED 2026-09-11
+## ▶ Resume Here — **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) ACTIVE** (chartered 2026-09-13) · Gridline ✅ CLOSED 2026-09-11 · Plumbline ✅ CLOSED 2026-09-11
+
+> ⛩ **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) — chartered
+> 2026-09-13** on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`.
+> **Definition of done:** every hand-maintained vocabulary registry in `canvas_std` either has a
+> **consumer** (something that fails when it drifts) or is covered by a **discovery pass**, and *which
+> one it is is written on the line*. The third state — correct today, hand-maintained, read by nothing
+> — is the thing being removed. ⛔ Unknown `_reserved` keys stay **advisory, never a rejection**:
+> `$defs.reserved` is open by design and §7.3 mandates preserving them. **P0 baseline run (not quoted):
+> exit 0, nine gates green, and it reproduced the published line exactly** — worth recording because
+> Gridline's identical run produced F-GL-4 in its first minute. ▶ **Next: P1** (enumerate the registry
+> population by discovery), then the **firewall ruling at the P1 exit gate**.
 
 > 🏁 **[Operation Gridline](how/campaigns/campaign_canvas_gridline/campaign_canvas_gridline.md) —
 > chartered and closed 2026-09-11**, one sitting, P0–P5, 9 gates green.
 > [AAR](how/campaigns/campaign_canvas_gridline/missions/artifacts/gridline_campaign_aar.md).
-> **Standard v2.4.0 is cut**; LIP-0010 is **Final**. **Two things are live**: the **memo #19 → Rosetta
-> delivery GO** (staged, `ack_required: true` — it takes up their explicit `draft` invitation) and a
-> **push GO** for this session's 4 commits. ⭐ The campaign's finding, carried forward as practice:
-> ***the report is part of the check*** — a gate that observes correctly and then reports a literal has
-> only moved the unverified claim to the layer that gets published. And its sharper half:
+> **Standard v2.4.0 is cut**; LIP-0010 is **Final**. ⚠ **Both of the "two things live" this banner
+> listed were stale by 2026-09-13, and the correction is recorded rather than silently applied** —
+> this is the vault's own defining family (*a stated fact nobody re-derived*) found inside its own
+> summary of that family. **(i)** The **push GO** was granted *and executed* — `git rev-list --count
+> @{u}..HEAD` returned **0** at the 09-13 cold start. **(ii)** Memo #19 was described as *"staged"*
+> awaiting a GO; in fact the GO **was given** on 09-11 and the **delivery** was held at the act-time
+> probe on Rosetta's live lease (`6ff7ca1`). ✅ **DELIVERED 2026-09-13** at a re-probe that found the
+> lease released — the GO executed on the basis it was given for, with the two intervening peer commits
+> re-derived as touching no canvas/pattern/LIP path first. ⭐ The campaign's finding, carried forward as
+> practice: ***the report is part of the check*** — a gate that observes correctly and then reports a
+> literal has only moved the unverified claim to the layer that gets published. And its sharper half:
 > ***a predicate only ever run against a clean tree has only ever been tested for its false case.***
 
 > 🏁 **[Operation Plumbline](how/campaigns/campaign_canvas_plumbline/campaign_canvas_plumbline.md) —
@@ -88,6 +105,12 @@ watch item or a backlog idea with an owner and an unblock condition.
 5. ~~Push GO~~ ✅ granted 2026-08-24. **This session's commits are unpushed** — a fresh batch GO is owed.
 
 ## Current Phase
+
+⛩ **Operation Datum — P0 CLOSED 2026-09-13, P1 next.** Chartered on the one open item Gridline's AAR
+left. P0 discharged the held **memo #19** delivery (Act 0), ran the gate baseline (**exit 0**, nine
+green, reproduced exactly), and corrected two stale §Resume Here rows. **P1 is pure measurement and
+touches no firewalled file**; the P2 firewall ruling is deliberately deferred to the **P1 exit gate**
+so the signature is informed by the correspondence table rather than by a plan's prediction of it.
 
 🏁 **Operation Gridline CLOSED 2026-09-11** (chartered and completed same day; P0–P5, 1 session), immediately
 after Plumbline closed the same day. Canvas Standard **v2.4.0 — CUT**: the axis doctrine is no longer a thing
