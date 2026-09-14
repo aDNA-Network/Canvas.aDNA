@@ -153,6 +153,22 @@ occurring **inside the derivation step whose whole purpose was to prove the tool
 P0's `${PIPESTATUS[0]}`-in-zsh slip four hours earlier: **two bash-isms in one session, both returning
 a falsy value that reads as success.**
 
+⛩ **F-DT-5 · a gate pin that was a claim about the operator's desktop.** `canvas_core` was pinned
+`(1040, 3)`. That holds **only while Obsidian is open on this vault** —
+`test_live_window_probe_is_title_pinned` passes when `vc.find_window()` resolves and `pytest.skip`s
+when it does not. With Obsidian closed, the **same unchanged tree** measures `(1039, 4)` and the
+manifest reported DISAGREE: a real disagreement about nothing. ⛔ **Not fixed by re-pinning to
+`(1039, 4)`** — that re-pins to the other desktop state and breaks again next time. The invariant that
+holds is the **total, 1043 in both regimes**, so `Gate.env_skips` now declares how many skips may vary
+with the environment: the total must still match **exactly** and the skip count must stay in
+`[expect[1], expect[1]+env_skips]`. Defaults to **0**, so every other gate is exactly as strict as
+before — *a test silently becoming a skip is still a regression.* ⚠ **And it means this morning's P0
+baseline, reported as "all green, reproduced exactly", was green partly by coincidence of desktop
+state**; had Obsidian been closed at 08:00 it would have been a P0 finding. ⇒ ***a pinned
+passed/skipped split is a claim about the runner, not about the code*** — sibling of this file's
+declared runner-environment preconditions, except those are *declared and checked* and this was
+neither.
+
 ## P1 result
 
 | | |
@@ -163,3 +179,26 @@ a falsy value that reads as success.**
 | `_reserved` three-way | **11 = 11 = 11, all three agree** — the Gridline back-fill held, and this is the first time it was *checked* rather than believed |
 | `$defs.reserved` open | ✅ §7.3 forward-compat structurally intact |
 | Tool | `how/gates/registry_census.py`, exit 0, **no firewall touch** |
+
+## P2 result — the ruling was BOTH legs, and both shipped
+
+Operator ruling at the P1 exit gate (2026-09-13): **gate + package test.**
+
+| | |
+|---|---|
+| Firewall touch | `what/code/canvas_std/tests/test_registry_consistency.py` (+5) — **the fourth deliberate `canvas_std` touch since Keystone** |
+| Gate #10 | `registry_census`, the spec §7.2 leg (a vault artifact the package must not depend on) |
+| `canvas_std` | **146 → 151/10**, derived: HEAD 146/10 this morning, working tree 151/10, delta reconciles against the 5 tests exactly; skips unchanged |
+| Verified by | **perturbation** — D4 undeclared dispatch key · D5 key dropped from `RESERVED_KEYS` · D6 `$defs.reserved` closed · D7 a new variable-keyed site. Each failed precisely the tests it should; all restored |
+| Gate line | **exit 0, ten gates green** |
+
+⭐ **Why the package leg was worth a firewall touch, stated because the cheaper option was genuinely
+available**: `registry_census.py` alone would have satisfied this campaign's definition of done *for
+this vault*. But **F-GL-1 was a defect in the package**, and `canvas_std` is the released reference
+implementation of a public Standard — a fork, or a `pip install adna-canvas-std`, would reproduce it
+with nothing to notice. The gate protects Canvas; the test protects everyone downstream.
+
+⚠ **The duplicated AST walk is named at both sites, not left silent.** The package cannot import from
+`how/gates/`, so the walk exists twice. Per **F-DT-3**'s own rule — *a duplication is acceptable when
+named with its reason and not otherwise* — both files carry the reason. The campaign found that rule
+in the morning and had to apply it to itself by the afternoon.
