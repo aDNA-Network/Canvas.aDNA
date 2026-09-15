@@ -122,7 +122,14 @@ GATES: list[Gate] = [
     # DERIVED the same way and the arithmetic was closed before the number was written: the suite was
     # run at HEAD with the working tree stashed (151/10) and again with it restored (156/10); the diff
     # adds exactly 5 `def test_` functions. Skips unchanged at 10 — none of the five skip.
-    Gate("canvas_std", "pytest", CODE / "canvas_std", (156, 10)),
+    # 156 -> 170 at Datum P4b (2026-09-15): firewall touch #6 — `tests/test_schema_conformance.py`,
+    # the first thing in this package ever to validate a document against the PUBLISHED JSON Schema
+    # (`certification` exercises the validator's verdicts; the schema is an independent second copy —
+    # F-DT-7). DERIVED the same way, arithmetic closed before the number was written: suite run at
+    # HEAD with the working tree stashed (156/10) and restored (170/10). +14 reconciles as **12
+    # parametrized fixture cases + 2 standalone tests** — note the file holds only 3 `def test_`, so
+    # counting functions here would have given +3 and looked plausible. Skips unchanged at 10.
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (170, 10)),
     # 11 -> 12: the A-8 golden `adna_axes.canvas` joined the corpus at Gridline P1.
     Gate("certification", "certify", CODE / "canvas_std", (12, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),

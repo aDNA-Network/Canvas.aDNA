@@ -20,7 +20,15 @@ classifiers = [
 dependencies = []  # zero-dependency core (stdlib only); the Standard floor needs no third-party runtime
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+# ⛩ `jsonschema` added at Operation Datum P4b (2026-09-15) — DEV ONLY, and the distinction is the
+# point. The runtime promise above is unchanged: nothing under `src/` imports it, and the reference
+# validator stays stdlib. It is here because `tests/test_schema_conformance.py` validates the fixture
+# corpus against the PUBLISHED JSON Schema, which until P4b nothing did — `certification` exercises
+# the *validator's* verdicts, and the schema is an independent second copy of eleven vocabularies
+# (F-DT-7). ⚠ It was already importable in this vault's runner by accident of the anaconda
+# environment, i.e. an UNDECLARED dependency the gate preconditions do not check; declaring it here
+# is what makes the suite reproducible off this node.
+dev = ["pytest>=8", "ruff>=0.6", "jsonschema>=4.18"]  # >=4.18 for Draft 2020-12 validator stability
 
 [project.scripts]
 canvas-std = "canvas_std.conformance:_cli"  # conformance CLI — wired at E2.3
