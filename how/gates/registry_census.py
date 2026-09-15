@@ -66,6 +66,13 @@ class PyRegistry:
     members: frozenset[Any]
     kind: str  # 'frozenset' | 'tuple' | 'set'
     ordered: tuple[Any, ...]  # tuples carry order; kept because order is meaning for some
+    doc: str | None = None          # PEP 258 attribute docstring, if any
+    declared_state: str | None = None  # its FIRST word, when that word is a known state
+
+
+# The two states a vocabulary may declare. There is no third — "correct today, hand-maintained, read
+# by nothing" is what this campaign exists to remove, so it is not spellable.
+DECLARABLE_STATES = ("SCHEMA-TWIN", "VALIDATOR-ONLY")
 
 
 @dataclass
@@ -155,11 +162,32 @@ def _collection_members(value: ast.AST) -> tuple[str, tuple[Any, ...]] | None:
 
 
 def collect_py_registries() -> list[PyRegistry]:
-    """Every module-level UPPER_SNAKE literal-collection constant in the package. Derived, not listed."""
+    """Every module-level UPPER_SNAKE literal-collection constant in the package. Derived, not listed.
+
+    Also collects each constant's **PEP 258 attribute docstring** — the string expression sitting in
+    module-body position directly after the assignment. That is real AST structure (``ast.Expr``
+    holding a ``str`` constant), so no comment parsing and no ``tokenize`` pass is needed; the walk
+    already has the module body in hand.
+
+    ⛩ F-DT-7 (Datum P3) is why the docstring is collected at all. Pairing BY CONTENT — this file's
+    load-bearing choice, and still the right one — has a failure mode that only shows up under real
+    drift: when a vocabulary and its schema twin diverge past the similarity floor, the pair does not
+    report ``DRIFT?``, it **dissolves**, and the constant reclassifies to ``VALIDATOR-ONLY``, which is
+    an accepted state. Gutting the schema's ``fromSide``/``toSide`` enums from four values to one left
+    this script at **exit 0** and all ten vault gates green — while the census printed *"unrelated
+    vocabularies reusing a generic token"* about the Standard's own edge-side enum.
+
+    ⇒ ***content-pairing is coverage that evaporates exactly when it is needed.***
+
+    A DECLARED state is the memory content-pairing cannot have. It is not a name map (that map would
+    itself be a hand-maintained registry with no consumer, i.e. the defect) — it is one falsifiable
+    claim per object, checked against this file's own derivation.
+    """
     found: list[PyRegistry] = []
     for path in sorted(PKG.rglob("*.py")):
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-        for node in tree.body:  # module level ONLY — a constant inside a function is not a registry
+        body = tree.body
+        for i, node in enumerate(body):  # module level ONLY — a constant in a function is not a registry
             targets: list[str] = []
             value: ast.AST | None = None
             if isinstance(node, ast.Assign):
@@ -170,6 +198,18 @@ def collect_py_registries() -> list[PyRegistry]:
                 value = node.value
             if not targets or value is None:
                 continue
+            nxt = body[i + 1] if i + 1 < len(body) else None
+            doc: str | None = None
+            if (
+                isinstance(nxt, ast.Expr)
+                and isinstance(nxt.value, ast.Constant)
+                and isinstance(nxt.value.value, str)
+            ):
+                doc = nxt.value.value
+            state: str | None = None
+            if doc and doc.strip():
+                first = doc.strip().split()[0].rstrip(".,—-")
+                state = first if first in DECLARABLE_STATES else None
             for name in targets:
                 if not _UPPER_SNAKE.match(name):
                     continue
@@ -185,6 +225,8 @@ def collect_py_registries() -> list[PyRegistry]:
                         members=frozenset(items),
                         kind=kind,
                         ordered=items,
+                        doc=doc,
+                        declared_state=state,
                     )
                 )
     return found
@@ -340,6 +382,34 @@ def duplicate_registries(py_regs: list[PyRegistry]) -> list[tuple[frozenset, lis
 # ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
+def _faults(three_way: dict, undeclared: list, pairings: list,
+            state_undeclared: list, state_mismatch: list, state_reasonless: list) -> list[str]:
+    """Every fault class, each under its own name. ONE definition, used by both output modes.
+
+    ⛩ F-DT-6 is why this is a function and not two copies of a boolean. The gate that consumed this
+    script reported a *single* cause unconditionally, so a drifted schema twin was announced as a
+    namespace disagreement and sent the reader to the wrong three files. The remedy generalises: the
+    fault classes are derived once, named, and returned — the `--json` branch and the human report
+    cannot disagree about what is wrong, because there is nothing for them to disagree with.
+    """
+    causes: list[str] = []
+    bad = {k: v for k, v in three_way.items() if k.startswith("in_") and v}
+    if bad:
+        causes.append(f"_reserved namespace copies disagree: {bad}")
+    if undeclared:
+        causes.append(f"dispatched but undeclared in RESERVED_KEYS: {undeclared}")
+    drifted = [p.py.name for p in pairings if p.state == "DRIFT?"]
+    if drifted:
+        causes.append(f"vocabulary drifted from its schema twin: {drifted}")
+    if state_undeclared:
+        causes.append(f"vocabulary declares no state (add an attribute docstring): {state_undeclared}")
+    if state_mismatch:
+        causes.append(f"declared state disagrees with the derived state: {state_mismatch}")
+    if state_reasonless:
+        causes.append(f"VALIDATOR-ONLY declared with no stated reason: {state_reasonless}")
+    return causes
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--json", action="store_true", help="machine-readable output")
@@ -378,6 +448,34 @@ def main() -> int:
     dispatched = frozenset(dispatch)
     undeclared = sorted(dispatched - reserved_tuple)
 
+    # --- F-DT-7: the declared state, checked against the derived one ---------------------------
+    # Three distinct faults, reported under three distinct names. F-DT-6's lesson, applied to the
+    # file that lesson was learned about: a check that observes correctly and then reports the wrong
+    # cause has only moved the error to the layer that gets read.
+    derived_state = {p.py.name: p.state for p in pairings}
+    state_undeclared = sorted(
+        f"{r.module}:{r.lineno} {r.name}" for r in py_regs if r.declared_state is None
+    )
+    state_mismatch: list[str] = []
+    for r in py_regs:
+        if r.declared_state is None:
+            continue  # already reported above; do not double-count one constant as two faults
+        got = derived_state.get(r.name)
+        # DRIFT? is a *partial* twin — it is a drift report in its own right, handled below, and a
+        # SCHEMA-TWIN declaration is still the honest claim for it. Do not report it twice.
+        if got == "DRIFT?":
+            continue
+        if got != r.declared_state:
+            state_mismatch.append(
+                f"{r.module}:{r.lineno} {r.name} declares {r.declared_state} but derives {got}"
+            )
+    state_reasonless = sorted(
+        f"{r.module}:{r.lineno} {r.name}"
+        for r in py_regs
+        if r.declared_state == "VALIDATOR-ONLY"
+        and len((r.doc or "").strip()) <= len("VALIDATOR-ONLY") + 8
+    )
+
     if args.json:
         print(json.dumps({
             "python_registries": [
@@ -396,20 +494,29 @@ def main() -> int:
             "dispatch_sites": dispatch,
             "dispatch_dynamic_sites": dynamic_sites,
             "dispatched_but_undeclared": undeclared,
+            "state_undeclared": state_undeclared,
+            "state_mismatch": state_mismatch,
+            "state_reasonless": state_reasonless,
+            # The fault classes, already named. `gate_manifest.py` consumes THIS rather than
+            # re-deriving them from the raw fields — F-DT-6 was exactly a second derivation of the
+            # cause disagreeing with the first.
+            "causes": _faults(three_way, undeclared, pairings, state_undeclared,
+                              state_mismatch, state_reasonless),
             "duplicate_registries": [
                 {"members": sorted(map(str, k)), "constants": [f"{r.module}::{r.name}" for r in v]}
                 for k, v in dupes
             ],
         }, indent=2))
-        return EXIT_OK if three_way["all_agree"] and not undeclared else EXIT_DRIFT
+        return EXIT_OK if not _faults(three_way, undeclared, pairings, state_undeclared,
+                                      state_mismatch, state_reasonless) else EXIT_DRIFT
 
     print(f"registry census — package {PKG.relative_to(VAULT)}\n")
     print(f"population: {len(py_regs)} python vocabulary constants across "
           f"{len({r.module for r in py_regs})} modules · {len(enums)} schema enums\n")
 
     w = max(len(r.name) for r in py_regs)
-    print(f"{'constant':<{w}}  {'kind':<10} {'state':<15} schema twin (matched BY CONTENT)")
-    print("-" * (w + 75))
+    print(f"{'constant':<{w}}  {'kind':<10} {'derived':<15} {'declared':<15} schema twin (matched BY CONTENT)")
+    print("-" * (w + 90))
     for p in sorted(pairings, key=lambda q: (q.state, q.py.name)):
         twin = ", ".join(e.pointer.replace("/$defs/", "").replace("/properties/", ".") for e in p.exact)
         if p.state == "DRIFT?":
@@ -423,7 +530,10 @@ def main() -> int:
             shared_tokens = sorted({str(t) for _, s in p.coincident for t in s})
             twin = (f"— (no twin; {len(p.coincident)} enum(s) share {shared_tokens} but fall below the "
                     f"{DRIFT_JACCARD_FLOOR} drift floor — unrelated vocabularies reusing a generic token)")
-        print(f"{p.py.name:<{w}}  {p.py.kind:<10} {p.state:<15} {twin or '—'}")
+        decl = p.py.declared_state or "⛔ UNDECLARED"
+        if p.py.declared_state and p.py.declared_state != p.state and p.state != "DRIFT?":
+            decl = f"⛔ {p.py.declared_state}"
+        print(f"{p.py.name:<{w}}  {p.py.kind:<10} {p.state:<15} {decl:<15} {twin or '—'}")
 
     if dupes:
         print(f"\n--- identical vocabularies held under {len(dupes)} distinct constant(s) ---")
@@ -433,7 +543,7 @@ def main() -> int:
                 print(f"      {r.module}:{r.lineno}  {r.name}")
             print("      ⚠ both copies may be correct; nothing links them, so nothing fails when one moves")
 
-    print(f"\n--- the `_reserved` namespace, three hand-maintained copies (F-GL-1's surface) ---")
+    print("\n--- the `_reserved` namespace, three hand-maintained copies (F-GL-1's surface) ---")
     print(f"  python RESERVED_KEYS   {len(reserved_tuple):>2} keys")
     print(f"  schema properties      {len(reserved_schema):>2} keys")
     print(f"  spec §7.2              {len(reserved_spec):>2} keys")
@@ -460,9 +570,19 @@ def main() -> int:
     if declared_not_dispatched:
         print(f"  ⓘ declared but not statically dispatched: {declared_not_dispatched}")
 
-    drift = (not three_way["all_agree"]) or bool(undeclared) or any(p.state == "DRIFT?" for p in pairings)
-    print(f"\n{'⛔ DRIFT FOUND' if drift else 'no drift between the derived populations'}")
-    return EXIT_DRIFT if drift else EXIT_OK
+    causes = _faults(three_way, undeclared, pairings, state_undeclared, state_mismatch, state_reasonless)
+    if causes:
+        print("\n⛔ DRIFT FOUND")
+        for c in causes:
+            print(f"    · {c}")
+        print("\n  ⚠ A disagreement is a finding to INVESTIGATE, not a docstring to edit until this "
+              "passes.\n    A SCHEMA-TWIN that now derives VALIDATOR-ONLY means its schema enum "
+              "changed or vanished —\n    the JSON Schema is validated by consumers OUTSIDE this "
+              "repository (F-DT-7).")
+    else:
+        print(f"\nno drift between the derived populations "
+              f"({len(py_regs)} vocabularies, all declaring a state that matches the derivation)")
+    return EXIT_DRIFT if causes else EXIT_OK
 
 
 if __name__ == "__main__":

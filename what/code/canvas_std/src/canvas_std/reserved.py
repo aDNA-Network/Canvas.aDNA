@@ -31,6 +31,9 @@ RESERVED_KEYS: tuple[str, ...] = (
     "authority",    # v2.4.0, LIP-0010 Option D
     "production",   # v2.4.0, LIP-0010 Option D
 )
+"""VALIDATOR-ONLY — no schema enum by design: this names the `_reserved` namespace itself, whose
+schema counterpart is `$defs.reserved.properties` (an OBJECT's property set, not an enum). The two
+are compared directly by `test_reserved_keys_and_schema_properties_are_the_same_set`."""
 # ⛩ F-GL-1 (2026-09-11, Gridline P1) — WHY `interaction` CARRIES A BACK-FILL NOTE.
 # `RESERVED_KEYS` had **no consumer**: when the two v2.4.0 names were appended per LIP-0010 Option D
 # item 1, this tuple was referenced nowhere in `src/`, nowhere in `tests/`, nowhere in
@@ -42,35 +45,81 @@ RESERVED_KEYS: tuple[str, ...] = (
 # ⇒ a specification with no consumer is indistinguishable from no specification.
 # Back-filled in all three by operator ruling at the P1 exit gate (a documentation correction: no
 # canvas starts or stops validating, since `$defs.reserved` stays open and §7.3 already requires
-# unknown keys be preserved). The durable fix — giving this tuple a real consumer — is filed as
-# `how/backlog/idea_reserved_keys_has_no_consumer.md` and deliberately NOT built here.
-# One test in `test_axes.py` currently reads this tuple; it is the only reader in the package.
+# unknown keys be preserved).
+#
+# ⛩ CORRECTED 2026-09-13/15 (Operation Datum P2/P3) — the two sentences that stood here are now
+# FALSE and are struck rather than deleted, because the history is the argument. They read:
+#   "The durable fix — giving this tuple a real consumer — is filed as
+#    `how/backlog/idea_reserved_keys_has_no_consumer.md` and deliberately NOT built here."
+#   "One test in `test_axes.py` currently reads this tuple; it is the only reader in the package."
+# Both were true when written and were falsified by the very commit that fixed the defect they
+# describe. The durable fix WAS built, at Datum P2 (`86b002b`, the fourth deliberate firewall touch
+# since Keystone): `tests/test_registry_consistency.py` derives every key the validators dispatch on
+# by walking this package's AST and asserts each one is declared here AND in the JSON Schema — the
+# assertion that would have caught `interaction` in June. `test_axes.py` is no longer the only
+# reader. The backlog idea is CLOSED.
+# ⇒ a claim left standing beside its own remedy is the family this campaign exists to remove, found
+#   in the comment that named the family. Datum F-DT-9.
 
 # Component taxonomy (spec_component_model §2) and the baseline degradation types.
 COMPONENT_CLASSES: frozenset[str] = frozenset(
     {"text", "typography_run", "image", "video", "shape", "embed", "group", "panel",
      "link", "edge", "table", "code", "caption", "region"}
 )
+"""VALIDATOR-ONLY — no schema enum by design: the aDNA component taxonomy lives in the additive
+`_reserved` layer (spec_component_model §2), while the JSON Schema covers the baseline Obsidian
+document shape. Enumerating it there would put aDNA semantics in the degradation floor."""
+
 BASELINE_TYPES: frozenset[str] = frozenset({"text", "file", "group", "link"})
+"""SCHEMA-TWIN — `$defs.node.properties.type.enum`. The A-3 degradation target set: what a component
+may degrade TO (spec §11).
+
+⛩ F-DT-3 (Datum P1). This holds the same four words as `schema.VALID_NODE_TYPES`, and the operator
+ruled 2026-09-15: **two vocabularies that coincide — link, do not merge.** They answer different
+questions (*what node types exist* vs *what a component may degrade to*), and §11's no-baseline-
+overload rule arguably makes their agreement a CONSEQUENCE rather than an identity. So both
+definitions stand, and `test_registry_consistency.test_baseline_types_and_node_types_agree` fails if
+they ever diverge — the day the answers differ, something says so."""
 
 # Panel/link vocabularies (spec_panel_link_semantics §3–§4).
 PL_EDGE_KINDS: frozenset[str] = frozenset({"sequence", "reading_order", "adjacency", "dependency"})
+"""VALIDATOR-ONLY — no schema enum by design: governed by spec_panel_link_semantics §3 and enforced
+in code. It qualifies an edge's `_reserved.panel_link` role, not a baseline edge field."""
+
 PL_FLOW: frozenset[str] = frozenset({"none", "vertical", "horizontal", "columns"})
+"""VALIDATOR-ONLY — no schema enum by design (spec_panel_link_semantics §4). ⚠ Shares the token
+`none` with `edge.toEnd` and nothing else; the census files that as coincidence, not drift (F-DT-2)."""
+
 PL_PAGINATION: frozenset[str] = frozenset({"none", "paged", "continuous"})
+"""VALIDATOR-ONLY — no schema enum by design (spec_panel_link_semantics §4). Same `none` coincidence
+with `edge.toEnd` as `PL_FLOW`; unrelated vocabularies reusing a generic word."""
 # `extent` is a pagination/length window; these are the only length units. `extent` is OPTIONAL (AT-1,
 # spec §4) — a non-paginated single-surface region (e.g. a diagram, pagination: none) omits it. There is
 # deliberately no graph/node unit: a node-graph is sized by content, not paged.
 PL_EXTENT_UNITS: frozenset[str] = frozenset({"words", "pages", "slides"})
+"""VALIDATOR-ONLY — no schema enum by design (spec_panel_link_semantics §4, AT-1). `extent` is an
+OPTIONAL `_reserved.panel_link` window, so there is nothing in the baseline document for it to twin."""
 
 # Anchor layer vocabularies (spec_panel_link_semantics §5.3/§6).
 NC_LABEL_FORMS: frozenset[str] = frozenset({"descriptive", "legacy"})       # naming_convention.label_form (F7/X8)
+"""VALIDATOR-ONLY — no schema enum by design: an anchor-layer vocabulary (spec_panel_link_semantics
+§5.3, F7/X8), enforced by `validate_anchors`. The anchor layer is entirely `_reserved`."""
+
 OD_MODES: frozenset[str] = frozenset({"label_ref", "src_cited"})            # orphan_detector.mode (X2)
+"""VALIDATOR-ONLY — no schema enum by design: anchor-layer, same reason as `NC_LABEL_FORMS`
+(spec_panel_link_semantics §6, X2)."""
+
 # Component `qualities` keys that declare an explicit cross-reference to an anchor (each value MUST resolve).
 ANCHOR_REF_KEYS: tuple[str, ...] = ("ref", "anchor", "anchor_ref", "cites", "for")
+"""VALIDATOR-ONLY — no schema enum by design, and a twin would be WRONG in kind: these are KEY NAMES
+inside a component's `qualities` mapping, not a value domain. An enum constrains values."""
 
 # Canonical long-form text semantic_types (spec_component_model §4.4 — B2 ride-on-text; carried on class: text,
 # not dedicated taxonomy classes). Informational registry — no validator rejects other semantic_type values.
 LONGFORM_SEMANTIC_TYPES: frozenset[str] = frozenset({"quote", "block_quote", "footnote", "attribution"})
+"""VALIDATOR-ONLY — no schema enum by design, and an enum would be actively wrong: this registry is
+INFORMATIONAL (spec_component_model §4.4, B2). No validator rejects other `semantic_type` values, so
+a schema enum would turn an open, documentary list into a closed one."""
 
 _SEMVER = re.compile(r"^\d+\.\d+\.\d+")
 _HEX16 = re.compile(r"^[0-9a-f]{16}$")
@@ -78,6 +127,9 @@ _HEX16 = re.compile(r"^[0-9a-f]{16}$")
 # Leg-3 interaction layer (spec_interface_surface §3.3/§9.1; wired into the harness at Armature P2 per adr_007).
 # The four affordance kinds partition what a participant can do at a point — a *closed* enum (IX3).
 AFFORDANCE_KINDS: tuple[str, ...] = ("input", "choice", "annotation", "action")
+"""VALIDATOR-ONLY — no schema enum by design: the leg-3 interaction overlay is entirely `_reserved`
+(spec_interface_surface §3.3/§9.1, wired per adr_007). Closed enum (IX3), enforced by
+`validate_interaction` — closed in the VALIDATOR, which is where the interaction layer lives."""
 
 # Diagrammatic-context axes (v2.4.0; LIP-0010 Option D, on `pattern_diagrammatic_context` as ruled by
 # aDNA.aDNA 2026-09-11). TWO axes, because one field was answering two questions:
@@ -97,7 +149,14 @@ AFFORDANCE_KINDS: tuple[str, ...] = ("input", "choice", "annotation", "action")
 # requires `production`, and `production` alone is legal. See `_validate_axes` for why symmetric was
 # wrong (F-GL-5) — it made this vault's own emitters unable to emit a conformant canvas.
 AUTHORITY_VALUES: frozenset[str] = frozenset({"dual_channel", "view"})
+"""SCHEMA-TWIN — `$defs.reserved.authority.enum`. Validated as A-8 since Standard v2.4.0, and
+imported by `canvas_core` and `diagram_generator` as thin delegates rather than restated (Gridline
+P1), so one definition serves three enforcement points."""
+
 PRODUCTION_VALUES: frozenset[str] = frozenset({"hand_authored", "generated"})
+"""SCHEMA-TWIN — `$defs.reserved.production.enum`. Same v2.4.0 / thin-delegate story as
+`AUTHORITY_VALUES`. The asymmetric rule (`authority` requires `production`, not the reverse) lives in
+`_validate_axes`, not in either vocabulary."""
 # interaction_version is semver-shaped; "1.0" (2-part) and "1.0.0" (3-part) both accepted (spec §3.1). Deliberately
 # distinct from _SEMVER (3-part, for adna_version / context_object.version) — the interaction layer is 2-part-tolerant.
 _INTERACTION_SEMVER = re.compile(r"^\d+\.\d+(\.\d+)?$")

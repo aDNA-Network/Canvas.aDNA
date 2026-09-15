@@ -3,8 +3,10 @@ type: backlog
 idea_id: idea_reserved_keys_has_no_consumer
 title: "`RESERVED_KEYS` has no consumer — and three hand-maintained copies of one namespace all missed the same key for three months"
 created: 2026-09-11
-updated: 2026-09-11
-status: open
+updated: 2026-09-15
+status: closed
+closed: 2026-09-15
+closed_by: "Operation Datum P2 (86b002b) + P3 (firewall touch #5)"
 priority: medium
 owner: mondrian
 executor_tier: sonnet
@@ -14,6 +16,33 @@ tags: [backlog, canvas_std, reserved_keys, registry, derivability, no_consumer, 
 ---
 
 # A registry nothing reads cannot report its own drift
+
+> ✅ **CLOSED 2026-09-15 by Operation Datum.** The body below is preserved unedited as the record of
+> what was true on 2026-09-11 — the campaign this idea chartered found, twice, that the expensive
+> defects are claims left standing beside their own remedy, so this one is closed by annotation and
+> not by rewriting.
+>
+> **What was built**, and it is more than this file proposed:
+>
+> | | |
+> |---|---|
+> | **P2** (`86b002b`, firewall touch #4) | `tests/test_registry_consistency.py` — the "cheaper half" §Proposed shape called for, built exactly as specified: every key the validators dispatch on, **derived by walking the package's AST**, asserted present in `RESERVED_KEYS` *and* in `$defs.reserved.properties`. Plus `test_reserved_object_stays_open`, pinning the §7.3 forward-compat promise this file was careful to protect. |
+> | **P1** (`d39f4e2`) | `how/gates/registry_census.py` — the discovery pass, gate **#10**. Enumerates **26** vocabulary constants by AST walk and pairs them to schema enums **by content**, never by a name map. |
+> | **P3** (firewall touch #5) | the part this file did not foresee. **F-DT-7**: content-pairing is coverage that *evaporates exactly when it is needed* — a twin drifting past the similarity floor does not report drift, the pair **dissolves** and the constant reclassifies to an accepted state. Gutting the schema's `fromSide`/`toSide` enums left all ten gates green. So every constant now **declares** its relationship to the schema as a falsifiable claim, checked against the derivation. |
+>
+> ⛔ **The advisory unknown-key report was NOT built**, and that remains correct: `$defs.reserved` is
+> open by design, §7.3 mandates preservation, and the reverse direction caught the real defect. The
+> §Proposed-shape warning — *"it must not become an error"* — is now enforced by a test.
+>
+> ⚠ **The `RESERVED_KEYS` block in `reserved.py` still said this idea was open and "deliberately NOT
+> built here" two days after P2 built it.** Corrected at P3 as **F-DT-9**, struck rather than deleted.
+> ⇒ *a claim left standing beside its own remedy* — this file's own family, found in the comment that
+> named it.
+>
+> **Upstream candidate below is still open**, and unfiled per `skill_upstream_contribution`. It is now
+> stronger than when written: the generic form is not merely *"a hand-maintained inventory needs a
+> consumer or a discovery pass"* but ***a registry that LOOKS watched is better hidden than one that
+> visibly is not*** — and the remedy is a per-object falsifiable claim, not a second list.
 
 ## The defect
 

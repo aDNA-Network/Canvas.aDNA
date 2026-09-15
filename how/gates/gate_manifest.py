@@ -117,7 +117,12 @@ GATES: list[Gate] = [
     # this morning's P0 baseline measured HEAD at 146/10 with the file absent, the working tree measures
     # 151/10, and the delta reconciles exactly against the 5 test functions in
     # `tests/test_registry_consistency.py`. Skips unchanged at 10, as expected: none of the five skip.
-    Gate("canvas_std", "pytest", CODE / "canvas_std", (151, 10)),
+    # 151 -> 156 at Datum P3 (2026-09-15): firewall touch #5 — every vocabulary constant now DECLARES
+    # its relationship to the JSON Schema and the declaration is checked against a derivation (F-DT-7).
+    # DERIVED the same way and the arithmetic was closed before the number was written: the suite was
+    # run at HEAD with the working tree stashed (151/10) and again with it restored (156/10); the diff
+    # adds exactly 5 `def test_` functions. Skips unchanged at 10 — none of the five skip.
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (156, 10)),
     # 11 -> 12: the A-8 golden `adna_axes.canvas` joined the corpus at Gridline P1.
     Gate("certification", "certify", CODE / "canvas_std", (12, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
@@ -465,25 +470,22 @@ def run_gate(gate: Gate) -> None:
             return
         if proc.returncode != 0 or not agree:
             gate.status = "FAIL"
-            # ⚠ Name the ACTUAL fault class. The first version reported "the _reserved namespace copies
-            # disagree" unconditionally — so a drifted schema TWIN (`VALID_SIDES` vs `edge.fromSide`,
-            # namespace untouched and agreeing 11/11) was reported as a namespace disagreement, sending
-            # the reader to the wrong three files. Caught by deriving the failure rather than reading
-            # the code. ⇒ *the report is part of the check* — this campaign's own subject, in the gate
-            # this campaign added, within the hour.
-            causes: list[str] = []
-            bad = {k: v for k, v in ns.items() if k.startswith("in_") and v}
-            if bad:
-                causes.append(f"_reserved namespace copies disagree: {bad}")
-            if report.get("dispatched_but_undeclared"):
-                causes.append(f"dispatched but undeclared: {report['dispatched_but_undeclared']}")
-            drifted = [p["name"] for p in report.get("pairings", []) if p.get("state") == "DRIFT?"]
-            if drifted:
-                causes.append(f"vocabulary drifted from its schema twin: {drifted}")
+            # ⚠ Name the ACTUAL fault class — F-DT-6. The first version of this branch reported "the
+            # _reserved namespace copies disagree" UNCONDITIONALLY, so a drifted schema TWIN
+            # (`VALID_SIDES` vs `edge.fromSide`, namespace untouched and agreeing 11/11) was announced
+            # as a namespace disagreement and sent the reader to the wrong three files. ⇒ *the report
+            # is part of the check.*
+            #
+            # The fix at the time was to derive the causes HERE. Datum P3 moved that derivation into
+            # the census itself and this branch now CONSUMES it — because a second derivation of the
+            # cause is a second thing that can disagree with the first, which is the defect one level
+            # up. The census owns its fault classes; this gate reports them.
+            causes = report.get("causes") or []
             gate.detail = "; ".join(causes) or "census exit != 0 — see its output"
             return
         gate.detail = (f"{n_keys} keys agree across RESERVED_KEYS + schema + spec §7.2; "
-                       f"{gate.meta['registries']} vocabulary registries enumerated")
+                       f"{gate.meta['registries']} vocabulary registries enumerated, "
+                       f"each declaring a state that matches the derivation")
 
     elif gate.kind == "freshness":
         # F-PL-6. `pattern_diagrammatic_context`'s central law is that **drift between the two

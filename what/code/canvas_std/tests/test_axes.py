@@ -70,11 +70,20 @@ def test_generator_is_not_an_authority_value():
 
 
 def test_both_keys_are_registered_in_the_reserved_namespace():
-    # ⚠ RESERVED_KEYS has no consumer (F-GL-1) — this assertion is currently the ONLY thing in the
-    # package that reads it. That is deliberate: the append LIP-0010 required is otherwise inert, and
-    # an inert list drifts (`interaction` has been missing from it since v2.2.0 for exactly that
-    # reason). If the P1 gate question gives the tuple a real consumer, this test stops being its
-    # only reader and becomes a redundant-but-cheap belt.
+    # ⛩ CORRECTED 2026-09-13/15 (Operation Datum P2/P3) — this comment read:
+    #   "⚠ RESERVED_KEYS has no consumer (F-GL-1) — this assertion is currently the ONLY thing in
+    #    the package that reads it. … If the P1 gate question gives the tuple a real consumer, this
+    #    test stops being its only reader and becomes a redundant-but-cheap belt."
+    # Struck, not deleted: it was true when written, and it named its own expiry condition exactly.
+    # That condition was MET at Datum P2 (`86b002b`) — `test_registry_consistency.py` derives every
+    # key the validators dispatch on by walking the package AST and asserts each is declared in both
+    # machine-readable copies. So this test is now precisely what it predicted it would become: the
+    # redundant-but-cheap belt. **Kept for that reason** — it pins the two v2.4.0 names by name,
+    # which the derived check does not (it asserts dispatch ⊆ declared, not that any given key is
+    # present). Two different claims; both cheap.
+    #
+    # ⚠ The prediction was correct and the comment still had to be corrected by hand two days later,
+    # because nothing re-reads a comment. Datum F-DT-9.
     assert "authority" in RESERVED_KEYS
     assert "production" in RESERVED_KEYS
 

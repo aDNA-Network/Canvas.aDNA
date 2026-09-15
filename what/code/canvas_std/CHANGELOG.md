@@ -62,6 +62,15 @@ indistinguishable from no specification.*** A test in `test_axes.py` is now the 
 and with a comment saying so. Disposition is an operator gate question at the Gridline P1 exit — **outside** the
 four-file table the §7.7 signature covers.
 
+> ✅ **Resolved 2026-09-13/15 by Operation Datum.** This paragraph is a **dated record of 2026-09-11** and is left
+> standing unedited; the pointer is added rather than the history rewritten. `RESERVED_KEYS` gained a real consumer
+> at **P2** (`tests/test_registry_consistency.py`, firewall touch #4 — every dispatched key derived by AST walk and
+> asserted present in both machine-readable copies), and at **P3** (touch #5) **every** vocabulary constant in the
+> package gained one: each now declares `SCHEMA-TWIN` or `VALIDATOR-ONLY` in an attribute docstring, checked against
+> a derivation. ⛩ **F-DT-7** is why P3 went further than P2: the census's content-pairing looked like coverage of
+> the twelve schema twins, but a twin drifting past its similarity floor makes the pair **dissolve** rather than
+> report drift — gutting the schema's `fromSide`/`toSide` enums left all ten vault gates green.
+
 ### Standard release v2.4.0 CUT 2026-09-11 (operator-authorized at the LIP-0010 §7.7 gate)
 - Bumped `2.3.0 → 2.4.0` mirroring the prior cuts: `STANDARD_VERSION` (`__init__.py`), schema `title` +
   `x-standard-version` (**kept `$id`**, see above), `conformance.py` (×3), `test_smoke.py` (×2),
