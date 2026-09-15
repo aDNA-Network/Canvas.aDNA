@@ -11,10 +11,10 @@ priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_gridline
 created: 2026-09-13
-updated: 2026-09-13
+updated: 2026-09-15
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-13 — chartered at the plan gate on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`; Act 0 discharged the held memo #19 delivery first)"
-tags: [campaign, canvas, datum, reserved_keys, registry, no_consumer, derivability, f_gl_1, f_gm_1, canvas_std, discovery_pass]
+status_history: "active (2026-09-13 — chartered at the plan gate on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`; Act 0 discharged the held memo #19 delivery first) · P0–P2 closed 2026-09-13 · P3 closed 2026-09-15 (firewall touch #5; F-DT-7 found the exposure was in the PAIRED constants, not the unpaired ones)"
+tags: [campaign, canvas, datum, reserved_keys, registry, no_consumer, derivability, f_gl_1, f_gm_1, canvas_std, discovery_pass, f_dt_7, f_dt_9, reason_on_the_line, schema_twin, attribute_docstring]
 ---
 
 # Campaign: Operation Datum
@@ -275,3 +275,57 @@ reconstruction**, not backfilled as though written live.
 *not* this campaign's surface — Datum's definition of done is scoped to `canvas_std` vocabulary
 registries, and widening it at P3 on a fresh finding is the scope creep the charter's own P2 ruling
 was careful to avoid. Filed instead; see §Follow-up.
+
+⛩ **F-DT-9 · three claims outlived the commit that falsified them, and one of them had predicted its
+own expiry.** P2 gave `RESERVED_KEYS` its consumer on 2026-09-13. Two days later three places still
+said it had none: the `reserved.py` F-GL-1 block (*"the durable fix … is **deliberately NOT built
+here**"* · *"`test_axes.py` … is the **only reader** in the package"*), the `test_axes.py:73` comment,
+and the backlog idea, still `status: open`.
+
+⭐ **The `test_axes.py` comment stated the exact condition under which it would become false** — *"If
+the P1 gate question gives the tuple a real consumer, this test stops being its only reader and
+becomes a redundant-but-cheap belt."* The condition was met, the prediction was right in every
+particular, **and the comment still had to be corrected by hand**, because nothing re-reads a comment.
+
+⇒ ***a claim left standing beside its own remedy.*** All corrected where they were written, struck
+rather than deleted (the Gridline precedent — *six now-false claims corrected at source*); the
+`CHANGELOG` entry was **not** rewritten, because it is a dated release record, and got a dated
+forward-pointer instead.
+
+## P3 result — the reason went on the line, and the line became refutable
+
+Full detail + the derivation record: [`artifacts/p3_reason_on_the_line.md`](artifacts/p3_reason_on_the_line.md).
+
+Two operator rulings taken at the P2 exit gate (2026-09-15), both with their measurement in hand:
+**firewall — both legs again** (touch **#5**) and **F-DT-3 — two vocabularies that coincide; link, do
+not merge.**
+
+| | |
+|---|---|
+| Population | **26** constants, **all** declaring a state that matches the derivation — 12 `SCHEMA-TWIN` (each citing its JSON pointer) · 14 `VALIDATOR-ONLY` (each stating *why* there is no twin) |
+| Mechanism | **PEP 258 attribute docstrings** — real AST structure, so no comment parsing and no `tokenize` pass. The declaration is a **falsifiable claim checked against the derivation**, not a label |
+| Firewall touch | `reserved.py` · `schema.py` · `tests/test_registry_consistency.py` (+5) · `tests/test_axes.py` · `CHANGELOG.md` — **the fifth deliberate `canvas_std` touch since Keystone** |
+| Vault leg | `registry_census.py` — 3 new named fault classes; **gate #10 now consumes them** rather than re-deriving |
+| `canvas_std` | **151 → 156/10**, derived: HEAD with the tree stashed 151/10, restored 156/10, diff adds exactly 5 `def test_`; skips unchanged |
+| Verified by | **perturbation** — D8 no docstring · **D9 the F-DT-7 case** · D10 a twin appears · D11 F-DT-3's link, by name · D12 a bare label. Each failed precisely its own check; all restored |
+| Backlog | `idea_reserved_keys_has_no_consumer` **CLOSED**, body preserved unedited and annotated |
+| Gate line | **exit 0, ten gates green**, firewall back to diff **0** |
+
+⭐ **P3 was chartered for the 14 unpaired constants and the exposure was in the 12 paired ones.** P1
+reported them *"all twelve agree exactly. No drift."* — true, and the whole protection. F-DT-7 showed
+that protection dissolves precisely when it is needed: gut the schema's `fromSide`/`toSide` enums and
+**all ten gates stay green** while `jsonschema` correctly rejects an ordinary canvas. ⇒ ***a registry
+that LOOKS watched is better hidden than one that visibly is not.***
+
+⚠ **Why gate #10 stopped deriving its own fault classes.** F-DT-6's fix was to derive the cause *in
+the gate*. P3 moved the derivation into the census and had the gate consume it — because a second
+derivation of the cause is a second thing that can disagree with the first, which is F-DT-6 one level
+up. One definition, two output modes.
+
+## Follow-up — filed, not built
+
+| Item | Why not here |
+|---|---|
+| **F-DT-8 — session-file freshness** | Real, and outside Datum's definition of done (`canvas_std` vocabulary registries). Widening the charter at P3 on a fresh finding is the scope creep P2's ruling was careful to avoid. |
+| **The upstream candidate** | Now stronger than when `idea_reserved_keys_has_no_consumer` framed it: not merely *"a hand-maintained inventory needs a consumer or a discovery pass"* but ***a registry that looks watched is better hidden than one that visibly is not***, with the remedy being a **per-object falsifiable claim**, not a second list. `skill_upstream_contribution` — mention at a pause, file only if the operator approves. **Not filed.** |
+| **The JSON Schema has no in-vault document-validation test at all** | F-DT-7's root condition is now *guarded* (a drifted enum fails the declared-state check) but not *removed*: nothing in the package validates a real document against the schema. That is a larger question than P3's scope — it touches the certification corpus — and is raised here rather than absorbed. |
