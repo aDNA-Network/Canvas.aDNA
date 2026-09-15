@@ -3,8 +3,10 @@ type: backlog
 idea_id: idea_memo_number_registry
 title: "Memo numbers are a convention with no registry and no consumer — the third instance of that shape in three weeks"
 created: 2026-09-11
-updated: 2026-09-11
-status: open
+updated: 2026-09-15
+status: declined
+declined: 2026-09-15
+declined_by: "Operation Datum P4 — operator ruling at the plan gate: decline, and write the line"
 priority: low
 owner: mondrian
 executor_tier: sonnet
@@ -14,6 +16,47 @@ tags: [backlog, coordination, memo, registry, derivability, upstream_candidate]
 ---
 
 # Memo numbers have no registry, and the number line is reconstructible only by grepping prose
+
+> ⛩ **DECLINED 2026-09-15 at the Operation Datum P4 gate — operator ruling, with the reason written
+> onto the line instead.** The body below is preserved **unedited**, per the precedent this campaign
+> set for [`idea_reserved_keys_has_no_consumer`](idea_reserved_keys_has_no_consumer.md): the expensive
+> defects are claims left standing beside their own remedy, so a disposition is recorded by annotation
+> and never by rewriting the argument it disposes of.
+>
+> **Why declined, and it is this file's own case.** §Cost/value says *"**File, do not schedule**"* and
+> rates the value *"low and real"*. §Proposed shape names two constraints that break a naive build —
+> **#12 is a class, not a file**, and **errata are unnumbered by design**. A check needing two
+> carve-outs exactly where its population is irregular is the shape **F-DT-7** measured at P3:
+> ⇒ ***a registry that looks watched is better hidden than one that visibly is not.***
+>
+> ⭐ **And the convention turned out to be self-correcting** — the measurement that settled it, taken
+> 2026-09-15 across the same two independent populations this file used:
+>
+> | Population | 2026-09-11 (when filed) | 2026-09-15 (at the ruling) |
+> |---|---|---|
+> | `memo_number:` frontmatter | **4** — 10, 11, 15, 16 | **7** — 10, 11, **15 · 16 · 17 · 18 · 19** |
+> | prose references | max 16 | max **19** |
+> | agree? | ✅ at 16 | ✅ at **19** → next is **#20** |
+>
+> **The gap is entirely historical (#9–#14). From #15 onward the frontmatter population is complete
+> and contiguous** — the practice adopted the key on its own, and a registry would now be enforcing
+> something already true.
+>
+> ⛔ **The decline did not discharge the obligation.** This campaign's definition of done is *consumer
+> **or** discovery pass — **and which one it is is written on the line***, and memo numbers had
+> **neither, and no line**: `who/coordination/AGENTS.md` mentioned numbering nowhere. The state is now
+> written there, with both constraints, the two-population allocation procedure, and an explicit
+> ⛔ *do not grep one population and take the max* (the operation that would miss #9 and #13).
+>
+> ⚠ **Writing that line turned up something larger — F-DT-11.** `who/coordination/AGENTS.md` was still
+> **inherited template text** (`agent_init`, 2026-02-19) describing ephemeral `note_YYYYMMDD_*.md`
+> files: **0 of 80** files use that naming, and its §Lifecycle instructed *"**Delete** when expired"*
+> and *"**No archive**"* — directly contrary to **SO-6**, in the directory holding the delivery record
+> the re-probe discipline depends on. Nothing was ever deleted; the practice was right and the
+> document was wrong. ⇒ ***a protocol document nobody executes is a registry with no consumer.***
+>
+> **§Upstream candidate below remains unfiled-upstream** but has now been **mentioned and approved for
+> local filing** → [`idea_upstream_registry_derivability.md`](idea_upstream_registry_derivability.md).
 
 ## The defect
 
