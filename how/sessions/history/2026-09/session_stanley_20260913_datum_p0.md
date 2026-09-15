@@ -2,13 +2,13 @@
 type: session
 session_id: session_stanley_20260913_datum_p0
 created: 2026-09-13
-updated: 2026-09-13
-status: active
+updated: 2026-09-15
+status: completed
 tier: 2
 persona: mondrian
 operator: stanley
 campaign: campaign_canvas_datum
-phase: "Act 0 → P0"
+phase: "Act 0 → P0 → P1 → P2 (the header said `Act 0 → P0` until close; corrected 2026-09-15)"
 executor_tier: opus
 last_edited_by: agent_mondrian
 tags: [session, canvas, datum, reserved_keys, registry, no_consumer, memo_19, derivability, f_gl_1, f_gm_1]
@@ -58,4 +58,30 @@ green**.
 
 ## Work log
 
-*(appended as the session runs)*
+⚠ **This log was never appended while the session ran, and it is reconstructed at close on 2026-09-15
+rather than presented as contemporaneous.** The placeholder below read *"(appended as the session
+runs)"* through P0, P1 and P2 — four commits and two operator rulings — and the frontmatter still said
+`status: active`, `phase: "Act 0 → P0"` two days later. Nothing was lost (the commits carry their own
+derivation records, which is why the reconstruction below is possible at all), but the file that is
+supposed to be this vault's lease and audit trail recorded **none of it**, and a peer agent checking
+`how/sessions/active/` for a live lease would have found one claiming to be mid-P0.
+
+⇒ ***the session file is a registry too.*** It is hand-maintained, it is read by the cold-start ritual
+and by any peer looking for a lease — and nothing fails when it goes stale. That is this campaign's
+own subject, in this campaign's own session file, found on the day the campaign got to the phase about
+it. Recorded here rather than quietly backfilled; see F-DT-8 in the campaign record.
+
+**What this session actually did**, derived from the commits rather than from memory:
+
+| Commit | Time | What |
+|---|---|---|
+| `5c87f8e` | 18:17 | Act 0 — memo #19 delivered at the re-probe; Operation Datum chartered; gate baseline run (exit 0, nine green, reproduced the published line); STATE's two stale §Resume Here rows corrected |
+| `d39f4e2` | 18:24 | P1 — `how/gates/registry_census.py`; 26 registries enumerated by discovery; F-DT-1/2/3 found inside the tool before any were found in its subject |
+| `86b002b` | 19:57 | P2 — `test_registry_consistency.py`, the fourth deliberate `canvas_std` firewall touch; `canvas_std` 146 → 151/10 |
+| `59f9224` | 19:58 | P2 record — F-DT-5 (`Gate.env_skips`) and the both-legs result written into the campaign |
+| `af741fa` | 20:03 | P2 follow-on — gate #10 named the wrong fault class; three named causes derived. **Committed but never written into the campaign record** — carried to P3 as F-DT-6 |
+
+## Closure
+
+Closed **2026-09-15** at the opening of the P3 session, which found this file still holding an active
+lease. Successor: `session_stanley_20260915_datum_p3.md`.

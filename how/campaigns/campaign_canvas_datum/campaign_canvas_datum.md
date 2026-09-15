@@ -202,3 +202,76 @@ with nothing to notice. The gate protects Canvas; the test protects everyone dow
 `how/gates/`, so the walk exists twice. Per **F-DT-3**'s own rule — *a duplication is acceptable when
 named with its reason and not otherwise* — both files carry the reason. The campaign found that rule
 in the morning and had to apply it to itself by the afternoon.
+
+⛩ **F-DT-6 · gate #10 named the wrong fault class, and the finding then lived only in a commit
+message.** *(Retro-numbered 2026-09-15. The defect was found, fixed and fully derived at `af741fa`
+within the hour of adding the gate — and then **written into no campaign artifact**, so this §Findings
+section ended at F-DT-5 while a sixth finding sat in `git log`.)*
+
+The census gate reported *"the `_reserved` namespace copies disagree"* **unconditionally**. So a
+drifted schema **twin** — `VALID_SIDES` vs `edge.fromSide`, with the namespace untouched and agreeing
+11/11 — was reported as a namespace disagreement, sending the reader to the wrong three files with a
+green-looking `11/11` printed beside a `FAIL`. Now derived from the census JSON and split into three
+named causes: *namespace disagreement* / *dispatched-but-undeclared* / *vocabulary drifted from its
+schema twin*. **Verified by deriving both failure classes separately**, not by reading the code.
+
+⇒ ***the report is part of the check*** — F-GL-7's family for the fifth time, inside the gate this
+campaign had just added. And the second half, which is why it is numbered here rather than left in the
+log: ⇒ ***a finding whose only home is a commit message is a finding nobody will re-derive*** — the
+mechanism of F-GM-1, whose one prior appearance anywhere was also a single commit message
+(`53a0213`). Sibling of **F-DT-8** below.
+
+⛩ **F-DT-7 · the JSON Schema's eleven value enums are read by nothing in this vault, and the one
+instrument built to watch them goes blind exactly when they drift.** Found by perturbation at P3.1,
+where the plan predicted a narrower hole.
+
+Content-pairing (P1) classifies a Python constant `SCHEMA-TWIN` when some schema enum holds the same
+set. Drift below the **Jaccard 0.5** floor therefore does not report `DRIFT?` — the pair **dissolves**
+and the constant reclassifies to `VALIDATOR-ONLY`, an accepted, unremarkable state. Both directions
+measured:
+
+| Perturbation | Census | Gate #10 | Other nine gates |
+|---|---|---|---|
+| `VALID_SIDES` 4 → 1 member (Python side) | `VALIDATOR-ONLY`, **exit 0** | `ok` | 47 `canvas_std` failures — caught, but *not by the drift detector* |
+| `edge.fromSide` + `edge.toSide` enums 4 → 1 (**schema side**) | `VALIDATOR-ONLY`, **exit 0** | `ok` | ⛔ **ALL GREEN** — 151/10 · 12/12 · 1039/4 · 57/2 · 58 · 275/7 pkg · 154/2 · freshness 2/2 |
+
+The schema-side result is the finding. The only red was the **firewall**, which fires on any byte
+changing under `canvas_std` — it observed that a file was edited, not that a core vocabulary of a
+public Standard had been destroyed, and it is lifted by ruling for every legitimate touch anyway.
+
+⛔ **And the schema is genuinely load-bearing — verified directly rather than assumed.** `jsonschema`
+against the gutted schema rejects an ordinary canvas with `'bottom' is not one of ['top']`, while
+`canvas_std.validate()` accepts it, because the Python validator reads `VALID_SIDES` and never
+consults the schema. Two independent copies of one vocabulary, one consumer each — and **the schema's
+consumer is outside this vault**: a fork, a `pip install adna-canvas-std`, an external validator. Every
+in-package reader of `json_schema()` reads `$defs.reserved` *only*; the lone exception
+(`test_smoke.py:74`) asserts `x-standard-version` and `"node" in $defs` — structure, not values.
+
+⇒ ***content-pairing is coverage that evaporates exactly when it is needed.*** P1 reported *12
+SCHEMA-TWIN, all agreeing exactly*, which reads as twelve guarded vocabularies. What it actually
+guarantees is that **pairs which still look alike still look alike.** Worse than silence: the census
+prints a confident false explanation — *"unrelated vocabularies reusing a generic token"* — said of the
+Standard's own `fromSide` enum.
+
+⭐ **This is the campaign's thesis in its strongest form yet, and it was hiding behind a green number.**
+`RESERVED_KEYS` was a registry *visibly* read by nothing. These eleven enums were a registry that
+**looked** read — by the census, by the twelve-pair table, by a phase result written into this file —
+and the appearance was the whole protection.
+
+⛩ **F-DT-8 · the session file is a registry too.** Cold start found
+`session_stanley_20260913_datum_p0.md` still `status: active`, still `phase: "Act 0 → P0"`, work log
+still reading *"(appended as the session runs)"* — **two days and four commits later**, spanning P0,
+P1, P2 and two operator rulings. Nothing was lost, because the commits carry their own derivation
+records. But the file that *is* this vault's lease and audit trail recorded none of it, and a peer
+checking `how/sessions/active/` for a live lease would have found one claiming to be mid-P0.
+
+It is hand-maintained, it is read by the cold-start ritual and by any peer looking for a lease, and
+**nothing fails when it goes stale** — the campaign's forbidden third state, in the campaign's own
+session file, found on the day the campaign reached the phase about it. Closed to
+`history/2026-09/` with a reconstruction **derived from the commits and labelled as a
+reconstruction**, not backfilled as though written live.
+
+⚠ **Deliberately not fixed with a gate here.** A session-freshness check is a real idea and it is
+*not* this campaign's surface — Datum's definition of done is scoped to `canvas_std` vocabulary
+registries, and widening it at P3 on a fresh finding is the scope creep the charter's own P2 ruling
+was careful to avoid. Filed instead; see §Follow-up.
