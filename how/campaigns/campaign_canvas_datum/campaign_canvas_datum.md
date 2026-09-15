@@ -3,17 +3,19 @@ campaign_id: campaign_canvas_datum
 type: campaign
 title: "Operation Datum — every hand-maintained registry gets a consumer or a discovery pass, and which one it is goes on the line"
 owner: stanley
-status: active
+status: completed
+completed: 2026-09-15
 estimated_sessions: "1-3"
-phase_count: 6
-mission_count: "created at phase-open"
+actual_sessions: 2
+phase_count: 7  # P0-P5 as chartered, plus P4b — a dated scope amendment taken at the P4 gate
+mission_count: 0  # phase-level execution throughout; no mission files were opened
 priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_gridline
 created: 2026-09-13
 updated: 2026-09-15
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-13 — chartered at the plan gate on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`; Act 0 discharged the held memo #19 delivery first) · P0–P2 closed 2026-09-13 · P3 closed 2026-09-15 (firewall touch #5; F-DT-7 found the exposure was in the PAIRED constants, not the unpaired ones)"
+status_history: "active (2026-09-13 — chartered at the plan gate on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`; Act 0 discharged the held memo #19 delivery first) · P0–P2 closed 2026-09-13 · P3 closed 2026-09-15 (firewall touch #5; F-DT-7 found the exposure was in the PAIRED constants, not the unpaired ones) · P4 closed 2026-09-15 as a REASONED DECLINE + the line written · P4b added 2026-09-15 as a dated scope amendment at the P4 gate (firewall touch #6, schema conformance + published coverage) · completed 2026-09-15"
 tags: [campaign, canvas, datum, reserved_keys, registry, no_consumer, derivability, f_gl_1, f_gm_1, canvas_std, discovery_pass, f_dt_7, f_dt_9, reason_on_the_line, schema_twin, attribute_docstring]
 ---
 
@@ -80,7 +82,22 @@ maintained by hand, and read by nothing.
 | **P2** | Give `RESERVED_KEYS` its consumer — AST-walk the dispatch sites. **A named firewall touch.** | human gate |
 | **P3** | Vocabulary-agreement sweep across every paired constant/enum; reason-on-the-line for every unpaired one | human gate |
 | **P4** | `idea_memo_number_registry` — a registry with a derivation check, **or a reasoned decline** | human gate |
+| **P4b** | *(added at the P4 gate, 2026-09-15 — dated scope amendment)* Schema conformance over the fixture corpus, **with its coverage published on its face**. Firewall touch #6 | human gate |
 | **P5** | Close — AAR, STATE, gate line pasted from `--markdown` | close gate |
+
+### What actually ran, against what was chartered
+
+| Phase | Outcome |
+|---|---|
+| P0 · P1 · P2 | as chartered (2026-09-13) |
+| P3 | as chartered — but **aimed at the wrong half of its own population**. Scoped to the 14 *unpaired* constants; the exposure was in the 12 *paired* ones (**F-DT-7**) |
+| **P4** | **reasoned decline**, the charter's own permitted outcome — *and the obligation still discharged*, by writing the state onto the line in `who/coordination/AGENTS.md` |
+| **P4b** | **added at the gate**, not chartered. The P3 measurements justified it: `certification` exercises the *validator's* verdicts and nothing exercised the *schema* |
+| P5 | close — [AAR](missions/artifacts/datum_campaign_aar.md) · STATE · gate line pasted from `--markdown` · push |
+
+⚠ **`estimated_sessions: "1-3"` — actual 2, and the phase count grew 6 → 7.** Recorded rather than
+trimmed to match: the amendment was ruled by the operator on measured evidence, which is the shape
+this workspace uses instead of chartering a sibling campaign.
 
 ⛩ **Why the firewall ruling moved from P0 to the P1 exit gate.** The approved plan carried a
 recommended split (package-internal check inside `canvas_std/tests/`; the spec-prose half in
@@ -329,3 +346,112 @@ up. One definition, two output modes.
 | **F-DT-8 — session-file freshness** | Real, and outside Datum's definition of done (`canvas_std` vocabulary registries). Widening the charter at P3 on a fresh finding is the scope creep P2's ruling was careful to avoid. |
 | **The upstream candidate** | Now stronger than when `idea_reserved_keys_has_no_consumer` framed it: not merely *"a hand-maintained inventory needs a consumer or a discovery pass"* but ***a registry that looks watched is better hidden than one that visibly is not***, with the remedy being a **per-object falsifiable claim**, not a second list. `skill_upstream_contribution` — mention at a pause, file only if the operator approves. **Not filed.** |
 | **The JSON Schema has no in-vault document-validation test at all** | F-DT-7's root condition is now *guarded* (a drifted enum fails the declared-state check) but not *removed*: nothing in the package validates a real document against the schema. That is a larger question than P3's scope — it touches the certification corpus — and is raised here rather than absorbed. |
+
+## P4 result — declined, and the obligation discharged anyway
+
+Operator ruling at the plan gate (2026-09-15): **decline, and write the line.**
+
+The idea argued its own case — *"File, do not schedule"*, value *"low and real"* — and named two
+constraints that break a naive build: **#12 is a class, not a file** (the Blueprint P3 re-pin wave, 9
+copies to 8 recipients) and **errata are unnumbered by design** (they attach by `thread:`). A check
+needing two carve-outs exactly where its population is irregular is **F-DT-7's shape**.
+
+⭐ **And the convention turned out to be self-correcting** — the measurement that settled it:
+
+| Population | 2026-09-11 (when filed) | 2026-09-15 (at the ruling) |
+|---|---|---|
+| `memo_number:` frontmatter | 4 — 10, 11, 15, 16 | **7** — 10, 11, **15 · 16 · 17 · 18 · 19** |
+| prose references (`who/`, `how/`, `STATE.md`) | max 16 | max **19** |
+| agree? | ✅ at 16 | ✅ at **19** → next is **#20** |
+
+**The gap is entirely historical (#9–#14); from #15 onward the population is complete and
+contiguous.** A registry would now enforce something already true.
+
+⛔ **The decline did not discharge the obligation.** The definition of done is *consumer **or**
+discovery pass — **and which one it is is written on the line***, and memo numbers had **neither, and
+no line**. The state is now in `who/coordination/AGENTS.md` with both constraints, the two-population
+allocation procedure, and an explicit ⛔ *do not grep one population and take the max* — the operation
+that would miss #9 (number only in a `status:` comment) and #13 (only in its `title:`).
+
+⛩ **F-DT-11 · a protocol document nobody executes is a registry with no consumer.** Writing that line
+found `who/coordination/AGENTS.md` still holding **inherited template text** (`agent_init`,
+2026-02-19) describing ephemeral `note_YYYYMMDD_*.md` files — **0 of 80** files use that naming. Its
+§Lifecycle instructed *"**Delete** when the note is expired"* and *"**No archive** — ephemeral, no
+history needed"*, **contrary to Standing Order 6**, in the directory holding the delivery record that
+this vault's re-probe and `delivery_basis` discipline rest on. Nothing was ever deleted — the practice
+was right and the document was wrong — but an agent reading it for instructions would have been told
+to do it. Superseded text preserved struck, with the dangerous steps marked **at the step**.
+
+## P4b result — the schema gets its first document test, and the test publishes how little it covers
+
+Scope amendment ruled at the P4 gate. **Firewall touch #6**; `canvas_std` **156 → 170/10**.
+
+**Why it is Datum's subject:** `certification` (12/12) exercises the **validator's** verdicts. Nothing
+exercised the **schema** — an independent second copy of eleven vocabularies whose consumers are
+*outside this repository*. The campaign had shipped a guard for each twin's **existence** without ever
+checking the schema **works**.
+
+| | |
+|---|---|
+| New | `what/code/canvas_std/tests/test_schema_conformance.py` — 12 parametrized fixture cases + 2 standalone |
+| Expected failures | asserted **by their named reason**, not merely as failures (F-DT-6's family) |
+| Coverage | **printed, never asserted green**: `12/40` per-enum, with the two zero-coverage enums named |
+| Dependency | `jsonschema` → the **`dev` extra only**; the zero-runtime-dependency promise is unchanged. ⚠ It was previously importable *by accident of the anaconda runner* — an undeclared dependency the preconditions do not check. Imported **hard**; ⛔ never `importorskip` |
+| `canvas_std` | 156 → **170/10**, derived (stash/restore); **+14 = 12 parametrized + 2 standalone** — the file holds only 3 `def test_`, so counting functions would have given +3 and looked plausible |
+
+⚠ **Two predictions of mine were refuted by measurement, both corrected where they were written.**
+The P3 close called this *"larger than P3's scope"* — it is ~15 lines. And the P4b plan predicted the
+suite would **not** have caught the F-DT-7 perturbation:
+
+| Derivation | Result |
+|---|---|
+| **D13a** — the *actual* F-DT-7 edit (`fromSide`+`toSide` → `["top"]`) | **CAUGHT**, 5+ fixtures fail — the corpus uses `"bottom"` for `fromSide` |
+| **D13b** — `toSide` **alone** → `["top"]` | **NOT caught**, 14 passed — the corpus uses `"top"` there, its only value |
+
+⇒ The blind spot is real but **narrower and more arbitrary** than predicted: which single-value
+perturbations are invisible depends on which value the corpus happens to use. `fromSide` is
+**accidentally** guarded. ⛔ Not reassurance — a coincidence of fixture authorship that evaporates the
+moment a fixture changes a side.
+
+⛩ **D13c then found a defect in the guard written an hour earlier.** Deleting **both** zero-coverage
+enums outright left the suite at **14 passed**: the coverage ratchet cannot see it, because those
+enums contribute 0 to `covered`. ⇒ ***a ratchet on the covered count is blind to the loss of exactly
+the vocabularies it was already failing to exercise — the blind spot compounds itself.*** Fixed by
+pinning the **declared** totals separately (11 enums / 40 values, `>=` so additions stay free).
+
+**Derivations:** D13a caught · D13b not caught (the finding) · D13c → now caught · D14 illegal
+`fromSide` in a valid fixture → fails naming the enum · D15 expected-failure repaired → the table
+fails · D16 fixture removed → the **corpus-size guard** fires (⚠ *not* the ratchet, which catches
+narrowing — stated rather than conflated). All restored; firewall 0; `ruff` clean.
+
+## Completion Summary
+
+**Closed 2026-09-15**, two sessions, P0–P5 (+P4b). [AAR](missions/artifacts/datum_campaign_aar.md).
+
+| | |
+|---|---|
+| Findings | **11** — F-DT-1 … F-DT-11. Every phase produced at least one, and **every instrument built here produced a finding about itself before one about its subject** |
+| Firewall touches | **#5** (P3) and **#6** (P4b) — the fifth and sixth deliberate `canvas_std` touches since Keystone; both returned to diff **0** on commit |
+| `canvas_std` | **146 → 170/10** |
+| Gates | **9 → 10**, all green |
+| Backlog | `idea_reserved_keys_has_no_consumer` **closed** · `idea_memo_number_registry` **declined** · `idea_upstream_registry_derivability` **filed** |
+| Doctrine | graduated → [`what/context/context_registry_derivability.md`](../../../what/context/context_registry_derivability.md) (8 principles) |
+
+⭐ **The finding, carried forward as practice:** ***a registry that LOOKS watched is better hidden than
+one that visibly is not.*** `RESERVED_KEYS` was visibly read by nothing and was fixed in a day. The
+JSON Schema's eleven enums had a census, a correspondence table and a published phase result all
+saying they agreed — and gutting one left **all ten gates green**. The instrument did not fall silent;
+it **failed into reassurance**, printing a confident false explanation about the Standard's own enum.
+
+⇒ And its operational form, which is the cheaper habit: ***ask what your instrument does when its
+subject is badly wrong, not when it is slightly wrong.*** Small drift is the case people design for;
+large drift is where instruments fail silently — and it is cheaper to test, because you can simply
+break the thing and look.
+
+### Open residue, owned
+
+1. ⛔ **The certification corpus exercises 12 of 40 enum values** — the largest residue. Widening it
+   changes a corpus behind a 12/12 gate with downstream meaning. Named and costed, **not done**.
+2. **F-DT-8** (session-file staleness) — filed, deliberately outside a charter scoped to `canvas_std`.
+3. **The upstream memo is not yet sent** — `idea_upstream_registry_derivability` is filed locally;
+   staging to Rosetta is the next act, at memo **#20**, ⛔ with `ack_required: true`.
