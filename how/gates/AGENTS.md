@@ -1,9 +1,9 @@
 ---
 type: directory_index
 created: 2026-09-10
-updated: 2026-09-10
+updated: 2026-09-15
 last_edited_by: agent_mondrian
-tags: [directory_index, gates, ci, regression, f_p5_3, upstream_candidate]
+tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f_dt_7, registry_census, upstream_candidate]
 ---
 
 # how/gates/ — The gate set, executable
@@ -152,8 +152,88 @@ variant of the same family, one layer out from tests. The gate rebuilds every `*
 temp dir and compares **parsed documents** (key order and whitespace are not the claim). It never
 writes into the vault.
 
+## Gate #10 — `registry_census`, added 2026-09-13 (Operation Datum P2)
+
+The first gate here that checks **a source tree's own vocabulary** rather than a suite or an artifact.
+`registry_census.py` enumerates every hand-maintained vocabulary constant in `canvas_std` by walking
+the package AST, traverses the JSON Schema for every `enum`, parses spec §7.2, and pairs Python
+constants to schema enums **by content — never by name**. A name map would itself be a
+hand-maintained registry with no consumer, i.e. the defect it measures.
+
+**Why it exists (F-GL-1).** `RESERVED_KEYS` — the tuple naming the `_reserved` namespace — was read
+by **nothing**. So when Standard v2.4.0 appended two names to it per the ratified LIP-0010, the append
+was *correct and inert*; and the proof that an inert list rots was already inside it: `interaction`,
+shipped and validated since **v2.2.0**, was missing from **all three** hand-maintained copies of that
+namespace for three months. No canvas was ever wrong — the *namespace description* was.
+
+> ⇒ ***A specification with no consumer is indistinguishable from no specification.***
+
+### What it found, in order
+
+- **P1 — three defects inside the tool, before any in its subject.** The dispatch detector matched
+  `ast.In` but not `ast.NotIn`, so it read half of `if "authority" in reserved and "production" not in
+  reserved` (**F-DT-1**); content-pairing reported coincidence as drift three times out of three,
+  because natural vocabularies reuse words like `none` and `text` (**F-DT-2**); and two constants hold
+  an identical vocabulary with nothing linking them (**F-DT-3**). ⛩ A second blind spot **cannot** be
+  closed: `_validate_axes` subscripts `reserved[key]` with a *variable*, so those sites are counted
+  and published as `dynamic` — the key list is a **floor, not a census**, and says so on its face.
+- **F-DT-5 — a gate pin that was a claim about the operator's desktop.** `canvas_core` was pinned
+  `(1040, 3)`, which holds **only while Obsidian is open on this vault**. Closed, the same unchanged
+  tree measures `(1039, 4)`. ⛔ Not fixed by re-pinning to the other desktop state: `Gate.env_skips`
+  now declares how many skips may vary with the environment, while the **total must still match
+  exactly**. Defaults to `0`, so every other gate stays exactly as strict — *a test silently becoming
+  a skip is still a regression.*
+- **F-DT-6 — this gate named the wrong fault class within the hour of being added.** It reported
+  *"the `_reserved` namespace copies disagree"* **unconditionally**, so a drifted schema *twin* — the
+  namespace untouched and agreeing 11/11 — sent the reader to the wrong three files beside a
+  green-looking `11/11`. The causes are now derived and named. At **P3** the derivation moved into the
+  census and this gate **consumes** it: a second derivation of a cause is a second thing that can
+  disagree with the first. ⇒ ***the report is part of the check.***
+- **F-DT-7 — the finding the whole campaign was hiding behind.** Content-pairing is coverage that
+  **evaporates exactly when it is needed**: when a vocabulary and its schema twin diverge past the
+  similarity floor the pair does not report drift, it **dissolves**, and the constant reclassifies to
+  `VALIDATOR-ONLY` — an accepted state. Gutting the schema's `fromSide`/`toSide` enums from four
+  values to one left **all ten gates green**, while `jsonschema` correctly rejected an ordinary
+  canvas. Worse than silence: the census printed *"unrelated vocabularies reusing a generic token"*
+  about the Standard's own edge-side enum.
+
+  > ⇒ ***A registry that LOOKS watched is better hidden than one that visibly is not.***
+
+  Closed at P3 by making every constant **declare** `SCHEMA-TWIN` or `VALIDATOR-ONLY` on the line, as
+  a **falsifiable claim checked against the derivation** — not a label, and not a second list.
+
+⚠ **This gate's own membership rule, stated so the blind spot is named.** A "vocabulary constant" is
+module-level, `UPPER_SNAKE`, and holds a literal collection of scalars. A vocabulary built at runtime,
+or held in a dict, is invisible to it — by construction, as `federation_index` was.
+
+## ⚠ This file is written by exception, not as a registry — do not add a completeness check
+
+Measured 2026-09-15: **4 of the registered gate names have never appeared in this file**
+(`certification`, `canvas_core`, `comic_render`, and — until this section — `registry_census`). That
+is not drift. This document's membership rule is **gates with a story**: the ones whose existence
+teaches something about how the gate set fails. A gate that has simply been green since Keystone
+earns a row in `GATES` and no paragraph here.
+
+⛔ **So there is deliberately no check asserting every `Gate(...)` name appears below.** A completeness
+rule over a knowingly partial document would manufacture exactly the shape F-DT-7 describes — a check
+that looks like coverage of something it was never meant to cover. Per the campaign's own rule, *a
+missing twin is a fact to state with its reason, not a defect to remedy.*
+
+⚠ **What was genuinely wrong, and is recorded rather than quietly fixed (F-DT-11's sibling):** gate
+#10 was added **2026-09-13** and this file still read `updated: 2026-09-10` on 2026-09-15 — it carried
+dedicated sections for gates #8 and #9 and nothing for the gate an entire campaign was built around.
+Nothing automated could have caught it; prose currency is a human obligation, which is the argument
+for keeping this file short enough that the obligation is cheap.
+
 ## Upstream candidate
 
 The generic form — *a phase-gate list should be executable, and should fail on omission rather than
 on disagreement alone* — is not Canvas-specific. Every vault that publishes a gate line in `STATE.md`
 carries this exposure. See `how/backlog/idea_runnable_gate_manifest.md` §Upstream candidate.
+
+Operation Datum added a second, broader one: *every hand-maintained registry needs a consumer or a
+discovery pass, **and which one it is must be written on the line** — as a per-object falsifiable
+claim, never as a second list.* See
+[`how/backlog/idea_upstream_registry_derivability.md`](../backlog/idea_upstream_registry_derivability.md)
+and the doctrine at
+[`what/context/context_registry_derivability.md`](../../what/context/context_registry_derivability.md).

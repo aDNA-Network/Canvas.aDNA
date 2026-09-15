@@ -155,6 +155,7 @@ Canvas-specific guides graduated from campaigns (not topic directories):
 | `context_migration_parity_methodology.md` | Deterministic structural-parity proof for migrating/relocating a producer (Keystone) |
 | `context_canvas_topology_graphs.md` | **Node-Link / Topology Graphs** chapter — the graph-specific design layer (10 gap items: crossing reduction, bundling, focus-dimming, enclosure, state-luminance, hub sizing, swimlane, force-vs-layered, legend, minimap) with worked examples (contributed by Home.aDNA / Prytaneion M6.3) |
 | `context_canvas_visual_in_the_loop.md` | **Visual-in-the-loop** producer standard — "no canvas ships without an agent-confirmed render"; the design→render→screenshot→inspect→re-render loop (contributed by Home.aDNA / Prytaneion M6.3) |
+| `context_registry_derivability.md` | **How hand-maintained facts rot, and what stops it** — 8 principles with the derivations that produced them (Blueprint · Gridline · Plumbline · Datum graduation). ⛔ Doctrine only: it deliberately holds **no list of this vault's registries**, because that list would be the defect it describes |
 | `context_recipes.md` | Cross-topic context assemblies (3-tier budget) |
 
 ## Load/Skip Decision
