@@ -136,8 +136,15 @@ reasoned decline**. Phase gates are human gates; P4 is not opened by this sessio
 
 **Blockers** — none.
 - ⛔ **Operator items owed**, unchanged by this phase: the §7.7 signatures (`adr_010` · `adr_011` ·
-  `adr_012`) · the mermaid trust grant · **a push GO** — now **8 unpushed commits** (6 inherited + 2
+  `adr_012`) · the mermaid trust grant · **a push GO** — now **9 unpushed commits** (6 inherited + 3
   from this session), counted with `git rev-list --count @{u}..HEAD`.
+  ⚠ **This line read "8 unpushed (6 + 2)" when first written, and it was wrong in the addend**: this
+  session made **three** commits, not two. Caught on the post-commit re-verify and corrected here
+  rather than silently. ⇒ It is the 2026-09-10 slip **exactly** — *"I committed Blueprint's own defect
+  in the first act after its close: reported 20 unpushed where the real figure was 22"* — recurring
+  five days later in a session whose entire subject is hand-maintained numbers that nothing re-derives.
+  ***The habit does not transfer by having written the finding down***, which is the argument this
+  campaign makes about registries, made here about me.
 - ⓘ **Raised, not absorbed** (campaign §Follow-up): nothing in the package validates a real document
   against the JSON Schema. F-DT-7's root condition is now *guarded* but not *removed*, and closing it
   touches the certification corpus — larger than P3's scope.
@@ -161,7 +168,7 @@ deliberately declined to widen into, so read both before choosing. Start with th
 `how/sessions/active/`, `git rev-list --count @{u}..HEAD`) and then run
 `python3 how/gates/gate_manifest.py --markdown` **rather than trusting STATE's line** — Datum has now
 produced a finding inside its own instruments at every single phase. Note two live operator items a
-session cannot self-serve: **8 unpushed commits await a batch push GO**, and the §7.7 signatures
+session cannot self-serve: **9 unpushed commits await a batch push GO** (verify with `git rev-list --count @{u}..HEAD`, never `head -N`), and the §7.7 signatures
 (`adr_010` · `adr_011` · `adr_012`) plus the mermaid trust grant remain outstanding. The standing
 caution from P3: `canvas_core` measures 1039/4 with Obsidian closed and 1040/3 with it open — that is
 `Gate.env_skips` working, not a regression.
