@@ -156,7 +156,11 @@ Canvas **adopted ISS** (`how/federation/iss/`, the 11th wrapper) and rendered **
 | `adr_012_ratification` | `adr_gate` · routine | **no content change**; the cleanest of the three |
 | `operator_queue_20260916` | `phase_exit` · 5 sections | mermaid trust · memo #20 · corpus 12/40 · `skill_l1_upgrade` RFC1918 · F-DT-8 |
 
-⛩ **ADR-011 has now been amended TWICE, and the second amendment corrects the first.**
+⛩ **ADR-011 has now been amended THREE TIMES in one day, each correcting the one before — and it is
+finally signable.** ⭐ **Read `§What this ADR says today` first**: Amendment 3 added it because the
+decision had become distributed across an August body plus two amendment blocks, so ratifying meant
+reconstructing it from what was struck. It is a **summary, not a replacement** — the Decisions remain
+the authority.
 
 ⚠ **This block originally told the story with the `production` row as the fix. That was wrong, and it
 is corrected here rather than left standing** — *a claim left standing beside its own remedy* is this
@@ -180,7 +184,22 @@ population: *a standalone hand-authored primary artifact "is not diagrammatic co
 axis does not apply and **omission is correct**. The migration is therefore **not one recipe**:
 derived → `view` + `generated`; primary → **neither key** (verified conformant at `adna_native`).
 ⭐ The `production` row was the **most confident claim in the package** and the one that was wrong —
-***confidence was doing the work a partition should have done.*** Rosetta fired template release **v8.11 on 2026-09-11** with
+***confidence was doing the work a partition should have done.***
+
+⛔ **Amendment 3 — the amendments themselves had left an active trap.** The `source_yaml` row still
+instructed *"a real value must be supplied"* for the three canvases that have none. ⚠ **`source_name`
+is an INPUT to the partition test**, so an invented value *resolves nothing but changes the test's
+answer*, silently reclassifying a primary canvas as derived. ⇒ ***self-concealing, and therefore worse
+than the empty field — because the empty field is the evidence.*** Also closed: the *"4/4 reach
+`adna_native [OK]`"* evidence verified the **unpartitioned** recipe, so Decision 3's *"verified"* claim
+rested on the wrong transcript — **re-run rather than withdrawn**, on scratch copies, one canvas per
+population (**both `adna_native [OK]`, degradation intact; the primary form carries no `source_name`,
+no `authority`, no `production`**). The *"declared for 6 months without ever being enforced"* sentence
+is **the misread itself** — ⇒ ***an unpopulated field is data, not debt*** — struck. Title corrected.
+
+⚠ **Nothing enforces the partition in code** — a `view` canvas citing a source that does not exist
+still validates `OK` (verified, not assumed). The test is doctrine, not machinery, so **re-run it
+before any fleet migration** rather than trusting the figures. Rosetta fired template release **v8.11 on 2026-09-11** with
 that migration as payload row P3 — the **relocation half only** — so the 8 shipped files read
 `{authority: "view", …}` and measure **core [OK] · adna_native FAIL on A-2 ×2, A-6, A-8**. ⚠ **Nothing
 is broken today** (no `conformance_level`, so they validate at core) and **the fleet was not touched**

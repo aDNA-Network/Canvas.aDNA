@@ -1,7 +1,7 @@
 ---
 type: decision
 adr_id: "011"
-title: "Legacy canvas-YAML interop reconciled — the `view` authority row, one level too high"
+title: "Legacy canvas-YAML interop reconciled — the `view` authority row, one level too high and stamped on three files for every one it fits"
 status: proposed
 created: 2026-08-24
 updated: 2026-09-16
@@ -10,9 +10,9 @@ signed_by:
 supersedes:
 superseded_by:
 phase: blueprint-p1
-amended: 2026-09-16   # A1 — Decision 4 struck (false since A-8) · A2 — corpus PARTITIONED; A1's blanket `production` row was wrong for 194 of 258
+amended: 2026-09-16   # A1 — Decision 4 struck (false since A-8) · A2 — corpus PARTITIONED (A1's blanket `production` row was wrong for 194 of 258) · A3 — the `source_yaml` trap closed, evidence re-verified under the partitioned recipe, title corrected
 resolves: "Blueprint P1 charter item — rule the legacy-interop reconciliation (campaign_canvas_blueprint §Phases P1)"
-tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production, view, blueprint, diagrammatic_context, amendment_1, amendment_2, a8, v8_11, partition, plumbline_p1]
+tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production, view, blueprint, diagrammatic_context, amendment_1, amendment_2, amendment_3, a8, v8_11, partition, plumbline_p1, signability]
 ---
 
 # ADR-011 — Legacy canvas-YAML interop reconciliation
@@ -23,6 +23,58 @@ tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production
 awaiting the §7.7 signature. Canvas rules the *substance* (this is the Canvas Standard's own
 authority surface); **propagation into the template channel is Rosetta's** and is offered, not
 performed (Rule 10).
+
+---
+
+## What this ADR says today
+
+> ⚠ **A summary of the Decisions below — not a replacement for them.** Added at Amendment 3 because
+> the operative content had become distributed across an August body plus two September amendment
+> blocks, so ratifying it meant reconstructing it from what was struck. ⛔ **The Decisions remain the
+> authority.** If this block and a Decision ever disagree, the Decision wins and this block is the
+> defect. *(It is deliberately not a fourth independent statement of the substance — a fourth
+> independent statement is how this ADR reached three amendments.)*
+
+**The legacy `canvas_yaml_interop` shape is not a competing system.** For the canvases it actually
+describes, it **is** the Standard's `view` authority row — written to the wrong path, and stamped on
+far more files than it fits.
+
+**1 · Placement.** Canonical is `metadata.frontmatter._reserved`. A `_reserved` block anywhere else is
+nonconformant and specifically *worse than absent*, because it hides behind a green `core` result.
+
+**2 · The migration is not one recipe. Partition first:**
+
+> A canvas is **derived** iff `_reserved.source_yaml` is non-empty **and** the referenced file resolves
+> relative to the canvas. Otherwise it is **primary**.
+> ⛔ A declared source that does not resolve is **not** evidence of derivation — it is evidence of a
+> stamp. And **never invent one to fill the field**: `source_name` is an *input to this test*, so a
+> fabricated value reclassifies the canvas instead of documenting it.
+
+| | **Derived** *(63 of 258 measured)* | **Primary** *(194 of 258)* |
+|---|---|---|
+| `sync.source_name` | the real, resolving source | ⛔ omit |
+| `authority` | `"view"` | ⛔ omit |
+| `production` | `"generated"` | ⛔ omit |
+
+Both populations reach **`adna_native [OK]`** with degradation intact — re-verified 2026-09-16 under
+this recipe, not the superseded one (§Re-verified below).
+
+**3 · `authority` and `production` are machine-enforced** as **A-8** since Standard **v2.4.0**, both
+optional, with one asymmetric rule: `authority` **requires** `production`; `production` alone is legal.
+
+**4 · Propagation is offered, never performed.** Canvas supplies the verified recipe; Rosetta owns the
+template channel.
+
+### ⛔ What this ADR does NOT claim
+
+| | |
+|---|---|
+| **No `canvas_std` change** | A-8 was shipped by Operation Gridline, not by this ratification. The firewall stays at diff 0. |
+| **No fleet migration by us** | The 194 primary canvases across 63 vaults are not ours to edit. |
+| **No repair of the 8 files v8.11 already shipped** | They pass at their declared level (`core`); repairing them is Rosetta's call once they hold the erratum. |
+| **No enforcement of the partition in code** | The test is derivable and stated; nothing validates that a `view` canvas really has a resolving source. |
+
+---
 
 ### ⛩ Upstream disposition (2026-09-11) — accepted there, still unsigned here
 
@@ -234,7 +286,12 @@ field shape, not design.**
 
 ## Verified migration
 
-Executed on scratch copies of all four template canvases, then validated:
+~~Executed on scratch copies of all four template canvases, then validated:~~ ⛩ **Amendment 3:** that
+2026-08-24 run applied **one recipe to all four**, which is the error this ADR took three amendments
+to find. The current evidence is **§Re-verified under the PARTITIONED recipe** below — one canvas from
+**each** population. The v2.3.0 material is retained, struck, because the mapping rows it establishes
+(placement · `sync_hash` recomputation · A-6's rejection of the `sha256:` form) are **still correct
+and still the recipe**; only the population handling was wrong.
 
 > ⛩ **AMENDED 2026-09-16.** The table was verified against **v2.3.0**. Two rows are now wrong and one
 > row is **missing**; the v2.3.0 forms are struck rather than deleted, because this exact table was
@@ -245,32 +302,60 @@ Executed on scratch copies of all four template canvases, then validated:
 | — | ~~`adna_version: "2.3.0"`~~ → **`adna_version: "2.4.0"`** for any migration performed now *(A-2)*. 2.3.0 remains a real released version and is not *invalid* — but a migration run today should declare the Standard it was verified against. |
 | — | `conformance_level: "adna_native"` *(A-2)* |
 | `sync_hash: "sha256:none"` | `sync.sync_hash: "<16 hex>"` — **nested and recomputed** via `compute_sync_hash()` (SHA-256 over sorted node ids + `from->to` pairs, truncated to 16). A-6 rejects the `sha256:`-prefixed form; it is not transliterable. |
-| `source_yaml: ""` | `sync.source_name` — renamed; empty in 3 of 4, so a real value must be supplied |
+| `source_yaml: ""` | ⛩ **SPLIT BY POPULATION at Amendment 3 — see below.** ~~`sync.source_name` — renamed; empty in 3 of 4, so **a real value must be supplied**~~ ⛔ **STRUCK: this instruction was an active trap.** The three it refers to are **primary artifacts with no source**. Supplying a value would not merely be cosmetic — `source_name` **is an input to the partition test**, so an invented one *resolves nothing but changes the test's answer*, silently reclassifying a primary canvas as derived. ⚠ **Self-concealing, and therefore worse than an empty field**: the empty field is the evidence. This is the *"passing a value to make a number go green"* habit `conform.py` names — declined one table-row below by Amendment 2, and left standing here until now. |
 | `last_sync` | no validated home — keep additive or drop |
 | `authority: "view"` | ⛩ **SPLIT BY POPULATION at Amendment 2 — see the two rows below.** ~~no validated home (Decision 4) — keep additive~~ (v2.3.0 form) and ~~*"now VALIDATED (A-8), its value unchanged and correct"*~~ (Amendment 1's form) are **both struck**: the first because A-8 ships, the second because it is true of **63** files and false of **194**. |
 
 **⇒ The migration is not one recipe. Apply the partition test first, then the matching row:**
 
-| Population | `authority` | `production` |
-|---|---|---|
-| **Derived** — `source_yaml` non-empty **and** it resolves *(63 of 258 measured)* | `"view"` — unchanged and **correct**; it survived the axis split, and another channel really does own the meaning | **`"generated"`** — required by A-8's asymmetry, and right by the pattern's definition: a `.canvas` built from an authoritative `.lattice.yaml` is machine-made, and `generated` is what carries *"never hand-edit; regenerate"* |
-| **Primary** — sourceless, or a declared source that does not resolve *(194 of 258 measured)* | ⛔ **OMIT.** Not "leave additive" — **remove it.** These are standalone hand-authored artifacts; `view` asserts an owner that does not exist. Plumbline P1: *a hand-authored primary artifact "is not diagrammatic context at all"* ⇒ the axis does not apply and **omission is the correct answer** | ⛔ **OMIT.** `production: "hand_authored"` would be *legal* (A-8 permits `production` alone) but it is **not what was ruled** — and inventing a declaration to make a field non-empty is the habit `conform.py` names as *"passing a value to make a number go green."* |
+| Population | `sync.source_name` | `authority` | `production` |
+|---|---|---|---|
+| **Derived** — `source_yaml` non-empty **and** it resolves *(63 of 258 measured)* | the **real, resolving** source, carried over | `"view"` — unchanged and **correct**; it survived the axis split, and another channel really does own the meaning | **`"generated"`** — required by A-8's asymmetry, and right by the pattern's definition: a `.canvas` built from an authoritative `.lattice.yaml` is machine-made, and `generated` is what carries *"never hand-edit; regenerate"* |
+| **Primary** — sourceless, or a declared source that does not resolve *(194 of 258 measured)* | ⛔ **OMIT.** There is no source. ⚠ **Never invent one** — `source_name` feeds the partition test, so a fabricated value reclassifies the canvas rather than documenting it | ⛔ **OMIT.** Not "leave additive" — **remove it.** These are standalone hand-authored artifacts; `view` asserts an owner that does not exist. Plumbline P1: *a hand-authored primary artifact "is not diagrammatic context at all"* ⇒ the axis does not apply and **omission is the correct answer** | ⛔ **OMIT.** `production: "hand_authored"` would be *legal* (A-8 permits `production` alone) but it is **not what was ruled** — and inventing a declaration to make a field non-empty is the habit `conform.py` names as *"passing a value to make a number go green."* |
 
 ⚠ **Both keys omitted is fully conformant.** A-8 makes each optional; a canvas carrying neither passes
 at `adna_native`. Verified, not assumed.
 
+> ⛩ **SUPERSEDED EVIDENCE, 2026-09-16 (Amendment 3).** The v2.3.0 transcript below and its
+> *"4 / 4 migrated files reach `adna_native [OK]`"* verified **the unpartitioned recipe** — every file
+> given `authority: "view"` and a supplied `source_name`. That is **not the recipe this ADR now
+> recommends**, so Decision 3's *"verified"* claim was resting on the wrong transcript. ⛔ **Struck,
+> not deleted — and re-run rather than merely withdrawn**, because withdrawing it would have left
+> Decision 3 asserting "verified" with nothing behind it.
+
 ```
-$ canvas-std validate <migrated>/template_architecture.canvas --level adna_native
-canvas-std 2.3.0: …/template_architecture.canvas
-  declared=adna_native  level_reached=adna_native  [OK]
-  degradation: {'D-1': True, 'D-2': True, 'D-3': True}
+~~$ canvas-std validate <migrated>/template_architecture.canvas --level adna_native~~
+~~canvas-std 2.3.0: …/template_architecture.canvas~~
+~~  declared=adna_native  level_reached=adna_native  [OK]~~
+~~  degradation: {'D-1': True, 'D-2': True, 'D-3': True}~~
+~~4 / 4 migrated files reach adna_native [OK] with degradation intact.~~
 ```
 
-4 / 4 migrated files reach `adna_native [OK]` with degradation intact.
+### ✅ Re-verified under the PARTITIONED recipe — 2026-09-16
+
+Executed on **scratch copies** of one canvas from each population (`.adna/` untouched per Standing
+Rule 1; Canvas's tracked examples untouched; all three trees confirmed at **0 entries** afterwards).
+`sync_hash` **recomputed** via `roundtrip.compute_sync_hash()`, never transliterated — A-6 rejects the
+`sha256:`-prefixed form.
+
+| Population | Migrated `metadata.frontmatter._reserved` | Axis keys | Result |
+|---|---|---|---|
+| **DERIVED** — `hello_world.canvas` | `adna_version: 2.4.0` · `conformance_level: adna_native` · `authority: view` · `production: generated` · `sync{sync_hash: 28cf14bbd135f628, source_name: hello_world.lattice.yaml}` | both | **`adna_native [OK]`** · degradation `D-1/D-2/D-3` all `True` |
+| **PRIMARY** — `template_architecture.canvas` | `adna_version: 2.4.0` · `conformance_level: adna_native` · `sync{sync_hash: 85b1fe9224948842}` | **neither** | **`adna_native [OK]`** · degradation `D-1/D-2/D-3` all `True` |
+
+⇒ **The primary form carries no `source_name`, no `authority` and no `production` — and passes.** That
+is the claim Amendment 2 asserted; this is the run that proves it. **Decision 3's *"verified"* is true
+again, of the recipe actually recommended.**
 
 **Sync fields were never populated:** `sync_hash` is `"sha256:none"` ×3 / `"sha256:pending"` ×1 and
-`source_yaml` is empty in three. The `view` contract has been *declared* for 6 months without ever
-being *enforced* — the migration is the first time these files carry a real topology hash.
+`source_yaml` is empty in three. ~~The `view` contract has been *declared* for 6 months without ever
+being *enforced* — the migration is the first time these files carry a real topology hash.~~
+
+⛩ **STRUCK 2026-09-16 (Amendment 3) — this sentence is the misread itself.** The emptiness was not a
+maintenance gap; **it was the evidence.** `source_yaml` is empty in three files *because those three
+are not views* — there is nothing for them to be a view **of**. Reading it as "declared but not
+enforced" is precisely how a stamp got mistaken for a fact, and the sentence survived two amendments
+standing two paragraphs below its own correction. ⇒ ***an unpopulated field is data, not debt.***
 
 ## ⛩ What v8.11 actually shipped (measured 2026-09-16, at the object)
 
@@ -295,6 +380,14 @@ validate(adna_native)                  A-2 ×2 (no adna_version · no conformanc
 executed here on scratch copies. It does not describe what is in `.adna/` today.** Both statements are
 true of different objects, and the ADR did not distinguish them — *state the population on the face of
 the number*.
+
+> ⛩ **Amendment 3 supersedes this note and sharpens it.** The `4/4` claim is now **struck entirely**,
+> because the distinction was **not two** (recipe vs `.adna/`) but **three**: the full recipe · what
+> shipped · **and which population either applies to**. ⭐ Amendment 1 wrote *"state the population on
+> the face of the number"* **about a number whose population it had not itself stated** — the four
+> files were two populations, and that is what Amendment 2 found. The rule was right; it simply had
+> not been applied one level further in. Current evidence: **§Re-verified under the PARTITIONED
+> recipe**.
 
 ### What is and is not at risk — stated plainly, because the alarming reading is available and wrong
 
