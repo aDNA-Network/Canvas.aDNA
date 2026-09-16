@@ -1,0 +1,92 @@
+{
+  "gate_id": "adr_011_ratification",
+  "vault": "Canvas.aDNA",
+  "operator": "stanley",
+  "title": "ADR-011 — legacy canvas-YAML interop, as amended",
+  "title_main": "ADR-011 —",
+  "title_em": "signable only as amended: one of its decisions went false, and the stale half already shipped",
+  "wordmark": "aDNA · CANVAS · §7.7",
+  "footer_text": "Full text: what/decisions/adr_011_legacy_canvas_interop_reconciliation.md · authored 2026-08-24, AMENDMENT 1 on 2026-09-16 · measurement: §What v8.11 actually shipped",
+  "preset": "neutral",
+  "show_fallback_tiers": true,
+  "escape_hatch": true,
+  "sitrep": {
+    "campaign": "none — operator-owed tail after Operation Datum closed 2026-09-15",
+    "phase": "Ratification sitting — 3 ADRs + the open queue",
+    "mission": "ADR-011 §7.7 signature, on the AMENDED text",
+    "gate_purpose": "Ratify ADR-011 AS AMENDED — the legacy interop shape is the Standard's `view` authority row, and its migration recipe now carries the `production` key A-8 requires.",
+    "importance": "load-bearing",
+    "importance_reason": "cited by a fired upstream release (v8.11) and by Rosetta's own ledger",
+    "output_destination": "Canvas.aDNA/how/gates/adr_011_ratification.output.json"
+  },
+  "adr_id": "011 (as amended 2026-09-16)",
+  "adr_title": "Legacy canvas-YAML interop reconciled — the `view` authority row, one level too high",
+  "decision_statement": "The canvas_yaml_interop shape IS the aDNA Canvas Standard's `view` authority row — named and bounded under the Standard, not deprecated and not a competing system. Its defect is placement and field shape, not design. Canonical placement is metadata.frontmatter._reserved; the migration is mechanical, lossless in topology, and verified; propagation is OFFERED to Rosetta, never performed; and — as amended — `authority` and `production` are MACHINE-enforced as A-8 since Standard v2.4.0, so the migration recipe must emit BOTH keys.",
+  "context": "⛔ READ THIS BEFORE SIGNING — the ADR was NOT signable as it stood, and this gate exists on the amended text. TWO DEFECTS were found by re-deriving at the object. (1) Decision 4 asserted that `canvas_std` does not know the `authority` key, that a misspelled value is accepted silently, and that LIP-0010 is 'assessed, not taken'. Operation Gridline shipped A-8 on 2026-09-11: canvas_std VALIDATES both keys and LIP-0010 is FINAL. Struck, with the matching §Consequences bullet, in the same pass so neither can be 'verified' by reference to the other. Note the upstream-disposition block four screens ABOVE Decision 4 already knew — corrected in one place and not the other. (2) The §Verified migration table never mentioned `production`. A-8 is ASYMMETRIC: `authority` REQUIRES `production`; `production` alone is legal. Measured: {authority: view} → A-8 failure; {authority: view, production: …} → OK. The table was verified against v2.3.0 and carried into v2.4.0 unchanged. WHAT ALREADY SHIPPED: Rosetta fired template release v8.11 on 2026-09-11 with this migration as payload row P3 — but only the RELOCATION half. The 8 files now read {authority: view, source_yaml: '', last_sync, sync_hash: 'sha256:none'} — core [OK], adna_native FAIL on A-2 ×2, A-6 and A-8. ⚠ NOTHING IS BROKEN TODAY: those files declare no conformance_level, so they validate at core and pass, and Rosetta scoped the release explicitly to '8 files… NOT the fleet'. The trap is for whoever finishes the job: completing the field-shape half from the OLD table clears A-2 and A-6 and then trips A-8. ⚠ This is not Rosetta's error — they verified at the object, returned two facts we did not have, and scoped narrowly. The stale recipe is ours, and an erratum is owed on memo #20.",
+  "consequences_positive": [
+    {
+      "value": "A 6-month-old unowned drift becomes a named, recipe-complete offer — and the relocation half has already shipped upstream and worked."
+    },
+    {
+      "value": "`view` survived the 2026-09-11 axis split unchanged — checked, not assumed. It answers 'who owns the meaning', which is exactly the question `authority` kept."
+    },
+    {
+      "value": "As amended, the recipe is correct under v2.4.0: the new `production: generated` row is right by the pattern's own definition — a .canvas derived from an authoritative .lattice.yaml is machine-made."
+    },
+    {
+      "value": "No canvas_std change. This ratifies a DESCRIPTION, not a validator; the firewall stays at diff 0."
+    }
+  ],
+  "consequences_negative": [
+    {
+      "value": "Until the field-shape half lands, the 8 shipped files remain core-valid and adna_native-invalid. A KNOWN state now, rather than an unmeasured one."
+    },
+    {
+      "value": "Canvas cannot land the fix — it depends on Rosetta's template channel. This converts the drift into an offer, not a completion."
+    },
+    {
+      "value": "An erratum is owed to a peer who acted in good faith on our recipe. That is a cost of signing late, and it is ours."
+    },
+    {
+      "value": "Repairing the 8 already-migrated files is THEIRS to decide; this vault writes into neither .adna/ (Rule 1) nor their tree (Rule 10)."
+    }
+  ],
+  "alternatives": [
+    {
+      "title": "Deprecate the interop spec and regenerate all 196 canvases from source",
+      "rejected_because": "throws away a working mapping and 196 hand-checked files to fix a path bug — and there is no .lattice.yaml source for three of the four templates (source_yaml is empty)."
+    },
+    {
+      "title": "Teach canvas_std to read metadata._reserved as a fallback",
+      "rejected_because": "a firewall change (LIP territory) that would legitimize two canonical paths forever and weaken A-2 for every future document, in order to rescue four template files."
+    },
+    {
+      "title": "Leave it — the files validate green at core",
+      "rejected_because": "they carry unread authority semantics, so every reader must guess whether editing them means anything. That is precisely the 'undeclared authority' anti-pattern the doctrine names."
+    },
+    {
+      "title": "Sign the ADR unamended",
+      "rejected_because": "it would ratify a false statement (Decision 4) into the decision record and bless a migration recipe that now produces a nonconformant canvas. This is the option the gate exists to prevent."
+    }
+  ],
+  "recommendation": {
+    "rationale": "RATIFY AS AMENDED. The substance — the legacy IS the Standard's `view` row, at the wrong path — was right in August and is still right; Rosetta verified it independently and shipped the relocation. Only the machine-enforcement claim and the recipe's completeness went stale, and both are corrected in place with the originals struck rather than deleted.",
+    "key_factors": [
+      "The core reconciliation is independently confirmed — Rosetta verified at the object before accepting.",
+      "The amendment corrects a description; no code, no schema, no A-8 behaviour change.",
+      "Blast radius is 8 files, not the fleet — measured, and scoped by Rosetta's own ledger.",
+      "Nothing is currently failing: the shipped files pass at their declared level."
+    ],
+    "risks": [
+      "Signing does not repair the 8 shipped files — that needs the erratum to reach Rosetta first.",
+      "If the erratum is NOT sent, the next person to complete the migration walks into A-8 with our table in hand."
+    ],
+    "confidence": 4,
+    "next_actions": [
+      "Flip status: accepted and fill the §7.7 block — noting the signature is on the AMENDED text.",
+      "Send memo #20 to Rosetta carrying the erratum (ack_required: true), re-probing their lease at act time.",
+      "Leave the 8 shipped files alone — repair is theirs to decide."
+    ]
+  },
+  "created_at": "2026-09-16"
+}

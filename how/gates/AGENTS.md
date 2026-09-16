@@ -8,6 +8,27 @@ tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f
 
 # how/gates/ — The gate set, executable
 
+## ⚠ Two different things live here, and only one of them is "the gate set"
+
+Added 2026-09-16, when Canvas adopted ISS and the collision became real rather than hypothetical.
+
+| | What | Files |
+|---|---|---|
+| **Test gates** | `gate_manifest.py` **is** the gate set — ten suites, fail-on-omission. Everything else in this document is about these. | `gate_manifest.py` · `registry_census.py` · this file |
+| **Operator decision gates** | ISS surfaces where a *human* rules — ADR ratification, phase exit, an open queue. Generated, never hand-authored. | `<gate_id>.data.json` · `.html` · `.pending` · `.output.json` |
+
+⛔ **There is no functional conflict, and that was checked rather than assumed.** `gate_manifest.py`'s
+discovery walks only `what/production/` and `what/code/` for test-bearing directories, so a `.html`
+here is invisible to it and **cannot affect a gate line**. The collision is one of vocabulary only.
+
+**Why they share a directory anyway:** `how/gates/<gate_id>.html` is the fleet-wide ISS convention —
+the skill's own `output_destination` spec assumes it, and every one of the other wrappers uses it. A
+Canvas-only path would buy a tidier directory at the cost of being the one vault where the convention
+does not hold. Named here instead, per this file's own §"What discovery cannot see" precedent:
+*state the blind spot rather than coding around it.*
+
+Wrapper + render discipline: [`how/federation/iss/CLAUDE.md`](../federation/iss/CLAUDE.md).
+
 ## Purpose
 
 `gate_manifest.py` **is** the gate set. Not a description of it — the thing itself.

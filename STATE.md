@@ -1,7 +1,7 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-09-13
+updated: 2026-09-16
 status: active
 last_edited_by: agent_mondrian
 last_session: session_stanley_20260913_datum_p0
@@ -142,6 +142,39 @@ watch item or a backlog idea with an owner and an unblock condition.
 | 9 | **`skill_l1_upgrade.md` RFC1918 disposition** | watch · operator/Rosetta | **template-inherited**, so the literals sit in every forked vault; remediating our copy fixes one of many and the durable fix is upstream. Not remediated unilaterally. |
 | 10 | **SS live-batch review surface.** ⚠ **Corrected 2026-09-11:** this row read *"a named **second** consumer of the **P4 board form**"* — **that phrasing was ours, not theirs.** SS said the review-surface form would be *"the right **first** consumer … **on our side**"*, which is a different claim, and ours quietly upgraded the commitment. ⛔ **And the compatibility is unmeasured**: `variant_board.py` consumes a ComfyUI **run manifest**; SS's pending batch is *"built as an HTML gate."* The older path (`spec_canvas_review_surface` + `_reserved.interaction` + `review_collect.py`) may be the actual fit. Flagged to them as a real question, not a formality. | watch → **Plumbline P3** | ⛩ **Item 1 ruled 2026-09-11 and it CLEARED.** Memo #15 promised *"flagged when it clears, not left to ask"* — the flag is Plumbline **P3, memo #17**, and it carries the honest caveat that Canvas's own tooling enforced the superseded axis until P1. ⚠ **Two obligations were welded in this row and only one was ever item 1's**: the *promise* (ours, now dischargeable) and the *conversion* (needs P1's under-coverage ruling first — SS's boards are hand-authored primary artifacts, the population where all three old values were wrong). |
 | 11 | **D3 Rosetta registrar ack** *(standing, pre-Blueprint)* | watch · `#needs-human` | on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified. |
+
+### ⛩ 2026-09-16 — the operator-owed tail is now a set of DOORS, not a list
+
+Canvas **adopted ISS** (`how/federation/iss/`, the 11th wrapper) and rendered **four gates** in
+`how/gates/`. Workspace Standing Rule 8 names ADR ratification explicitly; three ADRs had sat
+`proposed` with **no decision surface**, so every ruling was happening in chat and leaving no artifact.
+
+| Gate | Template | Verdict owed |
+|---|---|---|
+| `adr_010_ratification` | `adr_gate` · routine | erratum authored — **two stale facts, both of which make the ADR stronger** |
+| `adr_011_ratification` | `adr_gate` · **load-bearing** | ⛔ **signable only AS AMENDED** — see below |
+| `adr_012_ratification` | `adr_gate` · routine | **no content change**; the cleanest of the three |
+| `operator_queue_20260916` | `phase_exit` · 5 sections | mermaid trust · memo #20 · corpus 12/40 · `skill_l1_upgrade` RFC1918 · F-DT-8 |
+
+⛩ **ADR-011 was not signable as it stood, and the reason had already shipped.** Decision 4 asserted
+`canvas_std` *"does not know the key"* — **false since 2026-09-11**, when Gridline shipped A-8 and
+LIP-0010 went `Final`. Worse, the §Verified migration table never mentions **`production`**, and A-8 is
+**asymmetric**: `authority` requires it. Rosetta fired template release **v8.11 on 2026-09-11** with
+that migration as payload row P3 — the **relocation half only** — so the 8 shipped files read
+`{authority: "view", …}` and measure **core [OK] · adna_native FAIL on A-2 ×2, A-6, A-8**. ⚠ **Nothing
+is broken today** (no `conformance_level`, so they validate at core) and **the fleet was not touched**
+(Rosetta scoped it *"8 files… NOT the fleet"*). **The trap is for whoever finishes the job.** ⚠ **Not
+their error** — they verified at the object and scoped narrowly; **the stale recipe is ours**, and an
+erratum is owed on memo **#20**.
+
+⚠ **A probe I reported wrong, corrected here rather than quietly**: I called the ISS receiver at
+`:8765` *"live (http 307)"*. It is **JupyterHub**. No `gate_receiver` serves Canvas's gates-root, so
+the gates fall back to the copy-paste tier — a working door, verified in the rendered output.
+⇒ ***a probe that confirms something is listening has not confirmed what is listening.*** Starting a
+Canvas-rooted receiver is one command (`how/federation/iss/CLAUDE.md`) and is **the operator's call**.
+
+⛔ **Rule at the door, not in chat.** Home's 2026-09-03 ceremony rendered a door and was then ruled in
+chat, leaving `provenance: operator_in_chat` and two candidate verdict surfaces for one queue.
 
 ### Operator items awaiting signature (§7.7 — agents author, operators ratify)
 

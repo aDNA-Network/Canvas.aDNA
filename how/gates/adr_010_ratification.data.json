@@ -1,0 +1,79 @@
+{
+  "gate_id": "adr_010_ratification",
+  "vault": "Canvas.aDNA",
+  "operator": "stanley",
+  "title": "ADR-010 — artifact corpus policy",
+  "title_main": "ADR-010 —",
+  "title_em": "the shelf stays gitignored, and its one stated risk has since been retired",
+  "wordmark": "aDNA · CANVAS · §7.7",
+  "footer_text": "Full text: what/decisions/adr_010_artifact_corpus_policy.md · authored 2026-08-22, erratum 2026-09-16 · Canvas ADR namespace runs adr_000 … adr_012",
+  "preset": "neutral",
+  "show_fallback_tiers": true,
+  "escape_hatch": true,
+  "sitrep": {
+    "campaign": "none — operator-owed tail after Operation Datum closed 2026-09-15",
+    "phase": "Ratification sitting — 3 ADRs + the open queue",
+    "mission": "ADR-010 §7.7 signature",
+    "gate_purpose": "Ratify or refuse the artifact-corpus policy: what/artifacts/ stays gitignored, canonical on-node, backup-registered, with no off-node fetch path promised.",
+    "importance": "routine",
+    "importance_reason": "highly reversible, and it describes what has already been true since v7.0",
+    "output_destination": "Canvas.aDNA/how/gates/adr_010_ratification.output.json"
+  },
+  "adr_id": "010",
+  "adr_title": "Artifact corpus policy — gitignored, canonical on-node, backup-registered",
+  "decision_statement": "what/artifacts/ stays gitignored, permanently. It is the canonical on-node corpus location. Durability is a backup concern, not a git concern — the corpus is declared in scope for the node backup (Home WI-16), and no off-node fetch path is promised. Rendered pixels are data-plane, not context.",
+  "context": "The rendered-evidence shelf was 292 MB on 2026-08-22 (the H3 first-light corpus alone is 166 MB / 42 SHA-256-verified files / $3.618 of paid renders) and has been gitignored since v7.0. Three inbound threads converged on this one unmade decision: Hestia's relocation memo (call #1), Lumière's RM-09 standing risk, and Iris's panel-export question (b). The repo is GitHub-public, so a growing image corpus in git history is the wrong durability mechanism. ⛩ ERRATUM 2026-09-16, and both corrections make this ADR STRONGER rather than weaker. (a) Its central accepted risk — 'until a backup destination exists, the corpus remains single-disk' — was true on 2026-08-22 and FALSE since 2026-08-29: Home's WI-16 backup half is DISCHARGED, snapshot landed, restore drill diff-clean, C101 registered, and an age-keyed probe (S19a) built because restic_backup.sh exits 0 on an unmounted disk. The surviving residual is narrower and you already ruled it: nothing on this node can verify the off-node mirror exists, with declaration-grain accepted as the ceiling (2026-09-04 ceremony, ruling s9). So this ADR's Decision 3 obligation is DISCHARGED, not pending. (b) The parenthetical 'canvas_std 115/10' is stale; the live figure is 170/10. The claim around it is unchanged and still true — the suites do not depend on the corpus, only evidence-replay does.",
+  "consequences_positive": [
+    {
+      "value": "The repo stays lean and public-appropriate — no growing binary corpus in git history."
+    },
+    {
+      "value": "Durability is now REAL, not promised: WI-16's backup half discharged 2026-08-29 with a diff-clean restore drill."
+    },
+    {
+      "value": "Converts an unowned risk into a named, owned item — and that item has since been closed, which is the evidence the mechanism worked."
+    },
+    {
+      "value": "Reversibility is high: nothing prevents a later decision to snapshot a specific corpus into a dedicated archive repo."
+    }
+  ],
+  "consequences_negative": [
+    {
+      "value": "A fresh clone cannot re-run evidence-dependent checks without the node's corpus or a restored backup. Knowingly kept."
+    },
+    {
+      "value": "One residual survives and is operator-ruled, not solved: nothing on this node can verify the off-node mirror EXISTS — declaration-grain is the accepted ceiling."
+    },
+    {
+      "value": "Consumers needing pixels off-node must name their own corpus location and copy at their seam (Iris's X1 mitigation is the endorsed pattern)."
+    }
+  ],
+  "alternatives": [
+    {
+      "title": "Track the corpus in git",
+      "rejected_because": "reproducible-on-clone, but +292 MB on a PUBLIC repo and growing with every render run. Git is a poor store for large binary evidence that is append-only rather than collaboratively edited."
+    },
+    {
+      "title": "A separate corpus repo or annex",
+      "rejected_because": "fetchable off-node if remoted, but more moving parts and it still needs a private-remote decision the fleet has not made. DEFERRED, not rejected — Decision 4 deliberately leaves the door open."
+    }
+  ],
+  "recommendation": {
+    "rationale": "RATIFY. The decision describes what has already been true since v7.0, it is highly reversible, and its single stated risk has been retired by Home since authoring. Nothing in the erratum weakens it — both corrections are in the ADR's favour, which is why they are recorded rather than quietly applied.",
+    "key_factors": [
+      "Highly reversible — this rules only that the WORKING SHELF is not git-tracked.",
+      "The backup obligation it created is discharged (WI-16, 2026-08-29, restore drill diff-clean).",
+      "No code, no schema, no consumer contract changes.",
+      "The residual (mirror-existence verification) is already operator-ruled at declaration-grain."
+    ],
+    "risks": [
+      "Signing leaves the off-node mirror unverifiable from this node — accepted by your own 2026-09-04 ruling, but it is the one thing signing does not fix."
+    ],
+    "confidence": 5,
+    "next_actions": [
+      "Flip status: accepted and fill the 4-field §7.7 block (decision · ratified-by · date · status).",
+      "Update STATE.md §Operator items — remove adr_010 from the owed list."
+    ]
+  },
+  "created_at": "2026-09-16"
+}

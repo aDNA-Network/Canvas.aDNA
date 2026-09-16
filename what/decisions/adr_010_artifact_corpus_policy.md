@@ -4,14 +4,14 @@ adr_id: "010"
 title: "Artifact corpus policy — gitignored, canonical on-node, backup-registered"
 status: proposed
 created: 2026-08-22
-updated: 2026-08-22
+updated: 2026-09-16
 last_edited_by: agent_mondrian
 signed_by:
 supersedes:
 superseded_by:
 phase: halftone-close
 resolves: "PT-P5 residual call #1 (what/artifacts/ git-tracking) · Lumière RM-09 standing risk · Iris panel-export question (b)"
-tags: [adr, artifacts, corpus, git, backup, data_plane, halftone]
+tags: [adr, artifacts, corpus, git, backup, data_plane, halftone, erratum_20260916, wi_16_discharged]
 ---
 
 # ADR-010 — Artifact corpus policy
@@ -20,6 +20,31 @@ tags: [adr, artifacts, corpus, git, backup, data_plane, halftone]
 
 **proposed** — authored at the 2026-08-22 review-integration session under the operator-approved plan
 (which selected this option at plan time); awaiting the §7.7 signature.
+
+### ⛩ Erratum, 2026-09-16 — two stale facts, corrected before signature; **both make this ADR stronger**
+
+Re-derived at the object while preparing this ADR for ratification. Neither changes the **Decision**;
+both were left standing beside evidence that had moved, which is the family this vault names *a
+stated fact nobody re-derived*. Struck rather than rewritten, per the SO-6 precedent `adr_012` set.
+
+**(a) §Consequences' central accepted risk was overtaken six days after this ADR was written.** It
+reads: *"Durability now depends on WI-16 actually closing. Until a backup destination exists, the
+corpus remains single-disk."* — **true on 2026-08-22, false since 2026-08-29.** Home's WI-16 records
+the **node backup DISCHARGED 2026-08-29**: snapshot landed, **restore drill diff-clean**, `C101`
+registered, and a probe (`S19a`) built that keys on **snapshot age, never job state** — because
+`restic_backup.sh` exits `0` on an unmounted disk. The residual is narrower than this ADR's risk and
+is **not** "no destination": *nothing on this node can verify the off-node mirror exists*, and you
+**approved declaration-grain as the ceiling** at the 2026-09-04 ceremony (ruling `s9`, row stays open).
+⇒ This ADR's §Decision 3 obligation — *the corpus is declared in scope for the node backup* — is
+**discharged, not pending.**
+
+**(b) `canvas_std 115/10` is stale; the live figure is `170/10`.** The **claim** around it is
+unchanged and still true — the suites do not depend on the corpus; only evidence-replay does. Trail:
+115 → 146 (Gridline) → 151 (Datum P2) → 156 (P3) → **170** (P4b), each step derived by
+stash/restore rather than predicted.
+
+⚠ **Nothing else in this ADR moved.** `what/artifacts/` is still gitignored, still canonical on-node,
+still without a promised off-node fetch path.
 
 ## Context
 
@@ -67,10 +92,16 @@ concern, not a git concern.**
 
 **Accepted:**
 - A fresh clone cannot re-run evidence-dependent checks without the node's corpus (or a restored backup).
-  The full test suites (`canvas_std` 115/10, producers, `comic_render`) do **not** depend on the corpus;
-  only evidence-replay does. That trade is knowingly kept.
-- Durability now depends on WI-16 actually closing. Until a backup destination exists, the corpus remains
-  single-disk — this ADR converts that from an unowned risk into Hestia's named backlog item.
+  The full test suites (`canvas_std` ~~115/10~~ **170/10 as of 2026-09-16**, producers, `comic_render`)
+  do **not** depend on the corpus; only evidence-replay does. That trade is knowingly kept.
+- ~~Durability now depends on WI-16 actually closing. Until a backup destination exists, the corpus remains
+  single-disk — this ADR converts that from an unowned risk into Hestia's named backlog item.~~
+  ⛩ **Superseded 2026-09-16 (see §Erratum (a)) — struck, not deleted, because the sentence was true when
+  written and its expiry is the point.** WI-16's **backup half discharged 2026-08-29** (restore drill
+  diff-clean, `C101` registered, `S19a` age-keyed probe built). The corpus is **no longer single-disk**.
+  The surviving residual is narrower and is operator-ruled: *nothing on this node can verify the off-node
+  mirror exists*, with **declaration-grain accepted as the ceiling** (2026-09-04 ceremony, ruling `s9`).
+  ⇒ This ADR's conversion of an unowned risk into a named item **worked**; the item was then closed.
 
 **Reversibility:** high. Nothing prevents a later decision to snapshot a specific corpus into a dedicated
 archive repo; this ADR only rules that the *working shelf* is not git-tracked.

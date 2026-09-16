@@ -4,14 +4,15 @@ adr_id: "011"
 title: "Legacy canvas-YAML interop reconciled — the `view` authority row, one level too high"
 status: proposed
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-09-16
 last_edited_by: agent_mondrian
 signed_by:
 supersedes:
 superseded_by:
 phase: blueprint-p1
+amended: 2026-09-16   # Amendment 1 — Decision 4 struck (false since A-8); migration table gains the `production` row
 resolves: "Blueprint P1 charter item — rule the legacy-interop reconciliation (campaign_canvas_blueprint §Phases P1)"
-tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, view, blueprint, diagrammatic_context]
+tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production, view, blueprint, diagrammatic_context, amendment_1, a8, v8_11]
 ---
 
 # ADR-011 — Legacy canvas-YAML interop reconciliation
@@ -27,7 +28,13 @@ performed (Rule 10).
 
 Rosetta (aDNA.aDNA) **ACCEPTED** this reconciliation upstream, operator-ruled 2026-09-11. The
 migration is a payload row on the next `skill_template_release` (**v8.11**); ledger at
-`aDNA.aDNA/how/campaigns/campaign_haussmann/artifacts/template_release/release_staging_ledger.md`.
+~~`…/template_release/release_staging_ledger.md`~~ ⛩ **corrected 2026-09-16 →
+`…/template_release/release_staging_ledger_v8_11.md`**. The path as written points at a *different,
+already-fired* ledger (the hook fold 4.0.1 → 4.3.0) that **contains no canvas row at all** — a reader
+following it finds nothing and could reasonably conclude the migration was never staged. ⚠ Caught by
+walking it: the wrong file was opened first, found empty of canvas content, and only a second search
+turned up the real `_v8_11` ledger. ⇒ ***a pointer that resolves to a real file is not the same as a
+pointer that resolves to the right one.***
 
 They verified at the object before accepting rather than taking our memo's word, and returned two
 facts we did not have:
@@ -51,12 +58,52 @@ re-introduction channel. `skill_template_release` now carries a hard back-write 
 *offered, not performed*; **that half is now discharged by them**. The Canvas-side signature below is
 still pending and is the operator's alone.
 
+### ⛩ AMENDMENT 1, 2026-09-16 — ⛔ this ADR was **not signable as it stood**, and the reason shipped upstream
+
+Re-derived at the object while preparing this ADR for ratification. **Two defects**, and the second
+has already been acted on by a peer in good faith.
+
+**(1) Decision 4 was false, and had been for five days when the release fired.** It asserts
+*"`canvas_std` does **not** know the key… an invented or misspelled value is accepted silently…
+[LIP-0010] is assessed, **not** taken."* **Operation Gridline shipped A-8 on 2026-09-11**: `canvas_std`
+**validates** `authority` and `production`, and **LIP-0010 is `Final`**, not assessed. Struck below,
+with the matching §Consequences bullet.
+
+⚠ **The block immediately above this one already knew.** It was added 2026-09-11 and cites the axis
+split, the `view` row surviving it, and *"LIP-0010 as the durable fix"* — while Decision 4, four
+screens down, still said the LIP was untaken. ⇒ ***corrected in one place and not the other*** — the
+`F-DT-9` family (*a claim left standing beside its own remedy*), inside the ADR whose own §Decision 4
+is the claim.
+
+**(2) ⛔ The §Verified migration table is now INCOMPLETE, and following it to completion produces a
+NONCONFORMANT canvas.** Its `authority: "view"` row reads *"no validated home (Decision 4) — keep
+additive"* and **never mentions `production`**. Under A-8 the rule is **asymmetric**: `authority`
+**requires** `production`; `production` alone is legal. Measured:
+
+```
+{authority: "view"}                         -> A-8: 'authority' is present without 'production'
+{authority: "view", production: <value>}    -> OK
+{production: <value>}                       -> OK
+```
+
+The table was verified against **v2.3.0** and carried into **v2.4.0** unchanged. ⇒ ***a recipe is a
+measurement with an expiry date, and this one was handed to another vault.*** See §What v8.11 actually
+shipped.
+
+⛔ **No `canvas_std` change.** This amendment corrects a **description**, not the validator. A-8's
+behaviour is untouched and the firewall stays at diff 0.
+
 ⭐ **And the axis split does not invalidate this ADR — checked, not assumed.** The 2026-09-11 ruling
 removed `generator` from the `authority` axis, which could have unseated Decision 1's `view` row and
 with it a 200-file migration. It does not: `view` answers *who owns the meaning*, which is precisely
-the question `authority` keeps. The value survives the split unchanged, and **Decision 4**
+the question `authority` keeps. The value survives the split unchanged, and ~~**Decision 4**
 (*"doctrine-enforced, not machine-enforced — for now"*) now has a named upstream concurrence, with
-`production` as its sibling and LIP-0010 as the durable fix.
+`production` as its sibling and LIP-0010 as the durable fix.~~ ⛩ **This closing clause is superseded by
+Amendment 1 and is struck 2026-09-16** — it describes Decision 4 as *standing with concurrence*, which
+was true for the ~14 hours between this block being written and A-8 shipping the same day. The
+"durable fix" **landed**: `production` is not a *sibling awaiting* a LIP, it is a validated key and
+LIP-0010 is `Final`. ⚠ **The paragraph's first two sentences are unaffected and still correct** — the
+`view` row survived the axis split, which is what this block was written to check.
 
 ## Context
 
@@ -102,11 +149,23 @@ field shape, not design.**
 3. **The migration is mechanical, lossless in topology, and verified** (§Verified migration below).
    No node, edge, group, position, or color changes. Baseline-Obsidian degradation (D-1/D-2/D-3) is
    preserved.
-4. **`authority` is doctrine-enforced, not machine-enforced — for now.** `canvas_std` does **not**
+4. ~~**`authority` is doctrine-enforced, not machine-enforced — for now.** `canvas_std` does **not**
    know the key; it passes as an additive `_reserved` extension, so an invented or misspelled value
    is accepted silently. Closing that gap would be a schema change and therefore a LIP. It is
-   assessed, **not** taken, in `lip_0010_assessment_diagrammatic_context.md`. **This ADR changes no
-   code** — `what/code/canvas_std/` stays at diff-0.
+   assessed, **not** taken, in `lip_0010_assessment_diagrammatic_context.md`.~~
+   ⛩ **STRUCK 2026-09-16 (Amendment 1) — true when written 2026-08-24, false since 2026-09-11.**
+   Preserved because its history is the argument: the gap it describes was real, it took a peer
+   ruling plus a §7.7 signature to close, and **this sentence outlived the fix by five days inside
+   the document that named it.** Replacement:
+
+   **4. `authority` and `production` are MACHINE-enforced as A-8, since Standard v2.4.0.**
+   `canvas_std` validates both — closed value sets (`{dual_channel, view}` · `{hand_authored,
+   generated}`), both **optional**, validated only if present, with one **asymmetric** cross-key rule:
+   `authority` **requires** `production`; `production` alone is legal. A misspelled value is now
+   **rejected**, not accepted silently. `LIP-0010` is **Final**, not assessed. ⭐ `view` **survived the
+   axis split unchanged** — it answers *who owns the meaning*, which is exactly the question
+   `authority` kept. **This ADR still changes no code**: `what/code/canvas_std/` stays at diff-0, and
+   A-8 was shipped by Gridline, not by this ratification.
 5. **Propagation is offered, not performed.** One `.adna` edit plus a `skill_template_release`
    reaches all 46 vaults, because the files are byte-identical. Canvas supplies the verified recipe;
    Rosetta owns the template channel and the release.
@@ -115,14 +174,19 @@ field shape, not design.**
 
 Executed on scratch copies of all four template canvases, then validated:
 
+> ⛩ **AMENDED 2026-09-16.** The table was verified against **v2.3.0**. Two rows are now wrong and one
+> row is **missing**; the v2.3.0 forms are struck rather than deleted, because this exact table was
+> handed to another vault and partially executed (§What v8.11 actually shipped).
+
 | Legacy `metadata._reserved` | Standard `metadata.frontmatter._reserved` |
 |---|---|
-| — | `adna_version: "2.3.0"` *(A-2)* |
+| — | ~~`adna_version: "2.3.0"`~~ → **`adna_version: "2.4.0"`** for any migration performed now *(A-2)*. 2.3.0 remains a real released version and is not *invalid* — but a migration run today should declare the Standard it was verified against. |
 | — | `conformance_level: "adna_native"` *(A-2)* |
 | `sync_hash: "sha256:none"` | `sync.sync_hash: "<16 hex>"` — **nested and recomputed** via `compute_sync_hash()` (SHA-256 over sorted node ids + `from->to` pairs, truncated to 16). A-6 rejects the `sha256:`-prefixed form; it is not transliterable. |
 | `source_yaml: ""` | `sync.source_name` — renamed; empty in 3 of 4, so a real value must be supplied |
 | `last_sync` | no validated home — keep additive or drop |
-| `authority: "view"` | no validated home (Decision 4) — keep additive |
+| `authority: "view"` | ~~no validated home (Decision 4) — keep additive~~ → **`authority: "view"` is now VALIDATED (A-8)** and its value is unchanged and correct. ⛔ **But it may not travel alone.** |
+| — | ⛔ **`production: "generated"` — NEW, REQUIRED ROW.** A-8 is asymmetric: `authority` **requires** `production`. A migrated canvas carrying `authority` and no `production` **fails A-8**. `generated` is the right value here by the pattern's own definition — a `.canvas` derived from an authoritative `.lattice.yaml` is machine-made, and `generated` is what carries *"never hand-edit; regenerate"*. ⚠ **This row did not exist when the recipe was verified, and its absence is the defect Amendment 1 exists to fix.** |
 
 ```
 $ canvas-std validate <migrated>/template_architecture.canvas --level adna_native
@@ -137,13 +201,56 @@ canvas-std 2.3.0: …/template_architecture.canvas
 `source_yaml` is empty in three. The `view` contract has been *declared* for 6 months without ever
 being *enforced* — the migration is the first time these files carry a real topology hash.
 
+## ⛩ What v8.11 actually shipped (measured 2026-09-16, at the object)
+
+Rosetta **fired template release v8.11 on 2026-09-11** with *"the ADR-011 canvas migration"* as payload
+row **P3** (their ledger: `release_staging_ledger_v8_11.md`, `status: accepted`, **RATIFIED AND FIRED**).
+⚠ **What shipped is the relocation half only** — not the field-shape half this ADR's table specifies.
+Read directly from `.adna/what/lattices/examples/template_architecture.canvas`:
+
+```json
+"_reserved": { "authority": "view", "source_yaml": "",
+               "last_sync": "2026-03-02T00:00:00Z", "sync_hash": "sha256:none" }
+```
+```
+top-level metadata._reserved removed?  yes  (the relocation worked — the block is on the canonical path)
+validate(core)                         OK
+validate(adna_native)                  A-2 ×2 (no adna_version · no conformance_level)
+                                       A-6   (_reserved.sync missing)
+                                       A-8   ('authority' present without 'production')
+```
+
+⚠ **§Verified migration's *"4/4 migrated files reach `adna_native` [OK]`"* describes the FULL recipe,
+executed here on scratch copies. It does not describe what is in `.adna/` today.** Both statements are
+true of different objects, and the ADR did not distinguish them — *state the population on the face of
+the number*.
+
+### What is and is not at risk — stated plainly, because the alarming reading is available and wrong
+
+| | |
+|---|---|
+| ✅ **Nothing is broken today.** | The shipped files declare **no `conformance_level`**, so they validate at `core` and **pass**. A-8 only fires when a document is validated at `adna_native`. |
+| ✅ **The fleet was not touched.** | Rosetta scoped P3 explicitly: *"8 files, ours and the image's. **NOT the fleet.**"* The ~200 canvases across ~47 forked vaults are untouched, exactly as Decision 5 intended. |
+| ⛔ **The trap is for whoever finishes the job.** | Completing the field-shape half from this ADR's table clears A-2 ×2 and A-6 — and **then trips A-8**, because the table never said to add `production`. The remedy is Amendment 1's new table row. |
+| ⚠ **This is not Rosetta's error.** | They verified at the object before accepting, returned two facts we did not have, and scoped the release narrowly. They executed a correct relocation against a recipe that was accurate when offered. **The stale recipe is ours.** |
+
+⇒ **Owed to them: an erratum**, carried on memo **#20** with `ack_required: true`. Repairing the 8
+shipped files is **theirs to decide** once they hold it — they pass at their declared level, and this
+vault does not write into `.adna/` (Standing Rule 1) or their tree (Rule 10).
+
 ## Consequences
 
 **Accepted:**
 - Until the template release lands, 196 files remain `core`-valid and `adna_native`-invalid. This is
   a *known* state now rather than an unmeasured one, and nothing depends on them validating higher.
-- `authority` remains unvalidated free text (Decision 4). A vault can write `authority: "veiw"` and
-  no tool objects. Doctrine catches it at gate review; machines do not. Recorded, not hidden.
+- ~~`authority` remains unvalidated free text (Decision 4). A vault can write `authority: "veiw"` and
+  no tool objects. Doctrine catches it at gate review; machines do not. Recorded, not hidden.~~
+  ⛩ **STRUCK 2026-09-16 (Amendment 1) — false since 2026-09-11.** `authority: "veiw"` is now **rejected**
+  by A-8, at `adna_native`. The replacement consequence is the opposite in direction and smaller in size:
+  **a canvas carrying `authority` without `production` is now nonconformant**, which is a new obligation
+  on the migration recipe rather than a gap in it. *(This bullet and Decision 4 were one claim written
+  twice; both are struck in the same pass so neither can be "verified" by reference to the other —
+  F-PL-3's lesson, where two stale figures agreed with each other and with nothing else.)*
 - Canvas cannot land the fix — it depends on Rosetta's template release. This ADR converts a
   6-month-old unowned drift into a named, recipe-complete offer.
 

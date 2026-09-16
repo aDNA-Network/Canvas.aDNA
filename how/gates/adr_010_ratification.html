@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADR-010 — artifact corpus policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;700&display=swap">
+<style>/* tokens_base.css — structural tokens (persona-invariant)
+ *
+ * Lifted from MoleculeForge gate_decision_p3.html § :root (substrate recon §1.2 + §1.4 + §1.5).
+ * Persona-specific color + typography overrides land in tokens/persona_*.css and
+ * cascade ON TOP of these values.
+ *
+ * Inlined into generator output HTML <style> per AD-4 (single-file self-contained output).
+ */
+
+:root {
+  /* ─── spacing scale (substrate recon §1.4 systematized) ─── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 14px;
+  --space-5: 18px;
+  --space-6: 24px;
+  --space-8: 36px;
+  --space-12: 52px;
+  --space-pad-bottom: 160px;
+
+  /* ─── radius scale ─── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;            /* card / overview-strip / output-section base */
+  --radius-pill: 20px;          /* rec-pill, chips */
+  --radius-btn: 30px;           /* gen-btn */
+  --radius-floating: 40px;      /* sticky-inner */
+  --radius-full: 50%;           /* radios + dots */
+
+  /* ─── motion scale (substrate recon §1.5 systematized) ─── */
+  --motion-fast: 0.15s;
+  --motion-base: 0.2s;
+  --motion-radio: 0.22s;
+  --motion-slide: 0.28s;
+  --motion-collapse: 0.32s;
+  --motion-fill: 0.5s;
+  --motion-card-entrance: 0.4s;
+  --ease-out-quint: cubic-bezier(.4, 0, .2, 1);
+
+  /* ─── content layout ─── */
+  --content-max-width: 920px;
+  --content-side-pad: 24px;
+
+  /* ─── default semantic typography slots — personas override ─── */
+  --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --serif: 'DM Serif Display', ui-serif, Cambria, 'Times New Roman', serif;
+
+  /* ─── default base color slots — personas MUST override ─── */
+  --bg: #0a0a0a;                 /* page background */
+  --bg-alt: #111111;
+  --surface: #1a1a1a;            /* card surface */
+  --surface-hover: #222222;
+  --border: #2a2a2a;
+  --border-active: #3a3a3a;
+
+  --accent: #00aaaa;             /* primary accent (decision-label, focus) */
+  --accent-soft: #00aaaa15;
+  --accent-glow: #00aaaa35;
+
+  --semantic-approve: #10b981;
+  --semantic-approve-soft: #10b98114;
+  --semantic-amend: #f59e0b;
+  --semantic-amend-soft: #f59e0b14;
+  --semantic-discuss: #a78bfa;
+  --semantic-discuss-soft: #a78bfa14;
+  --semantic-reject: #ef4444;
+
+  --text: #cccccc;
+  --text-dim: #888888;
+  --text-bright: #ffffff;
+
+  /* ─── default decoration slots (persona-pluggable per AD-12 / substrate recon §1.10 PRIM-12/14/15) ─── */
+  --decoration-svg-url: none;        /* persona injects data: URI; "none" disables */
+  --decoration-svg-opacity: 0;
+  --bg-grid-url: none;
+  --bg-grid-opacity: 0;
+  --top-glow-color: transparent;
+
+  /* ─── importance scale (SITREP panel; P3p.3) ─── */
+  --importance-routine: var(--border);            /* panel-default; renders as "no special border" */
+  --importance-loadbearing: #4a8fb8;              /* cool blue; cascades / decadal arcs / load-bearing decisions */
+  --importance-irreversible: #d05a3c;             /* warm orange-red; LIP merges / standard touches / irreversible */
+
+  /* ─── SWOT sentiment scale (SWOT 2×2 panel; P3p.5; variant A-2 column-tinted) ─── */
+  --swot-positive: var(--semantic-approve-soft);  /* S + O quadrants (left column); faint green */
+  --swot-negative: var(--semantic-amend-soft);    /* W + T quadrants (right column); faint amber */
+
+  /* ─── Confidence-dot scale (structured rec block; P3p.6; variant 1 flat stacked) ─── */
+  --rec-confidence-on: var(--text-bright);        /* filled dot in 5-dot indicator (●) */
+  --rec-confidence-off: var(--border-active);     /* unfilled dot in 5-dot indicator (○) */
+
+  /* ─── Native-dialog hooks (D3 cycles 25 + 27; D4 cycle 32 token expansion) ─── */
+  /* Dialog backdrop tint + drop shadow are the only hardcoded chrome values in the D3
+   * dialog primitives; promoting them to tokens lets light-mode personas override the
+   * dark-by-default backdrop without redefining the entire dialog rule set. */
+  --dialog-backdrop: #000000a0;                   /* review + restore dialog ::backdrop */
+  --dialog-shadow: 0 24px 80px #000000cc;         /* review + restore dialog drop-shadow */
+
+  /* ─── Composite-card outer drop-shadow (D5 cycle 41; CF-D4→D5-1) ─── */
+  /* The composite-card uses a DEEPER outer drop-shadow (0 10px 36px) than per-section
+   * .card.decided (0 6px 28px in primitives.css) to outrank decided sections — visual
+   * prominence stack lever #6 per D2 cycle 15. Promoting the color literal to a token
+   * lets personas tint the lift with their accent (dark) or use a lighter weight (light).
+   * Default value preserves byte-equivalent D4-close render. */
+  --composite-card-shadow: 0 10px 36px #00000040;
+}
+
+/* persona_neutral.css — system-ui fallback (smallest payload; aesthetic compromise)
+ *
+ * Pairs with AD-9 font-mode `system`. Minimal contrast; no decoration; system fonts.
+ * Used when network access is unavailable AND offline tokens not bundled, OR when
+ * payload must be minimized for low-resource environments.
+ */
+
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f5;
+  --surface: #ffffff;
+  --surface-hover: #f0f0f0;
+  --border: #d0d0d0;
+  --border-active: #707070;
+
+  --accent: #2b6cb0;
+  --accent-soft: #2b6cb010;
+  --accent-glow: #2b6cb020;
+
+  --semantic-approve: #276749;               /* D4 cycle 38: #2f855a → #276749 for AA body on soft-tinted surfaces */
+  --semantic-approve-soft: #27674914;
+  --semantic-amend: #92560f;                 /* D4 cycle 38: #b7791f (~3.4:1) → #92560f (~5.1:1) for AA body */
+  --semantic-amend-soft: #92560f14;
+  --semantic-discuss: #553c9a;
+  --semantic-discuss-soft: #553c9a14;
+  --semantic-reject: #c53030;
+
+  --text: #2d3748;
+  --text-dim: #4a5568;                       /* D4 cycle 38: #718096 (~4.5:1 borderline) → #4a5568 (~7.4:1) AA body comfort margin */
+  --text-bright: #1a202c;
+
+  --mono: ui-monospace, monospace;
+  --sans: ui-sans-serif, system-ui, sans-serif;
+  --serif: ui-serif, serif;
+
+  --decoration-svg-url: none;
+  --decoration-svg-opacity: 0;
+  --bg-grid-url: none;
+  --bg-grid-opacity: 0;
+  --top-glow-color: transparent;
+
+  /* ─── native-dialog hooks (D4 cycle 38; light-mode chrome calibration; matches partner) ─── */
+  --dialog-shadow: 0 12px 40px #00000022;
+
+  /* ─── composite-card lift harmonization (D5 cycle 41; CF-D4→D5-1) ─── */
+  --composite-card-shadow: 0 8px 28px #00000022;   /* light-bg-appropriate weight; matches partner */
+}
+/* D1 cycle 5: .vh — visually-hidden utility class for screen-reader-only text.
+ * Stays in normal flow but invisible to sighted users. Standard a11y idiom. */
+.vh {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* primitives.css — PRIM-1..PRIM-15 component library
+ *
+ * Lifted from MoleculeForge gate_decision_p3.html (substrate recon §1.10 + §1.4–1.5).
+ * Refactored to use persona-pluggable token system (tokens_base.css + tokens/persona_*.css).
+ *
+ * Token mapping (vs source):
+ *   --navy/--navy-2  → --bg / --bg-alt
+ *   --card/--card-h  → --surface / --surface-hover
+ *   --bdr / --bdr-a  → --border / --border-active
+ *   --teal* alphas   → --accent / --accent-soft / --accent-glow
+ *   --green/-amber/-purple/-red → --semantic-approve / -amend / -discuss / -reject
+ *   --text/-d/-b     → --text / --text-dim / --text-bright
+ *   --r              → --radius-lg
+ *
+ * Anti-pattern fixes per substrate recon §1.10 last block:
+ *   - inline color literals composed from semantic tokens where possible
+ *   - localhost:8765/save NOT hardcoded here — receiver URL is data-attr on body (P2.3)
+ *   - 6-card layout `:nth-child` delays GENERALIZED to `:nth-child(n)` via calc
+ *   - TITLES / DEC_LABELS / STORAGE will be data-attr driven (P2.3)
+ */
+
+/* ─── reset + base body ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* PRIM-14: bg-grid (body::before, persona-pluggable) */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: var(--bg-grid-url);
+  background-size: 96px 110px;
+  opacity: var(--bg-grid-opacity);
+  pointer-events: none; z-index: 0;
+}
+/* PRIM-15: top-glow (body::after, persona-pluggable) */
+body::after {
+  content: '';
+  position: fixed; top: -250px; left: 50%; transform: translateX(-50%);
+  width: 1000px; height: 700px;
+  background: radial-gradient(ellipse, var(--top-glow-color) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--content-side-pad) var(--space-pad-bottom);
+}
+
+/* ─── HEADER ─── */
+.hdr { padding: var(--space-12) 0 0; display: grid; grid-template-columns: 1fr auto; gap: var(--space-6); align-items: start; }
+.hdr-left { position: relative; }
+
+/* PRIM-13: wordmark */
+.wordmark {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.wordmark-line { width: 24px; height: 1px; background: var(--accent); opacity: 0.6; }
+
+.hdr h1 {
+  font-family: var(--serif); font-size: clamp(30px, 4.5vw, 46px);
+  font-weight: 400; color: var(--text-bright); line-height: 1.15; letter-spacing: -0.015em;
+}
+.hdr h1 em { font-style: italic; color: var(--accent); }
+.hdr-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); letter-spacing: 0.07em; margin-top: 12px; line-height: 1.9; }
+
+/* PRIM-12: decoration-svg (persona-pluggable via --decoration-svg-url) */
+.diff-rings {
+  position: absolute; right: -40px; top: -20px;
+  width: 180px; height: 180px;
+  opacity: var(--decoration-svg-opacity);
+  pointer-events: none;
+  background: var(--decoration-svg-url) center / contain no-repeat;
+}
+
+/* PRIM-5: progress-numerator */
+.prog-block { text-align: right; padding-top: 4px; }
+.prog-lbl { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.07em; margin-bottom: 6px; }
+.prog-num { font-family: var(--serif); font-size: 42px; color: var(--accent); line-height: 1; }
+.prog-num span { color: var(--text-dim); font-size: 24px; }
+.prog-sub { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 4px; }
+.prog-bar-t { width: 130px; height: 2px; background: var(--border); border-radius: 1px; margin-top: 10px; margin-left: auto; overflow: hidden; }
+.prog-bar-f {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent));
+  border-radius: 1px; width: 0%;
+  transition: width var(--motion-fill) var(--ease-out-quint);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* PRIM-6: overview-strip */
+.overview-strip {
+  display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap;
+  margin-top: 28px; padding: 16px 20px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  margin-bottom: var(--space-8);
+}
+.ov-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; margin-right: 4px; }
+.ov-chip {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  border: 1px solid var(--border); color: var(--text-dim); background: transparent;
+  display: inline-flex; align-items: center; gap: 5px;
+  /* D1 cycle 10: 24px minimum tap target (WCAG 2.2 SC 2.5.8 AA) */
+  min-height: 24px;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  cursor: pointer;
+}
+.ov-dot { width: 5px; height: 5px; border-radius: var(--radius-full); background: var(--text-dim); transition: background 0.25s; }
+.ov-chip.approve-chip { color: var(--semantic-approve); border-color: var(--semantic-approve); background: var(--semantic-approve-soft); }
+.ov-chip.approve-chip .ov-dot { background: var(--semantic-approve); }
+.ov-chip.amend-chip { color: var(--semantic-amend); border-color: var(--semantic-amend); background: var(--semantic-amend-soft); }
+.ov-chip.amend-chip .ov-dot { background: var(--semantic-amend); }
+.ov-chip.discuss-chip { color: var(--semantic-reject); border-color: var(--semantic-reject); background: var(--semantic-discuss-soft); }
+.ov-chip.discuss-chip .ov-dot { background: var(--semantic-reject); }
+
+/* ─── PRIM-1: decision-card ─── */
+/* D2 cycle 20 (breathing-room pass): cards gap 20px → 24px — cleaner per-section rhythm; +4px × N-1 gaps = ~16px additional gate length for 5 sections, negligible vs the composite-tier prominence gains from C15 */
+.cards { display: flex; flex-direction: column; gap: 24px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow var(--motion-base), background var(--motion-base), border-color var(--motion-base);
+  animation: slideUp var(--motion-card-entrance) ease backwards;
+}
+.card:hover { background: var(--surface-hover); box-shadow: 0 6px 32px #00000050; }
+/* D6 cycle 58: keyboard + touch parity for hover-only card feedback. `:focus-within` fires
+   when any descendant (toggle button, radios, textarea) is focused — covers tab navigation
+   and tap focus on phones where there is no hover state at all. */
+.card:focus-within { background: var(--surface-hover); box-shadow: 0 6px 32px #00000050; }
+
+.card.rec-approve { border-left-color: var(--semantic-approve); }
+.card.rec-amber   { border-left-color: var(--semantic-amend); }
+.card.rec-purple  { border-left-color: var(--semantic-discuss); }
+.card.decided.rec-approve { box-shadow: 0 0 0 1px var(--semantic-approve-soft), 0 6px 28px #00000040; }
+.card.decided.rec-amber   { box-shadow: 0 0 0 1px var(--semantic-amend-soft), 0 6px 28px #00000040; }
+.card.decided.rec-purple  { box-shadow: 0 0 0 1px var(--semantic-discuss-soft), 0 6px 28px #00000040; }
+
+/* N-card entrance animation (generalized — was 6-card hardcoded in source) */
+.card:nth-child(1) { animation-delay: .04s; }
+.card:nth-child(2) { animation-delay: .09s; }
+.card:nth-child(3) { animation-delay: .14s; }
+.card:nth-child(4) { animation-delay: .19s; }
+.card:nth-child(5) { animation-delay: .24s; }
+.card:nth-child(6) { animation-delay: .29s; }
+.card:nth-child(n+7) { animation-delay: .34s; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+/* D1 cycle 10: reduced-motion respect — card entrance animation off when user prefers.
+   Coda 2026-05-31: also pin opacity/transform so the `backwards` fill can never leave a
+   card invisible (Obsidian coord #4). */
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; opacity: 1; transform: none; }
+}
+/* Coda 2026-05-31 (Obsidian coord #4): the entrance animation is a progressive enhancement —
+   it must NEVER be the only thing that makes a card visible. Without JS the `backwards` fill
+   would otherwise hold below-the-fold cards at opacity:0, and print/static captures showed
+   the same. Force full visibility when scripting is off or printing. (Headless screenshot QA
+   waits for animation settle — see tests/test_template_render.) */
+@media (scripting: none) {
+  .card { animation: none; opacity: 1; transform: none; }
+}
+@media print {
+  .card { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+.c-hdr {
+  padding: 20px var(--space-6) 18px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  cursor: pointer; user-select: none;
+}
+.c-hdr:hover .c-toggle { color: var(--accent); }
+
+.gd-badge {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 4px 9px; border-radius: var(--radius-sm); flex-shrink: 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.gd-badge .gd-n { font-size: 14px; }
+.rec-approve .gd-badge { background: var(--semantic-approve-soft); color: var(--semantic-approve); border: 1px solid var(--semantic-approve); }
+.rec-amber   .gd-badge { background: var(--semantic-amend-soft);   color: var(--semantic-amend);   border: 1px solid var(--semantic-amend); }
+.rec-purple  .gd-badge { background: var(--semantic-discuss-soft); color: var(--semantic-discuss); border: 1px solid var(--semantic-discuss); }
+
+.c-title {
+  font-family: var(--sans); font-size: 17px; font-weight: 600;
+  color: var(--text-bright); flex: 1; min-width: 0;
+  /* D1 cycle 6: <h2> default margin reset (was <span>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 15.5px → 17px — h2 section title needs a cleaner visual step above 13.5-14px body text */
+  /* D6 cycle 55: long titles (>80 chars; D5 advisory cap exists but is opt-in) must wrap, not overflow horizontally. */
+  margin: 0; overflow-wrap: break-word;
+}
+
+.rec-pill {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 10px; border-radius: var(--radius-pill); flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+}
+.rec-pill::before { content: '●'; font-size: 5px; }
+.rec-approve .rec-pill { background: var(--semantic-approve-soft); color: var(--semantic-approve); border: 1px solid var(--semantic-approve); }
+.rec-amber   .rec-pill { background: var(--semantic-amend-soft);   color: var(--semantic-amend);   border: 1px solid var(--semantic-amend); }
+.rec-purple  .rec-pill { background: var(--semantic-discuss-soft); color: var(--semantic-discuss); border: 1px solid var(--semantic-discuss); }
+
+/* PRIM-3: expandable-reasoning */
+/* D2 cycle 17 (F-D2-3): cards stay collapsed-by-default (analysis-wrap max-height 0 +
+   initial.exp empty); the c-toggle is the operator's opt-in affordance to read agent reasoning.
+   Bumped 10px → 11px and added font-weight 500 (was inheriting 400) so the "Show Analysis"
+   label is discoverable from a quick scan without overpowering the section title.
+   Sub-pixel improvement for older / lower-vision sighted operators too. */
+.c-toggle {
+  font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+  font-weight: 500;
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: color var(--motion-fast); flex-shrink: 0; margin-left: auto;
+}
+.c-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; color: var(--accent); }
+.c-chevron { transition: transform var(--motion-radio); }
+@media (prefers-reduced-motion: reduce) {
+  .c-chevron { transition: none; }
+}
+.card.expanded .c-chevron { transform: rotate(180deg); }
+.analysis-wrap { max-height: 0; overflow: hidden; transition: max-height var(--motion-collapse) var(--ease-out-quint); }
+@media (prefers-reduced-motion: reduce) {
+  .analysis-wrap { transition: none; }
+}
+.card.expanded .analysis-wrap { max-height: 600px; }
+.analysis-inner {
+  margin: 0 20px 14px; padding: 14px 16px;
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+  font-size: 13.5px; color: var(--text); line-height: 1.75;
+}
+.analysis-inner em { font-style: italic; color: var(--text-bright); }
+.analysis-inner strong { color: var(--text-bright); font-weight: 600; }
+.analysis-inner code {
+  font-family: var(--mono); font-size: 11.5px;
+  background: var(--bg); padding: 1px 5px; border-radius: 3px; color: var(--accent);
+}
+
+/* PRIM-SWOT: SWOT 2×2 panel (P3p.5; locked variant A-2 sentiment-cued)
+ * Locked spec: how/campaigns/campaign_siteforge_sis/missions/artifacts/swot_panel_spec_p3p_5.md
+ *
+ * Renders 4 quadrants inside .analysis-inner.analysis-swot. Column-tinted sentiment:
+ * left col (STRENGTHS + OPPORTUNITIES) = --swot-positive; right col (WEAKNESSES + THREATS) = --swot-negative.
+ * Rows: top = present-state (S, W); bottom = forward-looking (O, T).
+ */
+.analysis-swot { padding: 0; }
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.swot-quad { padding: 12px 14px; background: var(--bg-alt); }
+.swot-quad.swot-strengths,
+.swot-quad.swot-opportunities { background: var(--swot-positive); }
+.swot-quad.swot-weaknesses,
+.swot-quad.swot-threats { background: var(--swot-negative); }
+.swot-lbl {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-dim);
+  /* D1 cycle 2: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 10.5px → 10px — normalize h3 mono-micro-label band (decision-label / rec-block-label / swot-lbl / out-lbl all at 10px) */
+  margin: 0 0 6px 0;
+  font-weight: normal;
+}
+.swot-list {
+  list-style: none; margin: 0; padding: 0;
+  font-family: var(--serif); font-size: 13.5px;
+  color: var(--text); line-height: 1.5;
+  /* D6 cycle 55: SWOT list items may carry long phrases — wrap rather than overflow. */
+  overflow-wrap: break-word;
+}
+.swot-list li { padding-left: 14px; position: relative; margin-bottom: 4px; }
+.swot-list li::before { content: "•"; position: absolute; left: 4px; color: var(--text-dim); }
+.swot-list li:last-child { margin-bottom: 0; }
+.swot-empty {
+  font-family: var(--serif); font-size: 13.5px;
+  color: var(--text-dim); font-style: italic;
+}
+
+/* PRIM-8: decision-question-block */
+.decision-block {
+  margin: 0 20px;
+  padding: 14px 18px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-soft);
+  border-radius: var(--radius-md);
+}
+.decision-label {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  /* D1 cycle 6: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 10px — normalize h3 mono-micro-label band */
+  margin: 0 0 8px 0; font-weight: normal;
+  display: flex; align-items: center; gap: 7px;
+}
+.decision-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--accent); opacity: 0.7; }
+.decision-q { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--text-bright); line-height: 1.55; }
+.decision-q strong { font-style: normal; }
+
+.block-sep { height: 1px; background: var(--border); margin: 14px 20px; opacity: 0.5; }
+
+/* PRIM-4: recommendation-block */
+.rec-block { margin: 0 20px; padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid; }
+.rec-approve .rec-block { background: var(--semantic-approve-soft); border-color: var(--semantic-approve); }
+.rec-amber   .rec-block { background: var(--semantic-amend-soft);   border-color: var(--semantic-amend); }
+.rec-purple  .rec-block { background: var(--semantic-discuss-soft); border-color: var(--semantic-discuss); }
+
+.rec-block-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  /* D1 cycle 3: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 10px — normalize h3 mono-micro-label band */
+  margin: 0 0 8px 0;
+  display: flex; align-items: center; gap: 7px; font-weight: 700;
+}
+/* D2 cycle 16 (F-D2-2): ◆ glyph promoted from inline-text (10px) to ::before pseudo at 15px.
+   Strengthens the "this is the agent's pick" affordance so recommendation block reads distinctly
+   from per-section radios (operator options). Glyph color inherits from .rec-block-label which is
+   itself recolored per .rec-* class (semantic-approve / semantic-amend / semantic-discuss). The
+   inline-text `◆ ` is removed from generator.py + phase_exit.html in lockstep; aria-hidden ensures
+   SR users hear only the label text without "diamond" punctuation interruption. */
+.rec-block-label::before {
+  content: '◆';
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.rec-approve .rec-block-label { color: var(--semantic-approve); }
+.rec-amber   .rec-block-label { color: var(--semantic-amend); }
+.rec-purple  .rec-block-label { color: var(--semantic-discuss); }
+.rec-verdict { font-size: 14px; font-weight: 600; color: var(--text-bright); margin-bottom: 10px; line-height: 1.45; }
+.rec-actions { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.rec-actions li { font-size: 13px; color: var(--text); line-height: 1.55; padding-left: 16px; position: relative; }
+.rec-actions li::before { content: '–'; position: absolute; left: 0; font-family: var(--mono); color: var(--text-dim); }
+.rec-risk {
+  margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-sm);
+  background: var(--semantic-amend-soft); border-left: 2px solid var(--semantic-amend);
+  font-size: 12.5px; color: var(--semantic-amend); font-family: var(--mono);
+  letter-spacing: 0.02em; line-height: 1.55;
+}
+.rec-risk strong { font-weight: 700; }
+
+/* PRIM-REC: structured agent-recommendation block (P3p.6; locked variant 1 flat stacked)
+ * Locked spec: how/campaigns/campaign_siteforge_sis/missions/artifacts/recommendation_block_spec_p3p_6.md
+ *
+ * Renders 5 subsections (rationale + key_factors + risks + confidence + next_actions) inside the
+ * existing .rec-block container (PRIM-4). Mono-caps subsection labels + vertical rhythm carry the
+ * structure (no borders, rules, or columns). Confidence row uses 5-dot indicator (●●●●○).
+ * Backward compat: missing `recommendation` → legacy .rec-verdict + .rec-actions render via fallback.
+ *
+ * Section-header rec-pill suffix (`· ●●●●○`) — handled in PRIM-4 .rec-pill-conf below.
+ */
+.rec-structured { display: flex; flex-direction: column; gap: 14px; }
+.rec-sub { /* subsection wrapper */ }
+.rec-sub-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-dim);
+  /* D1 cycle 3: <h4> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 9px — h4 must be visually subordinate to h3 rec-block-label (10px); creates the h3→h4 stratification absent at D1 close */
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+.rec-sub-body {
+  font-family: var(--serif); font-size: 14px; color: var(--text-bright);
+  line-height: 1.55;
+}
+.rec-sub-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 13px; color: var(--text); line-height: 1.55;
+}
+.rec-sub-list li { padding-left: 16px; position: relative; }
+.rec-sub-list li::before {
+  content: '–'; position: absolute; left: 0;
+  font-family: var(--mono); color: var(--text-dim);
+}
+.rec-sub-confidence { display: flex; align-items: center; gap: 12px; }
+.rec-sub-confidence .rec-sub-label { margin-bottom: 0; }
+.rec-conf-dots {
+  font-family: var(--mono); font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--rec-confidence-on);
+}
+.rec-conf-dots .rec-conf-off { color: var(--rec-confidence-off); }
+/* D2 cycle 14 (CF-D1→D2-4): visible `N / 5` numeral preceding the dot row in the CONFIDENCE
+   rec-sub block. Sighted operators get a primary count without having to count 5 dots at small
+   sizes; SR users get the same count via natural reading order (NOT aria-hidden); the dots
+   become visual confirmation rather than the primary signal. Mono + bright matches the
+   dot row aesthetic; 11px sits in the h3 mono-micro band (above body, below section labels). */
+.rec-conf-dots .rec-conf-num {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-bright); font-weight: 600;
+  margin-right: 10px;
+}
+/* Section-header rec-pill suffix — small dot indicator next to the APPROVE/AMEND/etc. label */
+.rec-pill-conf {
+  font-family: var(--mono); letter-spacing: 0.12em;
+  margin-left: 6px; opacity: 0.85;
+}
+.rec-pill-conf .rec-conf-off { opacity: 0.45; }
+
+/* ── FORM ── */
+.c-form { margin: 14px 20px 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.form-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+/* D3 cycle 23 (F-D3-2): .iss-required — visible "*" marker on required-field legends/labels.
+   Amber semantic color matches the C21 sticky-prog unsat ✗ glyph (one visual vocabulary for "not yet"). */
+.iss-required::after { content: " *"; color: var(--semantic-amend); font-weight: 700; }
+.radio-grp { display: flex; flex-direction: column; gap: 7px; }
+
+/* PRIM-2: option-card (radio-opt) */
+.radio-opt {
+  display: flex; align-items: center; gap: 11px; cursor: pointer;
+  padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+.radio-opt:hover { background: var(--surface-hover); border-color: var(--border); }
+.radio-opt input[type="radio"] {
+  appearance: none; -webkit-appearance: none;
+  width: 15px; height: 15px; border: 1.5px solid var(--border); border-radius: var(--radius-full);
+  flex-shrink: 0; cursor: pointer; position: relative;
+  transition: border-color var(--motion-fast);
+}
+.radio-opt input[type="radio"]::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 5px; height: 5px; border-radius: var(--radius-full);
+  transition: transform var(--motion-fast);
+}
+.radio-opt input[type="radio"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.radio-opt:focus-within { border-color: var(--accent); }
+.radio-opt.sel-approve { background: var(--semantic-approve-soft); border-color: var(--semantic-approve); }
+.radio-opt.sel-approve input { border-color: var(--semantic-approve); }
+.radio-opt.sel-approve input::after { background: var(--semantic-approve); transform: translate(-50%, -50%) scale(1); }
+.radio-opt.sel-amend { background: var(--semantic-amend-soft); border-color: var(--semantic-amend); }
+.radio-opt.sel-amend input { border-color: var(--semantic-amend); }
+.radio-opt.sel-amend input::after { background: var(--semantic-amend); transform: translate(-50%, -50%) scale(1); }
+.radio-opt.sel-discuss { background: var(--semantic-discuss-soft); border-color: var(--semantic-reject); }
+.radio-opt.sel-discuss input { border-color: var(--semantic-reject); }
+.radio-opt.sel-discuss input::after { background: var(--semantic-reject); transform: translate(-50%, -50%) scale(1); }
+.radio-lbl { font-size: 13.5px; color: var(--text); font-weight: 500; }
+.radio-sub { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: 2px; }
+
+/* PRIM-ESCAPE-HATCH: opt-in "NEED MORE INFO" radio variant (D5 cycle 45)
+ *
+ * Visually de-emphasized relative to the primary 3 options so the operator's eye still
+ * lands on APPROVE/AMEND/DEFER first; the escape hatch is available but doesn't compete
+ * for visual weight. Italic + slightly smaller + lower-contrast label; muted border;
+ * dashed border distinguishes it from the solid borders of the primary 3 options.
+ * Selected state uses --text-dim accent (no semantic-* color) — it isn't a position,
+ * it's a request to re-gate.
+ */
+.radio-opt--defer { border-style: dashed; opacity: 0.85; }
+.radio-opt--defer:hover { opacity: 1; }
+/* D6 cycle 58: keyboard + touch parity for defer-radio opacity bump (hover-only would
+   leave touch users without affordance feedback when tabbing/tapping the radio). */
+.radio-opt--defer:focus-within { opacity: 1; }
+.radio-opt--defer .radio-lbl {
+  font-style: italic; font-size: 12.5px; color: var(--text-dim); font-weight: 400;
+}
+/* Class name matches JS applyComposite() pattern `sel-${val}` where val = "need_more_info" */
+.radio-opt--defer.sel-need_more_info {
+  background: var(--surface-hover); border-color: var(--text-dim); border-style: solid;
+}
+.radio-opt--defer.sel-need_more_info input { border-color: var(--text-dim); }
+.radio-opt--defer.sel-need_more_info input::after {
+  background: var(--text-dim); transform: translate(-50%, -50%) scale(1);
+}
+/* D6 cycle 51 (CF-D5→D6-1): at ≤ 600px the fixed 12.5px italic label gets too small
+   and the dashed-border-only sizing can fall below the 44px tap-target floor.
+   Mobile override: em-relative font (scales with parent) + bump vertical padding to
+   guarantee min-height ≥ 44px. Desktop default unchanged. */
+@media (max-width: 600px) {
+  .radio-opt--defer .radio-lbl { font-size: 0.85em; }
+  .radio-opt--defer { padding-top: 14px; padding-bottom: 14px; min-height: 44px; }
+}
+
+/* PRIM-RESUME-BANNER (D6 cycle 57): inline non-modal alternative to the D3 modal restore
+   dialog. Mobile-friendly because it does not block scroll. Hidden by default via the
+   `hidden` HTML attribute; JS removes the attribute when a saved draft is detected.
+   Restore + Discard buttons map to the same handlers as the modal dialog (D3 cycle 27). */
+.iss-resume-banner {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between;
+  margin: 0 0 18px 0; padding: 12px 18px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+}
+.iss-resume-banner[hidden] { display: none; }
+.iss-resume-banner-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.iss-resume-banner-label { color: var(--accent); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.iss-resume-banner-msg { color: var(--text-dim); }
+.iss-resume-banner-actions { display: flex; gap: 8px; }
+.iss-resume-banner-restore, .iss-resume-banner-discard {
+  font-family: var(--mono); font-size: 11px; padding: 8px 14px; min-height: 36px;
+  background: var(--bg); border: 1px solid var(--border-active); border-radius: var(--radius-btn);
+  color: var(--text); cursor: pointer; transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.iss-resume-banner-restore { border-color: var(--accent); color: var(--accent); }
+.iss-resume-banner-restore:hover, .iss-resume-banner-restore:focus-visible { background: var(--accent-soft); }
+.iss-resume-banner-discard:hover, .iss-resume-banner-discard:focus-visible { border-color: var(--text-dim); color: var(--text-dim); }
+.iss-resume-banner-restore:focus-visible, .iss-resume-banner-discard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Touch ergonomics at mobile — bump button height + stack actions if needed. */
+@media (max-width: 600px) {
+  .iss-resume-banner-restore, .iss-resume-banner-discard { min-height: 44px; padding: 10px 16px; }
+}
+
+/* PRIM-7: notes-textarea */
+.notes-wrap {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height var(--motion-slide) var(--ease-out-quint), opacity var(--motion-base);
+}
+@media (prefers-reduced-motion: reduce) {
+  .notes-wrap { transition: none; }
+}
+.notes-wrap.open { max-height: 160px; opacity: 1; }
+.notes-ta {
+  width: 100%; margin-top: 12px;
+  padding: 11px 14px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-radius: var(--radius-md);
+  color: var(--text); font-family: var(--sans); font-size: 13.5px;
+  line-height: 1.6; resize: vertical; min-height: 78px;
+  outline: none; transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+.notes-ta:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); outline: none; }
+.notes-ta::placeholder { color: var(--text-dim); }
+
+/* PRIM-9: status-chip */
+.c-status {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.07em;
+  opacity: 0; transition: opacity 0.3s; height: 0; overflow: hidden;
+}
+.c-status.vis { opacity: 1; height: auto; margin-top: 12px; }
+.c-status.st-approve { color: var(--semantic-approve); }
+.c-status.st-amend   { color: var(--semantic-amend); }
+.c-status.st-discuss { color: var(--semantic-reject); }
+
+/* PRIM-10: sticky-action-bar */
+.sticky-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: center; align-items: center; gap: 18px;
+  padding: 14px 24px;
+  background: linear-gradient(to top, var(--bg) 70%, transparent);
+  pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.sticky-bar.vis { opacity: 1; pointer-events: all; }
+/* D1 cycle 10: reduced-motion respect — sticky bar fade off when user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .sticky-bar { transition: none; }
+}
+.sticky-inner {
+  display: flex; align-items: center; gap: 16px;
+  /* D3 cycle 30: sticky-inner gains flex-wrap to accommodate the C26 cancel-btn + C27 save-status-pill
+     additions on narrower viewports without horizontal overflow. */
+  flex-wrap: wrap; justify-content: center;
+  padding: 12px 20px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-floating);
+  box-shadow: 0 8px 40px #000000a0;
+  backdrop-filter: blur(6px);
+}
+/* D3 cycle 30: at ≤ 600px viewport (mobile portrait), force the sticky-prog chips onto their own
+   wrap row so the submit/cancel/pill tap targets get full width to the gen-btn. */
+@media (max-width: 600px) {
+  .sticky-inner { gap: 10px; padding: 10px 14px; }
+  .sticky-prog { flex-basis: 100%; justify-content: center; }
+  /* D6 cycle 53: mobile touch-target floor. Desktop padding/min-width are below the 44px
+     touch-target recommendation (WCAG 2.5.5 AAA). Bump at mobile only — desktop unchanged. */
+  .radio-opt { min-height: 44px; }
+  .scale .radio-opt { min-height: 44px; min-width: 44px; padding: 10px 0; }
+  .copy-btn { min-height: 44px; padding: 8px 14px; }
+  /* D6 cycle 56: textareas + text inputs go full-width on phones (border-box so padding
+     doesn't push past viewport edge). `.notes-ta` already declares width: 100% at desktop;
+     this rule provides the safety-net for any future inputs that forget. */
+  textarea, input[type="text"], input[type="number"], input[type="email"], input[type="search"] {
+    width: 100%; box-sizing: border-box;
+  }
+}
+.sticky-prog { font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; display: flex; align-items: center; gap: 14px; }
+.sticky-prog strong { color: var(--text-bright); }
+/* D3 cycle 21 (F-P3p.7-1): per-predicate chip — each predicate names itself + carries ✓/✗ glyph via data-state */
+.sp-pred { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; letter-spacing: 0.02em; }
+.sp-pred::before { display: inline-block; width: 11px; text-align: center; font-weight: 700; font-family: var(--mono); }
+.sp-pred[data-state="sat"]::before   { content: '✓'; color: var(--semantic-approve); }
+.sp-pred[data-state="unsat"]::before { content: '✗'; color: var(--semantic-amend); }
+.sp-pred[data-state="sat"]   { color: var(--text-bright); }
+.sp-pred[data-state="unsat"] { color: var(--text-dim); }
+.sp-pred .sp-pred-total { color: var(--text-dim); }
+.gen-btn {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  /* D1 cycle 10: 44px minimum tap target (WCAG 2.5.5 AAA aim) */
+  padding: 10px 24px; min-height: 44px;
+  background: var(--accent); color: var(--bg);
+  border: none; border-radius: var(--radius-btn); cursor: pointer;
+  transition: background var(--motion-fast), box-shadow var(--motion-fast), opacity var(--motion-fast);
+  white-space: nowrap;
+}
+.gen-btn:hover:not(:disabled) { box-shadow: 0 0 24px var(--accent-glow); }
+.gen-btn:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+.gen-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+/* D3 cycle 26 (F-D3-5): .cancel-btn — visible-but-de-emphasized cancel path in sticky-bar.
+   Text-only / transparent; confirm() guards the actual discard. Minimum 44px tap target. */
+.cancel-btn {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 10px 14px; min-height: 44px;
+  background: transparent; color: var(--text-dim);
+  border: none; cursor: pointer; border-radius: var(--radius-md);
+  transition: color var(--motion-fast), background var(--motion-fast);
+}
+.cancel-btn:hover { color: var(--text-bright); background: var(--surface-hover); }
+.cancel-btn:focus-visible { outline: 2px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 24 (F-D3-3): .gen-btn--consequence — two-line layout for irreversible decisions.
+   Primary line keeps mono-uppercase-bold; .gen-btn-sub small text states the consequence in
+   normal case so the contrast is high enough to read at small size. */
+.gen-btn--consequence { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 22px; line-height: 1.2; white-space: normal; max-width: 360px; text-align: center; }
+.gen-btn--consequence .gen-btn-primary { display: block; font-size: 11.5px; }
+.gen-btn--consequence .gen-btn-sub { display: block; font-size: 8px; font-weight: 400; letter-spacing: 0.04em; text-transform: none; opacity: 0.78; }
+/* D3 cycle 25 (F-D3-4): .iss-review-dialog — native <dialog> review step for irreversible gates.
+   Browser inherits aria-modal, backdrop, focus-trap, Esc-to-close. Visual cues: serif heading
+   like the gate's <h1>; readable body type 14px; review-dl ladder with mono labels; two-button
+   action bar with Back as the safe default (autofocus per Nielsen H5 error-prevention). */
+.iss-review-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 540px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-review-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-review-dialog h2#iss-review-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; color: var(--text-bright); }
+.iss-review-dialog .iss-review-note { font-size: 13px; color: var(--text-dim); margin: 0 0 18px 0; line-height: 1.5; }
+.iss-review-dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0 0 22px 0; font-size: 13px; }
+.iss-review-dl dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); align-self: center; }
+.iss-review-dl dd { margin: 0; color: var(--text-bright); font-weight: 500; }
+.iss-review-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-review-back, .iss-review-confirm {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-review-back { background: transparent; color: var(--text-bright); }
+.iss-review-back:hover { background: var(--surface-hover); }
+.iss-review-confirm { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-review-confirm:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-review-back:focus-visible, .iss-review-confirm:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 27 (F-D3-6): save-status-pill + restore-prompt dialog. */
+.save-status-pill {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); color: var(--text-dim); border: 1px solid var(--border);
+  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+.save-status-pill.vis { background: var(--semantic-approve-soft); color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.iss-restore-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 460px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-restore-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-restore-dialog h2#iss-restore-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; }
+.iss-restore-dialog .iss-restore-note { font-size: 13px; color: var(--text-dim); margin: 0 0 22px 0; line-height: 1.5; }
+.iss-restore-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-restore-fresh, .iss-restore-keep {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-restore-fresh { background: transparent; color: var(--text-bright); }
+.iss-restore-fresh:hover { background: var(--surface-hover); }
+.iss-restore-keep { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-restore-keep:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-restore-fresh:focus-visible, .iss-restore-keep:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D7 cycle 62 (CF-D6→D7-1): .iss-cancel-dialog — opt-in native <dialog> confirm when state-dirty.
+   Replaces window.confirm() for confirm_discard_when_dirty gates. Mirrors iss-restore-dialog
+   structure (serif h2, mono buttons, 540px max-width). Keep-button is the safe default + autofocus
+   per Nielsen H5 error-prevention; Discard-button uses --semantic-reject for affordance. */
+.iss-cancel-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 460px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-cancel-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-cancel-dialog h2#iss-cancel-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; }
+.iss-cancel-dialog .iss-cancel-note { font-size: 13px; color: var(--text-dim); margin: 0 0 22px 0; line-height: 1.5; }
+.iss-cancel-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-cancel-keep, .iss-cancel-discard {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-cancel-keep { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-cancel-keep:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-cancel-discard { background: transparent; color: var(--semantic-reject); border-color: var(--semantic-reject); }
+.iss-cancel-discard:hover { background: var(--surface-hover); }
+.iss-cancel-keep:focus-visible, .iss-cancel-discard:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 28 (F-D3-7): structured submit-feedback — what failed + what was preserved + what to do.
+   D7 cycle 64: pattern promoted to PRIM-ERROR-STATE — reusable for any error surface
+   (submit-feedback, expiry overlay [C66], future inline error states). Selectors below
+   alias-extend the D3 .submit-feedback--error rules so the existing path is unchanged
+   AND .iss-error-state can render an identical-looking block from anywhere. */
+.submit-feedback { margin-top: 14px; font-size: 13px; line-height: 1.5; }
+.submit-feedback:empty { display: none; }
+.submit-feedback--success { color: var(--semantic-approve); }
+.submit-feedback--error,
+.iss-error-state {
+  color: var(--text-bright); padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--semantic-reject); border-left: 4px solid var(--semantic-reject);
+  border-radius: var(--radius-md);
+}
+.submit-feedback-dl,
+.iss-error-state-dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 0 0; }
+.submit-feedback-dl dt,
+.iss-error-state-dl dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding-top: 1px; }
+.submit-feedback-dl dd,
+.iss-error-state-dl dd { margin: 0; color: var(--text-bright); }
+.submit-feedback code { font-family: var(--mono); font-size: 11.5px; background: var(--bg-alt); padding: 2px 6px; border-radius: var(--radius-sm); }
+.iss-error-state-heading { font-family: var(--serif); font-size: 16px; color: var(--semantic-reject); display: block; margin-bottom: 4px; }
+/* D7 cycle 65 (CF-D6→D7): .ambiguity-hint — inline visible guidance for authored options
+   that intentionally overlap. The `validate_authoring` lint catches accidental duplicates;
+   this primitive is for the rare case where the author wants two visually-similar options
+   AND wants to surface the disambiguator inline (small italic dim text below the option label). */
+.ambiguity-hint {
+  display: block; font-family: var(--mono); font-size: 10px; font-style: italic;
+  color: var(--semantic-amend); margin-top: 2px; letter-spacing: 0.04em;
+}
+/* D7 cycle 66 (gate-expiry): .iss-expired-dialog — blocking overlay when wall-clock
+   exceeds `expires_at`. Body reuses the C64 .iss-error-state triplet primitive.
+   Operator can dismiss to continue anyway (warn, don't hard-block — round-trip layer
+   may still accept the submission at receiver discretion). */
+.iss-expired-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--semantic-reject); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 540px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-expired-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-expired-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+.iss-expired-dismiss {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn);
+  border: 1px solid var(--semantic-reject); background: transparent; color: var(--semantic-reject);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-expired-dismiss:hover { background: var(--surface-hover); }
+.iss-expired-dismiss:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D7 cycle 67 (2-step confirm): .iss-review-two-step — type-the-phrase input inside the
+   D3-C25 review dialog. Renders only when irreversible: true AND confirm_two_step: true.
+   Adds friction for unrecoverable submissions per Nielsen H5 error-prevention. */
+.iss-review-two-step { margin: 0 0 18px 0; padding: 14px 16px; background: var(--bg-alt); border-radius: var(--radius-md); border-left: 3px solid var(--semantic-amend); }
+.iss-review-two-step-lbl { display: block; font-size: 12.5px; color: var(--text-bright); margin-bottom: 8px; line-height: 1.5; }
+.iss-review-two-step-lbl code,
+.iss-review-two-step-hint code { font-family: var(--mono); font-size: 12px; padding: 2px 6px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--semantic-amend); font-weight: 600; }
+.iss-review-two-step-input {
+  width: 100%; box-sizing: border-box;
+  font-family: var(--mono); font-size: 14px; letter-spacing: 0.04em;
+  padding: 8px 12px; min-height: 40px;
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-sm);
+}
+.iss-review-two-step-input:focus-visible { outline: 2px solid var(--accent-glow); outline-offset: 1px; }
+.iss-review-two-step-hint { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-top: 6px; letter-spacing: 0.04em; }
+.iss-review-confirm:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+@keyframes shimmer {
+  0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%  { box-shadow: 0 0 20px 4px var(--accent-glow); }
+  100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gen-btn.ready { animation: shimmer 2.2s ease-in-out infinite; }
+}
+
+/* PRIM-11: output-record-panel */
+.output-section {
+  margin-top: 40px; padding: 28px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  display: none;
+}
+.output-section.vis { display: block; }
+.out-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+/* D1 cycle 9: <h3> default margin reset (was <div>) */
+.out-lbl { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin: 0; font-weight: normal; }
+.copy-btn {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 12px; cursor: pointer; transition: color var(--motion-fast), border-color var(--motion-fast);
+  /* D1 cycle 10: 24px minimum tap target (WCAG 2.2 SC 2.5.8 AA) */
+  min-height: 24px;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; color: var(--accent); border-color: var(--accent); }
+.copy-btn.ok { color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.out-pre {
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 20px; font-family: var(--mono); font-size: 11.5px;
+  line-height: 1.9; color: var(--text); white-space: pre-wrap;
+  word-break: break-word; overflow-y: auto; max-height: 520px;
+}
+
+/* divider + footer */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+footer {
+  padding: 20px 0 40px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-top: 48px;
+}
+.ft-l { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; line-height: 1.9; }
+.ft-r { font-family: var(--mono); font-size: 10px; color: var(--text-dim); opacity: 0.4; }
+
+/* receiver-status chip (for round_trip.js status feedback; PRIM-11 sibling) */
+.recv-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.07em;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+  margin-left: 8px;
+  transition: color var(--motion-base), border-color var(--motion-base), background var(--motion-base);
+}
+.recv-status.ok { color: var(--semantic-approve); border-color: var(--semantic-approve); background: var(--semantic-approve-soft); }
+.recv-status.warn { color: var(--semantic-amend); border-color: var(--semantic-amend); background: var(--semantic-amend-soft); }
+.recv-status.err { color: var(--semantic-reject); border-color: var(--semantic-reject); }
+
+/* responsive */
+@media (max-width: 640px) {
+  .hdr { grid-template-columns: 1fr; }
+  .prog-block { display: none; }
+  .rec-pill { display: none; }
+  .diff-rings { display: none; }
+  /* D6 cycle 52 (CF-D5→D6-2): composite-card shadow sized for desktop viewport — tighten on
+     mobile so the card doesn't bloom past its content edges on narrow screens. Token-level
+     override means persona files (light + dark) all get the mobile-tighter weight without
+     per-persona edits. */
+  .card.composite { --composite-card-shadow: 0 6px 24px #00000030; }
+  /* D6 cycle 54: collapse 2-column grids that would force horizontal scroll on phones.
+     SWOT 2×2 stacks vertically (4 quadrants in reading order); SITREP key/value flips to
+     stacked dl-style; dialog DLs collapse to stacked labels-above-values. */
+  .swot-grid { grid-template-columns: 1fr; }
+  .sitrep { grid-template-columns: 1fr; gap: 6px 0; padding: 14px 16px; }
+  .iss-review-dl { grid-template-columns: 1fr; gap: 4px 0; }
+  .submit-feedback-dl,
+  .iss-error-state-dl { grid-template-columns: 1fr; gap: 4px 0; }
+}
+
+/* PRIM-13: skip-link (D1 Accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+.skip-link:focus { left: 12px; top: 12px; outline: 2px solid var(--text-bright); outline-offset: 2px; }
+
+/* PRIM-14: overview-strip chips as buttons (D1 Accessibility — keyboard nav) */
+button.ov-chip {
+  font-family: inherit;
+  font-size: inherit;
+  background: var(--bg-alt);
+  color: var(--text);
+  cursor: pointer;
+}
+button.ov-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* PRIM-15: card-header keyboard activation (D1 Accessibility) */
+.c-hdr:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* PRIM-16: visually-hidden helper (D1 Accessibility — for fieldset legends that should be hidden but screen-reader-readable) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SITREP panel (P3p.3) — locked spec at
+   how/campaigns/campaign_siteforge_sis/missions/artifacts/sitrep_panel_spec_p3p_2.md
+   Replaces .hdr-sub inside <header class="hdr"> when data JSON carries a
+   top-level `sitrep` object. Six rows: CAMPAIGN / PHASE / MISSION / ASKING /
+   IMPORTANCE / OUTPUT. IMPORTANCE row gets a 3px colored left-border driven
+   by data-importance attribute on the panel container.
+   ───────────────────────────────────────────────────────────────────────── */
+.sitrep {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px 18px;
+  align-items: baseline;
+  box-shadow: 0 0 0 1px var(--accent-soft) inset;
+}
+.sitrep-row {
+  display: contents;
+}
+.sitrep-lbl {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sitrep-val {
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+  /* D6 cycle 55: SITREP values may contain long quoted phrases or reference paths — wrap. */
+  overflow-wrap: break-word;
+}
+.sitrep-row:nth-child(-n+3) .sitrep-val { color: var(--text-bright); }
+/* D2 cycle 12 (CF-D1→D2-2): pull + signal rows get bright; IMPORTANCE additionally bolded.
+   Anchor rows (CAMPAIGN/PHASE/MISSION) bright via nth-child above; ASKING (pull — the question
+   operator must answer) bright + italic; IMPORTANCE (signal — load-bearing/irreversible/routine)
+   bright + 600; OUTPUT (reference path) stays dim mono. The 4-tier visual stratification
+   anchor=bright-normal / pull=bright-italic / signal=bright-bold / ref=dim-mono now reads
+   without the operator decoding it. */
+.sitrep-asking .sitrep-val { color: var(--text-bright); font-style: italic; }
+.sitrep-importance .sitrep-val {
+  color: var(--text-bright);
+  font-weight: 600;
+  padding-left: 12px;
+  border-left: 3px solid var(--border);
+  margin-left: -15px;
+}
+.sitrep[data-importance="load-bearing"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-loadbearing);
+}
+.sitrep[data-importance="irreversible"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-irreversible);
+}
+.sitrep[data-importance="routine"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-routine);
+}
+.sitrep-output-path {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  word-break: break-all;
+}
+
+/* PRIM-VISUAL-ASCII: section-level Tier-1 visual block (P3p.8)
+ * Locked spec: how/campaigns/campaign_siteforge_iss/missions/artifacts/visual_ascii_spec_p3p_8.md
+ *
+ * Renders monospace ASCII content inside <pre class="visual-ascii"> between the SWOT/analysis
+ * block and the rec-block (phase_exit.html sections loop). Optional caption beneath. Reuses
+ * existing tokens (--mono / --bg-alt / --text-bright / --border / --radius-md / --text-dim);
+ * no new tokens added per Rosetta-default. Backward compat: missing visual_ascii field →
+ * helper returns "" → empty placeholder → zero markup.
+ */
+/* D1 cycle 4: <figure> wrapper for accessible image semantics — reset browser default margin */
+.visual-ascii-figure { margin: 0; }
+.visual-ascii {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-bright);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+.visual-ascii-caption {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+}
+
+/* PRIM-TIER-INDICATOR (D8 cycle 72): small low-contrast badge naming the active
+   fallback-chain tier (Tier 1 = Web, Tier 2 = AskUserQuestion, Tier 3 = copy-paste).
+   Persona-orthogonal — uses only existing tokens. Default-off render is empty. */
+.tier-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 4px 10px;
+  min-height: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  opacity: 0.85;
+}
+.tier-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.tier-indicator-label {
+  text-transform: none;
+}
+@media (max-width: 600px) {
+  .tier-indicator { min-height: 28px; padding: 6px 12px; }
+}
+
+/* PRIM-TIER-FALLBACK (D8 cycles 73 + 74): collapsed-by-default <details> block for
+   Tier 2 (AskUserQuestion payload) + Tier 3 (copy-paste plain-text template). Shared
+   styling — both tiers reuse the same primitive so the operator gets visual parity
+   across fallback paths. Persona-orthogonal — uses only existing tokens. */
+.tier-fallback {
+  margin: 18px 0 0 0;
+  padding: 0;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+}
+.tier-fallback-summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tier-fallback-summary:hover,
+.tier-fallback-summary:focus-visible {
+  color: var(--text);
+  background: var(--surface-hover);
+  outline: none;
+}
+.tier-fallback-hint {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 10px;
+}
+.tier-fallback-body {
+  padding: 12px 14px 14px 14px;
+  border-top: 1px dashed var(--border);
+}
+.tier-fallback-intro {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.tier-fallback-intro em {
+  font-style: italic;
+  color: var(--text-bright);
+}
+.tier-fallback-payload {
+  margin: 0 0 10px 0;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-bright);
+  overflow-x: auto;
+  white-space: pre;
+}
+.tier-fallback-copy {
+  min-height: 32px;
+}
+@media (max-width: 640px) {
+  .tier-fallback-payload { font-size: 10px; }
+  .tier-fallback-copy { min-height: 44px; }
+}
+
+/* PRIM-DECISION-SIG (D9 cycle 82): opt-in decision-significance badge near composite_title.
+   Names how heavy the decision is (phase_exit / advisory / reversible) using `--semantic-*`
+   token tints so the badge tone cascades from persona. No new tokens; persona-orthogonal. */
+.decision-sig {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 12px 0;
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-active);
+  background: var(--bg-alt);
+}
+.decision-sig-lbl {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.decision-sig-hint {
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 10.5px;
+}
+.decision-sig--reject  { color: var(--semantic-reject);  border-color: var(--semantic-reject); }
+.decision-sig--amend   { color: var(--semantic-amend);   border-color: var(--semantic-amend); }
+.decision-sig--approve { color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.decision-sig--reject  .decision-sig-hint,
+.decision-sig--amend   .decision-sig-hint,
+.decision-sig--approve .decision-sig-hint { color: var(--text-dim); }
+@media (max-width: 600px) {
+  .decision-sig { gap: 4px; }
+  .decision-sig-hint { font-size: 10px; }
+}
+
+/* PRIM-PROVENANCE-FOOTER (D9 cycle 88): extended provenance block beneath the existing
+   footer. Two-column <dl> showing vault, requesting_agent, skill version, and a "why"
+   sentence. Persona-orthogonal — uses only existing tokens. */
+.iss-provenance {
+  flex: 1 1 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+.iss-provenance-dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+}
+.iss-provenance-dl dt {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+  white-space: nowrap;
+}
+.iss-provenance-dl dd {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .iss-provenance-dl { grid-template-columns: 1fr; gap: 2px; }
+  .iss-provenance-dl dt { margin-top: 4px; }
+}
+
+/* PRIM-FIRST-TIMER-HINT (D9 cycle 85): inline non-modal dismissable banner near the top of
+   body for first-time operators. Structurally dogfoods PRIM-RESUME-BANNER (D6-C57) — same
+   flex layout + accent left-border + label/msg/actions split — but with distinct semantic
+   identity (different aria-label, different localStorage trigger) so the two surfaces can
+   co-exist (e.g., on a returning operator's first visit with a saved draft). */
+.iss-first-timer-hint {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between;
+  margin: 0 0 14px 0; padding: 12px 18px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-left: 3px solid var(--semantic-discuss, var(--accent));
+  border-radius: var(--radius-md);
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+}
+.iss-first-timer-hint[hidden] { display: none; }
+.iss-first-timer-hint-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.iss-first-timer-hint-label { color: var(--semantic-discuss, var(--accent)); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.iss-first-timer-hint-msg { color: var(--text-dim); line-height: 1.5; }
+.iss-first-timer-hint-actions { display: flex; gap: 8px; }
+.iss-first-timer-hint-dismiss {
+  font-family: var(--mono); font-size: 11px; padding: 8px 14px; min-height: 36px;
+  background: var(--bg); border: 1px solid var(--border-active); border-radius: var(--radius-btn);
+  color: var(--text); cursor: pointer; transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.iss-first-timer-hint-dismiss:hover, .iss-first-timer-hint-dismiss:focus-visible { border-color: var(--accent); color: var(--accent); }
+.iss-first-timer-hint-dismiss:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 600px) {
+  .iss-first-timer-hint-dismiss { min-height: 44px; padding: 10px 16px; }
+}
+
+/* PRIM-CONFIDENCE-TOOLTIP (D9 cycle 84): opt-in confidence-scale legend under the 5 radios.
+   Collapsed-by-default <details>; expanded reveals a 5-row <dl> mapping each rating to its
+   meaning. Persona-orthogonal — uses only existing tokens. */
+.conf-tooltips {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.conf-tooltips-summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 6px 0;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.conf-tooltips-summary::-webkit-details-marker { display: none; }
+.conf-tooltips-summary::before {
+  content: '▸';
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-right: 4px;
+}
+.conf-tooltips[open] > .conf-tooltips-summary::before { content: '▾'; }
+.conf-tooltips-summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.conf-tooltips-hint {
+  color: var(--text-dim);
+  font-style: italic;
+}
+.conf-tooltips-dl {
+  margin: 4px 0 0 0;
+  padding: 8px 12px;
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+.conf-tooltip-row {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  padding: 4px 0;
+  align-items: baseline;
+}
+.conf-tooltip-row + .conf-tooltip-row { border-top: 1px solid var(--border); }
+.conf-tooltip-row dt { margin: 0; }
+.conf-tooltip-row dd { margin: 0; color: var(--text); line-height: 1.5; }
+.conf-tooltip-num {
+  display: inline-block;
+  min-width: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* D9 cycle 83: .tier-fallback--explainer — collapsed-by-default "what happens after submit"
+   block. Reuses PRIM-TIER-FALLBACK <details> shell; body styles its inner <ol> for vertical
+   rhythm. Persona-orthogonal (no new tokens). */
+.tier-fallback--explainer {
+  border-style: solid;
+}
+.post-submit-explainer-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.post-submit-explainer-list li {
+  margin: 0 0 8px 0;
+}
+.post-submit-explainer-list li:last-child {
+  margin-bottom: 0;
+}
+.post-submit-explainer-list code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* D9 cycle 81 (CF-D8->D9-1): .tier-fallback--preamble — explanatory block above the
+   Tier 2 + Tier 3 fallback details blocks. Reuses PRIM-TIER-FALLBACK shell (border + bg)
+   but renders body content directly (no <summary> — it's a static note, not collapsible).
+   Speaks to BOTH the operator (learning the 3-tier model in the gate itself) and the
+   agent (acting on the JSON/text payloads below). */
+.tier-fallback--preamble {
+  border-style: solid;
+  border-color: var(--border-active);
+}
+.tier-fallback--preamble .tier-fallback-body {
+  border-top: none;
+  padding: 12px 14px;
+}
+.tier-fallback-preamble-lbl {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.adr-section{margin:0 20px 16px;padding:14px 18px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius-md)}
+.adr-section h3{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:10px}
+.adr-section p,.adr-section li{color:var(--text);font-size:13.5px;line-height:1.7}
+.adr-section ul{padding-left:18px}
+</style>
+</head>
+<body data-receiver-url="">
+<!-- ISS-META preset=neutral -->
+
+<div class="wrap">
+
+<header class="hdr" role="banner"><div class="hdr-left">
+  <div class="wordmark"><span class="wordmark-line"></span>aDNA · CANVAS · §7.7</div>
+    
+  <h1>ADR <em>010</em></h1>
+  <dl class="sitrep" data-importance="routine" role="group" aria-label="Operational status report"><div class="sitrep-row"><dt class="sitrep-lbl">CAMPAIGN</dt><dd class="sitrep-val">none — operator-owed tail after Operation Datum closed 2026-09-15</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">PHASE</dt><dd class="sitrep-val">Ratification sitting — 3 ADRs + the open queue</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">MISSION</dt><dd class="sitrep-val">ADR-010 §7.7 signature</dd></div><div class="sitrep-row sitrep-asking"><dt class="sitrep-lbl">ASKING</dt><dd class="sitrep-val">Ratify or refuse the artifact-corpus policy: what/artifacts/ stays gitignored, canonical on-node, backup-registered, with no off-node fetch path promised.</dd></div><div class="sitrep-row sitrep-importance"><dt class="sitrep-lbl">IMPORTANCE</dt><dd class="sitrep-val">ROUTINE — highly reversible, and it describes what has already been true since v7.0</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">OUTPUT</dt><dd class="sitrep-val sitrep-output-path">Canvas.aDNA/how/gates/adr_010_ratification.output.json</dd></div></dl>
+</div></header>
+
+<div class="cards" style="margin-top:36px"><div class="card" id="card-main">
+  <div class="c-hdr"><span class="gd-badge"><span class="gd-n">ADR</span></span><span class="c-title">Artifact corpus policy — gitignored, canonical on-node, backup-registered</span><span class="rec-pill">DRAFT</span></div>
+
+  <div style="padding:0 20px 14px"><div class="decision-block"><div class="decision-label">Decision</div><div class="decision-q">what/artifacts/ stays gitignored, permanently. It is the canonical on-node corpus location. Durability is a backup concern, not a git concern — the corpus is declared in scope for the node backup (Home WI-16), and no off-node fetch path is promised. Rendered pixels are data-plane, not context.</div></div></div>
+  <div class="adr-section"><h3>Context</h3><p>The rendered-evidence shelf was 292 MB on 2026-08-22 (the H3 first-light corpus alone is 166 MB / 42 SHA-256-verified files / $3.618 of paid renders) and has been gitignored since v7.0. Three inbound threads converged on this one unmade decision: Hestia's relocation memo (call #1), Lumière's RM-09 standing risk, and Iris's panel-export question (b). The repo is GitHub-public, so a growing image corpus in git history is the wrong durability mechanism. ⛩ ERRATUM 2026-09-16, and both corrections make this ADR STRONGER rather than weaker. (a) Its central accepted risk — 'until a backup destination exists, the corpus remains single-disk' — was true on 2026-08-22 and FALSE since 2026-08-29: Home's WI-16 backup half is DISCHARGED, snapshot landed, restore drill diff-clean, C101 registered, and an age-keyed probe (S19a) built because restic_backup.sh exits 0 on an unmounted disk. The surviving residual is narrower and you already ruled it: nothing on this node can verify the off-node mirror exists, with declaration-grain accepted as the ceiling (2026-09-04 ceremony, ruling s9). So this ADR's Decision 3 obligation is DISCHARGED, not pending. (b) The parenthetical 'canvas_std 115/10' is stale; the live figure is 170/10. The claim around it is unchanged and still true — the suites do not depend on the corpus, only evidence-replay does.</p></div>
+  <div class="adr-section"><h3>Alternatives</h3><ul><li><strong>Track the corpus in git</strong> — reproducible-on-clone, but +292 MB on a PUBLIC repo and growing with every render run. Git is a poor store for large binary evidence that is append-only rather than collaboratively edited.</li><li><strong>A separate corpus repo or annex</strong> — fetchable off-node if remoted, but more moving parts and it still needs a private-remote decision the fleet has not made. DEFERRED, not rejected — Decision 4 deliberately leaves the door open.</li></ul></div>
+  <div class="adr-section"><h3>Consequences</h3>
+    <p><strong>Positive:</strong></p><ul><li>The repo stays lean and public-appropriate — no growing binary corpus in git history.</li><li>Durability is now REAL, not promised: WI-16's backup half discharged 2026-08-29 with a diff-clean restore drill.</li><li>Converts an unowned risk into a named, owned item — and that item has since been closed, which is the evidence the mechanism worked.</li><li>Reversibility is high: nothing prevents a later decision to snapshot a specific corpus into a dedicated archive repo.</li></ul>
+    <p style="margin-top:10px"><strong>Negative:</strong></p><ul><li>A fresh clone cannot re-run evidence-dependent checks without the node's corpus or a restored backup. Knowingly kept.</li><li>One residual survives and is operator-ruled, not solved: nothing on this node can verify the off-node mirror EXISTS — declaration-grain is the accepted ceiling.</li><li>Consumers needing pixels off-node must name their own corpus location and copy at their seam (Iris's X1 mitigation is the endorsed pattern).</li></ul>
+  </div>
+
+  <div class="c-form">
+    <span class="form-label">Ratification</span>
+    <div class="radio-grp">
+      <label class="radio-opt"><input type="radio" name="ratify" value="accept" onchange="handle('accept')"><span class="radio-lbl">ACCEPT — ratify as drafted</span></label>
+      <label class="radio-opt"><input type="radio" name="ratify" value="accept_with_modification" onchange="handle('accept_with_modification')"><span class="radio-lbl">ACCEPT WITH AMENDMENT — modifications noted below</span></label>
+      <label class="radio-opt"><input type="radio" name="ratify" value="defer" onchange="handle('defer')"><span class="radio-lbl">DEFER — additional input needed</span></label>
+      <label class="radio-opt"><input type="radio" name="ratify" value="reject" onchange="handle('reject')"><span class="radio-lbl">REJECT — alternative path warranted</span></label>
+    </div>
+    <div class="notes-wrap open"><textarea class="notes-ta" id="notes" placeholder="Amendment text / reason / deferral conditions" oninput="handleNote(this.value)"></textarea></div>
+    <div class="c-status" id="status"></div>
+  </div>
+</div></div>
+
+<div class="output-section" id="output-section">
+  <div class="out-hdr"><div class="out-lbl">ADR GATE OUTPUT JSON · schema_version=1.0</div><div><span class="recv-status" id="recv-status">— not submitted</span><button class="copy-btn" onclick="copyOutput()">Copy</button></div></div>
+  <pre class="out-pre" id="out-pre"></pre>
+</div>
+
+<footer role="contentinfo"><div class="ft-l">Generated · 2026-09-16<br>Full text: what/decisions/adr_010_artifact_corpus_policy.md · authored 2026-08-22, erratum 2026-09-16 · Canvas ADR namespace runs adr_000 … adr_012</div><div class="ft-r">adr_010_ratification</div></footer>
+</div>
+
+<div class="sticky-bar" id="sticky-bar"><div class="sticky-inner"><div class="sticky-prog" id="sticky-prog">awaiting ratification</div><button class="gen-btn" id="gen-btn" disabled onclick="submitGate()">Submit Ratification</button></div></div>
+
+<script>
+/* round_trip.js — client-side 4-tier auto-detect submit chain (AD-5).
+ *
+ * Order: T1A POST receiver → T2 FSA-API → T1B <a download> → T3 clipboard.
+ * Override via `window.GATE_FORCE_TIER = 'T1A'|'T1B'|'T2'|'T3'`.
+ *
+ * Receiver URL: `document.body.dataset.receiverUrl || 'http://localhost:8765'`
+ * (extracted from CSS per substrate-recon §1.10 anti-pattern fix).
+ *
+ * Inlined into generator output HTML per AD-2 (single-file self-contained).
+ */
+
+(function () {
+  'use strict';
+
+  const RECEIVER_URL = (document.body && document.body.dataset.receiverUrl) || 'http://localhost:8765';
+  const HEALTH_TIMEOUT_MS = 800;
+
+  // ── tier probes ────────────────────────────────────────────────────────────
+  async function probeT1A() {
+    try {
+      const ctl = new AbortController();
+      const t = setTimeout(() => ctl.abort(), HEALTH_TIMEOUT_MS);
+      const res = await fetch(`${RECEIVER_URL}/health`, { signal: ctl.signal, mode: 'cors' });
+      clearTimeout(t);
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  function probeT2() {
+    return typeof window.showSaveFilePicker === 'function';
+  }
+
+  function probeT1B() {
+    // Browsers that can create object URLs and click anchors.
+    return typeof URL.createObjectURL === 'function' && typeof document.createElement === 'function';
+  }
+
+  function probeT3() {
+    return !!(navigator.clipboard && typeof navigator.clipboard.writeText === 'function');
+  }
+
+  // ── tier implementations ───────────────────────────────────────────────────
+  async function submitT1A(gateId, output) {
+    const res = await fetch(`${RECEIVER_URL}/save`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gate_id: gateId, output }),
+    });
+    if (!res.ok) throw new Error(`receiver returned ${res.status}`);
+    return await res.json();
+  }
+
+  async function submitT2(gateId, output) {
+    const handle = await window.showSaveFilePicker({
+      suggestedName: `${gateId}.output.json`,
+      types: [{ description: 'Gate output JSON', accept: { 'application/json': ['.json'] } }],
+    });
+    const w = await handle.createWritable();
+    await w.write(JSON.stringify(output, null, 2));
+    await w.close();
+    return { status: 'ok', tier: 'T2', filename: handle.name };
+  }
+
+  function submitT1B(gateId, output) {
+    const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${gateId}.output.json`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+    return { status: 'ok', tier: 'T1B', filename: a.download };
+  }
+
+  async function submitT3(gateId, output) {
+    const text = JSON.stringify(output, null, 2);
+    await navigator.clipboard.writeText(text);
+    return { status: 'ok', tier: 'T3', clipboard_bytes: text.length };
+  }
+
+  // ── auto-detect orchestrator ───────────────────────────────────────────────
+  async function autoSubmit(gateId, output) {
+    const forced = window.GATE_FORCE_TIER;
+    if (forced) {
+      const map = { T1A: submitT1A, T2: submitT2, T1B: submitT1B, T3: submitT3 };
+      const fn = map[forced];
+      if (!fn) throw new Error(`unknown forced tier: ${forced}`);
+      const result = await fn(gateId, output);
+      return { ...result, tier: forced, forced: true };
+    }
+
+    // Probe in priority order T1A → T2 → T1B → T3
+    if (await probeT1A()) {
+      try { return { ...(await submitT1A(gateId, output)), tier: 'T1A' }; }
+      catch (e) { console.warn('T1A submit failed, falling back:', e); }
+    }
+    if (probeT2()) {
+      try { return await submitT2(gateId, output); }
+      catch (e) { console.warn('T2 submit cancelled or failed, falling back:', e); }
+    }
+    if (probeT1B()) {
+      return submitT1B(gateId, output);
+    }
+    if (probeT3()) {
+      // Coda: wrap T3 so a clipboard rejection (permission denied / API unavailable)
+      // falls through to the manual copy-paste message instead of throwing past it.
+      try { return await submitT3(gateId, output); }
+      catch (e) { console.warn('T3 clipboard submit failed, falling back to manual copy:', e); }
+    }
+    throw new Error('All round-trip tiers unavailable. Copy this JSON manually:\n' + JSON.stringify(output, null, 2));
+  }
+
+  // ── public API ─────────────────────────────────────────────────────────────
+  window.RoundTrip = {
+    autoSubmit,
+    probeT1A, probeT2, probeT1B, probeT3,
+    submitT1A, submitT2, submitT1B, submitT3,
+    RECEIVER_URL,
+  };
+})();
+
+/* state_manager.js — in-page form state, validation, draft save.
+ *
+ * Manages: radio selections, textarea content, expanded-card state.
+ * Persists draft to localStorage `<vault>_<gate_id>` per substrate-recon §1.8 generalization.
+ * Cmd+S triggers explicit draft download (`.draft.json` per AD-6).
+ *
+ * Inlined into generator output HTML per AD-2.
+ */
+
+(function () {
+  'use strict';
+
+  function makeStateManager(opts) {
+    const gateId = opts.gateId;
+    const vault = opts.vault || 'unknown';
+    const storageKey = `${vault}_${gateId}`;
+
+    let state = { dec: {}, notes: {}, exp: {} };
+    const subs = [];
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) Object.assign(state, JSON.parse(raw));
+      } catch (e) { console.warn('state load failed', e); }
+    }
+    function save() {
+      try { localStorage.setItem(storageKey, JSON.stringify(state)); }
+      catch (e) { console.warn('state save failed', e); }
+      subs.forEach(fn => fn(state));
+    }
+    function clear() {
+      try { localStorage.removeItem(storageKey); } catch {}
+      state = { dec: {}, notes: {}, exp: {} };
+      subs.forEach(fn => fn(state));
+    }
+
+    function setDecision(id, value) { state.dec[id] = value; save(); }
+    function setNote(id, value) { state.notes[id] = value; save(); }
+    function setExpanded(id, value) { state.exp[id] = !!value; save(); }
+    function getState() { return JSON.parse(JSON.stringify(state)); }
+    function subscribe(fn) { subs.push(fn); return () => { const i = subs.indexOf(fn); if (i >= 0) subs.splice(i, 1); }; }
+
+    // Draft save: explicit Cmd+S writes <gate_id>.draft.json via download anchor (T1B-style).
+    function saveDraftToFile() {
+      const draft = {
+        schema_version: '1.0',
+        gate_id: gateId,
+        vault,
+        kind: 'draft',
+        saved_at: new Date().toISOString(),
+        state: getState(),
+      };
+      const blob = new Blob([JSON.stringify(draft, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${gateId}.draft.json`;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    }
+
+    function bindKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        const cmd = e.metaKey || e.ctrlKey;
+        if (cmd && e.key === 's') { e.preventDefault(); saveDraftToFile(); }
+      });
+    }
+
+    function init() {
+      load();
+      bindKeyboardShortcuts();
+      return getState();
+    }
+
+    // D7 cycle 63 — public `touchSave()` for partial-save safety-net writes from
+    // setInterval + window.blur handlers. Re-writes current state to localStorage and
+    // notifies subscribers (the pill flash subscriber). The internal `save()` is shared
+    // with every set*-call so existing behavior is unchanged; touchSave just exposes the
+    // ability to fire it without a state change.
+    function touchSave() { save(); }
+
+    return { init, getState, setDecision, setNote, setExpanded, subscribe, clear, saveDraftToFile, touchSave, storageKey };
+  }
+
+  window.StateManager = { make: makeStateManager };
+})();
+
+(function(){'use strict';
+const GATE_ID="adr_010_ratification",VAULT="Canvas.aDNA",PERSONA="neutral",ADR_ID="010";
+const sm=window.StateManager.make({gateId:GATE_ID,vault:VAULT});const init=sm.init();
+if(init.dec.ratify){const r=document.querySelector(`input[value="${init.dec.ratify}"]`);if(r){r.checked=true;apply(init.dec.ratify);}}
+if(init.notes.comment)document.getElementById('notes').value=init.notes.comment;
+function handle(v){sm.setDecision('ratify',v);apply(v);}
+function apply(v){const cls={'accept':'sel-approve','accept_with_modification':'sel-amend','defer':'sel-discuss','reject':'sel-discuss'}[v]||'sel-approve';document.querySelectorAll('input[name="ratify"]').forEach(r=>r.closest('.radio-opt').classList.remove('sel-approve','sel-amend','sel-discuss'));document.querySelector(`input[name="ratify"][value="${v}"]`)?.closest('.radio-opt')?.classList.add(cls);const st=document.getElementById('status');st.classList.add('vis');st.classList.remove('st-approve','st-amend','st-discuss');st.classList.add(v==='accept'?'st-approve':v==='accept_with_modification'?'st-amend':'st-discuss');st.textContent=v.toUpperCase().replace('_',' ');document.getElementById('gen-btn').disabled=false;document.getElementById('gen-btn').classList.add('ready');document.getElementById('sticky-bar').classList.add('vis');document.getElementById('sticky-prog').textContent='ready';}
+function handleNote(v){sm.setNote('comment',v);}
+function buildOutput(){const st=sm.getState();return{schema_version:'1.0',gate_id:GATE_ID,surface_type:'decision_gate',interaction_mode:'IM-B',persona:PERSONA,vault:VAULT,adr_id:ADR_ID,created_at:"2026-09-16T07:21:27Z",completed_at:new Date().toISOString(),operator:"stanley",decisions:[{id:'ratify',value:st.dec.ratify,note:st.notes.comment||null}],operator_comment_overall:st.notes.comment||null,rlhf_signal:{signal_shape:'binary',value:st.dec.ratify},rlhf_signal_type:st.dec.ratify,rlhf_session_id:GATE_ID,rlhf_captured_at:new Date().toISOString(),rlhf_modification_delta:st.notes.comment||null,metadata:{adr_id:ADR_ID}};}
+async function submitGate(){const p=buildOutput();document.getElementById('out-pre').textContent=JSON.stringify(p,null,2);document.getElementById('output-section').classList.add('vis');const s=document.getElementById('recv-status');s.textContent='… submitting';s.className='recv-status warn';try{const r=await window.RoundTrip.autoSubmit(GATE_ID,p);s.textContent=`✓ saved via ${r.tier}`;s.className='recv-status ok';}catch(e){s.textContent=`✗ ${e.message}`;s.className='recv-status err';}}
+async function copyOutput(){const pre=document.getElementById('out-pre');if(!pre.textContent)pre.textContent=JSON.stringify(buildOutput(),null,2);try{await navigator.clipboard.writeText(pre.textContent);}catch{}}
+Object.assign(window,{handle,handleNote,submitGate,copyOutput});})();
+</script>
+<div class="tier-fallback tier-fallback--preamble" role="note" aria-label="Multi-tier fallback chain — onboarding context"><div class="tier-fallback-body"><p class="tier-fallback-intro"><strong class="tier-fallback-preamble-lbl">Multi-tier interaction surface</strong> &mdash; this gate supports three operator-interaction tiers. <strong>Tier 1</strong> is the browser version you are reading now. <strong>Tier 2</strong> is a harness <code>AskUserQuestion</code> payload an agent can use when no browser is reachable. <strong>Tier 3</strong> is a plain-text template for any text channel (chat, email, terminal) when no harness is available. The same <code>gate_id</code>, question, and option labels anchor all three tiers so the answer carries identical meaning regardless of path.</p></div></div>
+
+
+
+
+<details class="tier-fallback tier-fallback--auq"><summary class="tier-fallback-summary">Tier 2 fallback — AskUserQuestion payload <span class="tier-fallback-hint">(if browser unavailable)</span></summary><div class="tier-fallback-body"><p class="tier-fallback-intro">Paste this into the harness AskUserQuestion tool to ask the same question as the gate above: <em>Composite decision</em></p><pre class="tier-fallback-payload"><code>{
+  &quot;question&quot;: &quot;&quot;,
+  &quot;header&quot;: &quot;adr_010_ratification&quot;,
+  &quot;multiSelect&quot;: false,
+  &quot;options&quot;: [
+    {
+      &quot;label&quot;: &quot;APPROVE — open next phase&quot;,
+      &quot;description&quot;: &quot;&quot;
+    },
+    {
+      &quot;label&quot;: &quot;AMEND — modify and open&quot;,
+      &quot;description&quot;: &quot;&quot;
+    },
+    {
+      &quot;label&quot;: &quot;DEFER — resolve concerns first&quot;,
+      &quot;description&quot;: &quot;&quot;
+    },
+    {
+      &quot;label&quot;: &quot;NEED MORE INFO — re-gate with additional context&quot;,
+      &quot;description&quot;: &quot;&quot;
+    }
+  ]
+}</code></pre><button type="button" class="copy-btn tier-fallback-copy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent)">Copy payload</button></div></details>
+<details class="tier-fallback tier-fallback--copypaste"><summary class="tier-fallback-summary">Tier 3 fallback — copy-paste template <span class="tier-fallback-hint">(if no harness or browser)</span></summary><div class="tier-fallback-body"><p class="tier-fallback-intro">Copy this into any text channel (chat, email, terminal) to ask the same question:</p><pre class="tier-fallback-payload"><code>[adr_010_ratification] Composite decision
+Question: 
+
+1. APPROVE — open next phase
+2. AMEND — modify and open
+3. DEFER — resolve concerns first
+4. NEED MORE INFO — re-gate with additional context
+
+(reply with: APPROVE | AMEND | DEFER | NEED MORE INFO)</code></pre><button type="button" class="copy-btn tier-fallback-copy" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent)">Copy template</button></div></details>
+</body>
+</html>

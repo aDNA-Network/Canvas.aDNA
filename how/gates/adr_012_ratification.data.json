@@ -1,0 +1,83 @@
+{
+  "gate_id": "adr_012_ratification",
+  "vault": "Canvas.aDNA",
+  "operator": "stanley",
+  "title": "ADR-012 — publication-boundary remedy",
+  "title_main": "ADR-012 —",
+  "title_em": "fix-forward, records untouched, and an inside census that was no better than the outside one",
+  "wordmark": "aDNA · CANVAS · §7.7",
+  "footer_text": "Full text: what/decisions/adr_012_publication_boundary_remedy.md · authored 2026-09-04, corrected twice on 2026-09-07 before signature · no content change at this gate",
+  "preset": "neutral",
+  "show_fallback_tiers": true,
+  "escape_hatch": true,
+  "sitrep": {
+    "campaign": "none — operator-owed tail after Operation Datum closed 2026-09-15",
+    "phase": "Ratification sitting — 3 ADRs + the open queue",
+    "mission": "ADR-012 §7.7 signature",
+    "gate_purpose": "Ratify or refuse the publication-boundary remedy: fix-forward with no history rewrite, correspondence and session history preserved as records, authored content redacted, overlay addresses never re-inlined.",
+    "importance": "routine",
+    "importance_reason": "the remedy is already applied; this ratifies the rule that binds the next write",
+    "output_destination": "Canvas.aDNA/how/gates/adr_012_ratification.output.json"
+  },
+  "adr_id": "012",
+  "adr_title": "Publication-boundary remedy — fix-forward, records untouched, authored content redacted at the next write",
+  "decision_statement": "Fix-forward, no history rewrite. Correspondence is a record — sent as well as received — and so are session history and closed-campaign artifacts; none are edited. Authored content IS ours to change and was changed (3 files). The enforceable half is that overlay addresses, ports and node inventory are resolved at their owner and NEVER re-inlined into this repo, which publishes. No enforcement surface is claimed.",
+  "context": "Two peers measured this vault from outside and reported independently: Ilmarinen (Forgejo.aDNA, 2026-08-26) by unauthenticated fetch, and Hopper (Git.aDNA, 2026-08-27) by anonymous clone. Both were explicit that NO RULE WAS BROKEN at either end — the address is RFC1918 on a private overlay, not internet-routable, and knowing it grants no access. It is reconnaissance material in a class its owner rules unpublishable, not a credential leak. ⛩ This ADR was CORRECTED TWICE on 2026-09-07 before signature, and the corrections are in-document with the originals preserved. (a) Hopper's instrument was not blind — their READING was: census_public_carriers.sh already greps the whole RFC1918 class. (b) And we did the same thing one level down: this ADR's own table reported TWO LITERALS because we grepped for the two strings we had already found. A true class enumeration at the pre-remediation baseline reads 13 occurrences / 8 files / 4 literals, not 10 / 9 / 2 — so §Decision 3's claim to have remediated 'authored content in full' was OVERSTATED: three files were remediated, a fourth was never seen. That fourth is skill_l1_upgrade.md, which is TEMPLATE-INHERITED (3 × 10.42.0.x, re-verified present 2026-09-16) — so redacting our copy fixes one vault of many and the durable fix is upstream. Its disposition is an open operator item, which this ADR says explicitly rather than quietly settling.",
+  "consequences_positive": [
+    {
+      "value": "Two peers' measurements are confirmed rather than merely accepted — and one is extended 4× by our own inside enumeration."
+    },
+    {
+      "value": "Records stay records: the audit trail of what was sent AND received is intact, on the same ground as SO-6."
+    },
+    {
+      "value": "The enforceable half is authoring discipline that binds the NEXT write, which is the part that actually prevents recurrence."
+    },
+    {
+      "value": "The test literal became RFC 5737 TEST-NET-2 (198.51.100.7) — a reserved documentation address, strictly better and self-documenting."
+    }
+  ],
+  "consequences_negative": [
+    {
+      "value": "⚠ The exposure is NOT undone. Three of the ten occurrences (records) remain public by this ruling, and all ten remain in history. That is the accepted cost of fix-forward, stated rather than obscured."
+    },
+    {
+      "value": "No enforcement surface is claimed — gitleaks passes these repos clean and is CORRECT to; an IP and a port are not secrets. The remedy is discipline, and the ADR is honest about being exactly that."
+    },
+    {
+      "value": "One item is left explicitly open: skill_l1_upgrade.md's RFC1918 literals, template-inherited, whose durable fix is upstream and not Canvas's to make unilaterally."
+    }
+  ],
+  "alternatives": [
+    {
+      "title": "Rewrite history to purge the literals",
+      "rejected_because": "the content is pushed and may be cached, forked or indexed independently; for a public repo not even an allowlist reaches history. Redaction after publication is theatre — and Ilmarinen's own corollary applies: redaction is the right remedy BEFORE a commit exists and the wrong one after."
+    },
+    {
+      "title": "Edit the correspondence that carries the literal",
+      "rejected_because": "editing what we SENT falsifies the record of what we actually sent. Hopper holds received correspondence to be a record; this vault extends that to sent correspondence for the same reason."
+    },
+    {
+      "title": "Build a scanner for the RFC1918 class",
+      "rejected_because": "this vault does not invent an enforcement surface for a fleet-wide gap that Ilmarinen named as having no enforcement surface anywhere. Claiming one would overstate what the remedy is."
+    }
+  ],
+  "recommendation": {
+    "rationale": "RATIFY AS-IS — no content change was needed at this gate, which is notable given the other two ADRs. Its corrections were made in-document at the time, with the originals preserved and the overstatement in §Decision 3 named rather than papered over. It is the cleanest of the three.",
+    "key_factors": [
+      "The remedy is already applied; signing ratifies the rule that binds the next write.",
+      "Both peer measurements were confirmed by our own instrument, and our own instrument's limits were then published too.",
+      "The one open item (skill_l1_upgrade.md) is correctly deferred to you rather than settled inside the ADR.",
+      "ADR-016 (Git.aDNA) D5 keeps its clauses to their own vault, so nothing upstream binds Canvas either way."
+    ],
+    "risks": [
+      "Signing does not close the skill_l1_upgrade.md disposition — that is section 4 of the operator queue gate."
+    ],
+    "confidence": 5,
+    "next_actions": [
+      "Flip status: accepted and fill the §7.7 block.",
+      "Rule section 4 of the operator queue (skill_l1_upgrade.md: upstream vs local vs leave)."
+    ]
+  },
+  "created_at": "2026-09-16"
+}

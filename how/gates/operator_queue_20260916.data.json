@@ -1,0 +1,152 @@
+{
+  "gate_id": "operator_queue_20260916",
+  "vault": "Canvas.aDNA",
+  "operator": "stanley",
+  "persona": "neutral",
+  "title": "Canvas operator queue — the five non-ADR items",
+  "title_main": "Canvas operator queue —",
+  "title_em": "five items that are yours, each with its measurement attached",
+  "subtitle": "Mondrian · no active campaign (Operation Datum closed 2026-09-15) · 2026-09-16",
+  "mission": "Operator-owed tail — the items that are not ADR signatures",
+  "footer_text": "Companion to the three ADR gates (adr_010 / adr_011 / adr_012). Each section states what was MEASURED, not what the carried-tail table said.",
+  "sitrep": {
+    "campaign": "none — operator-owed tail after Operation Datum closed 2026-09-15",
+    "phase": "Ratification sitting — 3 ADRs + the open queue",
+    "mission": "The five non-ADR operator items",
+    "gate_purpose": "Rule the five open items that are not ADR signatures: the mermaid trust grant, memo #20 to Rosetta, the certification-corpus coverage call, the skill_l1_upgrade RFC1918 disposition, and F-DT-8.",
+    "importance": "load-bearing",
+    "importance_reason": "one item carries an erratum a peer needs; the rest set direction for the next sitting",
+    "output_destination": "Canvas.aDNA/how/gates/operator_queue_20260916.output.json"
+  },
+  "composite_title": "Canvas's operator-owed queue — five items, one sitting",
+  "composite_question": "Operation Datum closed on 2026-09-15 and left no successor. What remains is the tail that only you can clear. <b>Each section below states what was measured this session</b>, not what the carried-tail table claimed — three of the eleven Datum findings were stale entries in exactly that kind of table. Two sections are <b>actions</b> (a click, a memo); three are <b>directions</b> for work we would then do. Ruling &lsquo;defer&rsquo; on any of them is a real answer and is recorded as one.",
+  "sections": [
+    {
+      "id": "mermaid_trust",
+      "short_label": "① Mermaid trust",
+      "title": "① The mermaid trust grant — one click, and it is the cheapest item here",
+      "question": "Both of Canvas's dual-channel dogfood canvases — <code>what/context/context_canvas_surface_legs.canvas</code> and <code>what/decisions/adr_004_production_code_layout.canvas</code> — render their <b>mermaid channel as raw source</b> to any first-open viewer, behind an un-actioned Obsidian trust prompt. <b>Both machine checks pass green.</b> Grant the trust and re-open them?",
+      "rec_class": "green",
+      "rec_label": "Do it — one click, and an agent must not make a trust decision for you",
+      "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>Why it matters more than it looks.</b> These two are <b>the pair <code>pattern_diagrammatic_context</code> cites BY NAME</b> as its motivating example. The vault's own showcase of dual-channel authoring is the thing rendering half-broken to a new reader.</li><li><b>It is the F-P4-3 family.</b> Found by <i>sight</i>, not by a machine check — the first two runs of <code>visual_capture.py</code> certified the geometry of both canvases <i>and</i> showed the mermaid channel as raw source. Every automated gate was green throughout.</li><li><b>⛔ Why an agent will not click it.</b> A trust prompt is a security decision about executing content. Clicking it on your behalf is exactly the class of action that requires a human, and no amount of &ldquo;it is obviously fine&rdquo; changes that.</li><li><b>Verify after clicking:</b> re-open both canvases and confirm the diagram renders as a diagram. Then both are fully certified rather than &ldquo;geometry certified, diagram channel unverified.&rdquo;</li></ul></div>",
+      "recommendation": {
+        "rationale": "Grant it. It is one click, it costs nothing, it is reversible, and it converts the vault's two flagship dual-channel artifacts from partially-certified to fully-certified.",
+        "key_factors": [
+          "One click, fully reversible",
+          "Unblocks full certification of both dogfood canvases",
+          "The pair the ruled pattern cites by name"
+        ],
+        "risks": [
+          "None material — it is a local Obsidian trust setting on your own vault"
+        ],
+        "confidence": 5,
+        "next_actions": [
+          "Click Allow, re-open both canvases, confirm the diagram renders"
+        ]
+      }
+    },
+    {
+      "id": "memo_20",
+      "short_label": "② Memo #20",
+      "title": "② Memo #20 to Rosetta — one delivery, two payloads",
+      "question": "Rosetta accepted ADR-011's migration recipe in good faith and <b>fired it into <code>.adna/</code> at template release v8.11 on 2026-09-11</b>. A-8 shipped the same day and made that recipe incomplete. Send memo #20 carrying (a) the ADR-011 erratum and (b) the derivability proposal?",
+      "rec_class": "green",
+      "rec_label": "Send — the erratum is owed, and it gives the proposal a concrete ask",
+      "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>What they need to know.</b> Completing the field-shape half from our table clears A-2 ×2 and A-6, then <b>trips A-8</b>, because the table never said to add <code>production</code>. The fix is one new row.</li><li><b>⚠ This is not their error.</b> They verified at the object before accepting, returned two facts we did not have, and scoped the release to &ldquo;8 files… NOT the fleet.&rdquo; <b>The stale recipe is ours.</b></li><li><b>Why one memo, not two.</b> The erratum is concrete and actionable; the derivability proposal is doctrine. Alone, the proposal is only an offer — together, the memo has a real ask. And re-probing their lease once is cheaper than twice.</li><li><b>⛔ <code>ack_required: true</code>.</b> Our outbound default is <code>false</code>, and Rosetta measured that their reply-owed sweep filters on that flag — so four Canvas memos reported as &ldquo;nothing owed&rdquo; while memo #13 sat asking for a ruling. This one asks a question; it must say so in a way a machine sweep can see.</li><li><b>Next free number is #20</b>, re-derived across two independent populations (frontmatter and prose) — both agree at 19.</li></ul></div>",
+      "recommendation": {
+        "rationale": "Send it, as one memo with both payloads and ack_required: true. Re-probe their lease at act time and hold if they hold one — a staged memo is not a refused one.",
+        "key_factors": [
+          "The erratum is owed to a peer who acted on our recipe",
+          "Gives the doctrine proposal a concrete ask",
+          "One lease re-probe instead of two"
+        ],
+        "risks": [
+          "If their lease is live at act time it stages rather than sends — that is the correct behaviour, not a failure"
+        ],
+        "confidence": 5,
+        "next_actions": [
+          "Draft #20 with both payloads",
+          "Re-probe Rosetta's lease at act time",
+          "Deliver untracked into their tree; never commit there"
+        ]
+      }
+    },
+    {
+      "id": "corpus_coverage",
+      "short_label": "③ Corpus 12/40",
+      "title": "③ The certification corpus exercises 12 of 40 schema enum values",
+      "question": "Datum P4b shipped a schema-conformance test that <b>publishes its own coverage</b>: the 12 fixtures exercise <b>12 of 40</b> declared enum values, and two enums — <code>edge.styleAttributes.arrow</code> (0/7) and <code>edge.fromEnd</code> (0/2) — are exercised <b>not at all</b>. Widen the corpus, and how far?",
+      "rec_class": "amber",
+      "rec_label": "Partial — cover the two zero-coverage enums only",
+      "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>What is already guarded.</b> P3's declared-state check catches an enum <i>vanishing</i>, and P4b pins the declared totals, so <b>deleting</b> an enum now fails. Coverage is about catching a <i>narrowing</i> — a legal value quietly dropped.</li><li><b>Why the two zero-coverage enums are different.</b> Everything else has at least one value exercised, so a fixture touches it. <code>arrow</code> and <code>fromEnd</code> are touched by nothing — they are the only ones where a <i>partial</i> narrowing is completely invisible.</li><li><b>⛔ Why not bulk-add all 28.</b> The fixtures sit behind the <code>certification</code> gate (12/12) and carry downstream meaning as the Standard's reference corpus. Rewriting them wholesale to satisfy a coverage number is the &ldquo;editing a disagreement into agreement&rdquo; move this vault has a standing rule against.</li><li><b>⚠ Honest limit either way.</b> Coverage is a property of the corpus, not of the suite. Whatever we do, the number stays published on the face of the result so it is never read as complete.</li></ul></div>",
+      "recommendation": {
+        "rationale": "Partial. Add fixture coverage for arrow and fromEnd only — the two places where a narrowing is currently invisible — and leave the other 28 values as published, named, accepted exposure.",
+        "key_factors": [
+          "The zero-coverage pair is the only genuinely blind spot",
+          "Deletion is already caught by the declared-totals pin",
+          "Touching the reference corpus has downstream consequences"
+        ],
+        "risks": [
+          "Even after this, 26 of 40 values remain unexercised — the published figure moves but does not disappear"
+        ],
+        "confidence": 4,
+        "next_actions": [
+          "Extend one fixture (or add one) to exercise arrow and fromEnd",
+          "Re-derive the coverage figure; do not hand-edit the ratchet"
+        ]
+      }
+    },
+    {
+      "id": "l1_rfc1918",
+      "short_label": "④ l1_upgrade IPs",
+      "title": "④ <code>skill_l1_upgrade.md</code> — the RFC1918 literals ADR-012 left open",
+      "question": "ADR-012's own correction found a fourth file its §Decision 3 never saw: <code>how/skills/skill_l1_upgrade.md</code> carries RFC1918 literals (<b>3 × <code>10.42.0.x</code></b>, re-verified present 2026-09-16) in a <b>GitHub-public</b> repo. It is <b>template-inherited</b>. Remediate locally, push upstream, or leave?",
+      "rec_class": "amber",
+      "rec_label": "Upstream — remediating our copy fixes one vault of many",
+      "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>Why not just redact ours.</b> The file arrived at Canvas genesis from the template (created 2026-03-21). <b>The same literals sit in every vault forked from it.</b> Fixing our copy makes Canvas clean and the fleet no safer, and it removes the very signal that would prompt the durable fix.</li><li><b>Calibration, unchanged from ADR-012.</b> These are RFC1918 addresses on a private overlay — <b>not internet-routable, and knowing them grants no access</b>. Reconnaissance material in a class its owner rules unpublishable; not a credential leak. <code>gitleaks</code> passes and is correct to.</li><li><b>Same shape as ADR-011's 196-file legacy</b> — a template-inherited defect whose fix belongs in the template channel, which is Rosetta's.</li><li><b>Option: fold into memo #20.</b> That memo is already going to Rosetta with two payloads; a third is cheap. The counter-argument is that it dilutes an erratum that deserves a clear reply.</li></ul></div>",
+      "recommendation": {
+        "rationale": "Route it upstream rather than remediating unilaterally — but raise it as its own item, not as a third payload on memo #20, so the ADR-011 erratum keeps a clean ask.",
+        "key_factors": [
+          "Template-inherited: our copy is one of many",
+          "Not a credential leak — calibration already agreed with two peers",
+          "The durable fix is in a channel we do not own"
+        ],
+        "risks": [
+          "Upstream is slower than a local redaction",
+          "Our copy stays public in the meantime — accepted by ADR-012's fix-forward ruling"
+        ],
+        "confidence": 3,
+        "next_actions": [
+          "Raise with Rosetta as a template-channel item",
+          "Record the disposition in ADR-012 so the open item closes"
+        ]
+      }
+    },
+    {
+      "id": "f_dt_8",
+      "short_label": "⑤ F-DT-8",
+      "title": "⑤ F-DT-8 — the session file is a registry too",
+      "question": "Datum found its own session file sitting <code>status: active</code>, <code>phase: &quot;Act 0 &rarr; P0&quot;</code>, work log unappended, <b>two days and four commits later</b> — spanning two operator rulings. It is hand-maintained, read by the cold-start ritual and by any peer looking for a lease, and <b>nothing fails when it goes stale</b>. Build a freshness check, send it upstream, or leave it filed?",
+      "rec_class": "amber",
+      "rec_label": "Leave filed — it is real, and it is not Canvas's surface",
+      "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>It is a genuine instance of the campaign's own target</b> — the forbidden third state (correct-ish today, hand-maintained, read by nothing that fails), found in the campaign's own session file on the day it reached the phase about it.</li><li><b>⛔ Why Datum did not fix it.</b> The charter's definition of done is scoped to <code>canvas_std</code> vocabulary registries. Widening at P3 on a fresh finding is precisely the scope creep P2's ruling was careful to avoid — and a campaign that quietly grows to cover whatever it trips over stops having a definition of done at all.</li><li><b>Why not a local gate #11.</b> Session protocol is standard-side, not Canvas-side. A Canvas-only freshness gate would make this vault compliant and teach the fleet nothing — the same argument that sent the derivability proposal upstream instead of into <code>how/gates/</code>.</li><li><b>The cheap half already happened:</b> this session's file was written as the work ran rather than at the end, and the closed one carries a reconstruction <i>labelled as a reconstruction</i>.</li></ul></div>",
+      "recommendation": {
+        "rationale": "Leave filed. It belongs with the derivability proposal as a standard-side concern; building a Canvas-local check would be cheap compliance that teaches the fleet nothing.",
+        "key_factors": [
+          "Standard-side surface, not Canvas's",
+          "Datum deliberately declined it on scope grounds",
+          "The behavioural half is already being practised"
+        ],
+        "risks": [
+          "Left filed, it depends on habit — and Datum's own finding is that habit does not transfer by having written the finding down"
+        ],
+        "confidence": 4,
+        "next_actions": [
+          "Keep it in the derivability proposal's orbit",
+          "Revisit if a second stale-lease incident occurs"
+        ]
+      }
+    }
+  ],
+  "created_at": "2026-09-16"
+}
