@@ -24,7 +24,7 @@
     {
       "id": "mermaid_trust",
       "short_label": "① Mermaid trust",
-      "title": "① The mermaid trust grant — one click, and it is the cheapest item here",
+      "title": "① The mermaid trust grant — one click",
       "question": "Both of Canvas's dual-channel dogfood canvases — <code>what/context/context_canvas_surface_legs.canvas</code> and <code>what/decisions/adr_004_production_code_layout.canvas</code> — render their <b>mermaid channel as raw source</b> to any first-open viewer, behind an un-actioned Obsidian trust prompt. <b>Both machine checks pass green.</b> Grant the trust and re-open them?",
       "rec_class": "green",
       "rec_label": "Do it — one click, and an agent must not make a trust decision for you",
@@ -99,7 +99,7 @@
     {
       "id": "l1_rfc1918",
       "short_label": "④ l1_upgrade IPs",
-      "title": "④ <code>skill_l1_upgrade.md</code> — the RFC1918 literals ADR-012 left open",
+      "title": "④ skill_l1_upgrade.md — the RFC1918 literals",
       "question": "ADR-012's own correction found a fourth file its §Decision 3 never saw: <code>how/skills/skill_l1_upgrade.md</code> carries RFC1918 literals (<b>3 × <code>10.42.0.x</code></b>, re-verified present 2026-09-16) in a <b>GitHub-public</b> repo. It is <b>template-inherited</b>. Remediate locally, push upstream, or leave?",
       "rec_class": "amber",
       "rec_label": "Upstream — remediating our copy fixes one vault of many",

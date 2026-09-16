@@ -62,7 +62,9 @@ federation_ref:
   # DELIBERATELY rather than a borrowed voice (franklin/hermes/rosetta all belong to other vaults,
   # and a gate signed in someone else's voice misstates who is asking).
   gate_output_dir: how/gates/            # <gate_id>.html · <gate_id>.pending · <gate_id>.output.json
-  receiver: null                         # ⛔ NO RECEIVER SERVES CANVAS TODAY — see below
+  receiver: http://127.0.0.1:8768        # LIVE since 2026-09-16 — gate_receiver v0.3.0, gates_root=Canvas.aDNA
+                                         # ⚠ the PORT IS NOT STABLE: it port-scans. Never hardcode it;
+                                         # read the sidecar. Requested 8765, got 8768 (8765 = JupyterHub).
   receiver_discovery: .gate_receiver.port   # sidecar in gate_output_dir; generator.discover_receiver_url()
   local_extensions: []
 ```
@@ -89,18 +91,41 @@ rule to *state the population on the face of the number*.
 **serving on 8766** — `gate_receiver.py` port-scans when its requested port is taken. So the declared
 port in a process listing is a *request*, not an address.
 
-**Consequence for Canvas:** a rendered gate falls back to the copy-paste tier rather than POSTing.
-That is a working door, not a broken one. To get POST-back, start a receiver rooted at this vault —
-it will port-scan to a free port and write the `.gate_receiver.port` sidecar that
-`discover_receiver_url()` reads:
+### ✅ Resolved 2026-09-16 — a Canvas-rooted receiver is live
+
+Started by operator ruling (*"rule at the doors"*), **not** unasked — it is a persistent local service.
 
 ```bash
 python3 ~/aDNA/Astro.aDNA/what/lib/iss/runtime/gate_receiver.py \
   --host 127.0.0.1 --gates-root ~/aDNA/Canvas.aDNA/how/gates
+# stop with: pkill -f "gate_receiver.py.*Canvas.aDNA"
 ```
 
-⛔ **Not started by an agent unasked** — it is a persistent local service on the operator's machine,
-and the plan that authorized this wrapper rested on a receiver claim that turned out to be false.
+⭐ **It requested 8765 and landed on 8768** — the substrate port-scans when its port is taken, which is
+the mechanism that made the original mis-read possible. **Read the sidecar; never hardcode the port.**
+
+**Probe it by what ANSWERS, not by the status code.** `/health` returns a body that names the root:
+
+```json
+{"status":"ok","version":"0.3.0","gates_root":"/Users/stanley/aDNA/Canvas.aDNA/how/gates","port":8768}
+```
+
+⇒ *That* is the check — a `200` alone would not distinguish this from any other service on the port.
+
+**Round-trip verified end to end 2026-09-16**, not assumed: `POST /save {gate_id, output:{…}}` →
+writes `how/gates/<gate_id>.output.json` → **clears the `.pending` sentinel** (`sentinel_cleared:
+true`). Probe payload used a `_zz_`-prefixed id and was removed. ⚠ The payload shape is
+`{gate_id, output:{…}}` — a flat body is rejected `missing_or_invalid_fields`, so the receiver is a
+validator, not a blind writer.
+
+⇒ **The `.pending` files are the live outstanding-verdict list.** Each disappears when its gate is
+ruled; `ls how/gates/*.pending` answers *"what is still owed?"*
+
+⛔ **A TRAP, named because it is silent.** `round_trip.js` falls back to **`http://localhost:8765`**
+when `document.body.dataset.receiverUrl` is absent — and 8765 is **JupyterHub**. So a gate rendered
+while the sidecar is missing (receiver stopped) POSTs into a service that is not ours and cannot
+report the verdict. ⇒ ***After stopping or restarting the receiver, re-render any gate you expect to
+receive a verdict***, and confirm `data-receiver-url` is on the body.
 
 ## Render discipline
 

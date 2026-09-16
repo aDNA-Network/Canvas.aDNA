@@ -85,6 +85,30 @@ If they disagree, that **is the finding** — investigate it; do not take the la
 **Set `memo_number:` in the frontmatter of anything you allocate**, so the cheap population stays the
 reliable one.
 
+### ⛩ Amended 2026-09-16 — **a forward reference is a promise, not an allocation**
+
+⚠ **This rule tripped on its own author within a day of being written**, and the amendment is recorded
+rather than quietly patched. Allocating memo **#20** produced a disagreement: **frontmatter max 19,
+prose max 20.** Per the rule above it was *investigated*, not resolved by preference:
+
+- **No file carried `memo_number: 20`.**
+- Every *"memo #20"* in prose was a **forward reference authored by this vault** across three sittings
+  — an ADR, `STATE.md`, two gate data files, four session records, the campaign doc, and **this file**.
+  **Eleven files referring to a memo that did not exist.**
+
+⇒ The next number **was** 20 — but because the *allocated* max was 19, **not** because prose said 20.
+The cross-check did its job: it forced the investigation that produced the right answer for the right
+reason. What it could not do is tell a **record** from a **promise**.
+
+> **The allocated max is the FRONTMATTER max.** The prose population may legitimately run **ahead** of
+> reality, because a memo is usually discussed before it is written; the frontmatter population cannot.
+> A prose value above the frontmatter max is a **forward reference** — reconcile it to a file (or find
+> the unnumbered memo it names) before treating it as allocated.
+
+⛔ **Do not "fix" this by removing forward references.** Naming a memo before writing it is how a
+decision gets planned. The fix is knowing **which population is allowed to lead** — the same shape as
+this vault's standing rule to *state the population on the face of the number*.
+
 ## ⚠ `ack_required` states the sender's expectation — it cannot state whether a question was asked
 
 Rosetta measured this about us on 2026-09-11 and it is a finding **about our outbound default**.

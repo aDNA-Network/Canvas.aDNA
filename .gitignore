@@ -70,3 +70,12 @@ private/
 
 # pt09 P5 (2026-06-22, Hestia): relocated CanvasForge engine data home — generated/local data (was untracked in Archive holder); final git-tracking TBD by Mondrian
 what/artifacts/
+
+# ISS gate_receiver runtime state (2026-09-16, Mondrian) — NEVER commit these.
+# The receiver PORT-SCANS, so `.gate_receiver.port` is true only while THAT process lives.
+# A committed sidecar is worse than none: `round_trip.js` falls back to localhost:8765 when the
+# body carries no receiver URL, and 8765 on this node is JUPYTERHUB — so a gate rendered against a
+# stale sidecar POSTs a verdict into a service that cannot record it, silently.
+# Contract: how/federation/iss/CLAUDE.md §"A TRAP, named because it is silent".
+how/gates/.gate_receiver.port
+how/gates/.gate_receiver.*.lock
