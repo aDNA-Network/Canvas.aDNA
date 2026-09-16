@@ -152,14 +152,35 @@ Canvas **adopted ISS** (`how/federation/iss/`, the 11th wrapper) and rendered **
 | Gate | Template | Verdict owed |
 |---|---|---|
 | `adr_010_ratification` | `adr_gate` · routine | erratum authored — **two stale facts, both of which make the ADR stronger** |
-| `adr_011_ratification` | `adr_gate` · **load-bearing** | ⛔ **signable only AS AMENDED** — see below |
+| `adr_011_ratification` | `adr_gate` · **load-bearing** | ⛔ **signable only AS AMENDED ×2** — re-rendered 2026-09-16; see below |
 | `adr_012_ratification` | `adr_gate` · routine | **no content change**; the cleanest of the three |
 | `operator_queue_20260916` | `phase_exit` · 5 sections | mermaid trust · memo #20 · corpus 12/40 · `skill_l1_upgrade` RFC1918 · F-DT-8 |
 
-⛩ **ADR-011 was not signable as it stood, and the reason had already shipped.** Decision 4 asserted
-`canvas_std` *"does not know the key"* — **false since 2026-09-11**, when Gridline shipped A-8 and
-LIP-0010 went `Final`. Worse, the §Verified migration table never mentions **`production`**, and A-8 is
-**asymmetric**: `authority` requires it. Rosetta fired template release **v8.11 on 2026-09-11** with
+⛩ **ADR-011 has now been amended TWICE, and the second amendment corrects the first.**
+
+⚠ **This block originally told the story with the `production` row as the fix. That was wrong, and it
+is corrected here rather than left standing** — *a claim left standing beside its own remedy* is this
+vault's own standing family, and leaving it would be a fresh instance authored the same day.
+
+**Amendment 1** — Decision 4 asserted `canvas_std` *"does not know the key"*: **false since
+2026-09-11**, when Gridline shipped A-8 and LIP-0010 went `Final`. And the §Verified migration table
+never mentioned **`production`**, which A-8's asymmetry requires beside `authority`.
+
+⛔ **Amendment 2 — that fix was wrong for the majority, and red-teaming our own recommendation is what
+found it.** The corpus is **two populations** neither the ADR nor Amendment 1 partitioned. Re-derived
+2026-09-16 (`~/aDNA/*/what/lattices/examples/*.canvas`, Archive excluded, live vaults, this node):
+**258 canvases across 63 vaults — 194 sourceless · 63 sourced-and-resolving · 1 bare.** Uniform per
+vault: one `hello_world.canvas` (cites a `.lattice.yaml` that **exists**) plus three `template_*`
+citing nothing — and ⚠ **no `template_*.lattice.yaml` exists anywhere**, verified with `find` rather
+than assumed. ⇒ **≈3 : 1 against the recipe**, which would have stamped `production: generated` onto
+194 files generated from nothing.
+
+⛔ **And `view` is wrong on those 194, not merely incomplete** — Plumbline P1 already ruled this
+population: *a standalone hand-authored primary artifact "is not diagrammatic context at all"*, so the
+axis does not apply and **omission is correct**. The migration is therefore **not one recipe**:
+derived → `view` + `generated`; primary → **neither key** (verified conformant at `adna_native`).
+⭐ The `production` row was the **most confident claim in the package** and the one that was wrong —
+***confidence was doing the work a partition should have done.*** Rosetta fired template release **v8.11 on 2026-09-11** with
 that migration as payload row P3 — the **relocation half only** — so the 8 shipped files read
 `{authority: "view", …}` and measure **core [OK] · adna_native FAIL on A-2 ×2, A-6, A-8**. ⚠ **Nothing
 is broken today** (no `conformance_level`, so they validate at core) and **the fleet was not touched**
@@ -175,6 +196,12 @@ Canvas-rooted receiver is one command (`how/federation/iss/CLAUDE.md`) and is **
 
 ⛔ **Rule at the door, not in chat.** Home's 2026-09-03 ceremony rendered a door and was then ruled in
 chat, leaving `provenance: operator_in_chat` and two candidate verdict surfaces for one queue.
+
+⛩ **Recommended order — the gates are not independent.** **`adr_010` and `adr_012` are free to sign
+now**, as are queue sections **① ③ ⑤**. ⛔ **Hold `adr_011` and queue section ②** together: section ②
+is memo #20, and memo #20's payload *is* ADR-011's erratum — which Amendment 2 just changed from
+*"add a `production` row"* to *"**partition before migrating**; 194 of 258 carry a `view` authority
+that is not true of them."* Sending the old payload would hand Rosetta a second wrong recipe.
 
 ### Operator items awaiting signature (§7.7 — agents author, operators ratify)
 

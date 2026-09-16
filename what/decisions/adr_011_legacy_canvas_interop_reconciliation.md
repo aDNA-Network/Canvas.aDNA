@@ -10,9 +10,9 @@ signed_by:
 supersedes:
 superseded_by:
 phase: blueprint-p1
-amended: 2026-09-16   # Amendment 1 — Decision 4 struck (false since A-8); migration table gains the `production` row
+amended: 2026-09-16   # A1 — Decision 4 struck (false since A-8) · A2 — corpus PARTITIONED; A1's blanket `production` row was wrong for 194 of 258
 resolves: "Blueprint P1 charter item — rule the legacy-interop reconciliation (campaign_canvas_blueprint §Phases P1)"
-tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production, view, blueprint, diagrammatic_context, amendment_1, a8, v8_11]
+tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production, view, blueprint, diagrammatic_context, amendment_1, amendment_2, a8, v8_11, partition, plumbline_p1]
 ---
 
 # ADR-011 — Legacy canvas-YAML interop reconciliation
@@ -93,6 +93,56 @@ shipped.
 ⛔ **No `canvas_std` change.** This amendment corrects a **description**, not the validator. A-8's
 behaviour is untouched and the firewall stays at diff 0.
 
+### ⛩ AMENDMENT 2, 2026-09-16 — ⛔ **Amendment 1's new row is wrong for the MAJORITY of the corpus**
+
+Found by red-teaming Amendment 1 rather than by any new external input. **The corpus is two
+populations, and neither this ADR nor Amendment 1 partitioned it.**
+
+| Population | Test | Correct declaration |
+|---|---|---|
+| **Derived** — `hello_world.canvas` | `source_yaml: "hello_world.lattice.yaml"` **and the file resolves** | `authority: view` + `production: generated` ✅ Amendment 1's row is right *here* |
+| **Primary** — `template_agent_graph` · `template_architecture` · `template_pipeline` | `source_yaml: ""`, and ⚠ **no `template_*.lattice.yaml` exists anywhere in the workspace** — the negative was verified with `find`, not assumed | ⛔ **omit BOTH keys** |
+
+**Measured 2026-09-16** — glob `~/aDNA/*/what/lattices/examples/*.canvas`, `Archive.aDNA` excluded,
+live vaults, this node *(stated on the face of the number, since it is a different glob from
+§Measured ground truth's 196/46 and the two are not interchangeable)*:
+
+```
+258 canvases across 63 vaults
+  194  sourceless                 -> PRIMARY   -> omit both keys
+   63  sourced + source RESOLVES  -> derived   -> view + generated
+    1  no _reserved block
+```
+
+Uniform per vault: **one `hello_world.canvas` plus three `template_*`.** ⇒ **≈3 : 1 against the recipe
+as written** — Amendment 1 would have stamped `production: generated` onto 194 files generated from
+nothing, on top of an `authority: view` that is not true of them either.
+
+⛔ **And `view` is WRONG on the 194, not merely incomplete.** The **Plumbline P1 ruling** already
+settled this population: *"A standalone hand-authored canvas that **is** the primary artifact is not
+diagrammatic context at all"* — the axis does not apply and **omission is the correct answer**.
+`view` asserts *another channel owns the meaning*; for these there is no other channel.
+
+**Provenance, stated fairly rather than as a single culprit:** the 2026-02 legacy tooling stamped
+`authority: "view"` on everything it emitted, sourced or not. This ADR inherited that as ground truth
+— and ⚠ **it saw the symptom and misread it**: §Verified migration reports *"sync fields were never
+populated… the `view` contract has been declared for 6 months without ever being enforced."*
+⇒ ***it read "unpopulated" where the truth was "these are not views."*** Rosetta verified **placement
+and byte-identity**, which is exactly what we asked of them — not semantics, and not their miss.
+Amendment 1 then added `production` on top.
+
+⭐ **The `production` row was the single most confident claim in the whole package** — offered as
+*"right by the pattern's own definition"* — and it is the one that was wrong. ⇒ ***confidence was
+doing the work a partition should have done.***
+
+#### The partition test, executable rather than described
+
+> A canvas is **derived** iff `_reserved.source_yaml` is non-empty **and** the referenced file
+> resolves relative to the canvas. Otherwise it is **primary**.
+>
+> ⛔ A declared source that does **not** resolve is **not** evidence of derivation — it is evidence of
+> a stamp. Treat it as primary.
+
 ⭐ **And the axis split does not invalidate this ADR — checked, not assumed.** The 2026-09-11 ruling
 removed `generator` from the `authority` axis, which could have unseated Decision 1's `view` row and
 with it a 200-file migration. It does not: `view` answers *who owns the meaning*, which is precisely
@@ -143,6 +193,18 @@ field shape, not design.**
    are view edits until reconciled through the Round-Trip Protocol. The interop spec keeps its
    mapping tables and color conventions; it defers to the Standard for **schema** and to
    `pattern_diagrammatic_context` for **authority semantics**.
+
+   ⛩ **Corollary added at Amendment 2, 2026-09-16 — the sentence above is CORRECT AS WRITTEN and is
+   the test the corpus fails.** It defines a `view` canvas by **derivation from an authoritative
+   source**. It never said what to do when the source is *declared but absent*, and the legacy
+   tooling stamped `authority: "view"` regardless — so this ADR read the stamp as the fact.
+
+   > **A canvas whose declared source does not resolve is not a derived visualization, and must not
+   > be stamped as one.** Sourceless ⇒ **primary artifact** ⇒ the authority axis does not apply
+   > (Plumbline P1) ⇒ **omit both keys**.
+
+   ⇒ ***the presence of a field is not evidence of the fact it asserts*** — 194 of 258 measured
+   canvases declare an owner that does not exist.
 2. **Canonical placement is `metadata.frontmatter._reserved`.** A `_reserved` block anywhere else is
    nonconformant — and specifically *worse* than absence, because it hides behind a green `core`
    validation. This is added to the pattern's anti-pattern list.
@@ -185,8 +247,17 @@ Executed on scratch copies of all four template canvases, then validated:
 | `sync_hash: "sha256:none"` | `sync.sync_hash: "<16 hex>"` — **nested and recomputed** via `compute_sync_hash()` (SHA-256 over sorted node ids + `from->to` pairs, truncated to 16). A-6 rejects the `sha256:`-prefixed form; it is not transliterable. |
 | `source_yaml: ""` | `sync.source_name` — renamed; empty in 3 of 4, so a real value must be supplied |
 | `last_sync` | no validated home — keep additive or drop |
-| `authority: "view"` | ~~no validated home (Decision 4) — keep additive~~ → **`authority: "view"` is now VALIDATED (A-8)** and its value is unchanged and correct. ⛔ **But it may not travel alone.** |
-| — | ⛔ **`production: "generated"` — NEW, REQUIRED ROW.** A-8 is asymmetric: `authority` **requires** `production`. A migrated canvas carrying `authority` and no `production` **fails A-8**. `generated` is the right value here by the pattern's own definition — a `.canvas` derived from an authoritative `.lattice.yaml` is machine-made, and `generated` is what carries *"never hand-edit; regenerate"*. ⚠ **This row did not exist when the recipe was verified, and its absence is the defect Amendment 1 exists to fix.** |
+| `authority: "view"` | ⛩ **SPLIT BY POPULATION at Amendment 2 — see the two rows below.** ~~no validated home (Decision 4) — keep additive~~ (v2.3.0 form) and ~~*"now VALIDATED (A-8), its value unchanged and correct"*~~ (Amendment 1's form) are **both struck**: the first because A-8 ships, the second because it is true of **63** files and false of **194**. |
+
+**⇒ The migration is not one recipe. Apply the partition test first, then the matching row:**
+
+| Population | `authority` | `production` |
+|---|---|---|
+| **Derived** — `source_yaml` non-empty **and** it resolves *(63 of 258 measured)* | `"view"` — unchanged and **correct**; it survived the axis split, and another channel really does own the meaning | **`"generated"`** — required by A-8's asymmetry, and right by the pattern's definition: a `.canvas` built from an authoritative `.lattice.yaml` is machine-made, and `generated` is what carries *"never hand-edit; regenerate"* |
+| **Primary** — sourceless, or a declared source that does not resolve *(194 of 258 measured)* | ⛔ **OMIT.** Not "leave additive" — **remove it.** These are standalone hand-authored artifacts; `view` asserts an owner that does not exist. Plumbline P1: *a hand-authored primary artifact "is not diagrammatic context at all"* ⇒ the axis does not apply and **omission is the correct answer** | ⛔ **OMIT.** `production: "hand_authored"` would be *legal* (A-8 permits `production` alone) but it is **not what was ruled** — and inventing a declaration to make a field non-empty is the habit `conform.py` names as *"passing a value to make a number go green."* |
+
+⚠ **Both keys omitted is fully conformant.** A-8 makes each optional; a canvas carrying neither passes
+at `adna_native`. Verified, not assumed.
 
 ```
 $ canvas-std validate <migrated>/template_architecture.canvas --level adna_native
