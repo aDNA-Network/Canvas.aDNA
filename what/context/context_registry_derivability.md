@@ -115,6 +115,35 @@ separately.
 
 *(F-DT-7 · D13a/b/c, Datum P3–P4b.)*
 
+## Principle 4b — a validated *shape* with an undefined *semantic* will acquire two meanings
+
+**Principle 4's sibling, and it took an outside reader to find it.** Principle 4 is about a registry
+that *looks* watched. This is about a **field** that *looks* specified.
+
+`sync.sync_hash` is listed in the spec (`sync: { sync_hash, source_name, source_version }`) and
+validated by A-6 — which checks *"is not 16 hex chars"*. **Shape, not meaning.** The spec never says
+what is hashed. So:
+
+- **Canvas** computes a **topology** hash (node ids + edges) — *"has this canvas been edited?"*
+- **Armor**, reading the same spec cold, stores a **source-document** hash — *"has my source moved?"*
+
+Measured across their 7 canvases: **7/7 match the source hash, 0/7 match the topology hash.** Both
+implementations validate. Neither vault is wrong.
+
+> ⇒ ***A field with a validated shape and an undefined semantic will acquire two meanings, and both
+> will pass.***
+
+⚠ **It was invisible from inside**, because only one implementation existed here. A second
+implementation is not a risk to a specification — **it is the first real test of one.**
+
+⛔ **And the repair is expensive in a specific way**: the field has *already shipped* in both meanings,
+so narrowing it to either breaks a live consumer. ⇒ ***price the migration before choosing the
+meaning*** — an ambiguity that has shipped is no longer a drafting question.
+
+⭐ **The diagnostic**, generalised: for every field a spec validates, ask **what would a second
+implementer have to guess?** If the answer is "what this field means", the validation is checking
+punctuation.
+
 ## Principle 5 — the remedy is a per-object falsifiable claim, never a second list
 
 ⛔ **Checking a list against another hand-written list is the defect wearing a test's clothes.** What

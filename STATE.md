@@ -24,7 +24,50 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > *(Closed campaign banners / build history: [`how/state_archive_20260803.md`](how/state_archive_20260803.md) [Keystone→Beacon] · [`how/state_archive_20260822.md`](how/state_archive_20260822.md) [Halftone] · [`how/state_archive_20260909.md`](how/state_archive_20260909.md) [**Blueprint P1–P4 + Polyglot**, relocated verbatim at this close] — nothing deleted, SO-3/SO-7.)*
 
-## ▶ Resume Here — **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) ✅ CLOSED 2026-09-15** · Gridline ✅ CLOSED 2026-09-11 · Plumbline ✅ CLOSED 2026-09-11
+## ▶ Resume Here — **[Operation Vernier](how/campaigns/campaign_canvas_vernier/campaign_canvas_vernier.md) ACTIVE** (chartered 2026-09-17) · Datum ✅ CLOSED 2026-09-15 · Gridline · Plumbline ✅ CLOSED 2026-09-11
+
+> ⛩ **[Operation Vernier](how/campaigns/campaign_canvas_vernier/campaign_canvas_vernier.md) —
+> chartered 2026-09-17** on the **`Armor.aDNA` dogfood**: the Standard's **first major external
+> consumer**. *A vernier reads between the marks of the main scale; `sync_hash` has marks, and two
+> vaults read two different values between them — both passing.*
+> ▶ **P0 + P1 CLOSED. Next: the V-1/V-2/V-3 rulings at the P1 exit gate** (the firewall ruling is
+> taken there too — P1 touched no firewalled file).
+> [P1 artifact](how/campaigns/campaign_canvas_vernier/artifacts/p1_armor_dogfood.md).
+>
+> ⭐ **The result is mostly a PASS, and the failures are ours.** Armor put `_reserved` at the
+> **canonical path 7/7** (the thing **194 fleet canvases still get wrong**), carried **both A-8 axes
+> 7/7**, and is **ONE FIELD from full aDNA-Native** — tested, not assumed: flip only
+> `conformance_level` and all seven validate `[OK]`. Their `extended` is a **deliberate** hold with a
+> stated Phase-D unblock, so they are sitting below a tier they already meet.
+>
+> ⛩ **V-1 — `sync.sync_hash` has two incompatible meanings and BOTH VALIDATE.** `canvas_std` computes
+> a **topology** hash; Armor stores a **source-document** hash. Measured **7/7 source match · 0/7
+> topology match** (three canvases share a hash because they share a source — impossible under
+> topology-hashing). **Neither vault is wrong: the spec never says what the field hashes**, and A-6
+> checks *"16 hex chars"* — shape, not semantic. ⇒ ***a field with a validated shape and an undefined
+> semantic will acquire two meanings, and both will pass.*** ⛔ It has **already shipped in both**;
+> narrowing it breaks a live consumer, so the ruling must price the migration.
+> **V-2** — A-8 is gated behind aDNA-Native, so their correct axis pair is **inert** at `extended`.
+> **V-3** — they invented a **`generator`** provenance key: the exact word LIP-0010 *removed* from the
+> authority axis, reinvented as the distinction LIP-0010 was drawing.
+>
+> ⭐ **And the most valuable finding runs UPSTREAM into us.** Their staleness check is a stored source
+> hash — cheap, and **third-party verifiable** (7/7 confirmed fresh from outside their vault, no
+> access to their generator). Gate #9 rebuilds and compares. ⚠ **Neither subsumes the other**: a source
+> hash misses **generator drift**, which is ***exactly F-PL-6's cause*** — Canvas's own pair went stale
+> because the layout engine changed, not the source. **Ruled: adopt both, each with its blind spot
+> published.**
+
+> 🏁 **Stretch closed 2026-09-15 → 2026-09-16 — the operator review package.**
+> [Stretch AAR](how/campaigns/aar_stretch_20260915_20260916_operator_review_package.md) ⚠ *a stretch
+> record, not a campaign AAR — no campaign was chartered, and saying otherwise would invent a
+> structure that did not exist.* ISS adopted (11th wrapper) · **four doors rendered** with a live
+> receiver and a verified POST round-trip · ADR-010 erratum · **ADR-011 Amendments 1–3** · ADR-012
+> unchanged · memo #20 staged. ⭐ Its finding: ***a claim left standing beside its own remedy is the
+> most expensive kind of stale, because the fix is visible and the claim still reads as current*** —
+> five instances, including a comment that **named its own expiry condition, reached it, and still
+> needed correcting by hand.** ⇒ **corrections propagate to where they are authored, not to where the
+> claim is repeated**; grep for restatements in the same pass.
 
 > 🏁 **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) — chartered
 > 2026-09-13, closed 2026-09-15**, two sessions, P0–P5 (+**P4b**, a dated scope amendment taken at the
@@ -233,7 +276,18 @@ that is not true of them."* Sending the old payload would hand Rosetta a second 
 
 ## Current Phase
 
-🏁 **No active campaign — Operation Datum CLOSED 2026-09-15** (P0–P5, **+P4b**). ⚠ **This row said
+⛩ **Operation Vernier ACTIVE — P0 + P1 closed 2026-09-17; the V-1/V-2/V-3 rulings are next, at the P1
+exit gate.** ⛔ **Four operator verdicts remain pending at the doors** (`adr_010` · `adr_011` ·
+`adr_012` · `operator_queue_20260916`) — Vernier does **not** touch them, and P0/P1 did not depend on
+them. Memo **#20** stays staged; **#21** to Berthier is drafted at P4.
+
+### Prior — Operation Datum
+
+🏁 ~~**No active campaign** —~~ **Operation Datum CLOSED 2026-09-15** (P0–P5, **+P4b**). ⚠ *"No active
+campaign"* struck **2026-09-17**: true when written, false the moment Vernier was chartered. Left
+struck rather than deleted because it is a one-line instance of this block's own subject — **a claim
+left standing beside its own remedy**, and the remedy (Vernier's charter) is four paragraphs above it.
+⚠ **This row said
 *"P0 CLOSED 2026-09-13, P1 next"* until 2026-09-15, when P1 and P2 had been committed for two days**
 (`d39f4e2` · `86b002b` · `af741fa`). Git HEAD is truth; the correction is **recorded, not silently
 applied**, because it is this vault's own defining family — *a stated fact nobody re-derived* — found
