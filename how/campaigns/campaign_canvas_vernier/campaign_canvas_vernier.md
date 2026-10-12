@@ -1,20 +1,20 @@
 ---
 campaign_id: campaign_canvas_vernier
 type: campaign
-title: "Operation Vernier — the Standard met its first external consumer, and the consumer read a field we never defined"
+title: "Operation Vernier — the Standard met its first external consumer, and the consumer read a field we never defined; by the time we read the mail, four vaults had"
 owner: stanley
 status: active
-estimated_sessions: "2-4"
-phase_count: 6
+estimated_sessions: "5-8"   # amended 2026-10-12 (was 2-4)
+phase_count: 8   # amended 2026-10-12 (was 6)
 mission_count: "created at phase-open"
 priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_datum
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-10-12
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags)"
-tags: [campaign, canvas, vernier, armor, bastide, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
+status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent)"
+tags: [campaign, canvas, vernier, armor, terminal, bastide, scope_amendment, lip_0011, b14, b18, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
 ---
 
 # Campaign: Operation Vernier
@@ -140,3 +140,72 @@ table, not by a plan's summary of it. The Datum precedent, applied deliberately.
 
 ⛔ **Four operator verdicts remain pending at the doors** (`adr_010` · `adr_011` · `adr_012` ·
 `operator_queue_20260916`) and are **untouched by this campaign**. Memo **#20** stays staged.
+
+---
+
+## ⛩ Scope amendment — 2026-10-12 (plan gate; dated, not retro-fitted)
+
+> The campaign waited 25 days at its P1 exit gate. In that window **17 inbound memos** arrived
+> ([triage](artifacts/review_20261012_vault_state_and_inbox_triage.md) §2) and **four of them asked
+> V-1's question independently** — Vauban/Terminal, Ledoux/City, Berthier/Automator (Boulogne B14),
+> Noether/LatticeProtocol (whose `gen-canvas` is **carded on our answer**, and whose ADR-018 + the
+> LinkML Profile v0.1 already define `sync_hash` as the master's byte hash). The memo cluster *is* this
+> campaign's subject, widened — so it is folded in as phases, not chartered beside it (operator
+> precedent: fold over sibling).
+
+### Subject repointed
+
+**`Armor.aDNA` was archived 2026-09-24** (Hestia; it was Terminal's pre-b06 staging snapshot, 74/75
+files byte-identical to `346f9cb`). The live subject is **`Terminal.aDNA/what/canvas/`** — **8**
+canvases (`bastide_design_system` added at b03), regenerated as late as the morning of this amendment
+(`319b770`). **P1 re-derived against the live eight 2026-10-12: 8/8 canonical `_reserved` · 8/8 A-8
+pair · 8/8 source-hash match · 0/8 topology match · 8/8 `[OK]` at declared tier · 8/8 `[OK]` with only
+`conformance_level` flipped · 8/8 carry `generator`.** The P1 artifact's seven-row table stands as the
+frozen measurement of the archived snapshot. P1's two *"not ours"* flags dissolve: the git history was
+Terminal's all along; the staging directory's absence from the router is moot.
+
+### Items — V-1 widened, V-4…V-8 added
+
+| | Item | Waiters | Ruling surface |
+|---|---|---|---|
+| **V-1** (widened) | `sync.sync_hash` semantic + a standard full-digest key. Three readings now pass: topology (`canvas_std`, City) · source-document bytes (Terminal) · master-file bytes (LP ADR-018, Profile v0.1). Noether Q1/Q2 are the sharpest form. | Terminal · City · LP (`gen-canvas` M-B1) · Automator (B14) | door |
+| **V-2** | A-8 inert below `adna_native` — tier question | Terminal (8 `extended`) | door |
+| **V-3** (second instance) | `generator` as a provenance key — Terminal 8/8 top-level `_reserved.generator`; **Home `topology.canvas`** `authority: "generator"` at a non-canonical path (Berthier's FYI, confirmed) | Terminal · Home | door |
+| **V-4** | **B14 dual-mode schema pack** (LinkML master + `.canvas` twin `dual_channel` + image + prose, one sync hash) — where the rule lives (Standard vs ADR-062); loading modes text/diagram/both in `spec_canvas_context_loading` | Automator · City · Terminal | door |
+| **V-5** | **B18 per-graph `graph.canvas`** (`view`/`generated`) + live overlay — one file with a group, or a second file keyed by node id; City's floorplan reading | Automator · City | door |
+| **V-6** | `_reserved` placement for generated canvases — spec as written vs grandfathering note | Automator (Home's finding) | door |
+| **V-7** | Noether's **lattice dispositions** (our 2 lattice files + example = not-a-lattice → "Canvas format"?) + **4 CEL rewrites**. Measured: no runtime consumes them (1 federation test · 1 archived smoke · AILedger Folio dossier *pointer*). | LP (**overdue** — P3 opened 10-10) | door |
+| **V-8** | Socials: social formats in `post_generator` today? (**measured: not yet**) · `style_ref` by reference · read-only RLHF rows · is `iii_quality_contract.md` the binding contract? | Socials (SG-4 blocks on (1)) | door + P7 |
+
+### Phases — 6 → 8
+
+| Phase | What | Gate | State |
+|---|---|---|---|
+| P0 | Wind-down AAR · charter · STATE | plan gate | ✅ 2026-09-17 |
+| P1 | Dogfood artifact, figures re-derived | — | ✅ 2026-09-17 · **re-derived on the live subject 2026-10-12** |
+| **P1b** | Review + inbox triage + this amendment + the ruling door rendered + interim acks | plan gate (2026-10-12) | ✅ this sitting |
+| **P2** | Rule V-1 … V-8 + the firewall touch at [`how/gates/vernier_p1_exit_20261012`](../../gates/vernier_p1_exit_20261012.html) | **human gate — at the door** | ⛔ owed |
+| **P2b** | **LIP-0011** sync semantics → Standard **v2.5.0** (additive); firewall touch #7; backward-compat **measured on the fleet corpus** | human gate | [mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md) |
+| P3 | Freshness both ways — gate #9 + `canvas-std check-sync` for third parties | human gate | [mission](missions/mission_vernier_p3_freshness_both_ways.md) |
+| P4 | Doctrine (Principle 4b, n=4) + substantive replies carrying the verdicts + B14/B18 spec text | human gate | [mission](missions/mission_vernier_p4_doctrine_and_memos.md) |
+| **P5** | **Canvas memorialisation research** — context doc, pattern proposal, AILedger offer, our own `graph.canvas` | human gate | [mission](missions/mission_vernier_p5_canvas_memorialisation.md) |
+| **P6** | **Vault review & hygiene** — STATE compaction, F-DT-10, pins, LIP drafts, gate #11 `inbox_receipt`, door-port check, F-S078-04, Seven Lamps, ImagenWiring, RFC1918, `data_bearing` | human gate | [mission](missions/mission_vernier_p6_vault_review_and_hygiene.md) |
+| **P7** | **`post_generator` social formats + `style_ref` + RLHF read path** (Socials) | human gate | [mission](missions/mission_vernier_p7_post_generator_social_formats.md) |
+| P8 | Close — AAR, STATE, gate line pasted from `--markdown`, push GO | close gate | — |
+
+### Definition of done — extended
+
+6. B14 and B18 each have **a ruling and a home** (Standard §, profile, or a reasoned decline with the
+   owner named), and Canvas has eaten B18 first (`what/canvas/graph.canvas` validates `adna_native`).
+7. Every `ack_required: true` memo in the 2026-10-12 inbox has a **substantive** reply carrying a
+   signed verdict, not a recommendation.
+8. The inbox cannot go unread for three weeks again without a gate line turning ⛔ (gate #11).
+9. The memorialisation deferral (Lodestar C-iii) is **re-evaluated on the record**, either way.
+
+### ⛔ Added to "what this campaign must not do"
+
+| | |
+|---|---|
+| ⛔ Must not answer V-1 in a memo before the door | Four vaults will build on the answer; a recommendation in prose is read as a ruling by whoever needs one. Interim acks say *recommendation, door rendered, not a signature*. |
+| ⛔ Must not accept the 16 elsewhere-owned canvasforge files into "the Canvas format" | The Standard describes canvases, not the pipelines that make them; receiving workflow descriptions would invent a format to hold them. Say so. |
+| ⛔ Must not compact STATE in the same sitting that adds to it | Today adds a dated banner; P6 restructures with the archive file beside it. |

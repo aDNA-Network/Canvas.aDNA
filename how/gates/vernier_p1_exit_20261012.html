@@ -1,0 +1,3159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operation Vernier — P1 exit: eight rulings and a firewall, one sitting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=EB+Garamond:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Source+Sans+3:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;700&display=swap">
+<style>
+/* tokens_base.css — structural tokens (persona-invariant)
+ *
+ * Lifted from MoleculeForge gate_decision_p3.html § :root (substrate recon §1.2 + §1.4 + §1.5).
+ * Persona-specific color + typography overrides land in tokens/persona_*.css and
+ * cascade ON TOP of these values.
+ *
+ * Inlined into generator output HTML <style> per AD-4 (single-file self-contained output).
+ */
+
+:root {
+  /* ─── spacing scale (substrate recon §1.4 systematized) ─── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 14px;
+  --space-5: 18px;
+  --space-6: 24px;
+  --space-8: 36px;
+  --space-12: 52px;
+  --space-pad-bottom: 160px;
+
+  /* ─── radius scale ─── */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;            /* card / overview-strip / output-section base */
+  --radius-pill: 20px;          /* rec-pill, chips */
+  --radius-btn: 30px;           /* gen-btn */
+  --radius-floating: 40px;      /* sticky-inner */
+  --radius-full: 50%;           /* radios + dots */
+
+  /* ─── motion scale (substrate recon §1.5 systematized) ─── */
+  --motion-fast: 0.15s;
+  --motion-base: 0.2s;
+  --motion-radio: 0.22s;
+  --motion-slide: 0.28s;
+  --motion-collapse: 0.32s;
+  --motion-fill: 0.5s;
+  --motion-card-entrance: 0.4s;
+  --ease-out-quint: cubic-bezier(.4, 0, .2, 1);
+
+  /* ─── content layout ─── */
+  --content-max-width: 920px;
+  --content-side-pad: 24px;
+
+  /* ─── default semantic typography slots — personas override ─── */
+  --mono: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --serif: 'DM Serif Display', ui-serif, Cambria, 'Times New Roman', serif;
+
+  /* ─── default base color slots — personas MUST override ─── */
+  --bg: #0a0a0a;                 /* page background */
+  --bg-alt: #111111;
+  --surface: #1a1a1a;            /* card surface */
+  --surface-hover: #222222;
+  --border: #2a2a2a;
+  --border-active: #3a3a3a;
+
+  --accent: #00aaaa;             /* primary accent (decision-label, focus) */
+  --accent-soft: #00aaaa15;
+  --accent-glow: #00aaaa35;
+
+  --semantic-approve: #10b981;
+  --semantic-approve-soft: #10b98114;
+  --semantic-amend: #f59e0b;
+  --semantic-amend-soft: #f59e0b14;
+  --semantic-discuss: #a78bfa;
+  --semantic-discuss-soft: #a78bfa14;
+  --semantic-reject: #ef4444;
+
+  --text: #cccccc;
+  --text-dim: #888888;
+  --text-bright: #ffffff;
+
+  /* ─── default decoration slots (persona-pluggable per AD-12 / substrate recon §1.10 PRIM-12/14/15) ─── */
+  --decoration-svg-url: none;        /* persona injects data: URI; "none" disables */
+  --decoration-svg-opacity: 0;
+  --bg-grid-url: none;
+  --bg-grid-opacity: 0;
+  --top-glow-color: transparent;
+
+  /* ─── importance scale (SITREP panel; P3p.3) ─── */
+  --importance-routine: var(--border);            /* panel-default; renders as "no special border" */
+  --importance-loadbearing: #4a8fb8;              /* cool blue; cascades / decadal arcs / load-bearing decisions */
+  --importance-irreversible: #d05a3c;             /* warm orange-red; LIP merges / standard touches / irreversible */
+
+  /* ─── SWOT sentiment scale (SWOT 2×2 panel; P3p.5; variant A-2 column-tinted) ─── */
+  --swot-positive: var(--semantic-approve-soft);  /* S + O quadrants (left column); faint green */
+  --swot-negative: var(--semantic-amend-soft);    /* W + T quadrants (right column); faint amber */
+
+  /* ─── Confidence-dot scale (structured rec block; P3p.6; variant 1 flat stacked) ─── */
+  --rec-confidence-on: var(--text-bright);        /* filled dot in 5-dot indicator (●) */
+  --rec-confidence-off: var(--border-active);     /* unfilled dot in 5-dot indicator (○) */
+
+  /* ─── Native-dialog hooks (D3 cycles 25 + 27; D4 cycle 32 token expansion) ─── */
+  /* Dialog backdrop tint + drop shadow are the only hardcoded chrome values in the D3
+   * dialog primitives; promoting them to tokens lets light-mode personas override the
+   * dark-by-default backdrop without redefining the entire dialog rule set. */
+  --dialog-backdrop: #000000a0;                   /* review + restore dialog ::backdrop */
+  --dialog-shadow: 0 24px 80px #000000cc;         /* review + restore dialog drop-shadow */
+
+  /* ─── Composite-card outer drop-shadow (D5 cycle 41; CF-D4→D5-1) ─── */
+  /* The composite-card uses a DEEPER outer drop-shadow (0 10px 36px) than per-section
+   * .card.decided (0 6px 28px in primitives.css) to outrank decided sections — visual
+   * prominence stack lever #6 per D2 cycle 15. Promoting the color literal to a token
+   * lets personas tint the lift with their accent (dark) or use a lighter weight (light).
+   * Default value preserves byte-equivalent D4-close render. */
+  --composite-card-shadow: 0 10px 36px #00000040;
+}
+
+/* persona_neutral.css — system-ui fallback (smallest payload; aesthetic compromise)
+ *
+ * Pairs with AD-9 font-mode `system`. Minimal contrast; no decoration; system fonts.
+ * Used when network access is unavailable AND offline tokens not bundled, OR when
+ * payload must be minimized for low-resource environments.
+ */
+
+:root {
+  --bg: #ffffff;
+  --bg-alt: #f5f5f5;
+  --surface: #ffffff;
+  --surface-hover: #f0f0f0;
+  --border: #d0d0d0;
+  --border-active: #707070;
+
+  --accent: #2b6cb0;
+  --accent-soft: #2b6cb010;
+  --accent-glow: #2b6cb020;
+
+  --semantic-approve: #276749;               /* D4 cycle 38: #2f855a → #276749 for AA body on soft-tinted surfaces */
+  --semantic-approve-soft: #27674914;
+  --semantic-amend: #92560f;                 /* D4 cycle 38: #b7791f (~3.4:1) → #92560f (~5.1:1) for AA body */
+  --semantic-amend-soft: #92560f14;
+  --semantic-discuss: #553c9a;
+  --semantic-discuss-soft: #553c9a14;
+  --semantic-reject: #c53030;
+
+  --text: #2d3748;
+  --text-dim: #4a5568;                       /* D4 cycle 38: #718096 (~4.5:1 borderline) → #4a5568 (~7.4:1) AA body comfort margin */
+  --text-bright: #1a202c;
+
+  --mono: ui-monospace, monospace;
+  --sans: ui-sans-serif, system-ui, sans-serif;
+  --serif: ui-serif, serif;
+
+  --decoration-svg-url: none;
+  --decoration-svg-opacity: 0;
+  --bg-grid-url: none;
+  --bg-grid-opacity: 0;
+  --top-glow-color: transparent;
+
+  /* ─── native-dialog hooks (D4 cycle 38; light-mode chrome calibration; matches partner) ─── */
+  --dialog-shadow: 0 12px 40px #00000022;
+
+  /* ─── composite-card lift harmonization (D5 cycle 41; CF-D4→D5-1) ─── */
+  --composite-card-shadow: 0 8px 28px #00000022;   /* light-bg-appropriate weight; matches partner */
+}
+
+
+/* D1 cycle 5: .vh — visually-hidden utility class for screen-reader-only text.
+ * Stays in normal flow but invisible to sighted users. Standard a11y idiom. */
+.vh {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* primitives.css — PRIM-1..PRIM-15 component library
+ *
+ * Lifted from MoleculeForge gate_decision_p3.html (substrate recon §1.10 + §1.4–1.5).
+ * Refactored to use persona-pluggable token system (tokens_base.css + tokens/persona_*.css).
+ *
+ * Token mapping (vs source):
+ *   --navy/--navy-2  → --bg / --bg-alt
+ *   --card/--card-h  → --surface / --surface-hover
+ *   --bdr / --bdr-a  → --border / --border-active
+ *   --teal* alphas   → --accent / --accent-soft / --accent-glow
+ *   --green/-amber/-purple/-red → --semantic-approve / -amend / -discuss / -reject
+ *   --text/-d/-b     → --text / --text-dim / --text-bright
+ *   --r              → --radius-lg
+ *
+ * Anti-pattern fixes per substrate recon §1.10 last block:
+ *   - inline color literals composed from semantic tokens where possible
+ *   - localhost:8765/save NOT hardcoded here — receiver URL is data-attr on body (P2.3)
+ *   - 6-card layout `:nth-child` delays GENERALIZED to `:nth-child(n)` via calc
+ *   - TITLES / DEC_LABELS / STORAGE will be data-attr driven (P2.3)
+ */
+
+/* ─── reset + base body ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* PRIM-14: bg-grid (body::before, persona-pluggable) */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: var(--bg-grid-url);
+  background-size: 96px 110px;
+  opacity: var(--bg-grid-opacity);
+  pointer-events: none; z-index: 0;
+}
+/* PRIM-15: top-glow (body::after, persona-pluggable) */
+body::after {
+  content: '';
+  position: fixed; top: -250px; left: 50%; transform: translateX(-50%);
+  width: 1000px; height: 700px;
+  background: radial-gradient(ellipse, var(--top-glow-color) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--content-side-pad) var(--space-pad-bottom);
+}
+
+/* ─── HEADER ─── */
+.hdr { padding: var(--space-12) 0 0; display: grid; grid-template-columns: 1fr auto; gap: var(--space-6); align-items: start; }
+.hdr-left { position: relative; }
+
+/* PRIM-13: wordmark */
+.wordmark {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.wordmark-line { width: 24px; height: 1px; background: var(--accent); opacity: 0.6; }
+
+.hdr h1 {
+  font-family: var(--serif); font-size: clamp(30px, 4.5vw, 46px);
+  font-weight: 400; color: var(--text-bright); line-height: 1.15; letter-spacing: -0.015em;
+}
+.hdr h1 em { font-style: italic; color: var(--accent); }
+.hdr-sub { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); letter-spacing: 0.07em; margin-top: 12px; line-height: 1.9; }
+
+/* PRIM-12: decoration-svg (persona-pluggable via --decoration-svg-url) */
+.diff-rings {
+  position: absolute; right: -40px; top: -20px;
+  width: 180px; height: 180px;
+  opacity: var(--decoration-svg-opacity);
+  pointer-events: none;
+  background: var(--decoration-svg-url) center / contain no-repeat;
+}
+
+/* PRIM-5: progress-numerator */
+.prog-block { text-align: right; padding-top: 4px; }
+.prog-lbl { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.07em; margin-bottom: 6px; }
+.prog-num { font-family: var(--serif); font-size: 42px; color: var(--accent); line-height: 1; }
+.prog-num span { color: var(--text-dim); font-size: 24px; }
+.prog-sub { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.05em; margin-top: 4px; }
+.prog-bar-t { width: 130px; height: 2px; background: var(--border); border-radius: 1px; margin-top: 10px; margin-left: auto; overflow: hidden; }
+.prog-bar-f {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent));
+  border-radius: 1px; width: 0%;
+  transition: width var(--motion-fill) var(--ease-out-quint);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* PRIM-6: overview-strip */
+.overview-strip {
+  display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap;
+  margin-top: 28px; padding: 16px 20px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  margin-bottom: var(--space-8);
+}
+.ov-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.1em; margin-right: 4px; }
+.ov-chip {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  border: 1px solid var(--border); color: var(--text-dim); background: transparent;
+  display: inline-flex; align-items: center; gap: 5px;
+  /* D1 cycle 10: 24px minimum tap target (WCAG 2.2 SC 2.5.8 AA) */
+  min-height: 24px;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  cursor: pointer;
+}
+.ov-dot { width: 5px; height: 5px; border-radius: var(--radius-full); background: var(--text-dim); transition: background 0.25s; }
+.ov-chip.approve-chip { color: var(--semantic-approve); border-color: var(--semantic-approve); background: var(--semantic-approve-soft); }
+.ov-chip.approve-chip .ov-dot { background: var(--semantic-approve); }
+.ov-chip.amend-chip { color: var(--semantic-amend); border-color: var(--semantic-amend); background: var(--semantic-amend-soft); }
+.ov-chip.amend-chip .ov-dot { background: var(--semantic-amend); }
+.ov-chip.discuss-chip { color: var(--semantic-reject); border-color: var(--semantic-reject); background: var(--semantic-discuss-soft); }
+.ov-chip.discuss-chip .ov-dot { background: var(--semantic-reject); }
+
+/* ─── PRIM-1: decision-card ─── */
+/* D2 cycle 20 (breathing-room pass): cards gap 20px → 24px — cleaner per-section rhythm; +4px × N-1 gaps = ~16px additional gate length for 5 sections, negligible vs the composite-tier prominence gains from C15 */
+.cards { display: flex; flex-direction: column; gap: 24px; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow var(--motion-base), background var(--motion-base), border-color var(--motion-base);
+  animation: slideUp var(--motion-card-entrance) ease backwards;
+}
+.card:hover { background: var(--surface-hover); box-shadow: 0 6px 32px #00000050; }
+/* D6 cycle 58: keyboard + touch parity for hover-only card feedback. `:focus-within` fires
+   when any descendant (toggle button, radios, textarea) is focused — covers tab navigation
+   and tap focus on phones where there is no hover state at all. */
+.card:focus-within { background: var(--surface-hover); box-shadow: 0 6px 32px #00000050; }
+
+.card.rec-approve { border-left-color: var(--semantic-approve); }
+.card.rec-amber   { border-left-color: var(--semantic-amend); }
+.card.rec-purple  { border-left-color: var(--semantic-discuss); }
+.card.decided.rec-approve { box-shadow: 0 0 0 1px var(--semantic-approve-soft), 0 6px 28px #00000040; }
+.card.decided.rec-amber   { box-shadow: 0 0 0 1px var(--semantic-amend-soft), 0 6px 28px #00000040; }
+.card.decided.rec-purple  { box-shadow: 0 0 0 1px var(--semantic-discuss-soft), 0 6px 28px #00000040; }
+
+/* N-card entrance animation (generalized — was 6-card hardcoded in source) */
+.card:nth-child(1) { animation-delay: .04s; }
+.card:nth-child(2) { animation-delay: .09s; }
+.card:nth-child(3) { animation-delay: .14s; }
+.card:nth-child(4) { animation-delay: .19s; }
+.card:nth-child(5) { animation-delay: .24s; }
+.card:nth-child(6) { animation-delay: .29s; }
+.card:nth-child(n+7) { animation-delay: .34s; }
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+/* D1 cycle 10: reduced-motion respect — card entrance animation off when user prefers.
+   Coda 2026-05-31: also pin opacity/transform so the `backwards` fill can never leave a
+   card invisible (Obsidian coord #4). */
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; opacity: 1; transform: none; }
+}
+/* Coda 2026-05-31 (Obsidian coord #4): the entrance animation is a progressive enhancement —
+   it must NEVER be the only thing that makes a card visible. Without JS the `backwards` fill
+   would otherwise hold below-the-fold cards at opacity:0, and print/static captures showed
+   the same. Force full visibility when scripting is off or printing. (Headless screenshot QA
+   waits for animation settle — see tests/test_template_render.) */
+@media (scripting: none) {
+  .card { animation: none; opacity: 1; transform: none; }
+}
+@media print {
+  .card { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+.c-hdr {
+  padding: 20px var(--space-6) 18px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  cursor: pointer; user-select: none;
+}
+.c-hdr:hover .c-toggle { color: var(--accent); }
+
+.gd-badge {
+  font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 4px 9px; border-radius: var(--radius-sm); flex-shrink: 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.gd-badge .gd-n { font-size: 14px; }
+.rec-approve .gd-badge { background: var(--semantic-approve-soft); color: var(--semantic-approve); border: 1px solid var(--semantic-approve); }
+.rec-amber   .gd-badge { background: var(--semantic-amend-soft);   color: var(--semantic-amend);   border: 1px solid var(--semantic-amend); }
+.rec-purple  .gd-badge { background: var(--semantic-discuss-soft); color: var(--semantic-discuss); border: 1px solid var(--semantic-discuss); }
+
+.c-title {
+  font-family: var(--sans); font-size: 17px; font-weight: 600;
+  color: var(--text-bright); flex: 1; min-width: 0;
+  /* D1 cycle 6: <h2> default margin reset (was <span>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 15.5px → 17px — h2 section title needs a cleaner visual step above 13.5-14px body text */
+  /* D6 cycle 55: long titles (>80 chars; D5 advisory cap exists but is opt-in) must wrap, not overflow horizontally. */
+  margin: 0; overflow-wrap: break-word;
+}
+
+.rec-pill {
+  font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 10px; border-radius: var(--radius-pill); flex-shrink: 0;
+  display: flex; align-items: center; gap: 5px;
+}
+.rec-pill::before { content: '●'; font-size: 5px; }
+.rec-approve .rec-pill { background: var(--semantic-approve-soft); color: var(--semantic-approve); border: 1px solid var(--semantic-approve); }
+.rec-amber   .rec-pill { background: var(--semantic-amend-soft);   color: var(--semantic-amend);   border: 1px solid var(--semantic-amend); }
+.rec-purple  .rec-pill { background: var(--semantic-discuss-soft); color: var(--semantic-discuss); border: 1px solid var(--semantic-discuss); }
+
+/* PRIM-3: expandable-reasoning */
+/* D2 cycle 17 (F-D2-3): cards stay collapsed-by-default (analysis-wrap max-height 0 +
+   initial.exp empty); the c-toggle is the operator's opt-in affordance to read agent reasoning.
+   Bumped 10px → 11px and added font-weight 500 (was inheriting 400) so the "Show Analysis"
+   label is discoverable from a quick scan without overpowering the section title.
+   Sub-pixel improvement for older / lower-vision sighted operators too. */
+.c-toggle {
+  font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+  font-weight: 500;
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 5px;
+  transition: color var(--motion-fast); flex-shrink: 0; margin-left: auto;
+}
+.c-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; color: var(--accent); }
+.c-chevron { transition: transform var(--motion-radio); }
+@media (prefers-reduced-motion: reduce) {
+  .c-chevron { transition: none; }
+}
+.card.expanded .c-chevron { transform: rotate(180deg); }
+.analysis-wrap { max-height: 0; overflow: hidden; transition: max-height var(--motion-collapse) var(--ease-out-quint); }
+@media (prefers-reduced-motion: reduce) {
+  .analysis-wrap { transition: none; }
+}
+.card.expanded .analysis-wrap { max-height: 600px; }
+.analysis-inner {
+  margin: 0 20px 14px; padding: 14px 16px;
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+  font-size: 13.5px; color: var(--text); line-height: 1.75;
+}
+.analysis-inner em { font-style: italic; color: var(--text-bright); }
+.analysis-inner strong { color: var(--text-bright); font-weight: 600; }
+.analysis-inner code {
+  font-family: var(--mono); font-size: 11.5px;
+  background: var(--bg); padding: 1px 5px; border-radius: 3px; color: var(--accent);
+}
+
+/* PRIM-SWOT: SWOT 2×2 panel (P3p.5; locked variant A-2 sentiment-cued)
+ * Locked spec: how/campaigns/campaign_siteforge_sis/missions/artifacts/swot_panel_spec_p3p_5.md
+ *
+ * Renders 4 quadrants inside .analysis-inner.analysis-swot. Column-tinted sentiment:
+ * left col (STRENGTHS + OPPORTUNITIES) = --swot-positive; right col (WEAKNESSES + THREATS) = --swot-negative.
+ * Rows: top = present-state (S, W); bottom = forward-looking (O, T).
+ */
+.analysis-swot { padding: 0; }
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.swot-quad { padding: 12px 14px; background: var(--bg-alt); }
+.swot-quad.swot-strengths,
+.swot-quad.swot-opportunities { background: var(--swot-positive); }
+.swot-quad.swot-weaknesses,
+.swot-quad.swot-threats { background: var(--swot-negative); }
+.swot-lbl {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--text-dim);
+  /* D1 cycle 2: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 10.5px → 10px — normalize h3 mono-micro-label band (decision-label / rec-block-label / swot-lbl / out-lbl all at 10px) */
+  margin: 0 0 6px 0;
+  font-weight: normal;
+}
+.swot-list {
+  list-style: none; margin: 0; padding: 0;
+  font-family: var(--serif); font-size: 13.5px;
+  color: var(--text); line-height: 1.5;
+  /* D6 cycle 55: SWOT list items may carry long phrases — wrap rather than overflow. */
+  overflow-wrap: break-word;
+}
+.swot-list li { padding-left: 14px; position: relative; margin-bottom: 4px; }
+.swot-list li::before { content: "•"; position: absolute; left: 4px; color: var(--text-dim); }
+.swot-list li:last-child { margin-bottom: 0; }
+.swot-empty {
+  font-family: var(--serif); font-size: 13.5px;
+  color: var(--text-dim); font-style: italic;
+}
+
+/* PRIM-8: decision-question-block */
+.decision-block {
+  margin: 0 20px;
+  padding: 14px 18px;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-soft);
+  border-radius: var(--radius-md);
+}
+.decision-label {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  /* D1 cycle 6: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 10px — normalize h3 mono-micro-label band */
+  margin: 0 0 8px 0; font-weight: normal;
+  display: flex; align-items: center; gap: 7px;
+}
+.decision-label::before { content: ''; display: inline-block; width: 14px; height: 1px; background: var(--accent); opacity: 0.7; }
+.decision-q { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--text-bright); line-height: 1.55; }
+.decision-q strong { font-style: normal; }
+
+.block-sep { height: 1px; background: var(--border); margin: 14px 20px; opacity: 0.5; }
+
+/* PRIM-4: recommendation-block */
+.rec-block { margin: 0 20px; padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid; }
+.rec-approve .rec-block { background: var(--semantic-approve-soft); border-color: var(--semantic-approve); }
+.rec-amber   .rec-block { background: var(--semantic-amend-soft);   border-color: var(--semantic-amend); }
+.rec-purple  .rec-block { background: var(--semantic-discuss-soft); border-color: var(--semantic-discuss); }
+
+.rec-block-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  /* D1 cycle 3: <h3> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 10px — normalize h3 mono-micro-label band */
+  margin: 0 0 8px 0;
+  display: flex; align-items: center; gap: 7px; font-weight: 700;
+}
+/* D2 cycle 16 (F-D2-2): ◆ glyph promoted from inline-text (10px) to ::before pseudo at 15px.
+   Strengthens the "this is the agent's pick" affordance so recommendation block reads distinctly
+   from per-section radios (operator options). Glyph color inherits from .rec-block-label which is
+   itself recolored per .rec-* class (semantic-approve / semantic-amend / semantic-discuss). The
+   inline-text `◆ ` is removed from generator.py + phase_exit.html in lockstep; aria-hidden ensures
+   SR users hear only the label text without "diamond" punctuation interruption. */
+.rec-block-label::before {
+  content: '◆';
+  font-size: 15px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.rec-approve .rec-block-label { color: var(--semantic-approve); }
+.rec-amber   .rec-block-label { color: var(--semantic-amend); }
+.rec-purple  .rec-block-label { color: var(--semantic-discuss); }
+.rec-verdict { font-size: 14px; font-weight: 600; color: var(--text-bright); margin-bottom: 10px; line-height: 1.45; }
+.rec-actions { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.rec-actions li { font-size: 13px; color: var(--text); line-height: 1.55; padding-left: 16px; position: relative; }
+.rec-actions li::before { content: '–'; position: absolute; left: 0; font-family: var(--mono); color: var(--text-dim); }
+.rec-risk {
+  margin-top: 10px; padding: 8px 12px; border-radius: var(--radius-sm);
+  background: var(--semantic-amend-soft); border-left: 2px solid var(--semantic-amend);
+  font-size: 12.5px; color: var(--semantic-amend); font-family: var(--mono);
+  letter-spacing: 0.02em; line-height: 1.55;
+}
+.rec-risk strong { font-weight: 700; }
+
+/* PRIM-REC: structured agent-recommendation block (P3p.6; locked variant 1 flat stacked)
+ * Locked spec: how/campaigns/campaign_siteforge_sis/missions/artifacts/recommendation_block_spec_p3p_6.md
+ *
+ * Renders 5 subsections (rationale + key_factors + risks + confidence + next_actions) inside the
+ * existing .rec-block container (PRIM-4). Mono-caps subsection labels + vertical rhythm carry the
+ * structure (no borders, rules, or columns). Confidence row uses 5-dot indicator (●●●●○).
+ * Backward compat: missing `recommendation` → legacy .rec-verdict + .rec-actions render via fallback.
+ *
+ * Section-header rec-pill suffix (`· ●●●●○`) — handled in PRIM-4 .rec-pill-conf below.
+ */
+.rec-structured { display: flex; flex-direction: column; gap: 14px; }
+.rec-sub { /* subsection wrapper */ }
+.rec-sub-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text-dim);
+  /* D1 cycle 3: <h4> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 9.5px → 9px — h4 must be visually subordinate to h3 rec-block-label (10px); creates the h3→h4 stratification absent at D1 close */
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+.rec-sub-body {
+  font-family: var(--serif); font-size: 14px; color: var(--text-bright);
+  line-height: 1.55;
+}
+.rec-sub-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 6px;
+  font-size: 13px; color: var(--text); line-height: 1.55;
+}
+.rec-sub-list li { padding-left: 16px; position: relative; }
+.rec-sub-list li::before {
+  content: '–'; position: absolute; left: 0;
+  font-family: var(--mono); color: var(--text-dim);
+}
+.rec-sub-confidence { display: flex; align-items: center; gap: 12px; }
+.rec-sub-confidence .rec-sub-label { margin-bottom: 0; }
+.rec-conf-dots {
+  font-family: var(--mono); font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--rec-confidence-on);
+}
+.rec-conf-dots .rec-conf-off { color: var(--rec-confidence-off); }
+/* D2 cycle 14 (CF-D1→D2-4): visible `N / 5` numeral preceding the dot row in the CONFIDENCE
+   rec-sub block. Sighted operators get a primary count without having to count 5 dots at small
+   sizes; SR users get the same count via natural reading order (NOT aria-hidden); the dots
+   become visual confirmation rather than the primary signal. Mono + bright matches the
+   dot row aesthetic; 11px sits in the h3 mono-micro band (above body, below section labels). */
+.rec-conf-dots .rec-conf-num {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-bright); font-weight: 600;
+  margin-right: 10px;
+}
+/* Section-header rec-pill suffix — small dot indicator next to the APPROVE/AMEND/etc. label */
+.rec-pill-conf {
+  font-family: var(--mono); letter-spacing: 0.12em;
+  margin-left: 6px; opacity: 0.85;
+}
+.rec-pill-conf .rec-conf-off { opacity: 0.45; }
+
+/* ── FORM ── */
+.c-form { margin: 14px 20px 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+.form-label { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+/* D3 cycle 23 (F-D3-2): .iss-required — visible "*" marker on required-field legends/labels.
+   Amber semantic color matches the C21 sticky-prog unsat ✗ glyph (one visual vocabulary for "not yet"). */
+.iss-required::after { content: " *"; color: var(--semantic-amend); font-weight: 700; }
+.radio-grp { display: flex; flex-direction: column; gap: 7px; }
+
+/* PRIM-2: option-card (radio-opt) */
+.radio-opt {
+  display: flex; align-items: center; gap: 11px; cursor: pointer;
+  padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+}
+.radio-opt:hover { background: var(--surface-hover); border-color: var(--border); }
+.radio-opt input[type="radio"] {
+  appearance: none; -webkit-appearance: none;
+  width: 15px; height: 15px; border: 1.5px solid var(--border); border-radius: var(--radius-full);
+  flex-shrink: 0; cursor: pointer; position: relative;
+  transition: border-color var(--motion-fast);
+}
+.radio-opt input[type="radio"]::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 5px; height: 5px; border-radius: var(--radius-full);
+  transition: transform var(--motion-fast);
+}
+.radio-opt input[type="radio"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.radio-opt:focus-within { border-color: var(--accent); }
+.radio-opt.sel-approve { background: var(--semantic-approve-soft); border-color: var(--semantic-approve); }
+.radio-opt.sel-approve input { border-color: var(--semantic-approve); }
+.radio-opt.sel-approve input::after { background: var(--semantic-approve); transform: translate(-50%, -50%) scale(1); }
+.radio-opt.sel-amend { background: var(--semantic-amend-soft); border-color: var(--semantic-amend); }
+.radio-opt.sel-amend input { border-color: var(--semantic-amend); }
+.radio-opt.sel-amend input::after { background: var(--semantic-amend); transform: translate(-50%, -50%) scale(1); }
+.radio-opt.sel-discuss { background: var(--semantic-discuss-soft); border-color: var(--semantic-reject); }
+.radio-opt.sel-discuss input { border-color: var(--semantic-reject); }
+.radio-opt.sel-discuss input::after { background: var(--semantic-reject); transform: translate(-50%, -50%) scale(1); }
+.radio-lbl { font-size: 13.5px; color: var(--text); font-weight: 500; }
+.radio-sub { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-left: 2px; }
+
+/* PRIM-ESCAPE-HATCH: opt-in "NEED MORE INFO" radio variant (D5 cycle 45)
+ *
+ * Visually de-emphasized relative to the primary 3 options so the operator's eye still
+ * lands on APPROVE/AMEND/DEFER first; the escape hatch is available but doesn't compete
+ * for visual weight. Italic + slightly smaller + lower-contrast label; muted border;
+ * dashed border distinguishes it from the solid borders of the primary 3 options.
+ * Selected state uses --text-dim accent (no semantic-* color) — it isn't a position,
+ * it's a request to re-gate.
+ */
+.radio-opt--defer { border-style: dashed; opacity: 0.85; }
+.radio-opt--defer:hover { opacity: 1; }
+/* D6 cycle 58: keyboard + touch parity for defer-radio opacity bump (hover-only would
+   leave touch users without affordance feedback when tabbing/tapping the radio). */
+.radio-opt--defer:focus-within { opacity: 1; }
+.radio-opt--defer .radio-lbl {
+  font-style: italic; font-size: 12.5px; color: var(--text-dim); font-weight: 400;
+}
+/* Class name matches JS applyComposite() pattern `sel-${val}` where val = "need_more_info" */
+.radio-opt--defer.sel-need_more_info {
+  background: var(--surface-hover); border-color: var(--text-dim); border-style: solid;
+}
+.radio-opt--defer.sel-need_more_info input { border-color: var(--text-dim); }
+.radio-opt--defer.sel-need_more_info input::after {
+  background: var(--text-dim); transform: translate(-50%, -50%) scale(1);
+}
+/* D6 cycle 51 (CF-D5→D6-1): at ≤ 600px the fixed 12.5px italic label gets too small
+   and the dashed-border-only sizing can fall below the 44px tap-target floor.
+   Mobile override: em-relative font (scales with parent) + bump vertical padding to
+   guarantee min-height ≥ 44px. Desktop default unchanged. */
+@media (max-width: 600px) {
+  .radio-opt--defer .radio-lbl { font-size: 0.85em; }
+  .radio-opt--defer { padding-top: 14px; padding-bottom: 14px; min-height: 44px; }
+}
+
+/* PRIM-RESUME-BANNER (D6 cycle 57): inline non-modal alternative to the D3 modal restore
+   dialog. Mobile-friendly because it does not block scroll. Hidden by default via the
+   `hidden` HTML attribute; JS removes the attribute when a saved draft is detected.
+   Restore + Discard buttons map to the same handlers as the modal dialog (D3 cycle 27). */
+.iss-resume-banner {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between;
+  margin: 0 0 18px 0; padding: 12px 18px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+}
+.iss-resume-banner[hidden] { display: none; }
+.iss-resume-banner-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.iss-resume-banner-label { color: var(--accent); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.iss-resume-banner-msg { color: var(--text-dim); }
+.iss-resume-banner-actions { display: flex; gap: 8px; }
+.iss-resume-banner-restore, .iss-resume-banner-discard {
+  font-family: var(--mono); font-size: 11px; padding: 8px 14px; min-height: 36px;
+  background: var(--bg); border: 1px solid var(--border-active); border-radius: var(--radius-btn);
+  color: var(--text); cursor: pointer; transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.iss-resume-banner-restore { border-color: var(--accent); color: var(--accent); }
+.iss-resume-banner-restore:hover, .iss-resume-banner-restore:focus-visible { background: var(--accent-soft); }
+.iss-resume-banner-discard:hover, .iss-resume-banner-discard:focus-visible { border-color: var(--text-dim); color: var(--text-dim); }
+.iss-resume-banner-restore:focus-visible, .iss-resume-banner-discard:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Touch ergonomics at mobile — bump button height + stack actions if needed. */
+@media (max-width: 600px) {
+  .iss-resume-banner-restore, .iss-resume-banner-discard { min-height: 44px; padding: 10px 16px; }
+}
+
+/* PRIM-7: notes-textarea */
+.notes-wrap {
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height var(--motion-slide) var(--ease-out-quint), opacity var(--motion-base);
+}
+@media (prefers-reduced-motion: reduce) {
+  .notes-wrap { transition: none; }
+}
+.notes-wrap.open { max-height: 160px; opacity: 1; }
+.notes-ta {
+  width: 100%; margin-top: 12px;
+  padding: 11px 14px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-radius: var(--radius-md);
+  color: var(--text); font-family: var(--sans); font-size: 13.5px;
+  line-height: 1.6; resize: vertical; min-height: 78px;
+  outline: none; transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+.notes-ta:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); outline: none; }
+.notes-ta::placeholder { color: var(--text-dim); }
+
+/* PRIM-9: status-chip */
+.c-status {
+  display: flex; align-items: center; gap: 8px; margin-top: 12px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.07em;
+  opacity: 0; transition: opacity 0.3s; height: 0; overflow: hidden;
+}
+.c-status.vis { opacity: 1; height: auto; margin-top: 12px; }
+.c-status.st-approve { color: var(--semantic-approve); }
+.c-status.st-amend   { color: var(--semantic-amend); }
+.c-status.st-discuss { color: var(--semantic-reject); }
+
+/* PRIM-10: sticky-action-bar */
+.sticky-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: center; align-items: center; gap: 18px;
+  padding: 14px 24px;
+  background: linear-gradient(to top, var(--bg) 70%, transparent);
+  pointer-events: none;
+  opacity: 0; transition: opacity 0.3s;
+}
+.sticky-bar.vis { opacity: 1; pointer-events: all; }
+/* D1 cycle 10: reduced-motion respect — sticky bar fade off when user prefers */
+@media (prefers-reduced-motion: reduce) {
+  .sticky-bar { transition: none; }
+}
+.sticky-inner {
+  display: flex; align-items: center; gap: 16px;
+  /* D3 cycle 30: sticky-inner gains flex-wrap to accommodate the C26 cancel-btn + C27 save-status-pill
+     additions on narrower viewports without horizontal overflow. */
+  flex-wrap: wrap; justify-content: center;
+  padding: 12px 20px;
+  background: var(--surface-hover);
+  border: 1px solid var(--border-active);
+  border-radius: var(--radius-floating);
+  box-shadow: 0 8px 40px #000000a0;
+  backdrop-filter: blur(6px);
+}
+/* D3 cycle 30: at ≤ 600px viewport (mobile portrait), force the sticky-prog chips onto their own
+   wrap row so the submit/cancel/pill tap targets get full width to the gen-btn. */
+@media (max-width: 600px) {
+  .sticky-inner { gap: 10px; padding: 10px 14px; }
+  .sticky-prog { flex-basis: 100%; justify-content: center; }
+  /* D6 cycle 53: mobile touch-target floor. Desktop padding/min-width are below the 44px
+     touch-target recommendation (WCAG 2.5.5 AAA). Bump at mobile only — desktop unchanged. */
+  .radio-opt { min-height: 44px; }
+  .scale .radio-opt { min-height: 44px; min-width: 44px; padding: 10px 0; }
+  .copy-btn { min-height: 44px; padding: 8px 14px; }
+  /* D6 cycle 56: textareas + text inputs go full-width on phones (border-box so padding
+     doesn't push past viewport edge). `.notes-ta` already declares width: 100% at desktop;
+     this rule provides the safety-net for any future inputs that forget. */
+  textarea, input[type="text"], input[type="number"], input[type="email"], input[type="search"] {
+    width: 100%; box-sizing: border-box;
+  }
+}
+.sticky-prog { font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; display: flex; align-items: center; gap: 14px; }
+.sticky-prog strong { color: var(--text-bright); }
+/* D3 cycle 21 (F-P3p.7-1): per-predicate chip — each predicate names itself + carries ✓/✗ glyph via data-state */
+.sp-pred { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; letter-spacing: 0.02em; }
+.sp-pred::before { display: inline-block; width: 11px; text-align: center; font-weight: 700; font-family: var(--mono); }
+.sp-pred[data-state="sat"]::before   { content: '✓'; color: var(--semantic-approve); }
+.sp-pred[data-state="unsat"]::before { content: '✗'; color: var(--semantic-amend); }
+.sp-pred[data-state="sat"]   { color: var(--text-bright); }
+.sp-pred[data-state="unsat"] { color: var(--text-dim); }
+.sp-pred .sp-pred-total { color: var(--text-dim); }
+.gen-btn {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  /* D1 cycle 10: 44px minimum tap target (WCAG 2.5.5 AAA aim) */
+  padding: 10px 24px; min-height: 44px;
+  background: var(--accent); color: var(--bg);
+  border: none; border-radius: var(--radius-btn); cursor: pointer;
+  transition: background var(--motion-fast), box-shadow var(--motion-fast), opacity var(--motion-fast);
+  white-space: nowrap;
+}
+.gen-btn:hover:not(:disabled) { box-shadow: 0 0 24px var(--accent-glow); }
+.gen-btn:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+.gen-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+/* D3 cycle 26 (F-D3-5): .cancel-btn — visible-but-de-emphasized cancel path in sticky-bar.
+   Text-only / transparent; confirm() guards the actual discard. Minimum 44px tap target. */
+.cancel-btn {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 10px 14px; min-height: 44px;
+  background: transparent; color: var(--text-dim);
+  border: none; cursor: pointer; border-radius: var(--radius-md);
+  transition: color var(--motion-fast), background var(--motion-fast);
+}
+.cancel-btn:hover { color: var(--text-bright); background: var(--surface-hover); }
+.cancel-btn:focus-visible { outline: 2px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 24 (F-D3-3): .gen-btn--consequence — two-line layout for irreversible decisions.
+   Primary line keeps mono-uppercase-bold; .gen-btn-sub small text states the consequence in
+   normal case so the contrast is high enough to read at small size. */
+.gen-btn--consequence { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 22px; line-height: 1.2; white-space: normal; max-width: 360px; text-align: center; }
+.gen-btn--consequence .gen-btn-primary { display: block; font-size: 11.5px; }
+.gen-btn--consequence .gen-btn-sub { display: block; font-size: 8px; font-weight: 400; letter-spacing: 0.04em; text-transform: none; opacity: 0.78; }
+/* D3 cycle 25 (F-D3-4): .iss-review-dialog — native <dialog> review step for irreversible gates.
+   Browser inherits aria-modal, backdrop, focus-trap, Esc-to-close. Visual cues: serif heading
+   like the gate's <h1>; readable body type 14px; review-dl ladder with mono labels; two-button
+   action bar with Back as the safe default (autofocus per Nielsen H5 error-prevention). */
+.iss-review-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 540px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-review-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-review-dialog h2#iss-review-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; color: var(--text-bright); }
+.iss-review-dialog .iss-review-note { font-size: 13px; color: var(--text-dim); margin: 0 0 18px 0; line-height: 1.5; }
+.iss-review-dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0 0 22px 0; font-size: 13px; }
+.iss-review-dl dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); align-self: center; }
+.iss-review-dl dd { margin: 0; color: var(--text-bright); font-weight: 500; }
+.iss-review-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-review-back, .iss-review-confirm {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-review-back { background: transparent; color: var(--text-bright); }
+.iss-review-back:hover { background: var(--surface-hover); }
+.iss-review-confirm { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-review-confirm:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-review-back:focus-visible, .iss-review-confirm:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 27 (F-D3-6): save-status-pill + restore-prompt dialog. */
+.save-status-pill {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); color: var(--text-dim); border: 1px solid var(--border);
+  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+.save-status-pill.vis { background: var(--semantic-approve-soft); color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.iss-restore-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 460px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-restore-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-restore-dialog h2#iss-restore-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; }
+.iss-restore-dialog .iss-restore-note { font-size: 13px; color: var(--text-dim); margin: 0 0 22px 0; line-height: 1.5; }
+.iss-restore-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-restore-fresh, .iss-restore-keep {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-restore-fresh { background: transparent; color: var(--text-bright); }
+.iss-restore-fresh:hover { background: var(--surface-hover); }
+.iss-restore-keep { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-restore-keep:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-restore-fresh:focus-visible, .iss-restore-keep:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D7 cycle 62 (CF-D6→D7-1): .iss-cancel-dialog — opt-in native <dialog> confirm when state-dirty.
+   Replaces window.confirm() for confirm_discard_when_dirty gates. Mirrors iss-restore-dialog
+   structure (serif h2, mono buttons, 540px max-width). Keep-button is the safe default + autofocus
+   per Nielsen H5 error-prevention; Discard-button uses --semantic-reject for affordance. */
+.iss-cancel-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 460px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-cancel-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-cancel-dialog h2#iss-cancel-title { font-family: var(--serif); font-size: 22px; margin: 0 0 12px 0; }
+.iss-cancel-dialog .iss-cancel-note { font-size: 13px; color: var(--text-dim); margin: 0 0 22px 0; line-height: 1.5; }
+.iss-cancel-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.iss-cancel-keep, .iss-cancel-discard {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn); border: 1px solid var(--border-active);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-cancel-keep { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.iss-cancel-keep:hover { box-shadow: 0 0 20px var(--accent-glow); }
+.iss-cancel-discard { background: transparent; color: var(--semantic-reject); border-color: var(--semantic-reject); }
+.iss-cancel-discard:hover { background: var(--surface-hover); }
+.iss-cancel-keep:focus-visible, .iss-cancel-discard:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D3 cycle 28 (F-D3-7): structured submit-feedback — what failed + what was preserved + what to do.
+   D7 cycle 64: pattern promoted to PRIM-ERROR-STATE — reusable for any error surface
+   (submit-feedback, expiry overlay [C66], future inline error states). Selectors below
+   alias-extend the D3 .submit-feedback--error rules so the existing path is unchanged
+   AND .iss-error-state can render an identical-looking block from anywhere. */
+.submit-feedback { margin-top: 14px; font-size: 13px; line-height: 1.5; }
+.submit-feedback:empty { display: none; }
+.submit-feedback--success { color: var(--semantic-approve); }
+.submit-feedback--error,
+.iss-error-state {
+  color: var(--text-bright); padding: 14px 16px;
+  background: var(--surface); border: 1px solid var(--semantic-reject); border-left: 4px solid var(--semantic-reject);
+  border-radius: var(--radius-md);
+}
+.submit-feedback-dl,
+.iss-error-state-dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 0 0; }
+.submit-feedback-dl dt,
+.iss-error-state-dl dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); padding-top: 1px; }
+.submit-feedback-dl dd,
+.iss-error-state-dl dd { margin: 0; color: var(--text-bright); }
+.submit-feedback code { font-family: var(--mono); font-size: 11.5px; background: var(--bg-alt); padding: 2px 6px; border-radius: var(--radius-sm); }
+.iss-error-state-heading { font-family: var(--serif); font-size: 16px; color: var(--semantic-reject); display: block; margin-bottom: 4px; }
+/* D7 cycle 65 (CF-D6→D7): .ambiguity-hint — inline visible guidance for authored options
+   that intentionally overlap. The `validate_authoring` lint catches accidental duplicates;
+   this primitive is for the rare case where the author wants two visually-similar options
+   AND wants to surface the disambiguator inline (small italic dim text below the option label). */
+.ambiguity-hint {
+  display: block; font-family: var(--mono); font-size: 10px; font-style: italic;
+  color: var(--semantic-amend); margin-top: 2px; letter-spacing: 0.04em;
+}
+/* D7 cycle 66 (gate-expiry): .iss-expired-dialog — blocking overlay when wall-clock
+   exceeds `expires_at`. Body reuses the C64 .iss-error-state triplet primitive.
+   Operator can dismiss to continue anyway (warn, don't hard-block — round-trip layer
+   may still accept the submission at receiver discretion). */
+.iss-expired-dialog {
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--semantic-reject); border-radius: var(--radius-lg);
+  padding: 28px 32px; max-width: 540px; width: calc(100% - 32px);
+  box-shadow: var(--dialog-shadow);
+}
+.iss-expired-dialog::backdrop { background: var(--dialog-backdrop); backdrop-filter: blur(2px); }
+.iss-expired-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 18px; }
+.iss-expired-dismiss {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 20px; min-height: 44px; border-radius: var(--radius-btn);
+  border: 1px solid var(--semantic-reject); background: transparent; color: var(--semantic-reject);
+  cursor: pointer; transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+.iss-expired-dismiss:hover { background: var(--surface-hover); }
+.iss-expired-dismiss:focus-visible { outline: 3px solid var(--accent-glow); outline-offset: 2px; }
+/* D7 cycle 67 (2-step confirm): .iss-review-two-step — type-the-phrase input inside the
+   D3-C25 review dialog. Renders only when irreversible: true AND confirm_two_step: true.
+   Adds friction for unrecoverable submissions per Nielsen H5 error-prevention. */
+.iss-review-two-step { margin: 0 0 18px 0; padding: 14px 16px; background: var(--bg-alt); border-radius: var(--radius-md); border-left: 3px solid var(--semantic-amend); }
+.iss-review-two-step-lbl { display: block; font-size: 12.5px; color: var(--text-bright); margin-bottom: 8px; line-height: 1.5; }
+.iss-review-two-step-lbl code,
+.iss-review-two-step-hint code { font-family: var(--mono); font-size: 12px; padding: 2px 6px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--semantic-amend); font-weight: 600; }
+.iss-review-two-step-input {
+  width: 100%; box-sizing: border-box;
+  font-family: var(--mono); font-size: 14px; letter-spacing: 0.04em;
+  padding: 8px 12px; min-height: 40px;
+  background: var(--surface); color: var(--text-bright);
+  border: 1px solid var(--border-active); border-radius: var(--radius-sm);
+}
+.iss-review-two-step-input:focus-visible { outline: 2px solid var(--accent-glow); outline-offset: 1px; }
+.iss-review-two-step-hint { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-top: 6px; letter-spacing: 0.04em; }
+.iss-review-confirm:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+@keyframes shimmer {
+  0%   { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%  { box-shadow: 0 0 20px 4px var(--accent-glow); }
+  100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gen-btn.ready { animation: shimmer 2.2s ease-in-out infinite; }
+}
+
+/* PRIM-11: output-record-panel */
+.output-section {
+  margin-top: 40px; padding: 28px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  display: none;
+}
+.output-section.vis { display: block; }
+.out-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+/* D1 cycle 9: <h3> default margin reset (was <div>) */
+.out-lbl { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin: 0; font-weight: normal; }
+.copy-btn {
+  font-family: var(--mono); font-size: 10px; color: var(--text-dim);
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 4px 12px; cursor: pointer; transition: color var(--motion-fast), border-color var(--motion-fast);
+  /* D1 cycle 10: 24px minimum tap target (WCAG 2.2 SC 2.5.8 AA) */
+  min-height: 24px;
+}
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+.copy-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; color: var(--accent); border-color: var(--accent); }
+.copy-btn.ok { color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.out-pre {
+  background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--radius-md);
+  padding: 20px; font-family: var(--mono); font-size: 11.5px;
+  line-height: 1.9; color: var(--text); white-space: pre-wrap;
+  word-break: break-word; overflow-y: auto; max-height: 520px;
+}
+
+/* divider + footer */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 44px 0; }
+footer {
+  padding: 20px 0 40px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-top: 48px;
+}
+.ft-l { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.06em; line-height: 1.9; }
+.ft-r { font-family: var(--mono); font-size: 10px; color: var(--text-dim); opacity: 0.4; }
+
+/* receiver-status chip (for round_trip.js status feedback; PRIM-11 sibling) */
+.recv-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.07em;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface); border: 1px solid var(--border); color: var(--text-dim);
+  margin-left: 8px;
+  transition: color var(--motion-base), border-color var(--motion-base), background var(--motion-base);
+}
+.recv-status.ok { color: var(--semantic-approve); border-color: var(--semantic-approve); background: var(--semantic-approve-soft); }
+.recv-status.warn { color: var(--semantic-amend); border-color: var(--semantic-amend); background: var(--semantic-amend-soft); }
+.recv-status.err { color: var(--semantic-reject); border-color: var(--semantic-reject); }
+
+/* responsive */
+@media (max-width: 640px) {
+  .hdr { grid-template-columns: 1fr; }
+  .prog-block { display: none; }
+  .rec-pill { display: none; }
+  .diff-rings { display: none; }
+  /* D6 cycle 52 (CF-D5→D6-2): composite-card shadow sized for desktop viewport — tighten on
+     mobile so the card doesn't bloom past its content edges on narrow screens. Token-level
+     override means persona files (light + dark) all get the mobile-tighter weight without
+     per-persona edits. */
+  .card.composite { --composite-card-shadow: 0 6px 24px #00000030; }
+  /* D6 cycle 54: collapse 2-column grids that would force horizontal scroll on phones.
+     SWOT 2×2 stacks vertically (4 quadrants in reading order); SITREP key/value flips to
+     stacked dl-style; dialog DLs collapse to stacked labels-above-values. */
+  .swot-grid { grid-template-columns: 1fr; }
+  .sitrep { grid-template-columns: 1fr; gap: 6px 0; padding: 14px 16px; }
+  .iss-review-dl { grid-template-columns: 1fr; gap: 4px 0; }
+  .submit-feedback-dl,
+  .iss-error-state-dl { grid-template-columns: 1fr; gap: 4px 0; }
+}
+
+/* PRIM-13: skip-link (D1 Accessibility) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 999;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+.skip-link:focus { left: 12px; top: 12px; outline: 2px solid var(--text-bright); outline-offset: 2px; }
+
+/* PRIM-14: overview-strip chips as buttons (D1 Accessibility — keyboard nav) */
+button.ov-chip {
+  font-family: inherit;
+  font-size: inherit;
+  background: var(--bg-alt);
+  color: var(--text);
+  cursor: pointer;
+}
+button.ov-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* PRIM-15: card-header keyboard activation (D1 Accessibility) */
+.c-hdr:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* PRIM-16: visually-hidden helper (D1 Accessibility — for fieldset legends that should be hidden but screen-reader-readable) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SITREP panel (P3p.3) — locked spec at
+   how/campaigns/campaign_siteforge_sis/missions/artifacts/sitrep_panel_spec_p3p_2.md
+   Replaces .hdr-sub inside <header class="hdr"> when data JSON carries a
+   top-level `sitrep` object. Six rows: CAMPAIGN / PHASE / MISSION / ASKING /
+   IMPORTANCE / OUTPUT. IMPORTANCE row gets a 3px colored left-border driven
+   by data-importance attribute on the panel container.
+   ───────────────────────────────────────────────────────────────────────── */
+.sitrep {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px 18px;
+  align-items: baseline;
+  box-shadow: 0 0 0 1px var(--accent-soft) inset;
+}
+.sitrep-row {
+  display: contents;
+}
+.sitrep-lbl {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.sitrep-val {
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0;
+  /* D6 cycle 55: SITREP values may contain long quoted phrases or reference paths — wrap. */
+  overflow-wrap: break-word;
+}
+.sitrep-row:nth-child(-n+3) .sitrep-val { color: var(--text-bright); }
+/* D2 cycle 12 (CF-D1→D2-2): pull + signal rows get bright; IMPORTANCE additionally bolded.
+   Anchor rows (CAMPAIGN/PHASE/MISSION) bright via nth-child above; ASKING (pull — the question
+   operator must answer) bright + italic; IMPORTANCE (signal — load-bearing/irreversible/routine)
+   bright + 600; OUTPUT (reference path) stays dim mono. The 4-tier visual stratification
+   anchor=bright-normal / pull=bright-italic / signal=bright-bold / ref=dim-mono now reads
+   without the operator decoding it. */
+.sitrep-asking .sitrep-val { color: var(--text-bright); font-style: italic; }
+.sitrep-importance .sitrep-val {
+  color: var(--text-bright);
+  font-weight: 600;
+  padding-left: 12px;
+  border-left: 3px solid var(--border);
+  margin-left: -15px;
+}
+.sitrep[data-importance="load-bearing"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-loadbearing);
+}
+.sitrep[data-importance="irreversible"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-irreversible);
+}
+.sitrep[data-importance="routine"] .sitrep-importance .sitrep-val {
+  border-left-color: var(--importance-routine);
+}
+.sitrep-output-path {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  word-break: break-all;
+}
+
+/* PRIM-VISUAL-ASCII: section-level Tier-1 visual block (P3p.8)
+ * Locked spec: how/campaigns/campaign_siteforge_iss/missions/artifacts/visual_ascii_spec_p3p_8.md
+ *
+ * Renders monospace ASCII content inside <pre class="visual-ascii"> between the SWOT/analysis
+ * block and the rec-block (phase_exit.html sections loop). Optional caption beneath. Reuses
+ * existing tokens (--mono / --bg-alt / --text-bright / --border / --radius-md / --text-dim);
+ * no new tokens added per Rosetta-default. Backward compat: missing visual_ascii field →
+ * helper returns "" → empty placeholder → zero markup.
+ */
+/* D1 cycle 4: <figure> wrapper for accessible image semantics — reset browser default margin */
+.visual-ascii-figure { margin: 0; }
+.visual-ascii {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-bright);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre;
+  tab-size: 2;
+}
+.visual-ascii-caption {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  margin-top: 6px;
+}
+
+/* PRIM-TIER-INDICATOR (D8 cycle 72): small low-contrast badge naming the active
+   fallback-chain tier (Tier 1 = Web, Tier 2 = AskUserQuestion, Tier 3 = copy-paste).
+   Persona-orthogonal — uses only existing tokens. Default-off render is empty. */
+.tier-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 4px 10px;
+  min-height: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  opacity: 0.85;
+}
+.tier-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.tier-indicator-label {
+  text-transform: none;
+}
+@media (max-width: 600px) {
+  .tier-indicator { min-height: 28px; padding: 6px 12px; }
+}
+
+/* PRIM-TIER-FALLBACK (D8 cycles 73 + 74): collapsed-by-default <details> block for
+   Tier 2 (AskUserQuestion payload) + Tier 3 (copy-paste plain-text template). Shared
+   styling — both tiers reuse the same primitive so the operator gets visual parity
+   across fallback paths. Persona-orthogonal — uses only existing tokens. */
+.tier-fallback {
+  margin: 18px 0 0 0;
+  padding: 0;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-alt);
+}
+.tier-fallback-summary {
+  cursor: pointer;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tier-fallback-summary:hover,
+.tier-fallback-summary:focus-visible {
+  color: var(--text);
+  background: var(--surface-hover);
+  outline: none;
+}
+.tier-fallback-hint {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 10px;
+}
+.tier-fallback-body {
+  padding: 12px 14px 14px 14px;
+  border-top: 1px dashed var(--border);
+}
+.tier-fallback-intro {
+  margin: 0 0 10px 0;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.tier-fallback-intro em {
+  font-style: italic;
+  color: var(--text-bright);
+}
+.tier-fallback-payload {
+  margin: 0 0 10px 0;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--text-bright);
+  overflow-x: auto;
+  white-space: pre;
+}
+.tier-fallback-copy {
+  min-height: 32px;
+}
+@media (max-width: 640px) {
+  .tier-fallback-payload { font-size: 10px; }
+  .tier-fallback-copy { min-height: 44px; }
+}
+
+/* PRIM-DECISION-SIG (D9 cycle 82): opt-in decision-significance badge near composite_title.
+   Names how heavy the decision is (phase_exit / advisory / reversible) using `--semantic-*`
+   token tints so the badge tone cascades from persona. No new tokens; persona-orthogonal. */
+.decision-sig {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 12px 0;
+  padding: 4px 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-active);
+  background: var(--bg-alt);
+}
+.decision-sig-lbl {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.decision-sig-hint {
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  font-size: 10.5px;
+}
+.decision-sig--reject  { color: var(--semantic-reject);  border-color: var(--semantic-reject); }
+.decision-sig--amend   { color: var(--semantic-amend);   border-color: var(--semantic-amend); }
+.decision-sig--approve { color: var(--semantic-approve); border-color: var(--semantic-approve); }
+.decision-sig--reject  .decision-sig-hint,
+.decision-sig--amend   .decision-sig-hint,
+.decision-sig--approve .decision-sig-hint { color: var(--text-dim); }
+@media (max-width: 600px) {
+  .decision-sig { gap: 4px; }
+  .decision-sig-hint { font-size: 10px; }
+}
+
+/* PRIM-PROVENANCE-FOOTER (D9 cycle 88): extended provenance block beneath the existing
+   footer. Two-column <dl> showing vault, requesting_agent, skill version, and a "why"
+   sentence. Persona-orthogonal — uses only existing tokens. */
+.iss-provenance {
+  flex: 1 1 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  color: var(--text-dim);
+}
+.iss-provenance-dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+}
+.iss-provenance-dl dt {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+  white-space: nowrap;
+}
+.iss-provenance-dl dd {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.5;
+}
+@media (max-width: 600px) {
+  .iss-provenance-dl { grid-template-columns: 1fr; gap: 2px; }
+  .iss-provenance-dl dt { margin-top: 4px; }
+}
+
+/* PRIM-FIRST-TIMER-HINT (D9 cycle 85): inline non-modal dismissable banner near the top of
+   body for first-time operators. Structurally dogfoods PRIM-RESUME-BANNER (D6-C57) — same
+   flex layout + accent left-border + label/msg/actions split — but with distinct semantic
+   identity (different aria-label, different localStorage trigger) so the two surfaces can
+   co-exist (e.g., on a returning operator's first visit with a saved draft). */
+.iss-first-timer-hint {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; justify-content: space-between;
+  margin: 0 0 14px 0; padding: 12px 18px;
+  background: var(--bg-alt); border: 1px solid var(--border-active); border-left: 3px solid var(--semantic-discuss, var(--accent));
+  border-radius: var(--radius-md);
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+}
+.iss-first-timer-hint[hidden] { display: none; }
+.iss-first-timer-hint-body { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.iss-first-timer-hint-label { color: var(--semantic-discuss, var(--accent)); font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+.iss-first-timer-hint-msg { color: var(--text-dim); line-height: 1.5; }
+.iss-first-timer-hint-actions { display: flex; gap: 8px; }
+.iss-first-timer-hint-dismiss {
+  font-family: var(--mono); font-size: 11px; padding: 8px 14px; min-height: 36px;
+  background: var(--bg); border: 1px solid var(--border-active); border-radius: var(--radius-btn);
+  color: var(--text); cursor: pointer; transition: border-color var(--motion-fast), color var(--motion-fast);
+}
+.iss-first-timer-hint-dismiss:hover, .iss-first-timer-hint-dismiss:focus-visible { border-color: var(--accent); color: var(--accent); }
+.iss-first-timer-hint-dismiss:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 600px) {
+  .iss-first-timer-hint-dismiss { min-height: 44px; padding: 10px 16px; }
+}
+
+/* PRIM-CONFIDENCE-TOOLTIP (D9 cycle 84): opt-in confidence-scale legend under the 5 radios.
+   Collapsed-by-default <details>; expanded reveals a 5-row <dl> mapping each rating to its
+   meaning. Persona-orthogonal — uses only existing tokens. */
+.conf-tooltips {
+  margin-top: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.conf-tooltips-summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 6px 0;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.conf-tooltips-summary::-webkit-details-marker { display: none; }
+.conf-tooltips-summary::before {
+  content: '▸';
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 10px;
+  margin-right: 4px;
+}
+.conf-tooltips[open] > .conf-tooltips-summary::before { content: '▾'; }
+.conf-tooltips-summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.conf-tooltips-hint {
+  color: var(--text-dim);
+  font-style: italic;
+}
+.conf-tooltips-dl {
+  margin: 4px 0 0 0;
+  padding: 8px 12px;
+  background: var(--bg-alt);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+}
+.conf-tooltip-row {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  padding: 4px 0;
+  align-items: baseline;
+}
+.conf-tooltip-row + .conf-tooltip-row { border-top: 1px solid var(--border); }
+.conf-tooltip-row dt { margin: 0; }
+.conf-tooltip-row dd { margin: 0; color: var(--text); line-height: 1.5; }
+.conf-tooltip-num {
+  display: inline-block;
+  min-width: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* D9 cycle 83: .tier-fallback--explainer — collapsed-by-default "what happens after submit"
+   block. Reuses PRIM-TIER-FALLBACK <details> shell; body styles its inner <ol> for vertical
+   rhythm. Persona-orthogonal (no new tokens). */
+.tier-fallback--explainer {
+  border-style: solid;
+}
+.post-submit-explainer-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.post-submit-explainer-list li {
+  margin: 0 0 8px 0;
+}
+.post-submit-explainer-list li:last-child {
+  margin-bottom: 0;
+}
+.post-submit-explainer-list code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* D9 cycle 81 (CF-D8->D9-1): .tier-fallback--preamble — explanatory block above the
+   Tier 2 + Tier 3 fallback details blocks. Reuses PRIM-TIER-FALLBACK shell (border + bg)
+   but renders body content directly (no <summary> — it's a static note, not collapsible).
+   Speaks to BOTH the operator (learning the 3-tier model in the gate itself) and the
+   agent (acting on the JSON/text payloads below). */
+.tier-fallback--preamble {
+  border-style: solid;
+  border-color: var(--border-active);
+}
+.tier-fallback--preamble .tier-fallback-body {
+  border-top: none;
+  padding: 12px 14px;
+}
+.tier-fallback-preamble-lbl {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+
+/* phase_exit template-specific tweaks */
+.composite-card {
+  background: linear-gradient(180deg, var(--accent-soft), var(--surface) 40%);
+  border: 1px solid var(--accent);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  /* D2 cycle 20 (breathing-room pass): padding 24px → 28px — composite is the page's most important card; +8px total vertical for stronger interior breathing reinforces visual prominence already set up at C15 */
+  padding: 28px;
+  /* D2 cycle 15 (F-D2-1): bumped 28px → 36px — stronger visual gap separates composite tier from per-section tier above; reinforces "this is THE decision" */
+  margin-top: 36px;
+  /* D2 cycle 15 (F-D2-1): added outer drop-shadow on top of existing accent-glow inset — lifts composite off the page; section .card.decided uses 0 6px 28px; composite uses deeper 0 10px 36px to outrank decided sections */
+  /* D5 cycle 41 (CF-D4→D5-1): outer drop-shadow now token-driven via --composite-card-shadow (default `0 10px 36px #00000040` preserves byte-equivalent render). */
+  box-shadow: 0 0 0 1px var(--accent-glow) inset, var(--composite-card-shadow);
+}
+.composite-label {
+  font-family: var(--mono); font-size: 11px; color: var(--accent);
+  letter-spacing: 0.15em; text-transform: uppercase;
+  /* D1 cycle 8: <h2> default margin reset (was <div>) */
+  /* D2 cycle 11 (CF-D1→D2-1): 10px → 11px — h2 composite anchor must step above h3 mono-micro-labels (10px) to read as section-level rather than block-level */
+  margin: 0 0 12px 0; font-weight: normal;
+}
+.composite-title {
+  font-family: var(--serif); font-size: 22px; color: var(--text-bright);
+  line-height: 1.3;
+  /* D1 cycle 8: <h3> default margin reset (was <div>) */
+  /* D6 cycle 55: long titles must wrap, not overflow horizontally on narrow viewports. */
+  margin: 0 0 8px 0; font-weight: normal; overflow-wrap: break-word;
+}
+.composite-q {
+  font-family: var(--serif); font-style: italic;
+  font-size: 16px; color: var(--text); line-height: 1.6; margin-bottom: 18px;
+  /* D6 cycle 55: long decision questions must wrap. */
+  overflow-wrap: break-word;
+}
+.composite-form .form-label { margin-top: 14px; }
+.overall-notes {
+  width: 100%; padding: 11px 14px;
+  background: var(--bg-alt); border: 1px solid var(--border-active);
+  border-radius: var(--radius-md);
+  color: var(--text); font-family: var(--sans); font-size: 13.5px;
+  line-height: 1.6; resize: vertical; min-height: 100px;
+  outline: none; transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+}
+.overall-notes:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.overall-notes::placeholder { color: var(--text-dim); }
+
+/* P3.1 — 6-axis III ranker UI (lifted from pilot_evaluation.html; F-5 fix) — D2 deprioritized vs composite-form
+   D2 cycle 13 (CF-D1→D2-3): collapsed-by-default via <details>/<summary> — reclaims ~280px of vertical
+   real-estate from the initial render so the composite-form reads as THE decision section. Native HTML
+   `aria-expanded` from <details> preserves the opt-in skippability contract; existing hint text "Skip if
+   this gate isn't a decadal-cycle output" stays visible inside the summary so the operator decides whether
+   to expand. JS untouched (axis radios still fire handleAxis when opened). */
+.ranker-section { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--bg-alt); }
+.ranker-section > summary { cursor: pointer; list-style: none; padding-bottom: 14px; outline: none; }
+.ranker-section > summary::-webkit-details-marker { display: none; }
+.ranker-section > summary::before {
+  content: '▸'; color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+  margin-right: 8px; display: inline-block; width: 8px;
+}
+.ranker-section[open] > summary::before { content: '▾'; }
+.ranker-section > summary:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent-soft); border-radius: var(--radius-md);
+}
+.ranker-hint {
+  font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+  letter-spacing: 0.05em; margin-bottom: 14px;
+}
+.axis-row {
+  display: grid; grid-template-columns: 200px 1fr; gap: 12px;
+  align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);
+}
+.axis-row:last-of-type { border-bottom: none; }
+.axis-lbl {
+  font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+.axis-lbl strong { color: var(--text); font-weight: 600; }
+.scale { display: flex; gap: 6px; }
+.scale .radio-opt { flex: 1; min-width: 40px; justify-content: center; padding: 6px 0; }
+.ergonomics-input {
+  padding: 8px 14px; background: var(--bg-alt);
+  border: 1px solid var(--border-active); border-radius: var(--radius-md);
+  color: var(--text); font-family: var(--mono); font-size: 12px;
+  outline: none;
+}
+.ergonomics-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+/* D6 cycle 54: at ≤640px collapse the 200px-label + 1fr-scale grid to 1-column so the
+   5-radio scale row gets the full viewport width and the label sits above instead of
+   beside it. Template-local override (primitives.css can't reach this rule because the
+   template's <style> is loaded after the primitives cascade — same-specificity rule wins
+   by document order).
+   D6 cycle 56: ergonomics number input has no explicit width — adopt full-width on phones. */
+@media (max-width: 640px) {
+  .axis-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 0; }
+  .ergonomics-input { width: 100%; box-sizing: border-box; }
+}
+</style>
+</head>
+<body data-receiver-url="http://localhost:8767">
+<a class="skip-link" href="#main-content">Skip to gate content</a>
+
+
+
+<div class="wrap">
+
+<header class="hdr" role="banner">
+  <div class="hdr-left">
+    <div class="wordmark"><span class="wordmark-line"></span></div>
+    
+    <div class="diff-rings"></div>
+    <h1>Operation Vernier — P1 exit: <em>the Standard's undefined field, ruled once for four vaults</em></h1>
+    <dl class="sitrep" data-importance="load-bearing" role="group" aria-label="Operational status report"><div class="sitrep-row"><dt class="sitrep-lbl">CAMPAIGN</dt><dd class="sitrep-val">campaign_canvas_vernier — active, scope amended 2026-10-12 (fold-not-sibling)</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">PHASE</dt><dd class="sitrep-val">P1 exit → P2 (rulings)</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">MISSION</dt><dd class="sitrep-val">The ruling door for V-1…V-8 and the firewall touch</dd></div><div class="sitrep-row sitrep-asking"><dt class="sitrep-lbl">ASKING</dt><dd class="sitrep-val">Rule the eight items that four vaults (Terminal · City · LatticeProtocol · Automator) plus Socials and Home are waiting on; name the firewall touch LIP-0011 will make; grant or refuse the push / memo-delivery / receiver GOs.</dd></div><div class="sitrep-row sitrep-importance"><dt class="sitrep-lbl">IMPORTANCE</dt><dd class="sitrep-val">LOAD-BEARING — V-1 decides the Standard's next version and un-cards LatticeProtocol's gen-canvas; three implementations currently pass with three semantics</dd></div><div class="sitrep-row"><dt class="sitrep-lbl">OUTPUT</dt><dd class="sitrep-val sitrep-output-path">Canvas.aDNA/how/gates/vernier_p1_exit_20261012.output.json</dd></div></dl>
+  </div>
+  <div class="prog-block">
+    <div class="prog-lbl">sections reviewed</div>
+    <div class="prog-num" id="prog-num">0 <span>/ </span></div>
+    <div class="prog-sub" id="prog-sub">Awaiting operator review</div>
+    <div class="prog-bar-t"><div class="prog-bar-f" id="prog-bar"></div></div>
+  </div>
+</header>
+
+<main id="main-content" tabindex="-1">
+
+<nav class="overview-strip" aria-label="Phase status — jump to section">
+  <span class="ov-label">PHASE STATUS —</span>
+  
+  <button type="button" class="ov-chip" id="ov-v1_sync_hash" onclick="scrollToCard('v1_sync_hash')" aria-label="Jump to section V-1 sync_hash"><span class="ov-dot" aria-hidden="true"></span>V-1 sync_hash</button>
+  
+  <button type="button" class="ov-chip" id="ov-v2_a8_tier" onclick="scrollToCard('v2_a8_tier')" aria-label="Jump to section V-2 A-8 tier"><span class="ov-dot" aria-hidden="true"></span>V-2 A-8 tier</button>
+  
+  <button type="button" class="ov-chip" id="ov-v3_generator" onclick="scrollToCard('v3_generator')" aria-label="Jump to section V-3 generator"><span class="ov-dot" aria-hidden="true"></span>V-3 generator</button>
+  
+  <button type="button" class="ov-chip" id="ov-v4_b14_pack" onclick="scrollToCard('v4_b14_pack')" aria-label="Jump to section V-4 B14 pack"><span class="ov-dot" aria-hidden="true"></span>V-4 B14 pack</button>
+  
+  <button type="button" class="ov-chip" id="ov-v5_b18_graph_canvas" onclick="scrollToCard('v5_b18_graph_canvas')" aria-label="Jump to section V-5 B18 graph.canvas"><span class="ov-dot" aria-hidden="true"></span>V-5 B18 graph.canvas</button>
+  
+  <button type="button" class="ov-chip" id="ov-v6_reserved_placement" onclick="scrollToCard('v6_reserved_placement')" aria-label="Jump to section V-6 _reserved path"><span class="ov-dot" aria-hidden="true"></span>V-6 _reserved path</button>
+  
+  <button type="button" class="ov-chip" id="ov-v7_lattice_dispositions" onclick="scrollToCard('v7_lattice_dispositions')" aria-label="Jump to section V-7 LP dispositions"><span class="ov-dot" aria-hidden="true"></span>V-7 LP dispositions</button>
+  
+  <button type="button" class="ov-chip" id="ov-v8_socials" onclick="scrollToCard('v8_socials')" aria-label="Jump to section V-8 Socials"><span class="ov-dot" aria-hidden="true"></span>V-8 Socials</button>
+  
+  <button type="button" class="ov-chip" id="ov-firewall_and_gos" onclick="scrollToCard('firewall_and_gos')" aria-label="Jump to section Firewall · GOs"><span class="ov-dot" aria-hidden="true"></span>Firewall · GOs</button>
+  
+</nav>
+
+<div class="cards" id="cards">
+
+
+<article class="card rec-green" data-section="v1_sync_hash" id="card-v1_sync_hash" aria-labelledby="title-v1_sync_hash">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v1_sync_hash" onclick="toggleCard('v1_sync_hash')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v1_sync_hash');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-1 sync_hash</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v1_sync_hash">V-1 · What does <code>sync.sync_hash</code> hash? — three readings pass today, and four vaults are waiting</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: (b) — additive; every canvas that passes today keeps passing; Terminal and LP migrate one key; City already does it; confidence 5 of 5">(b) — additive; every canvas that passes today keeps passing; Terminal and LP migrate one key; City already does it · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v1_sync_hash" onclick="event.stopPropagation(); toggleCard('v1_sync_hash');">
+      <span id="toggle-lbl-v1_sync_hash">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q"><code>canvas_std.compute_sync_hash</code> hashes <b>topology</b> (sorted node ids + edge pairs, 16 hex). Terminal's 8 canvases store <b>sha256(source markdown)[:16]</b> (re-derived today: 8/8 source match · 0/8 topology match). City's twin stores the topology hash <i>plus</i> a non-standard <code>sync.source_sha256</code>. LatticeProtocol ADR-018 + LinkML Profile v0.1 define it as the <b>master file's bytes</b>, and <code>gen-canvas</code> (M-B1) is carded on your answer. Rule A-6 checks <i>16 hex chars</i> only; the spec never says what is hashed. <b>Which option?</b> (a) <code>sync_hash</code> = source/master bytes · (b) <code>sync_hash</code> stays topology and the Standard registers <code>sync.source_sha256</code> (64 hex) · (c) split into <code>sync.topology_hash</code> + <code>sync.source_hash</code> with <code>sync_hash</code> a deprecated alias through v2.x.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v1_sync_hash" role="region" aria-labelledby="title-v1_sync_hash">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li><b>Migration priced per option.</b> (a) breaks <code>compute_sync_hash</code>, Canvas's 26 <code>adna_native</code> canvases, City's topology usage, and every round-trip loader; requires a <b>major</b> bump. (b) breaks nothing that passes; Terminal moves its source hash from <code>sync_hash</code> to <code>source_sha256</code> and regenerates (their generator already computes it); LP's <code>gen-canvas</code> writes both from day one; Home's one canvas is already non-conformant on other grounds. (c) is (b) with a rename nobody asked for and an alias to maintain.</li><li><b>Why topology stays in <code>sync_hash</code>.</b> §8.1 already calls it <i>'the sync hash of the authoritative-source topology'</i>; A-6 is in the round-trip layer because the hash↔source check is the round-trip's job. Noether's own argument for (a) — <i>'a schema master has no fromNode→toNode topology'</i> — is an argument that the <b>twin</b> has one and the <b>master</b> needs a different key, i.e. for Q2.</li><li><b>What A-6 gains.</b> With (b): <code>source_sha256</code> must be 64 hex when present; when <code>production: generated</code> the validator <i>may</i> recompute topology and compare (ruled in P2b as advisory or hard — recommend advisory at <code>extended</code>, hard at <code>adna_native</code>).</li><li><b>Vernier P1's own observation stands:</b> a source hash is the more useful question for a <code>view</code> canvas ('has my source moved?') and is third-party verifiable — (b) keeps it, named.</li><li>⛔ <b>Not a signature on the Standard.</b> This verdict instructs LIP-0011 (P2b); the firewall touch is named in the Firewall section below and signed with the LIP.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Choose (b). It is the only option with zero breakage for every current passer, it is what City already does, and it answers Noether Q1 '(b)' and Q2 'yes' in one stroke.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Additive → minor bump (v2.5.0), not major</li><li>Terminal + LP migrate one key each; City migrates none</li><li>A-6 gains a semantic check it never had</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>Terminal's 8 canvases read 'stale' to a conformant loader until they regenerate (they already do so daily)</li><li>(a) partisans — LP ADR-018 — must amend one line; memo #22 says so plainly</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>P2b drafts LIP-0011 from this verdict</li><li>Memo #22/#21/#23 carry the verdict, not the recommendation</li><li>Fleet backward-compat census run before the LIP is signed</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v1_sync_hash" value="approve" onchange="handleRadio('v1_sync_hash','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v1_sync_hash" value="amend" onchange="handleRadio('v1_sync_hash','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v1_sync_hash" value="discuss" onchange="handleRadio('v1_sync_hash','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v1_sync_hash">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v1_sync_hash" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v1_sync_hash', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v1_sync_hash" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-amber" data-section="v2_a8_tier" id="card-v2_a8_tier" aria-labelledby="title-v2_a8_tier">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v2_a8_tier" onclick="toggleCard('v2_a8_tier')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v2_a8_tier');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-2 A-8 tier</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v2_a8_tier">V-2 · A-8 is gated behind aDNA-Native — a correct axis pair is inert at <code>extended</code></h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Yes, at extended — but measure the fleet count of extended canvases carrying a bad value FIRST (P2b), and ship it as validate-if-present; confidence 4 of 5">Yes, at extended — but measure the fleet count of extended canvases carrying a bad value FIRST (P2b), and ship it as validate-if-present · <span class="rec-pill-conf"><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v2_a8_tier" onclick="event.stopPropagation(); toggleCard('v2_a8_tier');">
+      <span id="toggle-lbl-v2_a8_tier">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">All 8 Terminal canvases declare <code>extended</code>, carry the correct <code>authority: view</code> + <code>production: generated</code>, and <b>nothing validates the pair at that tier</b>; an invented value would pass. They would validate <code>adna_native</code> today by flipping one field (8/8, re-derived). Should A-8 run at <code>extended</code> too?</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v2_a8_tier" role="region" aria-labelledby="title-v2_a8_tier">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>The axes answer <i>who owns the meaning · how is it made</i> — a question about any derived canvas, not an aDNA-Native one. The keys sit in the native tier for reasons that predate the axes (LIP-0010 placed them where the other <code>_reserved</code> checks were).</li><li><b>Price:</b> any <code>extended</code> canvas with an invalid axis value starts failing. Unknown count today — <b>P2b measures before the LIP is signed</b>; if it is >0 the LIP prices the migration per vault.</li><li>Both keys stay <b>optional</b>; only their values are validated when present (LIP-0010's asymmetric rule unchanged).</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Rule 'yes, pending the measured count'. A tier that lets a correct pair go unchecked is the F-DT-7 shape — an instrument failing into reassurance.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Axes are tier-independent semantics</li><li>Validate-if-present cannot break a canvas that omits the keys</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>Fleet count unknown until P2b runs it</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">4 / 5</span><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>P2b: census of extended canvases × axis values</li><li>LIP-0011 carries the tier change if count permits</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v2_a8_tier" value="approve" onchange="handleRadio('v2_a8_tier','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v2_a8_tier" value="amend" onchange="handleRadio('v2_a8_tier','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v2_a8_tier" value="discuss" onchange="handleRadio('v2_a8_tier','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v2_a8_tier">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v2_a8_tier" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v2_a8_tier', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v2_a8_tier" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="v3_generator" id="card-v3_generator" aria-labelledby="title-v3_generator">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v3_generator" onclick="toggleCard('v3_generator')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v3_generator');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-3 generator</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v3_generator">V-3 · <code>generator</code> as a provenance key — Terminal invented it (8/8), Home used it as an authority value</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Adopt as <code>sync.generator</code> (path or URN), not a top-level key — Terminal migrates by moving one key; <code>authority: "generator"</code> stays invalid; confidence 5 of 5">Adopt as <code>sync.generator</code> (path or URN), not a top-level key — Terminal migrates by moving one key; <code>authority: "generator"</code> stays invalid · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v3_generator" onclick="event.stopPropagation(); toggleCard('v3_generator');">
+      <span id="toggle-lbl-v3_generator">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">Terminal carries <code>_reserved.generator: what/canvas/build_canvases.py</code> on all 8 (legal per §7.3, undeclared). Home's <code>what/canvas/topology.canvas</code> carries <code>authority: "generator"</code> at the non-canonical <code>metadata._reserved</code> with no <code>production</code> (confirmed today). LIP-0010 struck <code>generator</code> from the authority axis for conflating <i>who owns the meaning</i> with <i>how it is made</i>; Terminal reinvented it as the distinction LIP-0010 was drawing. Adopt a provenance carrier — and where?</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v3_generator" role="region" aria-labelledby="title-v3_generator">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li><code>sync</code> is already the provenance block (<code>source_name</code>, <code>source_version</code>); <i>how it was made</i> belongs beside <i>what it was made from</i>.</li><li>A top-level <code>_reserved.generator</code> would be the 12th reserved key for one field; inside <code>sync</code> it is a property of an existing object — smaller schema change, same information.</li><li>Home's canvas is non-conformant on three counts (path · authority value · missing production) and is Hestia's to fix; V-6 rules whether a grandfathering note exists for it. Reported, not repaired here.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Register <code>sync.generator</code> in LIP-0011; decline a top-level key; decline reinstating <code>generator</code> as an authority value.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Independent demand measured (Terminal 8/8)</li><li>Keeps RESERVED_KEYS at 11</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>Terminal regenerates once more</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>LIP-0011 §sync.generator</li><li>Memo #21 to Terminal names the move</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v3_generator" value="approve" onchange="handleRadio('v3_generator','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v3_generator" value="amend" onchange="handleRadio('v3_generator','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v3_generator" value="discuss" onchange="handleRadio('v3_generator','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v3_generator">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v3_generator" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v3_generator', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v3_generator" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="v4_b14_pack" id="card-v4_b14_pack" aria-labelledby="title-v4_b14_pack">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v4_b14_pack" onclick="toggleCard('v4_b14_pack')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v4_b14_pack');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-4 B14 pack</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v4_b14_pack">V-4 · Boulogne B14 — the dual-mode schema pack (LinkML master + canvas twin + image + prose, one sync hash)</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Accept as a T2 item: a <code>pack</code> profile in the Standard (semantic_bindings.profile) + loading modes in spec_canvas_context_loading; ADR-062 owns the LinkML side; confidence 4 of 5">Accept as a T2 item: a <code>pack</code> profile in the Standard (semantic_bindings.profile) + loading modes in spec_canvas_context_loading; ADR-062 owns the LinkML side · <span class="rec-pill-conf"><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v4_b14_pack" onclick="event.stopPropagation(); toggleCard('v4_b14_pack');">
+      <span id="toggle-lbl-v4_b14_pack">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">Automator (Berthier) asks the Standard to state: canonical direction (master → twin via ACADÉMIE P3 <code>gen-canvas</code>), the round-trip invariant, a loss table, twin authoring rules ('none, if <code>production: generated</code>'), and loading modes <b>text / diagram / both</b> in <code>spec_canvas_context_loading</code>. City asks where the rule lives (recommends: Canvas Standard, ADR-062 cross-refers) and offers its pack as a derivability fixture. Default if silent: Boulogne drafts it <code>proposed</code> in its own vault naming Canvas 'as counterparty, not as consenting'. Accept, amend, or decline as a T2 item?</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v4_b14_pack" role="region" aria-labelledby="title-v4_b14_pack">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>The pack is <code>pattern_diagrammatic_context</code> with a schema master instead of prose — the dual-channel row the axes were built for. Declining it would push a Canvas-shaped rule into a vault that does not validate canvases.</li><li><b>Loading modes</b> are a <code>canvas_context</code> loader concern (leg 2); text/diagram/both is a three-line extension with a scoring fixture City has offered to supply.</li><li>What Canvas does <b>not</b> take: the LinkML master's own rules, <code>gen-canvas</code>'s implementation, the image render (Design's). The pack's invariant — 'no member lands alone' — is a <i>release-train</i> rule and stays Boulogne's.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Accept; the Standard gains a pack profile and a loading-modes section; City's pack becomes a certification fixture in P2b/P4.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Three vaults asked for the same home</li><li>It is diagrammatic context by another master</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>Pack profile text must not describe LinkML — stay substrate-neutral</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">4 / 5</span><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>P4 writes the profile + loading modes</li><li>Memo #24 to Automator accepts as T2</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v4_b14_pack" value="approve" onchange="handleRadio('v4_b14_pack','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v4_b14_pack" value="amend" onchange="handleRadio('v4_b14_pack','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v4_b14_pack" value="discuss" onchange="handleRadio('v4_b14_pack','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v4_b14_pack">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v4_b14_pack" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v4_b14_pack', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v4_b14_pack" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="v5_b18_graph_canvas" id="card-v5_b18_graph_canvas" aria-labelledby="title-v5_b18_graph_canvas">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v5_b18_graph_canvas" onclick="toggleCard('v5_b18_graph_canvas')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v5_b18_graph_canvas');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-5 B18 graph.canvas</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v5_b18_graph_canvas">V-5 · Boulogne B18 — every graph carries <code>what/canvas/graph.canvas</code>, plus a live overlay</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Second file keyed by the base canvas's node ids, never merged (Berthier's default; City concurs) — and Canvas builds its own graph.canvas first (P5); confidence 5 of 5">Second file keyed by the base canvas's node ids, never merged (Berthier's default; City concurs) — and Canvas builds its own graph.canvas first (P5) · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v5_b18_graph_canvas" onclick="event.stopPropagation(); toggleCard('v5_b18_graph_canvas');">
+      <span id="toggle-lbl-v5_b18_graph_canvas">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">B18: each graph carries a generated <code>graph.canvas</code> (<code>view</code>/<code>generated</code>, sync = hash of structural inputs, regenerated by a STATE hook, a hand-edit is a validator FAIL) with a volatile <b>live overlay</b> (sessions, lease mode, commit age, open gates, locks). Rule: overlay as a <b>group inside</b> <code>graph.canvas</code>, or a <b>second file</b> (<code>graph_activity.canvas</code>)? City (third viewer) asks to read <code>graph.canvas</code> as a building's floorplan and the overlay as live state joined by node id.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v5_b18_graph_canvas" role="region" aria-labelledby="title-v5_b18_graph_canvas">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>A volatile overlay inside a <code>generated</code> canvas makes every heartbeat a regeneration and every regeneration a sync-hash change — the base would never be 'fresh'. Two files, two cadences.</li><li>The overlay's <code>_reserved.sync</code> names the <b>base</b> hash it was drawn against, so a stale overlay is detectable with the V-1 machinery.</li><li>City's floorplan reading is a <b>read</b> of a conformant canvas — nothing to rule beyond 'yes'; layout positions (Λ) stay City-private as they self-ruled.</li><li>The standard-bearer eats the law first: P5 builds Canvas's own <code>graph.canvas</code> with <code>skill_canvas_producer_build</code> before P4 writes the rule for others.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Second file; profile <code>graph</code> for the base, overlay keyed by node id; floorplan reading yes; Λ stays City's.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Two cadences, two files</li><li>Detectable staleness via V-1</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>A STATE hook regenerating canvases is Boulogne's to build, not ours</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>P5 dogfood</li><li>P4 spec text</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v5_b18_graph_canvas" value="approve" onchange="handleRadio('v5_b18_graph_canvas','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v5_b18_graph_canvas" value="amend" onchange="handleRadio('v5_b18_graph_canvas','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v5_b18_graph_canvas" value="discuss" onchange="handleRadio('v5_b18_graph_canvas','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v5_b18_graph_canvas">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v5_b18_graph_canvas" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v5_b18_graph_canvas', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v5_b18_graph_canvas" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="v6_reserved_placement" id="card-v6_reserved_placement" aria-labelledby="title-v6_reserved_placement">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v6_reserved_placement" onclick="toggleCard('v6_reserved_placement')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v6_reserved_placement');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-6 _reserved path</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v6_reserved_placement">V-6 · <code>_reserved</code> placement for generated canvases — spec as written, or a grandfathering note?</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Spec as written. Grandfathering is a migration note (ADR-011's partition already covers it), not a rule — Home's finding goes to Hestia; confidence 5 of 5">Spec as written. Grandfathering is a migration note (ADR-011's partition already covers it), not a rule — Home's finding goes to Hestia · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v6_reserved_placement" onclick="event.stopPropagation(); toggleCard('v6_reserved_placement');">
+      <span id="toggle-lbl-v6_reserved_placement">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">The spec says <code>_reserved</code> MUST live at <code>metadata.frontmatter._reserved</code> (ADR-011: 194 fleet canvases still have it at <code>metadata._reserved</code>). Home's <code>topology.canvas</code> is one of them. Automator asks: spec as written, or a grandfathering note? Default if silent: spec as written, Home's finding → Hestia as a conformance question.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v6_reserved_placement" role="region" aria-labelledby="title-v6_reserved_placement">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>A block at the wrong path <i>'carries semantics no tool reads while reporting green at core'</i> (F-B1-1) — grandfathering it would license exactly that.</li><li>ADR-011 (pending your signature at its own door) already rules the legacy population and its two-population migration; a second rule here would be a second registry.</li><li>Generated canvases have no excuse: the generator writes the path once.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Spec as written; one migration note in P4 pointing at ADR-011; Home's canvas memo'd to Hestia with the three counts named.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>No second rule</li><li>ADR-011 already partitions</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>ADR-011 is itself unsigned — sign it at its door</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>P4 migration note</li><li>Memo to Hestia</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v6_reserved_placement" value="approve" onchange="handleRadio('v6_reserved_placement','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v6_reserved_placement" value="amend" onchange="handleRadio('v6_reserved_placement','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v6_reserved_placement" value="discuss" onchange="handleRadio('v6_reserved_placement','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v6_reserved_placement">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v6_reserved_placement" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v6_reserved_placement', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v6_reserved_placement" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-amber" data-section="v7_lattice_dispositions" id="card-v7_lattice_dispositions" aria-labelledby="title-v7_lattice_dispositions">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v7_lattice_dispositions" onclick="toggleCard('v7_lattice_dispositions')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v7_lattice_dispositions');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-7 LP dispositions</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v7_lattice_dispositions">V-7 · Noether's lattice dispositions + four CEL rewrites — OVERDUE (due before ACADÉMIE P3; P3 opened 2026-10-10)</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Confirm not-a-lattice for our three; apply the four CEL rewrites anyway (documents should compile); DECLINE to receive the 16 — the Standard describes canvases, not the pipelines that make them, and has no home for workflow descriptions; confidence 4 of 5">Confirm not-a-lattice for our three; apply the four CEL rewrites anyway (documents should compile); DECLINE to receive the 16 — the Standard describes canvases, not the pipelines that make them, and has no home for workflow descriptions · <span class="rec-pill-conf"><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v7_lattice_dispositions" onclick="event.stopPropagation(); toggleCard('v7_lattice_dispositions');">
+      <span id="toggle-lbl-v7_lattice_dispositions">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">LP proposes: <code>lattice_{comic,presentation}_canvas.lattice.yaml</code> + <code>example_canvas_v2.lattice.yaml</code> = <b>not-a-lattice</b>, moving to 'the Canvas format' (ADR-008(3)/016(1)); 16 elsewhere-owned canvasforge files (SuperLeague ×13, SS ×3) = not-a-lattice landing in <b>our</b> format (ADR-010) — <i>does the Canvas format receive them, and does it have a home (suffix, schema)?</i> Plus four CEL rewrites (<code>AND</code>→<code>&amp;&amp;</code>, <code>OR</code>→<code>||</code>, <code>iteration_count</code>→<code>iteration</code>) in those two files. <b>Measured:</b> our two files are consumed by one federation test, one archived smoke test, and a pointer in AILedger Folio's dossier — no runtime executes them.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v7_lattice_dispositions" role="region" aria-labelledby="title-v7_lattice_dispositions">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>Our two files are <b>documentation of producer pipelines</b> (comic · presentation). Keeping them readable as valid lattices costs four token edits and keeps the federation test honest; calling them runnable would be false.</li><li>'The Canvas format' means <code>.canvas</code> — a 2-D output primitive. A workflow description is not one. Receiving the 16 would invent a format to hold them; the honest answer is <i>'no home here; they stay lattice-documentation in their owning vaults or archive'</i>.</li><li>AILedger Folio points at <code>lattice_presentation_canvas.lattice.yaml</code> by path — any rename is memo'd to Thoth first (P5).</li><li><b>Overdue</b>: memo #22 goes today with this recommendation marked provisional; the verdict follows from this door.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Confirm rows 1–2 as not-a-lattice (documentation-only); decline row 3's 'landing in your format'; answer the home question 'none, by design'; accept all four CEL rewrites.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Measured consumers: zero runtime</li><li>Substrate-neutrality test (CLAUDE.md operating style)</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>LP's P7 migration may want a disposition for the 16 — SuperLeague/SS own them</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">4 / 5</span><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>Memo #22 today (provisional)</li><li>P4 memo with verdict</li><li>Apply CEL rewrites in P6</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v7_lattice_dispositions" value="approve" onchange="handleRadio('v7_lattice_dispositions','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v7_lattice_dispositions" value="amend" onchange="handleRadio('v7_lattice_dispositions','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v7_lattice_dispositions" value="discuss" onchange="handleRadio('v7_lattice_dispositions','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v7_lattice_dispositions">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v7_lattice_dispositions" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v7_lattice_dispositions', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v7_lattice_dispositions" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="v8_socials" id="card-v8_socials" aria-labelledby="title-v8_socials">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-v8_socials" onclick="toggleCard('v8_socials')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('v8_socials');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">V-8 Socials</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-v8_socials">V-8 · Socials — social formats today? <code>style_ref</code>? read-only RLHF rows? is <code>iii_quality_contract.md</code> binding?</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: (1) 'Not yet' + charter P7 to build it · (2) accept as a producer-model change · (3) yes to Canvas-side capture sidecars under their namespace, III store is Argus's · (4) yes, versioned; confidence 5 of 5">(1) 'Not yet' + charter P7 to build it · (2) accept as a producer-model change · (3) yes to Canvas-side capture sidecars under their namespace, III store is Argus's · (4) yes, versioned · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-v8_socials" onclick="event.stopPropagation(); toggleCard('v8_socials');">
+      <span id="toggle-lbl-v8_socials">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q">Stentor asked twice (09-21, 10-06). <b>Measured:</b> <code>post_generator</code> has advisory char budgets + aspect hints (twitter/x 16:9 · linkedin 1.91:1 · instagram 1:1), <b>no</b> pixel envelopes, carousel, quote card or thumbnail, <b>no</b> <code>style_ref</code>. Socials' SG-4 blocks on answer (1); they say <i>'a not-yet is an answer'</i>. (2) <code>style_ref</code> {taste_ref, kept_refs, constraints} by reference on <code>Post</code>/<code>PostPanel</code>. (3) read-only access to ADR-005 RLHF rows for variant ids they requested. (4) pin <code>iii_quality_contract.md</code> as the consumption contract.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-v8_socials" role="region" aria-labelledby="title-v8_socials">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>None of this touches the Standard — it is producer-level, Canvas's to answer without a LIP. Only the <i>priority</i> is yours: P7 is a real build (~160k tokens).</li><li>'Not yet' unblocks SG-4 <b>today</b>: their routing duty gets a named counterparty and a chartered mission instead of a silence.</li><li><code>spec_rlhf_seam.md</code>: Canvas owns capture, III owns the store schema (§6b). Read-only to our sidecars under <code>rlhf_consumer_namespace.socials.*</code> is ours to grant; the III store is not.</li><li>C2PA/IPTC at generation time (their implicit flag): Canvas emits <i>prompts</i>, not pixels, in <code>post_generator</code> — the metadata belongs where pixels are written (Socials' encode step or ComfyUI's emitter). Say so.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Answer all four now (memo #25); charter P7; sequence P7 after P2b unless SG-4's date forces it earlier.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>Measured, not assumed</li><li>Unblocks a peer gate with an honest answer</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>P7 competes with P2b for the next sitting</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>Memo #25 today</li><li>P7 mission chartered (done)</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-v8_socials" value="approve" onchange="handleRadio('v8_socials','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v8_socials" value="amend" onchange="handleRadio('v8_socials','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-v8_socials" value="discuss" onchange="handleRadio('v8_socials','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-v8_socials">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-v8_socials" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('v8_socials', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-v8_socials" aria-live="polite"></div>
+  </div>
+</article>
+
+<article class="card rec-green" data-section="firewall_and_gos" id="card-firewall_and_gos" aria-labelledby="title-firewall_and_gos">
+  <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-firewall_and_gos" onclick="toggleCard('firewall_and_gos')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('firewall_and_gos');}">
+    <span class="gd-badge" aria-hidden="true"><span class="gd-n">Firewall · GOs</span></span>
+    <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
+    <h2 class="c-title" id="title-firewall_and_gos">Firewall touch #7 and the three GOs this session owes you</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Grant ① ② ③; sign adr_010 + adr_012 + queue ①③⑤ now; hold adr_011 with queue ② (memo #20) as before; confidence 5 of 5">Grant ① ② ③; sign adr_010 + adr_012 + queue ①③⑤ now; hold adr_011 with queue ② (memo #20) as before · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-firewall_and_gos" onclick="event.stopPropagation(); toggleCard('firewall_and_gos');">
+      <span id="toggle-lbl-firewall_and_gos">Show Analysis</span>
+      <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M2 4.5L6 8.5L10 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="decision-block">
+      <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
+      <h3 class="decision-label">The Decision</h3>
+      <div class="decision-q"><b>Firewall:</b> P2b will touch <code>canvas_std/reserved.py</code> (A-6 semantic · A-8 tier), <code>roundtrip.py</code> (source digest helper), <code>schema/adna_canvas_v2.schema.json</code> (<code>$defs.reserved.sync</code>), <code>spec_adna_canvas_standard.md</code> §7.2/§8.1, <code>__init__.py</code> (2.5.0) — named here so the LIP's signature is informed; the touch itself is signed with LIP-0011. <b>GOs:</b> ① push (2 pre-session commits + this session's; gitleaks pre-push); ② deliver the <b>substantive</b> replies after this door's verdicts (interim acks went today on the plan's approval); ③ standing permission to restart the Canvas-rooted <code>gate_receiver</code> when found down (it was down today; restarted; landed on :8767; four doors re-rendered). Also pointed at, not re-rendered: the four 26-day-old doors (<code>adr_010</code> · <code>adr_011</code> · <code>adr_012</code> · <code>operator_queue_20260916</code>) — sign, or abandon per Home ADR-017.</div>
+    </div>
+  </div>
+
+  <div class="analysis-wrap" id="analysis-firewall_and_gos" role="region" aria-labelledby="title-firewall_and_gos">
+    <div style="padding:0 20px 4px">
+      <div class="analysis-inner"><div class="analysis-inner"><ul style="margin:0;padding-left:18px;line-height:1.6"><li>Push: authorship uniform (Mondrian), gitleaks clean history, visibility public — nothing in this session's changeset is a secret; the memos redacted infrastructure literals per the inbox README.</li><li>Receiver: a persistent local service — the 09-16 ruling started it once; a <b>standing</b> permission turns the next outage into a one-line act instead of a held gate.</li><li>The four old doors are unchanged in content; only their receiver URL moved. Their recommended order from 09-16 stands.</li></ul></div></div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 14px">
+    <div class="rec-block">
+      <!-- D1 cycle 3: <h3> for screen-reader heading nav -->
+      <h3 class="rec-block-label">Agent's Recommendation</h3>
+      <div class="rec-structured"><div class="rec-sub rec-sub-rationale"><h4 class="rec-sub-label">RATIONALE</h4><div class="rec-sub-body">Grant the three GOs; the firewall acknowledgement here is informational — the signature comes with LIP-0011.</div></div><div class="rec-sub rec-sub-factors"><h4 class="rec-sub-label">KEY FACTORS</h4><ul class="rec-sub-list"><li>No secret in the changeset</li><li>Receiver outage cost one sitting</li></ul></div><div class="rec-sub rec-sub-risks"><h4 class="rec-sub-label">RISKS</h4><ul class="rec-sub-list"><li>adr_011 remains the load-bearing hold</li></ul></div><div class="rec-sub rec-sub-confidence"><h4 class="rec-sub-label">CONFIDENCE</h4><span class="rec-conf-dots"><span class="rec-conf-num">5 / 5</span><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></div><div class="rec-sub rec-sub-next-actions"><h4 class="rec-sub-label">NEXT ACTIONS</h4><ul class="rec-sub-list"><li>Push on grant</li><li>Deliver substantive memos in P4</li><li>Receiver restart on sight</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="c-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Your decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Section decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="sec-firewall_and_gos" value="approve" onchange="handleRadio('firewall_and_gos','approve')">
+          <span class="radio-lbl">Approve as recommended</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-firewall_and_gos" value="amend" onchange="handleRadio('firewall_and_gos','amend')">
+          <span class="radio-lbl">Approve with amendment</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="sec-firewall_and_gos" value="discuss" onchange="handleRadio('firewall_and_gos','discuss')">
+          <span class="radio-lbl">Defer — needs discussion</span>
+        </label>
+      </div>
+    </fieldset>
+    <div class="notes-wrap" id="notes-wrap-firewall_and_gos">
+      <!-- D1 cycle 6: aria-label so SR users know what the input is for (placeholder isn't a label) -->
+      <textarea class="notes-ta" id="notes-firewall_and_gos" aria-label="Notes for this section (required when amending or deferring)" placeholder="Notes (required for amend/discuss)" oninput="handleNote('firewall_and_gos', this.value)"></textarea>
+    </div>
+    <div class="c-status" id="status-firewall_and_gos" aria-live="polite"></div>
+  </div>
+</article>
+
+
+</div>
+
+<!-- composite final card — D1 cycle 8: <section> + heading hierarchy peer with section cards -->
+<section class="composite-card" id="composite" aria-labelledby="composite-label">
+  <h2 class="composite-label" id="composite-label">◆ COMPOSITE — </h2>
+  <!-- D2 cycle 18 (F-D2-5) — TITLE AUTHORING DISCIPLINE:
+       `composite_title` MUST be a verb-first action phrase ("Designate X as Y", "Approve X", "Authorize X to proceed").
+       NOT descriptive ("Tier-1 visual_ascii contract — demonstrated end-to-end" is a status, not a decision).
+       `composite_question` MUST be the explicit yes/no framing ending in '?' that the radio answer maps to.
+       Full convention: templates/README.md § "Title authoring discipline". -->
+  <h3 class="composite-title">Vernier P1 exit — one field, four waiters, eight rulings</h3>
+  
+  <div class="composite-q">Operation Vernier found at P1 that <code>sync.sync_hash</code> has a validated shape and no defined semantic. In the 25 days the gate waited, <b>four vaults asked the same question independently</b> and one of them (LatticeProtocol) carded its generator on our answer. Sections V-1…V-3 are the original findings re-derived on the live subject (Terminal.aDNA, 8 canvases); V-4…V-8 are the inbox's additions; the last section names the firewall touch and the GOs. <b>Each section leads with the measurement and prices the migration</b>; ruling &lsquo;defer&rsquo; or choosing a non-recommended option is a real answer and is recorded as one.</div>
+  
+
+  <div class="composite-form">
+    <!-- D3 cycle 23 (F-D3-2): visible "*" required marker via .iss-required + aria-required on radiogroup -->
+    <fieldset style="border:none;padding:0;margin:0">
+      <legend class="form-label iss-required">Phase-exit decision</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Composite phase-exit decision (required)">
+        <label class="radio-opt">
+          <input type="radio" name="composite" value="approve" onchange="handleComposite('approve')">
+          <span class="radio-lbl">APPROVE — open next phase</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="composite" value="amend" onchange="handleComposite('amend')">
+          <span class="radio-lbl">AMEND — modify and open</span>
+        </label>
+        <label class="radio-opt">
+          <input type="radio" name="composite" value="discuss" onchange="handleComposite('discuss')">
+          <span class="radio-lbl">DEFER — resolve concerns first</span>
+        </label>
+        
+      </div>
+    </fieldset>
+
+    <label for="overall-notes" class="form-label" style="margin-top:18px;display:block">Notes</label>
+    <textarea class="overall-notes" id="overall-notes" placeholder="Amendments, directives, or context for the agent…" oninput="handleOverallNote(this.value)"></textarea>
+
+    <!-- D3 cycle 23 (F-D3-2 + F-P3p.7-1 prevention-arm): visible "*" required marker — Confidence was the silent-disabled-submit root cause at P3p.7 -->
+    <fieldset style="border:none;padding:0;margin:18px 0 0 0">
+      <legend class="form-label iss-required">Decision confidence</legend>
+      <div class="radio-grp" role="radiogroup" aria-required="true" aria-label="Decision confidence on a 1-5 scale (required)" style="flex-direction:row;gap:12px;flex-wrap:wrap">
+        <label class="radio-opt" style="flex:1;min-width:50px"><input type="radio" name="confidence" value="1" onchange="handleConfidence(1)" aria-label="Confidence 1 — very low"><span class="radio-lbl">1</span></label>
+        <label class="radio-opt" style="flex:1;min-width:50px"><input type="radio" name="confidence" value="2" onchange="handleConfidence(2)" aria-label="Confidence 2 — low"><span class="radio-lbl">2</span></label>
+        <label class="radio-opt" style="flex:1;min-width:50px"><input type="radio" name="confidence" value="3" onchange="handleConfidence(3)" aria-label="Confidence 3 — medium"><span class="radio-lbl">3</span></label>
+        <label class="radio-opt" style="flex:1;min-width:50px"><input type="radio" name="confidence" value="4" onchange="handleConfidence(4)" aria-label="Confidence 4 — high"><span class="radio-lbl">4</span></label>
+        <label class="radio-opt" style="flex:1;min-width:50px"><input type="radio" name="confidence" value="5" onchange="handleConfidence(5)" aria-label="Confidence 5 — very high"><span class="radio-lbl">5</span></label>
+      </div>
+      
+    </fieldset>
+
+    <!-- P3.1 — Six-axis III pack ranker (optional; F-5 fix; populates axis_scores in output JSON)
+         D2 cycle 13 (CF-D1→D2-3): wrapped in <details> collapsed by default. Operator opens iff
+         this gate is a decadal-cycle output. Reclaims vertical space for composite-form prominence.
+         D3 cycle 22 (CF-D2→D3-1):  renders ` open` when data.auto_expand_ranker
+         is true (opt-in; default collapsed preserves D2 contract). -->
+    <details class="ranker-section">
+      <summary>
+        <span class="form-label">Six-axis ranker · optional · 1 = low → 5 = high</span>
+        <div class="ranker-hint">Per-cycle scoring for III decadal AAR. Skip if this gate isn't a decadal-cycle output.</div>
+      </summary>
+
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>DC</strong> — Decision Clarity</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-DC" value="1" onchange="handleAxis('DC',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-DC" value="2" onchange="handleAxis('DC',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-DC" value="3" onchange="handleAxis('DC',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-DC" value="4" onchange="handleAxis('DC',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-DC" value="5" onchange="handleAxis('DC',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>ACT</strong> — Agent Context Transparency</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-ACT" value="1" onchange="handleAxis('ACT',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-ACT" value="2" onchange="handleAxis('ACT',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-ACT" value="3" onchange="handleAxis('ACT',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-ACT" value="4" onchange="handleAxis('ACT',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-ACT" value="5" onchange="handleAxis('ACT',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>SQ</strong> — Signal Quality</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-SQ" value="1" onchange="handleAxis('SQ',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-SQ" value="2" onchange="handleAxis('SQ',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-SQ" value="3" onchange="handleAxis('SQ',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-SQ" value="4" onchange="handleAxis('SQ',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-SQ" value="5" onchange="handleAxis('SQ',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>TC</strong> — Trust Calibration</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-TC" value="1" onchange="handleAxis('TC',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-TC" value="2" onchange="handleAxis('TC',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-TC" value="3" onchange="handleAxis('TC',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-TC" value="4" onchange="handleAxis('TC',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-TC" value="5" onchange="handleAxis('TC',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>CL</strong> — Cognitive Load</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-CL" value="1" onchange="handleAxis('CL',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-CL" value="2" onchange="handleAxis('CL',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-CL" value="3" onchange="handleAxis('CL',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-CL" value="4" onchange="handleAxis('CL',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-CL" value="5" onchange="handleAxis('CL',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+      <div class="axis-row">
+        <div class="axis-lbl"><strong>RU</strong> — Recovery / Undo</div>
+        <div class="scale">
+          <label class="radio-opt"><input type="radio" name="ax-RU" value="1" onchange="handleAxis('RU',1)"><span class="radio-lbl">1</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-RU" value="2" onchange="handleAxis('RU',2)"><span class="radio-lbl">2</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-RU" value="3" onchange="handleAxis('RU',3)"><span class="radio-lbl">3</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-RU" value="4" onchange="handleAxis('RU',4)"><span class="radio-lbl">4</span></label>
+          <label class="radio-opt"><input type="radio" name="ax-RU" value="5" onchange="handleAxis('RU',5)"><span class="radio-lbl">5</span></label>
+        </div>
+      </div>
+
+      <div class="axis-row" style="margin-top:12px;border-bottom:none">
+        <label class="axis-lbl" for="ergonomics">7th — agent-ergonomics (pass/fail)</label>
+        <input type="number" id="ergonomics" class="ergonomics-input" placeholder="seconds (≤120 cached · ≤300 cold-start)" oninput="handleErgonomics(this.value)" min="0" step="1" aria-describedby="ergonomics-hint">
+      </div>
+    </details>
+  </div>
+</section>
+
+
+
+
+
+<div class="divider"></div>
+
+<!-- D1 cycle 9: region landmark + heading -->
+<section class="output-section" id="output-section" aria-labelledby="out-lbl">
+  <div class="out-hdr">
+    <h3 class="out-lbl" id="out-lbl">GATE OUTPUT JSON · schema_version=1.0</h3>
+    <div>
+      <span class="recv-status" id="recv-status">— not submitted</span>
+      <button class="copy-btn" onclick="copyOutput()">Copy</button>
+    </div>
+  </div>
+  <pre class="out-pre" id="out-pre"></pre>
+  <!-- D3 cycle 28 (F-D3-7): structured submit-feedback — names what failed + what was preserved + what to do. -->
+  <div class="submit-feedback" id="submit-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
+</section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="ft-l">Generated by skill_create_sis · 2026-10-12<br>Every figure on this door was re-derived 2026-10-12 (review artifact §1–§2). Recommendations are the agent's; verdicts are yours. §7.7 — agents author, operators ratify.</div>
+  <div class="ft-r">vernier_p1_exit_20261012</div>
+  
+</footer>
+
+</div>
+
+<!-- D3 cycle 25 (F-D3-4): pre-submit review dialog for irreversible gates. Empty when data.irreversible is not true. -->
+
+
+<!-- D3 cycle 27 (F-D3-6): restore-prompt dialog when save_draft is true AND prior state was detected at init. -->
+
+
+<!-- D7 cycle 62 (CF-D6→D7-1): cancel-confirm dialog when confirm_discard_when_dirty: true AND state is dirty. -->
+
+
+<!-- D7 cycle 66: gate-expiry overlay when expires_at is set AND wall-clock >= expires_at. JS opens via showModal() at init. -->
+
+
+<!-- D1 cycle 7: region landmark + aria-hidden default (sync'd with .vis class via JS); aria-live progress -->
+<!-- D3 cycle 21 (F-P3p.7-1): 3-predicate sticky-prog naming ALL submit-readiness predicates (Sections + Composite + Confidence). Each chip carries data-state="sat|unsat"; CSS pseudo renders ✓/✗ glyph. #gen-btn-help is the aria-describedby target with dynamic missing-predicate text. -->
+<div class="sticky-bar" id="sticky-bar" role="region" aria-label="Gate submission action bar" aria-hidden="true">
+  <div class="sticky-inner">
+    <div class="sticky-prog" aria-live="polite" aria-atomic="true" role="status">
+      <span class="sp-pred" id="sp-pred-sections" data-state="unsat">Sections <strong id="sticky-prog-n">0</strong>/<span class="sp-pred-total"></span></span>
+      <span class="sp-pred" id="sp-pred-composite" data-state="unsat">Composite</span>
+      <span class="sp-pred" id="sp-pred-confidence" data-state="unsat">Confidence</span>
+    </div>
+    <!-- D3 cycle 27 (F-D3-6): save-status pill — only renders when data.save_draft is true. -->
+    
+    <!-- D3 cycle 26 (F-D3-5): visible cancel path. confirm() guards discard; default redirect = about:blank. -->
+    <button type="button" class="cancel-btn" id="cancel-btn" onclick="cancelGate()" aria-label="Discard and close gate">Cancel</button>
+    <button class="gen-btn" id="gen-btn" disabled onclick="submitGate()" aria-describedby="gen-btn-help" aria-label="Submit: Vernier P1 exit — one field, four waiters, eight rulings">Submit: Vernier P1 exit — one field, four waiters, eight rulings</button>
+    <span id="gen-btn-help" class="vh" aria-live="polite">Submit is disabled until every section is decided, the composite decision is set, and a confidence rating is picked.</span>
+  </div>
+</div>
+
+<script>
+/* round_trip.js — client-side 4-tier auto-detect submit chain (AD-5).
+ *
+ * Order: T1A POST receiver → T2 FSA-API → T1B <a download> → T3 clipboard.
+ * Override via `window.GATE_FORCE_TIER = 'T1A'|'T1B'|'T2'|'T3'`.
+ *
+ * Receiver URL: `document.body.dataset.receiverUrl || 'http://localhost:8765'`
+ * (extracted from CSS per substrate-recon §1.10 anti-pattern fix).
+ *
+ * Inlined into generator output HTML per AD-2 (single-file self-contained).
+ */
+
+(function () {
+  'use strict';
+
+  const RECEIVER_URL = (document.body && document.body.dataset.receiverUrl) || 'http://localhost:8765';
+  const HEALTH_TIMEOUT_MS = 800;
+
+  // ── tier probes ────────────────────────────────────────────────────────────
+  async function probeT1A() {
+    try {
+      const ctl = new AbortController();
+      const t = setTimeout(() => ctl.abort(), HEALTH_TIMEOUT_MS);
+      const res = await fetch(`${RECEIVER_URL}/health`, { signal: ctl.signal, mode: 'cors' });
+      clearTimeout(t);
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  function probeT2() {
+    return typeof window.showSaveFilePicker === 'function';
+  }
+
+  function probeT1B() {
+    // Browsers that can create object URLs and click anchors.
+    return typeof URL.createObjectURL === 'function' && typeof document.createElement === 'function';
+  }
+
+  function probeT3() {
+    return !!(navigator.clipboard && typeof navigator.clipboard.writeText === 'function');
+  }
+
+  // ── tier implementations ───────────────────────────────────────────────────
+  async function submitT1A(gateId, output) {
+    const res = await fetch(`${RECEIVER_URL}/save`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gate_id: gateId, output }),
+    });
+    if (!res.ok) throw new Error(`receiver returned ${res.status}`);
+    return await res.json();
+  }
+
+  async function submitT2(gateId, output) {
+    const handle = await window.showSaveFilePicker({
+      suggestedName: `${gateId}.output.json`,
+      types: [{ description: 'Gate output JSON', accept: { 'application/json': ['.json'] } }],
+    });
+    const w = await handle.createWritable();
+    await w.write(JSON.stringify(output, null, 2));
+    await w.close();
+    return { status: 'ok', tier: 'T2', filename: handle.name };
+  }
+
+  function submitT1B(gateId, output) {
+    const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${gateId}.output.json`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+    return { status: 'ok', tier: 'T1B', filename: a.download };
+  }
+
+  async function submitT3(gateId, output) {
+    const text = JSON.stringify(output, null, 2);
+    await navigator.clipboard.writeText(text);
+    return { status: 'ok', tier: 'T3', clipboard_bytes: text.length };
+  }
+
+  // ── auto-detect orchestrator ───────────────────────────────────────────────
+  async function autoSubmit(gateId, output) {
+    const forced = window.GATE_FORCE_TIER;
+    if (forced) {
+      const map = { T1A: submitT1A, T2: submitT2, T1B: submitT1B, T3: submitT3 };
+      const fn = map[forced];
+      if (!fn) throw new Error(`unknown forced tier: ${forced}`);
+      const result = await fn(gateId, output);
+      return { ...result, tier: forced, forced: true };
+    }
+
+    // Probe in priority order T1A → T2 → T1B → T3
+    if (await probeT1A()) {
+      try { return { ...(await submitT1A(gateId, output)), tier: 'T1A' }; }
+      catch (e) { console.warn('T1A submit failed, falling back:', e); }
+    }
+    if (probeT2()) {
+      try { return await submitT2(gateId, output); }
+      catch (e) { console.warn('T2 submit cancelled or failed, falling back:', e); }
+    }
+    if (probeT1B()) {
+      return submitT1B(gateId, output);
+    }
+    if (probeT3()) {
+      // Coda: wrap T3 so a clipboard rejection (permission denied / API unavailable)
+      // falls through to the manual copy-paste message instead of throwing past it.
+      try { return await submitT3(gateId, output); }
+      catch (e) { console.warn('T3 clipboard submit failed, falling back to manual copy:', e); }
+    }
+    throw new Error('All round-trip tiers unavailable. Copy this JSON manually:\n' + JSON.stringify(output, null, 2));
+  }
+
+  // ── public API ─────────────────────────────────────────────────────────────
+  window.RoundTrip = {
+    autoSubmit,
+    probeT1A, probeT2, probeT1B, probeT3,
+    submitT1A, submitT2, submitT1B, submitT3,
+    RECEIVER_URL,
+  };
+})();
+
+
+/* state_manager.js — in-page form state, validation, draft save.
+ *
+ * Manages: radio selections, textarea content, expanded-card state.
+ * Persists draft to localStorage `<vault>_<gate_id>` per substrate-recon §1.8 generalization.
+ * Cmd+S triggers explicit draft download (`.draft.json` per AD-6).
+ *
+ * Inlined into generator output HTML per AD-2.
+ */
+
+(function () {
+  'use strict';
+
+  function makeStateManager(opts) {
+    const gateId = opts.gateId;
+    const vault = opts.vault || 'unknown';
+    const storageKey = `${vault}_${gateId}`;
+
+    let state = { dec: {}, notes: {}, exp: {} };
+    const subs = [];
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (raw) Object.assign(state, JSON.parse(raw));
+      } catch (e) { console.warn('state load failed', e); }
+    }
+    function save() {
+      try { localStorage.setItem(storageKey, JSON.stringify(state)); }
+      catch (e) { console.warn('state save failed', e); }
+      subs.forEach(fn => fn(state));
+    }
+    function clear() {
+      try { localStorage.removeItem(storageKey); } catch {}
+      state = { dec: {}, notes: {}, exp: {} };
+      subs.forEach(fn => fn(state));
+    }
+
+    function setDecision(id, value) { state.dec[id] = value; save(); }
+    function setNote(id, value) { state.notes[id] = value; save(); }
+    function setExpanded(id, value) { state.exp[id] = !!value; save(); }
+    function getState() { return JSON.parse(JSON.stringify(state)); }
+    function subscribe(fn) { subs.push(fn); return () => { const i = subs.indexOf(fn); if (i >= 0) subs.splice(i, 1); }; }
+
+    // Draft save: explicit Cmd+S writes <gate_id>.draft.json via download anchor (T1B-style).
+    function saveDraftToFile() {
+      const draft = {
+        schema_version: '1.0',
+        gate_id: gateId,
+        vault,
+        kind: 'draft',
+        saved_at: new Date().toISOString(),
+        state: getState(),
+      };
+      const blob = new Blob([JSON.stringify(draft, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${gateId}.draft.json`;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+    }
+
+    function bindKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        const cmd = e.metaKey || e.ctrlKey;
+        if (cmd && e.key === 's') { e.preventDefault(); saveDraftToFile(); }
+      });
+    }
+
+    function init() {
+      load();
+      bindKeyboardShortcuts();
+      return getState();
+    }
+
+    // D7 cycle 63 — public `touchSave()` for partial-save safety-net writes from
+    // setInterval + window.blur handlers. Re-writes current state to localStorage and
+    // notifies subscribers (the pill flash subscriber). The internal `save()` is shared
+    // with every set*-call so existing behavior is unchanged; touchSave just exposes the
+    // ability to fire it without a state change.
+    function touchSave() { save(); }
+
+    return { init, getState, setDecision, setNote, setExpanded, subscribe, clear, saveDraftToFile, touchSave, storageKey };
+  }
+
+  window.StateManager = { make: makeStateManager };
+})();
+
+
+(function() {
+  'use strict';
+  const GATE_ID = "vernier_p1_exit_20261012";
+  const VAULT = "Canvas.aDNA";
+  const SECTION_COUNT = ;
+  const PERSONA = "neutral";
+  const SURFACE_TYPE = "decision_gate";
+  const INTERACTION_MODE = "IM-B"; // multi-card with per-card decisions
+
+  const sm = window.StateManager.make({ gateId: GATE_ID, vault: VAULT });
+  const initial = sm.init();
+  // D3 cycle 27 (F-D3-6): save_draft flag controls whether we surface UI for the
+  // localStorage persistence StateManager has done since substrate-recon §1.8. Default
+  // false preserves existing silent-restore behavior (byte-identical render contract).
+  const SAVE_DRAFT = false;
+  // D6 cycle 57: independent opt-in for the inline mobile-friendly resume banner; an
+  // alternative to the modal restore dialog. Banner takes UI precedence over modal at
+  // init when both flags are true (modal stays in DOM but is not shown).
+  const AUTO_SAVE_DRAFTS = false;
+  const hasPrior = !!(Object.keys(initial.dec || {}).length || Object.keys(initial.notes || {}).length || Object.keys(initial.exp || {}).length);
+
+  function applyRestoredState() {
+    // restore UI from state
+    Object.entries(initial.dec || {}).forEach(([id, val]) => {
+      // axis radios (ax-DC, ax-ACT, ax-SQ, ax-TC, ax-CL, ax-RU) restore via dedicated handler
+      if (id.startsWith('ax-')) {
+        const r = document.querySelector(`input[name="${id}"][value="${val}"]`);
+        if (r) { r.checked = true; r.closest('.radio-opt')?.classList.add('sel-approve'); }
+        return;
+      }
+      const radio = document.querySelector(`input[name="sec-${id}"][value="${val}"], input[name="${id}"][value="${val}"], input[name="composite"][value="${val}"]`);
+      if (radio) { radio.checked = true; applyRadio(id, val); }
+    });
+    Object.entries(initial.notes || {}).forEach(([id, val]) => {
+      if (id === 'ergonomics') {
+        const e = document.getElementById('ergonomics');
+        if (e) e.value = val;
+        return;
+      }
+      const ta = document.getElementById(`notes-${id}`) || (id === 'overall' && document.getElementById('overall-notes')) || null;
+      if (ta) ta.value = val;
+    });
+    if (initial.dec && initial.dec.confidence) {
+      const radio = document.querySelector(`input[name="confidence"][value="${initial.dec.confidence}"]`);
+      if (radio) radio.checked = true;
+    }
+    Object.entries(initial.exp || {}).forEach(([id, val]) => {
+      if (val) document.getElementById(`card-${id}`)?.classList.add('expanded');
+    });
+    updateProgress();
+  }
+
+  // D3 cycle 27: gated restore. Default (SAVE_DRAFT=false) silently restores (byte-identical
+  // pre-flag behavior). SAVE_DRAFT=true + hasPrior shows the restore-prompt dialog; operator
+  // picks Restore (applyRestoredState) or Start Fresh (sm.clear + start-empty).
+  // D6 cycle 57: AUTO_SAVE_DRAFTS=true + hasPrior shows the inline non-modal banner instead
+  // (mobile-friendlier — does not block scroll, sits at top of body). Banner reveals via
+  // the `hidden` attribute toggle; Restore/Discard buttons map to the same handlers as the
+  // modal dialog. When both flags are true the banner takes precedence (modal stays in DOM
+  // but is not shown).
+  if (AUTO_SAVE_DRAFTS && hasPrior) {
+    const banner = document.getElementById('iss-resume-banner');
+    if (banner) {
+      banner.removeAttribute('hidden');
+      // Defer applyRestoredState — operator chooses via banner buttons.
+    } else {
+      applyRestoredState();
+    }
+  } else if (SAVE_DRAFT && hasPrior) {
+    const dlg = document.getElementById('iss-restore');
+    if (dlg && typeof dlg.showModal === 'function') {
+      dlg.showModal();
+    } else {
+      applyRestoredState();
+    }
+  } else {
+    applyRestoredState();
+  }
+
+  // D3 cycle 27: flash save-status pill briefly on every state change when SAVE_DRAFT is on.
+  function flashSavePill() {
+    const pill = document.getElementById('save-status-pill');
+    if (!pill) return;
+    pill.textContent = '✓ Draft saved';
+    pill.classList.add('vis');
+    clearTimeout(flashSavePill._t);
+    flashSavePill._t = setTimeout(() => {
+      pill.textContent = 'Draft auto-save: ON';
+      pill.classList.remove('vis');
+    }, 1200);
+  }
+  if (SAVE_DRAFT && sm.subscribe) sm.subscribe(flashSavePill);
+
+  // D7 cycle 63 — partial-save safety-net (opt-in via `partial_save_interval_ms` > 0).
+  // Layers on top of D3 StateManager's per-set persistence: an interval + onblur trigger
+  // re-write current state to localStorage so the operator gets a visible pill flash
+  // confirming the draft is safe even when no new selections are being made. Pairs with
+  // `save_status_pill_html` which renders whenever this OR `save_draft: true` is enabled.
+  const PARTIAL_SAVE_INTERVAL_MS = 0;
+  if (PARTIAL_SAVE_INTERVAL_MS > 0) {
+    if (sm.subscribe) sm.subscribe(flashSavePill);
+    const partialSaveTick = () => {
+      try { if (sm.touchSave) sm.touchSave(); } catch (e) { console.warn('partial save failed', e); }
+      flashSavePill();
+    };
+    setInterval(partialSaveTick, PARTIAL_SAVE_INTERVAL_MS);
+    window.addEventListener('blur', partialSaveTick);
+  }
+
+  function restoreKeepDraft() {
+    const dlg = document.getElementById('iss-restore');
+    if (dlg) dlg.close();
+    // D6 cycle 57: hide inline banner if present (AUTO_SAVE_DRAFTS path).
+    const banner = document.getElementById('iss-resume-banner');
+    if (banner) banner.setAttribute('hidden', '');
+    applyRestoredState();
+  }
+
+  function restoreStartFresh() {
+    const dlg = document.getElementById('iss-restore');
+    if (dlg) dlg.close();
+    // D6 cycle 57: hide inline banner if present.
+    const banner = document.getElementById('iss-resume-banner');
+    if (banner) banner.setAttribute('hidden', '');
+    sm.clear();
+    updateProgress();
+  }
+
+  function toggleCard(id) {
+    const card = document.getElementById(`card-${id}`);
+    if (!card) return;
+    card.classList.toggle('expanded');
+    const isOpen = card.classList.contains('expanded');
+    sm.setExpanded(id, isOpen);
+    document.getElementById(`toggle-lbl-${id}`).textContent = isOpen ? 'Hide Analysis' : 'Show Analysis';
+    // D1 Accessibility — flip aria-expanded on both header (role=button) and toggle button
+    card.querySelectorAll('.c-hdr, .c-toggle').forEach(el => el.setAttribute('aria-expanded', isOpen ? 'true' : 'false'));
+  }
+
+  function scrollToCard(id) {
+    document.getElementById(`card-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function handleRadio(id, val) {
+    sm.setDecision(id, val);
+    applyRadio(id, val);
+    updateProgress();
+  }
+
+  function applyRadio(id, val) {
+    document.querySelectorAll(`input[name="sec-${id}"]`).forEach(r => {
+      const opt = r.closest('.radio-opt');
+      if (!opt) return;
+      opt.classList.remove('sel-approve', 'sel-amend', 'sel-discuss');
+    });
+    const sel = document.querySelector(`input[name="sec-${id}"][value="${val}"]`)?.closest('.radio-opt');
+    if (sel) sel.classList.add(`sel-${val}`);
+    const nw = document.getElementById(`notes-wrap-${id}`);
+    if (nw) nw.classList.toggle('open', val === 'amend' || val === 'discuss');
+    const card = document.getElementById(`card-${id}`);
+    if (card) {
+      card.classList.add('decided');
+      card.classList.remove('rec-approve', 'rec-amber', 'rec-purple');
+      card.classList.add(val === 'approve' ? 'rec-approve' : val === 'amend' ? 'rec-amber' : 'rec-purple');
+    }
+    const ovChip = document.getElementById(`ov-${id}`);
+    if (ovChip) {
+      ovChip.classList.remove('approve-chip', 'amend-chip', 'discuss-chip');
+      ovChip.classList.add(val === 'approve' ? 'approve-chip' : val === 'amend' ? 'amend-chip' : 'discuss-chip');
+    }
+    const st = document.getElementById(`status-${id}`);
+    if (st) {
+      st.classList.add('vis');
+      st.classList.remove('st-approve', 'st-amend', 'st-discuss');
+      st.classList.add(`st-${val}`);
+      st.textContent = val.toUpperCase();
+    }
+  }
+
+  function handleNote(id, value) { sm.setNote(id, value); }
+  function handleOverallNote(value) { sm.setNote('overall', value); }
+  function handleComposite(val) { sm.setDecision('composite', val); applyComposite(val); updateProgress(); }
+  function applyComposite(val) {
+    // D5 cycle 45: include `sel-need_more_info` in the cleanup set for escape_hatch gates;
+    // class is no-op when the option isn't present (default-off contract preserved).
+    document.querySelectorAll('input[name="composite"]').forEach(r => {
+      r.closest('.radio-opt')?.classList.remove('sel-approve', 'sel-amend', 'sel-discuss', 'sel-need_more_info');
+    });
+    const sel = document.querySelector(`input[name="composite"][value="${val}"]`)?.closest('.radio-opt');
+    if (sel) sel.classList.add(`sel-${val}`);
+  }
+  function handleConfidence(n) { sm.setDecision('confidence', n); updateProgress(); }
+
+  // P3.1 — 6-axis ranker handlers (optional; do not gate submit; F-5 fix)
+  function handleAxis(code, v) {
+    sm.setDecision(`ax-${code}`, Number(v));
+    document.querySelectorAll(`input[name="ax-${code}"]`).forEach(r => r.closest('.radio-opt')?.classList.remove('sel-approve'));
+    document.querySelector(`input[name="ax-${code}"][value="${v}"]`)?.closest('.radio-opt')?.classList.add('sel-approve');
+  }
+  function handleErgonomics(v) { sm.setNote('ergonomics', v); }
+
+  function updateProgress() {
+    const st = sm.getState();
+    const sectionDecisions = Object.keys(st.dec || {}).filter(k => k !== 'composite' && k !== 'confidence' && !k.startsWith('ax-')).length;
+    document.getElementById('prog-num').innerHTML = `${sectionDecisions} <span>/ ${SECTION_COUNT}</span>`;
+    document.getElementById('prog-bar').style.width = `${(sectionDecisions / SECTION_COUNT) * 100}%`;
+    document.getElementById('sticky-prog-n').textContent = sectionDecisions;
+    // D3 cycle 21 (F-P3p.7-1): each predicate gets its own data-state for the ✓/✗ glyph.
+    const secOk = sectionDecisions >= SECTION_COUNT;
+    const compOk = !!st.dec.composite;
+    const confOk = !!st.dec.confidence;
+    document.getElementById('sp-pred-sections').setAttribute('data-state', secOk ? 'sat' : 'unsat');
+    document.getElementById('sp-pred-composite').setAttribute('data-state', compOk ? 'sat' : 'unsat');
+    document.getElementById('sp-pred-confidence').setAttribute('data-state', confOk ? 'sat' : 'unsat');
+    const allDone = secOk && compOk && confOk;
+    const btn = document.getElementById('gen-btn');
+    btn.disabled = !allDone;
+    btn.classList.toggle('ready', allDone);
+    // D3 cycle 21: dynamic aria-describedby help text names what's missing.
+    const missing = [];
+    if (!secOk) missing.push(`${SECTION_COUNT - sectionDecisions} more section${SECTION_COUNT - sectionDecisions === 1 ? '' : 's'} to decide`);
+    if (!compOk) missing.push('composite decision');
+    if (!confOk) missing.push('confidence rating');
+    const help = document.getElementById('gen-btn-help');
+    if (help) help.textContent = allDone ? 'Ready to submit decision.' : `Need: ${missing.join(', ')}.`;
+    if (sectionDecisions > 0) {
+      const sb = document.getElementById('sticky-bar');
+      sb.classList.add('vis');
+      // D1 cycle 7: keep aria-hidden in sync with .vis so SR users get the bar only once visible
+      sb.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function buildOutputPayload() {
+    const st = sm.getState();
+    const decisions = Object.entries(st.dec)
+      .filter(([k]) => k !== 'composite' && k !== 'confidence' && !k.startsWith('ax-'))
+      .map(([id, value]) => ({ id, value, note: st.notes[id] || null }));
+    // P3.1 — 6-axis ranker output (F-5; optional; nullable when operator skipped scoring)
+    const axisScores = {};
+    Object.entries(st.dec).filter(([k]) => k.startsWith('ax-')).forEach(([k, v]) => { axisScores[k.slice(3)] = v; });
+    const axisCount = Object.keys(axisScores).length;
+    const axisAvg = axisCount > 0
+      ? Object.values(axisScores).reduce((a, b) => a + b, 0) / axisCount
+      : null;
+    const ergonomics = st.notes.ergonomics ? Number(st.notes.ergonomics) : null;
+    return {
+      schema_version: '1.0',
+      gate_id: GATE_ID,
+      surface_type: SURFACE_TYPE,
+      interaction_mode: INTERACTION_MODE,
+      persona: PERSONA,
+      vault: VAULT,
+      created_at: "2026-10-12T23:34:18Z",
+      completed_at: new Date().toISOString(),
+      operator: "stanley",
+      decisions,
+      composite_decision: st.dec.composite || null,
+      operator_comment_overall: st.notes.overall || null,
+      confidence_score: st.dec.confidence || null,
+      axis_scores: axisCount > 0 ? axisScores : null,
+      axis_avg: axisAvg,
+      agent_ergonomics_seconds: ergonomics,
+      rlhf_signal: {
+        signal_shape: 'structured',
+        value: {
+          sections: decisions,
+          composite: st.dec.composite,
+          confidence: st.dec.confidence,
+          axes: axisCount > 0 ? axisScores : null,
+          ergonomics,
+        },
+      },
+      rlhf_signal_type: st.dec.composite === 'approve' ? 'accept'
+                       : st.dec.composite === 'amend' ? 'accept_with_modification'
+                       : st.dec.composite === 'discuss' ? 'defer' : 'reject',
+      rlhf_session_id: GATE_ID,
+      rlhf_captured_at: new Date().toISOString(),
+      rlhf_modification_delta: (st.dec.composite === 'amend' || st.dec.composite === 'discuss')
+                                 ? (st.notes.overall || null) : null,
+      rlhf_severity_calibration: st.dec.confidence ? (st.dec.confidence - 1) / 4 : null,
+      metadata: {},
+    };
+  }
+
+  // D3 cycle 25 (F-D3-4): when the irreversible review dialog is present, gen-btn click
+  // opens it; the operator must Confirm before the actual POST fires. Otherwise direct submit.
+  async function submitGate() {
+    const dlg = document.getElementById('iss-review');
+    if (dlg && typeof dlg.showModal === 'function') {
+      populateReviewDialog();
+      dlg.showModal();
+      return;
+    }
+    return submitGateActual();
+  }
+
+  function populateReviewDialog() {
+    const body = document.getElementById('iss-review-body');
+    if (!body) return;
+    const st = sm.getState();
+    const composite = st.dec.composite ? st.dec.composite.toUpperCase() : '—';
+    const confidence = st.dec.confidence ? `${st.dec.confidence} / 5` : '—';
+    const sectionRows = Object.keys(st.dec)
+      .filter(k => k !== 'composite' && k !== 'confidence' && !k.startsWith('ax-'))
+      .map(k => `<dt>${escapeHtml(k)}</dt><dd>${escapeHtml(st.dec[k] || '—').toUpperCase()}</dd>`)
+      .join('');
+    body.innerHTML =
+      `<dl class="iss-review-dl">` +
+        `<dt>Composite</dt><dd>${composite}</dd>` +
+        `<dt>Confidence</dt><dd>${confidence}</dd>` +
+        sectionRows +
+      `</dl>`;
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function closeReviewDialog() {
+    const dlg = document.getElementById('iss-review');
+    if (dlg) dlg.close();
+  }
+
+  async function confirmReviewAndSubmit() {
+    closeReviewDialog();
+    return submitGateActual();
+  }
+
+  // D7 cycle 68 — back-button safety. Opt-in via `guard_unload: true`. Two layers:
+  //   (a) beforeunload listener pops a native browser confirm when state is dirty
+  //       (covers tab-close, address-bar navigation, refresh, window-close).
+  //   (b) history.pushState pushes a placeholder entry on load so the FIRST back-button
+  //       press pops back to "now" (same URL) instead of leaving the gate. Repeated back
+  //       presses fall through to beforeunload via popstate handler.
+  // Cross-browser smoke for the beforeunload + popstate flow is deferred to Phase 6
+  // pilots (CF-D7→P6-1; chromium + firefox + webkit Playwright matrix).
+  const GUARD_UNLOAD = false;
+  if (GUARD_UNLOAD) {
+    window.addEventListener('beforeunload', (e) => {
+      if (typeof isStateDirty === 'function' && isStateDirty()) {
+        e.preventDefault();
+        e.returnValue = '';  // legacy Chrome
+      }
+    });
+    try { history.pushState({ iss_guard: true }, '', location.href); } catch (_) { /* private mode etc */ }
+    window.addEventListener('popstate', () => {
+      if (typeof isStateDirty === 'function' && isStateDirty()) {
+        // Re-push so a second back-press is required to actually leave.
+        try { history.pushState({ iss_guard: true }, '', location.href); } catch (_) {}
+      }
+    });
+  }
+
+  // D7 cycle 67 — 2-step confirm text validator. Enables the review-dialog Confirm button
+  // ONLY when the operator types the exact phrase (case-sensitive). The button starts
+  // disabled when confirm_two_step is on (rendered with `disabled` attribute by generator).
+  // Standalone `confirm_two_step: true` without `irreversible: true` is a no-op — no
+  // review dialog renders to host the input.
+  function validateTwoStepText(value) {
+    const btn = document.getElementById('iss-review-confirm-btn');
+    const hint = document.getElementById('iss-review-two-step-hint');
+    if (!btn) return;
+    const ok = (value === 'SUBMIT');
+    btn.disabled = !ok;
+    if (hint) {
+      hint.textContent = ok
+        ? 'Phrase matches. Confirm button enabled.'
+        : 'Case-sensitive. Exact match of SUBMIT required.';
+    }
+  }
+
+  // D7 cycle 66 — gate-expiry overlay. EXPIRES_AT is JSON-encoded (null when absent;
+  // string ISO timestamp when set). At init, compare to Date.now() and open the dialog
+  // if expired. Dismiss-button closes the dialog; underlying gate stays usable so the
+  // operator can still submit (the overlay is a warning, not a hard block).
+  const EXPIRES_AT = null;
+  function dismissExpiryDialog() {
+    const dlg = document.getElementById('iss-expired');
+    if (dlg) dlg.close();
+  }
+  if (EXPIRES_AT) {
+    const t = Date.parse(EXPIRES_AT);
+    if (!isNaN(t) && Date.now() >= t) {
+      // Defer to next tick so the dialog is in the DOM before showModal() fires.
+      setTimeout(() => {
+        const dlg = document.getElementById('iss-expired');
+        if (dlg && typeof dlg.showModal === 'function') dlg.showModal();
+      }, 0);
+    }
+  }
+
+
+  // D9 cycle 85 — first-timer hint banner with localStorage dismiss.
+  // Reveals banner ONLY when iss-seen-<GATE_ID> key is absent (first visit on this device).
+  // Dismiss button sets the key and hides the banner; subsequent visits stay silent.
+  const FIRST_TIMER_HINT = false;
+  function dismissFirstTimerHint() {
+    const el = document.getElementById('iss-first-timer-hint');
+    if (el) el.setAttribute('hidden', '');
+    try { localStorage.setItem(`iss-seen-${GATE_ID}`, '1'); } catch (e) { /* private mode etc */ }
+  }
+  if (FIRST_TIMER_HINT) {
+    let seen = false;
+    try { seen = !!localStorage.getItem(`iss-seen-${GATE_ID}`); } catch (e) { /* private mode etc */ }
+    if (!seen) {
+      const el = document.getElementById('iss-first-timer-hint');
+      if (el) el.removeAttribute('hidden');
+    }
+  }
+
+  // D7 cycle 62 — opt-in native <dialog> branch on `confirm_discard_when_dirty: true`.
+  // Default-off path is the D3-C26 byte-equivalent `window.confirm()` redirect.
+  const CONFIRM_DISCARD_WHEN_DIRTY = false;
+
+  function isStateDirty() {
+    if (!window.STATE) return false;
+    const s = window.STATE.getState();
+    const decFilled = Object.values(s.dec || {}).some(v => v !== null && v !== undefined && v !== '');
+    const notesFilled = Object.values(s.notes || {}).some(v => v && String(v).trim() !== '');
+    return decFilled || notesFilled;
+  }
+
+  function closeCancelDialog() {
+    const dlg = document.getElementById('iss-cancel-confirm');
+    if (dlg) dlg.close();
+  }
+
+  function performDiscardAndClose() {
+    try { window.close(); } catch (_) { /* not opener-created */ }
+    // window.close() silently no-ops for non-scripted windows; fall back to navigation.
+    if (!window.closed) window.location.href = 'about:blank';
+  }
+
+  function confirmDiscardAndClose() {
+    const dlg = document.getElementById('iss-cancel-confirm');
+    if (dlg) dlg.close();
+    performDiscardAndClose();
+  }
+
+  // D3 cycle 26 (F-D3-5) + D7 cycle 62: visible cancel path.
+  // - default: window.confirm() guard (D3-C26 byte-equivalent).
+  // - opt-in confirm_discard_when_dirty: native dialog only when state-dirty; clean state closes immediately.
+  function cancelGate() {
+    if (CONFIRM_DISCARD_WHEN_DIRTY) {
+      if (!isStateDirty()) { performDiscardAndClose(); return; }
+      const dlg = document.getElementById('iss-cancel-confirm');
+      if (dlg && typeof dlg.showModal === 'function') { dlg.showModal(); return; }
+      // Fallback for browsers without <dialog>: behave like the default confirm path.
+    }
+    const ok = window.confirm('Discard this gate and close? Your selections will be lost.');
+    if (!ok) return;
+    performDiscardAndClose();
+  }
+
+  async function submitGateActual() {
+    const payload = buildOutputPayload();
+    document.getElementById('out-pre').textContent = JSON.stringify(payload, null, 2);
+    document.getElementById('output-section').classList.add('vis');
+    const status = document.getElementById('recv-status');
+    const feedback = document.getElementById('submit-feedback');
+    status.textContent = '… submitting'; status.className = 'recv-status warn';
+    if (feedback) { feedback.innerHTML = ''; feedback.className = 'submit-feedback'; }
+    try {
+      const result = await window.RoundTrip.autoSubmit(GATE_ID, payload);
+      const tier = result.tier || 'unknown tier';
+      status.textContent = `✓ saved via ${tier}`;
+      status.className = 'recv-status ok';
+      // D3 cycle 28 (F-D3-7): name the gate ID + tier so the operator confirms what was saved where.
+      if (feedback) {
+        feedback.className = 'submit-feedback submit-feedback--success';
+        feedback.innerHTML = `<strong>Submitted successfully.</strong> Gate <code>${escapeHtml(GATE_ID)}</code> saved via <code>${escapeHtml(tier)}</code>.`;
+      }
+    } catch (e) {
+      status.textContent = `✗ ${e.message}`;
+      status.className = 'recv-status err';
+      // D3 cycle 28 (F-D3-7): structured failure — what failed + what was preserved + what to do.
+      if (feedback) {
+        feedback.className = 'submit-feedback submit-feedback--error';
+        feedback.innerHTML = (
+          `<strong>Submission failed.</strong>` +
+          `<dl class="submit-feedback-dl">` +
+            `<dt>What failed</dt><dd>${escapeHtml(e.message || 'Unknown error')}</dd>` +
+            `<dt>What was preserved</dt><dd>Your selections remain in this tab; you can retry without re-entering data.</dd>` +
+            `<dt>What to do</dt><dd>Verify the round-trip receiver is running and reachable, then click Submit again. If the problem persists, copy the JSON above and submit via the fallback path described in <code>skill_open_iss.md</code>.</dd>` +
+          `</dl>`
+        );
+      }
+    }
+  }
+
+  async function copyOutput() {
+    const pre = document.getElementById('out-pre');
+    if (!pre.textContent) pre.textContent = JSON.stringify(buildOutputPayload(), null, 2);
+    try { await navigator.clipboard.writeText(pre.textContent); }
+    catch { /* clipboard denied */ }
+  }
+
+  // expose for inline onclick / onchange
+  Object.assign(window, { toggleCard, scrollToCard, handleRadio, handleNote, handleOverallNote, handleComposite, handleConfidence, handleAxis, handleErgonomics, submitGate, cancelGate, copyOutput, closeReviewDialog, confirmReviewAndSubmit, restoreKeepDraft, restoreStartFresh, closeCancelDialog, confirmDiscardAndClose, isStateDirty, dismissExpiryDialog, validateTwoStepText, dismissFirstTimerHint });
+})();
+</script>
+</body>
+</html>

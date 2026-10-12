@@ -1,0 +1,247 @@
+{
+ "gate_id": "vernier_p1_exit_20261012",
+ "vault": "Canvas.aDNA",
+ "operator": "stanley",
+ "persona": "neutral",
+ "title": "Operation Vernier — P1 exit: eight rulings and a firewall, one sitting",
+ "title_main": "Operation Vernier — P1 exit:",
+ "title_em": "the Standard's undefined field, ruled once for four vaults",
+ "subtitle": "Mondrian · Operation Vernier (scope amended 2026-10-12) · rendered 2026-10-12",
+ "mission": "Rule V-1…V-8 + the firewall; grant or refuse three GOs",
+ "footer_text": "Every figure on this door was re-derived 2026-10-12 (review artifact §1–§2). Recommendations are the agent's; verdicts are yours. §7.7 — agents author, operators ratify.",
+ "sitrep": {
+  "campaign": "campaign_canvas_vernier — active, scope amended 2026-10-12 (fold-not-sibling)",
+  "phase": "P1 exit → P2 (rulings)",
+  "mission": "The ruling door for V-1…V-8 and the firewall touch",
+  "gate_purpose": "Rule the eight items that four vaults (Terminal · City · LatticeProtocol · Automator) plus Socials and Home are waiting on; name the firewall touch LIP-0011 will make; grant or refuse the push / memo-delivery / receiver GOs.",
+  "importance": "load-bearing",
+  "importance_reason": "V-1 decides the Standard's next version and un-cards LatticeProtocol's gen-canvas; three implementations currently pass with three semantics",
+  "output_destination": "Canvas.aDNA/how/gates/vernier_p1_exit_20261012.output.json"
+ },
+ "composite_title": "Vernier P1 exit — one field, four waiters, eight rulings",
+ "composite_question": "Operation Vernier found at P1 that <code>sync.sync_hash</code> has a validated shape and no defined semantic. In the 25 days the gate waited, <b>four vaults asked the same question independently</b> and one of them (LatticeProtocol) carded its generator on our answer. Sections V-1…V-3 are the original findings re-derived on the live subject (Terminal.aDNA, 8 canvases); V-4…V-8 are the inbox's additions; the last section names the firewall touch and the GOs. <b>Each section leads with the measurement and prices the migration</b>; ruling &lsquo;defer&rsquo; or choosing a non-recommended option is a real answer and is recorded as one.",
+ "sections": [
+  {
+   "id": "v1_sync_hash",
+   "short_label": "V-1 sync_hash",
+   "title": "V-1 · What does <code>sync.sync_hash</code> hash? — three readings pass today, and four vaults are waiting",
+   "question": "<code>canvas_std.compute_sync_hash</code> hashes <b>topology</b> (sorted node ids + edge pairs, 16 hex). Terminal's 8 canvases store <b>sha256(source markdown)[:16]</b> (re-derived today: 8/8 source match · 0/8 topology match). City's twin stores the topology hash <i>plus</i> a non-standard <code>sync.source_sha256</code>. LatticeProtocol ADR-018 + LinkML Profile v0.1 define it as the <b>master file's bytes</b>, and <code>gen-canvas</code> (M-B1) is carded on your answer. Rule A-6 checks <i>16 hex chars</i> only; the spec never says what is hashed. <b>Which option?</b> (a) <code>sync_hash</code> = source/master bytes · (b) <code>sync_hash</code> stays topology and the Standard registers <code>sync.source_sha256</code> (64 hex) · (c) split into <code>sync.topology_hash</code> + <code>sync.source_hash</code> with <code>sync_hash</code> a deprecated alias through v2.x.",
+   "rec_class": "green",
+   "rec_label": "(b) — additive; every canvas that passes today keeps passing; Terminal and LP migrate one key; City already does it",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>Migration priced per option.</b> (a) breaks <code>compute_sync_hash</code>, Canvas's 26 <code>adna_native</code> canvases, City's topology usage, and every round-trip loader; requires a <b>major</b> bump. (b) breaks nothing that passes; Terminal moves its source hash from <code>sync_hash</code> to <code>source_sha256</code> and regenerates (their generator already computes it); LP's <code>gen-canvas</code> writes both from day one; Home's one canvas is already non-conformant on other grounds. (c) is (b) with a rename nobody asked for and an alias to maintain.</li><li><b>Why topology stays in <code>sync_hash</code>.</b> §8.1 already calls it <i>'the sync hash of the authoritative-source topology'</i>; A-6 is in the round-trip layer because the hash↔source check is the round-trip's job. Noether's own argument for (a) — <i>'a schema master has no fromNode→toNode topology'</i> — is an argument that the <b>twin</b> has one and the <b>master</b> needs a different key, i.e. for Q2.</li><li><b>What A-6 gains.</b> With (b): <code>source_sha256</code> must be 64 hex when present; when <code>production: generated</code> the validator <i>may</i> recompute topology and compare (ruled in P2b as advisory or hard — recommend advisory at <code>extended</code>, hard at <code>adna_native</code>).</li><li><b>Vernier P1's own observation stands:</b> a source hash is the more useful question for a <code>view</code> canvas ('has my source moved?') and is third-party verifiable — (b) keeps it, named.</li><li>⛔ <b>Not a signature on the Standard.</b> This verdict instructs LIP-0011 (P2b); the firewall touch is named in the Firewall section below and signed with the LIP.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Choose (b). It is the only option with zero breakage for every current passer, it is what City already does, and it answers Noether Q1 '(b)' and Q2 'yes' in one stroke.",
+    "key_factors": [
+     "Additive → minor bump (v2.5.0), not major",
+     "Terminal + LP migrate one key each; City migrates none",
+     "A-6 gains a semantic check it never had"
+    ],
+    "risks": [
+     "Terminal's 8 canvases read 'stale' to a conformant loader until they regenerate (they already do so daily)",
+     "(a) partisans — LP ADR-018 — must amend one line; memo #22 says so plainly"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "P2b drafts LIP-0011 from this verdict",
+     "Memo #22/#21/#23 carry the verdict, not the recommendation",
+     "Fleet backward-compat census run before the LIP is signed"
+    ]
+   }
+  },
+  {
+   "id": "v2_a8_tier",
+   "short_label": "V-2 A-8 tier",
+   "title": "V-2 · A-8 is gated behind aDNA-Native — a correct axis pair is inert at <code>extended</code>",
+   "question": "All 8 Terminal canvases declare <code>extended</code>, carry the correct <code>authority: view</code> + <code>production: generated</code>, and <b>nothing validates the pair at that tier</b>; an invented value would pass. They would validate <code>adna_native</code> today by flipping one field (8/8, re-derived). Should A-8 run at <code>extended</code> too?",
+   "rec_class": "amber",
+   "rec_label": "Yes, at extended — but measure the fleet count of extended canvases carrying a bad value FIRST (P2b), and ship it as validate-if-present",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>The axes answer <i>who owns the meaning · how is it made</i> — a question about any derived canvas, not an aDNA-Native one. The keys sit in the native tier for reasons that predate the axes (LIP-0010 placed them where the other <code>_reserved</code> checks were).</li><li><b>Price:</b> any <code>extended</code> canvas with an invalid axis value starts failing. Unknown count today — <b>P2b measures before the LIP is signed</b>; if it is >0 the LIP prices the migration per vault.</li><li>Both keys stay <b>optional</b>; only their values are validated when present (LIP-0010's asymmetric rule unchanged).</li></ul></div>",
+   "recommendation": {
+    "rationale": "Rule 'yes, pending the measured count'. A tier that lets a correct pair go unchecked is the F-DT-7 shape — an instrument failing into reassurance.",
+    "key_factors": [
+     "Axes are tier-independent semantics",
+     "Validate-if-present cannot break a canvas that omits the keys"
+    ],
+    "risks": [
+     "Fleet count unknown until P2b runs it"
+    ],
+    "confidence": 4,
+    "next_actions": [
+     "P2b: census of extended canvases × axis values",
+     "LIP-0011 carries the tier change if count permits"
+    ]
+   }
+  },
+  {
+   "id": "v3_generator",
+   "short_label": "V-3 generator",
+   "title": "V-3 · <code>generator</code> as a provenance key — Terminal invented it (8/8), Home used it as an authority value",
+   "question": "Terminal carries <code>_reserved.generator: what/canvas/build_canvases.py</code> on all 8 (legal per §7.3, undeclared). Home's <code>what/canvas/topology.canvas</code> carries <code>authority: \"generator\"</code> at the non-canonical <code>metadata._reserved</code> with no <code>production</code> (confirmed today). LIP-0010 struck <code>generator</code> from the authority axis for conflating <i>who owns the meaning</i> with <i>how it is made</i>; Terminal reinvented it as the distinction LIP-0010 was drawing. Adopt a provenance carrier — and where?",
+   "rec_class": "green",
+   "rec_label": "Adopt as <code>sync.generator</code> (path or URN), not a top-level key — Terminal migrates by moving one key; <code>authority: \"generator\"</code> stays invalid",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><code>sync</code> is already the provenance block (<code>source_name</code>, <code>source_version</code>); <i>how it was made</i> belongs beside <i>what it was made from</i>.</li><li>A top-level <code>_reserved.generator</code> would be the 12th reserved key for one field; inside <code>sync</code> it is a property of an existing object — smaller schema change, same information.</li><li>Home's canvas is non-conformant on three counts (path · authority value · missing production) and is Hestia's to fix; V-6 rules whether a grandfathering note exists for it. Reported, not repaired here.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Register <code>sync.generator</code> in LIP-0011; decline a top-level key; decline reinstating <code>generator</code> as an authority value.",
+    "key_factors": [
+     "Independent demand measured (Terminal 8/8)",
+     "Keeps RESERVED_KEYS at 11"
+    ],
+    "risks": [
+     "Terminal regenerates once more"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "LIP-0011 §sync.generator",
+     "Memo #21 to Terminal names the move"
+    ]
+   }
+  },
+  {
+   "id": "v4_b14_pack",
+   "short_label": "V-4 B14 pack",
+   "title": "V-4 · Boulogne B14 — the dual-mode schema pack (LinkML master + canvas twin + image + prose, one sync hash)",
+   "question": "Automator (Berthier) asks the Standard to state: canonical direction (master → twin via ACADÉMIE P3 <code>gen-canvas</code>), the round-trip invariant, a loss table, twin authoring rules ('none, if <code>production: generated</code>'), and loading modes <b>text / diagram / both</b> in <code>spec_canvas_context_loading</code>. City asks where the rule lives (recommends: Canvas Standard, ADR-062 cross-refers) and offers its pack as a derivability fixture. Default if silent: Boulogne drafts it <code>proposed</code> in its own vault naming Canvas 'as counterparty, not as consenting'. Accept, amend, or decline as a T2 item?",
+   "rec_class": "green",
+   "rec_label": "Accept as a T2 item: a <code>pack</code> profile in the Standard (semantic_bindings.profile) + loading modes in spec_canvas_context_loading; ADR-062 owns the LinkML side",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>The pack is <code>pattern_diagrammatic_context</code> with a schema master instead of prose — the dual-channel row the axes were built for. Declining it would push a Canvas-shaped rule into a vault that does not validate canvases.</li><li><b>Loading modes</b> are a <code>canvas_context</code> loader concern (leg 2); text/diagram/both is a three-line extension with a scoring fixture City has offered to supply.</li><li>What Canvas does <b>not</b> take: the LinkML master's own rules, <code>gen-canvas</code>'s implementation, the image render (Design's). The pack's invariant — 'no member lands alone' — is a <i>release-train</i> rule and stays Boulogne's.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Accept; the Standard gains a pack profile and a loading-modes section; City's pack becomes a certification fixture in P2b/P4.",
+    "key_factors": [
+     "Three vaults asked for the same home",
+     "It is diagrammatic context by another master"
+    ],
+    "risks": [
+     "Pack profile text must not describe LinkML — stay substrate-neutral"
+    ],
+    "confidence": 4,
+    "next_actions": [
+     "P4 writes the profile + loading modes",
+     "Memo #24 to Automator accepts as T2"
+    ]
+   }
+  },
+  {
+   "id": "v5_b18_graph_canvas",
+   "short_label": "V-5 B18 graph.canvas",
+   "title": "V-5 · Boulogne B18 — every graph carries <code>what/canvas/graph.canvas</code>, plus a live overlay",
+   "question": "B18: each graph carries a generated <code>graph.canvas</code> (<code>view</code>/<code>generated</code>, sync = hash of structural inputs, regenerated by a STATE hook, a hand-edit is a validator FAIL) with a volatile <b>live overlay</b> (sessions, lease mode, commit age, open gates, locks). Rule: overlay as a <b>group inside</b> <code>graph.canvas</code>, or a <b>second file</b> (<code>graph_activity.canvas</code>)? City (third viewer) asks to read <code>graph.canvas</code> as a building's floorplan and the overlay as live state joined by node id.",
+   "rec_class": "green",
+   "rec_label": "Second file keyed by the base canvas's node ids, never merged (Berthier's default; City concurs) — and Canvas builds its own graph.canvas first (P5)",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>A volatile overlay inside a <code>generated</code> canvas makes every heartbeat a regeneration and every regeneration a sync-hash change — the base would never be 'fresh'. Two files, two cadences.</li><li>The overlay's <code>_reserved.sync</code> names the <b>base</b> hash it was drawn against, so a stale overlay is detectable with the V-1 machinery.</li><li>City's floorplan reading is a <b>read</b> of a conformant canvas — nothing to rule beyond 'yes'; layout positions (Λ) stay City-private as they self-ruled.</li><li>The standard-bearer eats the law first: P5 builds Canvas's own <code>graph.canvas</code> with <code>skill_canvas_producer_build</code> before P4 writes the rule for others.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Second file; profile <code>graph</code> for the base, overlay keyed by node id; floorplan reading yes; Λ stays City's.",
+    "key_factors": [
+     "Two cadences, two files",
+     "Detectable staleness via V-1"
+    ],
+    "risks": [
+     "A STATE hook regenerating canvases is Boulogne's to build, not ours"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "P5 dogfood",
+     "P4 spec text"
+    ]
+   }
+  },
+  {
+   "id": "v6_reserved_placement",
+   "short_label": "V-6 _reserved path",
+   "title": "V-6 · <code>_reserved</code> placement for generated canvases — spec as written, or a grandfathering note?",
+   "question": "The spec says <code>_reserved</code> MUST live at <code>metadata.frontmatter._reserved</code> (ADR-011: 194 fleet canvases still have it at <code>metadata._reserved</code>). Home's <code>topology.canvas</code> is one of them. Automator asks: spec as written, or a grandfathering note? Default if silent: spec as written, Home's finding → Hestia as a conformance question.",
+   "rec_class": "green",
+   "rec_label": "Spec as written. Grandfathering is a migration note (ADR-011's partition already covers it), not a rule — Home's finding goes to Hestia",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>A block at the wrong path <i>'carries semantics no tool reads while reporting green at core'</i> (F-B1-1) — grandfathering it would license exactly that.</li><li>ADR-011 (pending your signature at its own door) already rules the legacy population and its two-population migration; a second rule here would be a second registry.</li><li>Generated canvases have no excuse: the generator writes the path once.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Spec as written; one migration note in P4 pointing at ADR-011; Home's canvas memo'd to Hestia with the three counts named.",
+    "key_factors": [
+     "No second rule",
+     "ADR-011 already partitions"
+    ],
+    "risks": [
+     "ADR-011 is itself unsigned — sign it at its door"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "P4 migration note",
+     "Memo to Hestia"
+    ]
+   }
+  },
+  {
+   "id": "v7_lattice_dispositions",
+   "short_label": "V-7 LP dispositions",
+   "title": "V-7 · Noether's lattice dispositions + four CEL rewrites — OVERDUE (due before ACADÉMIE P3; P3 opened 2026-10-10)",
+   "question": "LP proposes: <code>lattice_{comic,presentation}_canvas.lattice.yaml</code> + <code>example_canvas_v2.lattice.yaml</code> = <b>not-a-lattice</b>, moving to 'the Canvas format' (ADR-008(3)/016(1)); 16 elsewhere-owned canvasforge files (SuperLeague ×13, SS ×3) = not-a-lattice landing in <b>our</b> format (ADR-010) — <i>does the Canvas format receive them, and does it have a home (suffix, schema)?</i> Plus four CEL rewrites (<code>AND</code>→<code>&amp;&amp;</code>, <code>OR</code>→<code>||</code>, <code>iteration_count</code>→<code>iteration</code>) in those two files. <b>Measured:</b> our two files are consumed by one federation test, one archived smoke test, and a pointer in AILedger Folio's dossier — no runtime executes them.",
+   "rec_class": "amber",
+   "rec_label": "Confirm not-a-lattice for our three; apply the four CEL rewrites anyway (documents should compile); DECLINE to receive the 16 — the Standard describes canvases, not the pipelines that make them, and has no home for workflow descriptions",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>Our two files are <b>documentation of producer pipelines</b> (comic · presentation). Keeping them readable as valid lattices costs four token edits and keeps the federation test honest; calling them runnable would be false.</li><li>'The Canvas format' means <code>.canvas</code> — a 2-D output primitive. A workflow description is not one. Receiving the 16 would invent a format to hold them; the honest answer is <i>'no home here; they stay lattice-documentation in their owning vaults or archive'</i>.</li><li>AILedger Folio points at <code>lattice_presentation_canvas.lattice.yaml</code> by path — any rename is memo'd to Thoth first (P5).</li><li><b>Overdue</b>: memo #22 goes today with this recommendation marked provisional; the verdict follows from this door.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Confirm rows 1–2 as not-a-lattice (documentation-only); decline row 3's 'landing in your format'; answer the home question 'none, by design'; accept all four CEL rewrites.",
+    "key_factors": [
+     "Measured consumers: zero runtime",
+     "Substrate-neutrality test (CLAUDE.md operating style)"
+    ],
+    "risks": [
+     "LP's P7 migration may want a disposition for the 16 — SuperLeague/SS own them"
+    ],
+    "confidence": 4,
+    "next_actions": [
+     "Memo #22 today (provisional)",
+     "P4 memo with verdict",
+     "Apply CEL rewrites in P6"
+    ]
+   }
+  },
+  {
+   "id": "v8_socials",
+   "short_label": "V-8 Socials",
+   "title": "V-8 · Socials — social formats today? <code>style_ref</code>? read-only RLHF rows? is <code>iii_quality_contract.md</code> binding?",
+   "question": "Stentor asked twice (09-21, 10-06). <b>Measured:</b> <code>post_generator</code> has advisory char budgets + aspect hints (twitter/x 16:9 · linkedin 1.91:1 · instagram 1:1), <b>no</b> pixel envelopes, carousel, quote card or thumbnail, <b>no</b> <code>style_ref</code>. Socials' SG-4 blocks on answer (1); they say <i>'a not-yet is an answer'</i>. (2) <code>style_ref</code> {taste_ref, kept_refs, constraints} by reference on <code>Post</code>/<code>PostPanel</code>. (3) read-only access to ADR-005 RLHF rows for variant ids they requested. (4) pin <code>iii_quality_contract.md</code> as the consumption contract.",
+   "rec_class": "green",
+   "rec_label": "(1) 'Not yet' + charter P7 to build it · (2) accept as a producer-model change · (3) yes to Canvas-side capture sidecars under their namespace, III store is Argus's · (4) yes, versioned",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>None of this touches the Standard — it is producer-level, Canvas's to answer without a LIP. Only the <i>priority</i> is yours: P7 is a real build (~160k tokens).</li><li>'Not yet' unblocks SG-4 <b>today</b>: their routing duty gets a named counterparty and a chartered mission instead of a silence.</li><li><code>spec_rlhf_seam.md</code>: Canvas owns capture, III owns the store schema (§6b). Read-only to our sidecars under <code>rlhf_consumer_namespace.socials.*</code> is ours to grant; the III store is not.</li><li>C2PA/IPTC at generation time (their implicit flag): Canvas emits <i>prompts</i>, not pixels, in <code>post_generator</code> — the metadata belongs where pixels are written (Socials' encode step or ComfyUI's emitter). Say so.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Answer all four now (memo #25); charter P7; sequence P7 after P2b unless SG-4's date forces it earlier.",
+    "key_factors": [
+     "Measured, not assumed",
+     "Unblocks a peer gate with an honest answer"
+    ],
+    "risks": [
+     "P7 competes with P2b for the next sitting"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "Memo #25 today",
+     "P7 mission chartered (done)"
+    ]
+   }
+  },
+  {
+   "id": "firewall_and_gos",
+   "short_label": "Firewall · GOs",
+   "title": "Firewall touch #7 and the three GOs this session owes you",
+   "question": "<b>Firewall:</b> P2b will touch <code>canvas_std/reserved.py</code> (A-6 semantic · A-8 tier), <code>roundtrip.py</code> (source digest helper), <code>schema/adna_canvas_v2.schema.json</code> (<code>$defs.reserved.sync</code>), <code>spec_adna_canvas_standard.md</code> §7.2/§8.1, <code>__init__.py</code> (2.5.0) — named here so the LIP's signature is informed; the touch itself is signed with LIP-0011. <b>GOs:</b> ① push (2 pre-session commits + this session's; gitleaks pre-push); ② deliver the <b>substantive</b> replies after this door's verdicts (interim acks went today on the plan's approval); ③ standing permission to restart the Canvas-rooted <code>gate_receiver</code> when found down (it was down today; restarted; landed on :8767; four doors re-rendered). Also pointed at, not re-rendered: the four 26-day-old doors (<code>adr_010</code> · <code>adr_011</code> · <code>adr_012</code> · <code>operator_queue_20260916</code>) — sign, or abandon per Home ADR-017.",
+   "rec_class": "green",
+   "rec_label": "Grant ① ② ③; sign adr_010 + adr_012 + queue ①③⑤ now; hold adr_011 with queue ② (memo #20) as before",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>Push: authorship uniform (Mondrian), gitleaks clean history, visibility public — nothing in this session's changeset is a secret; the memos redacted infrastructure literals per the inbox README.</li><li>Receiver: a persistent local service — the 09-16 ruling started it once; a <b>standing</b> permission turns the next outage into a one-line act instead of a held gate.</li><li>The four old doors are unchanged in content; only their receiver URL moved. Their recommended order from 09-16 stands.</li></ul></div>",
+   "recommendation": {
+    "rationale": "Grant the three GOs; the firewall acknowledgement here is informational — the signature comes with LIP-0011.",
+    "key_factors": [
+     "No secret in the changeset",
+     "Receiver outage cost one sitting"
+    ],
+    "risks": [
+     "adr_011 remains the load-bearing hold"
+    ],
+    "confidence": 5,
+    "next_actions": [
+     "Push on grant",
+     "Deliver substantive memos in P4",
+     "Receiver restart on sight"
+    ]
+   }
+  }
+ ],
+ "created_at": "2026-10-12"
+}
