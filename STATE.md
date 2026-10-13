@@ -84,7 +84,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 2. **`adr_011`** legacy canvas interop reconciliation — rules the 2026-02 legacy as the Standard's `view` row; migration **verified and offered**, not performed.
 3. **`adr_012`** publication boundary remedy — ⚠ **read the two 2026-09-07 corrections first** (F-P2-7): our own census was a *literal*-census, not a *class*-census, and §Decision 3 declared a category remediated in full that was not.
 4. **`adr_010` (Home.aDNA — Google model layer)** §7.7, pending there, not here.
-5. ~~Push GO~~ ✅ granted 2026-08-24. **Unpushed now: `@{u}..HEAD`**, the 4 pre-10-13 commits plus this sitting's. A fresh batch GO is owed (count with `git rev-list --count @{u}..HEAD`, never `head -N`).
+5. ✅ **Push GO granted + executed 2026-10-13**: 18 commits → `origin` `e44a9aa..0b4e503`, gitleaks clean, authorship uniform (the 17 asked for + the close commit recording the rulings). ⚠ This line's own correction is **1 unpushed commit**; count with `git rev-list --count @{u}..HEAD`, never `head -N`.
 6. **`vernier_p1_exit_20261012`** — V-1…V-8 + firewall touch #7 + three GOs, refreshed 2026-10-13 with the three replies. **The one that unblocks P2b.**
 
 ## Current Phase
@@ -93,7 +93,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 closed).** The next act is still the operator's: the V-1…V-8 + firewall verdicts at `how/gates/vernier_p1_exit_20261012` (evidence
 refreshed 10-13). Then P2b (LIP-0011 → v2.5.0). ⛔ **Five operator doors pending** (`adr_010` · `adr_011` · `adr_012` ·
 `operator_queue_20260916` · `vernier_p1_exit_20261012`), all 5/5 on the live receiver per `gate_manifest.py --check-doors`.
-Memo **#20** stays staged with `adr_011`. **Push GO owed** for `@{u}..HEAD`.
+Memo **#20** stays staged with `adr_011`. **Pushed 2026-10-13** (`e44a9aa..0b4e503`); one local correction commit after it.
 
 <details><summary>Prior text (2026-10-12), superseded by the paragraph above and kept verbatim</summary>
 
