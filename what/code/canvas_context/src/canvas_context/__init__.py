@@ -43,9 +43,13 @@ from canvas_context.resolver import (
     Resolver,
 )
 
-__version__ = "0.3.1"  # package version (0.3.1 — validate_interaction_block now delegates to the canvas_std harness, Armature P2)
+__version__ = "0.3.2"  # package version (0.3.2 — STANDARD_VERSION derived from canvas_std, Vernier P6; 0.3.1 — validate_interaction_block delegates to the canvas_std harness, Armature P2)
 SPEC = "spec_canvas_context_loading"  # the leg-2 protocol this realizes (leg-3: spec_interface_surface)
-STANDARD_VERSION = "2.2.0"  # the aDNA Canvas Standard version the loaded canvases conform to (cut at Armature P2)
+# The aDNA Canvas Standard version the loaded canvases are validated against. DERIVED, not pinned: every
+# validation this loader performs is delegated to canvas_std, so the version is canvas_std's by
+# construction. ⛩ The literal it replaces read "2.2.0" through two Standard cuts (2.3.0 Beacon, 2.4.0
+# Gridline) — found by the 2026-10-12 review (F-V-4), a pin nobody re-derived because nothing read it.
+from canvas_std import STANDARD_VERSION  # noqa: E402  (re-exported; see __all__)
 
 __all__ = [
     "__version__",
