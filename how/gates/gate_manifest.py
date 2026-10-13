@@ -197,7 +197,9 @@ PRODUCER_EXPECT: dict[str, tuple[int, int]] = {
     "brief_consumer": (10, 0),
     "comic_generator": (123, 0),
     "deck_generator": (16, 0),
-    "diagram_generator": (52, 0),  # 44 -> 49 at Plumbline P1: +5 for the production axis + the
+    "diagram_generator": (53, 0),  # 52 -> 53 at Vernier P6 (2026-10-13): +1 F-S078-04 `TB` alias
+                                   # test — DERIVED: 52 passed + 1 failed against HEAD's model.py,
+                                   # 53 passed with the alias. Before that: 44 -> 49 at Plumbline P1: +5 for the production axis + the
                                    # removed `generator` authority cell (test_authority.py).
                                    # 49 -> 52 at Gridline P1: +3 for A-8's asymmetry at the spec
                                    # surface (authority-without-production refused; production-alone

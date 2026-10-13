@@ -66,3 +66,30 @@ def test_gantt_durations_present(gantt):
     src = mermaid.mermaid_for(gantt)
     assert "gantt" in src and "dateFormat" in src
     assert "design : 2d" in src and "build : 3d" in src  # durations carried (rigor/quantitative)
+
+
+def test_tb_is_an_alias_of_td_not_a_fifth_direction(flowchart):
+    """F-S078-04 (AILedger, 2026-10-08): an emitter accepted Mermaid's `TB` and our twin then raised.
+
+    `TB` is normalised to `TD` on construction — by both entry points — so the built canvas is
+    byte-identical to the `TD` build and the Mermaid source carries the canonical token. An
+    unknown direction still raises: an alias table is not a relaxation.
+    """
+    import dataclasses
+
+    from diagram_generator.model import DiagramInput
+
+    td = build_diagram(flowchart)
+    via_init = dataclasses.replace(flowchart, direction="TB")
+    assert via_init.direction == "TD"
+    via_dict = DiagramInput.from_dict({
+        "title": flowchart.title, "id": flowchart.id, "diagram_type": "flowchart", "direction": "TB",
+        "refs": list(flowchart.refs),
+        "nodes": [{"id": n.id, "label": n.label, "shape": n.shape} for n in flowchart.nodes],
+        "edges": [{"from": e.from_id, "to": e.to_id, "label": e.label} for e in flowchart.edges],
+    })
+    assert via_dict.direction == "TD"
+    assert build_diagram(via_init) == td
+    assert validate(build_diagram(via_dict), ConformanceLevel.ADNA_NATIVE) == []
+    with pytest.raises(ValueError, match="unknown direction"):
+        dataclasses.replace(flowchart, direction="XY")

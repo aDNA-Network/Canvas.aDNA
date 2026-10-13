@@ -26,6 +26,11 @@ DIAGRAM_TYPES: frozenset[str] = frozenset(
 
 # Flow directions (Mermaid vocab) — validated on flowchart/state diagrams; advisory elsewhere.
 DIRECTIONS: frozenset[str] = frozenset({"TD", "LR", "RL", "BT"})
+# Accepted spellings normalised to a canonical DIRECTIONS member on construction. Mermaid treats `TB`
+# as a synonym of `TD`, and so do emitters upstream of us: AILedger's F-S078-04 (2026-10-08) found
+# Design's emitter accepting `TB` and our twin then raising. An alias, not a fifth direction — the
+# built canvas and the Mermaid source always carry the canonical token.
+DIRECTION_ALIASES: dict[str, str] = {"TB": "TD"}
 
 # Node shapes — Mermaid vocab (NOT the canvas VALID_SHAPES enum; carried only in _reserved qualities.shape).
 NODE_SHAPES: frozenset[str] = frozenset({"rect", "round", "diamond", "stadium", "circle"})
@@ -142,6 +147,8 @@ class DiagramInput:
             raise ValueError(
                 f"unknown diagram_type {self.diagram_type!r}; expected one of {sorted(DIAGRAM_TYPES)}"
             )
+        if self.direction in DIRECTION_ALIASES:
+            object.__setattr__(self, "direction", DIRECTION_ALIASES[self.direction])
         if self.direction not in DIRECTIONS:
             raise ValueError(
                 f"unknown direction {self.direction!r}; expected one of {sorted(DIRECTIONS)}"
