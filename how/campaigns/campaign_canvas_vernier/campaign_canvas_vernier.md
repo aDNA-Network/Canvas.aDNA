@@ -11,9 +11,9 @@ priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_datum
 created: 2026-09-17
-updated: 2026-10-12
+updated: 2026-10-13
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent)"
+status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged)"
 tags: [campaign, canvas, vernier, armor, terminal, bastide, scope_amendment, lip_0011, b14, b18, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
 ---
 
@@ -209,3 +209,34 @@ Terminal's all along; the staging directory's absence from the router is moot.
 | ⛔ Must not answer V-1 in a memo before the door | Four vaults will build on the answer; a recommendation in prose is read as a ruling by whoever needs one. Interim acks say *recommendation, door rendered, not a signature*. |
 | ⛔ Must not accept the 16 elsewhere-owned canvasforge files into "the Canvas format" | The Standard describes canvases, not the pipelines that make them; receiving workflow descriptions would invent a format to hold them. Say so. |
 | ⛔ Must not compact STATE in the same sitting that adds to it | Today adds a dated banner; P6 restructures with the archive file beside it. |
+
+## ⛩ Phase-order amendment — 2026-10-13 (plan gate; dated, not retro-fitted)
+
+**Ruling (operator, plan gate, `AskUserQuestion` 2026-10-13):** *"Door + P6 hygiene"*. P2 is still the operator's verdict at the
+door, which is unruled at this sitting's open: `.pending` present, no `.output.json`, receiver `:8767` healthy. So the **P6
+objectives that depend on no verdict run now, ahead of P2–P5**. That covers obj 1–6: STATE compaction · F-DT-10 · pins + LIP
+statuses · gate #11 `inbox_receipt` + `--check-doors` · F-S078-04 · the ImagenWiring sweep, plus the opus items as context allows.
+**Obj 7 (door archival per Home ADR-017) still waits for the verdicts**, and **the P6 phase gate stays a human gate**. Running
+an objective early does not close its phase.
+
+**Evidence added to the door, not a ruling.** Three replies arrived 10-12, after P1b closed, and were receipted at `db21711`
+(body md5 = `delivered_md5_body` ×3). LP **withdraws (a)** and has no objection to (b). Terminal accepts (b) + V-3 in direction
+and **migrates once, after P4**. Socials says no date of theirs forces P7 before LIP-0011, and discloses a bounded direct image
+bridge that closes on our verdict memo. All three were folded into V-1 · V-3 · V-8 and the door re-rendered (`e2ddf15`). **No
+recommendation changed.** V-8 gained a fifth sub-question: close that bridge before the verdict memo, or on it (default).
+
+**F-V-7 — a memo addressed to us that only reached a peer.** Vulcan's
+`coord_2026_10_08_outbound_vulcan_to_mondrian_vitruvius_ledoux_anduril_endpoint` names Mondrian first. Its copy sits in
+**City's** inbox, and the Canvas copy is still `status: staged` in `ComfyUI.aDNA/who/coordination/`, five days later. It
+carries the **venue of record for the H4 live chain**: ComfyUI 0.39.2 on Anduril's RTX 3090, `comic_panel_refine` 9/9
+mechanically, and *"Mondrian, a real panel seed gets a visual verdict"*. Found only because this sitting grepped a **peer's**
+inbox for our name. ⇒ ***a multi-recipient memo staged "one copy per vault" is delivered as many times as someone remembers,
+and the recipient that was missed cannot know it was addressed.*** Gate #11 cannot see it either, because the file never
+reached our inbox. **Not copied into our inbox**: delivering it is their operator's act. Recorded on STATE carried-tail row #2,
+and the visual-verdict ask is carried to the P4 memo wave.
+
+**The "must not compact STATE in the same sitting that adds to it" row**, read for its reason: a restructure and an addition must
+not share one diff, or nobody can review the relocation as verbatim. That rule was written for the 10-12 sitting, and this
+sitting *is* P6. Compaction therefore lands as **its own commit**: relocation only, with archived text verified byte-equal to
+the removed text. The sitting's state update follows in a separate commit.
+
