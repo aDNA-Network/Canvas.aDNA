@@ -1,10 +1,11 @@
 ---
 type: manifest
 created: 2026-06-06
-updated: 2026-06-30
+updated: 2026-10-13
 last_edited_by: agent_mondrian
 persona: Mondrian (locked — P0 2026-06-06)
 category: Platform.aDNA (standard-bearer — Δ1 Option P, locked P0 2026-06-06)
+data_bearing: false   # OPERATOR-RULED 2026-10-13 (AskUserQuestion, Vernier P6 obj 6c). Control-plane: public MIT code + specs. Named exception: the gitignored what/artifacts/ shelf (~293 MB, local-only, our own generated renders/calibration output; no PHI, no third-party data) per adr_010 — never tracked, never published. Home projects this key into inventory_vaults.yaml; City reads it.
 tags: [manifest, governance, canvas, standard, platform]
 ---
 

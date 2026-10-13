@@ -58,7 +58,7 @@ STATE.md top block ≤ 3K words with every struck banner relocated verbatim to `
 | 5 | F-S078-04 | ✅ | `d7f14f4`: `TB`→`TD` alias, +1 test (52 + 1 failed against HEAD, then 53) |
 | 6a | Seven Lamps | ✅ disposition | `e6b342a` → `artifacts/p6_seven_lamps_disposition.md`; the reply goes in the P4 wave |
 | 6b | ImagenWiring sweep | ✅ | `4c2d77a`: 0 external call sites across 114 live root dirs |
-| 6c | `data_bearing` ruling text | ⏸ **operator classification** | Home's register projects the key from **our own MANIFEST frontmatter** (`inventory_vaults.yaml` row_schema 2.2), so City reads Canvas as `unruled` → sealed because we never stated it. The value (`false` vs `split`) is an owner classification. Put to the operator at the sitting close |
+| 6c | `data_bearing` ruling text | ✅ **operator-ruled `false`** (AskUserQuestion, 2026-10-13; written to `MANIFEST.md` frontmatter with the shelf exception) | Home's register projects the key from **our own MANIFEST frontmatter** (`inventory_vaults.yaml` row_schema 2.2), so City reads Canvas as `unruled` → sealed because we never stated it. The value (`false` vs `split`) is an owner classification. Put to the operator at the sitting close |
 | 6d | RFC1918 upstream memo · D3 registrar ping | ⏸ **batched** | one Rosetta memo with #20, after the `adr_011` verdict (#20's payload is ADR-011's erratum, and three separate Rosetta memos would repeat the F-V-1 load on their side) |
 | 7 | door archival per Home ADR-017 | ⏸ waits for verdicts | — |
 

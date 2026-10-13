@@ -52,7 +52,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 > a visual verdict on a real panel seed for Vulcan (F-V-7) · Stentor's bridge question answered from V-8 ⑤.
 >
 > ▶ **P6 progress (run ahead of P2 by ruling, 2026-10-13):** obj 1–5 ✅ · obj 6: Seven Lamps ✅ · ImagenWiring
-> sweep ✅ · **`data_bearing` held for an operator classification** (see the session close) · RFC1918 + D3 →
+> sweep ✅ · **`data_bearing: false` OPERATOR-RULED 2026-10-13** (MANIFEST frontmatter; `what/artifacts/` shelf named as the exception). Home's next projection run picks it up and City un-seals; that is their act, not a write of ours · RFC1918 + D3 →
 > one Rosetta memo, batched with #20 after `adr_011` · obj 7 (door archival) waits for verdicts.
 
 > *(Closed-campaign blocks (the 09-15/16 stretch · Datum · Gridline · Plumbline · Blueprint and its carried finding) relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §B, 2026-10-13. AARs and campaign docs remain the records of record.)*
