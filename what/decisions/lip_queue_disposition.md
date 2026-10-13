@@ -1,9 +1,9 @@
 ---
 type: decision
 title: "LIP queue disposition — the 4 post-Keystone spec-gap errata (B1–B4)"
-status: active
+status: completed   # 2026-10-13 (Vernier P6): queue drained 2026-07-02; both LIPs it carried are Final
 created: 2026-06-20
-updated: 2026-07-02
+updated: 2026-10-13
 last_edited_by: agent_mondrian
 phase: post-keystone
 tags: [decision, standard, lip, errata, governance, disposition]
@@ -190,3 +190,11 @@ structural schema identical) · `conformance.py` (×3) · `test_smoke` (×2) + `
 **The errata queue is fully drained** (B1–B4 + AT-1/AT-2 all resolved). Governance tail unchanged: **LIP-0008 /
 LIP-0009** in Review (FA-owned, earliest close **2026-06-27**; on LIP-0008 Final → v2.1.0 A-5 relaxation); **PT P5**
 (Hestia) relocation/refederation. **No new campaign** — this rode the LIP-queue track; Operation Atelier stays closed.
+
+> **⛩ Closed 2026-10-13 (Vernier P6).** `status: active` → `completed`. The queue was drained on 2026-07-02, and the
+> governance tail the paragraph above describes has since resolved. **LIP-0008 is Final**: the A-5 relaxation shipped
+> in v2.3.0 (Beacon), not v2.1.0. **LIP-0009 is Final** (Option V). Both statuses were read from the live LIP files,
+> not from this file. The paragraph above is left as written; it was true on 2026-07-02. This record stayed `active`
+> for three months after it had nothing left to govern. That is the family the 2026-10-12 review names F-V-4: the
+> surfaces that orient a cold start were the stalest things in the vault.
+

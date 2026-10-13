@@ -2,13 +2,13 @@
 type: decision
 artifact_type: lip_draft
 title: "LIP DRAFT — derived surfaces: region-backed node vs pure metadata (B4)"
-status: submitted
+status: superseded   # 2026-10-13 (Vernier P6): was `submitted` — the live LIP-0008 is Final (A-5 relaxation shipped in v2.3.0); this draft is its as-filed record
 lip_number: "LIP-0008"
 filed_as: "who/governance/lips/lip_0008_derived_surface_pure_metadata.md"
 filed_as_original: "lattice-labs/how/governance/lips/lip_0008_derived_surface_pure_metadata.md (archived reader-only)"
-superseded_by: "who/governance/lips/lip_0008_derived_surface_pure_metadata.md (live LIP, Accepted)"
+superseded_by: "who/governance/lips/lip_0008_derived_surface_pure_metadata.md (live LIP, Final — was \"Accepted\" when this pointer was written 2026-07-02)"
 created: 2026-06-20
-updated: 2026-07-02
+updated: 2026-10-13
 last_edited_by: agent_mondrian
 phase: post-keystone
 target_process: "who/governance/lips/lip_0001_lip_process.md"

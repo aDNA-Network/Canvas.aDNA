@@ -2,13 +2,13 @@
 type: decision
 artifact_type: lip_draft
 title: "LIP DRAFT — canvas as a first-class aDNA primitive? (Δ2)"
-status: submitted
+status: superseded   # 2026-10-13 (Vernier P6): was `submitted` — the live LIP-0009 is Final (Option V); this draft is its as-filed record
 lip_number: "LIP-0009"
 filed_as: "who/governance/lips/lip_0009_canvas_as_primitive.md"
 filed_as_original: "lattice-labs/how/governance/lips/lip_0009_canvas_as_primitive.md (archived reader-only)"
 superseded_by: "who/governance/lips/lip_0009_canvas_as_primitive.md (live LIP, Final/Option V)"
 created: 2026-06-12
-updated: 2026-07-02
+updated: 2026-10-13
 last_edited_by: agent_mondrian
 phase: P2
 target_process: "who/governance/lips/lip_0001_lip_process.md"
