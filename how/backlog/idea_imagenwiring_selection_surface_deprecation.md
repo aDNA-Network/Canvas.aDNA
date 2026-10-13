@@ -3,8 +3,8 @@ type: backlog
 idea_id: idea_imagenwiring_selection_surface_deprecation
 title: "Deprecate ImagenWiring's selection-surface cluster — 10 methods, zero call sites, measured; the class itself is live and stays"
 created: 2026-09-09
-updated: 2026-09-09
-status: open
+updated: 2026-10-13
+status: open   # step 1 (fleet consumer sweep) DONE 2026-10-13 — Vernier P6; steps 2–3 remain
 priority: low
 origin: "Blueprint P5 close — carried tail from Halftone, premise re-derived and corrected"
 executor_tier: sonnet
@@ -89,6 +89,27 @@ left standing rather than removed.
 4. Note that the `resolve_*` / `find_survivors` / `_enforce_single_survivor` group is
    *self-referentially* live — the dead methods call each other. Call-count-based dead-code
    detection will report them as used. Only reachability from a live entry point is decisive.
+
+## ⛩ Step 1 done — the fleet consumer sweep (2026-10-13, Vernier P6, Canvas HEAD `40e4fa5`)
+
+**Population, stated on the face of the number:** every **non-symlink** root directory of `~/aDNA/`
+(143 entries − 26 symlink shims = 117), excluding `Archive.aDNA` (archived), `Canvas.aDNA` (the
+defining vault, measured above) and `llama.cpp` (upstream), leaves **114 directories swept**. Files are
+`*.py` only, with `.venv/` and `site-packages` excluded. Shims are skipped because a shim is a second
+name for a directory already counted (Rosetta's 254-vs-282).
+
+| Probe | Result |
+|---|---|
+| `ImagenWiring` named in any `.py` | **1 file**, `Home.aDNA/what/code/googleai/client.py:7`, and it is a **docstring** saying the variant fan-out *"consumes it with no adapter"*. Not an import and not a call |
+| `.<dead-method>(` call sites, all 10 dead names plus `_enforce_single_survivor` | **0** |
+
+⇒ **No external consumer of the selection-surface cluster exists in the fleet on this node.** Step 2
+(deprecate with a named sunset, live trio annotated) is now unblocked on evidence. Doing it is a
+`canvas_core` change for a session that owns it, not for this sweep.
+
+⚠ **What this sweep cannot see:** dynamic access (`getattr`, string dispatch), consumers on other
+nodes, and anything outside `~/aDNA/`. The Home docstring is the one place a future reader might
+mistake for a dependency, which is why it is named here.
 
 ## Why this is a backlog item and not a P5 act
 
