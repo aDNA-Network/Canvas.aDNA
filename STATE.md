@@ -14,13 +14,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 > **▶ 2026-10-12 — ⛩ THE VAULT WAS IDLE 24 DAYS, THE WORLD MOVED, AND THE INBOX WAS A REGISTRY WITH NO CONSUMER (Mondrian, `session_stanley_20261012_vernier_review_and_inbox`).** Cold start at `483bc61` (2026-09-18). Found and **re-derived before writing**: **17 inbound memos untracked** (09-21 → 10-12; six `ack_required: true`; zero replies — by the drop-box's own rule, uncommitted = unread) · **Vernier's subject vault archived under the campaign** (`Armor.aDNA` → `Archive.aDNA/`, 09-24; live successor **`Terminal.aDNA/what/canvas/`**, now **8** canvases, regenerated the morning of this review) · **the V-1 question asked independently by four vaults** (Vauban · Ledoux · Berthier/Automator · Noether — whose `gen-canvas` M-B1 is **carded on our answer**, and whose ADR-018 + the LinkML Profile v0.1 define `sync_hash` as the master's bytes while we compute topology and City writes both) · Noether's two deadlines **passed** (P3 opened 10-10) · **4 doors pending 26 days, receiver DOWN** · 2 unpushed · `CLAUDE.md` current-state **nine campaigns stale** · STATE 79 KB · **F-DT-10 never defined** · `canvas_context` pins `2.2.0`. **Nothing red**: gates **10/10 green, exit 0**, reproduced the published line exactly; Terminal re-derivation **8/8 canonical · 8/8 A-8 · 8/8 source-hash · 0/8 topology · 8/8 native-flip [OK]**, their tree untouched. **Done this sitting:** receipt commit `9ea73ca` (byte-unchanged) · [review artifact](how/campaigns/campaign_canvas_vernier/artifacts/review_20261012_vault_state_and_inbox_triage.md) (F-V-1…F-V-6) · **Vernier scope amended** (fold-not-sibling): subject repointed, V-1 widened, **V-4…V-8** added (B14 pack · B18 `graph.canvas` + overlay · `_reserved` placement · LP dispositions + CEL · Socials formats/`style_ref`/RLHF), phases **6 → 8**, six missions chartered (P2b LIP-0011 → **v2.5.0** · P3 freshness both ways · P4 doctrine + memos · **P5 canvas memorialisation** · **P6 vault review & hygiene** · **P7 `post_generator` for Socials**) · **ruling door rendered** `how/gates/vernier_p1_exit_20261012` (9 sections, round-trip proven with a `_zz_` probe, removed) · receiver restarted → **`:8767`** (the port moved; Home's receiver no longer holds it) and the four old doors **re-rendered** — they had carried `:8768` and would have POSTed nowhere · `CLAUDE.md` current-state rewritten (prior struck) · six interim memos **#21–#26** (Terminal · LP · City · Automator · Socials · Hestia), each saying *recommendation, door rendered, not a signature*. ⇒ ***An inbox nobody commits from is a registry with no consumer*** (F-V-1, → gate #11 in P6) · ***a charter pinned to a vault name is a claim about the fleet, and the fleet moves while the campaign waits at a gate*** (F-V-2) · ***a validated shape with an undefined semantic acquires one meaning per implementer, and the number of implementers is now the fleet*** (F-V-3, Principle 4b at n=4) · ***a door is rendered against a port, and a port is a lease*** (F-V-5). ⛔ **Nothing ruled.** ▶ **Live operator items: FIVE doors** (`adr_010` · `adr_011` · `adr_012` · `operator_queue_20260916` · **`vernier_p1_exit_20261012`**), the push GO (2 + this session's commits), the memo-delivery GO for the P4 substantive replies. Lodestar's C-iii memorialisation deferral is **re-opened on evidence** (F-V-6 → P5).
 >
-> **▶ 2026-09-11 — 🏁 OPERATION GRIDLINE COMPLETE · the Standard learned both axes, and every check we added found a defect in the check before it (Mondrian, `session_stanley_20260911_gridline_p0`).** Chartered on the **§7.7 signature Plumbline left as its single live item** — signed at this campaign's plan gate, the shortest gap in this vault's record between an operator item being named and discharged. **Shipped: aDNA Canvas Standard v2.4.0** — **A-8** validates `authority` {`dual_channel`, `view`} + `production` {`hand_authored`, `generated`}, both optional, `authority` **requiring** `production`. Third deliberate `canvas_std` touch since Keystone; **first structural change to the JSON Schema** (every prior release was validator-level, and the `$comment`'s stated reason for pinning `$id` had to be **rewritten rather than version-bumped** because it asserted the file was unchanged). **(A) TWO OPERATOR RULINGS AT THE P1 GATE, AND BOTH CHANGED THE ARTIFACT.** ⛩ **F-GL-5 — the ratified co-requirement was a misreading, and it was self-defeating.** The table said *"two keys or neither"*, citing the ruling's *"both become binding together"* — a sentence about **validation scope** (*validate either key and you must validate both*), which **LIP-0010 states correctly four lines earlier** (*"a two-key change or none"*) before sliding into a per-document requirement. **Two readings of one sentence, four lines apart, and the wrong one reached the signature.** ⭐ **What caught it was not re-reading — it was our own code refusing to obey it**: `variant_board.py` and `tuning_surface.py`, fixed at Plumbline P1 *with a written reason*, emit `production: generated` and deliberately omit `authority` (*"the authority question does not arise: the key is ABSENT, not a placeholder"*). Under the symmetric rule their output is nonconformant **and unfixable by regeneration** — the only remedy being to invent a value, which `conform.py` names as *"passing a value to make a number go green… the defect this signature used to force."* ⇒ ***a co-requirement read symmetrically forced back the defect it was written to prevent.*** Ruled **asymmetric**. ⛩ **F-GL-1 — `RESERVED_KEYS` had no consumer**, so LIP-0010's required append was correct *and inert* — and the proof that an inert list rots was in it: **`interaction`**, shipped and validated since **v2.2.0**, was absent from **all three** hand-maintained copies of the `_reserved` namespace (the tuple · the schema `properties` · core-spec §7.2) for three months, because nothing read any of them. ⇒ ***a specification with no consumer is indistinguishable from no specification.*** Back-filled by ruling; durable fix declined and filed. **(B) ⛩ F-GL-6 — THE LIP'S BACKWARD-COMPATIBILITY CLAIM, THE ONE THAT MADE IT SAFE TO SIGN, WAS FALSE.** *"All 4 carriers migrated, so 25 of 25 keep passing"* measured **23 of 25**: two canvases still declared `authority: "generator"`, both **untracked** under the gitignored artifact shelf — the migration reached the tracked carriers and stopped. ⭐ **And the disproof was already in our own record, four lines from the claim**: Plumbline P1's pasted census prints both rows as `canonical generator — UNTRACKED`. ⇒ ***a measurement pasted into the record is not a measurement anybody consulted.*** Fixed by **regeneration**, not hand-editing (the discipline `production: generated` names), structure verified unchanged across the rebuild; post-fix census **A-8 failures = 0** across 26 `adna_native` canvases. **(C) ⭐ EVERY CHECK WE TOUCHED FOUND A DEFECT IN THE CHECK BEFORE IT — three inside the one file written to end that family.** ⛩ **F-GL-2** — the `firewall` gate ran `git diff`, i.e. **unstaged only**: it missed **staged** and **untracked** breaches entirely, two of three classes, *including the one a firewall touch necessarily performs*. It had never fired because **no campaign before this one had staged a `canvas_std` change** ⇒ ***a predicate only ever run against a clean tree has only ever been tested for its false case.*** ⛩ **F-GL-4** — the producers row printed a hardcoded `267` beside a derived `272`, verdict green. ⛩ **F-GL-7, the worst of the three** — `markdown_gate_line()` **hardcoded green for all three non-pytest gates**: `"firewall diff **0**"` was a *constant string*, printed while the firewall was **FAILING**, in the one string a close **pastes** into this file. `certification` hardcoded `/11` and rendered `12/11`; freshness rendered `X/X`, so one-of-two-stale would have read `1/1`. ⇒ ***the report is part of the check*** — a gate that observes correctly and reports a literal has only moved the unverified claim to the layer that gets published. All three now derived; **a non-OK gate renders `⛔ <status>` and cannot be pasted as green.** **(D) THE VALUE THE LIP PROMISED ARRIVED THE SAME HOUR.** A-8 turned **four of our own call sites red** — `canvas_core` and `diagram_generator` were both content to emit `authority` with no `production`. Both now refuse it at build time, and their axis frozensets are **de-duplicated**: imported from `canvas_std.reserved`, so one definition, two enforcement points, no drift possible (the Armature thin-delegate precedent). **Six now-false *"canvas_std does not validate this key (F-B1-2)"* claims corrected where they were written** — one of them a test docstring that had **predicted its own expiry** and reached it. **(E) THE SWEEP WAS CLASSIFIED, NOT GLOBBED.** 32 files carried a `2.3.0` literal, splitting into live pins and dated historical claims; ⛔ **the peer rows in `federation_index` §2 were deliberately NOT touched** — they record *measured* peer declarations, and editing them to match our release would **fabricate peer state**. ⚠ Beacon's changelog said *"9 spec frontmatters"*; it is **eleven** — which is why this phase re-derived the surface instead of copying the previous cut's list. **(F) ⚠ FOUR SELF-CAUGHT SLIPS, RECORDED NOT BURIED** — I wrote **"147 passed"** into a README *before running anything* (the truth was **142**); my first backward-compat sweep reported **"0 failures"** because `validate_suite`'s `declared` **defaults to CORE**, a true answer to the wrong question, caught only because the same script printed the carriers it had just called healthy; the **superseded symmetric phrasing survived inside the schema `$comment`** of the artifact implementing the asymmetric rule; and I **mis-derived the freshness tuple** (`(checked, 0)`, not `(fresh, stale)`) and would have shipped a reporter printing `1/1` for one-of-two-stale. **Gates: 9, all green** (pasted from `--markdown`). **LIP-0010 → FINAL.** ▶ **Campaign CLOSED. Live items: the memo #19 delivery GO (staged, `ack_required: true`) and a push GO for this session's 4 commits.**
->
-> **▶ 2026-09-11 — 🏁 OPERATION PLUMBLINE COMPLETE · the ruling cleared the blocker and left us holding it (Mondrian, `session_stanley_20260911_plumbline_p0_p3`).** Cold start found **one untracked file** — Rosetta's reply, answering four memos at once and ruling `b1.5` **ADOPTED with the authority axis SPLIT**. Chartered as a successor campaign at the plan gate, reversing P5's "no successor" ruling on new evidence; five phases, one sitting. **(A) READING THE MEMO PRODUCES A WRONG PLAN TWICE, AND BOTH INVERSIONS NEEDED RE-DERIVING.** ⛩ **F-PL-1** — LIP-0010's trigger was a **conjunction** (*"`authority` still normative **and** the three-row set stable"*) and the ruling breaks **both**, so on the memo's own evidence **zero of four** downstream items had cleared; our trigger waited on their ruling while their ruling deferred enforcement to ours — **two conditions written pointing at each other**, a cycle breakable only by an artifact existing. ⛩ **F-PL-2** — §3 states the pattern is **NOT YET AUTHORED** (24 patterns). It is **26**, and the file **is among them**, at `67ad713` — **the commit immediately after `860c59e`, the head the memo itself pins** as *"superseded when: our next commit."* **True at 00:55Z, false when read, and the document carried the pin that disproved it.** ⇒ ***a memo is a measurement with a timestamp.*** **(B) SO `b1.5` CLEARED — AND CANVAS BECAME ITS OWN BLOCKER.** The ruled shape is **E2's larger fix**, which E2 named and declined to propose: `authority` {`dual_channel`, `view`} = *who owns the meaning* · `production` {`hand_authored`, `generated`} = *how it is made*. Measured: the `production` axis was **unknown to every tool we ship**; `conform.py:50` pinned the superseded set and **required** a field the ruling declines to mandate; **2 of our 4 canonical carriers declared `generator`**, no longer an authority value. ⛩ **F-PL-7 — the P2b blocker's proximate cause was a keyword argument in our own module**, faithfully implementing **our own draft's** over-reach (*"none is retired"*), the exact clause the ruling declined. ⚠ **Stated fairly: the doctrine work WAS necessary** (E2's finding was independent and real) — **the blockage was not.** **(C) P1 RULED THE OPEN QUESTION FROM THE TEXT BEFORE WRITING CODE.** The charter refused to assume the split fixed P2b's *under*-coverage. It does not need to: the pattern governs *"two channels side by side"* and its anti-pattern is scoped to *"a `.canvas` **beside a document**"* — a hand-authored **primary** artifact is **out of scope entirely**, so ⇒ ***an axis cannot under-cover a population it does not cover***, and **omission is the correct answer**. **(D) ⛩ F-PL-6 — THE REGENERATION FOUND OUR OWN DUAL-CHANNEL PAIR STALE FOR FOUR DAYS.** Rebuilding from the **unmodified committed sources** differs by 36 and 32 lines, so it was not our change: `7e97cfd` (09-07, P2c) changed the layout engine and the canvases were last built at `2705d93` (09-04). They stayed stale through **P2c · P3 · P4 · P5 · the Blueprint close — five all-green gate lines** — and the artifacts in breach are **the pair the ruled pattern cites BY NAME** as its motivating example. The pattern's central law is *"drift between channels is a defect, not a chore"*; the visual gate checks a canvas **as it stands**, and nothing compared a generated artifact to a regeneration of it. ⇒ ***a generated artifact that nobody regenerates is a claim nobody re-derived*** — sibling of F-P5-3 (a suite nobody invoked) and F-GM-1 (a suite never enrolled), one layer out from tests. **Fixed as gate #9**, `dual_channel_freshness`, verified by derivation both ways. **(E) LIP-0010 CONVERTED** — assessment → **Standard proposal, Option D, v2.4.0** (two optional validated keys, **two keys or neither** per the ruling), firewall touch named file-by-file, **`canvas_std` untouched at diff 0** per operator ruling; §7.7 block added, **signature owed**. ⭐ **The deferral was right for the reason it gave** — it feared Rosetta might *"rename a row, narrow the set, or rule `authority` advisory"*; **all three happened**, and an August Option B would now need a major bump to unwind. **Trigger rewritten as a file at a path and RUN**, not described. **(F) PROMISES: ONE DELIVERED, ONE STAGED.** #17 → Berthier delivered (md5 identical, their tree +1 and untracked, drop-box probed **at act time**); **#18 → SS staged at P3, then DELIVERED at close** — they held **two live leases and publish no drop-box** (this vault's standing refusal condition), so it was staged; the **close re-probe found 0 leases** and it went. ⭐ ***A staged memo is not a refused one, and the re-probe is what makes that true*** — P5's finding, exercised twice more today and paying out within the same sitting. ⚠ Its `delivery_basis` was **rewritten before sending** to record that the basis *changed*, rather than quietly overwritten — memo #15 shipped with a stale one. **(G) TWO LATENT TRAPS CLOSED, ONE CONTRIBUTED FROM OUTSIDE** — Rosetta's shim finding (*254 vs 282*) **reproduces in our own root**: `ls */CLAUDE.md` reports **two** federation wrappers where there are **three**. Discovery now uses `find -P` and **reports every skip**; proved by showing the **old** code print `15 … (13 gated)` with a correct verdict. Plus a precondition guard (exit **4**) that no gate resolves outside the vault. ⇒ ***a shim is a second true name for one object, and a glob cannot tell a name from a thing.*** **(H) ⚠ TWO SELF-CAUGHT SLIPS, RECORDED NOT BURIED** — the first census run reported **`0 tracked`** off a broken `git ls-files`, minutes from publication **inside a correction about stale figures** (true: 30/56); and I wrote **"gate #14"** into LIP-0010 when the manifest publishes gates **by name**. **Gates: 9, all green** (pasted from `--markdown`). ▶ **Campaign CLOSED. LIP-0010's §7.7 signature is the live operator item.**
->
-> **▶ 2026-09-10 — THE GATE SET IS NOW RUNNABLE, AND IT FOUND AN EIGHTH SUITE IN ITS FIRST MINUTE (Mondrian, `session_stanley_20260910_runnable_gate_manifest`).** No campaign active; a backlog session taking F-P5-3's durable fix. **(A) `how/gates/gate_manifest.py` ships** — three registries (`GATES` by name · `EXCLUSIONS` each carrying a required reason · **discovery**), four distinct exit codes (`1` suite failure · `2` disagreement · **`3` omission** · `4` precondition). Discovery is the load-bearing part: without it the file is a prose list written in Python, carrying the exact failure mode it replaces. All four exits **verified by derivation, not by reading the message** — a throwaway `_probe` package produced exit 3 naming the surface; a perturbed expectation produced 2; a broken interpreter path produced 4; green produced 0. ⛩ **F-GM-1 — the manifest found `canvas_presentation` on its first run: 57 passed / 2 skipped, real library code, and it has NEVER appeared in a published `STATE.md` gate line.** Unlike `canvas_context` it did not *fall out* — **it never arrived**, which no amount of careful re-reading could have surfaced because there was nothing to notice the absence of. Its one appearance anywhere was a single **commit message** at `53a0213` (2026-08-22) reporting `core+pres 916/5`; the skip arithmetic reconciles exactly (core 3 + pres 2 = 5), so that run genuinely included both, while STATE's line tracked `canvas_core` alone throughout (863/3 → 937/3 → 1035/3). It was green the whole time — **the exposure was never a red suite, it was an unwatched one.** ⇒ ***a registry that is only ever read cannot report what was never written into it; only enumeration against the disk can.*** Now gate #8. **(B) THE TWO P5 TRAPS ARE ENCODED, NOT REMEMBERED** — the script never `chdir()`s (regression-tested by breaching the firewall and running from a deep subdirectory: correctly `FAIL`, correctly clean after restore), and the producer packages are listed by name because the seventh is `brief_consumer`. **(C) ⚠ I COMMITTED BLUEPRINT'S OWN DEFECT IN THE FIRST ACT AFTER ITS CLOSE** — reported **20** unpushed commits at the plan gate; the real figure was **22**, off a `head -20` truncation. Caught on the pre-push re-verify. Recorded rather than quietly fixed: **the habit does not transfer by having written the finding down.** Two further self-caught instances inside the script (a gated-count printed as `found − len(registry)` that was wrong because one exclusion holds tests only at grandchild depth; a producers total emitted in the wrong position) — both replaced with derivation from the actual partition. **Gates: 8, all green** (pasted from `--markdown`, not retyped). **Push: 22 commits → `origin` `57c5a67..22a101b`, gitleaks clean.** ▶ Still no active campaign.
->
-> **▶ 2026-09-09 — 🏁 OPERATION BLUEPRINT COMPLETE · the campaign that set out to fix a federation problem and found an epistemic one · three memos delivered, one of them freed after a day staged (Mondrian, `session_stanley_20260909_blueprint_p5_close`).** Cold start found **an untracked inbound memo from Vulcan** — caught by the `-uall` rule, and it had been delivered to `who/coordination/` rather than the drop-box, so a collapsed listing would have shown that directory unchanged. **(A) THE SEAM HAS TWO HALVES, AND WE MEASURED THEIRS.** ComfyUI's `emit_run_manifest.py` v0.1.0 shipped 2026-09-09 — **keyed to their M-RD1 until our five P4 fixtures made it venue-independent, whereupon their operator ruled it forward and it shipped the same sitting.** *The plan's claim that building the consumer first turns §3 from a paragraph into fixtures an emitter can run against was load-bearing, not rhetorical.* Their memo reports 12/12; we **re-derived it rather than repeated it** (it is a claim about *our* code) and got **15/15** — their twelve plus three they did not run: the committed record is byte-identical to the live manifest, **every path resolved and every PNG was genuinely probed** (20 × real `(1024,1024)`, zero zero-dims — that check exists because P4 shipped traps that *skipped while printing `0 findings [OK]`*), and on-disk md5 == recorded md5 all 20. Their tree `-uall` **0 entries** after every run. ⛩ **F-P5-1 — a manifest is only loadable where its pixels are:** their *committed* copy raises `ManifestError` (25 skipped) from where it sits, and the copy that loads lives under a gitignored `.local_dataplane/`. ⇒ **the version-controlled half of the seam's evidence cannot be re-derived by anyone who does not already hold the gitignored pixels.** Not a defect — `partially_failed.json`'s contract behaving exactly right, and our own `adr_010` makes the identical trade. Raised as an observation for their v1.0 provenance story; **no spec change proposed.** **(B) THE SS DEBT DISCHARGED — and their figures reproduced exactly**, which is worth saying because ours have not always: **20 canvases / 5 failing / 21 errors / all C-4**, exactly as the charter said. All five → `extended [OK]`; `unresolved_edges` ran and found **0**; their tree read-only throughout. ⛩ **F-P5-2 — the first version of that handover was 1436 changed lines.** `normalize_edges` works on a parsed document and is exactly as mechanical as we told them; **the serialization is not.** `json.dumps(indent=2)` is correct JSON and reformats every line of a file written compact and one-node-per-line — and *they land it under their own commit*, so a reviewer would have had to take *"only `toEnd` changed"* on our word from a diff showing everything change. Rewritten as a textual insertion: **42 lines**, tabs/key-order/spacing/missing-trailing-newline preserved, and every output **parsed and asserted equal to `normalize_edges`'s own result** because clever text surgery on JSON breaks quietly. ⇒ ***a mechanical fix delivered as a whole-file rewrite is not mechanical as far as the person reviewing it is concerned.*** **(C) BOTH CARRIED TAILS RE-DERIVED, NEITHER EXECUTED ON ITS OLD PREMISE.** ⛩ The **`ImagenWiring`** tail was false in **both** clauses — *"no live caller"* (it is imported and instantiated at `comic_render/dispatch.py:18,77` and is a public export) and *"uses only `generate_variants`"* (it uses two methods). The **real dead surface is larger than claimed**: the whole selection-surface cluster, **10 methods, zero call sites**, one of them already fenced by a test asserting no module may reference it. Two name collisions recorded so nobody re-derives them. Carried to backlog **with the measurement attached** — deprecating a live public export on close day without a fleet consumer sweep is a change dressed as housekeeping. **M-PL3: dossier STAGED, not ruled** — the charter said *"ruling"*, SS asked for a joint sitting and was right to; corpus measured at the object (**14 files, ~2619 lines**), four options with costs, **none recommended**. The strongest fact recorded both ways: Halftone shipped a working comic system *without* this corpus, which is either redundancy or unclaimed knowledge, and asserting which without an overlap audit would repeat F-P2b-3. **(D) ⛩ F-P5-3 — THE CLOSE RAN `canvas_context` AND FOUND IT RED FOR TWO DAYS.** The leg-2 proof. Cause entirely benign: **P2c legitimately regenerated** `document_generator`'s whitepaper — section-atomic pagination split it **5 pages → 6** — taking it 32/23/8 → **35/25/9** and staling four literals pinned since Salon. **It survived three consecutive phase closes (P2b · P3 · P4), each publishing an all-green gate line, none of them lying:** `canvas_context` was in the gate set at Armature and **silently dropped out**; no commit removed it, each close copied the previous close's list. ⇒ **F-P2-11's family with a nastier variant — a skipped test prints `s`; a suite nobody invoked prints nothing at all.** Repaired so it cannot rot the same way: structural counts **derived from the file** (asserting the loader is *lossless*, which is the real claim), `reading_order` kept literal because that one **is** the leg-2 claim. `idea_runnable_gate_manifest` filed: the fix is a manifest that **fails on omission**. **(E) THREE MEMOS DELIVERED**, md5-verified, left untracked, quiescence re-probed at act time — **and #13 finally went**, one day after P3 staged it on Rosetta's live lease. ⭐ **A staged memo is not a refused one, and the re-probe is what makes that true** — both refusal conditions in this campaign (a live lease, no drop-box) are **transient**. ⚠ #15's own `delivery_basis` was **corrected before sending**: it still described the live SS lease that had by then been released — a memo whose header contradicts the act that delivered it is P3's index failure one layer in. **Gates: `canvas_std` 115/10 · certification 11/11 · `canvas_core` 1035/3 · `canvas_context` 58 (restored) · producers 267/7 packages · `comic_render` 154/2 · firewall diff 0 (verified from the vault root — a persisted `cd` makes that check return empty, i.e. indistinguishable from clean).** ⛔ **H4 live chain still not asked and spend never requested** — by both vaults' agreement, the ask is joint when their M-RD1 venue manifest lands. ▶ **No active campaign. No successor chartered** (operator ruling).
+> *(Four closed-campaign banners, 2026-09-09 → 2026-09-11 (Blueprint close · runnable gate manifest · Plumbline · Gridline), relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §A, 2026-10-13.)*
 
 > **▶ STANDARD PINS + OPEN TAIL (live).** Canvas Standard **v2.4.0 — CUT 2026-09-11** (LIP-0010 Option D **Final**; A-8 `authority`/`production`, both optional, `authority` requires `production`) · `canvas_std` **170/10** *(146 → 151 at Datum P2 → 156 at P3 → 170 at P4b; every step derived by stash/restore, never predicted)* · certification **12/12** · firewall clean · **LICENSE: MIT © aDNA Labs (root, 2026-09-04)**. **Open tail (non-blocking): D3 Rosetta registrar ack** (`#needs-human`) — on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified.
 
@@ -50,117 +44,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 > **interim**, each marked *recommendation, not a signature*. **#20 → Rosetta still staged with `adr_011`.**
 > Substantive replies carrying verdicts = P4.
 
-> 🏁 **Stretch closed 2026-09-15 → 2026-09-16 — the operator review package.**
-> [Stretch AAR](how/campaigns/aar_stretch_20260915_20260916_operator_review_package.md) ⚠ *a stretch
-> record, not a campaign AAR — no campaign was chartered, and saying otherwise would invent a
-> structure that did not exist.* ISS adopted (11th wrapper) · **four doors rendered** with a live
-> receiver and a verified POST round-trip · ADR-010 erratum · **ADR-011 Amendments 1–3** · ADR-012
-> unchanged · memo #20 staged. ⭐ Its finding: ***a claim left standing beside its own remedy is the
-> most expensive kind of stale, because the fix is visible and the claim still reads as current*** —
-> five instances, including a comment that **named its own expiry condition, reached it, and still
-> needed correcting by hand.** ⇒ **corrections propagate to where they are authored, not to where the
-> claim is repeated**; grep for restatements in the same pass.
-
-> 🏁 **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) — chartered
-> 2026-09-13, closed 2026-09-15**, two sessions, P0–P5 (+**P4b**, a dated scope amendment taken at the
-> P4 gate). [AAR](how/campaigns/campaign_canvas_datum/missions/artifacts/datum_campaign_aar.md).
-> **11 findings, F-DT-1 … F-DT-11** — and the pattern worth the name: ***every instrument this
-> campaign built produced a finding about itself before it produced one about its subject.***
->
-> **Shipped:** firewall touches **#5** and **#6** (the fifth and sixth deliberate `canvas_std` touches
-> since Keystone, both back to diff 0 on commit) · gate **#10** `registry_census` · **26
-> vocabularies** each declaring a state **checked against a derivation** · the package's **first
-> document-level JSON Schema test**, shipping with its own coverage published · doctrine graduated →
-> [`context_registry_derivability.md`](what/context/context_registry_derivability.md) (8 principles) ·
-> `canvas_std` **146 → 170/10** · gates **9 → 10**, all green.
->
-> ⛩ **The finding, and it is the vault's best one yet: *a registry that LOOKS watched is better hidden
-> than one that visibly is not.*** `RESERVED_KEYS` was *visibly* read by nothing — and that visibility
-> is exactly what got it fixed, in a day, at P2. The JSON Schema's **eleven value enums** had a census,
-> a twelve-pair correspondence table, and a published phase result all stating they agreed exactly.
-> **Gutting one of them left all ten gates green**, while `jsonschema` correctly rejected an ordinary
-> canvas. The instrument did not fall silent — it **failed into reassurance**, printing *"unrelated
-> vocabularies reusing a generic token"* about the Standard's own edge-side enum. Cause: pairing **by
-> content** (still the right choice — a name map would itself be an unconsumed registry) **dissolves**
-> a pair when the two sides diverge, rather than reporting drift. Fixed by a **per-object falsifiable
-> claim**, never a second list.
->
-> ⚠ **Two of my own written predictions were refuted by measurement, both corrected where they were
-> written**: the P3 close called a schema test *"larger than P3's scope"* (it is ~15 lines), and the
-> P4b plan predicted that suite would **not** catch the F-DT-7 perturbation — **D13a shows it does**,
-> by the accident that the corpus varies `fromSide` and not `toSide`. ⛔ Not reassurance: `toSide`
-> alone can still be gutted invisibly (D13b), and the corpus exercises **12 of 40** enum values.
->
-> ⇒ **The operational habit, carried forward:** ***ask what your instrument does when its subject is
-> badly wrong, not when it is slightly wrong.*** Small drift is the case people design for; large
-> drift is where instruments fail silently — and it is the cheaper case to test, because you can
-> simply break the thing and look.
-
-> ⛩ **[Operation Datum](how/campaigns/campaign_canvas_datum/campaign_canvas_datum.md) — chartered
-> 2026-09-13** on Gridline AAR §Follow-up's single open item, `idea_reserved_keys_has_no_consumer`.
-> **Definition of done:** every hand-maintained vocabulary registry in `canvas_std` either has a
-> **consumer** (something that fails when it drifts) or is covered by a **discovery pass**, and *which
-> one it is is written on the line*. The third state — correct today, hand-maintained, read by nothing
-> — is the thing being removed. ⛔ Unknown `_reserved` keys stay **advisory, never a rejection**:
-> `$defs.reserved` is open by design and §7.3 mandates preserving them. **P0 baseline run (not quoted):
-> exit 0, nine gates green, and it reproduced the published line exactly** — worth recording because
-> Gridline's identical run produced F-GL-4 in its first minute.
-> **P0·P1·P2 closed 2026-09-13 · P3 closed 2026-09-15.** ▶ **Next: P4** — `idea_memo_number_registry`,
-> a registry with a derivation check **or a reasoned decline**. Phase gates are human gates.
->
-> ⛩ **P3's finding is the campaign's thesis in its strongest form, and it was hiding behind a green
-> number (F-DT-7).** P3 was chartered for the **14 unpaired** constants; the exposure was in the **12
-> paired** ones, which P1 had reported *"all twelve agree exactly. No drift."* — true, and the whole
-> protection. Content-pairing **dissolves** a pair rather than reporting drift once the two sides
-> diverge past its similarity floor, so gutting the JSON Schema's `fromSide`/`toSide` enums from four
-> values to one left **all ten gates green**, while `jsonschema` correctly rejected an ordinary canvas
-> with *"'bottom' is not one of ['top']"*. The schema is load-bearing and **its consumers are outside
-> this vault**; every in-package reader of `json_schema()` reads `$defs.reserved` only. And it did not
-> go quiet — it printed *"unrelated vocabularies reusing a generic token"* about the Standard's own
-> edge-side enum. ⇒ ***a registry that LOOKS watched is better hidden than one that visibly is not.***
-> Fixed by making every constant **declare** its state as a claim the derivation can refute.
-
-> 🏁 **[Operation Gridline](how/campaigns/campaign_canvas_gridline/campaign_canvas_gridline.md) —
-> chartered and closed 2026-09-11**, one sitting, P0–P5, 9 gates green.
-> [AAR](how/campaigns/campaign_canvas_gridline/missions/artifacts/gridline_campaign_aar.md).
-> **Standard v2.4.0 is cut**; LIP-0010 is **Final**. ⚠ **Both of the "two things live" this banner
-> listed were stale by 2026-09-13, and the correction is recorded rather than silently applied** —
-> this is the vault's own defining family (*a stated fact nobody re-derived*) found inside its own
-> summary of that family. **(i)** The **push GO** was granted *and executed* — `git rev-list --count
-> @{u}..HEAD` returned **0** at the 09-13 cold start. **(ii)** Memo #19 was described as *"staged"*
-> awaiting a GO; in fact the GO **was given** on 09-11 and the **delivery** was held at the act-time
-> probe on Rosetta's live lease (`6ff7ca1`). ✅ **DELIVERED 2026-09-13** at a re-probe that found the
-> lease released — the GO executed on the basis it was given for, with the two intervening peer commits
-> re-derived as touching no canvas/pattern/LIP path first. ⭐ The campaign's finding, carried forward as
-> practice: ***the report is part of the check*** — a gate that observes correctly and then reports a
-> literal has only moved the unverified claim to the layer that gets published. And its sharper half:
-> ***a predicate only ever run against a clean tree has only ever been tested for its false case.***
-
-> 🏁 **[Operation Plumbline](how/campaigns/campaign_canvas_plumbline/campaign_canvas_plumbline.md) —
-> chartered and closed 2026-09-11**, one sitting, 5 phases, 9 gates green.
-> [AAR](how/campaigns/campaign_canvas_plumbline/missions/artifacts/plumbline_campaign_aar.md) ·
-> [P1 ruling](how/campaigns/campaign_canvas_plumbline/artifacts/p1_under_coverage_ruling.md).
-> **One thing is owed**: the **LIP-0010 §7.7 signature** (operator — the
-> firewall does not move without it) and nothing is owed to any peer —
-> **both memos delivered** (#17 Berthier, #18 SS). ⭐ The campaign's own finding, carried forward as practice:
-> ***a ruling can clear a blocker and leave you holding it*** — and ***a memo is a measurement with a
-> timestamp***, so evaluate the `pins:` block rather than believing the prose.
-
-Blueprint ran **2026-08-22 → 2026-09-09**: 7 phases, 6 missions, 9 sessions, closed **complete**.
-Records: [`campaign_canvas_blueprint.md`](how/campaigns/campaign_canvas_blueprint/campaign_canvas_blueprint.md)
-§Completion Summary · [AAR rollup](how/campaigns/campaign_canvas_blueprint/missions/artifacts/blueprint_campaign_aar_rollup.md).
-**No successor campaign was chartered** — operator ruling at the P5 gate. Every tail below is a named
-watch item or a backlog idea with an owner and an unblock condition.
-
-> ⭐ **The finding the campaign was actually about, carried forward as practice.** Nine times, in every
-> phase and in both directions, the defect was **a stated fact nobody re-derived** — six census figures,
-> an index row that reported a peer's cooperation as a refusal for five weeks, a charter dependency on an
-> artifact that was never built, a blocker sentence that was false when written and cost four phases, and
-> a gate line that was true of the six suites it listed while a seventh sat red. ⇒ ***state the population
-> on the face of the number: tip or history · class or literal · tracked or working-tree.*** Hopper
-> ratified the generic form as their ADR-011 A8 §5. **Re-reading never catches these; re-deriving does** —
-> and when it works it is quiet: P3 re-derived all 11 published figures at close and every one reproduced;
-> P5 re-derived the two it inherited and both reproduced.
+> *(Closed-campaign blocks (the 09-15/16 stretch · Datum · Gridline · Plumbline · Blueprint and its carried finding) relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §B, 2026-10-13. AARs and campaign docs remain the records of record.)*
 
 ### Carried tail — every item, its owner, and what unblocks it
 
@@ -178,84 +62,9 @@ watch item or a backlog idea with an owner and an unblock condition.
 | 10 | **SS live-batch review surface.** ⚠ **Corrected 2026-09-11:** this row read *"a named **second** consumer of the **P4 board form**"* — **that phrasing was ours, not theirs.** SS said the review-surface form would be *"the right **first** consumer … **on our side**"*, which is a different claim, and ours quietly upgraded the commitment. ⛔ **And the compatibility is unmeasured**: `variant_board.py` consumes a ComfyUI **run manifest**; SS's pending batch is *"built as an HTML gate."* The older path (`spec_canvas_review_surface` + `_reserved.interaction` + `review_collect.py`) may be the actual fit. Flagged to them as a real question, not a formality. | watch → **Plumbline P3** | ⛩ **Item 1 ruled 2026-09-11 and it CLEARED.** Memo #15 promised *"flagged when it clears, not left to ask"* — the flag is Plumbline **P3, memo #17**, and it carries the honest caveat that Canvas's own tooling enforced the superseded axis until P1. ⚠ **Two obligations were welded in this row and only one was ever item 1's**: the *promise* (ours, now dischargeable) and the *conversion* (needs P1's under-coverage ruling first — SS's boards are hand-authored primary artifacts, the population where all three old values were wrong). |
 | 11 | **D3 Rosetta registrar ack** *(standing, pre-Blueprint)* | watch · `#needs-human` | on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified. |
 
-### ⛩ 2026-09-16 — the operator-owed tail is now a set of DOORS, not a list
+### ⛩ 2026-09-16 — the operator-owed tail became doors
 
-Canvas **adopted ISS** (`how/federation/iss/`, the 11th wrapper) and rendered **four gates** in
-`how/gates/`. Workspace Standing Rule 8 names ADR ratification explicitly; three ADRs had sat
-`proposed` with **no decision surface**, so every ruling was happening in chat and leaving no artifact.
-
-| Gate | Template | Verdict owed |
-|---|---|---|
-| `adr_010_ratification` | `adr_gate` · routine | erratum authored — **two stale facts, both of which make the ADR stronger** |
-| `adr_011_ratification` | `adr_gate` · **load-bearing** | ⛔ **signable only AS AMENDED ×2** — re-rendered 2026-09-16; see below |
-| `adr_012_ratification` | `adr_gate` · routine | **no content change**; the cleanest of the three |
-| `operator_queue_20260916` | `phase_exit` · 5 sections | mermaid trust · memo #20 · corpus 12/40 · `skill_l1_upgrade` RFC1918 · F-DT-8 |
-
-⛩ **ADR-011 has now been amended THREE TIMES in one day, each correcting the one before — and it is
-finally signable.** ⭐ **Read `§What this ADR says today` first**: Amendment 3 added it because the
-decision had become distributed across an August body plus two amendment blocks, so ratifying meant
-reconstructing it from what was struck. It is a **summary, not a replacement** — the Decisions remain
-the authority.
-
-⚠ **This block originally told the story with the `production` row as the fix. That was wrong, and it
-is corrected here rather than left standing** — *a claim left standing beside its own remedy* is this
-vault's own standing family, and leaving it would be a fresh instance authored the same day.
-
-**Amendment 1** — Decision 4 asserted `canvas_std` *"does not know the key"*: **false since
-2026-09-11**, when Gridline shipped A-8 and LIP-0010 went `Final`. And the §Verified migration table
-never mentioned **`production`**, which A-8's asymmetry requires beside `authority`.
-
-⛔ **Amendment 2 — that fix was wrong for the majority, and red-teaming our own recommendation is what
-found it.** The corpus is **two populations** neither the ADR nor Amendment 1 partitioned. Re-derived
-2026-09-16 (`~/aDNA/*/what/lattices/examples/*.canvas`, Archive excluded, live vaults, this node):
-**258 canvases across 63 vaults — 194 sourceless · 63 sourced-and-resolving · 1 bare.** Uniform per
-vault: one `hello_world.canvas` (cites a `.lattice.yaml` that **exists**) plus three `template_*`
-citing nothing — and ⚠ **no `template_*.lattice.yaml` exists anywhere**, verified with `find` rather
-than assumed. ⇒ **≈3 : 1 against the recipe**, which would have stamped `production: generated` onto
-194 files generated from nothing.
-
-⛔ **And `view` is wrong on those 194, not merely incomplete** — Plumbline P1 already ruled this
-population: *a standalone hand-authored primary artifact "is not diagrammatic context at all"*, so the
-axis does not apply and **omission is correct**. The migration is therefore **not one recipe**:
-derived → `view` + `generated`; primary → **neither key** (verified conformant at `adna_native`).
-⭐ The `production` row was the **most confident claim in the package** and the one that was wrong —
-***confidence was doing the work a partition should have done.***
-
-⛔ **Amendment 3 — the amendments themselves had left an active trap.** The `source_yaml` row still
-instructed *"a real value must be supplied"* for the three canvases that have none. ⚠ **`source_name`
-is an INPUT to the partition test**, so an invented value *resolves nothing but changes the test's
-answer*, silently reclassifying a primary canvas as derived. ⇒ ***self-concealing, and therefore worse
-than the empty field — because the empty field is the evidence.*** Also closed: the *"4/4 reach
-`adna_native [OK]`"* evidence verified the **unpartitioned** recipe, so Decision 3's *"verified"* claim
-rested on the wrong transcript — **re-run rather than withdrawn**, on scratch copies, one canvas per
-population (**both `adna_native [OK]`, degradation intact; the primary form carries no `source_name`,
-no `authority`, no `production`**). The *"declared for 6 months without ever being enforced"* sentence
-is **the misread itself** — ⇒ ***an unpopulated field is data, not debt*** — struck. Title corrected.
-
-⚠ **Nothing enforces the partition in code** — a `view` canvas citing a source that does not exist
-still validates `OK` (verified, not assumed). The test is doctrine, not machinery, so **re-run it
-before any fleet migration** rather than trusting the figures. Rosetta fired template release **v8.11 on 2026-09-11** with
-that migration as payload row P3 — the **relocation half only** — so the 8 shipped files read
-`{authority: "view", …}` and measure **core [OK] · adna_native FAIL on A-2 ×2, A-6, A-8**. ⚠ **Nothing
-is broken today** (no `conformance_level`, so they validate at core) and **the fleet was not touched**
-(Rosetta scoped it *"8 files… NOT the fleet"*). **The trap is for whoever finishes the job.** ⚠ **Not
-their error** — they verified at the object and scoped narrowly; **the stale recipe is ours**, and an
-erratum is owed on memo **#20**.
-
-⚠ **A probe I reported wrong, corrected here rather than quietly**: I called the ISS receiver at
-`:8765` *"live (http 307)"*. It is **JupyterHub**. No `gate_receiver` serves Canvas's gates-root, so
-the gates fall back to the copy-paste tier — a working door, verified in the rendered output.
-⇒ ***a probe that confirms something is listening has not confirmed what is listening.*** Starting a
-Canvas-rooted receiver is one command (`how/federation/iss/CLAUDE.md`) and is **the operator's call**.
-
-⛔ **Rule at the door, not in chat.** Home's 2026-09-03 ceremony rendered a door and was then ruled in
-chat, leaving `provenance: operator_in_chat` and two candidate verdict surfaces for one queue.
-
-⛩ **Recommended order — the gates are not independent.** **`adr_010` and `adr_012` are free to sign
-now**, as are queue sections **① ③ ⑤**. ⛔ **Hold `adr_011` and queue section ②** together: section ②
-is memo #20, and memo #20's payload *is* ADR-011's erratum — which Amendment 2 just changed from
-*"add a `production` row"* to *"**partition before migrating**; 194 of 258 carry a `view` authority
-that is not true of them."* Sending the old payload would hand Rosetta a second wrong recipe.
+*(Relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §C, 2026-10-13. The ADR-011 amendment story now lives on its door, `how/gates/adr_011_ratification.html`, and in the ADR itself; read `§What this ADR says today` first.)*
 
 ### Operator items awaiting signature (§7.7 — agents author, operators ratify)
 
@@ -275,77 +84,9 @@ P2b (LIP-0011 → v2.5.0). ⛔ **Five operator doors pending** (`adr_010` · `ad
 Memo **#20** stays staged with `adr_011`; **#21–#26 delivered/staged 2026-10-12** per their `delivery_path_basis`.
 **Push GO owed** for `4931819`, `483bc61` + this session's commits.
 
-### Prior — Operation Datum
+### Prior campaigns
 
-🏁 ~~**No active campaign** —~~ **Operation Datum CLOSED 2026-09-15** (P0–P5, **+P4b**). ⚠ *"No active
-campaign"* struck **2026-09-17**: true when written, false the moment Vernier was chartered. Left
-struck rather than deleted because it is a one-line instance of this block's own subject — **a claim
-left standing beside its own remedy**, and the remedy (Vernier's charter) is four paragraphs above it.
-⚠ **This row said
-*"P0 CLOSED 2026-09-13, P1 next"* until 2026-09-15, when P1 and P2 had been committed for two days**
-(`d39f4e2` · `86b002b` · `af741fa`). Git HEAD is truth; the correction is **recorded, not silently
-applied**, because it is this vault's own defining family — *a stated fact nobody re-derived* — found
-in the file that publishes that family. It is also **F-DT-8's sibling**: the 09-13 session file was
-likewise still `status: active`, `phase: "Act 0 → P0"`, work log empty, across four commits and two
-operator rulings.
-
-**P4 closed as a reasoned decline** — the charter's own permitted outcome, taken on the backlog idea's
-own argument (*"File, do not schedule"*; #12 is a class not a file; errata are unnumbered by design),
-and reinforced by measurement: `memo_number:` is now **contiguous from #15**, so a registry would
-enforce something already true. ⛔ The decline did **not** discharge the obligation — the state was
-written onto the line in `who/coordination/AGENTS.md`, which turned out to be **inherited `agent_init`
-template text** describing a convention **0 of 80** files use and instructing memo *deletion* contrary
-to **SO-6** (**F-DT-11**). **P4b** was then added at that gate as a dated scope amendment: the
-schema's first document-level test, firewall touch **#6**.
-
-⇒ ***Not every registry deserves a checker; every registry deserves a stated disposition.***
-
-**Next**: nothing queued. The residue below is Datum's, each item with an owner.
-
-### Datum's residue — three items, each owned
-
-| # | Item | State |
-|---|---|---|
-| 1 | ⛔ **The certification corpus exercises 12 of 40 enum values** (`edge.styleAttributes.arrow` **0/7**, `edge.fromEnd` **0/2**) — the largest residue | **open.** Widening it changes a corpus sitting behind a 12/12 gate with downstream meaning. Named and costed, not done. The **published** coverage report means it can no longer be mistaken for guarded. |
-| 2 | **F-DT-8 — session-file staleness** | **filed, not built.** Deliberately outside a charter scoped to `canvas_std` vocabularies; belongs to whoever owns session protocol. |
-| 3 | **The upstream memo is not yet sent** | [`idea_upstream_registry_derivability`](how/backlog/idea_upstream_registry_derivability.md) is **filed locally** at operator approval (`skill_upstream_contribution`: mentioned at a pause, approved, filed). Staging to Rosetta is the next act — memo **#20**, ⛔ with `ack_required: true`, because our `false` default is known to be invisible to their reply-owed sweep. |
-
-- **P0** (`5c87f8e`) — memo #19 delivered at the re-probe; campaign chartered; baseline **exit 0**, nine green, reproduced the published line exactly.
-- **P1** (`d39f4e2`) — `registry_census.py`: **26** vocabularies enumerated **by discovery**; F-DT-1/2/3 found *inside the tool* before any were found in its subject.
-- **P2** (`86b002b`, `af741fa`) — `RESERVED_KEYS` gets its consumer (firewall touch **#4**, both legs); gate **#10**; F-DT-5 (`Gate.env_skips`) + **F-DT-6**.
-- **P3** (`1efc4cd`, `3e029de`) — firewall touch **#5**: every vocabulary declares `SCHEMA-TWIN`/`VALIDATOR-ONLY` on the line as a **falsifiable claim checked against the derivation**. F-DT-3 **ruled** (link, don't merge) · **F-DT-7** · **F-DT-9**.
-
-⛩ **P3 was chartered for the 14 unpaired constants and the exposure was in the 12 PAIRED ones
-(F-DT-7).** P1 reported them *"all twelve agree exactly. No drift"* — true, and the whole protection.
-Content-pairing dissolves a pair rather than reporting drift when the two sides diverge past its
-similarity floor, so **gutting the JSON Schema's `fromSide`/`toSide` enums from four values to one
-left ALL TEN GATES GREEN** — while `jsonschema` correctly rejected an ordinary canvas with *"'bottom'
-is not one of ['top']"*. The schema is genuinely load-bearing and **its consumers are outside this
-vault** (a fork, a `pip install`, any external validator); every in-package reader of `json_schema()`
-reads `$defs.reserved` only. The census did not even go quiet — it printed *"unrelated vocabularies
-reusing a generic token"* about the Standard's own edge-side enum. ⇒ ***a registry that LOOKS watched
-is better hidden than one that visibly is not.*** ▶ **Next: P4** (`idea_memo_number_registry` — a
-registry with a derivation check, **or a reasoned decline**), at a human gate.
-
-🏁 **Operation Gridline CLOSED 2026-09-11** (chartered and completed same day; P0–P5, 1 session), immediately
-after Plumbline closed the same day. Canvas Standard **v2.4.0 — CUT**: the axis doctrine is no longer a thing
-two of our modules happen to police, it is **a thing the Standard knows** (A-8). The reference implementation,
-7 producers, the `canvas_context` loader, the interaction runtime and the ComfyUI seam are all shipped and
-green — and the two producers that held their own copies of the enum are now **thin delegates** over
-`canvas_std.reserved`, so the values cannot drift from the Standard that validates them.
-
-**History:** Cartography → Keystone (v2.0.x) → Atelier → Palette → Salon → Armature → Lodestar → Beacon
-(v2.3.0) → **Halftone** (the comic system end-to-end real: 27 panels / $3.618 / 4 print-ready pages / eye
-gate PASSED; panel export under contract v1.0) → **Blueprint** (chartered 2026-08-22, **CLOSED 2026-09-09**).
-
-**What Blueprint shipped**, in one line each: the **authoring rail** + Canvas's first dual-channel canvases ·
-`layout_fit.py` (producers stop guessing text height separately from the traps that measure it) ·
-`conform.py` (`normalize_edges` clears the fleet's most common conformance failure mechanically;
-`unresolved_edges` reports and never repairs) · `visual_capture.py` (the Amendment-1 render gate, **met on
-its fifth carry**) · the **ComfyUI seam** (`run_manifest` + `variant_board` + `tuning_surface`, five fixtures
-that now *are* the contract — and ComfyUI's emitter shipped against them the next day) · `adr_011` · `adr_012` ·
-`spec_federation_contract` §2.1a · the federation index corrected **in both directions** + §1b · **MIT ©
-aDNA Labs** at root, ending 74 days public-and-unlicensed.
+*(Datum's close, its three-item residue, the Gridline close and the history line relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §D, 2026-10-13. Datum's residue — corpus 12/40 · F-DT-8 · memo #20 — is carried on the door `operator_queue_20260916`.)*
 
 ## Verified Ground Truth (anchors)
 
@@ -381,52 +122,10 @@ aDNA Labs** at root, ending 74 days public-and-unlicensed.
 
 ## Next Steps
 
-**Blueprint is closed; there is no queued phase.** The next session picks from the carried tail or opens
-something new. In rough order of what is actually actionable *by us*:
-
-1. ~~**A batch GO for the push.**~~ ✅ **GRANTED + EXECUTED 2026-09-10** — 22 commits (not the 20 first
-   reported; see the banner) → `origin` `57c5a67..22a101b`, gitleaks clean, authorship uniform.
-   **This session's own commits are unpushed** — a fresh batch GO is owed.
-2. **The four §7.7 signatures** (`adr_010` · `adr_011` · **`adr_012` — read its two 2026-09-07 corrections
-   first**) and the mermaid trust grant. All four are yours, none is ours.
-3. **Backlog, ours to run whenever**: ~~the runnable gate manifest~~ ✅ **shipped 2026-09-10**; remaining is
-   the [`ImagenWiring` deprecation](how/backlog/idea_imagenwiring_selection_surface_deprecation.md)
-   (measurement done; needs a fleet consumer sweep before anything is touched). **Open upstream question**
-   from this session: the gate manifest's generic form is a candidate for every vault publishing a gate
-   line — `skill_upstream_contribution` says mention, do not file unprompted.
-4. **Watch, nothing owed by us**: Rosetta (`b1.5` + **memo #13, delivered 2026-09-09** after one day staged) ·
-   Seshat (rename, the last `ack_required` outstanding) · Cartographer (2 duplicate node ids) · SS (M-PL3
-   sitting when they flag us; the `toEnd` output is on the shelf awaiting their commit) · Vulcan (M-RD1 →
-   then the **joint** H4 spend ask).
-5. ⛔ **Do not request H4 spend before ComfyUI's M-RD1 venue manifest exists.** Both vaults have now
-   independently restated this boundary. Five fixtures and one real 20-variant batch prove more than a
-   hand-written manifest over borrowed pixels would.
+*(The Blueprint-era list relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §E, 2026-10-13. Current next steps: §Resume Here.)*
 
 ## Notes
 
 - Inherited template example ADRs (`adr_001/002/003`) and `campaign_adna_workspace_upgrade/` are generic-aDNA scaffold, NOT Canvas-canonical. The Canvas ADR namespace begins at `adr_000` and ends at **`adr_012`**. *(No ADR was authored at P3, P4 or P5 — censuses, a spec section, a collector hook, a seam, and memos; none of it needed a new ruling. Three of the twelve still await §7.7 signature.)*
-- ⭐ **A registry that LOOKS watched is better hidden than one that visibly is not** (F-DT-7, Datum P3–P4b, 2026-09-15). `RESERVED_KEYS` was *visibly* read by nothing, and that visibility is what got it fixed in a day. The JSON Schema's **eleven value enums** had a census, a twelve-pair correspondence table and a published phase result all saying they agreed — and **gutting one left all ten gates green**. The instrument did not fall silent; it **failed into reassurance**, printing *"unrelated vocabularies reusing a generic token"* about the Standard's own edge-side enum. Cause: content-pairing **dissolves** a pair when the sides diverge rather than reporting drift. ⇒ Remedy is a **per-object falsifiable claim** — a declared state checked against a derivation — **never a second list**, because a name map is itself an unconsumed registry. Doctrine: [`context_registry_derivability.md`](what/context/context_registry_derivability.md).
-- ⭐ **Ask what your instrument does when its subject is BADLY wrong, not when it is slightly wrong** (Datum, the operational form of the above). Every instrument in this vault behaved correctly under small perturbations and reassuringly under large ones — content-pairing dissolves rather than alarms; a coverage ratchet ignores what it never covered; the firewall notices a byte changed but not that a Standard's vocabulary was destroyed. **Large drift is the cheaper case to test**, because you can simply break the thing and look.
-- ⚠ **A test that looks like coverage is worse than no test, unless somebody measures what it covers** (Datum P4b). The fixture corpus exercises **12 of 40** schema enum values, two enums at **zero** — so which drifts get caught turns on which values the fixtures happen to use (`fromSide` is *accidentally* guarded; `toSide` is not). ⛩ **And the blind spot compounds**: a ratchet on the *covered* count is blind to deleting exactly the vocabularies it was already failing to exercise (D13c — both zero-coverage enums deleted, suite still green). Pin the **declared** total separately.
-- ⭐ **Not every registry deserves a checker; every registry deserves a stated disposition** (Datum P4). The memo-number registry was **declined** — a check needing carve-outs exactly where its population is irregular is false coverage — and the obligation was discharged by *writing the state onto the line* instead. ⚠ Doing so found `who/coordination/AGENTS.md` still holding inherited `agent_init` template text describing a convention **0 of 80** files use, instructing memo **deletion** contrary to SO-6 (F-DT-11). ⇒ ***a protocol document nobody executes is a registry with no consumer.***
-- ⚠ **A document written BY EXCEPTION is not a broken registry** (Datum, the counterweight to the four notes above). `how/gates/AGENTS.md` documents *gates with a story*; **4 registered gates have never appeared in it, correctly**. A completeness check over a knowingly partial document manufactures the false-coverage shape it would claim to prevent. ⇒ ***a missing twin is a fact to state with its reason, not a defect to remedy.***
-- ⭐ **A stated fact nobody re-derived** — Blueprint's defining family, **nine instances** across every phase and in both directions: six census figures, an index row that reported a peer's cooperation as a refusal for five weeks, a charter dependency on an artifact never built, a blocker sentence false when written that cost four phases, and a gate line true of the six suites it listed while a seventh sat red. ⇒ ***state the population on the face of the number: tip or history · class or literal · tracked or working-tree.*** Hopper ratified the generic form as their ADR-011 A8 §5. **Re-reading never catches these; re-deriving does.**
-- ⭐ **A memo is a measurement with a timestamp** (F-PL-2, 2026-09-11). Rosetta's §3 said the pattern was *"NOT YET AUTHORED"* — true at 00:55Z, false by the time we read it, and **the memo carried the pin that proved it** (`rosetta_head: 860c59e`, *"superseded when: our next commit"*; their next commit authored it). Believing the sentence instead of evaluating the pin would have chartered a whole campaign around a blocker that had already dissolved. ⇒ ***a pin is not decoration; it is the expiry date, and it is only worth carrying if someone evaluates it.***
-- ⭐ **A ruling can clear a blocker and leave you holding it** (F-PL-1/F-PL-7). `b1.5` sat with another vault for 18 days; when it cleared, the remaining obstruction was entirely ours — the ruled `production` axis was unknown to every tool we ship, and `conform.py` **required** a field the ruling had just declined to mandate, because it faithfully implemented **our own draft's** over-reach. ⇒ ***we escalated to another vault a blocker whose proximate cause was a keyword argument in our own module.*** ⚠ And the fair statement, because the opposite reading is available and wrong: **the doctrine work was necessary; the blockage was not.**
-- ⭐ **A generated artifact that nobody regenerates is a claim nobody re-derived** (F-PL-6, 2026-09-11). Both dual-channel canvases in this vault — **the pair the ruled pattern cites by name** as its motivating example — had been stale since the 09-07 layout change, through **five all-green gate lines**. The pattern's law is *"drift between channels is a defect, not a chore"*; the visual gate checks a canvas **as it stands**, and nothing compared a generated artifact to a regeneration of it. Third variant of the F-P5-3 / F-GM-1 family, one layer out from tests. Fixed as **gate #9**.
-- ⭐ **A shim is a second true name for one object, and a glob cannot tell a name from a thing** (Rosetta, 2026-09-11, contributed). Their census read *254 files across 62 vaults* where the truth was *282 across 69*. **It reproduces here**: `ls */CLAUDE.md` reports **two** federation wrappers where there are **three**, naming both by their *second* name and missing the one with no shim. `find -P` is the predicate that answers the question; `ls */…` answers a different one while looking identical.
-- ⭐ **A trigger you cannot evaluate from your own tree is a trigger someone else has to remember for you** (LIP-0010, rewritten 2026-09-11). The old one was a claim about another vault's decision, evaluable only by them; it mis-predicted the decision's shape and fired inverted. The new one is a **file at a path** — and was *run*, not described.
-- ⭐ **A deferral's value is only visible in the counterfactual** (LIP-0010). It feared Rosetta might *"rename a row, narrow the set, or rule `authority` advisory."* **All three happened.** An August Option B would now need a major bump to unwind. Deferrals are hard to defend at the time and easy to justify afterwards — which is why the reasons must be written down *at the time*.
-- ⚠ **Two stale figures can disagree with reality in opposite directions and still agree with each other** (F-PL-3). `lip_0010:47` read `0 of 21` where the truth is `4 of 25` — **complement still exactly 21**; its neighbour at `:68` read `21 of 21` where the truth is `21 of 25` — numerator unchanged, denominator moved. Both read "21" before and after. Corrected in one pass so neither could be "fixed" by reference to the other.
-- ⭐ **A suite can be missing from a gate list without ever having left it** (F-GM-1, 2026-09-10). `canvas_context` *fell out* of the gate set and was at least once present, so its absence was in principle noticeable. **`canvas_presentation` never arrived** — 57/2 of real library code, never in any published gate line, discovered only when the new manifest enumerated the disk instead of reading the list. It was green throughout, so the exposure was never a red suite; it was an **unwatched** one. ⇒ ***a registry that is only ever read cannot report what was never written into it.*** The fix generalises past gates: any hand-maintained inventory needs a discovery pass that walks the territory, not just a reviewer who re-reads the map. *(Sibling of the P3 finding that `federation_index` defined its own blind spot in its membership rule — same shape, different registry.)*
-- ⭐ **A check that is not run is not a check that passes — and unlike a skipped one it leaves no trace** (F-P5-3). A skipped test prints `s`; a suite nobody invoked prints nothing at all, and the gate line beside it reads exactly as green. `canvas_context` left the gate set after Armature, no commit removed it, and each close copied the previous close's list. The durable fix is a gate manifest that **fails on omission**, not a better-maintained sentence.
-- ⭐ **A mechanical fix delivered as a whole-file rewrite is not mechanical to the person reviewing it** (F-P5-2). The tool can be exactly right and the handover still unreviewable: `normalize_edges` changes one key per edge; `json.dumps(indent=2)` changed 1436 lines saying so. What a caller owes a recipient is not covered by the correctness of the function it called.
-- ⭐ **A staged memo is not a refused one** (P5). Both delivery-refusal conditions this campaign met — a live peer lease, no drop-box — are **transient**. Memo #13 sat one day and went out at the first probe that found Rosetta's lease clear; E2 sat two and cleared on the third. **Re-probe; do not escalate, and do not treat silence-by-staging as silence-by-choice.**
-- ⚠ **A `_reserved` block is not the only thing that can be pinned to a generated artifact.** Test assertions pinned to a *generated* fixture's size are a claim about the fixture, not about the code — derive them where the real invariant is structural (F-P5-3), and keep literals only where the literal *is* the claim.
-- ⭐ **A registry defines its own blind spot in its membership rule** (P3). `federation_index` answered *"who holds a wrapper?"*, so the **10 vaults emitting canvases with no seam at all** — the least-supervised surface in the fleet — were invisible **by construction**, and no amount of diligent maintenance would have surfaced them. A peer had to say it about their own vault: *"the clean tree is clean by low traffic, not by construction."* New **§1b** enumerates them.
-- ⭐ **An uncollected reply is a finding you will pay full price to rediscover** (F-P3-6). Kennedy's sat `staged_unsent` in *their* outbox for 34 days and contained, in its closing paragraph, the exact conflict we independently rediscovered and fixed as **F-P2-9** a month later. Two of their three findings were **already true when written** — one shipped the day before, built partly from their own contributed tool. *Nobody was wrong; the channel was.* This is the argument for `who/coordination/inbox/`, made in arrears.
-- ⚠ **`C-3` is a bucket id, not a defect** (P3): 20 of 21 fleet occurrences were invalid `"center"` side values in one file; exactly **one** was a genuinely dangling edge. Counting the id and naming it after its most alarming member would have been a **21× overstatement literally derived from our own validator's output**. `unresolved_edges` isolates the real class — the two tools do not disagree, one counts a bucket.
-- ⚠ **`gitignore` is a claim about one repository's index, not about existence in version control** (Berthier's correction, 2026-09-07). A nested repo makes those readings come apart, and no measurement of the outer repo can distinguish them — you have to look for a second `.git`.
-- **`_reserved` off the canonical path is worse than absent** (F-B1-1, 2026-08-24): a block at `metadata._reserved` carries semantics no tool reads while reporting a green `[OK]` at `core`. 196 files fleet-wide have been in that state since 2026-02. Canonical path: `metadata.frontmatter._reserved`.
-- ⛩ ~~**`authority` is unvalidated by `canvas_std` and validated by exactly two producers**~~ **— CLOSED 2026-09-11 by Operation Gridline. `canvas_std` validates BOTH keys as A-8 at Standard v2.4.0**, and the two producers are now **thin delegates** importing the sets from `canvas_std.reserved` rather than restating them. The row is kept because its history is the argument: the gap was open from 2026-08-24 to 2026-09-11, it took a peer ruling plus a §7.7 signature to close, and **six separate places in this vault asserted "canvas_std does not validate this key" in prose that outlived the fact** — corrected at P1 where each was written, one of them a test docstring that had *predicted its own expiry*. Original text and figures preserved below. (F-B1-2, **amended 2026-09-11 — the earlier wording was over-broad and the figure was stale**). `canvas_std` does not know the key and an invented value passes silently; but `canvas_core/conform.py:50` and `diagram_generator/model.py:40` each hold a closed frozenset and reject a typo, one of them under a test named `test_misspelled_authority_is_rejected_here_because_the_validator_cannot`. The original measurement was **`canvas_std`-scoped**; `skill_canvas_context_diagram.md:67` still carries the qualifier and this line's compression dropped it. ⇒ ***a claim restated without its population loses the qualifier that made it true*** — Blueprint's own family, inside our own summary of it. **Re-derived 2026-09-11: `4 of 25`** carry the key (56 physical `.canvas`, 30 tracked / 26 untracked under gitignored `what/artifacts/`), superseding `0 of 21`. ⚠ **The complement is still exactly 21**, so the stale row re-derives as a true number — grepping "21" finds 21 and reads as reproduced. It did not reproduce.
+- *(The lesson bullets — 24 of them, Datum back to Blueprint P3 — relocated verbatim → [`how/state_archive_20261012.md`](how/state_archive_20261012.md) §F, 2026-10-13. Graduated doctrine lives in `what/context/` (e.g. `context_registry_derivability.md`, `context_canvas_surface_legs.md`).)*
 - The metaverse consumer pattern carries a dated §5.2 2D-consumer note (SS ruling A1-a); the 3D derivative classes stand for future 3D consumers.
