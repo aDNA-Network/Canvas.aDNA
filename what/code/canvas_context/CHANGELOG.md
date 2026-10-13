@@ -2,6 +2,21 @@
 
 All notable changes to the leg-2 reference context-loader.
 
+## [0.3.2] — 2026-10-13
+
+Operation Vernier **P6** — `STANDARD_VERSION` is **derived**, not pinned.
+
+### Changed
+- `STANDARD_VERSION` is now re-exported from `canvas_std` (reads `2.4.0` today) instead of the literal `2.2.0`. That
+  literal survived two Standard cuts (2.3.0 Beacon, 2.4.0 Gridline) because nothing read it; the 2026-10-12 review
+  found it (F-V-4). Every validation this loader performs delegates to `canvas_std`, so the version is canvas_std's
+  by construction. Package `0.3.1 → 0.3.2`; 58 tests unchanged.
+
+### Known
+- `pyproject.toml` still declares `version = "0.2.0"`: a second drifted copy of the package version. Carried to the
+  Vernier P6 notes and not changed here, because the editable install's metadata would then disagree with the
+  installed dist-info until a reinstall.
+
 ## [0.3.1] — 2026-06-23
 
 Operation Armature **P2** — `validate_interaction_block` now **delegates to the `canvas_std` harness**. The
