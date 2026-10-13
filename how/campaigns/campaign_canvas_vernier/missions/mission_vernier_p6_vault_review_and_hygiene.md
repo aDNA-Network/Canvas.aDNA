@@ -3,7 +3,7 @@ plan_id: mission_vernier_p6_vault_review_and_hygiene
 type: plan
 title: "Vault review and hygiene — compaction, the undefined finding, the stale pins, and the inbox turned into a gate"
 owner: stanley
-status: planned
+status: in_progress   # 2026-10-13: obj 1–6 run ahead of P2 by operator ruling (phase-order amendment); obj 7 + three opus items remain
 campaign_id: campaign_canvas_vernier
 campaign_phase: "P6"
 campaign_mission_number: 5
@@ -11,7 +11,7 @@ mission_class: verification
 executor_tier: sonnet
 token_budget_estimated: "~150k (sonnet sweep) + ~60k (opus rulings)"
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-13
 last_edited_by: agent_mondrian
 tags: [plan, campaign, vernier, hygiene]
 ---
@@ -46,6 +46,24 @@ STATE.md top block ≤ 3K words with every struck banner relocated verbatim to `
 - Standing rules: phase gates are human gates · firewall touches named file-by-file before the signature · every figure re-derived before it is written · state the population on the face of the number.
 
 ## Notes
+
+### Progress — 2026-10-13 (`session_stanley_20261013_vernier_receipt_door_refresh_p6`, opus)
+
+| Obj | Item | State | Evidence |
+|---|---|---|---|
+| 1 | STATE compaction | ✅ | `431fbc3`: 433 → 131 lines, reconstruction byte-equal to HEAD; archive `how/state_archive_20261012.md` §A–§F; top block 933 words after the update |
+| 2 | F-DT-10 | ✅ **defined** | `40e4fa5`: the label attached to Datum P4b D13b/D13c ("coverage by coincidence"), from the 09-15 session's own evidence |
+| 3 | pins + LIP statuses | ✅ | `826ec1f` + `4d02745` (`canvas_context` STANDARD_VERSION derived, 0.3.2) · `806cd25` (two drafts → `superseded`; `text_quote_footnote` stays `resolved`, since it was never a LIP; queue → `completed`) |
+| 4 | gate #11 + `--check-doors` | ✅ | `dcd7984`: both exits verified both ways with planted probes; one self-caught reporter slip |
+| 5 | F-S078-04 | ✅ | `d7f14f4`: `TB`→`TD` alias, +1 test (52 + 1 failed against HEAD, then 53) |
+| 6a | Seven Lamps | ✅ disposition | `e6b342a` → `artifacts/p6_seven_lamps_disposition.md`; the reply goes in the P4 wave |
+| 6b | ImagenWiring sweep | ✅ | `4c2d77a`: 0 external call sites across 114 live root dirs |
+| 6c | `data_bearing` ruling text | ⏸ **operator classification** | Home's register projects the key from **our own MANIFEST frontmatter** (`inventory_vaults.yaml` row_schema 2.2), so City reads Canvas as `unruled` → sealed because we never stated it. The value (`false` vs `split`) is an owner classification. Put to the operator at the sitting close |
+| 6d | RFC1918 upstream memo · D3 registrar ping | ⏸ **batched** | one Rosetta memo with #20, after the `adr_011` verdict (#20's payload is ADR-011's erratum, and three separate Rosetta memos would repeat the F-V-1 load on their side) |
+| 7 | door archival per Home ADR-017 | ⏸ waits for verdicts | — |
+
+**Carried, observed not fixed:** `canvas_context/pyproject.toml` declares `0.2.0` against `__version__` `0.3.2`, a second drifted copy.
+Left alone because the editable install's metadata would disagree with its dist-info until a reinstall.
 
 ## Completion Summary
 
