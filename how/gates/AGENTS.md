@@ -1,9 +1,9 @@
 ---
 type: directory_index
 created: 2026-09-10
-updated: 2026-09-15
+updated: 2026-10-13
 last_edited_by: agent_mondrian
-tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f_dt_7, registry_census, upstream_candidate]
+tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f_dt_7, registry_census, inbox_receipt, f_v_1, f_v_5, check_doors, upstream_candidate]
 ---
 
 # how/gates/ — The gate set, executable
@@ -14,7 +14,7 @@ Added 2026-09-16, when Canvas adopted ISS and the collision became real rather t
 
 | | What | Files |
 |---|---|---|
-| **Test gates** | `gate_manifest.py` **is** the gate set — ten suites, fail-on-omission. Everything else in this document is about these. | `gate_manifest.py` · `registry_census.py` · this file |
+| **Test gates** | `gate_manifest.py` **is** the gate set — eleven gates (ten until 2026-10-13), fail-on-omission. Everything else in this document is about these. | `gate_manifest.py` · `registry_census.py` · this file |
 | **Operator decision gates** | ISS surfaces where a *human* rules — ADR ratification, phase exit, an open queue. Generated, never hand-authored. | `<gate_id>.data.json` · `.html` · `.pending` · `.output.json` |
 
 ⛔ **There is no functional conflict, and that was checked rather than assumed.** `gate_manifest.py`'s
@@ -38,6 +38,7 @@ Run it before any phase close, campaign close, or push batch:
 ```sh
 python3 how/gates/gate_manifest.py --markdown     # run everything, emit the STATE.md line
 python3 how/gates/gate_manifest.py --discover-only # omission check only; runs no tests (~1s)
+python3 how/gates/gate_manifest.py --check-doors   # every pending ISS door → the live receiver? (~1s)
 ```
 
 ## The standing rule
@@ -226,6 +227,36 @@ namespace for three months. No canvas was ever wrong — the *namespace descript
 ⚠ **This gate's own membership rule, stated so the blind spot is named.** A "vocabulary constant" is
 module-level, `UPPER_SNAKE`, and holds a literal collection of scalars. A vocabulary built at runtime,
 or held in a dict, is invisible to it — by construction, as `federation_index` was.
+
+## Gate #11 — `inbox_receipt`, and the `--check-doors` flag (2026-10-13, Operation Vernier P6)
+
+**F-V-1.** `who/coordination/inbox/README.md` says the recipient's **commit** is the read-receipt, so an
+untracked file there is an unread memo by the drop-box's own rule. At the 2026-10-12 cold start,
+**seventeen** sat untracked, the oldest three weeks old and six of them `ack_required`, while ten gates
+printed green. Nothing read the drop-box, so nothing could see it fill. ⇒ ***an inbox nobody commits
+from is a registry with no consumer.*** The gate fails when any untracked inbox file is older than
+**7 days**. Age is counted **from delivery**: the memo's `delivered_on` where it parses, otherwise its
+mtime, because a `cp -p` copy keeps the sender's mtime and would read a memo delivered this morning
+as weeks overdue. Verified both ways with planted probes: no frontmatter and an old mtime → FAIL;
+an old `delivered_on` and a fresh mtime → FAIL; a fresh `delivered_on` and a six-week mtime → OK.
+The full run exits **1**, and the pasted line reads `⛔ FAIL`.
+
+⚠ **Self-caught, recorded here rather than quietly fixed.** The first reporter printed the raw
+untracked count as *"< 7 d"*, so one overdue memo rendered as *"1 overdue (1 untracked < 7 d)"*.
+That counted the same file on both sides of the threshold, in the line written to end the F-GL-7
+family. The planted run caught it.
+
+⛔ **Its blind spot (F-V-7).** A memo addressed to us that was never copied here is invisible to it.
+Vulcan's 10-08 endpoint memo reached City's inbox and not ours. The gate measures the drop-box,
+not the fleet's outboxes.
+
+**`--check-doors` (F-V-5)** is a flag rather than a gate. A door is rendered against a port, and a
+port is a lease: when the receiver restarted on 8767, four pending doors still carried 8768. For
+every `.html` with a `.pending` sentinel, the flag compares the `<body data-receiver-url>` port to
+`.gate_receiver.port`, and checks that `/health` on that port names **this** gates root. Exits:
+**0** match · **1** a door points elsewhere · **4** no sidecar, a dead receiver, or one that isn't ours.
+It is not a gate because whether a daemon is running is desktop state (the F-DT-5 lesson). Run it
+after any receiver restart and before asking the operator to rule.
 
 ## ⚠ This file is written by exception, not as a registry — do not add a completeness check
 

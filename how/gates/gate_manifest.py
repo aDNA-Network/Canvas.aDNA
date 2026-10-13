@@ -18,6 +18,7 @@ Usage
     python3 how/gates/gate_manifest.py              # run everything, print the table
     python3 how/gates/gate_manifest.py --markdown   # also emit the STATE.md gate line
     python3 how/gates/gate_manifest.py --discover-only   # omission check alone; runs no tests
+    python3 how/gates/gate_manifest.py --check-doors     # every pending door POSTs to the live receiver?
 
 Exit codes are distinct on purpose — *disagreement* and *omission* are different bugs:
 
@@ -30,12 +31,15 @@ Exit codes are distinct on purpose — *disagreement* and *omission* are differe
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import os
 import re
 import subprocess
 import sys
 import tempfile
+import time
+import urllib.request
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -50,6 +54,12 @@ from pathlib import Path
 VAULT = Path(__file__).resolve().parent.parent.parent
 PRODUCTION = VAULT / "what" / "production"
 CODE = VAULT / "what" / "code"
+INBOX = VAULT / "who" / "coordination" / "inbox"
+GATES_DIR = VAULT / "how" / "gates"
+
+# F-V-1 (2026-10-12): the drop-box's own rule is "uncommitted = unread". Seven days is the grace a
+# sitting cadence can honestly be held to; the three weeks it actually went unread was not.
+INBOX_MAX_AGE_DAYS = 7
 
 PYTEST = Path("/opt/anaconda3/bin/pytest")
 PYTHON = Path("/opt/anaconda3/bin/python")
@@ -72,7 +82,7 @@ class Gate:
     """One gate. ``expect`` is (passed, skipped); None means "not a counted pytest gate"."""
 
     gate_id: str
-    kind: str  # "pytest" | "certify" | "gitdiff" | "freshness" | "census"
+    kind: str  # "pytest" | "certify" | "gitdiff" | "freshness" | "census" | "inbox"
     path: Path
     expect: tuple[int, int] | None = None
     group: str = ""
@@ -175,6 +185,11 @@ GATES: list[Gate] = [
          note="added 2026-09-11 (F-PL-6): every `*.diagram.yaml` is rebuilt and compared to the "
               "`.canvas` beside it. Both pairs in the vault had been stale for four days, across "
               "four phase closes, each publishing an all-green gate line"),
+    Gate("inbox_receipt", "inbox", INBOX, None,
+         note="added 2026-10-13 (Vernier P6, F-V-1): 17 inbound memos sat untracked for up to three "
+              "weeks — six of them ack_required — while ten gates printed green, because the "
+              "drop-box was a registry with no consumer. An untracked inbox file older than "
+              f"{INBOX_MAX_AGE_DAYS} days (from its `delivered_on`, else its mtime) is a FAIL"),
 ]
 
 # Producer expectations are per-package, so a single package drifting cannot hide inside the total.
@@ -549,6 +564,62 @@ def run_gate(gate: Gate) -> None:
             return
         gate.detail = f"{checked} pair(s) fresh"
 
+    elif gate.kind == "inbox":
+        # ⛩ F-V-1 (2026-10-12, Vernier P1b). `who/coordination/inbox/README.md` promises that the
+        # recipient's COMMIT is the read-receipt — so an untracked file there is, by the drop-box's own
+        # rule, an unread memo. Seventeen sat untracked for up to three weeks (six `ack_required`)
+        # while every gate printed green: nothing read the drop-box, so nothing could notice it fill.
+        #
+        #   => an inbox nobody commits from is a registry with no consumer.
+        #
+        # Age is measured from DELIVERY, not from the file's mtime alone: a copy made with `cp -p`
+        # keeps the sender's mtime, which would read a memo delivered this morning as weeks overdue.
+        # `delivered_on` in the memo's frontmatter is the sender's stamp of the act; where it is
+        # absent or unparseable the mtime stands in, and the basis is reported per file.
+        # ⚠ What this gate CANNOT see (F-V-7, 2026-10-13): a memo addressed to us that was never copied
+        # here. It measures the drop-box, not the fleet's outboxes.
+        proc = subprocess.run(
+            ["git", "-C", str(VAULT), "ls-files", "--others", "--exclude-standard", "--", str(gate.path)],
+            capture_output=True, text=True, cwd=str(VAULT),
+        )
+        if proc.returncode != 0:
+            gate.status = "FAIL"
+            gate.detail = f"git ls-files exit {proc.returncode}: {proc.stderr.strip()[:120]}"
+            gate.actual = (0, 0)
+            return
+        untracked = [VAULT / ln for ln in proc.stdout.splitlines() if ln.strip()]
+        now = time.time()
+        overdue: list[str] = []
+        oldest = 0.0
+        for f in untracked:
+            delivered, basis = None, "mtime"
+            try:
+                m = re.search(r'^delivered_on:\s*"?([0-9T:+\-.Z ]+?)"?\s*(#.*)?$',
+                              f.read_text(errors="replace")[:4000], re.M)
+                if m:
+                    delivered = dt.datetime.fromisoformat(m.group(1).strip().replace("Z", "+00:00"))
+                    if delivered.tzinfo is None:
+                        delivered = delivered.astimezone()
+                    delivered, basis = delivered.timestamp(), "delivered_on"
+            except (OSError, ValueError):
+                delivered = None
+            ts = delivered if delivered is not None else f.stat().st_mtime
+            age = (now - ts) / 86400
+            oldest = max(oldest, age)
+            if age > INBOX_MAX_AGE_DAYS:
+                overdue.append(f"{f.name} ({age:.0f} d by {basis})")
+        gate.actual = (len(untracked), 0)
+        gate.meta["untracked"] = len(untracked)
+        gate.meta["overdue"] = len(overdue)
+        gate.meta["oldest_days"] = oldest
+        if overdue:
+            gate.status = "FAIL"
+            gate.detail = (f"{len(overdue)} of {len(untracked)} untracked inbox memo(s) older than "
+                           f"{INBOX_MAX_AGE_DAYS} d — unread by the drop-box's own rule: " + "; ".join(overdue))
+            return
+        gate.detail = (f"{len(untracked)} untracked, none older than {INBOX_MAX_AGE_DAYS} d"
+                       + (f" (oldest {oldest:.1f} d)" if untracked else ""))
+
     if gate.expect is not None and gate.actual != gate.expect:
         if gate.env_skips:
             # F-DT-5: the split may move with the environment; the TOTAL may not, and the skip count
@@ -633,6 +704,15 @@ def markdown_gate_line() -> str:
             # `actual` is (checked, 0) — the fresh count is checked minus stale, from meta.
             checked = gate.meta.get("checked", got[0])
             body = f"dual-channel freshness **{checked - gate.meta.get('stale', 0)}/{checked}**"
+        elif gate.gate_id == "inbox_receipt":
+            # Derived from meta (F-GL-7). The verdict number is OVERDUE, so it leads; beside it, the
+            # mail still INSIDE the grace window = untracked − overdue.
+            # ⚠ The first version printed the raw untracked count as "< 7 d", so one overdue memo
+            # rendered "1 overdue (1 untracked < 7 d)" — the same file counted on both sides of the
+            # threshold, in the line written to end that family. Caught by the planted-probe run.
+            overdue = gate.meta.get("overdue", 0)
+            within = gate.meta.get("untracked", 0) - overdue
+            body = f"inbox receipt **{overdue} overdue** ({within} untracked within {INBOX_MAX_AGE_DAYS} d)"
         else:
             shown = f"{got[0]}/{got[1]}" if got[1] else f"{got[0]}"
             body = f"`{gate.gate_id}` **{shown}**"
@@ -641,11 +721,70 @@ def markdown_gate_line() -> str:
     return " · ".join(parts)
 
 
+def check_doors() -> int:
+    """⛩ F-V-5 (2026-10-12): a door is rendered against a port, and a port is a lease.
+
+    The receiver had moved 8768 -> 8767 while it was down; four pending doors still carried
+    ``data-receiver-url=…:8768`` and would have POSTed a verdict into nothing — or, worse, into
+    whatever else came to hold that port (`:8765` is JupyterHub, F-P5 era). Nothing compared a
+    rendered door to the live receiver, so the defect was invisible until someone clicked.
+
+    Checks, for every ``how/gates/*.html`` that still has a ``.pending`` sentinel (an unruled door):
+    its ``<body data-receiver-url>`` port equals the sidecar ``.gate_receiver.port``, and the
+    receiver on that port answers ``/health`` naming THIS gates root — a probe that only confirms
+    *something* is listening has not confirmed *what* is listening.
+
+    Deliberately a flag, not a gate: whether the receiver is running is desktop state (the F-DT-5
+    lesson), and a gate that fails when the operator has stopped a daemon is a claim about the
+    runner, not the vault. Exits: 0 every door matches a live receiver · 1 a door points elsewhere ·
+    4 no sidecar / receiver down or not ours (re-start it, then RE-RENDER the doors).
+    """
+    sidecar = GATES_DIR / ".gate_receiver.port"
+    doors = sorted(h for h in GATES_DIR.glob("*.html")
+                   if h.with_suffix(".pending").exists())
+    print(f"door check — {len(doors)} pending door(s) in {GATES_DIR.relative_to(VAULT)}")
+    if not sidecar.exists():
+        print("  ⛔ no .gate_receiver.port sidecar — the receiver is not running for this gates root")
+        return EXIT_PRECONDITION
+    port = sidecar.read_text().strip()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=3) as r:
+            health = json.loads(r.read().decode())
+    except (OSError, ValueError) as exc:
+        print(f"  ⛔ sidecar names :{port} but /health did not answer ({exc.__class__.__name__}) "
+              "— stale sidecar or a dead receiver")
+        return EXIT_PRECONDITION
+    root = Path(str(health.get("gates_root", ""))).resolve()
+    if root != GATES_DIR.resolve():
+        print(f"  ⛔ :{port} answers, but serves {root} — not ours")
+        return EXIT_PRECONDITION
+    print(f"  receiver :{port} live, gates_root is ours (pid {health.get('pid')})")
+    bad = 0
+    for door in doors:
+        m = re.search(r'<body[^>]*\bdata-receiver-url="([^"]*)"', door.read_text(errors="replace"))
+        url = m.group(1) if m else ""
+        door_port = (re.search(r":(\d+)", url) or [None, ""])[1] if url else ""
+        ok = door_port == port
+        bad += not ok
+        print(f"  {'ok ' if ok else '⛔ '} {door.name}: "
+              f"{url or '(no data-receiver-url — falls back to copy-paste / a default port)'}")
+    if bad:
+        print(f"\n{bad} door(s) would POST somewhere other than the live receiver — re-render them "
+              "(how/federation/iss/CLAUDE.md §Render discipline).")
+        return EXIT_FAILURE
+    return EXIT_OK
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Run the Canvas.aDNA gate set and fail on omission.")
     ap.add_argument("--markdown", action="store_true", help="emit the STATE.md gate line")
     ap.add_argument("--discover-only", action="store_true", help="omission check only; run no tests")
+    ap.add_argument("--check-doors", action="store_true",
+                    help="check every pending door's receiver URL against the live receiver; run no tests")
     args = ap.parse_args()
+
+    if args.check_doors:
+        return check_doors()
 
     print(f"gate manifest — vault {VAULT}")
     print()
