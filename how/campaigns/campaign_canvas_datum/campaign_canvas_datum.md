@@ -408,6 +408,12 @@ suite would **not** have caught the F-DT-7 perturbation:
 | **D13a** — the *actual* F-DT-7 edit (`fromSide`+`toSide` → `["top"]`) | **CAUGHT**, 5+ fixtures fail — the corpus uses `"bottom"` for `fromSide` |
 | **D13b** — `toSide` **alone** → `["top"]` | **NOT caught**, 14 passed — the corpus uses `"top"` there, its only value |
 
+⛩ **F-DT-10 · coverage by coincidence — which perturbations a corpus can see depends on which values its
+authors happened to type.** *(Label attached 2026-10-13, Vernier P6. The 09-15 session promised
+*"F-DT-10, below"* and the campaign counted eleven findings, but no paragraph ever carried the number,
+so the count rested on ten labels. Defined here from that session's own evidence, D13b/D13c, rather than
+invented. The 2026-10-12 review flagged it as F-V-4 residue.)*
+
 ⇒ The blind spot is real but **narrower and more arbitrary** than predicted: which single-value
 perturbations are invisible depends on which value the corpus happens to use. `fromSide` is
 **accidentally** guarded. ⛔ Not reassurance — a coincidence of fixture authorship that evaporates the
@@ -430,7 +436,7 @@ narrowing — stated rather than conflated). All restored; firewall 0; `ruff` cl
 
 | | |
 |---|---|
-| Findings | **11** — F-DT-1 … F-DT-11. Every phase produced at least one, and **every instrument built here produced a finding about itself before one about its subject** |
+| Findings | **11** — F-DT-1 … F-DT-11 *(F-DT-10's label attached 2026-10-13 at §P4b result; until then ten carried a number)*. Every phase produced at least one, and **every instrument built here produced a finding about itself before one about its subject** |
 | Firewall touches | **#5** (P3) and **#6** (P4b) — the fifth and sixth deliberate `canvas_std` touches since Keystone; both returned to diff **0** on commit |
 | `canvas_std` | **146 → 170/10** |
 | Gates | **9 → 10**, all green |

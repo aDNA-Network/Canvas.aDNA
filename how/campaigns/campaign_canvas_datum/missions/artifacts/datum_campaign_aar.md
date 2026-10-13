@@ -23,7 +23,7 @@ its own coverage published · the derivability doctrine graduated to `what/conte
 **closed**, one **declined with its reason written onto the line**, one **filed upstream**.
 `canvas_std` **146 → 170/10**. Gates **9 → 10**, all green.
 
-**Eleven findings, F-DT-1 … F-DT-11.** Every phase produced at least one, and — the pattern worth
+**Eleven findings, F-DT-1 … F-DT-11.** *(⛩ 2026-10-13: F-DT-10 had no labelled paragraph until Vernier P6 attached the number to the P4b D13b/D13c result, "coverage by coincidence". It is defined from the 09-15 session evidence.)* Every phase produced at least one, and — the pattern worth
 naming — **every instrument this campaign built produced a finding about itself before it produced
 one about its subject.**
 
