@@ -96,7 +96,7 @@ def _builder_hash(doc: dict) -> str:
     """`canvas_core.CanvasBuilder.compute_sync_hash`, reproduced to CLASSIFY, never to validate (F-V-10).
 
     A SECOND topology encoding inside Canvas's own production code: the same sorted ids and `from->to` pairs,
-    serialised as `json.dumps({"nodes": [...], "edges": [...]}, sort_keys=True)` instead of concatenated. Same
+    serialised as `json.dumps({"nodes": [...], "edges": [...]}, sort_keys=True)` instead of joined with U+0001/U+0002. Same
     topology, different digest. Kept here only so the census can name which encoding a mismatch carries.
     """
     import hashlib

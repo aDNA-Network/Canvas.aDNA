@@ -31,14 +31,15 @@ The mission's exit gate says the backward-compatibility claim is a **command tha
 
 | # | Finding | What it changes |
 |---|---|---|
-| **F-V-10** | **Canvas ships two "topology" encodings.** `canvas_std.compute_sync_hash` concatenates sorted ids and `from->to` pairs; `canvas_core.CanvasBuilder.compute_sync_hash` hashes `json.dumps({"nodes": …, "edges": …}, sort_keys=True)`. Same topology, **different digest**. The RLHF producers (`variant_board`, `tuning_surface`, `review_canvas`) use the second. Census: **3 Canvas canvases carry the builder encoding**. | Reading (b) — "`sync_hash` is topology" — had a fifth semantic hiding inside it, in our own tree. The Standard must name **one** encoding (§1.1), and CanvasBuilder must delegate to it (§6, ours, outside the firewall). |
+| **F-V-10** | **Canvas ships two "topology" encodings.** `canvas_std.compute_sync_hash` joins sorted ids and `from->to` pairs with U+0001/U+0002 (§1.1); `canvas_core.CanvasBuilder.compute_sync_hash` hashes `json.dumps({"nodes": …, "edges": …}, sort_keys=True)`. Same topology, **different digest**. The RLHF producers (`variant_board`, `tuning_surface`, `review_canvas`) use the second. Census: **3 Canvas canvases carry the builder encoding**. | Reading (b) — "`sync_hash` is topology" — had a fifth semantic hiding inside it, in our own tree. The Standard must name **one** encoding (§1.1), and CanvasBuilder must delegate to it (§6, ours, outside the firewall). |
 | **F-V-11** | **`_reserved.generator` was not Terminal's invention — it was ours.** `canvas_presentation.PresentationBuilder` has written `"generator": "PresentationBuilder"` for months; the fleet holds **61** canvases with a top-level `generator` key, Canvas **16**, LatticeProtocol 2 (copies of our deck), Archive 30, LAVentureGraph 4, Terminal 8, QuantumProteins 1. V-3's *"Terminal invented it (8/8)"* undercounted by 53. | V-3's verdict stands (`sync.generator`) — the evidence for it is stronger, not weaker. The migration table gains a Canvas row. The top-level key stays **legal** (§7.3 unknown-key preservation); this LIP deprecates it, it does not reject it. |
 | **F-V-12** | **The door's recommended hard topology check would fail 3 of our own canvases and 0 of anyone else's.** The candidate rule *"`production: generated` ⇒ `sync_hash` equals the recomputed topology"* at `adna_native`: population **20**, match **16**; the 4 non-matches are 2 builder-encoded RLHF fixtures (F-V-10), 1 `canvas_std` test fixture with a hand-set hash, and 1 QuantumProteins canvas that already fails on other grounds. | D-1 below. The check is cheap for the fleet and costs Canvas three regenerations — but it also promotes a **proxy** to a MUST (§3.3), which is the real question. |
+| **F-V-13** | **The first draft of this LIP misread the encoding it was defining.** `roundtrip.py:36` joins with U+0001/U+0002, which print as nothing, so the line reads `"".join(…) + "" + "".join(…)`. The draft wrote it as plain concatenation and derived a false collision limitation from that. **Noether's memo** (`coord_2026_10_15_noether_to_mondrian_gen_canvas_landed_and_topology_hash_spec`, LP F-AC-41, delivered 23:23Z) named exactly this trap. LP's first independent recompute had fallen into it. | §1.1 now states the payload byte for byte and carries a **test vector**. The census was unaffected, because it calls `compute_sync_hash` rather than re-implementing it. ⇒ ***a definition copied from a rendering of the code is a second copy of the code, and it can be wrong in bytes you cannot see.*** |
 | **V-2 price** | **PercySleep's `percy_topology.canvas`** (`extended`, `authority: view`, no `production`) fails when A-8 runs at `extended`. Same canvas, same reason as the committed `axis_tier_census.py` reported to the door. | The mission's *"0 new failures"* exit gate is **not met and cannot be**: the operator ruled V-2 with this one canvas priced on the door. This LIP reports it rather than re-scoping the population to hide it (§5). |
 
 > ⇒ ***A verdict instructs the change; it does not measure it.*** All three verdicts survive the census.
-> Two of their premises did not (F-V-10, F-V-11), and one of the door's sub-recommendations is now a real
-> choice (F-V-12).
+> Two of their premises did not (F-V-10, F-V-11), one of the door's sub-recommendations is now a real
+> choice (F-V-12), and the draft's own definition had to be corrected by a peer (F-V-13).
 
 ---
 
@@ -71,22 +72,30 @@ runs the A-8 axis check at `extended` as well as `adna_native`. All three are ad
 ### §1 · `sync.sync_hash` — the topology digest (V-1 (b))
 
 1.1. `sync.sync_hash` **MUST** be `canvas_std.compute_sync_hash(S)` where `S` is the authoritative source's
-topology. The encoding, stated exactly because F-V-10 proves two can coexist:
+topology. The payload, stated **byte for byte**, because F-V-10 proves two encodings can coexist and F-V-13 proves
+the source line misleads a reader:
 
 ```
-ids   = sorted(str(node.id) for node in S.nodes)
-pairs = sorted(f"{edge.fromNode}->{edge.toNode}" for edge in S.edges)
-sync_hash = sha256(("".join(ids) + "".join(pairs)).encode("utf-8")).hexdigest()[:16]
+ids     = sorted(str(node.id) for node in S.nodes)
+pairs   = sorted(f"{edge.fromNode}->{edge.toNode}" for edge in S.edges)    # ASCII "->" (0x2D 0x3E), not "→"
+payload = "\x01".join(ids) + "\x02" + "\x01".join(pairs)                  # U+0001 between items, U+0002 between the lists
+sync_hash = sha256(payload.encode("utf-8")).hexdigest()[:16]               # lowercase
 ```
+
+**Test vector (normative, added to the suite in the touch):** nodes `a`, `b`; one edge `a → b` ⇒ payload
+`a\x01b\x02a->b` ⇒ **`097164175d271fb8`**. *(Measured 2026-10-15 against `canvas_std` at `f48fc52`. Reading the
+separators as empty strings gives `5d3a8a0c81db08d9`, which is wrong.)*
 
 1.2. A forward view that preserves the source's node ids and edges (every `canvas_std.to_canvas` output, and
 every producer that builds from its own model) therefore satisfies `sync_hash == compute_sync_hash(canvas)`.
 That identity is what §3 checks.
 
-1.3. **Known limitation, stated rather than fixed.** The concatenation has no separator, so distinct topologies
-can collide (`["ab","c"]` vs `["a","bc"]`), and 16 hex is 64 bits. `sync_hash` is a **staleness detector, not an
-integrity proof**. Changing the encoding would invalidate every conformant canvas, which is a major bump and not
-this LIP. The integrity question has its own key (§2).
+1.3. **Known limitation.** 16 hex is 64 bits, and the separators make the payload unambiguous only for ids that
+do not themselves contain U+0001/U+0002 or `->`. `sync_hash` is a **staleness detector, not an integrity proof**,
+and the integrity question has its own key (§2). Changing the encoding would invalidate every conformant canvas, so
+it would need a major bump; that is not this LIP.
+~~*The concatenation has no separator, so distinct topologies can collide.*~~ *Struck the same day: false. It is
+F-V-13's misreading, written into this LIP's first draft.*
 
 1.4. The `sha256:`-prefixed and source-bytes values in the fleet (Terminal's 8) are **not** topology digests.
 They stay A-6-valid in shape and become **stale** by §1.1's definition, which §3 reports as an advisory.
@@ -147,7 +156,7 @@ LIP-0010's asymmetric co-requirement.
 |---|---|---|---|---|
 | **Terminal** (Vauban) | 8 (`extended`) | 8 pass; `sync_hash` = source bytes (0/8 topology); top-level `generator` 8 | `sync_hash` → topology · source hash → `sync.source_sha256` (full 64) · `generator` → `sync.generator`. **One regeneration**, after P4 by their reply. Until then: 8 advisories, 0 failures. | theirs · after P4 |
 | **City** (Ledoux) | 9 (`adna_native`) | 9/9 topology; 1 already writes `source_sha256` | nothing | — |
-| **LatticeProtocol** (Noether) | 1 (`adna_native`) + 2 `core` decks | `lattice_core.canvas` already writes topology + `source_sha256` + `sync.generator` | nothing for `gen-canvas`; 2 copied decks inherit our deprecated top-level `generator` (§4.2, legal). Their ADR-018 point 6 + LinkML profile line amend at M-B1, per their reply. | theirs · M-B1 |
+| **LatticeProtocol** (Noether) | 1 (`adna_native`) + 2 `core` decks | `lattice_core.canvas` already writes topology + `source_sha256` + `sync.generator` | nothing for `gen-canvas` (LP ADR-019; ADR-018 point 6 already amended to (b), per their 10-15 memo). At the v2.5.0 cut they regenerate, so only `adna_version` moves. 2 copied decks inherit our deprecated top-level `generator` (§4.2, legal). | theirs · M-B1 |
 | **Home** (Hestia) | 5, all at non-canonical `metadata._reserved` | not read by the validator, before or after | nothing under this LIP. `topology.canvas`'s three problems are V-6's business | theirs · V-6 |
 | **Canvas** (us) | 26 `adna_native` · 17 `core` · 4 non-canonical | 25/26 pass (the 1 is the deliberate A-5 negative fixture); of 27 `sync` carriers: 17 canvas_std topology · 3 builder-encoded · 7 hand-set test fixtures | **F-V-10:** `CanvasBuilder.compute_sync_hash` delegates to `canvas_std.compute_sync_hash`, then regenerate the 3 builder-encoded artifacts. **F-V-11:** `PresentationBuilder` writes `sync.generator`. Under D-1 (ii) only: correct `tests/fixtures/adna_axes.canvas`'s hash. | ours · the implementation touch |
 | **PercySleep** (Hypnos) | 1 (`extended`) | passes | ⛔ **new failure under §5**: add `production` (`hand_authored` or `generated`, theirs to say). One line. | theirs · memo at P4 |
@@ -244,10 +253,10 @@ docs that every touch carries. They are named here so that nothing is added unde
 | 1 | `src/canvas_std/reserved.py` | A-6: `source_sha256` 64-hex · `sync.generator` non-empty string · topology consistency per D-1; `validate_reserved` returns advisories separately from errors | ✅ |
 | 2 | `src/canvas_std/roundtrip.py` | `compute_source_sha256(path)`; `compute_sync_hash` docstring cites §1.1 (no behaviour change) | ✅ |
 | 3 | `src/canvas_std/data/adna_canvas_v2.schema.json` | `$defs.reserved.properties.sync.properties` gains `source_sha256` (`pattern ^[0-9a-f]{64}$`) + `generator` (`string, minLength 1`); `x-standard-version` → `2.5.0` | ✅ |
-| 4 | `what/specs/spec_adna_canvas_standard.md` §7.2 / §8.1 (+ `spec_roundtrip_protocol_v2` §3.1, `spec_conformance_suite` A-6/A-8 rows) | the definitions above | ✅ (§7.2/§8.1); the two sibling-spec rows are **added here** |
+| 4 | `what/specs/spec_adna_canvas_standard.md` §7.2 / §8.1 (+ `spec_roundtrip_protocol_v2` §3.1 byte-for-byte payload + test vector, `spec_conformance_suite` A-6/A-8 rows) | the definitions above | ✅ (§7.2/§8.1); the two sibling-spec rows are **added here** |
 | 5 | `src/canvas_std/__init__.py` | `STANDARD_VERSION = "2.5.0"`; export `compute_source_sha256` | ✅ |
 | 6 | `src/canvas_std/validate.py` | at `extended`, when a `_reserved` block is present, run `_validate_axes` (V-2) and the §3 sync checks | ⚠ **not on the door's list — added here.** V-2 cannot be implemented without it. |
-| 7 | `tests/` + `tests/fixtures/` + certification corpus | new A-6/A-8-at-extended cases; one Terminal canvas (copied, attribution kept), one City twin, one Canvas native, per the mission | ⚠ implied by the mission, named here |
+| 7 | `tests/` + `tests/fixtures/` + certification corpus | new A-6/A-8-at-extended cases; **the §1.1 test vector** (`097164175d271fb8`); one Terminal canvas (copied, attribution kept), one City twin, one Canvas native, per the mission | ⚠ implied by the mission, named here |
 | 8 | `CHANGELOG` | the v2.5.0 entry | ⚠ named here |
 
 The `RESERVED_KEYS` registry stays at 11 (§4.3). `test_registry_consistency.py` must stay green: that is the F-GL-1
@@ -275,7 +284,7 @@ the real `validate`, `_validate_axes` and `compute_sync_hash`.
 
 ## Security Considerations
 
-`sync_hash` is 64 bits over an ambiguous encoding (§1.3). No consumer may treat it as tamper evidence;
+`sync_hash` is 64 bits, and its encoding is unambiguous only for ids free of its separators (§1.3). No consumer may treat it as tamper evidence;
 `source_sha256` is the full digest for that. Neither key carries secrets. Both are derived from content already in
 the vault.
 
