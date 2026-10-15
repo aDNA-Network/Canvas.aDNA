@@ -1669,8 +1669,8 @@ button.ov-chip:focus-visible {
   <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-lip_0011_spec" onclick="toggleCard('lip_0011_spec')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('lip_0011_spec');}">
     <span class="gd-badge" aria-hidden="true"><span class="gd-n">§1–§5 spec</span></span>
     <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
-    <h2 class="c-title" id="title-lip_0011_spec">§1–§5 · The definitions — <code>sync_hash</code> byte for byte, <code>source_sha256</code>, <code>sync.generator</code>, A-8 at <code>extended</code></h2>
-    <span class="rec-pill" aria-label="Agent recommendation: Approve — these are V-1 (b) · V-2 · V-3 as you ruled them, now made exact; confidence 5 of 5">Approve — these are V-1 (b) · V-2 · V-3 as you ruled them, now made exact · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <h2 class="c-title" id="title-lip_0011_spec">§1–§5 · The definitions, made exact</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Approve — as ruled, now exact; confidence 5 of 5">Approve — as ruled, now exact · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
     <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-lip_0011_spec" onclick="event.stopPropagation(); toggleCard('lip_0011_spec');">
       <span id="toggle-lbl-lip_0011_spec">Show Analysis</span>
       <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -1683,7 +1683,7 @@ button.ov-chip:focus-visible {
     <div class="decision-block">
       <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
       <h3 class="decision-label">The Decision</h3>
-      <div class="decision-q">Sign LIP-0011 §1–§5 as written? <b>Approve = your §7.7 signature on the specification</b> (D-1 and the firewall table are separate sections below). Amend = name the clause in the note. Discuss = hold.</div>
+      <div class="decision-q">Sign LIP-0011 §1–§5 as written: <code>sync_hash</code> byte for byte (+ test vector), <code>sync.source_sha256</code>, <code>sync.generator</code>, A-8 at <code>extended</code>. <b>Approve = your §7.7 signature on the specification</b> (D-1 and the firewall table are separate sections below). Amend = name the clause in the note. Discuss = hold.</div>
     </div>
   </div>
 
@@ -1732,8 +1732,8 @@ button.ov-chip:focus-visible {
   <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-d1_topology_check" onclick="toggleCard('d1_topology_check')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('d1_topology_check');}">
     <span class="gd-badge" aria-hidden="true"><span class="gd-n">D-1 topology</span></span>
     <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
-    <h2 class="c-title" id="title-d1_topology_check">D-1 · When <code>production: generated</code>, is a topology mismatch a <b>warning</b> or an <b>error</b> at <code>adna_native</code>?</h2>
-    <span class="rec-pill" aria-label="Agent recommendation: (i) advisory both tiers — a departure from the P1-exit door's sub-recommendation, on new evidence; confidence 4 of 5">(i) advisory both tiers — a departure from the P1-exit door's sub-recommendation, on new evidence · <span class="rec-pill-conf"><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></span>
+    <h2 class="c-title" id="title-d1_topology_check">D-1 · Topology mismatch: warning or error?</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Recommend (i) advisory; confidence 4 of 5">Recommend (i) advisory · <span class="rec-pill-conf"><span aria-hidden="true">●●●●<span class="rec-conf-off">○</span></span></span></span>
     <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-d1_topology_check" onclick="event.stopPropagation(); toggleCard('d1_topology_check');">
       <span id="toggle-lbl-d1_topology_check">Show Analysis</span>
       <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -1746,7 +1746,7 @@ button.ov-chip:focus-visible {
     <div class="decision-block">
       <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
       <h3 class="decision-label">The Decision</h3>
-      <div class="decision-q"><b>Approve = (i): advisory at both tiers in v2.5.0</b> (recommended). <b>Amend = (ii): hard at <code>adna_native</code></b>, as the P1-exit door recommended; write “(ii)” in the note. Discuss = hold.</div>
+      <div class="decision-q">When <code>production: generated</code>, is a topology mismatch a <b>warning</b> or an <b>error</b> at <code>adna_native</code>? <b>Approve = (i): advisory at both tiers in v2.5.0</b> (recommended — a departure from the P1-exit door's sub-recommendation, on new evidence). <b>Amend = (ii): hard at <code>adna_native</code></b>, as the P1-exit door recommended; write “(ii)” in the note. Discuss = hold.</div>
     </div>
   </div>
 
@@ -1795,8 +1795,8 @@ button.ov-chip:focus-visible {
   <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-firewall_touch_7" onclick="toggleCard('firewall_touch_7')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('firewall_touch_7');}">
     <span class="gd-badge" aria-hidden="true"><span class="gd-n">Firewall #7</span></span>
     <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
-    <h2 class="c-title" id="title-firewall_touch_7">Firewall touch #7 · eight rows — <b>one more file than the P1-exit door listed</b></h2>
-    <span class="rec-pill" aria-label="Agent recommendation: Approve — row 6 (<code>validate.py</code>) is new, and V-2 cannot be built without it; confidence 5 of 5">Approve — row 6 (<code>validate.py</code>) is new, and V-2 cannot be built without it · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <h2 class="c-title" id="title-firewall_touch_7">Firewall touch #7 · eight rows</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Approve — row 6 is new; confidence 5 of 5">Approve — row 6 is new · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
     <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-firewall_touch_7" onclick="event.stopPropagation(); toggleCard('firewall_touch_7');">
       <span id="toggle-lbl-firewall_touch_7">Show Analysis</span>
       <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -1809,7 +1809,7 @@ button.ov-chip:focus-visible {
     <div class="decision-block">
       <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
       <h3 class="decision-label">The Decision</h3>
-      <div class="decision-q">Authorise the eight-row touch in the LIP's firewall table, and nothing wider? Approve = authorised for P2b objective 2, back to diff 0 on commit (<code>adr_007</code> discipline). Amend = strike a row in the note.</div>
+      <div class="decision-q">Authorise the eight-row touch in the LIP's firewall table, and nothing wider? It has <b>one more file than the P1-exit door listed</b>: row 6, <code>validate.py</code>, without which V-2 cannot be built. Approve = authorised for P2b objective 2, back to diff 0 on commit (<code>adr_007</code> discipline). Amend = strike a row in the note.</div>
     </div>
   </div>
 
@@ -1858,8 +1858,8 @@ button.ov-chip:focus-visible {
   <div class="c-hdr" role="button" tabindex="0" aria-expanded="false" aria-controls="analysis-exit_gate_deviation" onclick="toggleCard('exit_gate_deviation')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCard('exit_gate_deviation');}">
     <span class="gd-badge" aria-hidden="true"><span class="gd-n">Exit-gate deviation</span></span>
     <!-- D1 cycle 6: <h2> for screen-reader section heading nav (was <span>) -->
-    <h2 class="c-title" id="title-exit_gate_deviation">The mission's “0 new failures” exit gate is <b>not met</b>, and it cannot be met</h2>
-    <span class="rec-pill" aria-label="Agent recommendation: Approve — the deviation is the V-2 price, measured twice, and reported rather than re-scoped; confidence 5 of 5">Approve — the deviation is the V-2 price, measured twice, and reported rather than re-scoped · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
+    <h2 class="c-title" id="title-exit_gate_deviation">Exit gate · “0 new failures” is not met</h2>
+    <span class="rec-pill" aria-label="Agent recommendation: Approve — the ruled V-2 price; confidence 5 of 5">Approve — the ruled V-2 price · <span class="rec-pill-conf"><span aria-hidden="true">●●●●●<span class="rec-conf-off"></span></span></span></span>
     <button class="c-toggle" type="button" aria-expanded="false" aria-controls="analysis-exit_gate_deviation" onclick="event.stopPropagation(); toggleCard('exit_gate_deviation');">
       <span id="toggle-lbl-exit_gate_deviation">Show Analysis</span>
       <svg class="c-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -1872,7 +1872,7 @@ button.ov-chip:focus-visible {
     <div class="decision-block">
       <!-- D1 cycle 6: <h3> for SR heading nav (was <div>); peer of rec-block-label -->
       <h3 class="decision-label">The Decision</h3>
-      <div class="decision-q">Accept the measured deviation: <b>1 external new failure</b> (PercySleep <code>percy_topology.canvas</code>, the price you ruled at V-2), owed a one-line migration memo at P4? Approve = accept, memo at P4. Amend = a different handling (note).</div>
+      <div class="decision-q">The mission's “0 new failures” exit gate is <b>not met, and cannot be met</b>. Accept the measured deviation: <b>1 external new failure</b> (PercySleep <code>percy_topology.canvas</code>, the price you ruled at V-2), owed a one-line migration memo at P4? Approve = accept, memo at P4. Amend = a different handling (note).</div>
     </div>
   </div>
 
@@ -2581,7 +2581,7 @@ button.ov-chip:focus-visible {
       interaction_mode: INTERACTION_MODE,
       persona: PERSONA,
       vault: VAULT,
-      created_at: "2026-10-15T23:34:24Z",
+      created_at: "2026-10-15T23:38:37Z",
       completed_at: new Date().toISOString(),
       operator: "stanley",
       decisions,

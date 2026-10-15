@@ -26,10 +26,10 @@
   {
    "id": "lip_0011_spec",
    "short_label": "§1–§5 spec",
-   "title": "§1–§5 · The definitions — <code>sync_hash</code> byte for byte, <code>source_sha256</code>, <code>sync.generator</code>, A-8 at <code>extended</code>",
-   "question": "Sign LIP-0011 §1–§5 as written? <b>Approve = your §7.7 signature on the specification</b> (D-1 and the firewall table are separate sections below). Amend = name the clause in the note. Discuss = hold.",
+   "title": "§1–§5 · The definitions, made exact",
+   "question": "Sign LIP-0011 §1–§5 as written: <code>sync_hash</code> byte for byte (+ test vector), <code>sync.source_sha256</code>, <code>sync.generator</code>, A-8 at <code>extended</code>. <b>Approve = your §7.7 signature on the specification</b> (D-1 and the firewall table are separate sections below). Amend = name the clause in the note. Discuss = hold.",
    "rec_class": "green",
-   "rec_label": "Approve — these are V-1 (b) · V-2 · V-3 as you ruled them, now made exact",
+   "rec_label": "Approve — as ruled, now exact",
    "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>§1</b> <code>sync_hash</code> = <code>canvas_std.compute_sync_hash</code> over the source topology, with the payload stated <b>byte for byte</b>: ids joined by U+0001, then U+0002, then the <code>from-&gt;to</code> pairs joined by U+0001, sha256, first 16 lowercase hex. Test vector: <code>a</code>,<code>b</code>, edge <code>a→b</code> ⇒ <b><code>097164175d271fb8</code></b>.</li><li><b>F-V-13, a correction caught before you saw it:</b> the first draft read the invisible separators as empty strings, giving the wrong hash <code>5d3a8a0c81db08d9</code> and a false collision claim. Noether's memo of 10-15 (LP F-AC-41) named exactly this trap. It is fixed and struck in the LIP, not hidden.</li><li><b>§2</b> <code>sync.source_sha256</code>: optional, 64 lowercase hex, sha256 of the source's bytes. City and LP already write it, both well-formed.</li><li><b>§4</b> <code>sync.generator</code>: an optional non-empty string. The top-level <code>_reserved.generator</code> is <b>deprecated, not invalid</b>. <b>F-V-11:</b> 61 canvases carry it and the original is <b>ours</b> (<code>PresentationBuilder</code>), not Terminal's. <code>RESERVED_KEYS</code> stays at 11.</li><li><b>§5</b> A-8 runs at <code>extended</code> whenever a <code>_reserved</code> block is present. <code>core</code> is unchanged, so the 414 template-legacy canvases are untouched.</li><li>Additive ⇒ <b>v2.4.0 → v2.5.0</b>. Full text: <code>who/governance/lips/lip_0011_sync_semantics.md</code>.</li></ul></div>",
    "recommendation": {
     "rationale": "Each clause is a ruled verdict made precise; the only new content is the byte-exact encoding and its test vector, which a peer asked for.",
@@ -51,10 +51,10 @@
   {
    "id": "d1_topology_check",
    "short_label": "D-1 topology",
-   "title": "D-1 · When <code>production: generated</code>, is a topology mismatch a <b>warning</b> or an <b>error</b> at <code>adna_native</code>?",
-   "question": "<b>Approve = (i): advisory at both tiers in v2.5.0</b> (recommended). <b>Amend = (ii): hard at <code>adna_native</code></b>, as the P1-exit door recommended; write “(ii)” in the note. Discuss = hold.",
+   "title": "D-1 · Topology mismatch: warning or error?",
+   "question": "When <code>production: generated</code>, is a topology mismatch a <b>warning</b> or an <b>error</b> at <code>adna_native</code>? <b>Approve = (i): advisory at both tiers in v2.5.0</b> (recommended — a departure from the P1-exit door's sub-recommendation, on new evidence). <b>Amend = (ii): hard at <code>adna_native</code></b>, as the P1-exit door recommended; write “(ii)” in the note. Discuss = hold.",
    "rec_class": "amber",
-   "rec_label": "(i) advisory both tiers — a departure from the P1-exit door's sub-recommendation, on new evidence",
+   "rec_label": "Recommend (i) advisory",
    "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><b>Measured (F-V-12):</b> 20 <code>adna_native</code> generated canvases fleet-wide; 16 match. The 4 that don't: 2 RLHF fixtures in the builder encoding (<b>F-V-10</b>: <code>CanvasBuilder</code> hashes JSON, not the Standard's payload), 1 <code>canvas_std</code> test fixture with a hand-set hash, 1 QuantumProteins canvas that already fails. <b>0 external canvases would newly fail under (ii).</b></li><li><b>Why (i) anyway:</b> “the stored hash equals the canvas's own topology” is only true for views that <i>preserve</i> the source's nodes. As a MUST, it forbids any generator from ever adding a decorative node — a constraint no vault has been asked about. Hardening later takes a one-line LIP; un-hardening is a breaking change.</li><li><b>Why (ii) is respectable:</b> it is stronger today, costs only Canvas's own three canvases, and catches stale generated views at validation time.</li><li>Either way, F-V-10 is fixed: <code>CanvasBuilder</code> delegates to <code>canvas_std</code> and the three artifacts are regenerated (outside the firewall, ours).</li></ul></div>",
    "recommendation": {
     "rationale": "Report the proxy now, harden it when the measured advisory count at adna_native is zero.",
@@ -75,10 +75,10 @@
   {
    "id": "firewall_touch_7",
    "short_label": "Firewall #7",
-   "title": "Firewall touch #7 · eight rows — <b>one more file than the P1-exit door listed</b>",
-   "question": "Authorise the eight-row touch in the LIP's firewall table, and nothing wider? Approve = authorised for P2b objective 2, back to diff 0 on commit (<code>adr_007</code> discipline). Amend = strike a row in the note.",
+   "title": "Firewall touch #7 · eight rows",
+   "question": "Authorise the eight-row touch in the LIP's firewall table, and nothing wider? It has <b>one more file than the P1-exit door listed</b>: row 6, <code>validate.py</code>, without which V-2 cannot be built. Approve = authorised for P2b objective 2, back to diff 0 on commit (<code>adr_007</code> discipline). Amend = strike a row in the note.",
    "rec_class": "amber",
-   "rec_label": "Approve — row 6 (<code>validate.py</code>) is new, and V-2 cannot be built without it",
+   "rec_label": "Approve — row 6 is new",
    "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>Acked on the P1-exit door: <code>reserved.py</code> · <code>roundtrip.py</code> (<code>compute_source_sha256</code>) · schema <code>$defs.reserved.sync</code> · spec §7.2/§8.1 · <code>__init__.py</code> 2.5.0.</li><li><b>⚠ Added here:</b> row 6 <code>validate.py</code> (A-8 at <code>extended</code> is dispatched there) · row 7 tests + fixtures + certification corpus (the §1.1 test vector; one Terminal canvas, one City twin, one Canvas native) · row 8 CHANGELOG · plus the <code>spec_roundtrip_protocol_v2</code> §3.1 and <code>spec_conformance_suite</code> A-6/A-8 rows.</li><li><code>RESERVED_KEYS</code> stays at 11; <code>test_registry_consistency.py</code> must stay green (F-GL-1).</li><li>Outside the firewall, ours, same phase: <code>canvas_core/core.py</code> (F-V-10) · <code>canvas_presentation/presentation.py</code> (F-V-11).</li></ul></div>",
    "recommendation": {
     "rationale": "Name every file before the signature so nothing lands under it unseen — LIP-0010's lesson.",
@@ -99,10 +99,10 @@
   {
    "id": "exit_gate_deviation",
    "short_label": "Exit-gate deviation",
-   "title": "The mission's “0 new failures” exit gate is <b>not met</b>, and it cannot be met",
-   "question": "Accept the measured deviation: <b>1 external new failure</b> (PercySleep <code>percy_topology.canvas</code>, the price you ruled at V-2), owed a one-line migration memo at P4? Approve = accept, memo at P4. Amend = a different handling (note).",
+   "title": "Exit gate · “0 new failures” is not met",
+   "question": "The mission's “0 new failures” exit gate is <b>not met, and cannot be met</b>. Accept the measured deviation: <b>1 external new failure</b> (PercySleep <code>percy_topology.canvas</code>, the price you ruled at V-2), owed a one-line migration memo at P4? Approve = accept, memo at P4. Amend = a different handling (note).",
    "rec_class": "green",
-   "rec_label": "Approve — the deviation is the V-2 price, measured twice, and reported rather than re-scoped",
+   "rec_label": "Approve — the ruled V-2 price",
    "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li><code>python3 how/gates/sync_semantics_census.py</code> (pasted into the LIP, 2026-10-15T23:31Z, 667 files, 562 <code>_reserved</code> carriers): <b>507 pass today · 503 under the strictest rule set · 4 new failures</b>.</li><li>Of the 4: PercySleep (V-2, <code>authority</code> without <code>production</code>) + Canvas's own 3 (D-1 (ii) only). Under D-1 (i) the only new failure is PercySleep.</li><li>No canvas in any other vault changes verdict under either D-1 choice. Terminal's 8 and Archive's 7 become <b>advisories</b>, not failures.</li><li>The census is committed (<code>e243684</code>) and is re-run at the firewall touch. Its output is pasted, never retyped.</li></ul></div>",
    "recommendation": {
     "rationale": "A gate that cannot be met by the ruled change should be reported as such; shrinking the population to hit zero would be F-GL-6 again.",
