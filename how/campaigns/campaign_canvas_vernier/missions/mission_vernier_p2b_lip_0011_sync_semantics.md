@@ -3,7 +3,7 @@ plan_id: mission_vernier_p2b_lip_0011_sync_semantics
 type: plan
 title: "LIP-0011 — sync semantics: define what sync_hash hashes, register a full-digest key, and cut Standard v2.5.0 additively"
 owner: stanley
-status: planned
+status: in_progress
 campaign_id: campaign_canvas_vernier
 campaign_phase: "P2b"
 campaign_mission_number: 1
@@ -34,7 +34,7 @@ LIP-0011 Final in `who/governance/lips/`; `canvas_std` green at new pins; certif
 ## Objectives
 
 ### 1. Draft LIP-0011 from the door's `.output.json`
-- **Status**: planned · **Files**: `who/governance/lips/lip_0011_sync_semantics.md`, `lip_registry.md`
+- **Status**: ✅ drafted 2026-10-15 (`who/governance/lips/lip_0011_sync_semantics.md`, status draft; registry row added); §7.7 at `how/gates/lip_0011_signature_20261015` · **Files**: `who/governance/lips/lip_0011_sync_semantics.md`, `lip_registry.md`
 - Options as ruled; migration table per implementer (Terminal 8 · City 1 · LP gen-canvas · Home 1 · Canvas 26); backward-compat claim written as a *command that is run*, not a sentence.
 
 ### 2. Firewall touch #7 (named before signature)
@@ -45,6 +45,7 @@ LIP-0011 Final in `who/governance/lips/`; `canvas_std` green at new pins; certif
 - One Terminal canvas (copied, attribution kept), one City twin, one Canvas native; `test_schema_conformance.py` coverage report re-read (12/40 residue unchanged unless widened here).
 
 ### 4. Fleet backward-compat census — run, paste, do not predict
+- **Status**: ✅ first run 2026-10-15: `how/gates/sync_semantics_census.py`, pasted into the LIP. ⛔ **The exit gate's "0 new failures" is not met**: under the strictest rule set, 4 new failures (3 Canvas-own: F-V-10 builder encoding ×2 + 1 hand-set test fixture; 1 PercySleep, the V-2 price ruled on the door). Under D-1 (i), PercySleep only. Findings F-V-10 (two topology encodings in our tree), F-V-11 (top-level `generator` is ours, 61 fleet carriers), F-V-12 (the hard topology leg is a proxy promoted to a MUST). Re-run at the firewall touch.
 - Script in `how/gates/` or `what/code/canvas_std/tools/`; output pasted into the LIP with glob + date + HEADs.
 
 ### 5. Version sweep classified, not globbed
