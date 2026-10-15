@@ -6,9 +6,9 @@
  "title": "Operation Vernier — P1 exit: eight rulings and a firewall, one sitting",
  "title_main": "Operation Vernier — P1 exit:",
  "title_em": "the Standard's undefined field, ruled once for four vaults",
- "subtitle": "Mondrian · Operation Vernier (scope amended 2026-10-12) · rendered 2026-10-12 · evidence refreshed 2026-10-13 (three replies, recommendations unchanged)",
+ "subtitle": "Mondrian · Operation Vernier (scope amended 2026-10-12) · rendered 2026-10-12 · evidence refreshed 2026-10-13 (three replies) + 2026-10-15 (V-2 fleet census; push count corrected) — recommendations unchanged",
  "mission": "Rule V-1…V-8 + the firewall; grant or refuse three GOs",
- "footer_text": "Every figure on this door was re-derived 2026-10-12 (review artifact §1–§2). Recommendations are the agent's; verdicts are yours. §7.7 — agents author, operators ratify. Refreshed 2026-10-13: three peer replies added to V-1 · V-3 · V-8 as evidence; no recommendation changed.",
+ "footer_text": "Every figure on this door was re-derived 2026-10-12 (review artifact §1–§2). Recommendations are the agent's; verdicts are yours. §7.7 — agents author, operators ratify. Refreshed 2026-10-13: three peer replies added to V-1 · V-3 · V-8 as evidence; no recommendation changed. Refreshed 2026-10-15: V-2's pending fleet count measured (16 · 15 · 1) with a committed census; GO ① corrected to the live push count. No recommendation changed.",
  "sitrep": {
   "campaign": "campaign_canvas_vernier — active, scope amended 2026-10-12 (fold-not-sibling)",
   "phase": "P1 exit → P2 (rulings)",
@@ -54,21 +54,22 @@
    "title": "V-2 · A-8 is gated behind aDNA-Native — a correct axis pair is inert at <code>extended</code>",
    "question": "All 8 Terminal canvases declare <code>extended</code>, carry the correct <code>authority: view</code> + <code>production: generated</code>, and <b>nothing validates the pair at that tier</b>; an invented value would pass. They would validate <code>adna_native</code> today by flipping one field (8/8, re-derived). Should A-8 run at <code>extended</code> too?",
    "rec_class": "amber",
-   "rec_label": "Yes, at extended — but measure the fleet count of extended canvases carrying a bad value FIRST (P2b), and ship it as validate-if-present",
-   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>The axes answer <i>who owns the meaning · how is it made</i> — a question about any derived canvas, not an aDNA-Native one. The keys sit in the native tier for reasons that predate the axes (LIP-0010 placed them where the other <code>_reserved</code> checks were).</li><li><b>Price:</b> any <code>extended</code> canvas with an invalid axis value starts failing. Unknown count today — <b>P2b measures before the LIP is signed</b>; if it is >0 the LIP prices the migration per vault.</li><li>Both keys stay <b>optional</b>; only their values are validated when present (LIP-0010's asymmetric rule unchanged).</li></ul></div>",
+   "rec_label": "Yes, at extended — validate-if-present; measured price is 1 canvas in 1 vault (PercySleep), priced in LIP-0011",
+   "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>The axes answer <i>who owns the meaning · how is it made</i> — a question about any derived canvas, not an aDNA-Native one. The keys sit in the native tier for reasons that predate the axes (LIP-0010 placed them where the other <code>_reserved</code> checks were).</li><li><b>Price — MEASURED 2026-10-15</b> (<code>how/gates/axis_tier_census.py</code>, classifying with the real <code>canvas_std.reserved._validate_axes</code>; 460/460 carriers agree with the hand predicate; 654 <code>.canvas</code> across non-symlink <code>~/aDNA</code> tops, 4 unparseable): <b>16 <code>extended</code> canvases declare an axis — 15 valid, 1 would newly fail.</b> The one is <code>PercySleep.aDNA/what/presentation/percy_first_glimpse/percy_topology.canvas</code>: <code>authority: view</code> with no <code>production</code> — the <b>asymmetric co-requirement</b>, not a bad enum value. Migration: one line in their tree (<code>production: hand_authored</code> or <code>generated</code>, theirs to say), priced in LIP-0011's table, delivered as a memo.</li><li><b>Not touched by this ruling:</b> the 415 axis-carrying canvases that declare <b>no</b> <code>conformance_level</code> validate as <code>core</code> (the default), where no <code>_reserved</code> check runs. 414 are the template-legacy <code>authority: view</code> without <code>production</code> (4 per forked vault — ADR-011's <code>view</code> row, <code>.adna/</code> is Rule 1); 1 is Home's <code>authority: \"generator\"</code> at the non-canonical <code>metadata._reserved</code>, which is V-3's business. 29/29 <code>adna_native</code> carriers are valid today.</li><li><i>Drift note:</i> the 10-14 throwaway run read 622 files / 392 template-legacy; today the same script reads 654 / 414 — the fleet grew (new forks carry the 4 template canvases each). The V-2 figure (16 · 15 · 1) did not move.</li><li>Both keys stay <b>optional</b>; only their values are validated when present (LIP-0010's asymmetric rule unchanged).</li></ul></div>",
    "recommendation": {
-    "rationale": "Rule 'yes, pending the measured count'. A tier that lets a correct pair go unchecked is the F-DT-7 shape — an instrument failing into reassurance.",
+    "rationale": "Rule 'yes'. The count the recommendation was pending on is in: 1 of 16 extended carriers, one line to fix. A tier that lets a correct pair go unchecked is the F-DT-7 shape — an instrument failing into reassurance.",
     "key_factors": [
      "Axes are tier-independent semantics",
      "Validate-if-present cannot break a canvas that omits the keys"
     ],
     "risks": [
-     "Fleet count unknown until P2b runs it"
+     "1 canvas (PercySleep percy_topology) fails until its owner adds production — one line, their tree",
+     "The fleet keeps growing; LIP-0011 re-runs the committed census at signature, not this number"
     ],
     "confidence": 4,
     "next_actions": [
-     "P2b: census of extended canvases × axis values",
-     "LIP-0011 carries the tier change if count permits"
+     "LIP-0011 carries the tier change + a PercySleep migration row",
+     "Re-run axis_tier_census.py at the LIP signature and at the firewall touch"
     ]
    }
   },
@@ -221,7 +222,7 @@
    "id": "firewall_and_gos",
    "short_label": "Firewall · GOs",
    "title": "Firewall touch #7 and the three GOs this session owes you",
-   "question": "<b>Firewall:</b> P2b will touch <code>canvas_std/reserved.py</code> (A-6 semantic · A-8 tier), <code>roundtrip.py</code> (source digest helper), <code>schema/adna_canvas_v2.schema.json</code> (<code>$defs.reserved.sync</code>), <code>spec_adna_canvas_standard.md</code> §7.2/§8.1, <code>__init__.py</code> (2.5.0) — named here so the LIP's signature is informed; the touch itself is signed with LIP-0011. <b>GOs:</b> ① push (2 pre-session commits + this session's; gitleaks pre-push); ② deliver the <b>substantive</b> replies after this door's verdicts (interim acks went today on the plan's approval); ③ standing permission to restart the Canvas-rooted <code>gate_receiver</code> when found down (it was down today; restarted; landed on :8767; four doors re-rendered). Also pointed at, not re-rendered: the four 26-day-old doors (<code>adr_010</code> · <code>adr_011</code> · <code>adr_012</code> · <code>operator_queue_20260916</code>) — sign, or abandon per Home ADR-017.",
+   "question": "<b>Firewall:</b> P2b will touch <code>canvas_std/reserved.py</code> (A-6 semantic · A-8 tier), <code>roundtrip.py</code> (source digest helper), <code>schema/adna_canvas_v2.schema.json</code> (<code>$defs.reserved.sync</code>), <code>spec_adna_canvas_standard.md</code> §7.2/§8.1, <code>__init__.py</code> (2.5.0) — named here so the LIP's signature is informed; the touch itself is signed with LIP-0011. <b>GOs:</b> ① push — <i>corrected 2026-10-15: the 10-12 ask was granted and executed 2026-10-13 (18 commits, <code>e44a9aa..0b4e503</code>, gitleaks clean); what is owed now is 1 commit + this refresh's</i> (gitleaks pre-push); ② deliver the <b>substantive</b> replies after this door's verdicts (interim acks went today on the plan's approval); ③ standing permission to restart the Canvas-rooted <code>gate_receiver</code> when found down (it was down today; restarted; landed on :8767; four doors re-rendered). Also pointed at, not re-rendered: the four 26-day-old doors (<code>adr_010</code> · <code>adr_011</code> · <code>adr_012</code> · <code>operator_queue_20260916</code>) — sign, or abandon per Home ADR-017.",
    "rec_class": "green",
    "rec_label": "Grant ① ② ③; sign adr_010 + adr_012 + queue ①③⑤ now; hold adr_011 with queue ② (memo #20) as before",
    "analysis": "<div class=\"analysis-inner\"><ul style=\"margin:0;padding-left:18px;line-height:1.6\"><li>Push: authorship uniform (Mondrian), gitleaks clean history, visibility public — nothing in this session's changeset is a secret; the memos redacted infrastructure literals per the inbox README.</li><li>Receiver: a persistent local service — the 09-16 ruling started it once; a <b>standing</b> permission turns the next outage into a one-line act instead of a held gate.</li><li>The four old doors are unchanged in content; only their receiver URL moved. Their recommended order from 09-16 stands.</li></ul></div>",
