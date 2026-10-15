@@ -11,7 +11,7 @@ mission_class: implementation
 executor_tier: opus
 token_budget_estimated: "~250k"
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-15
 last_edited_by: agent_mondrian
 tags: [plan, campaign, vernier, lip_0011]
 ---
@@ -21,6 +21,7 @@ tags: [plan, campaign, vernier, lip_0011]
 **Campaign**: [[how/campaigns/campaign_canvas_vernier/campaign_canvas_vernier|campaign_canvas_vernier]]
 **Phase**: P2b · **Mission**: 1 of 6 (chartered at the 2026-10-12 scope amendment)
 **Depends on**: the signed verdicts at `how/gates/vernier_p1_exit_20261012` (P2) unless stated otherwise per objective.
+**⛩ Unblocked 2026-10-15:** P2 ruled 9/9 as recommended (V-1 (b) · V-2 at `extended` · V-3 `sync.generator`); record `how/gates/vernier_p1_exit_20261012.output.json`. The V-2 census is committed as `how/gates/axis_tier_census.py` (obj 4's re-home, done early).
 
 ## Goal
 

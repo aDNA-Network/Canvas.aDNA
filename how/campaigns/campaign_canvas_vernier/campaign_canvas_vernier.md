@@ -11,9 +11,9 @@ priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_datum
 created: 2026-09-17
-updated: 2026-10-13
+updated: 2026-10-15
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged)"
+status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged) · active, P2 RULED (2026-10-15 — V-1…V-8 + firewall #7 ack + GOs ①②③, 9/9 approve as recommended, taken Tier 2 via AskUserQuestion because the web door was dead in every browser)"
 tags: [campaign, canvas, vernier, armor, terminal, bastide, scope_amendment, lip_0011, b14, b18, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
 ---
 
@@ -184,7 +184,7 @@ Terminal's all along; the staging directory's absence from the router is moot.
 | P0 | Wind-down AAR · charter · STATE | plan gate | ✅ 2026-09-17 |
 | P1 | Dogfood artifact, figures re-derived | — | ✅ 2026-09-17 · **re-derived on the live subject 2026-10-12** |
 | **P1b** | Review + inbox triage + this amendment + the ruling door rendered + interim acks | plan gate (2026-10-12) | ✅ this sitting |
-| **P2** | Rule V-1 … V-8 + the firewall touch at [`how/gates/vernier_p1_exit_20261012`](../../gates/vernier_p1_exit_20261012.html) | **human gate — at the door** | ⛔ owed |
+| **P2** | Rule V-1 … V-8 + the firewall touch at [`how/gates/vernier_p1_exit_20261012`](../../gates/vernier_p1_exit_20261012.html) | **human gate — at the door** | ✅ **2026-10-15** — 9/9 approve, Tier 2 ([record](../../gates/vernier_p1_exit_20261012.output.json)) |
 | **P2b** | **LIP-0011** sync semantics → Standard **v2.5.0** (additive); firewall touch #7; backward-compat **measured on the fleet corpus** | human gate | [mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md) |
 | P3 | Freshness both ways — gate #9 + `canvas-std check-sync` for third parties | human gate | [mission](missions/mission_vernier_p3_freshness_both_ways.md) |
 | P4 | Doctrine (Principle 4b, n=4) + substantive replies carrying the verdicts + B14/B18 spec text | human gate | [mission](missions/mission_vernier_p4_doctrine_and_memos.md) |
@@ -240,3 +240,28 @@ not share one diff, or nobody can review the relocation as verbatim. That rule w
 sitting *is* P6. Compaction therefore lands as **its own commit**: relocation only, with archived text verified byte-equal to
 the removed text. The sitting's state update follows in a separate commit.
 
+## ⛩ P2 ruled — 2026-10-15 (Tier 2, `AskUserQuestion`; record `how/gates/vernier_p1_exit_20261012.output.json`)
+
+**Every item approved as recommended (9/9, `composite_decision: approve`).** V-1 **(b)**: `sync_hash` stays topology and is
+now *defined*; `sync.source_sha256` (64 hex) is registered. V-2: A-8 runs at `extended`, validate-if-present, at a measured
+price of 1 canvas in 1 vault (PercySleep `percy_topology`). V-3: `sync.generator`. V-4: B14 accepted as a T2 item (a pack
+profile + loading modes; ADR-062 owns LinkML). V-5: the overlay is a second file keyed by node id, and Canvas eats
+`graph.canvas` first (P5). V-6: spec as written. V-7: our three are not-a-lattice, the four CEL rewrites are applied, and the
+16 are declined. V-8: the bundle as recommended. **Firewall touch #7 file list acknowledged.** The touch itself still waits
+for the LIP-0011 §7.7 signature. **GOs ① push · ② verdict memos (P4) · ③ standing receiver restart: all granted.**
+
+**Why in chat, not at the door.** The operator asked for it after the door took no clicks in Zen. The sanctioned channel is
+`skill_create_iss` Tier 2, and the record's `interaction_mode` says `tier2_auq`, so the verdict carries its own provenance.
+**The cause was the door, not the browser.** The rendered script read `const SECTION_COUNT = ;`, a SyntaxError that leaves
+every handler undefined in **every** browser. The data.json never supplied `section_count`, and `generator.py` replaces a
+missing key with `""` without a word. The fault had been present in all three renders of this door, and in
+`operator_queue_20260916` since 09-16.
+
+**F-V-9:** the 10-12 "round trip proven with a `_zz_` probe" POSTed **straight to the receiver**. It proved the receiver and
+never loaded the page. ⇒ ***a round trip proven at the receiver is not a round trip proven at the page.*** For 3 days one door,
+and for a month the other, looked open and could not be ruled.
+
+**Basis re-probed before the record was written:** HEAD `25fd3f8`; no inbox memo newer than the door; `axis_tier_census.py`
+still reads 16 · 15 · 1 (the fleet grew from 654 to 661 files within the hour, and 467/467 carriers agree).
+
+**Next: P2b** ([mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md)), which drafts LIP-0011 → §7.7 signature → firewall touch #7.
