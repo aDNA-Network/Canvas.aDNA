@@ -2,9 +2,9 @@
 type: decision
 adr_id: "011"
 title: "Legacy canvas-YAML interop reconciled — the `view` authority row, one level too high and stamped on three files for every one it fits"
-status: proposed
+status: accepted
 created: 2026-08-24
-updated: 2026-09-16
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 signed_by:
 supersedes:
@@ -19,7 +19,7 @@ tags: [adr, canvas, standard, legacy, canvas_yaml_interop, authority, production
 
 ## Status
 
-**proposed** — authored at the Blueprint P1 doctrine session (`mission_b1_doctrine`, 2026-08-24);
+**accepted** — ratified by the operator at the rendered door `how/gates/adr_011_ratification` on 2026-10-16 (2026-10-16T19:22:42.193Z, `accept`, no note; evidence re-probed the same day). ~~**proposed**~~ — authored at the Blueprint P1 doctrine session (`mission_b1_doctrine`, 2026-08-24);
 awaiting the §7.7 signature. Canvas rules the *substance* (this is the Canvas Standard's own
 authority surface); **propagation into the template channel is Rosetta's** and is offered, not
 performed (Rule 10).
@@ -437,7 +437,7 @@ restored from any file's own contents, and the topology hash is recomputable at 
 
 | Field | Value |
 |-------|-------|
-| Decision | `canvas_yaml_interop` = the Standard's `view` authority row · canonical placement is `metadata.frontmatter._reserved` · migration verified, offered to Rosetta, not performed · `authority` stays doctrine-enforced pending LIP-0010 · no `canvas_std` change |
-| Ratified by | _(pending)_ |
-| Date | _(pending)_ |
-| Status | **proposed** |
+| Decision | ~~`canvas_yaml_interop` = the Standard's `view` authority row · canonical placement is `metadata.frontmatter._reserved` · migration verified, offered to Rosetta, not performed · `authority` stays doctrine-enforced pending LIP-0010 · no `canvas_std` change~~ *(the pre-amendment row, struck at ratification: its LIP-0010 clause was false from Amendment 1)* → **As amended ×3 (2026-09-16), per §What this ADR says today:** the legacy shape is the Standard's `view` row at the wrong path · canonical placement `metadata.frontmatter._reserved` · **partition before migrating** (derived iff `source_yaml` non-empty AND it resolves → `source_name` + `authority: view` + `production: generated`; primary → none of the three; never invent a source) · A-8 machine-enforced since v2.4.0 · propagation offered to Rosetta, never performed · no `canvas_std` change |
+| Ratified by | stanley (operator), at the rendered door `how/gates/adr_011_ratification.html` — `ratify: accept`, no note (record: `adr_011_ratification.output.json`) |
+| Date | 2026-10-16 (`completed_at` 2026-10-16T19:22:42.193Z) |
+| Status | **accepted** |

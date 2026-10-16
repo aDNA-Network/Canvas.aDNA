@@ -2,9 +2,9 @@
 type: decision
 adr_id: "010"
 title: "Artifact corpus policy — gitignored, canonical on-node, backup-registered"
-status: proposed
+status: accepted
 created: 2026-08-22
-updated: 2026-09-16
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 signed_by:
 supersedes:
@@ -18,7 +18,7 @@ tags: [adr, artifacts, corpus, git, backup, data_plane, halftone, erratum_202609
 
 ## Status
 
-**proposed** — authored at the 2026-08-22 review-integration session under the operator-approved plan
+**accepted** — ratified by the operator at the rendered door `how/gates/adr_010_ratification` on 2026-10-16 (2026-10-16T19:22:47.576Z, `accept`, no note; evidence re-probed the same day). ~~**proposed**~~ — authored at the 2026-08-22 review-integration session under the operator-approved plan
 (which selected this option at plan time); awaiting the §7.7 signature.
 
 ### ⛩ Erratum, 2026-09-16 — two stale facts, corrected before signature; **both make this ADR stronger**
@@ -118,6 +118,6 @@ archive repo; this ADR only rules that the *working shelf* is not git-tracked.
 | Field | Value |
 |-------|-------|
 | Decision | `what/artifacts/` gitignored · canonical on-node · backup-registered (WI-16 scope) · no off-node fetch path promised |
-| Ratified by | _(pending)_ |
-| Date | _(pending)_ |
-| Status | **proposed** |
+| Ratified by | stanley (operator), at the rendered door `how/gates/adr_010_ratification.html` — `ratify: accept`, no note (record: `adr_010_ratification.output.json`) |
+| Date | 2026-10-16 (`completed_at` 2026-10-16T19:22:47.576Z) |
+| Status | **accepted** |

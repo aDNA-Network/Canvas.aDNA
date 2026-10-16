@@ -2,9 +2,9 @@
 type: decision
 adr_id: "012"
 title: "Publication-boundary remedy — fix-forward, records untouched, authored content redacted at the next write"
-status: proposed
+status: accepted
 created: 2026-09-04
-updated: 2026-09-04
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 signed_by:
 supersedes:
@@ -19,7 +19,7 @@ tags: [adr, canvas, publication_boundary, adr_016, d6_1, exposure, fix_forward, 
 
 ## Status
 
-**proposed** — authored 2026-09-04 (Blueprint P2 session); awaiting the §7.7 signature.
+**accepted** — ratified by the operator at the rendered door `how/gates/adr_012_ratification` on 2026-10-16 (2026-10-16T19:22:35.594Z, `accept`, no note; evidence re-probed the same day). ~~**proposed**~~ — authored 2026-09-04 (Blueprint P2 session); awaiting the §7.7 signature.
 ~~`Git.aDNA`'s ADR-016 is itself still `proposed`, so **nothing upstream binds this vault today**.~~
 ⛩ **Stale as of 2026-09-07, corrected before signature** (Hopper, 2026-09-06): **ADR-016 is
 `accepted`** — rev 3, 2026-08-27 — and its **Amendment A1 was ratified 2026-09-06**. The conclusion
@@ -162,6 +162,6 @@ that quotes it* — does not care which peer happened to notice.
 | Field | Value |
 |-------|-------|
 | Decision | Fix-forward, no history rewrite · correspondence + session history + closed artifacts are records, untouched · authored content redacted (3 files, incl. a second literal neither peer measured) · overlay addresses resolved at owner, never re-inlined · no enforcement surface claimed |
-| Ratified by | _(pending)_ |
-| Date | _(pending)_ |
-| Status | **proposed** |
+| Ratified by | stanley (operator), at the rendered door `how/gates/adr_012_ratification.html` — `ratify: accept`, no note (record: `adr_012_ratification.output.json`) |
+| Date | 2026-10-16 (`completed_at` 2026-10-16T19:22:35.594Z) |
+| Status | **accepted** |

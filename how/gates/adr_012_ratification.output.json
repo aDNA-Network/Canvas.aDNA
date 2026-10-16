@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "adr_012_ratification",
+  "surface_type": "decision_gate",
+  "interaction_mode": "IM-B",
+  "persona": "neutral",
+  "vault": "Canvas.aDNA",
+  "adr_id": "012",
+  "created_at": "2026-10-16T17:17:40Z",
+  "completed_at": "2026-10-16T19:22:35.594Z",
+  "operator": "stanley",
+  "decisions": [
+    {
+      "id": "ratify",
+      "value": "accept",
+      "note": null
+    }
+  ],
+  "operator_comment_overall": null,
+  "rlhf_signal": {
+    "signal_shape": "binary",
+    "value": "accept"
+  },
+  "rlhf_signal_type": "accept",
+  "rlhf_session_id": "adr_012_ratification",
+  "rlhf_captured_at": "2026-10-16T19:22:35.594Z",
+  "rlhf_modification_delta": null,
+  "metadata": {
+    "adr_id": "012"
+  }
+}
