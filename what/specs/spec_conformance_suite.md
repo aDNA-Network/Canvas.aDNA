@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_conformance_suite
 title: "aDNA Canvas conformance suite — checks for Core / Extended / aDNA-Native"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P3
 tags: [spec, canvas, conformance, validator, genesis, p3, interface, salon]
 ---
@@ -58,9 +58,9 @@ A Core-valid document **MUST** be a valid JSON Canvas 1.0 file (the degradation 
 | A-3 | `_reserved.component_types` valid per [[spec_component_model]] §7 (keys resolve; `class`∈taxonomy; profile tokens∈§6; `degrades_to`∈baseline types). |
 | A-4 | `_reserved.semantic_bindings` profiles use only §6 tokens; the built-in `lattice` profile is unmodified ([[spec_component_model]] §4.2). |
 | A-5 | `_reserved.panel_link` valid per [[spec_panel_link_semantics]] §6 (region/edge + id-bearing surface ids resolve; `sequence` acyclic; exactly one `canonical` surface whose id resolves; a `role: derived` surface MAY omit its id — pure metadata, LIP-0008; no orphaned anchors). |
-| A-6 | `_reserved.sync` present; `sync_hash` matches `compute_sync_hash(source)` **or** the canvas is flagged stale ([[spec_roundtrip_protocol_v2]] §3). |
+| A-6 | `_reserved.sync` present; `sync_hash` is 16 hex and matches `compute_sync_hash(source)` **or** the canvas is flagged stale ([[spec_roundtrip_protocol_v2]] §3, payload byte for byte at §3.1). **v2.5.0 (LIP-0011):** `sync.source_sha256`, if present, matches `^[0-9a-f]{64}$`, and `sync.generator`, if present, is a non-empty string; both are **hard**, at `extended` and `adna_native`. When `production: generated`, a `sync_hash` that differs from the canvas's own recomputed topology is an **advisory** at both tiers (D-1 (i)): reported by `canvas_std.advisories()`, never a failure. |
 | A-7 | `_reserved.context_object` (if present) valid per [[spec_context_object]] §4 (stable `id`; semver `version`; well-formed `refs`). |
-| A-8 | `_reserved.authority` ∈ {`dual_channel`, `view`} and `_reserved.production` ∈ {`hand_authored`, `generated`} — the diagrammatic-context axes (LIP-0010 Option D, **cut into Standard v2.4.0** at Operation Gridline P1). Both **optional**, each validated **only if present**; one **asymmetric** cross-key rule: `authority` **requires** `production`, while `production` **alone is conformant**. |
+| A-8 | `_reserved.authority` ∈ {`dual_channel`, `view`} and `_reserved.production` ∈ {`hand_authored`, `generated`} — the diagrammatic-context axes (LIP-0010 Option D, **cut into Standard v2.4.0** at Operation Gridline P1). Both **optional**, each validated **only if present**; one **asymmetric** cross-key rule: `authority` **requires** `production`, while `production` **alone is conformant**. **v2.5.0 (LIP-0011 §5, V-2):** also run at **Extended**, for a `_reserved` block that *declares* `conformance_level: extended` (with A-6's two hard `sync` checks). `core` and undeclared blocks are unchanged. |
 
 > **A-8 in one line each.** `authority` answers *who owns the meaning?* (both values name an **other** channel that
 > owns it); `production` answers *how is the picture made?* — and the **"never hand-edit; regenerate" discipline

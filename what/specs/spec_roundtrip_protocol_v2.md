@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_roundtrip_protocol_v2
 title: "aDNA Canvas Round-Trip Protocol v2 — authoritative-source ↔ view"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P2
 tags: [spec, canvas, roundtrip, sync, genesis, p2]
 ---
@@ -37,13 +37,29 @@ For a lattice canvas the source is the `.lattice.yaml`; for a document it is the
 
 ## 3. Sync hash (staleness detection, KEEP)
 
-3.1. `compute_sync_hash(source)` = SHA-256 over the **topology** (sorted node ids + sorted `from→to` edge pairs),
+3.1. `compute_sync_hash(source)` = SHA-256 over the **topology** (sorted node ids + sorted `from->to` edge pairs),
 truncated to 16 hex. It is stored in the `_lattice_meta` group and `_reserved.sync.sync_hash`
-([[spec_adna_canvas_standard]] §8).
+([[spec_adna_canvas_standard]] §8). **The payload, byte for byte** (v2.5.0, LIP-0011 §1.1):
+
+```
+ids     = sorted(str(node.id) for node in S.nodes)
+pairs   = sorted(f"{edge.fromNode}->{edge.toNode}" for edge in S.edges)    # ASCII "->" (0x2D 0x3E)
+payload = "\x01".join(ids) + "\x02" + "\x01".join(pairs)                  # U+0001 between items, U+0002 between lists
+sync_hash = sha256(payload.encode("utf-8")).hexdigest()[:16]               # lowercase
+```
+
+**Test vector (normative):** nodes `a`, `b`; edge `a -> b` ⇒ payload `a\x01b\x02a->b` ⇒ **`097164175d271fb8`**.
+⚠ Reading the separators as empty strings gives `5d3a8a0c81db08d9`, which is wrong. Until v2.5.0 the reference
+source held them as literal control bytes, which print as nothing; that is how two independent readers got the wrong
+hash (F-V-13, LP F-AC-41). Before v2.5.0 this paragraph wrote the arrow as `→`; the bytes have always been ASCII `->`.
+A full digest of the source document's bytes is a different question, answered by `sync.source_sha256` (64 hex).
 
 3.2. Before a visual review or a reverse merge, a tool **MUST** compare the canvas's stored hash to
 `compute_sync_hash(current source)`. A mismatch means the view is **stale** and **SHOULD** be regenerated from
-source before any reverse operation.
+source before any reverse operation. For a `production: generated` canvas the validator also compares the stored
+hash with the canvas's **own** topology and reports a mismatch as an **advisory**
+(`canvas_std.advisories()`, [[spec_conformance_suite]] A-6; v2.5.0, D-1 (i)). That check is a proxy: it holds only
+for views that preserve the source's nodes and edges, so it is never an error.
 
 ## 4. Forward path (source → view)
 

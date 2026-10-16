@@ -1,14 +1,14 @@
 ---
 type: spec
 spec_id: spec_adna_canvas_standard
-title: "aDNA Canvas Standard v2.4.0 — normative specification"
-standard_version: "2.4.0"
+title: "aDNA Canvas Standard v2.5.0 — normative specification"
+standard_version: "2.5.0"
 identifier: "https://adna-network.org/canvas/standard"
 license: "spec-text CC-BY-4.0; reference-implementation MIT"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P2
 upstream_baseline: "Advanced Canvas v5.6.6 + JSON Canvas 1.0 (PIN-A)"
 tags: [spec, canvas, standard, normative, genesis, p2]
@@ -124,7 +124,8 @@ the baseline node/edge fields are **not** extended (§11).
 _reserved:
   adna_version:        "2.0.0"
   conformance_level:   core | extended | adna_native
-  sync:                { sync_hash, source_name, source_version }   # §8, spec_roundtrip_protocol_v2
+  sync:                { sync_hash, source_name, source_version,    # §8, spec_roundtrip_protocol_v2 §3
+                         source_sha256?, generator? }               # v2.5.0, A-6, LIP-0011
   component_types:     { … }     # spec_component_model.md (D4)
   semantic_bindings:   { … }     # spec_component_model.md (D4)
   panel_link:          { … }     # spec_panel_link_semantics.md (D5)
@@ -148,13 +149,22 @@ _reserved:
 > `$defs.reserved` is open and §7.3 already requires unknown keys be preserved, which is exactly why the drift was
 > invisible. The durable fix (give the tuple a consumer) is filed as `idea_reserved_keys_has_no_consumer`.
 
+> **`sync` (v2.5.0, LIP-0011).** `sync_hash` **MUST** be the 16-hex topology digest of [[spec_roundtrip_protocol_v2]]
+> §3.1, whose payload is stated there **byte for byte** with a test vector (`a`, `b`, `a->b` ⇒ `097164175d271fb8`). It is
+> a staleness detector, not an integrity proof. `source_sha256` (optional, `^[0-9a-f]{64}$`) is the SHA-256 of the source
+> document's raw bytes, the full digest for *"has my source moved?"*. `generator` (optional, non-empty string: a path or a
+> URN) names what made the canvas. A **top-level** `_reserved.generator` is deprecated, not invalid (§7.3). Neither new
+> property is a reserved key: the namespace stays at 11. When `production: generated`, a stored `sync_hash` that does not
+> match the canvas's own topology is an **advisory**, never an error, at both tiers ([[spec_conformance_suite]] A-6).
+
 7.3. Unknown `_reserved` keys **MUST** be preserved by any tool that rewrites a canvas (forward-compat).
 
 ## 8. Required `_lattice_meta` group
 
 8.1. A lattice canvas **MUST** include a group node with `id: "_lattice_meta"` encoding the source name +
 version and the **sync hash** of the authoritative-source topology ([p1_fork_baseline](../../how/campaigns/campaign_canvas_genesis_planning/missions/p1_fork_baseline.md) I2). The sync hash
-detects view staleness (`spec_roundtrip_protocol_v2.md`). For non-lattice canvases the equivalent metadata MAY
+detects view staleness (`spec_roundtrip_protocol_v2.md` §3.1 defines it byte for byte, v2.5.0). It is the **topology** digest,
+not a digest of the source's bytes; that question has its own key, `sync.source_sha256` (§7.2, LIP-0011). For non-lattice canvases the equivalent metadata MAY
 live solely in `_reserved.sync`.
 
 ## 9. Conformance levels
