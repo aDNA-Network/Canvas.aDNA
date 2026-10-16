@@ -3,21 +3,21 @@ type: lip
 lip_number: "LIP-0011"
 title: "Sync semantics — what `sync.sync_hash` hashes, a full source digest, a provenance carrier, and A-8 at `extended` (v2.5.0)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
-status: accepted
+status: final
 created: 2026-10-15
 updated: 2026-10-16
 requires: ["LIP-0010"]
 replaces: []
 last_edited_by: agent_mondrian
-resolution: "ACCEPTED — §7.7 signed 2026-10-15T23:40Z at how/gates/lip_0011_signature_20261015 (4/4 approve, confidence 4): §1–§5 as written · D-1 = (i) advisory at both tiers · firewall touch #7 = the eight-row table · exit-gate deviation accepted (PercySleep, memo at P4). Final at the v2.5.0 cut (Vernier P2b obj 2–3)."
+resolution: "FINAL — implemented + cut as Standard v2.5.0, 2026-10-16 (firewall touch #7: 2b3b70a · d72e77f; outside-firewall fe33f10). §7.7 signed 2026-10-15T23:40Z at how/gates/lip_0011_signature_20261015 (4/4 approve, confidence 4): §1–§5 as written · D-1 = (i) advisory at both tiers · firewall touch #7 = the eight-row table · exit-gate deviation accepted (PercySleep, memo at P4). Post-touch census: 0 new failures, exactly 1 real-validator verdict change (PercySleep, as signed), 17 advisories agreeing with canvas_std.advisories()."
 related: ["campaign_canvas_vernier", "mission_vernier_p2b_lip_0011_sync_semantics", "lip_0010_assessment_diagrammatic_context", "spec_roundtrip_protocol_v2", "spec_conformance_suite"]
 tags: [lip, standard, canvas, canvas_standard, sync_hash, source_sha256, sync_generator, a6, a8, extended_tier, vernier, p2b, v250]
 ---
 
 # LIP-0011: Sync semantics — what `sync.sync_hash` hashes
 
-> **Status: accepted — signed 2026-10-15** at `how/gates/lip_0011_signature_20261015` (record:
-> `.output.json`, 4/4 approve; **D-1 = (i)**). Final at the v2.5.0 cut. *The draft-status paragraph below is kept
+> **Status: Final — Standard v2.5.0 cut 2026-10-16.** Signed 2026-10-15 at `how/gates/lip_0011_signature_20261015`
+> (record: `.output.json`, 4/4 approve; **D-1 = (i)**); implemented in firewall touch #7. See §As implemented. *The draft-status paragraph below is kept
 > as written at signing.*
 >
 > ~~**Status: draft.**~~ This LIP turns three ruled verdicts into the Standard. The verdicts are not in question
@@ -176,6 +176,8 @@ touch, and paste the result; never retype it.
 python3 how/gates/sync_semantics_census.py      # exit 0 = no new failures · 1 = at least one
 ```
 
+**At signature** (2026-10-15T23:31Z, the D-1 (ii) rule set the door priced, before D-1 was chosen):
+
 <!-- census:begin — pasted output; regenerate, never edit -->
 ```
 $ python3 how/gates/sync_semantics_census.py   # exit 1
@@ -240,6 +242,84 @@ advisories (would warn, not fail): 15
 ```
 <!-- census:end -->
 
+**At the firewall touch** (2026-10-16, the **signed** rule set, D-1 (i)). The real validator now contains the rules,
+so `NEW FAILURES` reads 0 by construction. The claim is the `--baseline` line: the verdicts the real validator
+changed against a run saved immediately before the touch.
+
+```
+python3 how/gates/sync_semantics_census.py --json > pre.json      # before the touch
+python3 how/gates/sync_semantics_census.py --baseline pre.json    # after it
+```
+
+<!-- census-touch:begin — pasted output; regenerate, never edit -->
+```
+$ python3 how/gates/sync_semantics_census.py --baseline census_pre.json   # exit 0
+sync_semantics_census  2026-10-16T16:59Z  /Users/stanley/aDNA/*/**/*.canvas with a _reserved block (non-symlink tops, -P, excl. ['llama.cpp'])
+  symlinked tops skipped: 26
+      80    of which carry sync
+     565  _reserved carriers
+     670  files
+       4  unparseable
+  HEADs: Terminal 19b8047 · City 1f54066 · LatticeProtocol 8df436d · Home 97a0009 · Canvas fe33f10
+per implementer (_reserved carriers · level · current ok · proposed ok · topology match · source_sha256 · sync.generator · top-level generator · advisories):
+  Canvas.aDNA            adna_native  canonical          n=  28 cur=  27 prop=  27 topo=  22 src256=  1 sync.gen=  0 top.gen=  0 adv=  1
+  Canvas.aDNA            core         canonical          n=  17 cur=   1 prop=   1 topo=   0 src256=  0 sync.gen=  0 top.gen= 16 adv=  0
+  Canvas.aDNA            core         metadata._reserved n=   4 cur=   4 prop=   4 topo=   0 src256=  0 sync.gen=  0 top.gen=  0 adv=  0
+  Canvas.aDNA            extended     canonical          n=   1 cur=   1 prop=   1 topo=   0 src256=  0 sync.gen=  0 top.gen=  1 adv=  1
+  City.aDNA              adna_native  canonical          n=   9 cur=   9 prop=   9 topo=   9 src256=  1 sync.gen=  0 top.gen=  0 adv=  0
+  City.aDNA              core         canonical          n=   4 cur=   4 prop=   4 topo=   0 src256=  0 sync.gen=  0 top.gen=  0 adv=  0
+  Home.aDNA              core         metadata._reserved n=   5 cur=   5 prop=   5 topo=   0 src256=  0 sync.gen=  0 top.gen=  0 adv=  0
+  LatticeProtocol.aDNA   adna_native  canonical          n=   1 cur=   1 prop=   1 topo=   1 src256=  1 sync.gen=  1 top.gen=  0 adv=  0
+  LatticeProtocol.aDNA   core         canonical          n=   2 cur=   0 prop=   0 topo=   0 src256=  0 sync.gen=  0 top.gen=  2 adv=  0
+  LatticeProtocol.aDNA   core         metadata._reserved n=   4 cur=   4 prop=   4 topo=   0 src256=  0 sync.gen=  0 top.gen=  0 adv=  0
+  Terminal.aDNA          extended     canonical          n=   8 cur=   8 prop=   8 topo=   0 src256=  0 sync.gen=  0 top.gen=  8 adv=  8
+  other                  adna_native  canonical          n=  25 cur=  24 prop=  24 topo=  23 src256=  0 sync.gen=  0 top.gen=  1 adv=  0
+  other                  core         canonical          n= 108 cur=  87 prop=  87 topo=   0 src256=  0 sync.gen=  0 top.gen= 27 adv=  0
+  other                  core         metadata._reserved n= 341 cur= 327 prop= 327 topo=   0 src256=  0 sync.gen=  0 top.gen=  0 adv=  0
+  other                  extended     canonical          n=   8 cur=   7 prop=   7 topo=   0 src256=  0 sync.gen=  0 top.gen=  7 adv=  7
+sync_hash encoding (which digest the stored value actually is):
+      22  Canvas.aDNA            canvas_std topology
+       8  Canvas.aDNA            neither (source bytes, stale, or hand-set)
+       9  City.aDNA              canvas_std topology
+       1  LatticeProtocol.aDNA   canvas_std topology
+       8  Terminal.aDNA          neither (source bytes, stale, or hand-set)
+      23  other                  canvas_std topology
+       8  other                  neither (source bytes, stale, or hand-set)
+       1  other                  no sync_hash
+adna_native · production: generated: 22 · topology match 20 (the HARD leg's whole population)
+LIP-0011 ⇒ passers today: 509 · still pass under the proposal: 509 · NEW FAILURES: 0
+  (informational: under the unsigned D-1 (ii) the count would be 1)
+advisories (warn, not fail): 17
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_system_composition.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_node_topology.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_session_lifecycle.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_ecosystem_seams.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_port_map.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_campaign_map.canvas
+  ~ Archive.aDNA/Armor.aDNA/what/canvas/bastide_data_flows.canvas
+  ~ Canvas.aDNA/what/code/canvas_std/tests/fixtures/extended_terminal_shape.canvas
+  ~ Canvas.aDNA/what/code/canvas_std/tests/fixtures/adna_axes.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_system_composition.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_node_topology.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_session_lifecycle.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_ecosystem_seams.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_port_map.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_campaign_map.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_data_flows.canvas
+  ~ Terminal.aDNA/what/canvas/bastide_design_system.canvas
+real-validator advisories (canvas_std.advisories): 17 · agree with the candidate set
+real-validator verdict changes since census_pre.json (562 rows then, 565 now; 3 new paths, not compared): 1
+  ✓→✗ PercySleep.aDNA/what/presentation/percy_first_glimpse/percy_topology.canvas
+      A-8: 'authority' is present without 'production' — `authority` REQUIRES `production` (LIP-0010 Option D as corrected 2026-09-11). Declaring that anoth
+```
+<!-- census-touch:end -->
+
+**Reading it.** Exactly **one** canvas changed verdict: PercySleep's `percy_topology.canvas`, the price ruled at V-2
+and accepted at signature. **17 advisories**, and the real `canvas_std.advisories()` agrees with the census's
+candidate set, path for path: Terminal's 8, Archive's 7 (frozen), and two of our own fixtures that carry a stale
+hash on purpose. The three builder-encoded Canvas artifacts (F-V-10) were recomputed in place before this run and
+no longer appear. The `(ii)` line now reads 1, which is `adna_axes.canvas`'s deliberately hand-set hash.
+
 **Reading it.** The census evaluates the **D-1 (ii)** rule set, the strictest on the table, so its `NEW FAILURES`
 line is an upper bound:
 - Under **D-1 (ii)**, 4 canvases newly fail: 3 are Canvas's own and fixed in the touch, 1 is PercySleep.
@@ -269,6 +349,25 @@ discipline, one definition and consumed.
 **Outside the firewall, ours, in the same phase:** `canvas_core/core.py` (F-V-10 delegation) ·
 `canvas_presentation/presentation.py` (F-V-11) · regenerating the three builder-encoded artifacts.
 
+## As implemented (2026-10-16) — what the touch did that this text did not spell out
+
+Everything below is inside the eight signed rows. It is listed so that nothing landed under the signature unseen.
+
+- **Row 1/6:** advisories are returned by `reserved.sync_advisories()`, and by `canvas_std.advisories(doc, level)`
+  at the public surface. That is a new export in row 5's `__init__.py`, alongside `compute_source_sha256`.
+  `validate()` stays a pass/fail list.
+- **Row 6:** §5's trigger is the canvas's **declared** `conformance_level: extended`, not the level argument, so
+  `validate_suite` walking a `core`/undeclared canvas through EXTENDED cannot move its `level_reached` (§5.2).
+- **Row 2:** the U+0001/U+0002 separators in `compute_sync_hash` are now **escapes**, not literal bytes. That is
+  F-V-13's trap, removed at source. The bytes hashed are unchanged (test vector before and after), and a test
+  forbids literal control bytes in the file.
+- **Row 7:** the Terminal and City corpus cases are **shape-derived with synthetic content**, not copied. Terminal's
+  repo is private, City has no remote, and this repo is GitHub-public, so a verbatim copy would have published
+  peer content. The shape (keys, levels, encodings) is what the cases exist to test, and it is reproduced exactly.
+  The Canvas case is a byte-copy of ours.
+- **Not done, because it is outside the rows:** `conformance.py` (the CLI and `ConformanceReport` do not print
+  advisories yet; the `json_schema()` docstring still says v2.4.0). This is residue for the next touch.
+
 ## Rationale
 
 - **Why (b) and not (a) or (c)** was ruled at V-1 and is not reopened. The door's priced migrations stand, and
@@ -282,7 +381,8 @@ discipline, one definition and consumed.
 
 ## Reference Implementation
 
-Implemented after the signature, in Vernier P2b objectives 2–3. The census
+**Implemented 2026-10-16** (Vernier P2b obj 2–3): `canvas_std` `2b3b70a` (code + tests, 170/10 → 236/22, certification
+12 → 15) · specs `d72e77f` · outside the firewall `fe33f10` (F-V-10 delegation, F-V-11 `sync.generator`). ~~Implemented after the signature, in Vernier P2b objectives 2–3.~~ The census
 (`how/gates/sync_semantics_census.py`) already evaluates the candidate rules outside the firewall, reusing
 the real `validate`, `_validate_axes` and `compute_sync_hash`.
 
@@ -294,7 +394,7 @@ the vault.
 
 ## Status
 
-**accepted** (2026-10-15). Final at the v2.5.0 cut. ~~**draft.** Awaiting §7.7 at `how/gates/lip_0011_signature_20261015`. `canvas_std` is at diff-0.~~
+**Final** (2026-10-16; v2.5.0 cut). Accepted 2026-10-15 at signature. ~~**draft.** Awaiting §7.7 at `how/gates/lip_0011_signature_20261015`. `canvas_std` is at diff-0.~~
 
 ### Ratification (§7.7) — required before any firewall touch
 
@@ -303,7 +403,7 @@ the vault.
 | Decision | LIP-0011 §1–§5 as written; **D-1 = (i)**, advisory at both tiers; firewall touch #7 = the eight-row table above, including row 6 (`validate.py`), which is not on the P1-exit list; exit-gate deviation accepted (PercySleep, one-line memo at P4); v2.5.0 |
 | Ratified by | stanley (operator), at the rendered door `how/gates/lip_0011_signature_20261015` — 4/4 sections `approve`, composite `approve`, confidence 4, no notes |
 | Date | 2026-10-15 (`completed_at` 2026-10-15T23:40:34Z) |
-| Status | accepted |
+| Status | accepted 2026-10-15 → **final** 2026-10-16 (implemented + cut) |
 
 **What signing does not do.** It does not mandate `source_sha256` or `sync.generator` on any canvas. It does not
 migrate anyone's tree; every row of §6 that says *theirs* is a memo, not a write. It does not reopen V-1…V-3.

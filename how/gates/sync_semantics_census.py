@@ -68,7 +68,11 @@ IMPLEMENTERS = ("Terminal.aDNA", "City.aDNA", "LatticeProtocol.aDNA", "Home.aDNA
 
 sys.path.insert(0, str(SRC))  # the in-tree validator, never an installed copy
 try:
-    from canvas_std import validate as _validate_mod  # noqa: E402
+    import importlib  # noqa: E402
+
+    # The MODULE, by name: `from canvas_std import validate` returns the re-exported FUNCTION, which shadows the
+    # submodule — and a hasattr() probe on the function is silently always False (caught on the first post-touch run).
+    _validate_mod = importlib.import_module("canvas_std.validate")  # noqa: E402
     from canvas_std.reserved import _validate_axes  # noqa: E402
     from canvas_std.roundtrip import compute_sync_hash  # noqa: E402
     from canvas_std.validate import ConformanceLevel, validate  # noqa: E402

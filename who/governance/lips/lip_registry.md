@@ -1,7 +1,7 @@
 ---
 type: registry
 created: 2026-07-02
-updated: 2026-10-15
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 tags: [lip, governance, registry, canvas, authority_axis, production_axis, plumbline, lip_0011, sync_semantics]
 icon: list
@@ -31,7 +31,7 @@ numbers.
 | [[lip_0008_derived_surface_pure_metadata\|LIP-0008]] | Derived Surfaces as Pure Metadata (Canvas `panel_link` A-5 relaxation) | Standard | Final | v2.3.0 | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0009_canvas_as_primitive\|LIP-0009]] | Canvas as a First-Class aDNA Primitive (evaluation) | Standard | Final (Option V) | — (no core change) | Stanley Bishop (Mondrian-drafted) | 2026-06-20 |
 | [[lip_0010_assessment_diagrammatic_context\|LIP-0010]] | Diagrammatic context — the `authority`/`production` axis split (assessment → Standard proposal → **A-8**) | Standard | **Final** — Option D, §7.7 signed + implemented + cut 2026-09-11 (Gridline P1); **2 operator errata** (A1 asymmetric rule · A2 `interaction` back-fill) | **v2.4.0 (CUT)** | Stanley Bishop (Mondrian-drafted) | 2026-09-11 |
-| [[lip_0011_sync_semantics\|LIP-0011]] | Sync semantics — `sync_hash` = topology (one encoding), `sync.source_sha256`, `sync.generator`, A-8 at `extended` (Vernier V-1 (b) · V-2 · V-3) | Standard | **Draft** — §7.7 at `how/gates/lip_0011_signature_20261015`; D-1 open | v2.5.0 (proposed) | Stanley Bishop (Mondrian-drafted) | 2026-10-15 |
+| [[lip_0011_sync_semantics\|LIP-0011]] | Sync semantics — `sync_hash` = topology (one encoding), `sync.source_sha256`, `sync.generator`, A-8 at `extended` (Vernier V-1 (b) · V-2 · V-3) | Standard | **Final** — §7.7 signed 2026-10-15 at `how/gates/lip_0011_signature_20261015` (4/4; **D-1 (i)**, advisory at both tiers) + implemented + cut 2026-10-16 (Vernier P2b, firewall touch #7) | **v2.5.0 (CUT)** | Stanley Bishop (Mondrian-drafted) | 2026-10-16 |
 
 ## Status (Canvas-stewarded)
 
