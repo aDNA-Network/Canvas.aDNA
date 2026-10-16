@@ -2,10 +2,10 @@
 type: doc
 doc_id: canvas_authoring_guidance
 title: "Canvas authoring guidance — the numbers that make a canvas readable in Obsidian"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 status: active
 created: 2026-08-03
-updated: 2026-08-03
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 provenance: "Halftone HV (gap G7). Constants Obsidian-CSS-derived; absorbed with credit from Oration.aDNA canvas_fit_check.py (Robert Kennedy, coord 2026-08-03), validated against two operator-observed failures. Companion code: what/production/canvas_core/text_metrics.py (OBSIDIAN_*) + traps/ + traps/cli.py."
 tags: [doc, canvas, authoring, guidance, visual_fidelity, obsidian, hv]

@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_rlhf_seam
 title: "The RLHF seam — Canvas owns the capture substrate, III owns the signal schema (Lodestar R4.2)"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 interaction_version: "1.0"
 status: accepted
 created: 2026-08-09
-updated: 2026-08-09
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 phase: H6
 campaign_id: campaign_canvas_halftone

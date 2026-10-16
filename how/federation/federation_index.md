@@ -2,10 +2,10 @@
 type: federation_index
 title: "Canvas.aDNA federation index — consumers of the Standard + Canvas's own consumed wrappers"
 created: 2026-08-04
-updated: 2026-09-09
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 status: active
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 source_census: how/campaigns/campaign_canvas_blueprint/artifacts/p3_federation_census_20260908.md
 superseded_census: how/campaigns/campaign_canvas_halftone/missions/artifacts/halftone_federation_census_20260804.md
 tags: [federation, index, wrappers, consumers, canvas_standard]

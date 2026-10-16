@@ -2,12 +2,12 @@
 type: spec
 spec_id: spec_interface_surface
 title: "aDNA Canvas interface-surface contract — a canvas as a human↔AI / human↔human interaction surface (Salon leg 3)"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 interaction_version: "1.0"
 status: ratified
 created: 2026-06-22
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P3
 campaign_id: campaign_canvas_salon
 resolves: "leg-3 interface-surface contract (the third leg of the ADR-000 thesis; greenfield, spec-only per Salon D4)"

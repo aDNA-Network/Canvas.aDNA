@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_context_object
 title: "aDNA Canvas context-object model (D7) — canvas as a first-class context object"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P2
 resolves: D7
 tags: [spec, canvas, context-object, primitive, lip, genesis, p2, d7]

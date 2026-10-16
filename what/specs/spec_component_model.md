@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_component_model
 title: "aDNA Canvas component model (D4) — typed components across all 2D outputs"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 status: ratified
 created: 2026-06-12
-updated: 2026-06-23
-last_edited_by: agent_stanley
+updated: 2026-10-16
+last_edited_by: agent_mondrian
 phase: P2
 resolves: D4
 tags: [spec, canvas, component-model, genesis, p2, d4]

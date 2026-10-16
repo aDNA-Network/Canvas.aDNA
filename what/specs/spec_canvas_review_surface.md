@@ -2,11 +2,11 @@
 type: spec
 spec_id: spec_canvas_review_surface
 title: "Canvas review surface — Meta Bind capture ↔ interaction affordances ↔ the RLHF sinks (Halftone HR)"
-standard_version: "2.4.0"
+standard_version: "2.5.0"
 interaction_version: "1.0"
 status: ratified
 created: 2026-08-04
-updated: 2026-08-09
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 phase: HR
 amendments:
