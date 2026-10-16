@@ -92,12 +92,12 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 4. **`adr_010` (Home.aDNA — Google model layer)** §7.7, pending there, not here.
 5. ✅ **Push GO granted + executed 2026-10-13**: 18 commits → `origin` `e44a9aa..0b4e503`, gitleaks clean, authorship uniform (the 17 asked for + the close commit recording the rulings). ⚠ This line's own correction is **1 unpushed commit**; count with `git rev-list --count @{u}..HEAD`, never `head -N`.
 7. ~~⛩ **`lip_0011_signature_20261015`** (NEW 2026-10-15) — sign LIP-0011 §1–§5 · choose **D-1** (rec (i) advisory at both tiers) · authorise firewall touch #7's eight rows · accept the measured exit-gate deviation (PercySleep). ⛔ **The firewall does not move without this.**~~ ✅ **SIGNED 2026-10-15T23:40Z** at the door (4/4 approve, D-1 (i)); implemented + **v2.5.0 cut 2026-10-16**. *(Struck the day it was discharged.)*
-8. ⛩ **The P2b → P3 phase gate** (NEW 2026-10-16) — P2b's work is complete (mission AAR'd). Approve to open P3 (freshness both ways) and the P4 memo wave carrying the signed LIP.
+8. ~~⛩ **The P2b → P3 phase gate** (NEW 2026-10-16) — P2b's work is complete (mission AAR'd). Approve to open P3 (freshness both ways) and the P4 memo wave carrying the signed LIP.~~ ✅ **APPROVED 2026-10-16** (operator, in chat: a phase gate, never rendered as a door). **P3 is open.**
 6. ~~**`vernier_p1_exit_20261012`** — V-1…V-8 + firewall touch #7 + three GOs~~ ✅ **RULED 2026-10-15**: 9/9 approve, Tier 2 (the web door was dead, F-V-9). P2b unblocked. *(Struck the day it was discharged.)*
 
 ## Current Phase
 
-⛩ **2026-10-16: P2b WORK COMPLETE. LIP-0011 Final, Standard v2.5.0 cut, gate line green. ⛔ HOLD at the P2b → P3 gate (operator).** Four doors still pending (`adr_010` · `adr_011` · `adr_012` · `operator_queue_20260916`; 4/4 on :8767 per `--check-doors`). Pushed 2026-10-16 (`b739b92..5caf4c0`); count unpushed with `git rev-list --count @{u}..HEAD`.
+⛩ **2026-10-16: P2b CLOSED. The P2b → P3 gate was approved by the operator in chat. P3 (freshness both ways) is OPEN, and touch #8 is in its scope (the `conformance.py` residue + queue ③'s two zero-coverage enums, if ruled).** LIP-0011 Final, Standard v2.5.0 cut, gate line green. ~~⛔ HOLD at the P2b → P3 gate (operator).~~ Four doors still pending (`adr_010` · `adr_011` · `adr_012` · `operator_queue_20260916`; 4/4 on :8767 per `--check-doors`). Pushed 2026-10-16 (`b739b92..5caf4c0`); count unpushed with `git rev-list --count @{u}..HEAD`.
 
 ~~⛩ **2026-10-15 (late): P2b obj 1 + 4 done. LIP-0011 drafted and awaiting §7.7 …**~~ The paragraph below is the 10-15 state.
 
