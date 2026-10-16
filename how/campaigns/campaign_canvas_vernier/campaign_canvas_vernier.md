@@ -11,9 +11,9 @@ priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_datum
 created: 2026-09-17
-updated: 2026-10-15
+updated: 2026-10-16
 last_edited_by: agent_mondrian
-status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged) · active, P2 RULED (2026-10-15 — V-1…V-8 + firewall #7 ack + GOs ①②③, 9/9 approve as recommended, taken Tier 2 via AskUserQuestion because the web door was dead in every browser)"
+status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged) · active, P2 RULED (2026-10-15 — V-1…V-8 + firewall #7 ack + GOs ①②③, 9/9 approve as recommended, taken Tier 2 via AskUserQuestion because the web door was dead in every browser) · active, P2b WORK COMPLETE (2026-10-16 — LIP-0011 signed at its door 2026-10-15, 4/4, D-1 (i); firewall touch #7; Standard v2.5.0 cut; the P2b→P3 gate is the operator's)"
 tags: [campaign, canvas, vernier, armor, terminal, bastide, scope_amendment, lip_0011, b14, b18, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
 ---
 
@@ -185,7 +185,7 @@ Terminal's all along; the staging directory's absence from the router is moot.
 | P1 | Dogfood artifact, figures re-derived | — | ✅ 2026-09-17 · **re-derived on the live subject 2026-10-12** |
 | **P1b** | Review + inbox triage + this amendment + the ruling door rendered + interim acks | plan gate (2026-10-12) | ✅ this sitting |
 | **P2** | Rule V-1 … V-8 + the firewall touch at [`how/gates/vernier_p1_exit_20261012`](../../gates/vernier_p1_exit_20261012.html) | **human gate — at the door** | ✅ **2026-10-15** — 9/9 approve, Tier 2 ([record](../../gates/vernier_p1_exit_20261012.output.json)) |
-| **P2b** | **LIP-0011** sync semantics → Standard **v2.5.0** (additive); firewall touch #7; backward-compat **measured on the fleet corpus** | human gate | [mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md) |
+| **P2b** | **LIP-0011** sync semantics → Standard **v2.5.0** (additive); firewall touch #7; backward-compat **measured on the fleet corpus** | human gate | ✅ **work complete 2026-10-16**: LIP-0011 Final, **v2.5.0 cut** ([mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md), completed + AAR) · ⛩ **gate: operator** |
 | P3 | Freshness both ways — gate #9 + `canvas-std check-sync` for third parties | human gate | [mission](missions/mission_vernier_p3_freshness_both_ways.md) |
 | P4 | Doctrine (Principle 4b, n=4) + substantive replies carrying the verdicts + B14/B18 spec text | human gate | [mission](missions/mission_vernier_p4_doctrine_and_memos.md) |
 | **P5** | **Canvas memorialisation research** — context doc, pattern proposal, AILedger offer, our own `graph.canvas` | human gate | [mission](missions/mission_vernier_p5_canvas_memorialisation.md) |
@@ -265,3 +265,24 @@ and for a month the other, looked open and could not be ruled.
 still reads 16 · 15 · 1 (the fleet grew from 654 to 661 files within the hour, and 467/467 carriers agree).
 
 **Next: P2b** ([mission](missions/mission_vernier_p2b_lip_0011_sync_semantics.md)), which drafts LIP-0011 → §7.7 signature → firewall touch #7.
+
+### 2026-10-16 — P2b: LIP-0011 Final, Standard v2.5.0 cut (Mondrian, `session_stanley_20261013_vernier_p2_door_p2b`)
+
+**Signed at the door**, 2026-10-15T23:40Z: `how/gates/lip_0011_signature_20261015.output.json`, 4/4 approve, confidence 4,
+**D-1 = (i)** (the topology check is advisory at both tiers). Basis re-probed at act time: the census re-run under the
+signed rule set showed 1 new failure (PercySleep), the exact price on the door.
+
+**Firewall touch #7**, exactly the eight rows (`2b3b70a` code + tests · `d72e77f` specs): the §1.1 test vector
+`097164175d271fb8` · the separators as escapes · `compute_source_sha256` · hard A-6 `source_sha256`/`sync.generator` ·
+`advisories()` · A-8 at a **declared** `extended` · schema `sync` props · corpus 12 → 15. `canvas_std` 170/10 → **236/22**,
+derived per file. **Outside** (`fe33f10`): CanvasBuilder delegates (F-V-10) · PresentationBuilder → `sync.generator` (F-V-11) ·
+3 artifacts recomputed in place. **Census against the pre-touch baseline:** exactly **1** real-validator verdict change
+(PercySleep); 17 advisories, agreeing with `canvas_std.advisories()`. LIP **Final** (`55ce2a1`) · classified sweep (`44e93bd`).
+
+⚠ **Two corrections, both caught before close.** (1) The mission said "one Terminal canvas, copied". Terminal is private
+and Canvas is public, so the peer cases are **shape-derived** instead (and the first candidate carried an RFC1918 subnet).
+(2) The census's real-validator cross-check printed nothing on its first run: `from canvas_std import validate` returns the
+re-exported function, not the module. ⇒ ***a cross-check that cannot fail looks exactly like a cross-check that passed.***
+
+**Next: the P2b → P3 gate (operator).** After it come P3 (freshness both ways) and the P4 memo wave carrying the signed LIP.
+
