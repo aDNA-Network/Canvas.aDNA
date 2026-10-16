@@ -7,12 +7,60 @@ All notable changes to the reference implementation and the **aDNA Canvas Standa
 - **Standard version** (`STANDARD_VERSION`) — heads each release entry below. History:
   **2.0.0** (Keystone) → **2.0.1** (LIP-queue errata B1/B2/B3) → **2.0.2** (Atelier errata AT-1/AT-2) →
   **[2.1.0 — superseded]** → **2.2.0** (Armature — the leg-3 interaction layer) → **2.3.0** (Beacon B4 — LIP-0008 A-5 relaxation)
-  → **2.4.0** (Gridline P1 — LIP-0010 Option D, the `authority`/`production` axis split).
+  → **2.4.0** (Gridline P1 — LIP-0010 Option D, the `authority`/`production` axis split)
+  → **2.5.0** (Vernier P2b — LIP-0011, sync semantics).
   **2.1.0 was never cut:** LIP-0008 (A-5 "derived surface = pure metadata" relaxation) originally targeted 2.1.0, but
   the Standard jumped 2.0.2 → 2.2.0 at Armature before LIP-0008 reached Final, so the relaxation landed as **2.3.0**
   (Operation Beacon Phase B4) and 2.1.0 is recorded as **superseded** (see `what/decisions/lip_queue_disposition.md`).
 - **Package version** (`__version__`, currently `0.1.0`) — the pip package; advances on its own cadence. The
   `## [0.1.0]` entry below is the **package** skeleton (Keystone E0.1), not a Standard release.
+
+## [2.5.0] — 2026-10-16 (Operation Vernier P2b — LIP-0011: sync semantics)
+
+Firewall touch **#7**, bounded to the eight-row table LIP-0011 names and its §7.7 signature authorised
+(`how/gates/lip_0011_signature_20261015`, 2026-10-15T23:40Z, 4/4 approve, **D-1 = (i)**). Additive: the second
+structural change to the JSON Schema, and again purely additive.
+
+**What this fixes, stated as the thing that was true the day before.** `sync.sync_hash` had a validated *shape* (16
+hex) and no defined *meaning* from v2.0.0 on, and four vaults filled the gap three ways: topology (us, City), the
+source document's bytes (Terminal), the master file's bytes (LatticeProtocol's ADR-018, since amended). All of them
+passed A-6. Inside our own tree there were two topology encodings (F-V-10). The reference line used literal
+U+0001/U+0002 bytes that render as nothing, and a reader copying it off the screen got the wrong hash (F-V-13).
+
+### Added
+- **§1.1 `sync_hash` byte for byte**: `"\x01".join(sorted ids) + "\x02" + "\x01".join(sorted "from->to")`,
+  sha256, first 16 lowercase hex. **Test vector:** `a`, `b`, `a->b` ⇒ `097164175d271fb8`
+  (`tests/test_sync_semantics.py`). In `roundtrip.py` the separators are now escapes. The bytes hashed are
+  unchanged: the vector passes before and after.
+- `roundtrip.compute_source_sha256(path)`, exported: the 64-hex digest of the source's raw bytes (§2).
+- `reserved.validate_sync_fields(sync)` (**hard**, A-6): `sync.source_sha256` is 64 lowercase hex if present, and
+  `sync.generator` is a non-empty string if present (§3.1–§3.2).
+- `reserved.sync_advisories(reserved, doc)` + `validate.advisories(doc, level)`, exported: when `production:
+  generated` and the stored `sync_hash` does not equal the recomputed topology, an **`A-6 (advisory)`** is
+  returned. It is never an error, at either tier (D-1 (i)). `validate()` stays a pass/fail list.
+- `validate.py`: at `extended`, a `_reserved` block that **declares** `conformance_level: "extended"` gets A-8 +
+  the hard sync checks (§5, V-2). Keying on the declaration keeps `core` and undeclared canvases untouched, and it
+  keeps `validate_suite`'s `level_reached` from moving for them.
+- Schema: `$defs.reserved.sync` gains `source_sha256` (`^[0-9a-f]{64}$`) and `generator` (`minLength 1`).
+  `x-standard-version` and `title` → 2.5.0. `$id` is retained (additive; `sync` sets no `additionalProperties`).
+- Corpus **12 → 15**: `extended_terminal_shape` (shape-derived from Terminal's 8; valid with 1 advisory) ·
+  `adna_city_twin_shape` (+ its source file; `source_sha256` verifiable) · `adna_canvas_adr_004` (a byte-copy of
+  ours). The two peer cases are **synthetic in content**, because both peer vaults are private and this repo is
+  public. Manifest gains an optional `expected_advisories` field; `adna_axes` now pins 1, its hand-set hash being
+  exactly what D-1 (ii) would have failed (F-V-12).
+
+### Unchanged, deliberately
+- `RESERVED_KEYS` stays at **11** (`sync.generator` is a property of `sync`, not a key). `test_registry_consistency`
+  is green.
+- The top-level `_reserved.generator` is **deprecated, not invalid** (§4.2; 61 fleet carriers, ours first).
+- `core` validation. Schema enum coverage by the corpus is still **12/40**.
+
+### Not in this touch (outside the signed rows)
+- `conformance.py`: neither the CLI nor `ConformanceReport` prints advisories yet, and the `json_schema()`
+  docstring still says v2.4.0. It was not on the list, so this is residue for the next touch.
+
+Tests **170/10 → 236/22**, derived per file by stash/restore: schema-conformance +3 (one per new canvas) ·
+conformance +3 · fixtures +21 passed / +12 skipped · `test_sync_semantics` +39. Certification **15/15**.
 
 ## [2.4.0] — 2026-09-11 (Operation Gridline P1 — LIP-0010 Option D: the `authority`/`production` axis split)
 

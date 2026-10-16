@@ -14,6 +14,8 @@ x?,y?,width?,height?}], edges:[{id, fromNode, toNode, fromSide?, toSide?, semant
 from __future__ import annotations
 
 import hashlib
+import os
+from pathlib import Path
 from typing import Any
 
 from canvas_std import schema
@@ -28,13 +30,27 @@ _LATTICE_REVERSE = {
 
 
 def compute_sync_hash(doc: dict[str, Any]) -> str:
-    """16-hex SHA-256 over the topology: sorted node ids + sorted ``fromNode->toNode`` pairs (spec §3)."""
+    """16-hex SHA-256 over the topology — the ``sync.sync_hash`` definition (LIP-0011 §1.1, Standard v2.5.0).
+
+    Byte for byte: ``"\\x01".join(sorted node ids) + "\\x02" + "\\x01".join(sorted "from->to" pairs)``, ASCII
+    ``->``, UTF-8, SHA-256, first 16 lowercase hex. Test vector: nodes ``a``, ``b``, edge ``a->b`` ⇒
+    ``097164175d271fb8``. ⛩ F-V-13: until v2.5.0 the separators were written here as *literal* U+0001/U+0002
+    bytes, which render as nothing; read off the screen, the line looked like plain concatenation, and both
+    LIP-0011's first draft and LatticeProtocol's first recompute (F-AC-41) reproduced the wrong hash
+    (``5d3a8a0c81db08d9``). They are escapes now; the bytes hashed did not change.
+    """
     node_ids = sorted(str(n["id"]) for n in doc.get("nodes", []) if isinstance(n, dict) and "id" in n)
     edges = sorted(
         f"{e.get('fromNode')}->{e.get('toNode')}" for e in doc.get("edges", []) if isinstance(e, dict)
     )
-    payload = "".join(node_ids) + "" + "".join(edges)
+    payload = "\x01".join(node_ids) + "\x02" + "\x01".join(edges)  # escapes, never literal control bytes (F-V-13)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
+
+
+def compute_source_sha256(path: str | os.PathLike[str]) -> str:
+    """64-hex SHA-256 of a source document's bytes as read from disk, no normalisation — ``sync.source_sha256``
+    (LIP-0011 §2, Standard v2.5.0). Answers *"has my source moved?"*, verifiable without ``canvas_std``."""
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
 def to_canvas(source: dict[str, Any]) -> dict[str, Any]:

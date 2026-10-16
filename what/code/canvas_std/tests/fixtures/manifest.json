@@ -107,7 +107,39 @@
       "degrades_to": "extended",
       "expected_level_reached": "adna_native",
       "expected_ok": true,
-      "note": "A-8 golden (v2.4.0, LIP-0010 Option D) \u2014 carries authority: dual_channel AND production: generated at once, the state the superseded three-value enum could not express. Both keys present, so it also exercises the two-keys-or-neither co-requirement on its passing side."
+      "note": "A-8 golden (v2.4.0, LIP-0010 Option D) \u2014 carries authority: dual_channel AND production: generated at once, the state the superseded three-value enum could not express. Both keys present, so it also exercises the two-keys-or-neither co-requirement on its passing side. v2.5.0 (LIP-0011 \u00a73.3): its sync_hash is hand-set, so it carries the topology advisory \u2014 the one rule D-1 (i) keeps a warning; under the unsigned D-1 (ii) this fixture would have failed (F-V-12).",
+      "expected_advisories": 1
+    },
+    {
+      "path": "extended_terminal_shape.canvas",
+      "declared_level": "extended",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "extended",
+      "expected_ok": true,
+      "expected_advisories": 1,
+      "note": "v2.5.0 implementer case 1 (LIP-0011 \u00a76, Terminal row). SHAPE-DERIVED from Terminal.aDNA/what/canvas/*.canvas (Vauban; build_canvases.py; the 8 bastide_* canvases, census 2026-10-16), synthetic content: Terminal's repo is private and this one is public, so the shape is reproduced and the content is not. Declares extended, carries authority: view + production: generated (A-8 now runs here, V-2), a top-level `generator` (deprecated, legal, \u00a74.2), and sync_hash = sha256(source bytes)[:16] (Terminal's pre-v2.5.0 semantic) \u2014 valid, with one advisory: stale by \u00a71.1's definition until their one regeneration."
+    },
+    {
+      "path": "adna_city_twin_shape.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "expected_advisories": 0,
+      "source_file": "adna_city_twin_shape.linkml.yaml",
+      "note": "v2.5.0 implementer case 2 (LIP-0011 \u00a76, City row). SHAPE-DERIVED from City.aDNA/what/specs/city_world_model/city_world_model.canvas (Ledoux; local-only vault), synthetic content. A dual-channel twin: topology sync_hash (\u00a71.1) + sync.source_sha256 = sha256 of the sibling source file's bytes (\u00a72) \u2014 the reading V-1 (b) registered from City's own practice. No advisory."
+    },
+    {
+      "path": "adna_canvas_adr_004.canvas",
+      "declared_level": "adna_native",
+      "expected_valid": true,
+      "degrades_to": "extended",
+      "expected_level_reached": "adna_native",
+      "expected_ok": true,
+      "expected_advisories": 0,
+      "note": "v2.5.0 implementer case 3 (LIP-0011 \u00a76, Canvas row). BYTE-COPY of Canvas.aDNA/what/decisions/adr_004_production_code_layout.canvas (ours, public): a hand-authored-prose ADR's dual-channel diagram, production: generated, canvas_std topology. No advisory."
     }
   ]
 }

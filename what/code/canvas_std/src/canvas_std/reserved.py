@@ -16,6 +16,7 @@ import re
 from typing import Any
 
 from canvas_std import schema
+from canvas_std.roundtrip import compute_sync_hash
 
 # The reserved-key namespace (spec_adna_canvas_standard §7.2).
 RESERVED_KEYS: tuple[str, ...] = (
@@ -123,6 +124,7 @@ a schema enum would turn an open, documentary list into a closed one."""
 
 _SEMVER = re.compile(r"^\d+\.\d+\.\d+")
 _HEX16 = re.compile(r"^[0-9a-f]{16}$")
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")  # sync.source_sha256 (v2.5.0, LIP-0011 §2.1)
 
 # Leg-3 interaction layer (spec_interface_surface §3.3/§9.1; wired into the harness at Armature P2 per adr_007).
 # The four affordance kinds partition what a participant can do at a point — a *closed* enum (IX3).
@@ -186,6 +188,7 @@ def validate_reserved(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str
         sh = sync.get("sync_hash")
         if not (isinstance(sh, str) and _HEX16.match(sh)):
             errors.append(f"A-6: sync.sync_hash {sh!r} is not 16 hex chars")
+        errors += validate_sync_fields(sync)
 
     # A-3 / A-5 / A-7
     if "component_types" in reserved:
@@ -207,8 +210,56 @@ def validate_reserved(reserved: dict[str, Any], doc: dict[str, Any]) -> list[str
     return errors
 
 
+def validate_sync_fields(sync: Any) -> list[str]:
+    """A-6 (v2.5.0, LIP-0011 §3.1–§3.2) — the two registered ``sync`` properties, **hard** wherever ``_reserved``
+    is checked (``extended`` and ``adna_native``). Both are optional; each is checked only if present.
+
+    * ``sync.source_sha256`` — 64 lowercase hex: the SHA-256 of the source document's bytes (§2.1).
+    * ``sync.generator`` — a non-empty string, a path or a URN naming what made the canvas (§4.1).
+
+    ``sync_hash``'s 16-hex shape stays in ``validate_reserved`` (it is required there and only there); the
+    *meaning* check, topology consistency, is advisory and lives in ``sync_advisories``.
+    """
+    if not isinstance(sync, dict):
+        return []
+    errors: list[str] = []
+    if "source_sha256" in sync:
+        v = sync["source_sha256"]
+        if not (isinstance(v, str) and _HEX64.match(v)):
+            errors.append(f"A-6: sync.source_sha256 {v!r} is not 64 lowercase hex (LIP-0011 §2.1)")
+    if "generator" in sync:
+        v = sync["generator"]
+        if not (isinstance(v, str) and v.strip()):
+            errors.append(f"A-6: sync.generator {v!r} is not a non-empty string (LIP-0011 §4.1)")
+    return errors
+
+
+def sync_advisories(reserved: Any, doc: dict[str, Any]) -> list[str]:
+    """A-6 topology consistency (v2.5.0, LIP-0011 §3.3) — **advisory at both tiers** (D-1 (i), signed 2026-10-15).
+
+    When ``production: generated``, the stored ``sync.sync_hash`` is compared with ``compute_sync_hash(doc)``.
+    A mismatch is reported here, never as an error: the identity of §1.2 holds only for views that *preserve* the
+    source's nodes and edges, and a MUST would forbid any generator from adding a decorative node — a constraint
+    the fleet was never asked about. Hardening is a later LIP, once the measured advisory count at ``adna_native``
+    is 0. Returned separately from ``validate_reserved``'s errors so that ``validate()`` stays a pass/fail list.
+    """
+    if not isinstance(reserved, dict) or reserved.get("production") != "generated":
+        return []
+    sync = reserved.get("sync")
+    sh = sync.get("sync_hash") if isinstance(sync, dict) else None
+    if not isinstance(sh, str):
+        return []
+    got = compute_sync_hash(doc)
+    if sh == got:
+        return []
+    return [f"A-6 (advisory): sync.sync_hash {sh!r} does not match the recomputed topology {got!r} "
+            "(production: generated) — the canvas is stale against its own nodes/edges, or was hashed with a "
+            "different encoding (LIP-0011 §1.1, §3.3)"]
+
+
 def _validate_axes(reserved: dict[str, Any]) -> list[str]:
-    """A-8 (v2.4.0) — the ``authority`` / ``production`` axes per LIP-0010 Option D.
+    """A-8 (v2.4.0; also at ``extended`` since v2.5.0, LIP-0011 §5) — the ``authority`` / ``production`` axes per
+    LIP-0010 Option D.
 
     Three rules, and the third is **asymmetric** — which is the correction below:
 

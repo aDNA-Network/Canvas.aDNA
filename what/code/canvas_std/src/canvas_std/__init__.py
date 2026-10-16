@@ -10,6 +10,7 @@ from __future__ import annotations
 from canvas_std.conformance import ConformanceReport, json_schema, validate_suite
 from canvas_std.reserved import validate_interaction
 from canvas_std.roundtrip import (
+    compute_source_sha256,
     compute_sync_hash,
     diff,
     from_canvas,
@@ -20,13 +21,14 @@ from canvas_std.roundtrip import (
 from canvas_std.validate import (
     ConformanceLevel,
     ValidationError,
+    advisories,
     degradation_report,
     strip,
     validate,
 )
 
 __version__ = "0.1.0"  # package version
-STANDARD_VERSION = "2.4.0"  # the aDNA Canvas Standard version this package implements (LIP-0010 Option D — the authority/production axis split — cut here, Gridline P1; LIP-0008 A-5 relaxation was 2.3.0 / Beacon B4; interaction_version 1.0 was Armature 2.2.0 / adr_007)
+STANDARD_VERSION = "2.5.0"  # the aDNA Canvas Standard version this package implements (LIP-0011 — sync semantics: sync_hash byte for byte, sync.source_sha256, sync.generator, A-8 at extended — cut here, Vernier P2b; LIP-0010 Option D — the authority/production axis split — was 2.4.0 / Gridline P1; LIP-0008 A-5 relaxation was 2.3.0 / Beacon B4; interaction_version 1.0 was Armature 2.2.0 / adr_007)
 UPSTREAM_BASELINE = "Advanced Canvas v5.6.6 + JSON Canvas 1.0"  # PIN-A (p1_fork_baseline §1)
 
 __all__ = [
@@ -36,12 +38,14 @@ __all__ = [
     "ConformanceLevel",
     "ValidationError",
     "validate",
+    "advisories",
     "validate_interaction",
     "strip",
     "degradation_report",
     "to_canvas",
     "from_canvas",
     "compute_sync_hash",
+    "compute_source_sha256",
     "diff",
     "merge",
     "preserve_positions",

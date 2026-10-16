@@ -234,12 +234,12 @@ def test_interaction_is_registered_in_all_the_places_that_list_the_namespace():
 
 
 # --- the schema half ------------------------------------------------------------------------------
-def test_the_schema_carries_both_enums_and_tracks_2_4_0():
+def test_the_schema_carries_both_enums_and_tracks_the_standard_version():
     schema = json_schema()
     reserved = schema["$defs"]["reserved"]["properties"]
     assert reserved["authority"]["enum"] == ["dual_channel", "view"]
     assert reserved["production"]["enum"] == ["hand_authored", "generated"]
-    assert schema["x-standard-version"] == "2.4.0"
+    assert schema["x-standard-version"] == "2.5.0"  # was 2.4.0 at the A-8 cut; LIP-0011 moved it, the enums did not
 
 
 def test_the_schema_stays_additive_so_older_documents_keep_validating():

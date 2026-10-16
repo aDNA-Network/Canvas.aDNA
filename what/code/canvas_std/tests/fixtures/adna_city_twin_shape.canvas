@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "n_region",
+      "type": "text",
+      "text": "**Region**",
+      "x": 0,
+      "y": 0,
+      "width": 240,
+      "height": 80
+    },
+    {
+      "id": "n_city",
+      "type": "text",
+      "text": "**City**",
+      "x": 0,
+      "y": 160,
+      "width": 240,
+      "height": 80
+    },
+    {
+      "id": "n_building",
+      "type": "text",
+      "text": "**Building**",
+      "x": 0,
+      "y": 320,
+      "width": 240,
+      "height": 80
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_n_region_n_city",
+      "fromNode": "n_region",
+      "fromSide": "bottom",
+      "toNode": "n_city",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "contains"
+    },
+    {
+      "id": "e_n_city_n_building",
+      "fromNode": "n_city",
+      "fromSide": "bottom",
+      "toNode": "n_building",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "contains"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.4.0",
+        "conformance_level": "adna_native",
+        "sync": {
+          "sync_hash": "02e5060e4085d678",
+          "source_name": "adna_city_twin_shape.linkml.yaml",
+          "source_version": "0.3.0",
+          "source_sha256": "b449e3302779c3290ee9d710d8067da8fc8385601a6245db1f1b22b2a2ab203f"
+        },
+        "authority": "dual_channel",
+        "production": "generated"
+      }
+    }
+  }
+}

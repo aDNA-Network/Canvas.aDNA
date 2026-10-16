@@ -1,0 +1,94 @@
+{
+  "nodes": [
+    {
+      "id": "t_title",
+      "type": "text",
+      "text": "# Synthetic design-system view\n**Text twin:** `extended_terminal_shape.source.md`",
+      "x": 0,
+      "y": 0,
+      "width": 640,
+      "height": 100
+    },
+    {
+      "id": "t_tokens",
+      "type": "text",
+      "text": "**Tokens** — background · panel · accent",
+      "x": 0,
+      "y": 160,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "t_glyphs",
+      "type": "text",
+      "text": "**Glyphs** — home · campaign · build",
+      "x": 360,
+      "y": 160,
+      "width": 320,
+      "height": 120
+    },
+    {
+      "id": "t_states",
+      "type": "text",
+      "text": "**States** — empty · loading · stale · error",
+      "x": 180,
+      "y": 340,
+      "width": 320,
+      "height": 120
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_t_title_t_tokens",
+      "fromNode": "t_title",
+      "fromSide": "bottom",
+      "toNode": "t_tokens",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e_t_title_t_glyphs",
+      "fromNode": "t_title",
+      "fromSide": "bottom",
+      "toNode": "t_glyphs",
+      "toSide": "top",
+      "toEnd": "arrow"
+    },
+    {
+      "id": "e_t_tokens_t_states",
+      "fromNode": "t_tokens",
+      "fromSide": "bottom",
+      "toNode": "t_states",
+      "toSide": "top",
+      "toEnd": "arrow",
+      "label": "renders"
+    }
+  ],
+  "metadata": {
+    "frontmatter": {
+      "_reserved": {
+        "adna_version": "2.0.0",
+        "conformance_level": "extended",
+        "sync": {
+          "sync_hash": "399d189048803aea",
+          "source_name": "extended_terminal_shape.source.md",
+          "source_version": "v3 2026-10-07"
+        },
+        "production": "generated",
+        "authority": "view",
+        "semantic_bindings": {
+          "profile": "diagram"
+        },
+        "context_object": {
+          "id": "urn:adna:canvas:fixture:terminal_shape",
+          "version": "0.3.0",
+          "refs": [
+            "[[extended_terminal_shape.source]]"
+          ]
+        },
+        "generator": "what/canvas/build_canvases.py",
+        "title": "Terminal-shaped extended view (synthetic)"
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from canvas_std import schema, strip, validate
+from canvas_std import advisories, schema, strip, validate
 from canvas_std.validate import ConformanceLevel
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -59,6 +59,13 @@ class TestFixtures:
         level = ConformanceLevel(entry["declared_level"])
         errors = validate(doc, level)
         assert (errors == []) is entry["expected_valid"], errors
+
+    def test_advisories_match_expectation(self, entry):
+        # v2.5.0 (LIP-0011 §3.3, D-1 (i)): warnings never fail validation, so they are pinned separately.
+        if "expected_advisories" not in entry:
+            pytest.skip("no advisory expectation declared")
+        got = advisories(_load(entry["path"]), ConformanceLevel(entry["declared_level"]))
+        assert len(got) == entry["expected_advisories"], got
 
     def test_degradation(self, entry):
         if not entry["degrades_to"] or not entry["expected_valid"]:

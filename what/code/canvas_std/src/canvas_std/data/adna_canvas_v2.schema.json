@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://adna-network.org/canvas/v2.0.0/adna_canvas.schema.json",
-  "$comment": "The $id stays pinned to the v2.0.0 path — but as of v2.4.0 the REASON has changed, and the old reason is no longer true. It used to read 'the structural schema is unchanged across 2.0.0–2.3.0': every release through 2.3.0 (including the LIP-0008 A-5 relaxation) was validator-level, so this file was byte-stable. v2.4.0 (LIP-0010 Option D) is the FIRST structural change — it adds two optional enum properties, `authority` and `production`, under $defs.reserved, and BACK-FILLS `interaction`, which has been validated by canvas_std since v2.2.0 but was never recorded in this properties list (F-GL-1: three hand-maintained copies of one namespace, none of them read). The $id is retained because the change is purely ADDITIVE and $defs.reserved sets no additionalProperties:false, so every document valid under the 2.0.0–2.3.0 schema remains valid here: the canonical URL keeps its promise. Semantic and version-specific rules still live in the canvas_std validator, not in this JSON Schema — the A-8 cross-key rule ('authority requires production'; production alone is conformant) is a validator rule. JSON Schema could express it as a one-sided dependentRequired, at the cost of a second enforcement point to keep in sync by hand.",
-  "title": "aDNA Canvas Standard v2.4.0",
+  "$comment": "The $id stays pinned to the v2.0.0 path — but as of v2.4.0 the REASON has changed, and the old reason is no longer true. It used to read 'the structural schema is unchanged across 2.0.0–2.3.0': every release through 2.3.0 (including the LIP-0008 A-5 relaxation) was validator-level, so this file was byte-stable. v2.4.0 (LIP-0010 Option D) is the FIRST structural change — it adds two optional enum properties, `authority` and `production`, under $defs.reserved, and BACK-FILLS `interaction`, which has been validated by canvas_std since v2.2.0 but was never recorded in this properties list (F-GL-1: three hand-maintained copies of one namespace, none of them read). The $id is retained because the change is purely ADDITIVE and $defs.reserved sets no additionalProperties:false, so every document valid under the 2.0.0–2.3.0 schema remains valid here: the canonical URL keeps its promise. Semantic and version-specific rules still live in the canvas_std validator, not in this JSON Schema — the A-8 cross-key rule ('authority requires production'; production alone is conformant) is a validator rule. JSON Schema could express it as a one-sided dependentRequired, at the cost of a second enforcement point to keep in sync by hand. v2.5.0 (LIP-0011) is the second structural change and is again purely additive: $defs.reserved.sync gains two optional properties, `source_sha256` (64 lowercase hex) and `generator` (non-empty string); `sync` sets no additionalProperties:false, so the $id still keeps its promise. What `sync_hash` hashes (LIP-0011 §1.1, byte for byte) and the topology-consistency advisory are validator rules, not schema.",
+  "title": "aDNA Canvas Standard v2.5.0",
   "description": "Structural contract for a .canvas document. Node/edge floor + enums + the _reserved carrier. Semantic checks (toEnd:arrow / C-4, id resolution, sequence-acyclicity, exactly-one-canonical-surface, the A-8 authority-requires-production rule) are performed by the canvas_std validator (validate / validate_suite) — JSON Schema cannot express them.",
-  "x-standard-version": "2.4.0",
+  "x-standard-version": "2.5.0",
   "x-upstream-baseline": "Advanced Canvas v5.6.6 + JSON Canvas 1.0",
   "type": "object",
   "required": ["nodes", "edges"],
@@ -80,7 +80,7 @@
         "conformance_level": { "enum": ["core", "extended", "adna_native"] },
         "sync": {
           "type": "object",
-          "properties": { "sync_hash": { "type": "string" }, "source_name": { "type": ["string", "null"] }, "source_version": { "type": ["string", "null"] } }
+          "properties": { "sync_hash": { "type": "string" }, "source_name": { "type": ["string", "null"] }, "source_version": { "type": ["string", "null"] }, "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }, "generator": { "type": "string", "minLength": 1 } }
         },
         "component_types": { "type": "object" },
         "semantic_bindings": { "type": "object" },

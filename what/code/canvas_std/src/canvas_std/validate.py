@@ -139,13 +139,25 @@ def validate(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.COR
     """Return a list of human-readable errors ([] == valid at ``level``).
 
     Core (C-*) always; Extended (E-*) for Extended/aDNA-Native; aDNA-Native (A-*) for aDNA-Native.
-    The A-* (``_reserved``) layer is implemented at E1.4 — until then aDNA-Native validation raises.
+
+    v2.5.0 (LIP-0011 §5, V-2): at ``extended``, a canvas whose ``_reserved`` block **declares**
+    ``conformance_level: "extended"`` also gets A-8 (``_validate_axes``) and the hard A-6 ``sync`` field checks.
+    The trigger is the declaration, not the level argument, so ``validate_suite`` walking an undeclared/``core``
+    canvas (or an ``adna_native`` one) through EXTENDED is unchanged: ``core`` keeps no ``_reserved`` check at all.
+    Advisories (warn, never fail) come from ``advisories()``, not from this list.
     """
     if not isinstance(doc, dict):
         return ["C-1: document is not a JSON object"]
     errors = _core_checks(doc)
     if level in (ConformanceLevel.EXTENDED, ConformanceLevel.ADNA_NATIVE):
         errors += _extended_checks(doc)
+    if level is ConformanceLevel.EXTENDED:
+        block = _declared_extended_block(doc)
+        if block is not None:
+            from canvas_std import reserved
+
+            errors += reserved._validate_axes(block)
+            errors += reserved.validate_sync_fields(block.get("sync"))
     if level is ConformanceLevel.ADNA_NATIVE:
         from canvas_std import reserved  # A-* checks (spec_conformance_suite §4)
 
@@ -156,6 +168,40 @@ def validate(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.COR
             errors += reserved.validate_reserved(reserved_block, doc)
             errors += reserved.validate_interaction(reserved_block, doc)  # I-* leg-3 overlay (Armature P2, adr_007)
     return errors
+
+
+def _reserved_block(doc: dict[str, Any]) -> Any:
+    md = doc.get("metadata")
+    fm = md.get("frontmatter") if isinstance(md, dict) else None
+    return fm.get("_reserved") if isinstance(fm, dict) else None
+
+
+def _declared_extended_block(doc: dict[str, Any]) -> dict[str, Any] | None:
+    """The canonical ``_reserved`` block iff it is a non-empty dict declaring ``conformance_level: "extended"``."""
+    block = _reserved_block(doc)
+    if isinstance(block, dict) and block and block.get("conformance_level") == "extended":
+        return block
+    return None
+
+
+def advisories(doc: dict[str, Any], level: ConformanceLevel = ConformanceLevel.CORE) -> list[str]:
+    """Warnings that never fail validation (v2.5.0, LIP-0011 §3.3, D-1 (i)) — ``[]`` when there are none.
+
+    Today one rule: a ``production: generated`` canvas whose ``sync.sync_hash`` does not match its recomputed
+    topology. Evaluated where ``_reserved`` is checked: at ``adna_native``, and at ``extended`` for a block that
+    declares ``extended`` (the same trigger as ``validate``). Nothing at ``core``.
+    """
+    if not isinstance(doc, dict):
+        return []
+    from canvas_std import reserved
+
+    if level is ConformanceLevel.ADNA_NATIVE:
+        block = _reserved_block(doc)
+    elif level is ConformanceLevel.EXTENDED:
+        block = _declared_extended_block(doc)
+    else:
+        return []
+    return reserved.sync_advisories(block, doc) if isinstance(block, dict) else []
 
 
 def strip(doc: dict[str, Any]) -> dict[str, Any]:
