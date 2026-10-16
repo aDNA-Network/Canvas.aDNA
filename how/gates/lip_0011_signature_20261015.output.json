@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "lip_0011_signature_20261015",
+  "surface_type": "decision_gate",
+  "interaction_mode": "IM-B",
+  "persona": "neutral",
+  "vault": "Canvas.aDNA",
+  "created_at": "2026-10-15T23:38:37Z",
+  "completed_at": "2026-10-15T23:40:34.469Z",
+  "operator": "stanley",
+  "decisions": [
+    {
+      "id": "lip_0011_spec",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "d1_topology_check",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "firewall_touch_7",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "exit_gate_deviation",
+      "value": "approve",
+      "note": null
+    }
+  ],
+  "composite_decision": "approve",
+  "operator_comment_overall": null,
+  "confidence_score": 4,
+  "axis_scores": null,
+  "axis_avg": null,
+  "agent_ergonomics_seconds": null,
+  "rlhf_signal": {
+    "signal_shape": "structured",
+    "value": {
+      "sections": [
+        {
+          "id": "lip_0011_spec",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "d1_topology_check",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "firewall_touch_7",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "exit_gate_deviation",
+          "value": "approve",
+          "note": null
+        }
+      ],
+      "composite": "approve",
+      "confidence": 4,
+      "axes": null,
+      "ergonomics": null
+    }
+  },
+  "rlhf_signal_type": "accept",
+  "rlhf_session_id": "lip_0011_signature_20261015",
+  "rlhf_captured_at": "2026-10-15T23:40:34.469Z",
+  "rlhf_modification_delta": null,
+  "rlhf_severity_calibration": 0.75,
+  "metadata": {}
+}

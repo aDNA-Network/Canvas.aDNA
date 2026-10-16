@@ -3,20 +3,24 @@ type: lip
 lip_number: "LIP-0011"
 title: "Sync semantics — what `sync.sync_hash` hashes, a full source digest, a provenance carrier, and A-8 at `extended` (v2.5.0)"
 author: "Stanley Bishop (Mondrian-drafted; Canvas.aDNA standard-bearer)"
-status: draft
+status: accepted
 created: 2026-10-15
-updated: 2026-10-15
+updated: 2026-10-16
 requires: ["LIP-0010"]
 replaces: []
 last_edited_by: agent_mondrian
-resolution: "DRAFT — awaiting §7.7 signature at the door how/gates/lip_0011_signature_20261015. Instructed by the Vernier P2 verdicts V-1 (b) · V-2 at extended · V-3 sync.generator (how/gates/vernier_p1_exit_20261012.output.json, ruled 2026-10-15, Tier 2). canvas_std is at diff-0 and stays there until signed."
+resolution: "ACCEPTED — §7.7 signed 2026-10-15T23:40Z at how/gates/lip_0011_signature_20261015 (4/4 approve, confidence 4): §1–§5 as written · D-1 = (i) advisory at both tiers · firewall touch #7 = the eight-row table · exit-gate deviation accepted (PercySleep, memo at P4). Final at the v2.5.0 cut (Vernier P2b obj 2–3)."
 related: ["campaign_canvas_vernier", "mission_vernier_p2b_lip_0011_sync_semantics", "lip_0010_assessment_diagrammatic_context", "spec_roundtrip_protocol_v2", "spec_conformance_suite"]
 tags: [lip, standard, canvas, canvas_standard, sync_hash, source_sha256, sync_generator, a6, a8, extended_tier, vernier, p2b, v250]
 ---
 
 # LIP-0011: Sync semantics — what `sync.sync_hash` hashes
 
-> **Status: draft.** This LIP turns three ruled verdicts into the Standard. The verdicts are not in question
+> **Status: accepted — signed 2026-10-15** at `how/gates/lip_0011_signature_20261015` (record:
+> `.output.json`, 4/4 approve; **D-1 = (i)**). Final at the v2.5.0 cut. *The draft-status paragraph below is kept
+> as written at signing.*
+>
+> ~~**Status: draft.**~~ This LIP turns three ruled verdicts into the Standard. The verdicts are not in question
 > here; they were ruled 2026-10-15 (`how/gates/vernier_p1_exit_20261012.output.json`). What the signature
 > decides is **the shape of the change**, including one sub-question the door deliberately left to this LIP
 > (D-1, §3.3) and one file its firewall list missed (row 6, `validate.py`). `what/code/canvas_std/` is at **git-diff 0** and does not move before §7.7.
@@ -290,16 +294,16 @@ the vault.
 
 ## Status
 
-**draft.** Awaiting §7.7 at `how/gates/lip_0011_signature_20261015`. `canvas_std` is at diff-0.
+**accepted** (2026-10-15). Final at the v2.5.0 cut. ~~**draft.** Awaiting §7.7 at `how/gates/lip_0011_signature_20261015`. `canvas_std` is at diff-0.~~
 
 ### Ratification (§7.7) — required before any firewall touch
 
 | Field | Value |
 |-------|-------|
-| Decision | *(unsigned)* LIP-0011 §1–§5 as written; **D-1** = (i) advisory both tiers *or* (ii) hard at `adna_native`; firewall touch #7 = the eight-row table above, including row 6 (`validate.py`), which is not on the P1-exit list; v2.5.0 |
-| Ratified by | — |
-| Date | — |
-| Status | draft |
+| Decision | LIP-0011 §1–§5 as written; **D-1 = (i)**, advisory at both tiers; firewall touch #7 = the eight-row table above, including row 6 (`validate.py`), which is not on the P1-exit list; exit-gate deviation accepted (PercySleep, one-line memo at P4); v2.5.0 |
+| Ratified by | stanley (operator), at the rendered door `how/gates/lip_0011_signature_20261015` — 4/4 sections `approve`, composite `approve`, confidence 4, no notes |
+| Date | 2026-10-15 (`completed_at` 2026-10-15T23:40:34Z) |
+| Status | accepted |
 
 **What signing does not do.** It does not mandate `source_sha256` or `sync.generator` on any canvas. It does not
 migrate anyone's tree; every row of §6 that says *theirs* is a memo, not a write. It does not reopen V-1…V-3.

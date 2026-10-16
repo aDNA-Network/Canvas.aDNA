@@ -5,8 +5,10 @@ LIP-0011 turns three P2 verdicts into the Standard (record: `how/gates/vernier_p
 
   V-1 (b)  `sync.sync_hash` stays the 16-hex TOPOLOGY digest (`canvas_std.roundtrip.compute_sync_hash`) and the
            Standard registers `sync.source_sha256` (64 lowercase hex, sha256 of the source document's bytes).
-           Proposed A-6 additions: `source_sha256` well-formed when present; when `production: generated`, the
-           topology is recomputed and compared — ADVISORY at `extended`, HARD at `adna_native`.
+           A-6 additions: `source_sha256` well-formed when present; when `production: generated`, the topology is
+           recomputed and compared — ADVISORY at both tiers (**D-1 (i), signed 2026-10-15** at
+           `how/gates/lip_0011_signature_20261015`). The unsigned alternative, D-1 (ii) (HARD at `adna_native`), is
+           still counted, on one informational line, so the price of hardening later stays measured.
   V-2      A-8 (`_validate_axes`) runs at `extended` too, whenever a `_reserved` block is present.
   V-3      `sync.generator` (non-empty string: a path or URN) registered as the provenance carrier.
 
@@ -31,9 +33,16 @@ validator does not read it at all.
 
 Inherits gate_manifest.py's traps: absolute paths only, never chdir()s.
 
+After the firewall touch the real validator already contains the signed rules, so CURRENT == PROPOSED and "new
+failures" reads 0 by construction. The post-touch claim is therefore made with `--baseline`: save `--json` BEFORE the
+touch, re-run AFTER it with `--baseline <that file>`, and the script prints every canvas whose REAL-validator verdict
+changed. The signed claim is that exactly one changes (PercySleep `percy_topology.canvas`, the V-2 price). Where the
+installed validator exposes `advisories()`, its advisory set is cross-checked against this script's candidate set.
+
 Usage:
     python3 how/gates/sync_semantics_census.py          # summary · per-implementer table · new-failure list
     python3 how/gates/sync_semantics_census.py --json   # machine-readable
+    python3 how/gates/sync_semantics_census.py --baseline pre.json   # + verdict changes since a saved --json run
 Exit: 0 = no new failures · 1 = at least one new failure (the LIP must say so) · 4 = precondition fault.
 """
 
@@ -59,6 +68,7 @@ IMPLEMENTERS = ("Terminal.aDNA", "City.aDNA", "LatticeProtocol.aDNA", "Home.aDNA
 
 sys.path.insert(0, str(SRC))  # the in-tree validator, never an installed copy
 try:
+    from canvas_std import validate as _validate_mod  # noqa: E402
     from canvas_std.reserved import _validate_axes  # noqa: E402
     from canvas_std.roundtrip import compute_sync_hash  # noqa: E402
     from canvas_std.validate import ConformanceLevel, validate  # noqa: E402
@@ -70,8 +80,8 @@ _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _LEVELS = {lv.value: lv for lv in ConformanceLevel}
 
 
-def _proposed_extra(r: dict, doc: dict, level: str) -> tuple[list[str], list[str], bool | None]:
-    """Candidate LIP-0011 rules → (hard errors, advisories, topology_match-or-None)."""
+def _proposed_extra(r: dict, doc: dict, level: str, d1: str = "i") -> tuple[list[str], list[str], bool | None]:
+    """LIP-0011 rules → (hard errors, advisories, topology_match-or-None). ``d1`` = "i" (signed) or "ii" (counted)."""
     hard: list[str] = []
     adv: list[str] = []
     sync = r.get("sync") if isinstance(r.get("sync"), dict) else {}
@@ -88,7 +98,7 @@ def _proposed_extra(r: dict, doc: dict, level: str) -> tuple[list[str], list[str
         topo = sync["sync_hash"] == compute_sync_hash(doc)
     if r.get("production") == "generated" and topo is False:
         msg = "A-6: sync.sync_hash does not match the recomputed topology (production: generated)"
-        (hard if level == "adna_native" else adv).append(msg)
+        (hard if (d1 == "ii" and level == "adna_native") else adv).append(msg)
     return hard, adv, topo
 
 
@@ -165,6 +175,10 @@ def census() -> dict:
                 lvl = r.get("conformance_level") if r.get("conformance_level") in _LEVELS else "core"
                 cur = validate(d, _LEVELS[lvl]) if where == "canonical" else validate(d, ConformanceLevel.CORE)
                 hard, adv, topo = _proposed_extra(r, d, lvl) if where == "canonical" else ([], [], None)
+                hard_ii = _proposed_extra(r, d, lvl, "ii")[0] if where == "canonical" else []
+                real_adv = None  # the installed validator's own advisories, once the touch exposes them
+                if where == "canonical" and hasattr(_validate_mod, "advisories"):
+                    real_adv = _validate_mod.advisories(d, _LEVELS[lvl])
                 sync = r["sync"] if has_sync else {}
                 rows.append({
                     "has_sync": has_sync, "encoding": _encoding(sync, d),
@@ -174,6 +188,7 @@ def census() -> dict:
                     "has_top_generator": "generator" in r, "topology_match": topo,
                     "current_ok": not cur, "current_errors": cur,
                     "proposed_ok": not cur and not hard, "proposed_hard": hard, "advisories": adv,
+                    "proposed_ok_d1_ii": not cur and not hard_ii, "real_advisories": real_adv,
                 })
     heads = {t: _head(ROOT / t) for t in IMPLEMENTERS if (ROOT / t).is_dir()}
     return {"counts": dict(c), "symlinks_skipped": symlinks, "rows": rows, "heads": heads}
@@ -186,6 +201,7 @@ def _bucket(top: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--baseline", type=Path, help="a saved --json run; print real-validator verdict changes since it")
     a = ap.parse_args()
     res = census()
     res["measured_at"] = _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
@@ -233,10 +249,26 @@ def main() -> int:
         print(f"  ✗ {x['path']}  level={x['level']} production={x['production']!r} authority={x['authority']!r}")
         for e in x["proposed_hard"]:
             print(f"      {e[:150]}")
+    new_ii = [x for x in rows if x["current_ok"] and not x["proposed_ok_d1_ii"]]
+    print(f"  (informational: under the unsigned D-1 (ii) the count would be {len(new_ii)})")
     adv = [x for x in rows if x["advisories"]]
-    print(f"advisories (would warn, not fail): {len(adv)}")
+    print(f"advisories (warn, not fail): {len(adv)}")
     for x in adv:
         print(f"  ~ {x['path']}")
+    if any(x["real_advisories"] is not None for x in rows):
+        real = {x["path"] for x in rows if x["real_advisories"]}
+        cand = {x["path"] for x in adv}
+        print(f"real-validator advisories (canvas_std.advisories): {len(real)} · "
+              f"{'agree with the candidate set' if real == cand else 'DISAGREE: ' + str(sorted(real ^ cand))}")
+    if a.baseline:
+        base = {x["path"]: x["current_ok"] for x in json.loads(a.baseline.read_text())["rows"]}
+        changed = [x for x in rows if x["path"] in base and base[x["path"]] != x["current_ok"]]
+        print(f"real-validator verdict changes since {a.baseline.name} ({len(base)} rows then, {len(rows)} now; "
+              f"{sum(x['path'] not in base for x in rows)} new paths, not compared): {len(changed)}")
+        for x in changed:
+            print(f"  {'✓→✗' if base[x['path']] else '✗→✓'} {x['path']}")
+            for e in x["current_errors"]:
+                print(f"      {e[:150]}")
     return 1 if new else 0
 
 
