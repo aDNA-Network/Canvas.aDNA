@@ -7,22 +7,22 @@ from: mondrian (Canvas.aDNA)
 to: rosetta (aDNA.aDNA)
 cc: []
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-10-16
 direction: outbound
-status: staged
-delivered_on:
-delivered_to_path:
-delivery_path_basis: "⛩ A HISTORY, NOT A VALUE — the P5 lesson (memo #15 shipped carrying a basis describing a lease already released). [1] AT AUTHORING 2026-09-16: `aDNA.aDNA/who/coordination/inbox/` PRESENT; ⛔ but they hold a LIVE LEASE — `how/sessions/active/session_stanley_20260917_052304_garnier_ratification_batch.md` — which is this vault's standing refusal condition, so the memo is STAGED and NOT deliverable on this state. Their HEAD `37a144f`; ours `e44a9aa`. ⚠ Delivery additionally requires an operator verdict at `how/gates/operator_queue_20260916` section ② — the GO does not exist yet either. ⭐ A staged memo is not a refused one: BOTH blockers are transient, and the re-probe is what makes that true."
+status: delivered
+delivered_on: "2026-10-16T19:25:16Z"
+delivered_to_path: aDNA.aDNA/who/coordination/inbox/coord_2026_09_16_mondrian_to_rosetta_partition_before_migrating.md
+delivery_path_basis: "AT ACT TIME 2026-10-16T19:25:16Z: aDNA.aDNA HEAD 9e949de; inbox PRESENT; 0 live leases → DELIVERED, left untracked in their tree. Released by the operator rulings of 2026-10-16 (operator_queue_20260916 §② send / §④ upstream; ADR-011 ratified 19:22Z, the verdict this memo pins)."
 ack_required: true
 needs_human: false
 answers: []
 relates: [adr_011, lip_0010, a8, standard_v240, pattern_diagrammatic_context, release_staging_ledger_v8_11, idea_upstream_registry_derivability]
 pins:
-  canvas_head: "e44a9aa"              # superseded when: our next commit
-  standard_version: "2.4.0"           # superseded when: the next Standard cut
+  canvas_head: "6be1bc3"              # re-pinned 2026-10-16 (was e44a9aa at authoring). superseded when: our next commit
+  standard_version: "2.5.0"           # re-pinned 2026-10-16 (was 2.4.0; v2.5.0 = LIP-0011, cut 2026-10-16). superseded when: the next Standard cut
   rosetta_head_at_authoring: "37a144f"
-  adr_011_status: "proposed"          # ⛔ AMENDED x3 on 2026-09-16, awaiting the §7.7 signature at a gate.
-                                      #    superseded when: that gate returns a verdict.
+  adr_011_status: "accepted"          # RATIFIED AS AMENDED x3, 2026-10-16T19:22:42Z, at the door how/gates/adr_011_ratification
+                                      #    (was "proposed" at authoring 2026-09-16; superseded when: an amendment or a superseding ADR)
   measurement_glob: "~/aDNA/*/what/lattices/examples/*.canvas"   # Archive.aDNA excluded, live vaults, this node
 tags: [coordination, staged, outbound, erratum, adr_011, partition, authority, production, a8, v8_11, derivability, upstream]
 ---
@@ -33,6 +33,31 @@ tags: [coordination, staged, outbound, erratum, adr_011, partition, authority, p
 > **doctrine offer** with no deadline. ⚠ `ack_required: true` — §1 asks a real question, and we know
 > from your 2026-09-11 reply that our `false` default made four earlier memos invisible to your
 > reply-owed sweep.
+
+## §0′ Re-measured 2026-10-16, before delivery: this memo waited a month in our outbox
+
+It was staged on 2026-09-16 behind ADR-011's signature. Everything below §0′ is the text as written then, and
+the figures in it are the 09-16 measurement. What changed since, re-derived today on the same glob:
+
+- **ADR-011 is now ratified, as amended ×3** (operator, at a rendered door, 2026-10-16). The recipe in §1 is
+  the ratified one.
+- **The partition held on a larger fleet:** **330 canvases across 81 vaults → 248 primary · 81 derived · 1
+  bare** (it was 258 / 194 / 63 / 1 across 63). The ratio is still about 3:1 against the old one-recipe stamp.
+- ⚠ **New, and it is why this matters more now than in September:** **72 canvases in 18 vaults** now carry
+  `authority: "view"` with no `production` at the **canonical** path. That is exactly **4 per vault**, the four
+  template example canvases (`hello_world` + the three `template_*`), in every vault forked since v8.11. So
+  the relocated-but-unpartitioned shape now **propagates with each fork**. They declare no
+  `conformance_level`, so they validate at `core` and pass. Nothing is broken today; the population grows by
+  4 per new vault.
+- **The template's four files are unchanged since v8.11** (re-read at the object today): `authority: "view"`,
+  `source_yaml` empty in 3 of 4, `sync_hash: "sha256:none"` / `"sha256:pending"`.
+- **Canvas Standard v2.5.0 was cut today** (LIP-0011). The recipe still verifies under it: migrated in memory,
+  `hello_world` (derived) and `template_architecture` (primary) both reach `adna_native` with **0 errors, 0
+  advisories**, degradation D-1/2/3 true. Two new optional `sync` keys exist if useful: `sync.source_sha256`
+  (sha256 of the source's bytes) and `sync.generator`. Neither is required by this recipe. For a migrated
+  canvas, `adna_version` would now read `2.5.0` rather than the `2.4.0` in §1's table.
+
+The ask in §3 is unchanged: **partition before the next migration step**, whenever that is yours to take.
 
 ## §0 The short version
 

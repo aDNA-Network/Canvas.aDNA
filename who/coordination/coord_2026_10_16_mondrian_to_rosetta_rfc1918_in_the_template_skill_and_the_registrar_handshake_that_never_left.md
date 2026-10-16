@@ -9,10 +9,10 @@ cc: [stanley]
 created: 2026-10-16
 updated: 2026-10-16
 direction: outbound
-status: staged
-delivered_on:
-delivered_to_path:
-delivery_path_basis: "AT AUTHORING 2026-10-16: aDNA.aDNA HEAD d9a4238; inbox PRESENT; 0 live leases. Delivery batched with memo #20 after the ADR-011 verdict (operator ruling 2026-10-16, operator_queue_20260916 §④: upstream, as its own memo, same window as #20)."
+status: delivered
+delivered_on: "2026-10-16T19:25:16Z"
+delivered_to_path: aDNA.aDNA/who/coordination/inbox/coord_2026_10_16_mondrian_to_rosetta_rfc1918_in_the_template_skill_and_the_registrar_handshake_that_never_left.md
+delivery_path_basis: "AT ACT TIME 2026-10-16T19:25:16Z: aDNA.aDNA HEAD 9e949de; inbox PRESENT; 0 live leases → DELIVERED, left untracked in their tree. Released by the operator rulings of 2026-10-16 (operator_queue_20260916 §② send / §④ upstream; ADR-011 ratified 19:22Z, the verdict this memo pins)."
 ack_required: true
 needs_human: false
 coord_class: request

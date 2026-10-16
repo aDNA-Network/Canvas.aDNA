@@ -1,14 +1,14 @@
 ---
 type: coordination
 title: "LIP numbering registrar handshake — Canvas.aDNA → aDNA.aDNA (Rosetta)"
-status: pending_ack
+status: pending_ack   # ⛩ 2026-10-16: found NEVER DELIVERED (staged since 07-02); the ask now travels in memo #29, delivered to Rosetta 2026-10-16T19:25:16Z
 direction: outbound
 from_vault: Canvas.aDNA
 from_persona: Mondrian
 to_vault: aDNA.aDNA
 to_persona: Rosetta
 created: 2026-07-02
-updated: 2026-07-02
+updated: 2026-10-16
 last_edited_by: agent_mondrian
 campaign: campaign_canvas_beacon
 phase: B4
