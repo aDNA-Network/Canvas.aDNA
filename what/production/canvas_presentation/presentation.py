@@ -417,8 +417,13 @@ class PresentationBuilder(SlideBuilderMixin, PresentationScoringMixin):
         self._apply_theme()
         self._apply_css_classes()
         self._apply_navigation()
+        # F-V-11 (LIP-0011 §4, v2.5.0): provenance lives at `sync.generator`. This builder wrote a top-level
+        # `_reserved.generator` for months, and it is where the 61-canvas fleet habit came from. That key is
+        # deprecated (legal, not invalid); no reader of it exists in this vault, so it is no longer written.
+        sync = self._cb._reserved.get("sync")
+        self._cb._reserved["sync"] = {**(sync if isinstance(sync, dict) else {}),
+                                      "generator": "canvas_presentation.PresentationBuilder"}
         self._cb._reserved.update({
-            "generator": "PresentationBuilder",
             "version": "1.0.0",
             "slide_count": len(self._slides),
             "presentation_type": self.presentation_type,

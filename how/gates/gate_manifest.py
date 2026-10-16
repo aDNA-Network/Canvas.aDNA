@@ -139,9 +139,22 @@ GATES: list[Gate] = [
     # HEAD with the working tree stashed (156/10) and restored (170/10). +14 reconciles as **12
     # parametrized fixture cases + 2 standalone tests** — note the file holds only 3 `def test_`, so
     # counting functions here would have given +3 and looked plausible. Skips unchanged at 10.
-    Gate("canvas_std", "pytest", CODE / "canvas_std", (170, 10)),
+    # 170/10 -> 236/22 at Vernier P2b (2026-10-16): firewall touch #7, LIP-0011 → v2.5.0 (signed 2026-10-15).
+    # DERIVED per file by stash/restore, arithmetic closed before this number was written:
+    #   test_schema_conformance  +3 passed            (one parametrized case per new corpus canvas)
+    #   test_conformance         +3 passed            (likewise)
+    #   test_fixtures            +21 passed / +12 skipped — 72 → 105 cases: the 3 new fixtures × the 6 old
+    #                            checks = 18 (17 pass; the extended Terminal-shape fixture skips the native-only
+    #                            check) + the new advisory check × 15 fixtures = 15 (4 pass, 11 declare no
+    #                            expectation and skip). 17 + 4 = 21 · 1 + 11 = 12.
+    #   test_sync_semantics      +39 passed           (17 `def test_`, parametrized to 39 — counting
+    #                            functions would have given 17 and looked plausible)
+    #   ⇒ 170 + 3 + 3 + 21 + 39 = 236 · 10 + 12 = 22.
+    Gate("canvas_std", "pytest", CODE / "canvas_std", (236, 22)),
     # 11 -> 12: the A-8 golden `adna_axes.canvas` joined the corpus at Gridline P1.
-    Gate("certification", "certify", CODE / "canvas_std", (12, 0),
+    # 12 -> 15 at Vernier P2b (2026-10-16): LIP-0011's three implementer cases (Terminal-shape ·
+    # City-twin-shape · Canvas `adr_004`), per the P2b mission's exit gate.
+    Gate("certification", "certify", CODE / "canvas_std", (15, 0),
          note="certify.py --json; 'passed' is fixtures agreeing with the corpus"),
     # 1035 -> 1040 at Plumbline P1 (2026-09-11): +5 in test_conform.py for the authority/production
     # split. Investigated before editing, per this file's own rule — the delta was DERIVED by running
@@ -164,9 +177,12 @@ GATES: list[Gate] = [
     # have been a P0 finding. ⇒ a pinned passed/skipped split is a claim about the runner, not about
     # the code — the sibling of this file's declared runner-environment preconditions, except that
     # those are declared and checked and this one was neither.
-    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1040, 3), env_skips=1,
+    # 1043 -> 1045 total at Vernier P2b (2026-10-16): +2 `test_core.py::TestSyncHashIsTheStandards` (F-V-10,
+    # CanvasBuilder now delegates to canvas_std.compute_sync_hash). Two plain functions, measured 1041/4.
+    Gate("canvas_core", "pytest", PRODUCTION / "canvas_core", (1042, 3), env_skips=1,
          env_reason="test_live_window_probe_is_title_pinned skips unless Obsidian is open on this vault"),
-    Gate("canvas_presentation", "pytest", PRODUCTION / "canvas_presentation", (57, 2),
+    # 57 -> 58 at Vernier P2b (2026-10-16): +1 `test_provenance_is_sync_generator` (F-V-11).
+    Gate("canvas_presentation", "pytest", PRODUCTION / "canvas_presentation", (58, 2),
          note="added 2026-09-10 — was never in a STATE gate line; found by this file's own "
               "discovery check on its first run"),
     Gate("canvas_context", "pytest", CODE / "canvas_context", (58, 0),

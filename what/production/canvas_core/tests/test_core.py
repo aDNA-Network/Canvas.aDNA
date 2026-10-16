@@ -122,6 +122,27 @@ class TestBuildAndSaveRoundTrip:
             assert len(data["edges"]) == 1
 
 
+class TestSyncHashIsTheStandards:
+    """F-V-10 (LIP-0011 §1.1, v2.5.0): one topology encoding, the Standard's, not a JSON re-serialisation."""
+
+    def test_builder_hash_equals_canvas_std(self):
+        from canvas_std import compute_sync_hash
+
+        cb = CanvasBuilder(name="sync")
+        cb.add_text_node(id="a", text="A", x=0, y=0)
+        cb.add_text_node(id="b", text="B", x=0, y=200)
+        cb.add_edge(id="e1", from_node="a", to_node="b")
+        doc = cb.build()
+        assert cb.compute_sync_hash() == compute_sync_hash(doc)
+        assert doc["metadata"]["frontmatter"]["_reserved"]["sync_hash"] == compute_sync_hash(doc)
+
+    def test_the_normative_test_vector(self):
+        cb = CanvasBuilder(name="vector")
+        cb._nodes = [{"id": "a"}, {"id": "b"}]
+        cb._edges = [{"fromNode": "a", "toNode": "b"}]
+        assert cb.compute_sync_hash() == "097164175d271fb8"
+
+
 class TestValidate:
     """Smoke: validate() returns a list (errors or empty)."""
 

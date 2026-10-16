@@ -19,7 +19,6 @@ Part of campaign_advanced_canvas Phase 1 (M2).
 
 from __future__ import annotations
 
-import hashlib
 import json
 import math
 import secrets
@@ -39,6 +38,7 @@ from typing import Any
 # Requires `adna-canvas-std` importable (editable install:
 # `pip install -e ~/aDNA/Canvas.aDNA/what/code/canvas_std`). Rollback = revert this commit.
 from canvas_std import schema as _canvas_std_schema  # DEPRECATED_STUB Canvas.aDNA
+from canvas_std import compute_sync_hash as _canvas_std_sync_hash  # F-V-10: one topology encoding
 
 warnings.warn(
     "The aDNA Canvas Standard floor embedded in canvasforge.canvas_core (VALID_* enums, "
@@ -790,17 +790,16 @@ class CanvasBuilder:
         return errors
 
     def compute_sync_hash(self) -> str:
-        """Compute topology-based sync hash (G3).
+        """Compute topology-based sync hash (G3) — a thin delegate to ``canvas_std.compute_sync_hash``.
 
-        Hash covers sorted node IDs and sorted edge connections.
-        Used to detect YAML<->canvas divergence.
+        Hash covers sorted node IDs and sorted edge connections. Used to detect YAML<->canvas divergence.
+
+        ⛩ F-V-10 (Vernier P2b, 2026-10-16): this method used to hash ``json.dumps({"nodes": …, "edges": …},
+        sort_keys=True)`` — the same topology as the Standard, serialised differently, so a **different digest**.
+        Every RLHF board built here carried a ``sync_hash`` that no ``canvas_std`` reader could reproduce. The
+        Standard names one encoding (LIP-0011 §1.1, v2.5.0); this delegates to it rather than restating it.
         """
-        topology = {
-            "nodes": sorted(n["id"] for n in self._nodes),
-            "edges": sorted(f"{e['fromNode']}->{e['toNode']}" for e in self._edges),
-        }
-        raw = json.dumps(topology, sort_keys=True).encode()
-        return hashlib.sha256(raw).hexdigest()[:16]
+        return _canvas_std_sync_hash({"nodes": self._nodes, "edges": self._edges})
 
     # --- Position Preservation (G1) ---
 

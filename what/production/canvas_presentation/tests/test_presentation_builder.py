@@ -32,6 +32,14 @@ class TestPresentationBuilder:
         assert len(canvas["nodes"]) >= 4  # 2 groups + interior nodes
         assert len(pb.slides) == 2
 
+    def test_provenance_is_sync_generator(self):
+        # F-V-11 (LIP-0011 §4, v2.5.0): provenance at sync.generator; the top-level key is no longer written.
+        pb = PresentationBuilder(name="prov")
+        pb.add_title_slide("Title")
+        reserved = pb.build()["metadata"]["frontmatter"]["_reserved"]
+        assert reserved["sync"]["generator"] == "canvas_presentation.PresentationBuilder"
+        assert "generator" not in reserved
+
     def test_all_16_slide_types(self):
         pb = PresentationBuilder(name="all_types")
         pb.add_title_slide("Title")
