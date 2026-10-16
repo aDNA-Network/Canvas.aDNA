@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "gate_id": "operator_queue_20260916",
+  "surface_type": "decision_gate",
+  "interaction_mode": "IM-B",
+  "persona": "neutral",
+  "vault": "Canvas.aDNA",
+  "created_at": "2026-10-16T17:17:40Z",
+  "completed_at": "2026-10-16T17:20:58.026Z",
+  "operator": "stanley",
+  "decisions": [
+    {
+      "id": "mermaid_trust",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "memo_20",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "corpus_coverage",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "l1_rfc1918",
+      "value": "approve",
+      "note": null
+    },
+    {
+      "id": "f_dt_8",
+      "value": "approve",
+      "note": null
+    }
+  ],
+  "composite_decision": "approve",
+  "operator_comment_overall": null,
+  "confidence_score": 4,
+  "axis_scores": null,
+  "axis_avg": null,
+  "agent_ergonomics_seconds": null,
+  "rlhf_signal": {
+    "signal_shape": "structured",
+    "value": {
+      "sections": [
+        {
+          "id": "mermaid_trust",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "memo_20",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "corpus_coverage",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "l1_rfc1918",
+          "value": "approve",
+          "note": null
+        },
+        {
+          "id": "f_dt_8",
+          "value": "approve",
+          "note": null
+        }
+      ],
+      "composite": "approve",
+      "confidence": 4,
+      "axes": null,
+      "ergonomics": null
+    }
+  },
+  "rlhf_signal_type": "accept",
+  "rlhf_session_id": "operator_queue_20260916",
+  "rlhf_captured_at": "2026-10-16T17:20:58.026Z",
+  "rlhf_modification_delta": null,
+  "rlhf_severity_calibration": 0.75,
+  "metadata": {}
+}
