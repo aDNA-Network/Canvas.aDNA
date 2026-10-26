@@ -11,7 +11,7 @@ mission_class: implementation
 executor_tier: sonnet
 token_budget_estimated: "~120k"
 created: 2026-10-12
-updated: 2026-10-16
+updated: 2026-10-26
 last_edited_by: agent_mondrian
 tags: [plan, campaign, vernier, freshness]
 ---
@@ -50,6 +50,8 @@ Gate line reads `dual-channel freshness N/N (source · rebuild)`; `canvas-std ch
 - Standing rules: phase gates are human gates · firewall touches named file-by-file before the signature · every figure re-derived before it is written · state the population on the face of the number.
 
 ## Notes
+
+- **2026-10-26 (Mondrian, unattended, Automator N2-19): objective 1 DESIGNED, proposed.** [`p3_obj1_touch_8_design_20261026.md`](../artifacts/p3_obj1_touch_8_design_20261026.md) has the `check-sync` contract (topology · source legs, each printing its blind spot; exit 2 when no leg ran), touch #8 in nine rows, and three door decision points (D-1 home · D-2 topology advisory · D-3 no LIP). ⛩ **Exit-gate dependency found:** "Terminal's 8 pass from outside their tree" can be met in P3 only if D-2 makes the topology leg advisory. Terminal measured 0/8 topology at P1 and migrates once, after P4. Objective 2 (the gate #9 source leg) needs no signature and can run before the door. Nothing in `canvas_std` moved, and the door is not rendered yet.
 
 ## Completion Summary
 
