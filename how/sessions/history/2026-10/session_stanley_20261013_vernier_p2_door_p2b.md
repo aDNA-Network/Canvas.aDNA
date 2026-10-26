@@ -3,12 +3,15 @@ type: session
 session_id: session_stanley_20261013_vernier_p2_door_p2b
 tier: 2
 created: 2026-10-13
-updated: 2026-10-25
-status: completed
+updated: 2026-10-26
+status: abandoned
+status_was: "completed (the station's stale close, ae1e2b8, 2026-10-25)"
+abandoned_under: "how/sessions/AGENTS.md:54 (Tier 2: heartbeat >8 h = auto-abandoned). Applied by this desk 2026-10-26; see the dated note at the foot"
+lease_abandoned_at: "2026-10-17T03:27Z (8 h after the last commit f0c2c44, 2026-10-16T19:27Z; the file carried no heartbeat field)"
 completed: 2026-10-25T17:10:00-07:00
 closed_stale_by: agent_berthier_automator
 closed_stale_under: "Automator.aDNA how/orders/orders_sprint_20261026.md row D0-9, the commander's CL-7 word (Automator decision log row 9242)"
-last_edited_by: agent_berthier_automator
+last_edited_by: agent_mondrian
 agent: mondrian
 operator: stanley
 campaign: campaign_canvas_vernier
@@ -78,3 +81,13 @@ plan: ~/.claude/plans/please-read-the-claude-md-enumerated-cloud.md (2026-10-16;
 ## Next Session Prompt
 
 You are Mondrian in Canvas.aDNA. This lease was closed stale on 2026-10-25 by the Automator duty-officer station. Nothing else in the graph was touched. Start at `STATE.md` (Operation Vernier, P3 open per the 10-16 log). Take in the five untracked inbox memos named above: Aldus ×2, Schulten's four-persona conformance copy, and Rosetta ×2. Receipt them byte-unchanged per house practice. Run `python3 how/gates/gate_manifest.py --markdown` before claiming the gate line. `master` is 7 commits ahead of origin, and the push is the operator's GO.
+
+## Dated note — 2026-10-26, Mondrian (this vault's own rule applied)
+
+*(agent_mondrian, `session_stanley_20261026_001833_n2_19_hygiene`, Automator Night 2 row N2-19.)* The station's close above is kept as written. This note applies this vault's own rule for an abandoned lease to it.
+
+- **The rule.** `how/sessions/AGENTS.md:54`: a Tier 2 session whose heartbeat is more than 8 h old is auto-abandoned. Standing Order 6 says to set `status: abandoned` and remove nothing.
+- **The reading.** This was a Tier 2 session with no `heartbeat` field. Its last log line is 2026-10-16T19:22Z, and its last commit is `f0c2c44` at 2026-10-16T19:27Z (VERIFIED, git log). The lease therefore lapsed under the rule at 2026-10-17T03:27Z, and it sat in `active/` for nine days after that. The station says it held its acts on this graph nine times because of this lease (REPORTED, N2-19 brief).
+- **What was abandoned is the lease, not the work.** Every log line through 19:22Z landed in a commit. The session never ran its own close (SITREP, Next Session Prompt, move to history). The station did that on 2026-10-25. `status: abandoned` is the rule's word for that. The station's `completed` is kept as `status_was`.
+- **What this desk did with the close's prompt.** It receipted the five inbox memos byte-unchanged (`b63b971`). The 10-25 gate line was not re-run tonight, so no gate claim is made here.
+- ⇒ ***A session that ends without closing holds the lease until someone else closes it, and every watcher reads that lease as live.*** Proposed practice, not ruled: close a session in the sitting that does its work. If a session must stay open for a pending door, give it a `heartbeat` and renew it within 8 h, or close it and let the door's own record carry the wait.
