@@ -12,7 +12,8 @@ objective: 2
 executor_tier: opus
 authored_in: session_stanley_20261026_011316_n2_j_p3_obj2 (unattended; Automator Night 2, judgement grant N2-J)
 seat_verdict: "UNSOUND, 2026-10-26T01:44-07:00. One read-only opus seat that did not build; 1 blocking finding (text-only), 8 non-blocking. The text it read is commit f4c6b32"
-revision: "Revised after the seat (this version). The seat's findings are applied as text in §2-§6 and recorded in §8. NOT re-reviewed: build only after a fresh seat reads this revision sound"
+revision: "Revised after the seat (5c018ce). The seat's findings are applied as text in §2-§6 and recorded in §8. ~~NOT re-reviewed: build only after a fresh seat reads this revision sound~~ Re-reviewed 2026-10-26 08:24 by a fresh seat at f817de9: SOUND, 6 non-blocking, applied as text and recorded in §9"
+seat_verdict_2: "SOUND, 2026-10-26T08:24-07:00. A fresh read-only opus seat that did not build; 0 blocking, 6 non-blocking. The text it read is commit f817de9"
 rulings: "D-O2-7 RULED 2026-10-26, stands as recommended (his morning word 08:02, Automator RULED row 11112). The rest of the card is still proposed and needs a fresh seat before any row is built"
 binds: "nothing. No signature is needed: every row is outside the firewall (what/code/canvas_std/ stays at diff 0). Nothing here is built"
 tags: [vernier, p3, gate_9, dual_channel_freshness, source_leg, f_v_16, card, proposed, blind_spot, seat_unsound]
@@ -20,6 +21,8 @@ tags: [vernier, p3, gate_9, dual_channel_freshness, source_leg, f_v_16, card, pr
 
 # P3 objective 2: gate #9 gains its source leg, and each leg names what it cannot see
 
+> ✅ **2026-10-26 08:24: a fresh seat read the revision (at `f817de9`) SOUND** (0 blocking, 6 non-blocking; §9). Its findings are applied as text before the build.
+>
 > ⛔ **The reviewer seat read the first version of this card UNSOUND** (2026-10-26 01:44; the text it read is `f4c6b32`). Its one blocking finding: neither leg reads the prose channel, and the card never said so. Under the brief of this sitting, objective 2 stops at this card. The findings are applied below as text. **This revision has not been re-reviewed.** The next sitting seats a fresh reviewer over it before any row is built.
 
 The N2-19 sitting held this card at 0.80 R (its surety 5): the law allowed it, but it re-pins the gate line and needs a full run on a machine at 20%. It is the objective 2 draft that sitting pointed at (obj 1 design §4), re-derived at HEAD `be15ce4` on 2026-10-26 01:1x-01:2x. Every figure below names its probe.
@@ -53,7 +56,7 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
 
 **What prints.**
 - The run prints one line per leg after the table on every run, green or red. Each line names its count, its role and its blind spot, and ends `prose channel: neither leg reads it`.
-- The pasted gate line names its population on its face: `dual-channel freshness **f/n** (yaml source s/n · rebuild r/n; prose unread)`. Here `f` counts passing pairs. A red gate keeps the existing ` ⛔ FAIL` suffix. This departs from the Exit Gate's literal `(source · rebuild)` only by stating what "source" is; the door or the next seat may rule the shorter form instead.
+- The pasted gate line names its population on its face: `dual-channel freshness **f/n** (yaml source s/n · rebuild r/n; prose unread)`. Here `f` counts passing pairs, and `s` and `r` count the pairs on which that leg **read fresh** (a leg that could not run is not fresh, and is counted apart on the always-printed lines; second seat #3). A red gate keeps the existing ` ⛔ FAIL` suffix. This departs from the Exit Gate's literal `(source · rebuild)` only by stating what "source" is; the door or the next seat may rule the shorter form instead.
 
 ## 3. The rows (all outside the firewall; no signature needed)
 
@@ -62,8 +65,8 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
 | 1 | `what/production/diagram_generator/src/diagram_generator/consume.py` | `build_diagram(d, *, source_sha256=None)`. When given, set `_reserved.sync.source_sha256`. Without it the output is byte-identical to today, so every existing caller and test is unchanged |
 | 2 | `what/production/diagram_generator/src/diagram_generator/__main__.py` | The CLI passes `canvas_std.compute_source_sha256(<input>)`, the Standard's one definition (touch #7), not a second copy |
 | 3 | `what/production/diagram_generator/tests/test_cli_source_digest.py` (new) | The CLI's digest equals `compute_source_sha256(input)`. The stamped canvas validates at `adna_native`. The digest is the only difference from `build_diagram` without it. A comment-only source edit moves the digest and nothing else |
-| 4 | `how/gates/gate_manifest.py` | Gate #9 as in §2. The leg logic moves into helpers that take a pair list, so the probe in §5 runs it over planted pairs and never over the vault. A new flag, `--probe-freshness` (runs no suites). `PRODUCER_EXPECT["diagram_generator"]` re-pinned to the **measured** figure, derived in the comment as house practice requires |
-| 5 | `what/context/context_canvas_surface_legs.canvas` · `what/decisions/adr_004_production_code_layout.canvas` | Regenerated with the gate's own build command. Both are byte-equal to a rebuild at HEAD today (VERIFIED, `cmp`, 01:2x), so the diff should be exactly the one added key per file. That is checked, not assumed |
+| 4 | `how/gates/gate_manifest.py` | Gate #9 as in §2. The leg logic moves into helpers that take a pair list, so the probe in §5 runs it over planted pairs and never over the vault. A new flag, `--probe-freshness` (runs no suites). `PRODUCER_EXPECT["diagram_generator"]` re-pinned to the **measured** figure, derived in the comment as house practice requires. The reporter is rewritten with it (`markdown_gate_line`'s gate #9 branch, which today prints `checked - meta["stale"]`, and the `meta` the scorer fills): a pair stale on the source and fresh on the rebuild must not raise the stale count (second seat #4) |
+| 5 | `what/context/context_canvas_surface_legs.canvas` · `what/decisions/adr_004_production_code_layout.canvas` | Regenerated with the gate's own build command. Both are byte-equal to a rebuild at HEAD today (VERIFIED, `cmp`, 01:2x), so the diff should be exactly the one added key per file. That is checked, not assumed, on the **parsed** documents; a text diff shows two lines per file, because the preceding `sync` key gains a comma (second seat #6) |
 
 **Rows 2, 4 and 5 land in one commit** (seat #3), with rows 1 and 3. Split, gate #9 reads red in between: a stamped rebuild against an unstamped view, or a two-leg gate over unstamped canvases.
 
@@ -81,12 +84,13 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
 - **D-O2-4. Both legs run every time.** This follows from the Exit Gate's *"the two legs can disagree"*, so the earlier version's word "binding" is withdrawn (seat #2). The mission title says "pre-filter". A literal pre-filter (skip the rebuild when the source is fresh) would reopen exactly F-PL-6, which was generator drift under unchanged sources.
 - **D-O2-5 (revised). The pasted line states its population** (rec), in the form given in §2. The inner `·` repeats the line's own separator. Nothing parses the line but the manifest itself (VERIFIED, grep over `*.py`; the seat widened it to `py/sh/js/json/yaml` in Canvas and Automator).
 - **D-O2-6. `sync.generator` is not stamped now** (rec). No leg reads it. It is a later card if a consumer asks.
+- **D-O2-8 (new, the second seat's #2, taken by the builder). A source leg that disagrees with the rebuild's own stamp cannot run.** Under D-O2-7 a broken recompute that always reads stale could never turn the gate red. So the leg's recompute is also compared with the `sync.source_sha256` the rebuild just stamped (the same function on the same bytes, in the runner env). If they differ, the leg is a tool fault: `cannot run`, which fails the pair. This is not the strict alternative: a truly stale digest beside a fresh rebuild still passes, printed.
 - **D-O2-7 (new, seat #2). The verdict follows the authority** (rec): see §2. P1 records the plan-gate ruling as *"source hash as a cheap pre-filter, rebuild-compare as the authority"* (`p1_armor_dogfood.md:122`). The first version failed the gate on any stale leg, which gave the pre-filter a veto. **The strict alternative** (a stale digest beside a fresh rebuild also fails) is defensible, because a stale digest is a false claim that every third-party checker reads. It is one predicate in row 4. ~~The choice is the next seat's to confirm and his to overrule.~~ ⛩ **RULED 2026-10-26: D-O2-7 stands, as recommended** (his morning word, 08:02, Automator RULED row 11112, label verbatim: *"(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"*). **The verdict follows the rebuild, the authority**, and that is the rebuild leg's authority for the building sitting; the strict alternative is not taken. The next seat reviews the card's other text, not this choice. *(Struck text kept, not deleted.)*
 
 ## 5. Tests
 
 - **The producer (row 3):** pytest, inside the `diagram_generator` gate. HEAD measured **53/0** before any edit (VERIFIED, `pytest -q`, 01:2x). The new pin is the measured tree figure, and the delta must reconcile with the new file's cases.
-- **The gate (row 4), `--probe-freshness`:** planted pairs in a temp dir, seeded from a real `.diagram.yaml` and the generator's own stamped build. The **control is in the probe's code**: one case carries a deliberately wrong expectation, and the probe must report it as a mismatch on every run, or exit 1 (seat #5). Each case shows its two leg verdicts and the gate's score for that pair alone, and checks the words of its report (the detail when red, the always-printed leg lines when green):
+- **The gate (row 4), `--probe-freshness`:** planted pairs in a temp dir, seeded from a real `.diagram.yaml` and the generator's own stamped build. The **control is in the probe's code**: one case carries a deliberately wrong expectation, and the probe must report it as a mismatch on every run (seat #5). **The probe exits 0 if and only if every real case matched its expectation and scored as expected, and the control mismatched; otherwise it exits 1** (restored from the first version; second seat #1). Each case shows its two leg verdicts and the gate's score for that pair alone, and checks the words of its report (the detail when red, the always-printed leg lines when green):
 
   | Case | Legs (source · rebuild) | Gate | Proves |
   |---|---|---|---|
@@ -102,7 +106,7 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
   | no pairs at all | n/a | FAIL | zero population is not green |
 
   *Feasibility (not a test of record):* a scratch draft of rows 1 to 4 ran the first five cases, the control and the zero case on 2026-10-26 01:28-01:43, read-only against the vault: every verdict was as expected, and the control failed when it had to. Over the real pairs, before any regeneration, it read `source 0/2 · rebuild 2/2 ⛔ FAIL`, which is D-O2-3 on live data. The draft is not committed; the building sitting writes the rows from this card.
-- **The vault baseline:** gate #9 reads **2/2** today in the committed manifest's own line. That is three full `gate_manifest.py --markdown` runs at HEAD `be15ce4`, 01:30, 01:41 and 01:43, identical, ALL GATES GREEN (seat #5: it is not only a scratch script's reading). After row 5, gate #9 alone must read `yaml source 2/2 · rebuild 2/2`. Then the full `--markdown` run is **pasted in the building sitting's session record and its STATE banner**, as a measurement. **No phase-gate claim:** the P3 gate is his. Its exit test cannot read met in P3 in any case. `check-sync` needs touch #8, and the Exit Gate's *"Terminal's 8 pass from outside their tree"* waits on Terminal's one regeneration after P4: none of their 8 carries `sync.source_sha256` (seat #6; REPORTED, the seat's grep of their tree).
+- **The vault baseline:** gate #9 reads **2/2** today in the committed manifest's own line. That is three full `gate_manifest.py --markdown` runs at HEAD `be15ce4`, 01:30, 01:41 and 01:43, identical, ALL GATES GREEN (seat #5: it is not only a scratch script's reading). After row 5, gate #9 alone must read `yaml source 2/2 · rebuild 2/2`. Then the full `--markdown` run is **pasted in the building sitting's session record and its STATE banner**, as a measurement. **No phase-gate claim:** the P3 gate is his. Its exit test cannot read met in P3 in any case. `check-sync` needs touch #8. ~~and the Exit Gate's *"Terminal's 8 pass from outside their tree"* waits on Terminal's one regeneration after P4: none of their 8 carries `sync.source_sha256` (seat #6; REPORTED, the seat's grep of their tree).~~ *(Struck 2026-10-26, not deleted: that clause moved to P4's Exit Gate on his word, RULED row 11112; second seat #5.)*
 
 ## 6. Overlap and order
 
@@ -119,6 +123,10 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
 - D-O2-7, the verdict follows the authority. Predicted *accept* · 0.80 · R. It is not acted on: the card is not built. Next seat.
   `surety: {"dp": "canvas.p3_obj2.d_o2_7", "predicted": "accept the authority reading over the strict one", "confidence": 0.8, "keys": [], "class": "R"}`
   ⛩ **Outcome 2026-10-26: ruled as predicted** (his word, RULED row 11112, "D-O2-7 stands (Recommended)"). Recorded in §4 by `session_stanley_20261026_081247_m3_morning_word`.
+- *(2026-10-26, the building sitting.)* Build rows 1-5 in one commit, on the second seat's SOUND verdict, with its six findings applied as text first. Predicted *accept* · 0.85 · R: the 0.75 to 0.90 band, acting on a seat that did not build. Reversal: `git revert` the build commit (it is one commit by rule; the two canvases return to their unstamped bytes with it).
+  `surety: {"dp": "canvas.p3_obj2.build", "predicted": "accept, built as carded after the second seat", "confidence": 0.85, "keys": [], "class": "R"}`
+- *(Same sitting.)* D-O2-8, the tool-fault check, taken from the second seat's offer. Predicted *accept* · 0.85 · R, same seat. Reversal: one predicate in row 4, reverted with the build.
+  `surety: {"dp": "canvas.p3_obj2.d_o2_8", "predicted": "accept the tool-fault check", "confidence": 0.85, "keys": [], "class": "R"}`
 
 ## 8. The reviewer seat's verdict (from its own report, 2026-10-26 01:44)
 
@@ -149,3 +157,20 @@ What it re-derived and found holding (VERIFIED by the seat):
 | 9 | non-blocking | obj 1 | README line 8 is history; only lines 3, 6 and 37 are live pins. Stale counts at 9-10 (142/10, 12/12) and 30 (146/10) would sit under "current to v2.5.0". The door must carry the rider from #4 | obj 1 design dated note (VERIFIED by this desk, `sed -n`) |
 
 The seat's closing line: *"Must change before building: say the source leg reads the `.diagram.yaml` and print 'prose channel: neither leg reads it' on both leg lines (blocking); also flag the objective-3 re-reading, add D-O2-7, specify the subprocess and the cannot-run/orphan/one-commit handling, route the rider into obj1 row 7, and amend the session scope."* Each of these is applied in the text above. **Applying a finding is not the same as a seat reading it sound.**
+
+## 9. The second reviewer seat's verdict (from its own report, 2026-10-26 08:24)
+
+**VERDICT: SOUND.** A fresh read-only opus seat that did not build (`session_stanley_20261026_081247_m3_morning_word`, under N2-J); 26 tool uses, about 4.8 min, nothing written. It read this card at `f817de9` (the revision `5c018ce` plus his D-O2-7 ruling), with D-O2-7 not put to it. *"The text resolves the earlier blocking finding and implements D-O2-7 consistently. Rows 1 to 5 can be built against the code at HEAD."*
+
+Re-derived and holding (VERIFIED by the seat, by reading): the blocking finding resolved (§2's "what the legs read", both blind spots, both printed lines); every row buildable (`build_diagram` has no path, the CLI holds it, `compute_source_sha256` is exported, gate #9's `rglob` and `PYTHON -m` rebuild, `PYTHON -c` subprocesses are the manifest's own way, the new test lands in an existing gated surface); the D-O2-2 mask correct and sufficient (`sync_hash` is topology only, the digest the only byte-dependent field, A-6 accepts 64 hex); all ten probe cases score as D-O2-7 predicts (zero pairs is a real change: today's code reads OK at 0); no other gate moves (the ADR-004 fixture is a separate path sharing a blob, no test reads the vault canvases, the advisory unchanged); one commit sufficient.
+
+| # | Class | Finding (abridged) | Disposition |
+|---|---|---|---|
+| 1 | non-blocking | The probe's exit-0 rule was dropped in the revision; a probe could exit 0 with a real case wrong | §5 restored: exit 0 iff every real case matched and scored, and the control mismatched |
+| 2 | non-blocking | Under D-O2-7 a broken recompute that always reads stale can never turn the gate red; offered: compare the recompute with the digest the rebuild stamped, as a tool-fault check | taken by the builder as **D-O2-8** (§4) |
+| 3 | non-blocking | `s` and `r` undefined on the pasted line | §2: both count legs that read fresh |
+| 4 | non-blocking | Row 4 must rewrite the reporter (`checked - stale`) and `meta`, or a source-stale pair undercounts the headline | row 4 names it |
+| 5 | non-blocking | §5 still gave the Terminal clause as a reason; it moved to P4 | struck, not deleted |
+| 6 | non-blocking | Row 5's "one key" holds parsed, not as text (a comma); the mask hides a CLI that stops stamping, which row 3 covers | row 5 says parsed; row 3 unchanged |
+
+Not checked by the seat (it would have had to run something): row 5's `cmp` byte-equality claim and the homebrew/anaconda claim. Both are re-measured by the building sitting.
