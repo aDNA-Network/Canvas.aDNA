@@ -247,7 +247,8 @@
         "sync": {
           "sync_hash": "ea1b51e19189d2fd",
           "source_name": "urn:adna:canvas:decision:adr_004",
-          "source_version": "1.0.0"
+          "source_version": "1.0.0",
+          "source_sha256": "07ddbbbbfd21f81f3d3b8486b96aa417fb0dd390b1c2ebc3c777c3010f701cb3"
         },
         "adna_version": "2.0.0",
         "conformance_level": "adna_native",

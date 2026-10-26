@@ -3,7 +3,7 @@ type: artifact
 artifact_kind: card
 created: 2026-10-26
 updated: 2026-10-26
-status: proposed
+status: built   # 2026-10-26 08:2x, rows 1-5 in one commit after the second seat's SOUND; was: proposed
 last_edited_by: agent_mondrian
 campaign: campaign_canvas_vernier
 phase: P3
@@ -15,7 +15,7 @@ seat_verdict: "UNSOUND, 2026-10-26T01:44-07:00. One read-only opus seat that did
 revision: "Revised after the seat (5c018ce). The seat's findings are applied as text in §2-§6 and recorded in §8. ~~NOT re-reviewed: build only after a fresh seat reads this revision sound~~ Re-reviewed 2026-10-26 08:24 by a fresh seat at f817de9: SOUND, 6 non-blocking, applied as text and recorded in §9"
 seat_verdict_2: "SOUND, 2026-10-26T08:24-07:00. A fresh read-only opus seat that did not build; 0 blocking, 6 non-blocking. The text it read is commit f817de9"
 rulings: "D-O2-7 RULED 2026-10-26, stands as recommended (his morning word 08:02, Automator RULED row 11112). The rest of the card is still proposed and needs a fresh seat before any row is built"
-binds: "nothing. No signature is needed: every row is outside the firewall (what/code/canvas_std/ stays at diff 0). Nothing here is built"
+binds: "nothing. No signature is needed: every row is outside the firewall (what/code/canvas_std/ stays at diff 0). ~~Nothing here is built~~ Built 2026-10-26 (rows 1-5, one commit; session_stanley_20261026_081247_m3_morning_word)"
 tags: [vernier, p3, gate_9, dual_channel_freshness, source_leg, f_v_16, card, proposed, blind_spot, seat_unsound]
 ---
 

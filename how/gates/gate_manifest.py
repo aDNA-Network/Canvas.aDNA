@@ -19,6 +19,7 @@ Usage
     python3 how/gates/gate_manifest.py --markdown   # also emit the STATE.md gate line
     python3 how/gates/gate_manifest.py --discover-only   # omission check alone; runs no tests
     python3 how/gates/gate_manifest.py --check-doors     # every pending door POSTs to the live receiver?
+    python3 how/gates/gate_manifest.py --probe-freshness # gate #9's legs over planted pairs; runs no suites
 
 Exit codes are distinct on purpose — *disagreement* and *omission* are different bugs:
 
@@ -31,6 +32,7 @@ Exit codes are distinct on purpose — *disagreement* and *omission* are differe
 from __future__ import annotations
 
 import argparse
+import copy
 import datetime as dt
 import json
 import os
@@ -200,7 +202,9 @@ GATES: list[Gate] = [
     Gate("dual_channel_freshness", "freshness", VAULT, None,
          note="added 2026-09-11 (F-PL-6): every `*.diagram.yaml` is rebuilt and compared to the "
               "`.canvas` beside it. Both pairs in the vault had been stale for four days, across "
-              "four phase closes, each publishing an all-green gate line"),
+              "four phase closes, each publishing an all-green gate line. Two legs since 2026-10-26 "
+              "(Vernier P3 obj 2, F-V-16): the source digest beside the rebuild, each counted on its "
+              "own and each printing what it cannot see"),
     Gate("inbox_receipt", "inbox", INBOX, None,
          note="added 2026-10-13 (Vernier P6, F-V-1): 17 inbound memos sat untracked for up to three "
               "weeks — six of them ack_required — while ten gates printed green, because the "
@@ -213,7 +217,13 @@ PRODUCER_EXPECT: dict[str, tuple[int, int]] = {
     "brief_consumer": (10, 0),
     "comic_generator": (123, 0),
     "deck_generator": (16, 0),
-    "diagram_generator": (53, 0),  # 52 -> 53 at Vernier P6 (2026-10-13): +1 F-S078-04 `TB` alias
+    "diagram_generator": (56, 0),  # 53 -> 56 at Vernier P3 obj 2 (2026-10-26): +3 in the new
+                                   # `test_cli_source_digest.py` (the CLI stamps sync.source_sha256,
+                                   # F-V-16) — DERIVED: HEAD 52a543f measured 53/0 before the edit
+                                   # (and be15ce4 the same, 10-26 01:2x), the tree measures 56/0 after
+                                   # it (pytest -q, 2026-10-26 08:2x), and the new file holds exactly 3
+                                   # un-parametrized `def test_`, so +3 closes the arithmetic.
+                                   # 52 -> 53 at Vernier P6 (2026-10-13): +1 F-S078-04 `TB` alias
                                    # test — DERIVED: 52 passed + 1 failed against HEAD's model.py,
                                    # 53 passed with the alias. Before that: 44 -> 49 at Plumbline P1: +5 for the production axis + the
                                    # removed `generator` authority cell (test_authority.py).
@@ -414,6 +424,245 @@ def _env() -> dict[str, str]:
     return env
 
 
+# ---------------------------------------------------------------------------
+# Gate #9's two legs (Vernier P3 objective 2, 2026-10-26).
+#
+# ⛩ F-V-16. The leg as first drafted read: "for every canvas that carries `sync.source_sha256`,
+# recompute the hash". Neither of this vault's dual-channel canvases carried one, and the producer
+# could not write one, so that leg would have run over a population of zero and printed green.
+# ⇒ *a cross-check that cannot fail looks exactly like a cross-check that passed*, a third time.
+# The producer now stamps the digest (diagram_generator's CLI, through canvas_std's one definition),
+# and a pair without one FAILS its source leg rather than skipping it.
+#
+# Both legs run on every pair, every time. The mission title calls the source leg a "pre-filter";
+# a literal pre-filter (skip the rebuild when the source is fresh) would reopen F-PL-6 itself,
+# which was generator drift under unchanged sources. Neither leg subsumes the other:
+#
+#   yaml source · sha256 of the .diagram.yaml bytes vs `sync.source_sha256` — cannot see generator drift
+#   rebuild     · the generator re-run vs the view, digest masked           — cannot see a view-neutral edit
+#
+# ⚠ What BOTH legs read, stated first (the 2026-10-26 reviewer seat's blocking finding): only the
+# `.diagram.yaml` and the `.canvas`. NEITHER reads the prose `.md` of a dual-channel triple: the
+# producer uses the prose path only for its stem, as a wikilink (`consume.py`, the refs line). In this
+# vault "source hash" first meant a hash of the PROSE (Armor's and Terminal's sources are markdown), so
+# every line this gate prints says "prose channel: neither leg reads it", and the pasted line says
+# "prose unread". Prose-to-structure drift stays a gate-review obligation (REQ-O05), not a gate.
+#
+# The VERDICT follows the rebuild, the authority (D-O2-7, RULED 2026-10-26 by the operator; P1's
+# plan-gate ruling: "source hash as a cheap pre-filter, rebuild-compare as the authority"). A stale
+# digest beside a fresh rebuild is the pre-filter's own false positive: printed on every run, never a
+# FAIL. A leg that cannot run (no digest, a failed recompute, a failed rebuild) FAILS its pair.
+#
+# The rebuild leg masks `sync.source_sha256` on BOTH documents. Without the mask, a stamped pair
+# fails the rebuild leg on every source byte change, so "source stale · rebuild fresh" could never
+# be observed and the two legs could not disagree by construction.
+#
+# The helpers take a pair list, never the vault implicitly, so `--probe-freshness` runs this exact
+# code over planted pairs in a temp dir.
+# ---------------------------------------------------------------------------
+FRESHNESS_BLIND_SPOTS = {
+    "source": "the prose channel; generator drift with the same input (F-PL-6); and whether a changed "
+              "byte matters (a YAML comment reads as stale)",
+    "rebuild": "the prose channel; a source edit that leaves the generated view unchanged (a comment, "
+               "or a typo outside every rendered field)",
+}
+PROSE_UNREAD = "prose channel: neither leg reads it"
+
+# The digest is computed in the RUNNER env, by canvas_std's own function (LIP-0011 §2, touch #7).
+# This process runs under the operator's `python3`, which cannot import canvas_std (measured
+# 2026-10-26: homebrew 3.14 vs the anaconda 3.12 runner), and a hashlib line here would be a second
+# copy of the definition (F-V-13: a second copy can be wrong in bytes nobody can see).
+_SOURCE_DIGEST = "import sys; from canvas_std import compute_source_sha256 as f; print(f(sys.argv[1]))"
+
+
+def _rel(p: Path) -> str:
+    try:
+        return str(p.relative_to(VAULT))
+    except ValueError:
+        return p.name
+
+
+def _generator_env() -> dict[str, str]:
+    # ⚠ `src` must be PREPENDED, not appended. `what/production/diagram_generator` is the
+    # *project* directory (src/, tests/, pyproject.toml) and shadows the real package at
+    # `src/diagram_generator`, so a bare `-m diagram_generator` resolves to the wrong object and
+    # dies with "is a package and cannot be directly executed". Found by this gate failing loudly
+    # on its first run — which is the behaviour that was wanted.
+    env = _env()
+    env["PYTHONPATH"] = os.pathsep.join([str(PRODUCTION / "diagram_generator" / "src"), env["PYTHONPATH"]])
+    return env
+
+
+def _dual_channel_pairs(root: Path) -> tuple[list[tuple[Path, Path]], list[str]]:
+    """Every ``*.diagram.yaml`` under ``root`` with its sibling ``.canvas`` — (pairs, problems)."""
+    pairs: list[tuple[Path, Path]] = []
+    problems: list[str] = []
+    for src in sorted(root.rglob("*.diagram.yaml")):
+        if ".git" in src.parts or "_archive" in src.parts or src.is_symlink():
+            continue
+        current = src.with_name(src.name.replace(".diagram.yaml", ".canvas"))
+        if not current.exists():
+            problems.append(f"{_rel(src)} has no .canvas beside it")
+            continue
+        pairs.append((src, current))
+    return pairs, problems
+
+
+def _sync_block(doc: object) -> dict:
+    """``metadata.frontmatter._reserved.sync`` — the canonical placement (spec §7; canvas_std reads it
+    the same way in ``validate._reserved_block``, which this process cannot import). ``{}`` if absent."""
+    try:
+        sync = doc["metadata"]["frontmatter"]["_reserved"]["sync"]  # type: ignore[index]
+    except (KeyError, TypeError):
+        return {}
+    return sync if isinstance(sync, dict) else {}
+
+
+def _digest_masked(doc: object) -> object:
+    masked = copy.deepcopy(doc)
+    _sync_block(masked).pop("source_sha256", None)
+    return masked
+
+
+def _source_digest(src: Path) -> str | None:
+    proc = subprocess.run([str(PYTHON), "-c", _SOURCE_DIGEST, str(src)],
+                          capture_output=True, text=True, cwd=str(VAULT), env=_env())
+    return proc.stdout.strip() if proc.returncode == 0 and proc.stdout.strip() else None
+
+
+def _freshness_legs(pairs: list[tuple[Path, Path]], tmp: Path) -> list[dict]:
+    """Both legs over every pair. Rebuilds go into ``tmp``; nothing is written beside a pair."""
+    gen_env = _generator_env()
+    verdicts: list[dict] = []
+    for i, (src, current) in enumerate(pairs, 1):
+        v = {"pair": _rel(current), "source": "", "rebuild": ""}
+        try:
+            view = json.loads(current.read_text())
+        except (OSError, ValueError) as exc:
+            v["source"] = v["rebuild"] = f"unreadable view ({exc.__class__.__name__})"
+            verdicts.append(v)
+            continue
+        stored = _sync_block(view).get("source_sha256")
+        got = _source_digest(src) if stored else None
+        if not stored:
+            v["source"] = "no digest"
+        else:
+            v["source"] = "unreadable" if got is None else ("fresh" if got == stored else "stale")
+        rebuilt = tmp / f"{i}.canvas"
+        proc = subprocess.run(
+            [str(PYTHON), "-m", "diagram_generator", "build", str(src), str(rebuilt)],
+            capture_output=True, text=True,
+            cwd=str(PRODUCTION / "diagram_generator"), env=gen_env,
+        )
+        if proc.returncode != 0:
+            v["rebuild"] = f"failed (exit {proc.returncode})"
+        else:
+            fresh_doc = json.loads(rebuilt.read_text())
+            # Compare parsed documents, not bytes: key order and whitespace are not the claim.
+            same = _digest_masked(fresh_doc) == _digest_masked(view)
+            v["rebuild"] = "fresh" if same else "stale"
+            # D-O2-8 (2026-10-26, the second reviewer seat's offer #2): under D-O2-7 a broken recompute
+            # that always reads "stale" could never turn this gate red. The rebuild has just stamped
+            # the digest of the SAME bytes by the SAME function, so the leg's recompute must equal it;
+            # if not, the leg is a tool fault and cannot run. A rebuild that no longer stamps at all
+            # (the mask would hide it) is the same fault seen from the generator's side.
+            stamp = _sync_block(fresh_doc).get("source_sha256")
+            if not stamp:
+                v["source"] = "tool fault (the rebuild carries no sync.source_sha256)"
+            elif v["source"] in _LEG_RAN and got != stamp:
+                v["source"] = "tool fault (the recompute differs from the rebuild's own stamp)"
+        verdicts.append(v)
+    return verdicts
+
+
+_LEG_RAN = ("fresh", "stale")  # any other verdict means the leg could not run on that pair
+BROKEN_RECOMPUTE = "a broken recompute (D-O2-8)"  # the probe case that swaps the recompute out
+
+
+def _describe_pair(v: dict) -> str:
+    """One pair, both leg verdicts, and in words what they mean together. Never a merged verdict."""
+    text = f"{v['pair']}: yaml source {v['source']} · rebuild {v['rebuild']}"
+    blocked = [leg for leg in ("source", "rebuild") if v[leg] not in _LEG_RAN]
+    if blocked:
+        # A leg that could not run is not a leg that disagreed, and never a leg that passed.
+        why = {"no digest": "no sync.source_sha256 recorded (rebuild the canvas to stamp it)"}
+        return text + "".join(f" — the {leg} leg cannot run: {why.get(v[leg], v[leg])}" for leg in blocked)
+    if v["source"] == v["rebuild"]:
+        return text
+    if v["rebuild"] == "fresh":
+        meaning = "the source moved and the view did not (a view-neutral edit, or a stale digest)"
+    else:
+        meaning = "the view moved and the source did not (generator drift, or a hand edit)"
+    return f"{text} — the legs disagree: {meaning}"
+
+
+def _pair_passes(v: dict) -> bool:
+    """The REBUILD is the authority (P1, ruled at the plan gate: *"source hash as a cheap pre-filter,
+    rebuild-compare as the authority"*), so a pair passes when its rebuild reads fresh **and** its
+    source leg was able to run. A stale source digest beside a fresh rebuild is the pre-filter's own
+    false positive (P1: *"stale when the canvas is fine"*): reported on every run, never a FAIL. A
+    source leg that cannot run (no digest recorded, a failed recompute) is a FAIL, because then the
+    gate does not carry both mechanisms for that pair (the campaign's definition of done, item 4) —
+    F-V-16. This is D-O2-7, RULED 2026-10-26 by the operator (the strict alternative, a stale digest
+    also failing, was not taken)."""
+    return v["rebuild"] == "fresh" and v["source"] in _LEG_RAN
+
+
+def _score_freshness(gate: Gate, verdicts: list[dict], problems: list[str]) -> None:
+    """Fill ``gate`` from the per-pair verdicts. Each leg is counted on its own; nothing is averaged."""
+    n = len(verdicts)
+    passing = [v for v in verdicts if _pair_passes(v)]
+    gate.actual = (n, 0)
+    # Two legs disagree only when both RAN and differ; a leg that could not run is counted apart.
+    disagreements = [_describe_pair(v) for v in verdicts
+                     if v["source"] in _LEG_RAN and v["rebuild"] in _LEG_RAN and v["source"] != v["rebuild"]]
+    # F-GL-7: the reporter needs every count and must not infer one. `actual` is (checked, 0), so a
+    # line reading `got[0]/got[0]` would render X/X and be green-shaped even when stale.
+    gate.meta.update(
+        checked=n,
+        fresh=len(passing),
+        stale=n - len(passing),
+        source_fresh=sum(v["source"] == "fresh" for v in verdicts),
+        rebuild_fresh=sum(v["rebuild"] == "fresh" for v in verdicts),
+        disagree=len(disagreements),
+        disagreements=disagreements,
+        cannot_run=sum(v["source"] not in _LEG_RAN or v["rebuild"] not in _LEG_RAN for v in verdicts),
+        verdicts=verdicts,
+    )
+    faults = list(problems) + [_describe_pair(v) for v in verdicts if not _pair_passes(v)]
+    if n == 0:
+        gate.status = "FAIL"
+        gate.detail = "; ".join(["no dual-channel pair found — a gate that checks nothing is not green"]
+                                + faults)
+        return
+    if faults:
+        gate.status = "FAIL"
+        gate.detail = (f"{n - len(passing)} of {n} pair(s) stale by the rebuild (the authority) or "
+                       "without a runnable source leg — " + "; ".join(faults))
+        return
+    gate.detail = f"{n} pair(s) fresh by the rebuild, the source leg ran on every one"
+
+
+def freshness_leg_lines(gate: Gate) -> list[str]:
+    """One line per leg, printed on every run, green or red: its count and what it cannot see."""
+    if gate.kind != "freshness" or "checked" not in gate.meta:
+        return []
+    n = gate.meta["checked"]
+    lines = [
+        f"yaml source {gate.meta['source_fresh']}/{n} fresh (the pre-filter) — "
+        f"compute_source_sha256(<.diagram.yaml>) vs sync.source_sha256; "
+        f"blind to {FRESHNESS_BLIND_SPOTS['source']} — {PROSE_UNREAD}",
+        f"rebuild     {gate.meta['rebuild_fresh']}/{n} fresh (the authority) — the generator re-run vs the "
+        f"view, sync.source_sha256 masked; blind to {FRESHNESS_BLIND_SPOTS['rebuild']} — {PROSE_UNREAD}",
+    ]
+    if gate.meta.get("cannot_run"):
+        lines.append(f"cannot run on {gate.meta['cannot_run']}/{n} pair(s) — each FAILS (D-O2-3)")
+    # A disagreement is printed here on EVERY run, because a green gate prints no detail: the
+    # pre-filter's false positive is not a FAIL, and it must not therefore be silent.
+    lines += [f"⚠ {d}" for d in gate.meta.get("disagreements", [])]
+    return lines
+
+
 def run_gate(gate: Gate) -> None:
     if gate.kind == "pytest":
         proc = subprocess.run([str(PYTEST), "-q"], capture_output=True, text=True,
@@ -539,48 +788,17 @@ def run_gate(gate: Gate) -> None:
         #
         # The check is the regeneration itself, because that is the only thing that can answer it.
         # Rebuilds run into a temp dir: this gate never writes into the vault.
-        # ⚠ `src` must be PREPENDED, not appended. `what/production/diagram_generator` is the
-        # *project* directory (src/, tests/, pyproject.toml) and shadows the real package at
-        # `src/diagram_generator`, so a bare `-m diagram_generator` resolves to the wrong object and
-        # dies with "is a package and cannot be directly executed". Found by this gate failing loudly
-        # on its first run — which is the behaviour that was wanted.
-        gen_env = _env()
-        gen_env["PYTHONPATH"] = os.pathsep.join(
-            [str(PRODUCTION / "diagram_generator" / "src"), gen_env["PYTHONPATH"]]
-        )
-        stale: list[str] = []
-        checked = 0
+        #
+        # ⛩ Vernier P3 objective 2 (2026-10-26): a second leg, the source digest, beside the
+        # rebuild. Each leg is counted on its own, the pair is fresh only when both legs are, and a
+        # disagreement is named per pair rather than averaged. The legs, their blind spots and why the
+        # rebuild masks the digest: the helpers above `run_gate` (F-V-16).
+        pairs, problems = _dual_channel_pairs(VAULT)
         with tempfile.TemporaryDirectory() as tmp:
-            for src in sorted(VAULT.rglob("*.diagram.yaml")):
-                if ".git" in src.parts or "_archive" in src.parts or src.is_symlink():
-                    continue
-                current = src.with_name(src.name.replace(".diagram.yaml", ".canvas"))
-                if not current.exists():
-                    stale.append(f"{src.relative_to(VAULT)} has no .canvas beside it")
-                    continue
-                checked += 1
-                rebuilt = Path(tmp) / f"{checked}.canvas"
-                proc = subprocess.run(
-                    [str(PYTHON), "-m", "diagram_generator", "build", str(src), str(rebuilt)],
-                    capture_output=True, text=True,
-                    cwd=str(PRODUCTION / "diagram_generator"), env=gen_env,
-                )
-                if proc.returncode != 0:
-                    stale.append(f"{src.relative_to(VAULT)} failed to rebuild (exit {proc.returncode})")
-                    continue
-                # Compare parsed documents, not bytes: key order and whitespace are not the claim.
-                if json.loads(rebuilt.read_text()) != json.loads(current.read_text()):
-                    stale.append(f"{current.relative_to(VAULT)} differs from a rebuild of its own source")
-        gate.actual = (checked, 0)
-        # F-GL-7: the reporter needs fresh-vs-checked and must not infer it. `actual` is (checked, 0),
-        # so a gate line reading `got[0]/got[0]` renders X/X and is green-shaped even when stale.
-        gate.meta["checked"] = checked
-        gate.meta["stale"] = len(stale)
-        if stale:
-            gate.status = "FAIL"
-            gate.detail = f"{len(stale)} of {checked} stale — " + "; ".join(stale)
+            verdicts = _freshness_legs(pairs, Path(tmp))
+        _score_freshness(gate, verdicts, problems)
+        if gate.status == "FAIL":
             return
-        gate.detail = f"{checked} pair(s) fresh"
 
     elif gate.kind == "inbox":
         # ⛩ F-V-1 (2026-10-12, Vernier P1b). `who/coordination/inbox/README.md` promises that the
@@ -719,9 +937,16 @@ def markdown_gate_line() -> str:
             keys = gate.meta.get("keys", 0)
             body = f"registry census **{got[0]}/{keys}** keys"
         elif gate.gate_id == "dual_channel_freshness":
-            # `actual` is (checked, 0) — the fresh count is checked minus stale, from meta.
-            checked = gate.meta.get("checked", got[0])
-            body = f"dual-channel freshness **{checked - gate.meta.get('stale', 0)}/{checked}**"
+            # `actual` is (checked, 0); every count below is from meta (F-GL-7). The headline `f/n`
+            # counts PASSING pairs (the rebuild fresh and the yaml-source leg ran, D-O2-7); each leg
+            # is then shown on its own (Vernier P3 obj 2), so a disagreement is visible in the pasted
+            # line itself and never averaged into the headline. The population is named on the face
+            # of the number (the 2026-10-26 seat's blocking finding): "source" here is the
+            # .diagram.yaml, and neither leg reads the prose channel.
+            n = gate.meta.get("checked", got[0])
+            body = (f"dual-channel freshness **{gate.meta.get('fresh', 0)}/{n}** "
+                    f"(yaml source {gate.meta.get('source_fresh', 0)}/{n} · "
+                    f"rebuild {gate.meta.get('rebuild_fresh', 0)}/{n}; prose unread)")
         elif gate.gate_id == "inbox_receipt":
             # Derived from meta (F-GL-7). The verdict number is OVERDUE, so it leads; beside it, the
             # mail still INSIDE the grace window = untracked − overdue.
@@ -793,16 +1018,186 @@ def check_doors() -> int:
     return EXIT_OK
 
 
+def probe_freshness() -> int:
+    """Gate #9's legs over PLANTED pairs in a temp dir — negative controls (Vernier P3 objective 2).
+
+    A gate that has only ever read green has not shown it can read red. This seeds one pair from the
+    vault — the first ``*.diagram.yaml``, copied byte for byte, and the generator's own stamped build
+    of it — plants one change per case, and runs the SAME helpers ``run_gate`` uses. The vault is
+    never written. The probe's comparator is itself checked on every run: one case carries a
+    deliberately wrong expectation and must be reported as a mismatch. A probe that cannot fail is
+    the defect this flag exists to remove (P2b: *a cross-check that cannot fail looks exactly like a
+    cross-check that passed*).
+
+    Exits: 0 every planted verdict as expected and the control failed as it must · 1 otherwise ·
+    4 no seed pair, or the seed would not build.
+    """
+    problems = check_preconditions()
+    if problems:
+        print("freshness probe — ⛔ PRECONDITION FAILURE, so no planted verdict would mean anything:")
+        for p in problems:
+            print(f"  · {p}")
+        return EXIT_PRECONDITION
+    pairs, _ = _dual_channel_pairs(VAULT)
+    if not pairs:
+        print("freshness probe — ⛔ no *.diagram.yaml in the vault to seed from")
+        return EXIT_PRECONDITION
+    seed = pairs[0][0]
+    seed_bytes = seed.read_bytes()
+    print(f"freshness probe — seed {_rel(seed)}; planted pairs in a temp dir (the vault is never written)")
+
+    def comment(src: Path, view: Path) -> None:
+        src.write_bytes(src.read_bytes() + b"\n# probe: a comment, outside every rendered field\n")
+
+    def nudge(src: Path, view: Path) -> None:
+        doc = json.loads(view.read_text())
+        doc["nodes"][-1]["x"] = int(doc["nodes"][-1].get("x", 0)) + 1
+        view.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+
+    def undigest(src: Path, view: Path) -> None:
+        doc = json.loads(view.read_text())
+        _sync_block(doc).pop("source_sha256", None)
+        view.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+
+    def relabel(src: Path, view: Path) -> None:
+        text = src.read_text(encoding="utf-8")
+        if 'label: "' not in text:
+            raise RuntimeError("seed has no quoted label to change")
+        src.write_text(text.replace('label: "', 'label: "PROBE ', 1), encoding="utf-8")
+
+    def nothing(src: Path, view: Path) -> None:
+        pass
+
+    def unbuildable(src: Path, view: Path) -> None:
+        # Bytes still readable (so the digest recomputes, and differs), but no longer a diagram spec.
+        src.write_text("this: [is not, a diagram spec\n", encoding="utf-8")
+
+    def unreadable(src: Path, view: Path) -> None:
+        src.chmod(0)  # the digest recompute and the rebuild both fail to read it
+
+    # (name, plant, expected source, expected rebuild, the comparator must agree?, the gate's expected
+    # status for this pair alone, and the words its report must carry — the report is part of the
+    # check, F-GL-7: in the detail when it is red, on the always-printed leg lines when it is green)
+    cases = [
+        ("clean copy", nothing, "fresh", "fresh", True, "OK", PROSE_UNREAD),
+        ("a comment appended to the source", comment, "stale", "fresh", True, "OK", "the legs disagree"),
+        ("one node's x moved in the view", nudge, "fresh", "stale", True, "FAIL", "the legs disagree"),
+        ("the digest removed from the view", undigest, "no digest", "fresh", True, "FAIL",
+         "the source leg cannot run"),
+        ("a label changed in the source", relabel, "stale", "stale", True, "FAIL", "stale by the rebuild"),
+        ("a yaml that will not build", unbuildable, "stale", "failed", True, "FAIL",
+         "the rebuild leg cannot run"),
+        ("an unreadable source", unreadable, "unreadable", "failed", True, "FAIL",
+         "the source leg cannot run"),
+        # D-O2-8: the recompute is swapped for one that always returns a wrong digest, so it reads
+        # "stale" on a clean pair. Without the cross-check this pair would PASS (rebuild fresh).
+        (BROKEN_RECOMPUTE, nothing, "tool fault", "fresh", True, "FAIL", "the source leg cannot run"),
+        ("control: a wrong expectation", nothing, "stale", "stale", False, None, None),
+    ]
+
+    def _norm(verdict: str) -> str:
+        # "failed (exit N)" carries the generator's exit code, and a tool fault its reason; neither
+        # detail is the claim.
+        for head in ("failed", "tool fault"):
+            if verdict.startswith(head):
+                return head
+        return verdict
+    bad = 0
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        gen_env = _generator_env()
+        for i, (name, plant, exp_s, exp_r, must_agree, exp_status, words) in enumerate(cases):
+            case = root / f"case{i}"
+            case.mkdir()
+            src, view = case / "p.diagram.yaml", case / "p.canvas"
+            src.write_bytes(seed_bytes)
+            built = subprocess.run(
+                [str(PYTHON), "-m", "diagram_generator", "build", str(src), str(view)],
+                capture_output=True, text=True, cwd=str(PRODUCTION / "diagram_generator"), env=gen_env,
+            )
+            if built.returncode != 0:
+                print(f"  ⛔ the seed would not build (exit {built.returncode}) — {built.stderr.strip()[:160]}")
+                return EXIT_PRECONDITION
+            try:
+                plant(src, view)
+            except (RuntimeError, OSError, ValueError, KeyError, IndexError) as exc:
+                bad += 1
+                print(f"  ⛔  {name:<36} could not be planted on this seed ({exc})")
+                continue
+            (case / "rebuilds").mkdir()
+            if name == BROKEN_RECOMPUTE:
+                real = globals()["_source_digest"]
+                globals()["_source_digest"] = lambda _src: "0" * 64
+                try:
+                    v = _freshness_legs([(src, view)], case / "rebuilds")[0]
+                finally:
+                    globals()["_source_digest"] = real
+            else:
+                v = _freshness_legs([(src, view)], case / "rebuilds")[0]
+            agrees = (_norm(v["source"]), _norm(v["rebuild"])) == (exp_s, exp_r)
+            ok = agrees == must_agree
+            bad += not ok
+            got = f"yaml source {v['source']} · rebuild {v['rebuild']}"
+            if must_agree:
+                print(f"  {'ok ' if ok else '⛔ '} {name:<36} {got}   (expected yaml source {exp_s} · rebuild {exp_r})")
+            else:
+                print(f"  {'ok ' if ok else '⛔ '} {name:<36} "
+                      + ("the comparator reported the mismatch, as it must" if ok
+                         else "the comparator AGREED with a wrong expectation — the probe cannot fail"))
+            if exp_status is None:
+                continue
+            # The report is part of the check (F-GL-7): the pair alone must score as expected, and its
+            # report must say why — in the detail when red, on the leg lines (printed every run) when green.
+            g = Gate("probe", "freshness", case)
+            _score_freshness(g, [v], [])
+            status = g.status or "OK"  # run_gate's tail assigns "OK" to a gate the scorer left unset
+            report = g.detail if status == "FAIL" else "\n".join(freshness_leg_lines(g))
+            scored = status == exp_status and (words is None or words in report)
+            note = (f"{status}" + (f", and the report says {words!r}" if words else "")) if scored \
+                else f"status {status!r} (expected {exp_status}), report {report!r}"
+            bad += not scored
+            print(f"  {'ok ' if scored else '⛔ '} {'  ↳ the gate scores it':<36} {note}")
+        # An orphan: a .diagram.yaml with no .canvas beside it is listed and FAILS, uncounted in n.
+        orphan_dir = root / "orphan"
+        orphan_dir.mkdir()
+        (orphan_dir / "p.diagram.yaml").write_bytes(seed_bytes)
+        o_pairs, o_problems = _dual_channel_pairs(orphan_dir)
+        g = Gate("probe", "freshness", orphan_dir)
+        _score_freshness(g, [], o_problems)
+        orphan_ok = (not o_pairs and g.status == "FAIL" and "has no .canvas beside it" in g.detail
+                     and g.meta.get("checked") == 0)
+        bad += not orphan_ok
+        print(f"  {'ok ' if orphan_ok else '⛔ '} {'an orphan yaml (no canvas)':<36} "
+              + ("listed, uncounted, gate FAIL, as it must" if orphan_ok
+                 else f"status {g.status!r}, detail {g.detail!r}"))
+    # Zero population: a gate that checks nothing must not read green.
+    g = Gate("probe", "freshness", VAULT)
+    _score_freshness(g, [], [])
+    zero_ok = g.status == "FAIL"
+    bad += not zero_ok
+    print(f"  {'ok ' if zero_ok else '⛔ '} {'no pairs at all':<36} "
+          + ("gate FAIL, as it must" if zero_ok else f"status {g.status!r} — zero population read green"))
+    if bad:
+        print(f"\nPROBE FAILED: {bad} planted verdict(s) not as expected")
+        return EXIT_FAILURE
+    print("\nprobe OK — every planted verdict as expected; the control failed when it had to")
+    return EXIT_OK
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Run the Canvas.aDNA gate set and fail on omission.")
     ap.add_argument("--markdown", action="store_true", help="emit the STATE.md gate line")
     ap.add_argument("--discover-only", action="store_true", help="omission check only; run no tests")
     ap.add_argument("--check-doors", action="store_true",
                     help="check every pending door's receiver URL against the live receiver; run no tests")
+    ap.add_argument("--probe-freshness", action="store_true",
+                    help="run gate #9's two legs over planted pairs in a temp dir; run no suites")
     args = ap.parse_args()
 
     if args.check_doors:
         return check_doors()
+    if args.probe_freshness:
+        return probe_freshness()
 
     print(f"gate manifest — vault {VAULT}")
     print()
@@ -875,6 +1270,15 @@ def main() -> int:
     got_total = sum((g.actual or (0, 0))[0] for g in producers)
     print(f"{'producers total'.ljust(width)}  {f'{exp_total}/{len(producers)} pkg':>10}  "
           f"{f'{got_total}/{len(producers)} pkg':>10}")
+
+    # Gate #9's legs, one line each, on EVERY run (Vernier P3 obj 2): a blind spot printed only when
+    # the gate is red is a blind spot nobody reads while it is green, which is when it matters.
+    for gate in GATES:
+        lines = freshness_leg_lines(gate)
+        if lines:
+            print(f"\n{gate.gate_id} — two legs, each naming what it cannot see:")
+            for line in lines:
+                print(f"  {line}")
 
     failed = [g for g in GATES if g.status == "FAIL"]
     disagreed = [g for g in GATES if g.status == "DISAGREE"]

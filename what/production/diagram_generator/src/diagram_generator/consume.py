@@ -47,8 +47,14 @@ def _edge_kind(diagram_type: str) -> str:
     return "sequence" if diagram_type == "gantt" else "dependency"
 
 
-def build_diagram(d: DiagramInput) -> dict[str, Any]:
-    """Map a ``DiagramInput`` to a v2.0.0 aDNA-Native diagram ``.canvas`` document (a plain dict)."""
+def build_diagram(d: DiagramInput, *, source_sha256: str | None = None) -> dict[str, Any]:
+    """Map a ``DiagramInput`` to a v2.0.0 aDNA-Native diagram ``.canvas`` document (a plain dict).
+
+    ``source_sha256``, when given, is stamped as ``_reserved.sync.source_sha256`` (Standard v2.5.0,
+    LIP-0011 §2): the digest of the source file's bytes, which only the caller holding the path can
+    compute (the CLI does, through ``canvas_std.compute_source_sha256``). Without it the output is
+    byte-identical to what it was before the parameter existed.
+    """
     mermaid = mermaid_for(d)
     boxes, group_box, src_box, title_box = layout.layout(d, mermaid)
 
@@ -112,6 +118,10 @@ def build_diagram(d: DiagramInput) -> dict[str, Any]:
     doc = to_canvas(source)
 
     reserved = doc["metadata"]["frontmatter"]["_reserved"]
+    if source_sha256 is not None:
+        # Vernier P3 objective 2 (2026-10-26, F-V-16): gate #9's source leg reads this digest. Until
+        # this line no canvas the producer built carried one, so that leg had nothing to compare.
+        reserved["sync"]["source_sha256"] = source_sha256
     reserved["adna_version"] = ADNA_VERSION
     reserved["conformance_level"] = "adna_native"
     reserved["component_types"] = component_types

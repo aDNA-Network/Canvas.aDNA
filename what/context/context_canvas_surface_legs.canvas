@@ -273,7 +273,8 @@
         "sync": {
           "sync_hash": "95bfbb929850e3b0",
           "source_name": "urn:adna:canvas:context:surface_legs",
-          "source_version": "1.1.0"
+          "source_version": "1.1.0",
+          "source_sha256": "2e97e4d2631e1e30549f935ffbbc061fc0004d977f575994ac15e3b9901362fe"
         },
         "adna_version": "2.0.0",
         "conformance_level": "adna_native",
