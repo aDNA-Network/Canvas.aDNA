@@ -13,6 +13,7 @@ executor_tier: opus
 authored_in: session_stanley_20261026_011316_n2_j_p3_obj2 (unattended; Automator Night 2, judgement grant N2-J)
 seat_verdict: "UNSOUND, 2026-10-26T01:44-07:00. One read-only opus seat that did not build; 1 blocking finding (text-only), 8 non-blocking. The text it read is commit f4c6b32"
 revision: "Revised after the seat (this version). The seat's findings are applied as text in §2-§6 and recorded in §8. NOT re-reviewed: build only after a fresh seat reads this revision sound"
+rulings: "D-O2-7 RULED 2026-10-26, stands as recommended (his morning word 08:02, Automator RULED row 11112). The rest of the card is still proposed and needs a fresh seat before any row is built"
 binds: "nothing. No signature is needed: every row is outside the firewall (what/code/canvas_std/ stays at diff 0). Nothing here is built"
 tags: [vernier, p3, gate_9, dual_channel_freshness, source_leg, f_v_16, card, proposed, blind_spot, seat_unsound]
 ---
@@ -80,7 +81,7 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
 - **D-O2-4. Both legs run every time.** This follows from the Exit Gate's *"the two legs can disagree"*, so the earlier version's word "binding" is withdrawn (seat #2). The mission title says "pre-filter". A literal pre-filter (skip the rebuild when the source is fresh) would reopen exactly F-PL-6, which was generator drift under unchanged sources.
 - **D-O2-5 (revised). The pasted line states its population** (rec), in the form given in §2. The inner `·` repeats the line's own separator. Nothing parses the line but the manifest itself (VERIFIED, grep over `*.py`; the seat widened it to `py/sh/js/json/yaml` in Canvas and Automator).
 - **D-O2-6. `sync.generator` is not stamped now** (rec). No leg reads it. It is a later card if a consumer asks.
-- **D-O2-7 (new, seat #2). The verdict follows the authority** (rec): see §2. P1 records the plan-gate ruling as *"source hash as a cheap pre-filter, rebuild-compare as the authority"* (`p1_armor_dogfood.md:122`). The first version failed the gate on any stale leg, which gave the pre-filter a veto. **The strict alternative** (a stale digest beside a fresh rebuild also fails) is defensible, because a stale digest is a false claim that every third-party checker reads. It is one predicate in row 4. The choice is the next seat's to confirm and his to overrule.
+- **D-O2-7 (new, seat #2). The verdict follows the authority** (rec): see §2. P1 records the plan-gate ruling as *"source hash as a cheap pre-filter, rebuild-compare as the authority"* (`p1_armor_dogfood.md:122`). The first version failed the gate on any stale leg, which gave the pre-filter a veto. **The strict alternative** (a stale digest beside a fresh rebuild also fails) is defensible, because a stale digest is a false claim that every third-party checker reads. It is one predicate in row 4. ~~The choice is the next seat's to confirm and his to overrule.~~ ⛩ **RULED 2026-10-26: D-O2-7 stands, as recommended** (his morning word, 08:02, Automator RULED row 11112, label verbatim: *"(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"*). **The verdict follows the rebuild, the authority**, and that is the rebuild leg's authority for the building sitting; the strict alternative is not taken. The next seat reviews the card's other text, not this choice. *(Struck text kept, not deleted.)*
 
 ## 5. Tests
 
@@ -117,6 +118,7 @@ Pairs are found as today: every `*.diagram.yaml` under the vault (not `.git`, no
   `surety: {"dp": "canvas.p3_obj2.card_revised_proposed", "predicted": "accept; re-seat before build", "confidence": 0.92, "keys": [], "class": "S"}`
 - D-O2-7, the verdict follows the authority. Predicted *accept* · 0.80 · R. It is not acted on: the card is not built. Next seat.
   `surety: {"dp": "canvas.p3_obj2.d_o2_7", "predicted": "accept the authority reading over the strict one", "confidence": 0.8, "keys": [], "class": "R"}`
+  ⛩ **Outcome 2026-10-26: ruled as predicted** (his word, RULED row 11112, "D-O2-7 stands (Recommended)"). Recorded in §4 by `session_stanley_20261026_081247_m3_morning_word`.
 
 ## 8. The reviewer seat's verdict (from its own report, 2026-10-26 01:44)
 

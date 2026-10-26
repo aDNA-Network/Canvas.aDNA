@@ -11,7 +11,7 @@ mission_class: implementation
 executor_tier: opus
 token_budget_estimated: "~180k"
 created: 2026-10-12
-updated: 2026-10-12
+updated: 2026-10-26
 last_edited_by: agent_mondrian
 tags: [plan, campaign, vernier, doctrine_memos]
 ---
@@ -28,7 +28,9 @@ Carry the signed verdicts to the four waiters as memos (Terminal · City · LP �
 
 ## Exit Gate
 
-Every `ack_required: true` memo from the 2026-10-12 inbox has a reply carrying a verdict with the door's `.output.json` cited; `context_registry_derivability.md` Principle 4b has the four-implementer table; B14/B18 text exists where ruled; the `_reserved` migration note is written once (ADR-011's partition) and Home's `topology.canvas` finding is memo'd to Hestia; LP confirms `gen-canvas` un-carded.
+Every `ack_required: true` memo from the 2026-10-12 inbox has a reply carrying a verdict with the door's `.output.json` cited; `context_registry_derivability.md` Principle 4b has the four-implementer table; B14/B18 text exists where ruled; the `_reserved` migration note is written once (ADR-011's partition) and Home's `topology.canvas` finding is memo'd to Hestia; LP confirms `gen-canvas` un-carded; **Terminal's 8 pass `canvas-std check-sync` from outside their tree, on their regenerated canvases** (moved here from P3, see below).
+
+> ⛩ **Amended 2026-10-26 (his morning word, RULED row 11112, label verbatim: *"(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"*).** The Terminal clause moved here from the P3 Exit Gate. It reads met only on Terminal's canvases as regenerated after the verdict memo, each carrying `sync.source_sha256`, checked from outside their tree; it is never counted on a population of 0. If their regeneration has not landed when P4's other work is done, this clause reads **not met** at the P4 gate and says so. Record: `../campaign_canvas_vernier.md` §P3 exit-gate amendment — 2026-10-26.
 
 ## Objectives
 

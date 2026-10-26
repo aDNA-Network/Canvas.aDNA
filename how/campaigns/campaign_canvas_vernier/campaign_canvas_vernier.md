@@ -11,7 +11,7 @@ priority: medium
 executor_tier_default: opus
 predecessor: campaign_canvas_datum
 created: 2026-09-17
-updated: 2026-10-16
+updated: 2026-10-26
 last_edited_by: agent_mondrian
 status_history: "active (2026-09-17 — chartered at the plan gate on the Armor.aDNA dogfood; three operator rulings taken: charter a campaign · adopt both freshness mechanisms · memo #21 carries findings plus both flags) · active, SCOPE AMENDED (2026-10-12 — plan gate: subject repointed Armor→Terminal.aDNA; V-1 widened to four vaults; V-4…V-8 added from the 17-memo inbox; phases 6→8; fold-not-sibling per operator precedent) · active, PHASE ORDER AMENDED (2026-10-13 — plan gate: P6 verdict-independent objectives run ahead of P2; P6 phase gate unchanged) · active, P2 RULED (2026-10-15 — V-1…V-8 + firewall #7 ack + GOs ①②③, 9/9 approve as recommended, taken Tier 2 via AskUserQuestion because the web door was dead in every browser) · active, P2b WORK COMPLETE (2026-10-16 — LIP-0011 signed at its door 2026-10-15, 4/4, D-1 (i); firewall touch #7; Standard v2.5.0 cut; the P2b→P3 gate is the operator's) · active, P3 OPEN (2026-10-16 — P2b→P3 gate approved by the operator in chat)"
 tags: [campaign, canvas, vernier, armor, terminal, bastide, scope_amendment, lip_0011, b14, b18, dogfood, sync_hash, a8, provenance, freshness, dual_channel, standard_evolution]
@@ -285,4 +285,28 @@ and Canvas is public, so the peer cases are **shape-derived** instead (and the f
 re-exported function, not the module. ⇒ ***a cross-check that cannot fail looks exactly like a cross-check that passed.***
 
 **Next: the P2b → P3 gate (operator).** After it come P3 (freshness both ways) and the P4 memo wave carrying the signed LIP.
+
+## ⛩ P3 exit-gate amendment — 2026-10-26 (the touch-8 door amendment, ruled; dated, not retro-fitted)
+
+**Ruling (operator, his morning word of 2026-10-26 08:02; recorded by the Automator duty-officer station as RULED row
+11112).** Label verbatim: *"(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands
+(Recommended) [P-F-001, P-F-005]"*. Executed by Mondrian under the Night 2 judgement grant N2-J
+(`session_stanley_20261026_081247_m3_morning_word`).
+
+**The clause moved.** The P3 mission's Exit Gate read *"Terminal's 8 pass from outside their tree"*. It **moves to P4**.
+- *Why* (the reviewer seat's #6, 2026-10-26 01:44; obj 1 design §6.1): Terminal keeps `sha256(source)[:16]` in
+  `sync.sync_hash` (`artifacts/p1_armor_dogfood.md:52-62`, VERIFIED in this vault). None of their 8 canvases carries
+  `sync.source_sha256` (REPORTED: the seat's grep of their tree, 0 each; this desk did not repeat it, outside the fence).
+  So `check-sync`'s source leg cannot run on any of the 8, under either D-2 ruling, and no P3 build can make the clause
+  true. It waits on Terminal's one regeneration, which they schedule after P4 (their 10-12 reply, receipted `db21711`).
+- *Where it lands:* the P4 mission's Exit Gate, worded so that it reads met only on Terminal's regenerated canvases, from
+  outside their tree. If their regeneration lands after P4's work is done, P4's gate test reads that clause **not met** and
+  says so; it is never quietly dropped and never counted on a population of 0.
+- *What did not move:* every other P3 exit-gate clause. D-2 stays a question for the touch-8 door, on its own merits; it
+  is no longer presented as the lever for the Terminal clause. Touch #8 itself is still **unsigned**; `canvas_std` stays at
+  diff 0.
+
+**Edits, each struck not deleted:** `missions/mission_vernier_p3_freshness_both_ways.md` §Exit Gate ·
+`missions/mission_vernier_p4_doctrine_and_memos.md` §Exit Gate · `artifacts/p3_obj1_touch_8_design_20261026.md` §7 (the door
+carries this as ruled, not as a question).
 

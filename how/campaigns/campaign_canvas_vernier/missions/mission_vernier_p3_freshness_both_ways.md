@@ -32,7 +32,9 @@ Implement the P0 ruling 'adopt both freshness mechanisms, each with its blind sp
 
 ## Exit Gate
 
-Gate line reads `dual-channel freshness N/N (source · rebuild)`; `canvas-std check-sync <canvas> [--source <path>]` exits 0/1 with the blind spot named in its output; Terminal's 8 pass from outside their tree; gate #9's two legs can disagree and the disagreement is reported, not averaged.
+Gate line reads `dual-channel freshness N/N (source · rebuild)`; `canvas-std check-sync <canvas> [--source <path>]` exits 0/1 with the blind spot named in its output; ~~Terminal's 8 pass from outside their tree;~~ gate #9's two legs can disagree and the disagreement is reported, not averaged.
+
+> ⛩ **Amended 2026-10-26 (his morning word, RULED row 11112; struck, not deleted).** *"Terminal's 8 pass from outside their tree"* **moved to P4's Exit Gate**: none of Terminal's 8 carries `sync.source_sha256`, so the clause waits on their one regeneration after P4, not on anything P3 builds. Record: `../campaign_canvas_vernier.md` §P3 exit-gate amendment — 2026-10-26.
 
 ## Objectives
 

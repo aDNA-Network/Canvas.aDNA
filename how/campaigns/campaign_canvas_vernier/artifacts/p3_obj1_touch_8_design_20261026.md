@@ -80,3 +80,10 @@ A read-only opus seat that did not build read this design beside the objective 2
 4. **Row 4 (`README.md`) needs re-cutting (#9).** Line 8 is history ("the v2.4.0 LIP-0010 … axes"); only lines 3, 6 and 37 are live version pins (VERIFIED by this desk, `sed -n`). Lines 9-10 (`142 passed / 10 skipped`, `CERTIFIED 12/12`) and line 30 (`146 passed / 10 skipped`) carry stale counts. Those would then sit under a "current to v2.5.0" banner. The row should name them, measured at build.
 
 **A rider for row 7, routed here from the objective 2 card (#4).** `tests/fixtures/manifest.json:142` calls `adna_canvas_adr_004.canvas` a *"BYTE-COPY of"* the vault's ADR-004 canvas. Today it is the same blob (`8335fe3`): the vault file's bytes as last changed at `93e5638` (2026-09-10), copied into the corpus at `2b3b70a` (2026-10-16). Objective 2's row 5 will regenerate the vault file with a `sync.source_sha256`. After that, the note is a past-tense truth written in the present tense. Row 7 already edits `manifest.json`, so a dated line on that note can ride it. Whether the Canvas row of the corpus should then show Canvas's own practice (the digest) is a corpus question for the same signature.
+
+## 7. Ruled on his morning word (dated note, 2026-10-26 08:18; the text above is unchanged)
+
+His word of 2026-10-26 08:02, recorded by the Automator duty-officer station as RULED row 11112, label verbatim: *"(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"*.
+
+- **§6.1 is ruled: the Terminal exit-gate clause moved to P4**, by a dated amendment (`../campaign_canvas_vernier.md` §P3 exit-gate amendment — 2026-10-26; both missions' Exit Gates edited, struck not deleted). The touch-8 door therefore **carries the amendment as ruled, not as a question**, and D-2 is offered on its own merits only: §2's sentence tying the exit gate to D-2 is history (§6.1), not a door item.
+- Nothing else here is ruled. D-1 · D-2 · D-3, the nine rows and the §6.2-§6.4 findings still go to the door, and **touch #8 is unsigned**: `canvas_std` stays at diff 0.
