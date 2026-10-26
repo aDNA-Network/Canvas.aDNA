@@ -1,16 +1,26 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-10-16
+updated: 2026-10-26
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20261013_vernier_p2_door_p2b
+last_session: session_stanley_20261026_001833_n2_19_hygiene
 tags: [state, governance, canvas, vernier, standard_v250, lip_0011_final, firewall_touch_7, p6, inbox_receipt_gate, check_doors, state_compaction, scope_amendment, inbox_receipt, sync_hash, lip_0011, memorialisation, gridline, standard_v240, a8, lip_0010_final, reserved_keys, gate_reporting, plumbline, authority_axis, production_axis, b1_5_ruled, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
 ---
 
 # Operational State
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
+
+> **▶ 2026-10-26 (night): HYGIENE, UNATTENDED. The stale lease is closed by our own rule, the inbox is receipted, and P3 obj 1 is designed (Mondrian, `session_stanley_20261026_001833_n2_19_hygiene`, Automator Night 2 row N2-19).**
+> - **The stale lease.** The 10-13 session never closed itself. The station moved it to history on 10-25 (`ae1e2b8`). This desk then applied `how/sessions/AGENTS.md:54` (Tier 2: heartbeat over 8 h means auto-abandoned): `status: abandoned`, lapsed 2026-10-17T03:27Z, with a dated note at its foot (`1667b24`).
+> - **Five inbox memos receipted byte-unchanged** (`b63b971`).
+>   - Aldus ×2: 10-19, profile vs producer, plus a `v2.5.0` tag ask; 10-22, a `display_object` semantic_type in a document profile.
+>   - Schulten 10-05.
+>   - Those three are `ack_required` and go to the P4 wave.
+>   - Rosetta ×2 (10-16, `ack_required: false`): the partition recipe is accepted and the eight are repaired at v8.13; the RFC1918 placeholder lands at v8.13; and **YES to the LIP registrar role** (operator, on the aDNA.aDNA side, 2026-10-16), with the registry authored and 0012 next free. ⇒ **That is the D3 ack** (carried tail #11). The flip it asks for (`adr_003` Amendment 1 + `lip_registry` "pending" → ratified) is a ratification-status flip, so it stays the operator's.
+> - **P3 obj 1 designed, proposed** (`31dfed6`, [design](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md)): the `check-sync` contract, touch #8 in nine rows, and door points D-1…D-3. ⛩ The exit gate's *"Terminal's 8 from outside their tree"* holds in P3 only if D-2 rules the topology leg advisory: Terminal was 0/8 topology at P1 and migrates once, after P4.
+> - `canvas_std` diff 0. The door is not rendered. **The gate line was not re-run this sitting, so no gate claim is made**; 0 untracked inbox files at close (git status). Not pushed.
 
 > **▶ 2026-10-16 (late) — EVERY DOOR RULED. ZERO PENDING FOR THE FIRST TIME SINCE 09-16 (Mondrian, `session_stanley_20261013_vernier_p2_door_p2b`).** The four month-old doors were **refreshed before ruling**: dated ⟳ re-probe evidence added, recommendations unchanged, ADR texts untouched. They were re-rendered html-only, proven at the page in Chromium + Firefox (`zz_` probes submitted → landed → removed) (`6c1b11a`). **Queue ruled 17:20Z, 5/5 as recommended** (`a58840f`): ③ → P3 touch-#8 rider · ④ memo **#29** · ② memo #20 held for the ADR-011 verdict · ① the operator's Obsidian click · ⑤ filed. **ADR-010 · ADR-011 (as amended ×3) · ADR-012 RATIFIED at their doors, 19:22Z** (`6be1bc3`); ADR-011's pre-amendment Decision row struck, not deleted. **Memos #20 + #29 delivered to Rosetta 19:25:16Z** (0 leases, md5 equal; `57ceee6`). #20 was re-pinned first: the partition is now **330 / 81 vaults → 248 primary · 81 derived · 1 bare**, and ⚠ **72 canonical-path canvases carry `view` with no `production`, i.e. 18 post-v8.11 forks × 4 template files**, so the stale shape propagates per fork. The recipe was re-verified under v2.5.0 (0 errors, 0 advisories). ⛩ **Three findings:** **F-V-15** the receiver re-wrote a ruled record from a stale tab (it never requires `.pending`; restored; Astro upstream candidate, not filed) · **D3 was never asked**: the 07-02 registrar handshake never left our outbox, so 3½ months of "watch for Rosetta's ack" waited on an undelivered memo (now carried by #29) · **ADR-012's discipline failed on its own door**: the 09-16 `adr_012` + queue doors quote the overlay subnet (public since 09-17; ruled doors are records, not edited), and memo #29's draft did it again before being caught → [`idea_rfc1918_authored_path_census`](how/backlog/idea_rfc1918_authored_path_census.md) awaits a ruling. ⚠ A first `git grep -E` with `\b` silently returned 0, another cross-check that could not fail. **Gates: 11, all green**, pasted: `canvas_std` **236/22** · certification **15/15** · `canvas_core` **1041/4** · `canvas_presentation` **58/2** · `canvas_context` **58** · producers **276 across 7 packages** · `comic_render` **154/2** · firewall diff **0** · registry census **11/11** keys · dual-channel freshness **2/2** · inbox receipt **0 overdue** (0 untracked within 7 d). `--check-doors`: **0 pending**. Not pushed.
 >
@@ -32,6 +42,8 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — **[Operation Vernier](how/campaigns/campaign_canvas_vernier/campaign_canvas_vernier.md) ACTIVE · scope amended 2026-10-12** · Datum ✅ 2026-09-15 · Gridline · Plumbline ✅ 2026-09-11
 
+> ▶ **2026-10-26: P3 open. Next: render the touch-#8 signature door from [the obj 1 design](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md) and prove it at the page, in a sitting where he can rule.** Obj 2 (the gate #9 source leg) needs no signature and can run before it. The P4 wave now also owes replies to Aldus ×2 and Schulten. The lines below are the 10-12 reading, superseded where they disagree.
+>
 > ⛩ **Vernier — chartered 2026-09-17, amended 2026-10-12.** Subject: **`Terminal.aDNA/what/canvas/`** (8 canvases;
 > `Archive.aDNA/Armor.aDNA` is P1's frozen measurement — Armor was archived 09-24, Hestia acked #26).
 > ▶ **P0 · P1 · P1b CLOSED. Next: the operator rules V-1…V-8 + the firewall at the door
@@ -79,7 +91,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 | 8 | ~~**Runnable gate manifest** (F-P5-3)~~ | ✅ **SHIPPED 2026-09-10** | `how/gates/gate_manifest.py` + [`AGENTS.md`](how/gates/AGENTS.md). Fails on omission (exit 3), verified by derivation. Found an eighth suite on first run (**F-GM-1**, `canvas_presentation`). **Upstream candidate remains open** — mention at a natural pause, file only if the operator approves. |
 | 9 | **`skill_l1_upgrade.md` RFC1918 disposition** | watch · operator/Rosetta | **template-inherited**, so the literals sit in every forked vault; remediating our copy fixes one of many and the durable fix is upstream. Not remediated unilaterally. |
 | 10 | **SS live-batch review surface.** ⚠ **Corrected 2026-09-11:** this row read *"a named **second** consumer of the **P4 board form**"* — **that phrasing was ours, not theirs.** SS said the review-surface form would be *"the right **first** consumer … **on our side**"*, which is a different claim, and ours quietly upgraded the commitment. ⛔ **And the compatibility is unmeasured**: `variant_board.py` consumes a ComfyUI **run manifest**; SS's pending batch is *"built as an HTML gate."* The older path (`spec_canvas_review_surface` + `_reserved.interaction` + `review_collect.py`) may be the actual fit. Flagged to them as a real question, not a formality. | watch → **Plumbline P3** | ⛩ **Item 1 ruled 2026-09-11 and it CLEARED.** Memo #15 promised *"flagged when it clears, not left to ask"* — the flag is Plumbline **P3, memo #17**, and it carries the honest caveat that Canvas's own tooling enforced the superseded axis until P1. ⚠ **Two obligations were welded in this row and only one was ever item 1's**: the *promise* (ours, now dischargeable) and the *conversion* (needs P1's under-coverage ruling first — SS's boards are hand-authored primary artifacts, the population where all three old values were wrong). |
-| 11 | **D3 Rosetta registrar ack** *(standing, pre-Blueprint)* | watch · `#needs-human` | on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified. |
+| 11 | **D3 Rosetta registrar ack** *(standing, pre-Blueprint)* | watch · `#needs-human` | on ack, flip `adr_003` Amendment 1 + `lip_registry` "pending" → ratified. ⟳ **2026-10-26: the ack is in** (Rosetta 10-16, receipted `b63b971`: the registrar role is accepted by the operator on the aDNA.aDNA side, and 0012 is next free). **The flip is the operator's**, as a ratification-status change. The row stays open until he rules it. |
 
 ### ⛩ 2026-09-16 — the operator-owed tail became doors
 
