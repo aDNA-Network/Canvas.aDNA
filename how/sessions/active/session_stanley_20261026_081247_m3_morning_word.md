@@ -1,0 +1,46 @@
+---
+type: session
+session_id: session_stanley_20261026_081247_m3_morning_word
+tier: 2
+user: stanley
+machine: Dyrnwyn (L1)
+created: 2026-10-26
+updated: 2026-10-26
+started: 2026-10-26T08:12:47-07:00
+heartbeat: 2026-10-26T08:12:47-07:00
+status: active
+last_edited_by: agent_mondrian
+agent: mondrian
+operator: stanley
+account: "A-02 (his sign-in; names only)"
+started_by: "Automator.aDNA duty-officer station (Berthier), Night 2 order judgement grant N2-J, on his morning word 2026-10-26 08:02, RULED row 11112; SPAWN row 11152; kept brief how/log/briefs/20261025_n2/m3_canvas.md (brief row 11150); pinned opus"
+authority_label_verbatim: "(a) All four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"
+campaign: campaign_canvas_vernier
+phase: "P3 open (2026-10-16)"
+executor_tier: opus
+intent: >
+  Execute his four rulings of 08:02 (row 11112), each by this vault's law with his label quoted and the row as
+  the authority: (1) D3, the registrar role accepted by Rosetta: adr_003 Amendment 1 and lip_registry flipped to
+  ratified; (2) the v2.5.0 annotated tag, cut locally on the commit the law names (the station pushes it under
+  N2-P; never by this desk); (3) the touch-8 door amendment, dated: the Terminal exit-gate clause moves to P4;
+  (4) D-O2-7 recorded as ruled in the objective 2 card; then the next card under N2-J if the budget allows.
+scope_declared:
+  - how/sessions/active/session_stanley_20261026_081247_m3_morning_word.md
+  - what/decisions/adr_003_standard_governance.md (Amendment 1 status + ratification block)
+  - the lip_registry file (status flip only)
+  - how/campaigns/campaign_canvas_vernier/** (obj 1 design dated amendment; obj 2 card D-O2-7 ruled; P3 mission exit gate; campaign doc if it carries the clause)
+  - STATE.md (banner, Resume-Here top line, carried tail #11, standard pins open tail)
+  - one local annotated git tag v2.5.0
+lease:
+  mode: write
+  graphs: [Canvas.aDNA]
+not_in_scope: "what/code/canvas_std/** (the firewall) · who/coordination/ (no memo sent) · how/gates/ doors · any .claude/ path · any other graph · push of commits or tag"
+conflict_scan: "how/sessions/active/ holds only .gitkeep (VERIFIED, /bin/ls -la 2026-10-26 08:12); HEAD eadffac = origin/master (rev-list count 0); tree: 1 untracked inbox memo (coord_2026_10_13_berthier_automator_to_mondrian_receipt_memo_24.md)"
+---
+
+# Session: his morning word, the four rulings (Mondrian, M3, under N2-J)
+
+## Activity Log
+
+- 08:12 Opened. Read the kept brief by path, CLAUDE.md, STATE.md top block + Resume-Here + carried tail, both 10-26 night records. `active/` empty but for `.gitkeep`; HEAD `eadffac` = `origin/master`; one untracked inbox memo (the station's 10-13 receipt of memo #24).
+- 08:16 **(1) D3 flipped.** Basis re-probed at act time: Rosetta's 10-16 memo §2 is tracked (receipted `b63b971`) and says *"You may flip"*. `adr_003` §Amendment 1: the "pending Rosetta's ack" clause struck (not deleted), a dated ⛩ note, and a 4-field §7.7 block (ratified, 2026-10-26, his word row 11112). `lip_registry` header: "handshake pending" and "provisional-final" struck, ratified, the registrar's registry cited. Found while flipping: the registry's status count read Draft 1 · Final 3 since `55ce2a1` (LIP-0011's row moved, the count did not); corrected from the rows, struck not deleted. The 07-02 handshake memo: `pending_ack` → `acked`, the old value kept in its comment.

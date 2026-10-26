@@ -4,7 +4,7 @@ adr_id: "003"
 title: "Standard governance — v2.0.0 line, LIP change process, conformance levels, version policy"
 status: ratified
 created: 2026-06-12
-updated: 2026-07-02
+updated: 2026-10-26
 last_edited_by: agent_mondrian
 signed_by: Stanley (operator) — P2 gate 2026-06-12
 supersedes:
@@ -85,6 +85,25 @@ Canvas-stewarded LIPs (LIP-0008, LIP-0009).
 
 **Numbering registrar (D3).** The global LIP number line is registrar'd by **aDNA.aDNA**; Canvas stewards its LIPs
 under their global numbers and holds their content + ratification. This arrangement is staged as a cross-vault
-coordination memo (`who/coordination/coord_2026_07_02_lip_registrar_handshake.md`) and is **pending Rosetta's ack** —
-until then, Canvas numbering is provisional-final under the inherited global numbers. Authority for this amendment:
-operator (FA), Phase 0.
+coordination memo (`who/coordination/coord_2026_07_02_lip_registrar_handshake.md`) and is ~~**pending Rosetta's ack** —
+until then, Canvas numbering is provisional-final under the inherited global numbers~~ **ratified 2026-10-26** (see below;
+struck, not deleted). Authority for this amendment: operator (FA), Phase 0.
+
+⛩ **D3 ratified — 2026-10-26 (dated; the text above is unchanged but for the struck clause).** The ack came first:
+aDNA.aDNA accepted the registrar role for the global LIP number line (operator, ARCADE G2 ruling R20, 2026-10-16), and
+`aDNA.aDNA/who/governance/lip_registry.md` is its registry (census-derived; next free **LIP-0012**). Memo
+`who/coordination/inbox/coord_2026_10_16_rosetta_to_mondrian_rfc1918_placeholder_at_v8_13_and_yes_to_the_lip_registrar_role_registry_proposed.md`
+§2, receipted byte-unchanged at `b63b971`; it says *"You may flip"* and leaves each LIP's status to its steward. The
+flip itself is a ratification-status change, so it waited for the operator. He ruled it on his morning word of
+2026-10-26 08:02, recorded by the Automator duty-officer station as RULED row 11112, label verbatim: *"(a) All four: D3
+flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001, P-F-005]"*.
+Canvas numbering is now **final** under the registrar's line; Canvas keeps each of its LIPs' content, status and home.
+
+#### Ratification (§7.7) — Amendment 1
+
+| Field | Value |
+|-------|-------|
+| Decision | Amendment 1's D3 clause: the global LIP number line is registrar'd by aDNA.aDNA; Canvas stewards the content, status and ratification of LIP-0008 · 0009 · 0010 · 0011 under their global numbers |
+| Ratified by | stanley (operator), his morning word 2026-10-26 08:02 (Automator decision log RULED row 11112, label quoted above); executed by Mondrian under the Night 2 judgement grant N2-J. Counterparty: Rosetta (aDNA.aDNA), the registrar's yes of 2026-10-16 |
+| Date | 2026-10-26 |
+| Status | **ratified** |

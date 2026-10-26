@@ -1,7 +1,7 @@
 ---
 type: registry
 created: 2026-07-02
-updated: 2026-10-16
+updated: 2026-10-26
 last_edited_by: agent_mondrian
 tags: [lip, governance, registry, canvas, authority_axis, production_axis, plumbline, lip_0011, sync_semantics]
 icon: list
@@ -12,11 +12,21 @@ icon: list
 Canonical index of the Lattice Improvement Proposals **stewarded by Canvas.aDNA**, listed under their **global** LIP
 numbers.
 
-> **Registrar.** The global LIP number line is registrar'd by **aDNA.aDNA** (D3, proposed 2026-07-02 — handshake
-> pending; see `who/coordination/coord_2026_07_02_lip_registrar_handshake.md`). Canvas stewards the *content* and
-> *ratification* of its own LIPs (LIP-0008, LIP-0009) under their globally-assigned numbers; the registrar arbitrates
-> number assignment across vaults. Until the handshake is acked, numbering here is **Canvas-provisional-final** under
-> the numbers inherited from the predecessor line.
+> **Registrar.** The global LIP number line is registrar'd by **aDNA.aDNA** (D3, proposed 2026-07-02 — ~~handshake
+> pending~~ **ratified 2026-10-26**; see `who/coordination/coord_2026_07_02_lip_registrar_handshake.md`). The registrar's
+> registry is **`aDNA.aDNA/who/governance/lip_registry.md`** (census-derived; next free **LIP-0012**). Canvas stewards the
+> *content* and *ratification* of its own LIPs (LIP-0008, LIP-0009, LIP-0010, LIP-0011) under their globally-assigned
+> numbers; the registrar arbitrates number assignment across vaults. ~~Until the handshake is acked, numbering here is
+> **Canvas-provisional-final** under the numbers inherited from the predecessor line.~~ Numbering here is **final** under
+> the registrar's line.
+>
+> ⛩ **D3 ratified — 2026-10-26 (dated; struck text kept, not deleted).** The ack: Rosetta's memo
+> `who/coordination/inbox/coord_2026_10_16_rosetta_to_mondrian_rfc1918_placeholder_at_v8_13_and_yes_to_the_lip_registrar_role_registry_proposed.md`
+> §2 (aDNA.aDNA's operator accepted the role, ARCADE G2 ruling R20, 2026-10-16; receipted `b63b971`). The flip: the
+> operator's morning word of 2026-10-26 08:02, RULED row 11112 in the Automator decision log, label verbatim: *"(a) All
+> four: D3 flipped, v2.5.0 tagged on this GO, the touch-8 amendment dated, D-O2-7 stands (Recommended) [P-F-001,
+> P-F-005]"*. Ratification block: `what/decisions/adr_003_standard_governance.md` §Amendment 1. The one-line confirmation
+> of our four rows that Rosetta asked for (not owed) belongs to the P4 memo wave; this desk sends no memo.
 >
 > **Predecessor line.** LIP-0001…LIP-0009 were assigned in the original `lattice-labs` registry (archived reader-only
 > 2026-06-27 → `Archive.aDNA/lattice-labs/how/governance/lips/lip_registry.md`). LIP-0002…LIP-0007 belong to other
@@ -37,14 +47,18 @@ numbers.
 
 | Status | Count |
 |--------|-------|
-| Draft | 1 |
+| Draft | ~~1~~ **0** |
 | Review | 0 |
 | Accepted | 1 |
 | Implemented | 0 |
-| Final | 3 |
+| Final | ~~3~~ **4** |
 | Rejected | 0 |
 | Withdrawn | 0 |
 | **Total** | **5** |
+
+> ⛩ *Count corrected 2026-10-26 (struck, not deleted): the table read Draft 1 · Final 3 from `55ce2a1` (2026-10-16),
+> when LIP-0011's row moved Draft → Final and the count did not. Measured from the rows above: LIP-0001 Accepted;
+> LIP-0008 · 0009 · 0010 · 0011 Final.*
 
 > **LIP-0008** is **Final** — the A-5 relaxation landed in **Canvas Standard v2.3.0** (Operation Beacon B4.2; suite
 > 115/10, certification 11/11). **LIP-0009** is Final on **Option V** (keep canvas as a view; elevation deferred, no
