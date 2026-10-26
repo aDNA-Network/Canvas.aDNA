@@ -1,9 +1,9 @@
 ---
 type: directory_index
 created: 2026-09-10
-updated: 2026-10-13
+updated: 2026-10-26
 last_edited_by: agent_mondrian
-tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f_dt_7, registry_census, inbox_receipt, f_v_1, f_v_5, check_doors, upstream_candidate]
+tags: [directory_index, gates, ci, regression, f_p5_3, f_gm_1, f_pl_6, f_gl_1, f_dt_7, registry_census, inbox_receipt, f_v_1, f_v_5, check_doors, upstream_candidate, f_v_16, probe_freshness, two_legs]
 ---
 
 # how/gates/ — The gate set, executable
@@ -39,6 +39,7 @@ Run it before any phase close, campaign close, or push batch:
 python3 how/gates/gate_manifest.py --markdown     # run everything, emit the STATE.md line
 python3 how/gates/gate_manifest.py --discover-only # omission check only; runs no tests (~1s)
 python3 how/gates/gate_manifest.py --check-doors   # every pending ISS door → the live receiver? (~1s)
+python3 how/gates/gate_manifest.py --probe-freshness # gate #9's two legs over planted pairs; runs no suites
 ```
 
 ## The standing rule
@@ -173,6 +174,43 @@ Sibling of **F-P5-3** (a suite nobody invoked) and **F-GM-1** (a suite never enr
 variant of the same family, one layer out from tests. The gate rebuilds every `*.diagram.yaml` into a
 temp dir and compares **parsed documents** (key order and whitespace are not the claim). It never
 writes into the vault.
+
+### Two legs since 2026-10-26 (Operation Vernier P3, objectives 2 and 4)
+
+Gate #9 now runs **two legs on every pair, every time** (card:
+`how/campaigns/campaign_canvas_vernier/artifacts/p3_obj2_gate9_source_leg_card_20261026.md`):
+
+| Leg | Compares | Role | Cannot see |
+|---|---|---|---|
+| **yaml source** | `canvas_std.compute_source_sha256(<.diagram.yaml>)`, run in the runner env, with the canvas's `sync.source_sha256` | the cheap pre-filter, and the one a third party can run without the generator | the prose channel; generator drift with the same input (F-PL-6); whether a changed byte matters (a YAML comment reads as stale) |
+| **rebuild** | the generator re-run into a temp dir with the view, `sync.source_sha256` masked on both | the authority | the prose channel; a source edit that leaves the generated view unchanged |
+
+⚠ **Neither leg reads the prose `.md`.** In this vault "source hash" first meant a hash of the prose,
+so every line the gate prints says *"prose channel: neither leg reads it"* and the pasted line reads
+`dual-channel freshness f/n (yaml source s/n · rebuild r/n; prose unread)`, where `s` and `r` count the
+pairs on which that leg read fresh. Prose-to-structure drift stays a gate-review obligation
+(`skill_canvas_context_diagram` §4).
+
+**The verdict follows the authority** (D-O2-7, ruled by the operator 2026-10-26; P1's plan-gate
+ruling: *"source hash as a cheap pre-filter, rebuild-compare as the authority"*). A pair passes when its
+rebuild is fresh and its source leg ran. A stale digest beside a fresh rebuild is the pre-filter's own
+false positive: printed on every run with the pair named, never a FAIL. A leg that **cannot run** fails
+its pair: no digest recorded, a recompute that fails, a rebuild that fails, or a recompute that differs
+from the digest the rebuild just stamped from the same bytes (D-O2-8, a tool fault). An orphan
+`.diagram.yaml` fails and is not counted; **zero pairs fails** (a gate that checks nothing is not green).
+
+⛩ **F-V-16.** The leg as first drafted would have read a population of **zero**: neither of this
+vault's canvases carried a digest, and the producer could not write one (`build_diagram` never sees
+the path). It would have printed green. The producer's CLI now stamps the digest through `canvas_std`'s
+own function, and both pairs were regenerated (one key each). Before the regeneration, the built gate
+read the real pairs `0/2 (yaml source 0/2 · rebuild 2/2) ⛔ FAIL`: the leg can go red alone.
+
+**Proven both ways:** `--probe-freshness` seeds one pair from the vault, plants one change per case in a
+temp dir and runs the same helpers (clean · a YAML comment · a moved node · the digest removed · a
+relabel · an unbuildable yaml · an unreadable source · a broken recompute · an orphan · zero pairs).
+One case carries a deliberately wrong expectation, so the comparator is shown able to fail on every
+run. Exits: 0 iff every case matched and the control mismatched · 1 otherwise · 4 no seed / the seed
+would not build.
 
 ## Gate #10 — `registry_census`, added 2026-09-13 (Operation Datum P2)
 
