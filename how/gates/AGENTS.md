@@ -207,7 +207,20 @@ read the real pairs `0/2 (yaml source 0/2 · rebuild 2/2) ⛔ FAIL`: the leg can
 
 **Proven both ways:** `--probe-freshness` seeds one pair from the vault, plants one change per case in a
 temp dir and runs the same helpers (clean · a YAML comment · a moved node · the digest removed · a
-relabel · an unbuildable yaml · an unreadable source · a broken recompute · an orphan · zero pairs).
+relabel · an unbuildable yaml · an unreadable source · a broken recompute · **the layout engine changed**
+· an orphan · zero pairs).
+
+**The pair, derived (P3 objective 3, 2026-10-26).** *Source stale · rebuild fresh*, the pre-filter's
+false positive, is the YAML-comment case. *Source fresh · rebuild stale*, its false negative, is the
+**engine** case. That case is the F-PL-6 shape for real: the view is rebuilt in a subprocess by a
+perturbed layout engine (`GAP_X`/`GAP_Y` +1) through the CLI's own `main`, then checked with the real
+engine. The plant refuses to score unless the perturbed view differs (parsed, digest masked) and carries
+the same digest.
+
+**Apart from the derived cases, a demonstration:** *a typo in the prose*. Nothing resolves the
+`prose:` path, so a prose edit anywhere reads **both fresh**. The mission's literal *"prose typo →
+source stale"* is therefore false for Canvas's pairs. That is the third blind spot, shown, not a
+mechanism that can catch it.
 One case carries a deliberately wrong expectation, so the comparator is shown able to fail on every
 run. Exits: 0 iff every case matched and the control mismatched · 1 otherwise · 4 no seed / the seed
 would not build.

@@ -474,6 +474,12 @@ PROSE_UNREAD = "prose channel: neither leg reads it"
 # copy of the definition (F-V-13: a second copy can be wrong in bytes nobody can see).
 _SOURCE_DIGEST = "import sys; from canvas_std import compute_source_sha256 as f; print(f(sys.argv[1]))"
 
+# Objective 3's planted engine change (used ONLY by `--probe-freshness`): the layout engine with both gaps
+# +1, then the CLI's own `main`, in a subprocess, so the vault's engine is never patched in this process.
+_PERTURBED_BUILD = ("import sys; import diagram_generator.layout as L; L.GAP_X += 1; L.GAP_Y += 1; "
+                    "from diagram_generator.__main__ import main; "
+                    "sys.exit(main(['build', sys.argv[1], sys.argv[2]]))")
+
 
 def _rel(p: Path) -> str:
     try:
@@ -1075,6 +1081,43 @@ def probe_freshness() -> int:
     def unreadable(src: Path, view: Path) -> None:
         src.chmod(0)  # the digest recompute and the rebuild both fail to read it
 
+    def engine_changed(src: Path, view: Path) -> None:
+        # Vernier P3 objective 3 (2026-10-26), the F-PL-6 shape for real: the view is REBUILT by a
+        # perturbed layout engine (GAP_X and GAP_Y +1, module globals read at call time), through the
+        # CLI's own `main`, so it is stamped exactly as a real build is. The perturbation lives only in
+        # this subprocess; the vault's engine is never patched. The check then runs the real engine.
+        real_view = json.loads(view.read_text())
+        perturbed = subprocess.run(
+            [str(PYTHON), "-c", _PERTURBED_BUILD, str(src), str(view)],
+            capture_output=True, text=True, cwd=str(PRODUCTION / "diagram_generator"), env=_generator_env(),
+        )
+        if perturbed.returncode != 0:
+            raise RuntimeError(f"the perturbed build failed (exit {perturbed.returncode})")
+        new_view = json.loads(view.read_text())
+        # D-O3-1, compared the way the rebuild leg compares (parsed, digest masked): an "engine change"
+        # that changes nothing must read as a planting failure, not as fresh.
+        if _digest_masked(new_view) == _digest_masked(real_view):
+            raise RuntimeError("the perturbed engine produced the same view; nothing was planted")
+        # ...and the perturbed build stamped the same digest as the real one (same bytes, same function),
+        # so any verdict below is about the engine and never about the source.
+        if _sync_block(new_view).get("source_sha256") != _sync_block(real_view).get("source_sha256"):
+            raise RuntimeError("the perturbed build stamped a different digest; the plant is not engine-only")
+
+    def prose_typo(src: Path, view: Path) -> None:
+        # Vernier P3 objective 3: the mission's literal "prose typo". The seed's prose channel (the file
+        # its `prose:` field names) is copied beside the planted pair under its own name, then edited.
+        # WHERE it sits does not matter: nothing resolves the `prose:` path (model.py stores it as a
+        # string, load_diagram reads only the yaml, consume.py uses only its stem), so neither leg can
+        # see any prose edit anywhere. This case DEMONSTRATES the third blind spot; it cannot discover
+        # anything, and the mission's literal "prose typo -> source stale" reads BOTH FRESH here.
+        m = re.search(r"^prose:\s*(\S+)\s*$", src.read_text(encoding="utf-8"), re.M)
+        if not m:
+            raise RuntimeError("the seed declares no prose channel")
+        prose = VAULT / m.group(1)
+        copy_ = src.parent / prose.name
+        copy_.write_bytes(prose.read_bytes())
+        copy_.write_bytes(copy_.read_bytes() + b"\nA typo: teh prose channel moved.\n")
+
     # (name, plant, expected source, expected rebuild, the comparator must agree?, the gate's expected
     # status for this pair alone, and the words its report must carry — the report is part of the
     # check, F-GL-7: in the detail when it is red, on the always-printed leg lines when it is green)
@@ -1092,6 +1135,11 @@ def probe_freshness() -> int:
         # D-O2-8: the recompute is swapped for one that always returns a wrong digest, so it reads
         # "stale" on a clean pair. Without the cross-check this pair would PASS (rebuild fresh).
         (BROKEN_RECOMPUTE, nothing, "tool fault", "fresh", True, "FAIL", "the source leg cannot run"),
+        # Objective 3: the pre-filter's false negative, derived (same source bytes, a different engine).
+        ("the layout engine changed (F-PL-6)", engine_changed, "fresh", "stale", True, "FAIL",
+         "generator drift"),
+        # Objective 3: the prose channel, a demonstration of the blind spot both legs share.
+        ("a typo in the prose (demonstration)", prose_typo, "fresh", "fresh", True, "OK", PROSE_UNREAD),
         ("control: a wrong expectation", nothing, "stale", "stale", False, None, None),
     ]
 
