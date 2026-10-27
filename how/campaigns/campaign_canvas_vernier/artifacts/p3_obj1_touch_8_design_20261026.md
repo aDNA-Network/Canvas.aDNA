@@ -2,7 +2,7 @@
 type: artifact
 artifact_kind: design
 created: 2026-10-26
-updated: 2026-10-26
+updated: 2026-10-27
 status: proposed
 last_edited_by: agent_mondrian
 campaign: campaign_canvas_vernier
@@ -87,3 +87,50 @@ His word of 2026-10-26 08:02, recorded by the Automator duty-officer station as 
 
 - **§6.1 is ruled: the Terminal exit-gate clause moved to P4**, by a dated amendment (`../campaign_canvas_vernier.md` §P3 exit-gate amendment — 2026-10-26; both missions' Exit Gates edited, struck not deleted). The touch-8 door therefore **carries the amendment as ruled, not as a question**, and D-2 is offered on its own merits only: §2's sentence tying the exit gate to D-2 is history (§6.1), not a door item.
 - Nothing else here is ruled. D-1 · D-2 · D-3, the nine rows and the §6.2-§6.4 findings still go to the door, and **touch #8 is unsigned**: `canvas_std` stays at diff 0.
+
+## 8. The door's page work, unattended (dated note, 2026-10-27; the text above is unchanged)
+
+Mondrian, under the Automator night continuation order row N3b-2a (carrying N3-12), session `session_stanley_20261027_061615_n3b_2a_obj1_page`. §5 keeps the render, the receiver and the page proof for a sitting where he can rule. This section records only what a seat could do without them.
+
+**8.1 The door's data, not the door.** [`how/gates/p3_touch_8_signature_20261027.data.json`](../../../gates/p3_touch_8_signature_20261027.data.json) was authored at `d4f749a`, the text the seat read, and revised after the seat in the commit that adds this section. It has **five sections, not §5's four**: the nine rows · D-1 · D-2 · **exit 2** · D-3. §6.2's exit-2 rule extends the Exit Gate's *"exits 0/1"*. That amends a human gate's wording, so it is a ruling of its own. §7's amendment rides as ruled, in the composite question and the footer, and is never asked. There is no `.html` and no `.pending`: the generator was not run as a program.
+
+**8.2 Re-verified and measured at HEAD `c313b8c`** (VERIFIED; no run wrote anything):
+- Every §3 line number holds. `canvas_std` is unchanged since `1667b24`.
+- `canvas_std` 236/22 · certification 15/15 (Standard 2.5.0) · fixture enum coverage 12/40 (`arrow` 0/7, `fromEnd` 0/2), so row 8's 21 stays a prediction.
+- The row 7 rider is live: the fixture is blob `8335fe3` and the vault canvas `996ae84`, since `8191348`.
+- The in-vault census (`git ls-files "*.canvas"`, the canonical path): 34 canvases, 25 with `sync_hash`, 3 of those with `sync.source_sha256`. Outside `tests/`: 15 · 11 · 2.
+
+**8.3 Found while authoring, now on the door.**
+- (a) D-3's edge. `what/specs/spec_conformance_suite.md` §7 lists six report fields, and row 2 adds a seventh (`advisories`). `_report_dict` already adds `ok` (`conformance.py:78`), which comes from §1.1.
+- (b) Row 9. The `canvas_std` CHANGELOG is headed by Standard versions, and under D-3 this touch cuts none.
+- (c) Two template keys the ruled doors never supplied, `wordmark` and `composite_id`, render as nothing without a word. That is the F-V-9 class, cosmetic here: all three Canvas `phase_exit` doors read "◆ COMPOSITE —" with nothing after it, and their wordmark is empty (VERIFIED, grep of the three `.html`). This door supplies both.
+- *Observed, not on the door:* `README.md:21-22` lists neither `advisories` nor `compute_source_sha256`, both shipped at touch #7. Row 4 could take them in the same edit, if the signature allows it.
+
+**8.4 The receiver is down.** No `gate_receiver` runs on this node (`pgrep`, exit 1), `.gate_receiver.port` is absent, and a stale `.gate_receiver.8768.lock` (2026-09-16) remains. A door rendered now would carry an empty `data-receiver-url`, and its page would POST to :8765, which is JupyterHub (`how/federation/iss/CLAUDE.md`, the trap). Starting the receiver is a custody act for an unattended seat, so it belongs to his sitting.
+
+**8.5 The render sitting's steps** (his; recorded so that sitting is short):
+1. Start the Canvas-rooted receiver (`how/federation/iss/CLAUDE.md` §Resolved). Read `/health` by its body: it must name this vault's gates root.
+2. Render: `python3 ~/aDNA/Astro.aDNA/what/lib/iss/runtime/generator.py --template phase_exit --persona neutral --data how/gates/p3_touch_8_signature_20261027.data.json --output how/gates/p3_touch_8_signature_20261027.html --write-sentinel`. The earlier doors used `--font-mode online`, which fetches web fonts when the page opens; `system` does not.
+3. Read the page source for a non-empty `data-receiver-url` and `const SECTION_COUNT = 5`.
+4. Prove it at the page in Chromium and Firefox (F-V-9): a `zz_probe` submitted through the page lands as an `.output.json`, and the probe is then removed, as on 2026-10-16. Check the section headers at a narrow width (F-V-14). Four cards run over the generator's advisory density cap of 160 words; it counts tags, and the ruled LIP-0011 door ran 214 and 205.
+5. `python3 how/gates/gate_manifest.py --check-doors` reads 0. Then open the door for his ruling.
+
+If the door is rendered on a later day, the id may keep its date (the content's date), or move together with `created_at` and `output_destination`.
+
+**8.6 The seat** (read-only opus, a fresh context, did not build) read `d4f749a`: **UNSOUND, 1 S1 and 11 S2**, 59 tool uses (one refused by the node hook), about 18 minutes, nothing written. Its re-derivations agreed with every figure, line number and pin above, and it found privacy clean.
+- **S1-1, applied.** Row 7's rider was carried only as a fact. The door now says what row 7 does at `manifest.json:142` (a dated line, its text kept). It also offers the corpus question the design sends to this signature: Amend with "re-copy".
+- **S2, applied as text:**
+  1. The diff-0 list now conditions `roundtrip.py` and `__init__.py` on D-1 (i), and D-1 (ii) reads "two more files in row 1".
+  2. Row 3 no longer promises to derive the docstring: `__init__.py:10` imports `conformance` before `:31` defines `STANDARD_VERSION`. The docstring becomes text, and the two CLI strings are read at call time.
+  3. D-2's first bullet was wrong. `validate()` never reports the mismatch; `advisories()` does, for `production: generated` only (`reserved.py:237-256`). "D-1 (i)" now names LIP-0011's.
+  4. The residue is attributed to LIP-0011 §As implemented and the P3 mission. `compute_sync_hash` is dated to Keystone (`62f399e`), not touch #7.
+  5. This §8 is written, as the footer cites it.
+  6. Restored to the rows: row 4's "names both blind spots", row 8's dated line at :24-27, and §6.3's corrected topology blind spot as the printed line.
+  7. Exit code 0 reads "every failable leg", and the amended Exit Gate clause is quoted on the door.
+  8. D-3's "drop the field" route is mapped to Amend on section 1, where it narrows objective 5.
+  9. The census names its test fixtures. This desk counts 19 of 34 under a `tests/` directory and the seat 18; the difference is one golden file, `document_generator/tests/golden/document_small.canvas`, which carries a `sync_hash`.
+  10. Terminal's 0/8 topology (REPORTED) is now on D-2's merits: under *fail*, all 8 exit 1 for an encoding difference.
+- **S2-11, recorded:** the receiver (§8.4 and step 1).
+- **Not re-reviewed.** The revision is text applied by the builder. Its next reader is the page proof in his sitting.
+
+**8.7 Still his:** the receiver, the render, the page proof and the ruling; then the touch-#8 build (`check-sync` and the two riders); then the P3 gate. Nothing here is ruled, and `canvas_std` stays at diff 0.

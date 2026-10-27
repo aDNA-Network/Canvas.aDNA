@@ -11,7 +11,7 @@ mission_class: implementation
 executor_tier: sonnet
 token_budget_estimated: "~120k"
 created: 2026-10-12
-updated: 2026-10-26
+updated: 2026-10-27
 last_edited_by: agent_mondrian
 tags: [plan, campaign, vernier, freshness]
 ---
@@ -69,6 +69,10 @@ Gate line reads `dual-channel freshness N/N (source · rebuild)`; `canvas-std ch
   - ⚠ **The mission's literal first half does not hold for Canvas's pairs.** *"A prose typo → source stale, rebuild fresh"* reads **both fresh**: nothing resolves the `prose:` path. The prose case is a **demonstration** of the third blind spot, not a derivation of the first half. The first half is derived with the YAML comment instead (the re-reading the obj 2 card §6 named).
   - Each new case was shown able to fail in scratch: each expectation flipped exits 1, and a zero perturbation trips the plant's guard.
   - The gate line does not move (the probe is a flag). `canvas_std` diff 0. No objective is marked closed against its literal wording, and the P3 gate is his.
+- **2026-10-27 (Mondrian, unattended, Automator night continuation order row N3b-2a): objective 1's page work.** The touch-#8 door's data is authored, [`how/gates/p3_touch_8_signature_20261027.data.json`](../../../gates/p3_touch_8_signature_20261027.data.json), with five sections: the nine rows · D-1 · D-2 · exit 2 · D-3. Exit 2 is §6.2's extension of this Exit Gate's *"exits 0/1"*; approving it amends that clause, at the build, struck not deleted.
+  - A fresh read-only seat read the first text (`d4f749a`) UNSOUND: 1 S1 (row 7's rider carried as a fact only), applied, and 11 S2, ten applied as text and one recorded. The revision is not re-reviewed. Record: the design's §8.
+  - The door is **not rendered**. The receiver is down (no process, no port sidecar), so his render sitting starts it first; the steps are in the design's §8.5.
+  - Objective 1 stays open: its CLI is touch #8, unsigned. `canvas_std` diff 0.
 
 ## Completion Summary
 
