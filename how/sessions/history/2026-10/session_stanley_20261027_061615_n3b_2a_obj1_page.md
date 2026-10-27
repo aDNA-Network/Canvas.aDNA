@@ -7,12 +7,15 @@ machine: Dyrnwyn (L1)
 created: 2026-10-27
 updated: 2026-10-27
 started: 2026-10-27T06:16:15-07:00
-heartbeat: 2026-10-27T06:16:15-07:00
-status: active
-completed:
-commits: []
-files_modified: []
-files_created: ["how/sessions/active/session_stanley_20261027_061615_n3b_2a_obj1_page.md (this file)"]
+heartbeat: 2026-10-27T06:52:00-07:00
+status: completed
+completed: 2026-10-27T06:52:00-07:00
+commits: [d4f749a, a074533, "the close commit (this file + STATE.md)"]
+files_modified: [how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md, how/campaigns/campaign_canvas_vernier/missions/mission_vernier_p3_freshness_both_ways.md, STATE.md]
+files_created: [how/gates/p3_touch_8_signature_20261027.data.json, "how/sessions/history/2026-10/session_stanley_20261027_061615_n3b_2a_obj1_page.md (this file; opened in active/)"]
+scope_used: "Within the declared lines. canvas_std diff 0; what/production/** untouched; no door rendered (no .html, no .pending; the generator imported only for its pure check functions); no receiver started; nothing written outside Canvas.aDNA"
+fence_slips: "1, refused before it ran: a listing command carried a stderr redirect to the null device; the node guard refused it (E-374) and nothing executed. No network, no write outside the fence, nothing read under ~/.claude or the harness scratchpad"
+reviewer: "one read-only opus seat, a fresh context, did not build: UNSOUND on d4f749a, 1 S1 (applied) + 11 S2 (10 applied as text, 1 recorded); the revision a074533 is not re-reviewed"
 last_edited_by: agent_mondrian
 agent: mondrian
 operator: stanley
@@ -66,3 +69,59 @@ conflict_scan: "how/sessions/active/ holds only .gitkeep (VERIFIED, /bin/ls -la 
 - 06:2x While the seat read (its files untouched): the inbox is unchanged since the last sitting (newest memo receipted at `fdf7634`); 1 commit ahead of `origin/master` as last fetched (`git rev-list`, local only). Found: the template's `{{wordmark}}` and `{{composite_id}}` are supplied by neither the data nor the generator, so all three Canvas `phase_exit` doors render them as nothing (VERIFIED, grep of the `.html`).
 - 06:44 **The seat: UNSOUND, 1 S1 + 11 S2**, 59 tool uses (one refused by the hook), about 18 min, nothing written. Every figure, line number and pin re-derived and agreed; privacy clean; the §7 ruling carried as ruled. Its findings, verbatim in substance, with dispositions: the design's §8.6.
 - 06:4x **Revised** (text only): S1-1 applied (row 7 now states its action at `manifest.json:142` and offers the corpus question as Amend with "re-copy"); S2-1..S2-10 applied as text; S2-11 recorded (the receiver, design §8.4-§8.5); the two silent template keys supplied (`wordmark`, `composite_id`). Re-checked without rendering: parses, `section_count` 5, no attribute-unsafe character, HTML balanced, the generator's label / option / parity / fallback / dimension checks clean; card density (advisory) 321 · 248 · 211 · 169. **Not re-reviewed.** The design's §8 written (the door's page work, the receiver, the render sitting's five steps, the seat's findings); the mission's dated note.
+- 06:48 **Committed `a074533`** (the revision, the design §8, the mission note, this file), by path.
+- 06:50 STATE: a dated banner, the Resume-Here top line (the second-sitting line kept as superseded), operator item 9 (the door, unrendered), `last_session`. Tree otherwise clean; `canvas_std` diff 0; PAUSE absent; battery 80 % on AC. Close.
+
+## SITREP
+
+**Completed**
+- **P3 objective 1's page work.** The touch-#8 signature door's data is at `how/gates/p3_touch_8_signature_20261027.data.json`. It was authored at `d4f749a`; the seat read it UNSOUND (1 S1 + 11 S2), and it was revised at `a074533`. Five sections: the nine rows · D-1 · D-2 · exit 2 · D-3. **Not rendered.**
+- Re-verified and measured at `c313b8c`: every §3 line number; `canvas_std` 236/22; certification 15/15; enum coverage 12/40; the row 7 rider live; the in-vault sync census (34 · 25 · 3, outside `tests/` 15 · 11 · 2).
+- Recorded: design §8 (the page work, the receiver, the render sitting's five steps, the seat's findings with dispositions); the mission's dated note; the STATE banner, Resume-Here top line and operator item 9.
+
+**In progress**: none.
+
+**Next up**
+- **His:** start the receiver; render the door from the data (design §8.5); prove it at the page in Chromium and Firefox; rule it. Then the touch-#8 build in one touch, as ruled, with the gate line pasted. Then the P3 gate.
+- **This desk:** F-V-17 as its own card; the P4 wave drafts, staged and never sent. The wave now also owes Terminal, City and LP a line on what `check-sync`'s exit 2 means.
+
+**Blockers** (`#needs-human`, his): the receiver start (a custody act for an unattended seat); the render, the page proof and the signature at the door; the P3 gate.
+
+**Phase gate (section 5d)**: P3's docket test reads **not met**. Its Exit Gate needs `canvas-std check-sync`, which is touch #8, unsigned. No gate was opened or closed, and nothing fired.
+
+**Surety (LIVE FORM)**
+1. Author the door's data as the page work the brief names, leaving the render for his sitting. Predicted *accept* · 0.85 · S. Acted (`d4f749a`, `a074533`). Reversal: `git revert a074533 d4f749a`.
+   `surety: {"dp": "canvas.p3_obj1.door_data", "predicted": "accept the data as the door's content, rendered at his sitting", "confidence": 0.85, "keys": [], "class": "S"}`
+2. Five sections, with exit 2 split out of the nine rows (the seat called the split sound). Predicted *accept* · 0.80 · S. Acted. Reversal: fold section 4 into section 1 and set `section_count` to 4.
+   `surety: {"dp": "canvas.p3_obj1.door_five_sections", "predicted": "accept exit 2 as its own section", "confidence": 0.8, "keys": [], "class": "S"}`
+3. Supply `wordmark` and `composite_id`, which the ruled doors never had. Predicted *accept* · 0.80 · S. Acted (`a074533`). Reversal: drop the two keys.
+4. Start the receiver and render the door. Predicted *hold* · 0.95 · H: a custody act, and his sitting's work by §5. Held.
+5. The P3 gate and touch #8: his (class H). Not done.
+
+**Writes outside the fence**: none. **Network**: none. **Files touched**: as in the frontmatter. No push by me, no memo, no start, no spend.
+
+## Next Session Prompt
+
+You are Mondrian in Canvas.aDNA. Operation Vernier is at P3, open since 2026-10-16. Start at `STATE.md`: its 2026-10-27 banner and Resume-Here top line.
+
+Objectives 2, 3 and 4 are built. Objective 1's page work is done. The touch-#8 signature door's data is at `how/gates/p3_touch_8_signature_20261027.data.json`, with five sections: the nine rows, D-1, D-2, exit 2 and D-3. A fresh seat read the first text UNSOUND (1 S1 + 11 S2). The text was revised and not re-reviewed (design §8.6). **The door is not rendered.**
+
+In a sitting where he can rule, follow `how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md` §8.5:
+1. Start the Canvas-rooted gate receiver. It is down: no process, and no `.gate_receiver.port`. Read `/health` by its body.
+2. Render with the generator and `--write-sentinel`.
+3. Check the page source for `data-receiver-url` and `SECTION_COUNT = 5`.
+4. Prove it at the page in Chromium and Firefox with a `zz_probe` submitted through the page, then remove the probe.
+5. Run `--check-doors` (it should read 0), then open the door for his ruling.
+
+After the ruling, build touch #8 exactly as ruled, in one touch:
+- Rows 1-9, plus `roundtrip.py` and `__init__.py` only under D-1 (ii).
+- Re-derive the gate pins by stash and restore; never predict them. Restore `canvas_std` to diff 0, and paste the gate line.
+- If exit 2 is approved, amend the P3 Exit Gate wording (struck, not deleted).
+
+Then the P3 gate is his.
+
+This desk's own next cards:
+- F-V-17: `how/skills/skill_canvas_context_diagram.md` teaches the pre-v2.4.0 authority enum.
+- The P4 memo drafts, staged and never sent.
+
+Never use the network, and route every browser request. Before any build, seat a read-only reviewer that did not build.

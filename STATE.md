@@ -1,16 +1,24 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-10-26
+updated: 2026-10-27
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20261026_093240_d1_obj3
+last_session: session_stanley_20261027_061615_n3b_2a_obj1_page
 tags: [state, governance, canvas, vernier, standard_v250, lip_0011_final, firewall_touch_7, p6, inbox_receipt_gate, check_doors, state_compaction, scope_amendment, inbox_receipt, sync_hash, lip_0011, memorialisation, gridline, standard_v240, a8, lip_0010_final, reserved_keys, gate_reporting, plumbline, authority_axis, production_axis, b1_5_ruled, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
 ---
 
 # Operational State
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
+
+> **▶ 2026-10-27 (early morning, unattended): P3 OBJECTIVE 1'S PAGE WORK. THE TOUCH-#8 DOOR'S DATA IS AUTHORED AND REVIEWED; THE DOOR IS NOT RENDERED (Mondrian, `session_stanley_20261027_061615_n3b_2a_obj1_page`, under the Automator night continuation order row N3b-2a, carrying N3-12).**
+> - **The data:** [`how/gates/p3_touch_8_signature_20261027.data.json`](how/gates/p3_touch_8_signature_20261027.data.json), authored `d4f749a`, revised `a074533`. It has five sections: the nine rows · D-1 · D-2 · **exit 2** · D-3. Exit 2 is §6.2's extension of the Exit Gate's *"exits 0/1"*, so it is a ruling of its own. The 10-26 amendment rides as ruled, not as a question.
+> - **The seat** (read-only opus, a fresh context, did not build) read the first text **UNSOUND**: 1 S1, applied (row 7's rider now states its action and offers the corpus question as Amend with "re-copy"), and 11 S2, ten applied as text and one recorded. The revision is not re-reviewed. Record: [design §8](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md).
+> - **Measured** (no gate line, no claim): `canvas_std` 236/22 · certification 15/15 · fixture enum coverage 12/40. In this vault, 11 canonical `sync_hash` carriers outside `tests/` and 2 with a digest (34 · 25 · 3 with the fixtures), so under D-2 *no* the carriers without a digest exit 2.
+> - **New for the door:** `spec_conformance_suite` §7 lists six report fields, and row 2 adds a seventh (D-3's edge). The `canvas_std` CHANGELOG is headed by Standard versions, and this touch cuts none (row 9).
+> - ⚠ **The receiver is down:** no `gate_receiver` process runs and the port sidecar is absent. A door rendered before a receiver start would POST to :8765, which is JupyterHub. For this seat, starting it is a custody act; the render sitting's five steps are in design §8.5.
+> - **His:** the receiver, the render, the page proof and the signature; then the touch-#8 build and the P3 gate. `canvas_std` diff 0. Not pushed.
 
 > **▶ 2026-10-26 (late morning, second sitting): P3 OBJECTIVE 3 DERIVED, AND A CAPTURE FOR THE BUILD REPORT (Mondrian, `session_stanley_20261026_093240_d1_obj3`, under the Automator day order D1-4 / D1-J).** The station receipted and pushed the first sitting's commits and the `v2.5.0` tag (its rows 11199, 11201).
 > - **Obj 3** ([card](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj3_derivation_card_20261026.md), `d86bfdc`; a read-only seat that did not build read it SOUND; built `a497677`). `--probe-freshness` now derives the F-PL-6 shape for real, reading **13 of 13**:
@@ -70,7 +78,9 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 
 ## ▶ Resume Here — **[Operation Vernier](how/campaigns/campaign_canvas_vernier/campaign_canvas_vernier.md) ACTIVE · scope amended 2026-10-12** · Datum ✅ 2026-09-15 · Gridline · Plumbline ✅ 2026-09-11
 
-> ▶ **2026-10-26 (second sitting): P3 open; objectives 2, 3 (derived; its literal first half shown false for Canvas's pairs) and 4 built. What remains of P3 is his: the touch-#8 signature door (`check-sync`, the two riders), rendered from [the obj 1 design](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md) and proven at the page in a sitting where he can rule, then the P3 gate.** This desk's next cards: F-V-17 (the skill's stale authority enum), and the P4 wave drafts (Aldus ×2, Schulten, Rosetta's optional row confirmation), each staged, never sent.
+> ▶ **2026-10-27 (unattended): the touch-#8 door's data is authored and reviewed ([data](how/gates/p3_touch_8_signature_20261027.data.json); [design §8](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md) has the render sitting's steps). What remains of P3 is his: start the receiver, render the door from that data, prove it at the page and rule it; then the touch-#8 build (`check-sync` and the two riders); then the P3 gate.** This desk's next cards are unchanged: F-V-17 (the skill's stale authority enum), and the P4 wave drafts (Aldus ×2, Schulten, Rosetta's optional row confirmation, and now what `check-sync`'s exit 2 means), each staged, never sent.
+>
+> *(Second-sitting line, superseded by the line above:)* ▶ **2026-10-26 (second sitting): P3 open; objectives 2, 3 (derived; its literal first half shown false for Canvas's pairs) and 4 built. What remains of P3 is his: the touch-#8 signature door (`check-sync`, the two riders), rendered from [the obj 1 design](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md) and proven at the page in a sitting where he can rule, then the P3 gate.** This desk's next cards: F-V-17 (the skill's stale authority enum), and the P4 wave drafts (Aldus ×2, Schulten, Rosetta's optional row confirmation), each staged, never sent.
 >
 > *(Morning line, superseded by the line above:)* ▶ **2026-10-26 (morning): P3 open; obj 2 and obj 4 built; his four rulings executed. Next: (a) card obj 3 (the true layout-engine derivation, a perturbed-engine build against the real one, plus the prose case named as the third blind spot; scratch drafts exist), reviewed by a seat that did not build; (b) render the touch-#8 signature door from [the obj 1 design](how/campaigns/campaign_canvas_vernier/artifacts/p3_obj1_touch_8_design_20261026.md) (§6 findings, §7 the amendment as ruled, the row 7 rider now live) and prove it at the page, in a sitting where he can rule.** F-V-17 (the skill's stale authority enum) is its own card. The P4 wave owes Aldus ×2, Schulten, and Rosetta's optional one-line confirmation of our four registry rows.
 >
@@ -143,6 +153,7 @@ Dynamic operational snapshot for cold-start orientation. Updated each session.
 7. ~~⛩ **`lip_0011_signature_20261015`** (NEW 2026-10-15) — sign LIP-0011 §1–§5 · choose **D-1** (rec (i) advisory at both tiers) · authorise firewall touch #7's eight rows · accept the measured exit-gate deviation (PercySleep). ⛔ **The firewall does not move without this.**~~ ✅ **SIGNED 2026-10-15T23:40Z** at the door (4/4 approve, D-1 (i)); implemented + **v2.5.0 cut 2026-10-16**. *(Struck the day it was discharged.)*
 8. ~~⛩ **The P2b → P3 phase gate** (NEW 2026-10-16) — P2b's work is complete (mission AAR'd). Approve to open P3 (freshness both ways) and the P4 memo wave carrying the signed LIP.~~ ✅ **APPROVED 2026-10-16** (operator, in chat: a phase gate, never rendered as a door). **P3 is open.**
 6. ~~**`vernier_p1_exit_20261012`** — V-1…V-8 + firewall touch #7 + three GOs~~ ✅ **RULED 2026-10-15**: 9/9 approve, Tier 2 (the web door was dead, F-V-9). P2b unblocked. *(Struck the day it was discharged.)*
+9. ⛩ **`p3_touch_8_signature_20261027`** (NEW 2026-10-27; data authored and reviewed, **not rendered**): sign touch #8's nine rows · D-1 (rec (i), CLI-side) · D-2 (rec advisory) · exit 2 (rec approve; it amends the P3 Exit Gate's *"exits 0/1"*) · D-3 (rec no LIP, with §7's six-field edge named). ⛔ **The firewall does not move without this.** Start the receiver before the render (it is down), then prove the door at the page (design §8.5).
 
 ## Current Phase
 
