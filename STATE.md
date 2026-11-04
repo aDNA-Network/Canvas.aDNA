@@ -1,16 +1,22 @@
 ---
 type: state
 created: 2026-06-06
-updated: 2026-10-27
+updated: 2026-11-04
 status: active
 last_edited_by: agent_mondrian
-last_session: session_stanley_20261027_061615_n3b_2a_obj1_page
+last_session: session_stanley_20261104_083033_diagram_gaps_intake
 tags: [state, governance, canvas, vernier, standard_v250, lip_0011_final, firewall_touch_7, p6, inbox_receipt_gate, check_doors, state_compaction, scope_amendment, inbox_receipt, sync_hash, lip_0011, memorialisation, gridline, standard_v240, a8, lip_0010_final, reserved_keys, gate_reporting, plumbline, authority_axis, production_axis, b1_5_ruled, gate_manifest, runnable_gates, f_gm_1, canvas_presentation, blueprint_closed, p5_close, campaign_close, canvas_emission, comfyui_seam, gate_manifest, m_pl3, imagen_wiring, ss_conform, p3_repin_wave, federation_index, wrapper_census, pin_field_spellings, conformance_target, p2b_conversion_offers, conform, f_hr_1, rlhf_s4_gate, argus, p2c_producer_regate, layout_fit, trap_profiles, advisory_traps, p2_authoring_rail, dogfood, dual_channel, diagrammatic_context, licensing, adr_012, adr_024, publication_boundary, federation, standard]
 ---
 
 # Operational State
 
 Dynamic operational snapshot for cold-start orientation. Updated each session.
+
+> **▶ 2026-11-04 (morning): THE LAVOISIER DIAGRAM-GAPS MEMO RECEIPTED, VERIFIED AND ANSWERED (Mondrian, `session_stanley_20261104_083033_diagram_gaps_intake`, a dispatched intake sitting launched by the operator from Migration.aiDNA, ruling 47 b).**
+> - **Receipt** `5878032`: `who/coordination/inbox/coord_2026_11_03_aeneas_to_mondrian_diagram_gaps.md`. Eight `diagram_generator` 0.1.0 gaps from the first fleet consumer (Migration.aiDNA, 23 canvases).
+> - **All eight CONFIRMED** against the source, read-only. G4 is wider than reported: the producer README says v2.0.0. New: `|` in an edge label breaks the Mermaid twin, and `canvas_std.to_canvas` drops edge `label` (`roundtrip.py:88-95`).
+> - **Takes six** (ideas `proposed`, `1ca45c5`): G1 edge label + G6 Mermaid escaping → **0.2.0**; G5 + G8 README → 0.2.0; G2 `groups:` → 0.3.0 (layout card first); G4 banners → the next `canvas_std` firewall touch. **Declines** G3 (shape set kept) and G7 (`component_types` class already marks the generated nodes).
+> - **Reply** `a031c21`: `who/coordination/coord_2026_11_03_mondrian_to_aeneas_diagram_gaps.md`, copied to the Migration.aiDNA inbox. **His:** scheduling 0.2.0, which sits outside the Vernier charter. No producer or `canvas_std` change. Not pushed.
 
 > **▶ 2026-10-27 (early morning, unattended): P3 OBJECTIVE 1'S PAGE WORK. THE TOUCH-#8 DOOR'S DATA IS AUTHORED AND REVIEWED; THE DOOR IS NOT RENDERED (Mondrian, `session_stanley_20261027_061615_n3b_2a_obj1_page`, under the Automator night continuation order row N3b-2a, carrying N3-12).**
 > - **The data:** [`how/gates/p3_touch_8_signature_20261027.data.json`](how/gates/p3_touch_8_signature_20261027.data.json), authored `d4f749a`, revised `a074533`. It has five sections: the nine rows · D-1 · D-2 · **exit 2** · D-3. Exit 2 is §6.2's extension of the Exit Gate's *"exits 0/1"*, so it is a ruling of its own. The 10-26 amendment rides as ruled, not as a question.
